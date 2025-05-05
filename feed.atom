@@ -2,10 +2,385 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-05-05T17:11:06.726Z</updated>
+    <updated>2025-05-05T18:14:18.589Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Grumphp en proyectos Ddev]]></title>
+        <id>https://dev.to/oskar_calvo_1615a9b3b293f/grumphp-en-proyectos-ddev-4hb8</id>
+        <link href="https://dev.to/oskar_calvo_1615a9b3b293f/grumphp-en-proyectos-ddev-4hb8"/>
+        <updated>2025-05-05T18:06:44.000Z</updated>
+        <summary type="html"><![CDATA[Grumphp es un orquestador que permite configurar el uso de herramientas de código estático para PHP.
+Hasta hace relativamente poco tiempo he usado W4D como entorno de desarrollo en mis proyectos, pero hace un año me tocó probar Ddev para un proyecto y desde entonces me enamoré de todo lo que aporta este software.
+Ahora toca migrar proyectos que tengo con W4D a Ddev y una de las cosas que toca migrar es Grumphp.
+Para instalar Grumphp yo uso el paquete de Carcheky que está preparado para funcionar con Drupal y luego lo personalizo.
+Ejecuto el siguiente código para instalar el paquete:
+composer config extra.grumphp --json '{"config-default-path": "vendor/carcheky/drupal-grumphp/configs/grumphp.yml"}' ;
+composer require --dev carcheky/drupal-grumphp -W
+
+Una vez instalado copio el archivo grumphp.yml que se encuentra en 
+vendor/carcheky/drupal-grumphp/configs/grumphp.yml a la misma altura del archivo composer.json
+En el archvio composer.json busco la configuración de grumphp y actualizo config-default-path de la siguiente manera:
+        "grumphp": {
+            "config-default-path": "grumphp.yml"
+        }
+
+En el archivo grumphp.yml que hemos copiado a la raíz del proyecto buscamos la configuraciónde git_hook_variable y lo actualizamos de la siguiente manera:
+  git_hook_variables:
+    EXEC_GRUMPHP_COMMAND: ddev exec php
+
+Por último en la consola ejecuto el siguiente comando para actualizar la configuración del hook pre-commit
+ddev exec grumphp git:init
+
+De esta forma actualizaremos el hook pre-commit de nuestro proyecto (los hooks pre-commit están en la ruta '/.git/hooks/pre-commit`y el archivo queda así:
+`bash
+DIFF=$(git -c diff.mnemonicprefix=false -c diff.noprefix=false --no-pager diff -r -p -m -M --full-index --no-color --staged | cat)
+export GRUMPHP_GIT_WORKING_DIR="$(git rev-parse --show-toplevel)"
+(cd "./" && printf "%s\n" "${DIFF}" | ddev exec php 'vendor/bin/grumphp' 'git:pre-commit' '--skip-success-output')
+`]]></summary>
+        <author>
+            <name>oskar calvo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Understanding the Builder Pattern – One Brick at a Time]]></title>
+        <id>https://dev.to/syedyshiraz/understanding-the-builder-pattern-one-brick-at-a-time-ffm</id>
+        <link href="https://dev.to/syedyshiraz/understanding-the-builder-pattern-one-brick-at-a-time-ffm"/>
+        <updated>2025-05-05T18:05:55.000Z</updated>
+        <summary type="html"><![CDATA[📘 Why This Blog?
+
+
+When I first encountered the Builder Design Pattern, it felt over-engineered—like too many classes just to build an object!
+clicked.
+This devblog is my honest take on helping you understand the Builder Pattern—the way I wish someone had explained it to me.
+The Builder Pattern helps construct complex objects step by step.
+In simple terms: You control the construction process, one method at a time.
+You might be looking at a Builder Pattern if you see:
+A class with many constructor parameters (some optional).
+Code like:
+IUser user = new User.Builder().setName("Alice").setAge(30).build();
+
+A nested static Builder class or a separate builder class that returns the same object.
+public class User implements IUser {
+    private final String name;
+    private final int age;
+    …]]></summary>
+        <author>
+            <name>Syed Yakoob Shiraz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Visa launches ‘Intelligent Commerce’ platform, letting AI agents swipe your card—safely, it says]]></title>
+        <id>https://venturebeat.com/?p=3006416</id>
+        <link href="https://venturebeat.com/ai/visa-launches-intelligent-commerce-platform-letting-ai-agents-swipe-your-card-safely-it-says/"/>
+        <updated>2025-05-05T18:01:17.000Z</updated>
+        <summary type="html"><![CDATA[Visa launches Intelligent Commerce platform enabling AI assistants to make secure purchases with your credit card, transforming online shopping with personalized automation and consumer-controlled spending limits.]]></summary>
+        <author>
+            <name>Michael Nuñez</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[React Compiler RC: What it means for React devs]]></title>
+        <id>https://dev.to/logrocket/react-compiler-rc-what-it-means-for-react-devs-46pl</id>
+        <link href="https://dev.to/logrocket/react-compiler-rc-what-it-means-for-react-devs-46pl"/>
+        <updated>2025-05-05T18:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Written by David Omotayo✏️
+The React compiler is one of the biggest updates to the React framework in years. Last year, the React team released a beta version. Around that time, I wrote an article called “Exploring React's Compiler: A Detailed Introduction”. 
+It unpacked the core idea behind the compiler and showed how it could improve React development by automatically handling performance issues behind the scenes. When the beta dropped, the React team encouraged developers to try it out, give feedback, and contribute. And many did. A standout example is Sanity Studio. They used the compiler internally and shipped libraries like react-rx and @sanity/ui that are optimized for it. 
+Thanks to contributions like these, the React team officially released the first Release Candidate (RC) on Apr…]]></summary>
+        <author>
+            <name>Megan Lee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Chapter 5: Cross-Functional Teamwork Done Right]]></title>
+        <id>https://dev.to/taskframe/chapter-5-cross-functional-teamwork-done-right-57n0</id>
+        <link href="https://dev.to/taskframe/chapter-5-cross-functional-teamwork-done-right-57n0"/>
+        <updated>2025-05-05T17:58:26.000Z</updated>
+        <summary type="html"><![CDATA[📘 Series: Becoming a Great Product Manager
+
+
+
+  
+  
+  Chapter 5: Cross-Functional Teamwork Done Right
+
+
+Being a product manager means wearing many hats, but it never means working alone.
+
+The success of your product depends on how well you collaborate with designers, developers, QA, marketing, and more.
+In this chapter, we’ll break down what cross-functional collaboration looks like when it’s done right and how you can foster it on your team.
+Great PMs don’t just coordinate. They listen, learn, and empathize with every function.
+
+Understanding the goals and constraints of each role builds trust and leads to better decisions.
+Example:
+
+Your designer is pushing back on adding another button to a crowded screen.
+
+Instead of insisting, you ask about the visual hierarchy and UX implications.
+
+…]]></summary>
+        <author>
+            <name>TaskFrame</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AWS Storage Explained: Choosing Between File, Block, and Object Storage Like a Pro]]></title>
+        <id>https://dev.to/pkkolla/aws-storage-explained-choosing-between-file-block-and-object-storage-like-a-pro-2061</id>
+        <link href="https://dev.to/pkkolla/aws-storage-explained-choosing-between-file-block-and-object-storage-like-a-pro-2061"/>
+        <updated>2025-05-05T17:56:30.000Z</updated>
+        <summary type="html"><![CDATA[Ever felt like you're drowning in data? You're not alone. In today's digital world, applications generate and consume information at an unprecedented rate. Choosing how and where to store that data in the cloud is one of the most fundamental – and often confusing – decisions architects and developers face. Pick the wrong type, and you could end up with slow performance, skyrocketing costs, or an architecture that just doesn't scale.
+You look at the AWS console, and the options seem endless: S3, EBS, EFS, FSx... what's the difference, and when should you use each? It feels a bit like walking into a massive hardware store looking for a screw – you know you need something to hold things together, but the sheer variety of options is overwhelming.
+(Intro/Hook: Relatable problem - data deluge an…]]></summary>
+        <author>
+            <name>PHANI KUMAR KOLLA</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Go #009 – Defer, Panic, Recover: Memory Segments Demystified]]></title>
+        <id>https://dev.to/imzihad21/go-009-defer-panic-recover-memory-segments-demystified-2pgg</id>
+        <link href="https://dev.to/imzihad21/go-009-defer-panic-recover-memory-segments-demystified-2pgg"/>
+        <updated>2025-05-05T17:55:31.000Z</updated>
+        <summary type="html"><![CDATA[1. defer: Cleanup with Guaranteed Execution
+
+
+What it does: Runs a function after its parent function finishes.
+package main  
+
+import "os"  
+
+func main() {  
+    file, _ := os.Open("data.txt")  
+    defer file.Close()  // Deferred cleanup  
+}  
+
+Memory Segmentation
+
+
+
+
+
++-------------------+   Lowest Address  
+|      Code         |  
+|-------------------|  
+| main()            |  // Compiled instructions  
+| os.Open()         |  // File-opening logic  
+| file.Close()      |  // Cleanup instructions  
++-------------------+  
+|      Data         |  
+|-------------------|  
+| "data.txt"        |  // Filename (immutable)  
++-------------------+  
+|      Stack        |  
+|-------------------|  
+| main() frame      |  
+|   file (pointer) →|  // Points to OS resource  
++-------------------+  
+| …]]></summary>
+        <author>
+            <name>Mofajjal Rasul</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Look into CTags: The Secret Map of Your Codebase]]></title>
+        <id>https://dev.to/rijultp/a-look-into-ctags-the-secret-map-of-your-codebase-5ham</id>
+        <link href="https://dev.to/rijultp/a-look-into-ctags-the-secret-map-of-your-codebase-5ham"/>
+        <updated>2025-05-05T17:51:37.000Z</updated>
+        <summary type="html"><![CDATA[Have you ever opened a massive codebase and wished you could jump straight to the definition of a function, class, or variable without scrolling endlessly? That's exactly what CTags is for.
+In this post, we’ll break down what CTags is, how to use it, and—most importantly—how to read a tags file 
+CTags (short for "C Tags") is a tool that scans your code and generates an index of where functions, variables, classes, and other identifiers are defined. This index is saved in a file called tags.
+Suppose you have this simple math_utils.py file:
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+Run this in your terminal:
+ctags -R .
+
+You’ll now see a file called tags in your directory.
+tags File?
+
+
+Here’s what it might look like:
+add math_utils.py   /^def add(a, b):$/;"    f
+s…]]></summary>
+        <author>
+            <name>Rijul Rajesh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Detect Offline/Online Status in ReactJS]]></title>
+        <id>https://dev.to/balwant_chaudhary/how-to-detect-offlineonline-status-in-reactjs-47ed</id>
+        <link href="https://dev.to/balwant_chaudhary/how-to-detect-offlineonline-status-in-reactjs-47ed"/>
+        <updated>2025-05-05T17:49:50.000Z</updated>
+        <summary type="html"><![CDATA[Have you ever wanted to notify users when they lose internet connectivity in your React app?
+Today we build AppShell component together that monitors the browser's online/offline status and shows a user friendly message when the user goes offline.
+Realtime apps (like chat, stock tickers, etc.) depend on live connectivity.
+Offline-friendly experiences build trust and reliability.
+It's surprisingly easy to implement.
+
+Lets Wrap the entire app (or any major layout component) with AppShell:
+
+navigator.onLine: Detects the initial connection status.
+window.addEventListener("online"/"offline"): Reacts to changes in network status.
+useEffect: Registers and cleans up event listeners when the component mounts/unmounts.
+Let me know how you're handling offline states in your apps :)]]></summary>
+        <author>
+            <name>Balwant Chaudhary</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Use Apps Script for custom Workspace Flows triggers]]></title>
+        <id>https://dev.to/googleworkspace/use-apps-script-for-custom-workspace-flows-triggers-i45</id>
+        <link href="https://dev.to/googleworkspace/use-apps-script-for-custom-workspace-flows-triggers-i45"/>
+        <updated>2025-05-05T17:45:30.000Z</updated>
+        <summary type="html"><![CDATA[Developers will be able to use Apps Script to create their own custom Workspace Flows triggers and actions.
+#googlecloudnext #googleworkspace #appsscript
+Follow youtube.com/@googleworkspacedevs]]></summary>
+        <author>
+            <name>Justin Poehnelt</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Dynamically Configure REST API URLs in Angular]]></title>
+        <id>https://dev.to/generatecodedev/how-to-dynamically-configure-rest-api-urls-in-angular-2gdc</id>
+        <link href="https://dev.to/generatecodedev/how-to-dynamically-configure-rest-api-urls-in-angular-2gdc"/>
+        <updated>2025-05-05T17:45:30.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+If you're new to Angular and transitioning from server-side development, one common challenge is configuring your application to dynamically connect to your Spring REST API. While hardcoding URLs might be the simplest immediate solution, it often causes issues when deploying to different environments. In this article, we will discuss various approaches to effectively manage API URLs in your Angular application, ensuring a smooth deployment process.
+Understanding API URL Management
+When building applications that interconnect with REST APIs, it's crucial to manage API URLs efficiently. Typically, during development, you'd use one server endpoint (localhost), while production might require a completely different URL. Hardcoding API endpoints makes it challenging to adapt to thes…]]></summary>
+        <author>
+            <name>Generatecode</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Go #008 – Closures: Escape Analysis in Action]]></title>
+        <id>https://dev.to/imzihad21/go-008-closures-escape-analysis-in-action-3gjb</id>
+        <link href="https://dev.to/imzihad21/go-008-closures-escape-analysis-in-action-3gjb"/>
+        <updated>2025-05-05T17:42:43.000Z</updated>
+        <summary type="html"><![CDATA[Closures in Go are powerful but come with hidden memory implications. By capturing variables from their surrounding scope, they force the compiler to decide: Should these variables live on the stack or heap? Let’s dissect real-world examples to see escape analysis in action.  
+The Code
+
+
+
+
+
+package main  
+
+func counter() func() int {  
+    count := 0              // Escapes to heap (captured by closure)  
+    return func() int {  
+        count++  
+        return count  
+    }  
+}  
+
+func main() {  
+    // Closure captures heap-allocated variable  
+    c := counter()  
+    println(c()) // 1  
+    println(c()) // 2  
+
+    // Loop closure pitfall  
+    var funcs []func()  
+    for i := 0; i < 3; i++ {  
+        funcs = append(funcs, func() {  
+            println(i)      // i escapes to heap…]]></summary>
+        <author>
+            <name>Mofajjal Rasul</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Go #007 – Functions: Multiple Returns, Named Returns, and Stack Frames]]></title>
+        <id>https://dev.to/imzihad21/go-007-functions-multiple-returns-named-returns-and-stack-frames-7ga</id>
+        <link href="https://dev.to/imzihad21/go-007-functions-multiple-returns-named-returns-and-stack-frames-7ga"/>
+        <updated>2025-05-05T17:35:38.000Z</updated>
+        <summary type="html"><![CDATA[Go’s functions are deceptively simple. Features like multiple returns and named returns feel ergonomic, but they quietly shape how memory is allocated and managed. Let’s dissect their impact on stack frames and uncover when the heap sneaks into your function calls.  
+The Code
+
+
+
+
+
+package main  
+
+// Multiple returns (stack-allocated)  
+func sumAndDiff(a, b int) (int, int) {  
+    return a + b, a - b  
+}  
+
+// Named returns (stack by default, heap if escaped)  
+func calcTax(price float64) (tax float64, err error) {  
+    tax = price * 0.07  
+    return // Implicit return  
+}  
+
+// Heap escape: returning a pointer to a stack variable  
+func riskyCalc() *float64 {  
+    result := 42.0 // Escapes to heap (returned pointer)  
+    return &result  
+}  
+
+func main() {  
+    sum, diff := sumAndDiff…]]></summary>
+        <author>
+            <name>Mofajjal Rasul</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin investors’ expectations evolve as 88% of BTC supply is in profit]]></title>
+        <id>https://cointelegraph.com/news/bitcoin-investors-expectations-evolve-as-88-of-held-btc-supply-is-in-profit</id>
+        <link href="https://cointelegraph.com/news/bitcoin-investors-expectations-evolve-as-88-of-held-btc-supply-is-in-profit?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-05-05T17:35:16.000Z</updated>
+        <summary type="html"><![CDATA[Key Takeaways:
+
+88% of Bitcoin’s supply is in profit below $95,000, indicating a reset in investor expectations. 
+
+The current price range of $75,000–$95,000 may represent a structural bottom, aligning with market conditions from Q3 2024.
+
+The Market Value to Realized Value (MVRV) Ratio at 1.74 acts as a historical support zone, signaling cooling unrealized gains and potential for future growth.
+
+Bitcoin’s (BTC) market dynamics are shifting, as Glassnode data reveals that 88% of the supply is currently in profit, with losses concentrated among buyers in the $95,000-$100,000 range. This high profitability, rebounding from a long-term mean of 75%, indicates a reset in investor expectations. 
+Bitcoin percent supply in profit. Source: X.com
+Bitcoin's price staged a recovery from its long-term …]]></summary>
+        <author>
+            <name>Cointelegraph by Biraajmaan Tamuly</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Creative Power of Constraints]]></title>
+        <id>https://arun.is/blog/creative-power-constraints/</id>
+        <link href="https://arun.is/blog/creative-power-constraints/"/>
+        <updated>2025-05-05T17:23:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[As an experienced LLM user, I don't use generative LLMs often]]></title>
+        <id>https://minimaxir.com/2025/05/llm-use/</id>
+        <link href="https://minimaxir.com/2025/05/llm-use/"/>
+        <updated>2025-05-05T17:22:40.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Reflections on Those MSTR Bitcoin ‘Earnings’]]></title>
+        <id>d1b523e6-c207-4713-ba51-996c08a493af</id>
+        <link href="https://www.coindesk.com/opinion/2025/05/05/reflections-on-those-mstr-bitcoin-earnings"/>
+        <updated>2025-05-05T17:12:12.000Z</updated>
+        <summary type="html"><![CDATA[The 'Strategy Model' is good for BTC. But what about the rest of crypto? CoinDesk Indices’ Andy Baehr has questions.]]></summary>
+        <author>
+            <name>Andy Baehr</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How NoLogin Was Born: From a Computer Lab Frustration to a Sharing Revolution]]></title>
         <id>https://dev.to/deekshith_b_57ac55882b25c/how-nologin-was-born-from-a-computer-lab-frustration-to-a-sharing-revolution-1n01</id>
@@ -9142,6 +9517,16 @@ $ ./ch-2.py "1, 2, 3, 4" "5, 6, 7, 8"
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Show HN: Journelly for iOS: like tweeting but for your eyes only (in plain text)]]></title>
+        <id>https://xenodium.com/journelly-like-tweeting-but-for-your-eyes-only</id>
+        <link href="https://xenodium.com/journelly-like-tweeting-but-for-your-eyes-only"/>
+        <updated>2025-05-04T11:05:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Building AI Agents with n8n: A Complete Guide to Workflow Automation]]></title>
         <id>https://dev.to/krish_desai_117/building-ai-agents-with-n8n-a-complete-guide-to-workflow-automation-4gb5</id>
         <link href="https://dev.to/krish_desai_117/building-ai-agents-with-n8n-a-complete-guide-to-workflow-automation-4gb5"/>
@@ -15174,6 +15559,16 @@ In this article, you will learn how to turn a RHEL 9 ISO file into a full offlin
 Let's imagine you are in a secure environment with no internet, and you need to install some software like Apache, Python or even Vim. You run the dn…]]></summary>
         <author>
             <name>Amanda Igwe</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[You can now directly sync Postgres with Redis]]></title>
+        <id>https://github.com/redfly-ai-org/redfly.ai</id>
+        <link href="https://github.com/redfly-ai-org/redfly.ai"/>
+        <updated>2025-05-03T13:49:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
