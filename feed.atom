@@ -2,10 +2,302 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-05-07T06:35:33.953Z</updated>
+    <updated>2025-05-07T07:24:36.948Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Google Expands Malaysian Data Centre Footprint With New Port Dickson Project]]></title>
+        <id>https://www.lowyat.net/?p=350820</id>
+        <link href="https://www.lowyat.net/2025/350820/google-port-dickson-data-centre-project/"/>
+        <updated>2025-05-07T07:24:03.000Z</updated>
+        <summary type="html"><![CDATA[Google is building a new hyperscale data centre in Port Dickson as part of its US$2 billion investment in Malaysia’s digital infrastructure. The project will be delivered in partnership with Malaysian engineering firm Gamuda Bhd, through its subsidiary Gamuda DC Infrastructure Sdn Bhd. As you may recall, Negeri Sembilan Menteri Besar Datuk Seri Amidudin Harun […]
+The post Google Expands Malaysian Data Centre Footprint With New Port Dickson Project appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fine-Tuning Models with Your Own Data, Effortlessly]]></title>
+        <id>https://dev.to/avkr/fine-tuning-models-with-your-own-data-effortlessly-4j0d</id>
+        <link href="https://dev.to/avkr/fine-tuning-models-with-your-own-data-effortlessly-4j0d"/>
+        <updated>2025-05-07T07:19:37.000Z</updated>
+        <summary type="html"><![CDATA[Most blog posts focus on using top-tier LLMs or setting up complex AI pipelines for large corporations. But what if your data is private, and you don’t have access to top-tier ML talent or massive infrastructure? In this article, we show how to fine-tune a model for mid-sized software development teams or IT support, using your own domain expertise. With Apache Answer and InstructLab, you can build a powerful, cost-effective AI solution tailored to your specific needs.
+InstructLab is an open-source AI community project aimed at empowering individuals to shape the future of generative AI. It provides tools for users to fine-tune existing large language models (LLMs), such as Granite, using additional data sources. This allows LLMs to continuously gain new knowledge, filling in gaps from the…]]></summary>
+        <author>
+            <name>Anton Krylov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Build a Bulletproof QA Process]]></title>
+        <id>https://dev.to/alona_instandart/how-to-build-a-bulletproof-qa-process-4hlk</id>
+        <link href="https://dev.to/alona_instandart/how-to-build-a-bulletproof-qa-process-4hlk"/>
+        <updated>2025-05-07T07:19:18.000Z</updated>
+        <summary type="html"><![CDATA[In today's fast-paced tech world, speed matters. But quality matters even more. No one wants to launch a product full of bugs or deliver a user experience that doesn't live up to expectations. That's where quality assurance (QA) comes in - not as a final check, but as an ongoing, strategic process that ensures everything runs smoothly from the start.
+One of the biggest mistakes companies make is putting off QA until later. By then, fixing issues becomes expensive and time-consuming. A robust QA process starts right from the planning stage.
+QA shouldn't be an island. Developers, designers, project managers, and QA engineers should work as a team. Communication is key. Clear documentation, shared expectations, and open feedback loops help avoid misunderstandings and missed bugs.
+You can't fix what you don't track. That's why a well-defined test plan is essential. It sets expectations, outlines goals, and defines what success looks like.
+Manual testing has its place, especially when it comes to exploratory testing or checking visual and UX elements. But automation is the backbone of a scalable QA process.
+Smoke tests
+Regression tests
+API testing
+Cross-browser checks
+Tools like Selenium, Cypress, or Playwright can help speed up the process. Don't overdo it with automation, though - maintaining flaky tests can slow down your team more than it helps.
+Pro tip: CI/CD integration
+Hook automated tests into your CI/CD pipeline. That way, every time new code is pushed out, it's tested instantly. Faster feedback = fewer issues in production.
+More in our article: https://instandart.com/blog/quality-assurance/how-to-build-a-bulletproof-qa-process/]]></summary>
+        <author>
+            <name>Alona Potapova</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🧩 Understanding Why Omit and Pick Fail with Union Types]]></title>
+        <id>https://dev.to/davidgarcia/understanding-why-omit-and-pick-fail-with-union-types-357</id>
+        <link href="https://dev.to/davidgarcia/understanding-why-omit-and-pick-fail-with-union-types-357"/>
+        <updated>2025-05-07T07:16:34.000Z</updated>
+        <summary type="html"><![CDATA[Omit and Pick are some of the most loved utility types in TypeScript. They let you create new types by excluding or selecting specific properties from an existing type.
+union types, their behavior can be misleading - and in some cases, break your type expectations
+type Employee = {
+ id: string
+ name: string
+ job_name: string
+}
+type Customer = {
+ id: string
+ name: string
+ company: string
+}
+type Person = Employee | Customer
+
+❌ Problem: Using Omit Directly
+type PersonWithoutId = Omit<Person, 'id'>
+
+🧨 Actual Result:
+type PersonWithoutId = {
+ name: string
+}
+
+Only name survives. The fields job_name and company are lost.
+Why?
+not distributive over union types. It collapses the union into a common structure, then removes the property - resulting in a simplified, lossy type.
+✅ Solution:
+DistributiveOmit
+We can fix this by explicitly distributing Omit across each union member:
+type DistributiveOmit<T, K extends PropertyKey> = T extends any
+ ? Omit<T, K>
+ : never
+
+type PersonWithoutId = DistributiveOmit<Person, 'id'>
+
+✅ Expected Result:
+type PersonWithoutId =
+ | { name: string; job_name: string }
+ | { name: string; company: string }
+
+🧪 Same Fix for Pick
+type DistributivePick<T, K extends keyof T> = T extends any
+ ? Pick<T, K>
+ : never
+
+type BasicaPerson = DistributivePick<Person, 'id' | 'name'>
+
+🧠 Summary Table]]></summary>
+        <author>
+            <name>David Garcia</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Automatically Import All Images in a JavaScript Project?]]></title>
+        <id>https://dev.to/generatecodedev/how-to-automatically-import-all-images-in-a-javascript-project-4fj0</id>
+        <link href="https://dev.to/generatecodedev/how-to-automatically-import-all-images-in-a-javascript-project-4fj0"/>
+        <updated>2025-05-07T07:15:29.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+In modern web development, automating tasks can save time and reduce errors. If you're looking to dynamically import all images from a specific folder in a JavaScript project, especially in frameworks like Vue.js, you're in the right place! This article delves into how to facilitate the automatic import of images using the require.context method.
+Why This Issue Occurs
+When you're dealing with a large number of images, maintaining and updating the image list in your code can become tedious. Manually adding image paths defeats the purpose of efficiency and can lead to mistakes. This need for automation becomes especially apparent when working with dynamically loaded content, where images are regularly updated. Thus, using require.context can simplify the process, allowing you to…]]></summary>
+        <author>
+            <name>Generatecode</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CI/CD 101: From Code Commit to Production]]></title>
+        <id>https://dev.to/akash_roy_3bc76e473db5e40/cicd-101-from-code-commit-to-production-3bii</id>
+        <link href="https://dev.to/akash_roy_3bc76e473db5e40/cicd-101-from-code-commit-to-production-3bii"/>
+        <updated>2025-05-07T07:08:40.000Z</updated>
+        <summary type="html"><![CDATA[In the world of modern software delivery, speed and reliability are everything. Users expect features to roll out fast — without downtime or drama. That’s where CI/CD comes in.
+In this blog, we’ll break down what CI/CD really is, how it powers DevOps, and walk through a real example so you can see it in action.
+CI/CD stands for:
+Continuous Integration (CI) – Automating the build and test process every time code is committed.
+Continuous Delivery (CD) – Automating the release of that tested code to staging or production.
+In simple terms:
+You commit code → It’s built and tested → If successful, it’s deployed automatically
+This approach avoids the nightmare of last-minute integration hell, ensures bugs are caught early, and allows teams to ship smaller, safer changes more frequently.
+Faster de…]]></summary>
+        <author>
+            <name>Akash Roy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Level Up Your PDF Game: From 1998 to Stunning in 15 Minutes]]></title>
+        <id>https://dev.to/ethan_reportgen/level-up-your-pdf-game-from-1998-to-stunning-in-15-minutes-3m60</id>
+        <link href="https://dev.to/ethan_reportgen/level-up-your-pdf-game-from-1998-to-stunning-in-15-minutes-3m60"/>
+        <updated>2025-05-07T07:07:09.000Z</updated>
+        <summary type="html"><![CDATA[You're shipping reports, invoices, or data exports as PDFs. And they look like they were built in 1998. That might fly internally, but the moment you're sending them to clients, investors, or partners, it reflects directly on your brand.
+Bad design isn't neutral. It kills trust.
+With reportgen.io, you can generate stunning PDFs using modern CSS, Tailwind, and Chart.js - without turning your dev team into a design agency.
+Here's how to go from "ugh" to "damn" in 15 minutes.
+If you want tight control and don't mind some manual work, you can write vanilla CSS. Think of this like hand-coding an HTML email.
+<!-- sample invoice template -->
+<style>
+  body { font-family: Arial; padding: 20px; }
+  .invoice { max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; }
+</style>
+<div cla…]]></summary>
+        <author>
+            <name>Ethan from reportgen.io</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Setting Up NVM, Node.js, and Yarn on WSL Ubuntu]]></title>
+        <id>https://dev.to/pu-lazydev/setting-up-nvm-nodejs-and-yarn-on-wsl-ubuntu-50bg</id>
+        <link href="https://dev.to/pu-lazydev/setting-up-nvm-nodejs-and-yarn-on-wsl-ubuntu-50bg"/>
+        <updated>2025-05-07T07:02:46.000Z</updated>
+        <summary type="html"><![CDATA[Setting Up NVM, Node.js, and Yarn on WSL Ubuntu
+
+
+This guide will walk you through the complete process of setting up Node Version Manager (NVM), Node.js, and Yarn package manager on Windows Subsystem for Linux (WSL) with Ubuntu.
+WSL with Ubuntu installed and properly configured
+Internet connection
+Basic terminal knowledge
+NVM allows you to install and manage multiple versions of Node.js.
+# 1. Update your package lists
+sudo apt update
+
+# 2. Install dependencies required for NVM
+sudo apt install -y curl wget build-essential
+
+# 3. Download and run the NVM installation script
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+# 4. Close and reopen your terminal, or run this to apply changes immediately:
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "…]]></summary>
+        <author>
+            <name>karoon sillapapan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Terraform depends_on: What it is, When to use it, and Best Practices]]></title>
+        <id>https://dev.to/techielass/terraform-dependson-what-it-is-when-to-use-it-and-best-practices-5ene</id>
+        <link href="https://dev.to/techielass/terraform-dependson-what-it-is-when-to-use-it-and-best-practices-5ene"/>
+        <updated>2025-05-07T07:00:29.000Z</updated>
+        <summary type="html"><![CDATA[When working with Terraform, managing resource dependencies effectively is key to avoiding deployment issues. Terraform is great at automatically determining the order of resource creation, but sometimes it needs a little help, this is where depends_on comes in.
+In this guide, we’ll explain Terraform depends_on, how to use it, when to use it, and best practices for writing clean and efficient Terraform code. 
+Terraform’s depends_on is a meta-argument that allows you to specify an explicit relationship between resources.  When you use it you can enforce an order in which resources should be created or updated.  
+When you configure Terraform, it analyses its dependency graph to understand the relationships between different resources. This graph helps Terraform determine the order in which r…]]></summary>
+        <author>
+            <name>Sarah Lean 🏴󠁧󠁢</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Handle Files in Dart for Both Web and Mobile Apps?]]></title>
+        <id>https://dev.to/generatecodedev/how-to-handle-files-in-dart-for-both-web-and-mobile-apps-257c</id>
+        <link href="https://dev.to/generatecodedev/how-to-handle-files-in-dart-for-both-web-and-mobile-apps-257c"/>
+        <updated>2025-05-07T07:00:18.000Z</updated>
+        <summary type="html"><![CDATA[When developing a Flutter application that targets both mobile and web platforms, managing files can get a bit tricky due to varying support for libraries like dart:io and dart:html. This article will guide you through how to effectively handle file operations in a way that works seamlessly across both platforms. Let's delve into how to structure your code to manage files appropriately using platform checks.
+Understanding Platform-Specific Libraries
+In Flutter, the library dart:io facilitates file handling for mobile applications, while dart:html serves the web platform. Importing both libraries in a single project can lead to compilation errors due to the conflicting imports. Understanding this is crucial when attempting to build apps that target multiple platforms.
+Building a Unified Fil…]]></summary>
+        <author>
+            <name>Generatecode</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Tabular (YC S24) Is Hiring]]></title>
+        <id>https://www.ycombinator.com/companies/tabular/jobs/7V7rXlS-founding-engineer</id>
+        <link href="https://www.ycombinator.com/companies/tabular/jobs/7V7rXlS-founding-engineer"/>
+        <updated>2025-05-07T07:00:04.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Skip the Pixel Pushing: Build Stunning UIs in DronaHQ with Figma + AI]]></title>
+        <id>https://dev.to/shib_itsme/skip-the-pixel-pushing-build-stunning-uis-in-dronahq-with-figma-ai-1a21</id>
+        <link href="https://dev.to/shib_itsme/skip-the-pixel-pushing-build-stunning-uis-in-dronahq-with-figma-ai-1a21"/>
+        <updated>2025-05-07T07:00:00.000Z</updated>
+        <summary type="html"><![CDATA[In today's fast-paced digital landscape, beautiful design isn’t a luxury — it’s an expectation.  
+Customers expect seamless, visually striking apps that work flawlessly across devices.
+That's why we are incredibly excited to unveil a game-changing upgrade for the DronaHQ community:
+
+Introducing the Figma Design Kit  — a comprehensive, fully customizable design system designed to streamline the design-to-development process. Whether you're a UI/UX designer or a developer, this kit offers everything you need to build stunning, consistent, and high-quality user interfaces directly in Figma, ensuring that your designs are easily translated into DronaHQ applications.
+With this kit, you can maintain brand consistency, speed up your design workflow, and hand off your assets seamlessly to develope…]]></summary>
+        <author>
+            <name>SHIBAM</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Installing Go (Golang) on WSL Ubuntu]]></title>
+        <id>https://dev.to/pu-lazydev/installing-go-golang-on-wsl-ubuntu-18b7</id>
+        <link href="https://dev.to/pu-lazydev/installing-go-golang-on-wsl-ubuntu-18b7"/>
+        <updated>2025-05-07T06:59:36.000Z</updated>
+        <summary type="html"><![CDATA[Installing Go (Golang) on WSL Ubuntu
+
+
+This guide walks you through installing Go programming language on Windows Subsystem for Linux (WSL) with Ubuntu.
+WSL with Ubuntu installed and properly configured
+Internet connection
+Basic terminal knowledge
+There are two main methods to install Go on WSL Ubuntu:
+This method ensures you get the latest version of Go directly from the official website:
+# 1. Update your Ubuntu packages
+sudo apt update
+sudo apt upgrade -y
+
+# 2. Install required packages
+sudo apt install -y wget git
+
+# 3. Check the latest Go version
+# Visit https://go.dev/dl/ for the latest version
+# As of May 2025, Go 1.24.2 is the latest stable version
+
+# 4. Download the Go binary package
+# Replace 1.24.2 with the latest version as needed
+# For standard Intel/AMD processors (most common…]]></summary>
+        <author>
+            <name>karoon sillapapan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Machine Learning: A Quick Intro to different types of ML]]></title>
+        <id>https://dev.to/satyam_gupta/machine-learning-a-quick-intro-to-different-types-of-ml-5gme</id>
+        <link href="https://dev.to/satyam_gupta/machine-learning-a-quick-intro-to-different-types-of-ml-5gme"/>
+        <updated>2025-05-07T06:59:31.000Z</updated>
+        <summary type="html"><![CDATA[Machine learning is everywhere these days—from the recommendations on Netflix to self-driving cars cruising down the streets. But if you’ve ever tried to dive deeper, you’ve probably come across terms like supervised, unsupervised, and reinforcement learning. It can get overwhelming, especially if you're just starting out.
+Let’s break it down in simple terms, without the jargon overload, so you can actually understand what these types of machine learning are all about.
+
+1. Supervised Learning: Learning with a Teacher
+In supervised learning, the machine is given input data and the correct output (the “label”). It learns from these examples so that, later, when it sees new data, it can predict the right answer.
+Common uses:
+Spam detection in emails
+Predicting house prices
+Recognizing handwri…]]></summary>
+        <author>
+            <name>Satyam Gupta</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bolt Now Includes Tolls In Its Ride Fares]]></title>
+        <id>https://www.lowyat.net/?p=350802</id>
+        <link href="https://www.lowyat.net/2025/350802/bolt-tolls-ride-fares/"/>
+        <updated>2025-05-07T06:48:25.000Z</updated>
+        <summary type="html"><![CDATA[Bolt has officially announced that its ride-hailing service now includes toll fares into every ride, ensuring no surprise fees. It is the first e-hailing platform to do so, at least in Malaysia, where the norm is for drivers to manually input the toll fares after the ride is completed. With this new policy, what you […]
+The post Bolt Now Includes Tolls In Its Ride Fares appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ikmal Rozlan</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Meta Awarded Over US$167 Million In WhatsApp Case Against Israeli Firm]]></title>
         <id>https://www.lowyat.net/?p=350775</id>
@@ -11357,6 +11649,16 @@ Type definitions form the c…]]></summary>
         <summary type="html"><![CDATA[As a successor to the so-called FIT21 bill in the last session, the committee chairs in the House have released a discussion draft of a market structure bill.]]></summary>
         <author>
             <name>Jesse Hamilton</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Loving 21st century gaming like an 18th century furniture expert]]></title>
+        <id>https://kimimithegameeatingshemonster.com/2023/04/26/loving-21st-century-gaming-like-an-18th-century-furniture-expert/</id>
+        <link href="https://kimimithegameeatingshemonster.com/2023/04/26/loving-21st-century-gaming-like-an-18th-century-furniture-expert/"/>
+        <updated>2025-05-05T16:26:25.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
