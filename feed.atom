@@ -2,10 +2,348 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-05-07T07:24:36.948Z</updated>
+    <updated>2025-05-07T08:33:59.608Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[SafeLine WAF Setup: How to Handle Multiple Apps on Port 80]]></title>
+        <id>https://dev.to/carrie_luo1/safeline-waf-setup-how-to-handle-multiple-apps-on-port-80-2blb</id>
+        <link href="https://dev.to/carrie_luo1/safeline-waf-setup-how-to-handle-multiple-apps-on-port-80-2blb"/>
+        <updated>2025-05-07T08:31:05.000Z</updated>
+        <summary type="html"><![CDATA[📍 Problem description
+You have two applications:
+App 1 → deployed on Server A, port 80
+App 2 → deployed on Server B, port 80
+When you try to configure both behind SafeLine WAF, you get the error:
+Duplicate applications detected on port 80: *
+
+
+The reason for this error is:
+SafeLine allows only one listener on port 80 on the frontend.
+⸻
+
+
+  
+  
+  ✅ How to solve it
+
+
+Since SafeLine currently does not support path-based routing, the only supported solution is domain-based routing.
+⸻
+
+
+  
+  
+  Use different domain names (recommended)
+
+
+For example:
+App 1 → app1.example.com → Server A:80
+App 2 → app2.example.com → Server B:80
+In SafeLine:
+Configure one listener on port 80
+Set routing rules based on the Host header (domain name) to forward traffic to the correct backend server.
+This way, SafeLine knows exactly which application the request is meant for.
+⸻
+
+
+  
+  
+  ⚠️ Why you can’t use multiple port 80 listeners or path-based routing
+
+
+
+SafeLine can only bind to port 80 once on the frontend.
+Multiple port 80 listeners will always result in a duplicate port error.
+Path-based routing (/app1, /app2) is currently not supported in SafeLine.
+⸻
+
+🚀 Summary recommendation
+✅ Use different domain names and set up Host-based routing in SafeLine.
+⸻
+
+SafeLine Website: https://ly.safepoint.cloud/ShZAy9x
+https://github.com/chaitin/SafeLine
+https://discord.gg/dy3JT7dkmY]]></summary>
+        <author>
+            <name>Carrie</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to quickly transform multi-layer sets in JSON strings]]></title>
+        <id>https://dev.to/esproc_spl/how-to-quickly-transform-multi-layer-sets-in-json-strings-44a5</id>
+        <link href="https://dev.to/esproc_spl/how-to-quickly-transform-multi-layer-sets-in-json-strings-44a5"/>
+        <updated>2025-05-07T08:30:48.000Z</updated>
+        <summary type="html"><![CDATA[There is a 2-layer JSON string with multiple dynamic key values in the lower layer, excluding set/array types.
+{"Games": {"key1": "value1", "key2": value2,"key3":value3}}
+
+Now we need to transform the lower layer into a set of multiple layers.
+{"Games":{"AllGames":[{"key1":["value1"]},{"key2":["value2"]},{"key3":["value3"]}]}}
+
+SQL itself does not support multi-layer data, making it more difficult to express multi-layer sets, and the indirectly implemented code is very complex. SPL naturally supports multi-layer data and multi-layer sets:
+Try.DEMO
+
+
+A2: Take the lower-layer data (one record), change the type to a set of records, and then transpose it to a two-layer sequence. […] represents a set, function E can convert a set of records into a two-dimensional sequence, and @ p represents transposition during conversion.
+
+
+new(new(…:AllGames):Games) Add two layers of record types on top of a multi-layer set to construct the target table sequence.
+
+esProc is free. Download~~]]></summary>
+        <author>
+            <name>Judy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Part 3: Mastering SafeLine WAF – Testing, Docker Setup & Troubleshooting]]></title>
+        <id>https://dev.to/sharon_42e16b8da44dabde6d/part-3-mastering-safeline-waf-testing-docker-setup-troubleshooting-gp8</id>
+        <link href="https://dev.to/sharon_42e16b8da44dabde6d/part-3-mastering-safeline-waf-testing-docker-setup-troubleshooting-gp8"/>
+        <updated>2025-05-07T08:25:35.000Z</updated>
+        <summary type="html"><![CDATA[Welcome to the final part of our SafeLine WAF series!
+So far, you have set up SafeLine and configured it for your environment. Now, it’s time to test your protection, finalize your Docker installation if necessary, and troubleshoot any issues that may arise. This will help you maintain a robust and reliable WAF deployment.
+You can test the protection effectiveness either manually or automatically.
+Access your website using the parameters configured in SafeLine WAF:
+Open your browser and visit:
+http://<IP or domain>:<port>/
+
+The default protocol is HTTP; check the SSL option to use HTTPS.
+The hostname can be either the SafeLine IP or your website domain (make sure the domain resolves to SafeLine).
+The port is the one you configured in SafeLine for the site.
+If your website is not accessible, please refer to the Configuration Issues section.
+
+Try these URLs to simulate attacks and confirm SafeLine blocks them:
+SQL Injection:
+http://<IP or domain>:<port>/?id=1%20AND%201=1
+
+XSS Attack:
+http://<IP or domain>:<port>/?html=<script>alert(1)</script>
+
+
+
+If SafeLine blocks these, you’ll see the attack prevented in your browser and logged in the dashboard. ✅
+
+sudo yum update
+
+If you get errors like “Could not resolve host” or mirrorlist failures, add Alibaba Cloud repo:
+curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
+
+sudo yum install -y yum-utils
+
+sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+sudo yum -y install docker-ce docker-ce-cli containerd.io
+
+sudo systemctl start docker
+
+If you get x509 certificate errors when pulling images, it’s likely a system time or certificate issue.
+Check your system time:
+date
+
+If it’s wrong, sync time with:
+sudo yum -y install ntpdate
+
+sudo ntpdate cn.pool.ntp.org]]></summary>
+        <author>
+            <name>Sharon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Check Docker Installation Details- Part 2]]></title>
+        <id>https://dev.to/kamruldev/check-docker-installation-details-part-2-2ook</id>
+        <link href="https://dev.to/kamruldev/check-docker-installation-details-part-2-2ook"/>
+        <updated>2025-05-07T08:17:09.000Z</updated>
+        <summary type="html"><![CDATA[Now that we've confirmed Docker is installed and running (Part 1), let's test the setup by running a simple container. This will verify that Docker can successfully download images and run containers.
+The Hello World Container
+Docker offers a lightweight "hello-world" image specifically designed to test Docker installations. This minimal container confirms that:
+• The Docker client can connect to the Docker daemon.
+1.Let's run this test container with the following command:
+docker run hello-world
+
+
+• Check if the hello-world image exists locally
+This message confirms that your Docker installation is working correctly.
+After running the hello-world container, let's check the list of containers on your system. The container we just ran has already exited, but we can still see it in the list of all containers.
+2.To see all containers (including stopped ones), run:
+docker ps -a
+
+
+The -a flag shows all containers, including those that have stopped. Without this flag, docker ps would only show running containers.
+STATUS column shows "Exited (0)", which means the container completed its task and exited with a status code of 0 (indicating success).
+The hello-world image was downloaded to your local machine. Let's verify this by listing all Docker images:
+
+
+
+
+docker images
+
+
+This confirms that the hello-world image is stored locally on your system.
+LinkedIn: https://linkedin.com/in/kamrul-dev
+https://github.com/kamrul-dev
+Related Keywords:
+Kamrul Hasan DevOps Engineer,
+DevOps tips by Kamrul Hasan,
+Kamrul Hasan Docker tutorials,
+Learn DevOps with Kamrul Hasan,
+Kamrul Hasan automation expert,
+Kamrul Hasan cloud and containers,
+CI/CD pipelines by Kamrul Hasan,
+Kamrul Hasan Kubernetes & Docker,]]></summary>
+        <author>
+            <name>Kamrul Hasan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Dating Pictures: How Artificial Intelligence Is Changing Online Dating]]></title>
+        <id>https://dev.to/usmanasghar/ai-dating-pictures-how-artificial-intelligence-is-changing-online-dating-111b</id>
+        <link href="https://dev.to/usmanasghar/ai-dating-pictures-how-artificial-intelligence-is-changing-online-dating-111b"/>
+        <updated>2025-05-07T08:16:46.000Z</updated>
+        <summary type="html"><![CDATA[The world of online dating has changed dramatically in the past few years — and artificial intelligence (AI) is playing a major role in that transformation. One emerging trend is AI dating pictures: profile photos generated or enhanced by AI to help users present their “best selves” on dating apps like Tinder, Bumble, Hinge, or even social media platforms.
+But what exactly are AI dating pictures, and are they a good idea? Let’s break it down.
+**
+✅ Generated entirely by AI — using tools like AI portrait generators or avatars based on your real face.
+✅** Enhanced or edited by AI** — improving lighting, removing blemishes, sharpening features, or even subtly reshaping facial features.
+These photos aim to make you look more appealing without the need for professional photoshoots or heavy manua…]]></summary>
+        <author>
+            <name>usman asghar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SDK Playground: Who Are You Blocking on BlueSky?]]></title>
+        <id>https://dev.to/pykpyky/sdk-playground-who-are-you-blocking-on-bluesky-3o6m</id>
+        <link href="https://dev.to/pykpyky/sdk-playground-who-are-you-blocking-on-bluesky-3o6m"/>
+        <updated>2025-05-07T08:16:46.000Z</updated>
+        <summary type="html"><![CDATA[Most services — including social networks — offer APIs that allow third-party programs or tech-savvy users to perform actions that would normally be manual and tedious, all through code.
+Let’s imagine I’m blocking people on BlueSky, and I want to know if another account has blocked the same people as I have. I would need to:
+Retrieve my own block list
+Retrieve the block list of the other account
+And for each name, check if it's present in both lists.
+It’s not impossible to do — at least on BlueSky, since everything is public. But it’s a massive pain.
+Another example: imagine I want to block everyone who liked a post (say, because it’s a post praising Kubernetes and I don’t like Kubernetes).
+Here’s what I’d have to do:
+Find the post
+Retrieve the list of people who liked it
+Block them one by…]]></summary>
+        <author>
+            <name>Mary 🇪🇺 🇷🇴 🇫🇷</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Fix Lag and Crash Issues in Swift's startRecording Function?]]></title>
+        <id>https://dev.to/generatecodedev/how-to-fix-lag-and-crash-issues-in-swifts-startrecording-function-3986</id>
+        <link href="https://dev.to/generatecodedev/how-to-fix-lag-and-crash-issues-in-swifts-startrecording-function-3986"/>
+        <updated>2025-05-07T08:15:23.000Z</updated>
+        <summary type="html"><![CDATA[Troubleshooting Lag and Crashes in Swift's Camera App
+When developing a camera app in Swift, you may encounter issues with the startRecording function, such as lagging or crashing. These problems can result from various factors related to resource management, threading, and memory. In this article, we will explore why these issues might occur and how to effectively resolve them.
+Understanding the Problem
+The primary issue you are facing when pressing the record button is the lag followed by a crash. This occurs because the camera app attempts to perform heavy processing operations on the main thread, leading to unresponsiveness. Furthermore, the crash arises from improper handling of the GPU resources, resulting in a NSInternalInconsistencyException message about framebuffer overreleasing.…]]></summary>
+        <author>
+            <name>Generatecode</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mastering the Balance: How Online Learning Empowers Students to Juggle Work and Study]]></title>
+        <id>https://dev.to/ghummantech/mastering-the-balance-how-online-learning-empowers-students-to-juggle-work-and-study-3m24</id>
+        <link href="https://dev.to/ghummantech/mastering-the-balance-how-online-learning-empowers-students-to-juggle-work-and-study-3m24"/>
+        <updated>2025-05-07T08:13:02.000Z</updated>
+        <summary type="html"><![CDATA[Online learning has become a rapidly evolving educational medium that is significantly assisting students in striking a balance between work and study. In our data-driven society, the way we gain knowledge is changing. The advent of online learning has rekindled the thirst for education in many people, allowing them their pursuit of higher education alongside their current employment. 
+Notably, the traditional full-time education model has often proved to be arduous for those who need or want to work while pursuing their studies. Advanced job markets mean that it’s essential for students to continue upskilling, but equally important is their need to maintain financial stability. This is where online learning steps into the spotlight. It offers much-needed flexibility and augments their abi…]]></summary>
+        <author>
+            <name>Ghumman Tech</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Paraglide 2.0 Migration – From Framework Glue to Clean Abstraction]]></title>
+        <id>https://dev.to/cordlesswool/paraglide-20-migration-from-framework-glue-to-clean-abstraction-4d1b</id>
+        <link href="https://dev.to/cordlesswool/paraglide-20-migration-from-framework-glue-to-clean-abstraction-4d1b"/>
+        <updated>2025-05-07T08:11:00.000Z</updated>
+        <summary type="html"><![CDATA[From time to time, it's necessary to bring all dependencies up to date. Most of them update easily. Paraglide.js? Definitely not.
+This post is not just a dry migration guide — it’s also about the headaches, surprises, and a few decisions you’ll have to make if you’re already deep into a SvelteKit project like I am with shrtn.io. And while we’re at it: Paraglide’s approach to minimalism still makes me smile — even if it makes the docs a bit too... minimal at times.
+That said, version 2.0 is a huge step forward. The documentation is better, the architecture is more maintainable, and the framework independence finally feels real. But not everything is an upgrade — especially not the developer experience when removing some of the SvelteKit-specific helpers.
+If you're here just for the code, fe…]]></summary>
+        <author>
+            <name>Wolfgang Rathgeb</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Introduction to Container Images and Orchestration]]></title>
+        <id>https://dev.to/hridyeshbisht/introduction-to-container-images-and-orchestration-32pb</id>
+        <link href="https://dev.to/hridyeshbisht/introduction-to-container-images-and-orchestration-32pb"/>
+        <updated>2025-05-07T08:09:02.000Z</updated>
+        <summary type="html"><![CDATA[As modern apps shift toward microservices and cloud-native architectures, containers have become the standard for packaging and deploying software. However, running containers in production requires more than just building images—it demands scalable orchestration and intelligent management.
+This blog introduces container images. It explains why orchestration is essential in production environments. The blog also explores Kubernetes, the industry-standard platform for container orchestration.
+What Are Container Images?
+
+
+A container image packages app code, its runtime, libraries, and all dependencies in a predefined, portable format. This enables consistent deployment across various environments.
+Container runtimes—such as containerd, runC, and CRI-O—use these prebuilt images to create and…]]></summary>
+        <author>
+            <name>hridyesh bisht</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Rise of Autonomous IT Operations: Why AIOps Is the Future of ITSM in 2025 and Beyond]]></title>
+        <id>https://dev.to/sip_mjb/the-rise-of-autonomous-it-operations-why-aiops-is-the-future-of-itsm-in-2025-and-beyond-2dbo</id>
+        <link href="https://dev.to/sip_mjb/the-rise-of-autonomous-it-operations-why-aiops-is-the-future-of-itsm-in-2025-and-beyond-2dbo"/>
+        <updated>2025-05-07T08:04:43.000Z</updated>
+        <summary type="html"><![CDATA[🖋️ Introduction:
+Today, businesses are dealing with hybrid cloud environments, multi-vendor integrations, massive data streams, and rising end-user expectations. In this high-stakes, always-on world, even advanced automation isn’t fast enough, intelligent enough, or proactive enough.
+AIOps (Artificial Intelligence for IT Operations) emerges not just as a trend but as a necessity—a next-generation approach that blends machine learning, data science, and traditional monitoring to create autonomous, predictive, self-healing IT ecosystems.
+In this blog, we dive deep into what AIOps is, why it matters, and how it will redefine ITSM workflows in 2025 and beyond.
+⚡ From Automation to AIOps: Understanding the Evolution
+📚 Generative AI (Gen AI):
+📚 AIOps:
+🎯 Why AIOps Is No Longer Optional for Modern ITSM
+🔵 Predictive Intelligence: Identify potential incidents before they impact services.
+🌐 How AIOps is Transforming Core ITSM Workflows
+🛡️ Why AIOps + ServiceNow = The Ultimate ITSM Stack
+✅ AI-driven incident categorization and prioritization.
+⚙️ Key Challenges When Deploying AIOps (And How to Overcome Them)
+🔸 Data Complexity :Ensure clean, unified, and high-quality data ingestion from all sources (apps, networks, servers).
+✅ Up to 70% reduction in alert volume
+🔮 Future Outlook: AIOps Is Just Getting Started By 2027:
+More than 50% of enterprises will use AIOps platforms to automate major parts of their IT operations.
+📣 Conclusion: It’s Time to Move Beyond Automation
+Being autonomous, predictive, and resilient—that’s the new benchmark.
+📞 Ready to Embrace AIOps and Lead the Future?
+🔗 Let’s talk today
+
+👉 Follow us for cutting-edge insights into AI in ITSM, Automation Trends, and Next-Gen IT Operations.
+
+
+  
+  
+  AIOps #ITSM #FutureOfIT #SmartITOps #ServiceNow #IncidentManagement #DigitalTransformation #ArtificialIntelligence #PredictiveAnalytics #Automation #TechStrategy #MJBTech]]></summary>
+        <author>
+            <name>MJB Technology</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Understanding Rust's Box, Rc, RefCell in Stack and Deque]]></title>
+        <id>https://dev.to/generatecodedev/understanding-rusts-box-rc-refcell-in-stack-and-deque-1pd2</id>
+        <link href="https://dev.to/generatecodedev/understanding-rusts-box-rc-refcell-in-stack-and-deque-1pd2"/>
+        <updated>2025-05-07T08:00:42.000Z</updated>
+        <summary type="html"><![CDATA[Introduction to Rust Smart Pointers
+In Rust, managing memory safely and efficiently is crucial for building robust applications. When working on course material that demonstrates the use of Rust’s smart pointers like Box, Rc, and RefCell, you may encounter unique scenarios, especially when implementing structures like linked lists. This article will explore a singly-linked stack and a doubly-linked deque, elucidating why the default drop implementation in Rust behaves differently for these structures.
+Why Choose Box, Rc, and RefCell?
+Before diving deep into the examples, let’s clarify the usage of each type.
+Box<T>: This is a smart pointer that provides ownership of heap-allocated data. It enables recursive data structures.
+Rc<T> (Reference Counted): This type allows multiple ownership of …]]></summary>
+        <author>
+            <name>Generatecode</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin Sees Selling at $97K, Cardano’s ADA Leads Majors Gains Ahead of FOMC Meeting]]></title>
+        <id>228e25f5-9c9c-4698-83cf-2c9eac3a904c</id>
+        <link href="https://www.coindesk.com/markets/2025/05/07/bitcoin-sees-selling-at-usd97k-cardano-s-ada-leads-majors-gains-ahead-of-fomc-meeting"/>
+        <updated>2025-05-07T07:46:43.000Z</updated>
+        <summary type="html"><![CDATA[Market volatility may soar as a regional tussle between India and Pakistan intensifies and the U.S.-China trade war looms.]]></summary>
+        <author>
+            <name>Shaurya Malwa</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Google Expands Malaysian Data Centre Footprint With New Port Dickson Project]]></title>
         <id>https://www.lowyat.net/?p=350820</id>
@@ -288,6 +626,19 @@ Recognizing handwri…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Tether launches on Kaia, brings USDt to LINE’s 196M user ecosystem]]></title>
+        <id>https://cointelegraph.com/news/tether-usdt-kaia-line-stablecoin-launch</id>
+        <link href="https://cointelegraph.com/news/tether-usdt-kaia-line-stablecoin-launch?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-05-07T06:58:36.000Z</updated>
+        <summary type="html"><![CDATA[Tether deployed its flagship stablecoin, USDt, on the Kaia blockchain as part of a broader collaboration with Line Next, the Web3 arm of Line, Japan’s popular messaging platform with more than 196 million monthly active users.
+The integration means USDt (USDT) will now be supported across Line’s messenger-based Mini DApp ecosystem and self-custodial wallet, enabling users to interact with stablecoins inside an interface they already use daily, Tether said in a May 7 announcement.
+Line users will be able to use USDt for in-app payments, cross-border transfers and decentralized finance (DeFi) activities.
+“Through LINE NEXT’s blockchain infrastructure, over 200 million LINE users will now have a straightforward way to engage with digital assets in everyday life,” Tether CEO Paolo Ardoino said…]]></summary>
+        <author>
+            <name>Cointelegraph by Amin Haqshanas</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Bolt Now Includes Tolls In Its Ride Fares]]></title>
         <id>https://www.lowyat.net/?p=350802</id>
         <link href="https://www.lowyat.net/2025/350802/bolt-tolls-ride-fares/"/>
@@ -296,6 +647,29 @@ Recognizing handwri…]]></summary>
 The post Bolt Now Includes Tolls In Its Ride Fares appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Ikmal Rozlan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin pushes for $98K as 2025 Fed rate cut odds flip &#039;pessimistic&#039;]]></title>
+        <id>https://cointelegraph.com/news/bitcoin-pushes-for-98k-2025-fed-rate-cut-odds-flip-pessimistic</id>
+        <link href="https://cointelegraph.com/news/bitcoin-pushes-for-98k-2025-fed-rate-cut-odds-flip-pessimistic?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-05-07T06:41:07.000Z</updated>
+        <summary type="html"><![CDATA[Key points:
+
+Bitcoin and gold trade in lockstep on low timeframes as macro volatility triggers heighten.
+
+The Federal Reserve interest rate decision and news conference are just hours away.
+
+Market sentiment for rate cuts in 2025 decreases sharply ahead of the FOMC meeting.
+
+Bitcoin (BTC) saw a flash short-term trend change on May 7 as geopolitical triggers gave risk assets fresh volatility.
+BTC/USD 1-hour chart. Source: Cointelegraph/TradingView
+Bitcoin traders eye Fed for “tone changes”
+Data from Cointelegraph Markets Pro and TradingView showed an abrupt turnaround for BTC/USD after the pair dipped under $94,000 to set new May lows.
+The previous day’s Wall Street trading session set the stage for a return to strength, even as stocks finished lower.
+XAU/USD 4-hour chart. Source: Cointeleg…]]></summary>
+        <author>
+            <name>Cointelegraph by William Suberg</name>
         </author>
     </entry>
     <entry>
@@ -321,6 +695,19 @@ Liquibase is an open-source database change management tool. Think of it as vers
 J…]]></summary>
         <author>
             <name>Animesh Pathak</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Metaplanet reaches 5,555 Bitcoin milestone with latest 555 BTC buy]]></title>
+        <id>https://cointelegraph.com/news/metaplanet-bitcoin-milestone-5555-btc</id>
+        <link href="https://cointelegraph.com/news/metaplanet-bitcoin-milestone-5555-btc?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-05-07T06:29:58.000Z</updated>
+        <summary type="html"><![CDATA[Japan’s Metaplanet purchased an additional 555 Bitcoin as part of its aggressive accumulation strategy, bringing its total holdings to 5,555 BTC, valued at over $536 million at current prices.
+On May 7, the Tokyo-listed firm disclosed that it spent $53.4 million acquiring 555 Bitcoin (BTC) at an average price of $96,134. The company now holds 5,555 BTC, purchased for $481.5 million at an average price of $86,672 per Bitcoin, according to CEO Simon Gerovich.
+The company also announced the issuance of another $25 million in zero-coupon ordinary bonds to fund its ongoing BTC buys. Since early 2024, the firm has raised over 35 billion yen ($244 million) through zero-coupon bonds and stock acquisition rights via its partner, Evo Fund.
+The company’s proprietary key performance indicator, BTC Yie…]]></summary>
+        <author>
+            <name>Cointelegraph by Amin Haqshanas</name>
         </author>
     </entry>
     <entry>
@@ -405,6 +792,22 @@ https://www.selfcad.com/academy/curriculum/), https://www.youtube.com/@3dmodelin
 The post Alleged Sony WH-1000XM6 Product Visual Leaks appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>John Law</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Movement Labs terminates co-founder Rushi Manche, launches new firm]]></title>
+        <id>https://cointelegraph.com/news/movement-labs-terminates-co-founder-over-market-turmoil</id>
+        <link href="https://cointelegraph.com/news/movement-labs-terminates-co-founder-over-market-turmoil?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-05-07T06:23:10.000Z</updated>
+        <summary type="html"><![CDATA[Movement Labs confirmed the termination of its co-founder, Rushi Manche, following controversy over a market maker deal that he brokered.
+Movement Labs made the announcement in a May 7 X post, stating it had “terminated Rushi Manche.” The project said it “will continue under a different leadership.” The post also alludes to upcoming governance changes.
+The termination follows Movement Labs announcing Manche’s suspension earlier this month, explaining that the “decision was made in light of ongoing events.” It also comes after Coinbase’s recent decision to suspend the Movement Network (MOVE) token, citing its failure to meet its listing standards.
+Source: Movement
+Related: Movement Network to buy back tokens with $38M recovered from rogue market maker
+Movement Labs launches Move Industries
+…]]></summary>
+        <author>
+            <name>Cointelegraph by Adrian Zmudzinski</name>
         </author>
     </entry>
     <entry>
@@ -18613,6 +19016,16 @@ I will add it to the comiCSS website, to make company to the other Star Wars car
         <id>https://www.ycombinator.com/companies/hightouch/jobs/kIoY0yH-machine-learning-engineer-ai-decisioning</id>
         <link href="https://www.ycombinator.com/companies/hightouch/jobs/kIoY0yH-machine-learning-engineer-ai-decisioning"/>
         <updated>2025-05-04T17:00:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WebMonkeys: parallel GPU programming in JavaScript]]></title>
+        <id>https://github.com/VictorTaelin/WebMonkeys</id>
+        <link href="https://github.com/VictorTaelin/WebMonkeys"/>
+        <updated>2025-05-04T17:00:04.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -41329,16 +41742,6 @@ Tech salaries in Malaysia have risen significantly this year, with system engine
         <summary type="html"><![CDATA[Training LLMs on trajectories of reasoning and tool use makes them superior at multi-step reasoning tasks.]]></summary>
         <author>
             <name>Ben Dickson</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Batch data processing is too slow for real-time AI: How open-source Apache Airflow 3.0 solves the challenge with event-driven data orchestration]]></title>
-        <id>https://venturebeat.com/?p=3004953</id>
-        <link href="https://venturebeat.com/data-infrastructure/open-source-airflow-3-0-set-to-accelerate-data-orchestration-for-enterprise-ai-inference/"/>
-        <updated>2025-04-22T20:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Open-source data orchestration gets a major rewrite to help support inference and enterprise AI]]></summary>
-        <author>
-            <name>Sean Michael Kerner</name>
         </author>
     </entry>
     <entry>
