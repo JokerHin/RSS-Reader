@@ -2,10 +2,673 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-06-13T04:18:00.846Z</updated>
+    <updated>2025-06-13T05:10:11.166Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[深入理解Hyperlane的中间件系统：一个大三学生的实践笔记]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-3b9j</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-3b9j"/>
+        <updated>2025-06-13T04:59:32.000Z</updated>
+        <summary type="html"><![CDATA[深入理解Hyperlane的中间件系统：一个大三学生的实践笔记
+
+
+作为一名大三计算机专业的学生，我在使用 Hyperlane 框架开发校园项目的过程中，对其中间件系统有了深入的理解。今天，我想分享一下我在实践中的心得体会。
+graph TD
+    A[客户端请求] --> B[认证中间件]
+    B --> C[日志中间件]
+    C --> D[控制器]
+
+Hyperlane 的中间件采用洋葱模型，请求从外层向内层传递，这种设计让请求处理流程清晰可控。
+async fn request_middleware(ctx: Context) {
+    let socket_addr = ctx.get_socket_addr_or_default_string().await;
+    ctx.set_response_header(SERVER, HYPERLANE)
+        .await
+        .set_response_header("SocketAddr", socket_addr)
+        .await;
+}
+
+相比其他框架需要通过 trait 或层注册中间件，Hyperlane 直接使用异步函数注册，更加直观。
+async fn auth_middleware(ctx: Context) {
+    let token = ctx.get_request_header("Authorization").await;
+    match token {
+        Some(token) => {
+            // 验证逻辑
+            ctx.set_request_data("user_id", "123").await;
+        }
+        None => {
+           …]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[校园二手交易平台的技术选型：为什么我选择了Hyperlane框架]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/xiao-yuan-er-shou-jiao-yi-ping-tai-de-ji-zhu-xuan-xing-wei-shi-yao-wo-xuan-ze-liao-hyperlanekuang-jia-2ngg</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/xiao-yuan-er-shou-jiao-yi-ping-tai-de-ji-zhu-xuan-xing-wei-shi-yao-wo-xuan-ze-liao-hyperlanekuang-jia-2ngg"/>
+        <updated>2025-06-13T04:58:32.000Z</updated>
+        <summary type="html"><![CDATA[校园二手交易平台的技术选型：为什么我选择了Hyperlane框架
+
+
+作为一名大三计算机系的学生，上学期我负责开发了一个校园二手交易平台。在技术选型时，我最终选择了 Hyperlane 这个 Rust Web 框架。今天，我想分享一下这个选择背后的思考过程和实际使用体验。
+高并发处理：学期末是二手交易的高峰期，需要处理大量并发请求
+实时通信：买卖双方需要实时聊天功能
+开发效率：作为学生项目，需要快速开发和迭代
+学习价值：希望通过项目深入学习 Rust 语言
+
+
+
+特性
+Hyperlane
+Actix-Web
+Axum
+
+
+
+
+学习曲线
+平缓
+较陡
+中等
+
+
+文档友好度
+优秀
+良好
+良好
+
+
+社区活跃度
+活跃
+非常活跃
+活跃
+
+
+性能表现
+极佳
+优秀
+优秀
+
+
+WebSocket支持
+原生
+插件
+扩展
+
+
+
+#[methods(get, post)]
+async fn product_route(ctx: Context) {
+    let id = ctx.get_route_param("id").await.parse::<u32>().unwrap();
+    // 商品详情查询逻辑
+    ctx.set_response_body(format!("Product {}", id))
+        .await
+        .send_body()
+        .await;
+}
+
+路由宏的设计非常直观，让代码结构更加清晰。
+#[get]
+async fn chat_ws(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    ctx.set_response_header(CONTENT_TYPE, "application/json")
+        .await
+        .set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+原生的 WebSocket 支持让实时聊天功能的实现变得简单。
+server
+    .enable_nodelay().await
+    .disable_linger().await
+    .http_line_buffer_size(4096).await
+    .run().await;
+
+框架默认的性能优化配置就足以应对校园平台的访问压力。
+在普通笔记本上的压测结果：
+wrk -c360 -d60s http://localhost:8000/
+
+
+
+
+场景
+QPS
+响应时间
+
+
+
+
+首页
+324,323
+<10ms
+
+
+商品列表
+298,945
+<15ms
+
+
+WebSocket连接
+242,570
+<20ms
+
+
+
+// 传统框架的写法
+let method = ctx.get_request().await.get_method();
+
+// Hyperlane的写法
+let method = ctx.get_request_method().await;
+
+扁平化的 API 设计大大提高了开发效率。
+正则路由参数验证
+WebSocket 连接状态管理
+数据库连接池优化
+在升级到 v4.89+ 时遇到了一些变化：
+// 新版本中断请求的方式
+if should_abort {
+    ctx.aborted().await;
+    return;
+}
+
+通过仔细阅读更新文档，很快适应了新的API。
+API 设计直观：减少了查文档的频率
+错误提示友好：编译错误信息清晰明确
+性能无忧：默认配置已经够用
+文档完善：示例代码可以直接使用
+从小项目开始：先实现基本的 CRUD 功能
+重视类型系统：利用 Rust 的类型检查避免运行时错误
+参与社区讨论：遇到问题多与社区交流
+关注性能监控：学习使用性能分析工具
+平台已在校内正式运行
+日均处理数百笔交易
+获得了师生的好评
+个人对 Rust Web 开发有了深入理解
+计划添加更多社交功能
+优化移动端体验
+探索微服务架构
+尝试贡献社区代码
+作为一名学生开发者，我认为选择 Hyperlane 是一个正确的决定。它不仅帮助我完成了项目，还提升了我的技术水平。对于想要入门 Rust Web 开发的同学，我强烈推荐从 Hyperlane 开始！]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SEC axes Biden-era proposed crypto rules in flurry of repeals]]></title>
+        <id>https://cointelegraph.com/news/sec-axes-biden-era-proposed-rules-on-crypto-in-flurry-of-repeals</id>
+        <link href="https://cointelegraph.com/news/sec-axes-biden-era-proposed-rules-on-crypto-in-flurry-of-repeals?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-06-13T04:53:33.000Z</updated>
+        <summary type="html"><![CDATA[The SEC has withdrawn over a dozen rules the agency proposed under Joe Biden, including two crypto-related rules targeting DeFi and digital asset custody.]]></summary>
+        <author>
+            <name>Cointelegraph by Martin Young</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🧠 Pieces AI Memory: Built for Real Developer Workflows]]></title>
+        <id>https://dev.to/nikl/pieces-ai-memory-built-for-real-developer-workflows-h0e</id>
+        <link href="https://dev.to/nikl/pieces-ai-memory-built-for-real-developer-workflows-h0e"/>
+        <updated>2025-06-13T04:49:46.000Z</updated>
+        <summary type="html"><![CDATA[Memory is the new frontier in AI.
+From OpenAI’s persistent memory in ChatGPT, to Claude’s evolving context windows, to Copilot and Cursor tracking dev history—memory is transforming the way we build software.
+At Pieces, we’ve embraced this shift from day one.
+Pieces AI Memory isn't just reactive. It’s a proactive layer that silently powers your dev workflow, in real-time.
+By the time you take a screenshot, Pieces has already created contextual memories of what you're working on.
+No prompts.
+This is true developer memory:
+Stores what matters—code blocks, conversations, tasks
+Works behind the scenes
+Doesn’t interrupt your flow
+It’s not a clipboard. It’s continuity.
+Memory should work wherever you do. So we integrated Pieces AI Memory into a growing ecosystem of tools:
+Supported Platforms Inc…]]></summary>
+        <author>
+            <name>Nik L.</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[My Experience with Hyperlane A Rust Newbie’s Journey in Developing a Campus API]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/my-experience-with-hyperlane-a-rust-newbies-journey-in-developing-a-campus-api-4fmb</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/my-experience-with-hyperlane-a-rust-newbies-journey-in-developing-a-campus-api-4fmb"/>
+        <updated>2025-06-13T04:49:32.000Z</updated>
+        <summary type="html"><![CDATA[As a junior computer science student, I was working on a campus second-hand trading platform project last semester when I stumbled upon the Hyperlane Rust HTTP framework. I was in a dilemma about choosing a framework— it needed to be powerful enough to handle the peak trading at the end of the semester, and its syntax had to be simple so that I, as a Rust newbie, could get up to speed quickly. To my pleasant surprise, Hyperlane exceeded all my expectations. Today, I want to share my experience with this amazing framework!
+When I first started writing route functions, I was amazed by Hyperlane’s Context (or ctx for short). I remember the first time I wanted to get the request method. In traditional Rust HTTP frameworks, I would have to write:
+let method = ctx.get_request().await.get_method(…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane：新一代高性能Rust框架的实战体验]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-cfh</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-cfh"/>
+        <updated>2025-06-13T04:47:32.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane：新一代高性能Rust框架的实战体验
+
+
+作为一名大三计算机专业的学生，我在最近的课程项目中深入使用了 Hyperlane 框架。这个被称为"新一代轻量级高性能框架"的 Rust Web 框架确实给我留下了深刻印象。本文将从实战角度，分享我对 Hyperlane 的使用体验。
+在项目开始时，我对比了几个主流的 Web 框架：
+
+
+
+框架
+依赖模型
+异步运行时
+中间件支持
+SSE/WebSocket
+路由匹配能力
+
+
+
+
+Hyperlane
+仅依赖 Tokio + 标准库
+Tokio
+✅ 支持请求/响应
+✅ 原生支持
+✅ 支持正则表达式
+
+
+Actix-Web
+较多内部抽象层
+Actix
+✅ 请求中间件
+部分支持(需插件)
+⚠️ 路径宏需显式配置
+
+
+Axum
+复杂的 Tower 架构
+Tokio
+✅ Tower 中间件
+✅ 需依赖扩展
+⚠️ 动态路由较弱
+
+
+
+最终选择 Hyperlane 的原因是：
+极简的依赖关系
+完整的异步支持
+原生的 WebSocket 集成
+灵活的路由系统
+server.enable_nodelay().await;
+server.disable_linger().await;
+server.http_line_buffer_size(4096).await;
+
+Hyperlane 默认启用了这些性能优化选项，这意味着它为高并发连接场景预设了合适的 TCP 和缓冲区参数。
+在实际项目中，我使用 wrk 进行了压力测试：
+wrk -c360 -d60s http://localhost:8000/
+
+测试结果令人惊喜：
+
+
+
+框架
+QPS
+内存占用
+
+
+
+
+Hyperlane
+324,323
+最低
+
+
+Rocket
+298,945
+中等
+
+
+Gin (Go)
+242,570
+较高
+
+
+
+server
+    .host("0.0.0.0").await
+    .port(60000).await
+    .route("/", root_route).await
+    .route("/goods/{id:\\d+}", goods_detail).await
+    .run().await
+    .unwrap();
+
+所有配置都采用异步链式调用模式，无需嵌套配置或宏组合。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    ctx.set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+原生的 WebSocket 支持让实时消息推送变得简单。
+#[post]
+async fn sse_route(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, TEXT_EVENT_STREAM)
+        .await
+        .send()
+        .await;
+
+    for i in 0..10 {
+        ctx.set_response_body(format!("data:{}{}", i, HTTP_DOUBLE_BR))
+            .await
+            .send_body()
+            .await;
+    }
+}
+
+零平台依赖：纯 Rust 实现，跨平台一致性强
+极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲
+灵活的中间件机制：支持请求和响应中间件，生命周期划分清晰
+开箱即用的实时通信：原生支持 WebSocket 和 SSE
+v4.22.0 后，ctx.aborted() 可以中断请求
+v5.25.1 中的 ctx.closed() 可以主动关闭连接
+从简单路由开始：先熟悉基本的 GET/POST 路由
+理解 Context 抽象：这是框架的核心概念
+循序渐进学习中间件：先使用内置中间件，再尝试自定义
+关注性能优化选项：了解默认配置的作用
+探索在微服务架构中的应用
+研究与其他 Rust 生态系统的集成
+尝试贡献一些社区插件
+作为一个学生开发者，我认为 Hyperlane 是一个非常值得投入时间学习的框架。它不仅让我深入理解了 Web 开发的本质，还让我体会到了 Rust 在 Web 领域的强大潜力。如果你也在寻找一个性能强大且易于上手的 Rust Web 框架，Hyperlane 绝对值得一试！]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane错误处理与调试指南：一个大三学生的实战总结]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanecuo-wu-chu-li-yu-diao-shi-zhi-nan-ge-da-san-xue-sheng-de-shi-zhan-zong-jie-h9p</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanecuo-wu-chu-li-yu-diao-shi-zhi-nan-ge-da-san-xue-sheng-de-shi-zhan-zong-jie-h9p"/>
+        <updated>2025-06-13T04:46:32.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane错误处理与调试指南：一个大三学生的实战总结
+
+
+作为一名大三计算机系的学生，在使用 Hyperlane 开发校园项目的过程中，我深刻体会到了良好的错误处理和调试机制的重要性。这篇文章将分享我在这方面的实战经验。
+async fn handle_request(ctx: Context) {
+    match process_data().await {
+        Ok(data) => {
+            ctx.set_response_body(data)
+                .await
+                .send_body()
+                .await;
+        }
+        Err(e) => {
+            ctx.set_response_status_code(500)
+                .await
+                .set_response_body(e.to_string())
+                .await;
+        }
+    }
+}
+
+async fn error_middleware(ctx: Context) {
+    if let Some(err) = ctx.get_error().await {
+        let status_code = match err {
+            AppError::NotFound => 404,
+            AppError::Unauthorized => 401,
+            _ => 500,
+        };
+
+        ctx.set_response_status_code(st…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane路由系统详解：从入门到实践的完整指南]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanelu-you-xi-tong-xiang-jie-cong-ru-men-dao-shi-jian-de-wan-zheng-zhi-nan-42cp</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanelu-you-xi-tong-xiang-jie-cong-ru-men-dao-shi-jian-de-wan-zheng-zhi-nan-42cp"/>
+        <updated>2025-06-13T04:45:32.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane路由系统详解：从入门到实践的完整指南
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园项目的过程中，对其路由系统有了深入的理解。这篇文章将从实践角度，详细介绍 Hyperlane 的路由系统特性。
+#[get]
+async fn hello_route(ctx: Context) {
+    ctx.set_response_body("Hello, Hyperlane!")
+        .await
+        .send_body()
+        .await;
+}
+
+#[methods(get, post)]
+async fn multi_method_route(ctx: Context) {
+    let method = ctx.get_request_method().await;
+    ctx.set_response_body(format!("Method: {}", method))
+        .await
+        .send_body()
+        .await;
+}
+
+server.route("/user/{id}", |ctx| async move {
+    let user_id = ctx.get_route_param("id").await;
+    // 处理用户信息...
+}).await;
+
+server.route("/product/{id:\\d+}", |ctx| async move {
+    let product_id = ctx.get_route_param("id").await.parse::<u32>().unwrap();
+    // 商品详情处理...
+}).await;
+
+async fn api_routes(ser…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Iterator in Python (11)]]></title>
+        <id>https://dev.to/hyperkai/iterator-in-python-11-34de</id>
+        <link href="https://dev.to/hyperkai/iterator-in-python-11-34de"/>
+        <updated>2025-06-13T04:45:22.000Z</updated>
+        <summary type="html"><![CDATA[Buy Me a Coffee☕
+*Memos:
+My post explains an iterator (1).
+My post explains an iterator (2).
+My post explains a generator.
+My post explains a class-based iterator with __iter__() and/or __next__().
+My post explains itertools about count(), cycle() and repeat().
+My post explains itertools about accumulate(), batched(), chain() and chain.from_iterable().
+My post explains itertools about compress(), filterfalse(), takewhile() and 
+dropwhile().
+My post explains itertools about groupby() and islice().
+My post explains itertools about pairwise(), starmap(), tee() and zip_longest().
+My post explains itertools about product() and permutations().
+itertools has the functions to create iterators.
+
+
+
+
+
+combinations() can return the iterator which uniquely combines the elements of iterable one by one t…]]></summary>
+        <author>
+            <name>Super Kai (Kazuya Ito)</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane性能优化实战：从理论到实践的深度探索]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-1cgc</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-1cgc"/>
+        <updated>2025-06-13T04:44:32.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane性能优化实战：从理论到实践的深度探索
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发高并发校园服务时，积累了不少性能优化的经验。这篇文章将从实战角度分享我的优化心得。
+server
+    .enable_nodelay().await
+    .disable_linger().await
+    .http_line_buffer_size(4096).await
+    .run().await;
+
+wrk -c360 -d60s http://localhost:8000/
+
+
+
+
+框架
+QPS
+延迟
+内存占用
+
+
+
+
+Tokio
+340,130
+1.2ms
+基准线
+
+
+Hyperlane
+324,323
+1.5ms
++5%
+
+
+Rocket
+298,945
+1.8ms
++15%
+
+
+Gin (Go)
+242,570
+2.1ms
++25%
+
+
+
+async fn optimize_connection_pool() {
+    let pool = Pool::builder()
+        .max_size(100)
+        .min_idle(Some(10))
+        .build()
+        .await;
+
+    // 使用连接池
+    let conn = pool.get().await?;
+}
+
+async fn reuse_buffers(ctx: Context) {
+    let buffer = get_buffer_from_pool().await;
+    ctx.set_response_body(buffer)
+        .await
+        .send_body()
+        .await;
+    return_buffer_to_po…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane实时通信指南：WebSocket和SSE实战经验分享]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-1l69</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-1l69"/>
+        <updated>2025-06-13T04:43:34.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane实时通信指南：WebSocket和SSE实战经验分享
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园实时聊天系统时，深入体验了它的 WebSocket 和 SSE 功能。这篇文章将分享我的实战经验。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    let body = ctx.get_request_body().await;
+
+    ctx.set_response_header("Connection", "Upgrade")
+        .await
+        .set_response_header("Upgrade", "websocket")
+        .await
+        .set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+async fn handle_ws_message(ctx: Context) {
+    let message = ctx.get_ws_message().await;
+    match message {
+        WSMessage::Text(text) => {
+            // 处理文本消息
+            ctx.send_ws_text(format!("收到消息: {}", text)).await;
+        }
+        WSMessage::Binary(data) => {
+            // 处理二进制消…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane与微服务架构：校园应用的实战案例分析]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-27kp</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-27kp"/>
+        <updated>2025-06-13T04:42:32.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane与微服务架构：校园应用的实战案例分析
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园服务时，尝试了微服务架构的实践。这篇文章将分享我在这个过程中的经验和思考。
+// 用户服务
+#[get]
+async fn user_service(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)
+        .await
+        .set_response_body("{\"service\": \"user\"}");
+}
+
+// 商品服务
+#[get]
+async fn product_service(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)
+        .await
+        .set_response_body("{\"service\": \"product\"}");
+}
+
+async fn register_service(service_name: &str, port: u16) {
+    let server = Server::new()
+        .host("0.0.0.0")
+        .await
+        .port(port)
+        .await;
+
+    // 向服务注册中心注册
+    register_to_discovery(service_name, port).await;
+}
+
+async fn call_service(ctx: Context) {
+    let service_url = discover_service("use…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Boost]]]></title>
+        <id>https://dev.to/nikhil_sachapara/-2i5m</id>
+        <link href="https://dev.to/nikhil_sachapara/-2i5m"/>
+        <updated>2025-06-13T04:42:31.000Z</updated>
+        <summary type="html"><![CDATA[The Great Developer Productivity Myth: What IT Leaders Measure vs. What Actually Drives Results
+Pratham naik for Teamcamp ・ Jun 13
+#webdev
+        #productivity
+        #devops
+        #opensource]]></summary>
+        <author>
+            <name>nikhil sachapara</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Razer Kishi Lineup Gets V3 Expansion; Prices Start From RM499]]></title>
+        <id>https://www.lowyat.net/?p=355772</id>
+        <link href="https://www.lowyat.net/2025/355772/razer-kishi-lineup-v3-expansion-from-rm499/"/>
+        <updated>2025-06-13T04:29:23.000Z</updated>
+        <summary type="html"><![CDATA[The last entry into the Razer Kishi line of mobile controllers was the Ultra, which was made large enough to take small tablets like the iPad mini in addition to the usual range of phones. But if that’s still not big enough – because you want to game on your 13-inch tablets, like the iPad […]
+The post Razer Kishi Lineup Gets V3 Expansion; Prices Start From RM499 appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[My Journey with the Hyperlane Framework From Getting Started to Performance Optimization]]></title>
         <id>https://dev.to/_95e41982c9ad08a13458d/my-journey-with-the-hyperlane-framework-from-getting-started-to-performance-optimization-a6a</id>
@@ -1962,6 +2625,16 @@ Partial support (requires plugins)
 ⚠️ Path macros…]]></summary>
         <author>
             <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Major sugar substitute found to impair brain blood vessel cell function]]></title>
+        <id>https://medicalxpress.com/news/2025-06-major-sugar-substitute-impair-brain.html</id>
+        <link href="https://medicalxpress.com/news/2025-06-major-sugar-substitute-impair-brain.html"/>
+        <updated>2025-06-13T00:05:00.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -47465,26 +48138,6 @@ The post JBL Flip 7, Charge 6 Land In Malaysia; Priced From RM799 appeared first
         <id>https://github.com/WinVector/Examples/blob/main/lambda_calculus/toying_with_the_lambda_calculus.ipynb</id>
         <link href="https://github.com/WinVector/Examples/blob/main/lambda_calculus/toying_with_the_lambda_calculus.ipynb"/>
         <updated>2025-05-29T17:11:12.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build an AI-Powered Cooking Assistant with Flutter and Gemini]]></title>
-        <id>68388c4c973615b7f6864e63</id>
-        <link href="https://www.freecodecamp.org/news/build-an-ai-powered-cooking-assistant-with-flutter-and-gemini/"/>
-        <updated>2025-05-29T16:33:16.000Z</updated>
-        <summary type="html"><![CDATA[After soaking in everything shared at GoogleIO, I can’t lie – I feel supercharged! From What’s New in Flutter to Building Agentic Apps with Flutter and Firebase AI Logic, and the deep dive into How Flutter Makes the Most of Your Platforms, it felt li...]]></summary>
-        <author>
-            <name>Atuoha Anthony</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Onlook – Open-source, visual-first Cursor for designers]]></title>
-        <id>https://github.com/onlook-dev/onlook</id>
-        <link href="https://github.com/onlook-dev/onlook"/>
-        <updated>2025-05-29T16:31:15.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
