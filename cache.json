@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-13c3",
+          "author": "Eastspire",
+          "description": "Hyperlane：新一代高性能Rust框架的实战体验\n\n\n作为一名大三计算机专业的学生，我在最近的课程项目中深入使用了 Hyperlane 框架。这个被称为\"新一代轻量级高性能框架\"的 Rust Web 框架确实给我留下了深刻印象。本文将从实战角度，分享我对 Hyperlane 的使用体验。\n在项目开始时，我对比了几个主流的 Web 框架：\n\n\n\n框架\n依赖模型\n异步运行时\n中间件支持\nSSE/WebSocket\n路由匹配能力\n\n\n\n\nHyperlane\n仅依赖 Tokio + 标准库\nTokio\n✅ 支持请求/响应\n✅ 原生支持\n✅ 支持正则表达式\n\n\nActix-Web\n较多内部抽象层\nActix\n✅ 请求中间件\n部分支持(需插件)\n⚠️ 路径宏需显式配置\n\n\nAxum\n复杂的 Tower 架构\nTokio\n✅ Tower 中间件\n✅ 需依赖扩展\n⚠️ 动态路由较弱\n\n\n\n最终选择 Hyperlane 的原因是：\n极简的依赖关系\n完整的异步支持\n原生的 WebSocket 集成\n灵活的路由系统\nserver.enable_nodelay().await;\nserver.disable_linger().await;\nserver.http_line_buffer_size(4096).await;\n\nHyperlane 默认启用了这些性能优化选项，这意味着它为高并发连接场景预设了合适的 TCP 和缓冲区参数。\n在实际项目中，我使用 wrk 进行了压力测试：\nwrk -c360 -d60s http://localhost:8000/\n\n测试结果令人惊喜：\n\n\n\n框架\nQPS\n内存占用\n\n\n\n\nHyperlane\n324,323\n最低\n\n\nRocket\n298,945\n中等\n\n\nGin (Go)\n242,570\n较高\n\n\n\nserver\n    .host(\"0.0.0.0\").await\n    .port(60000).await\n    .route(\"/\", root_route).await\n    .route(\"/goods/{id:\\\\d+}\", goods_detail).await\n    .run().await\n    .unwrap();\n\n所有配置都采用异步链式调用模式，无需嵌套配置或宏组合。\n#[get]\nasync fn ws_route(ctx: Context) {\n    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();\n    ctx.set_response_body(key)\n        .await\n        .send_body()\n        .await;\n}\n\n原生的 WebSocket 支持让实时消息推送变得简单。\n#[post]\nasync fn sse_route(ctx: Context) {\n    ctx.set_response_header(CONTENT_TYPE, TEXT_EVENT_STREAM)\n        .await\n        .send()\n        .await;\n\n    for i in 0..10 {\n        ctx.set_response_body(format!(\"data:{}{}\", i, HTTP_DOUBLE_BR))\n            .await\n            .send_body()\n            .await;\n    }\n}\n\n零平台依赖：纯 Rust 实现，跨平台一致性强\n极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲\n灵活的中间件机制：支持请求和响应中间件，生命周期划分清晰\n开箱即用的实时通信：原生支持 WebSocket 和 SSE\nv4.22.0 后，ctx.aborted() 可以中断请求\nv5.25.1 中的 ctx.closed() 可以主动关闭连接\n从简单路由开始：先熟悉基本的 GET/POST 路由\n理解 Context 抽象：这是框架的核心概念\n循序渐进学习中间件：先使用内置中间件，再尝试自定义\n关注性能优化选项：了解默认配置的作用\n探索在微服务架构中的应用\n研究与其他 Rust 生态系统的集成\n尝试贡献一些社区插件\n作为一个学生开发者，我认为 Hyperlane 是一个非常值得投入时间学习的框架。它不仅让我深入理解了 Web 开发的本质，还让我体会到了 Rust 在 Web 领域的强大潜力。如果你也在寻找一个性能强大且易于上手的 Rust Web 框架，Hyperlane 绝对值得一试！",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-13c3",
+          "publishedOn": "2025-06-13T18:09:51.000Z",
+          "wordCount": 840,
+          "title": "Hyperlane：新一代高性能Rust框架的实战体验",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2bpjtf3mqxw4k248xgn8.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-38hi",
+          "author": "Eastspire",
+          "description": "Day 1: First Encounter with Hyperlane\n\n\nI stumbled upon the Hyperlane Rust HTTP framework on GitHub and was immediately captivated by its performance metrics. The official documentation states:\n\"Hyperlane is a high-performance and lightweight Rust HTTP framework designed to simplify the development of modern web services while balancing flexibility and performance.\"\nI decided to use it for my distributed systems course project. I started with the Cargo.toml file:\n[dependencies]\nhyperlane = \"5.25.1\"\n\nToday, I delved into the design of Hyperlane's Context. In traditional frameworks, you would retrieve the request method like this:\nlet method = ctx.get_request().await.get_method();\n\nBut Hyperlane offers a more elegant approach:\nlet method = ctx.get_request_method().await;\n\nMy Understanding:\nT…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-38hi",
+          "publishedOn": "2025-06-13T18:08:48.000Z",
+          "wordCount": 1431,
+          "title": "Junior Year Self-Study Notes My Journey with the Hyperlane Framework",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwiiwnfnvghglvw2d6rut.png"
+        },
+        {
+          "id": "https://dev.to/maximlogunov/mastering-the-javascript-cache-api-a-comprehensive-guide-d38",
+          "author": "Maxim Logunov",
+          "description": "Introduction\n\n\nIn today's web development landscape, performance is paramount. Users expect fast, responsive web applications that work reliably, even in poor network conditions. The JavaScript Cache API is a powerful tool that enables developers to store network requests and retrieve them efficiently, significantly improving the user experience. This article will explore the Cache API in depth, covering its fundamentals, practical implementations, and best practices.\nThe Cache API is part of the Service Worker specification that provides a storage mechanism for Request/Response object pairs. Unlike other browser storage options (like localStorage or sessionStorage), the Cache API is specifically designed to handle HTTP responses, making it ideal for:\nOffline web applications\nResource cach…",
+          "link": "https://dev.to/maximlogunov/mastering-the-javascript-cache-api-a-comprehensive-guide-d38",
+          "publishedOn": "2025-06-13T17:59:54.000Z",
+          "wordCount": 1425,
+          "title": "Mastering the JavaScript Cache API: A Comprehensive Guide",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0ew9j9uwf7nv9efz60ph.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-3d5h",
+          "author": "Eastspire",
+          "description": "Day 1: First Encounter with Hyperlane\n\n\nI stumbled upon the Hyperlane Rust HTTP framework on GitHub and was immediately captivated by its performance metrics. The official documentation states:\n\"Hyperlane is a high-performance and lightweight Rust HTTP framework designed to simplify the development of modern web services while balancing flexibility and performance.\"\nI decided to use it for my distributed systems course project. I started with the Cargo.toml file:\n[dependencies]\nhyperlane = \"5.25.1\"\n\nToday, I delved into the design of Hyperlane's Context. In traditional frameworks, you would retrieve the request method like this:\nlet method = ctx.get_request().await.get_method();\n\nBut Hyperlane offers a more elegant approach:\nlet method = ctx.get_request_method().await;\n\nMy Understanding:\nT…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-3d5h",
+          "publishedOn": "2025-06-13T17:59:10.000Z",
+          "wordCount": 1440,
+          "title": "Junior Year Self-Study Notes My Journey with the Hyperlane Framework",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frbefzyhv5qg0bay70xkn.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-4jji",
+          "author": "Eastspire",
+          "description": "Hyperlane实时通信指南：WebSocket和SSE实战经验分享\n\n\n作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园实时聊天系统时，深入体验了它的 WebSocket 和 SSE 功能。这篇文章将分享我的实战经验。\n#[get]\nasync fn ws_route(ctx: Context) {\n    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();\n    let body = ctx.get_request_body().await;\n\n    ctx.set_response_header(\"Connection\", \"Upgrade\")\n        .await\n        .set_response_header(\"Upgrade\", \"websocket\")\n        .await\n        .set_response_body(key)\n        .await\n        .send_body()\n        .await;\n}\n\nasync fn handle_ws_message(ctx: Context) {\n    let message = ctx.get_ws_message().await;\n    match message {\n        WSMessage::Text(text) => {\n            // 处理文本消息\n            ctx.send_ws_text(format!(\"收到消息: {}\", text)).await;\n        }\n        WSMessage::Binary(data) => {\n            // 处理二进制消…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-4jji",
+          "publishedOn": "2025-06-13T17:50:39.000Z",
+          "wordCount": 971,
+          "title": "Hyperlane实时通信指南：WebSocket和SSE实战经验分享",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0vmssipzrutszmjr9ci5.png"
+        },
+        {
+          "id": "https://dev.to/theangeloreyes/what-really-stood-out-was-the-idea-that-structure-is-the-solution-not-more-apps-or-tools-thats-a-5hh3",
+          "author": "Angelo Reyes",
+          "description": "Remote Work Isn't Freedom Without Structure: What TDZ PRO Knows That Most Don't\nAnthony James ・ Jun 10\n#remotework\n        #productivity\n        #entrepreneurship\n        #mindset",
+          "link": "https://dev.to/theangeloreyes/what-really-stood-out-was-the-idea-that-structure-is-the-solution-not-more-apps-or-tools-thats-a-5hh3",
+          "publishedOn": "2025-06-13T17:49:48.000Z",
+          "wordCount": 729,
+          "title": "What really stood out was the idea that structure is the solution, not more apps or tools. That’s a shift in thinking for me.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fzovsom89r5vzwhks5fj6.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/xin-dai-rust-web-kuang-jia-de-gao-xing-neng-zhi-xuan-15oe",
+          "author": "Eastspire",
+          "description": "在当前的 Rust Web 框架生态中，Hyperlane 正逐步展现出其作为“新一代轻量级高性能框架”的强大竞争力。本文将通过与主流框架（如 Actix-Web、Axum）对比，全面剖析 Hyperlane 的优势，特别是在性能、特性集成、开发体验和底层架构方面的领先之处。\n\n\n\n框架\n依赖模型\n异步运行时\n中间件支持\nSSE/WebSocket\n路由匹配能力\n\n\n\n\nHyperlane\n仅依赖 Tokio + 标准库\nTokio\n✅ 支持请求/响应\n✅ 原生支持\n✅ 支持正则表达式\n\n\nActix-Web\n大量内部抽象层\nActix\n✅ 请求中间件\n部分支持（需插件）\n⚠️ 路径宏需显式配置\n\n\nAxum\nTower 架构复杂\nTokio\n✅ Tower 中间件\n✅ 需依赖层扩展\n⚠️ 动态路由较弱\n\n\n\n零平台依赖：纯 Rust 实现，跨平台一致性强，无需额外 C 库绑定。\n极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲处理，自动开启 TCP_NODELAY，默认关闭 SO_LINGER，适合高频请求环境。\n中间件机制灵活：支持 request_middleware 与 response_middleware 明确划分，便于请求生命周期控制。\n实时通信开箱即用：原生支持 WebSocket 与 SSE，无需第三方插件扩展。\n下面我们将拆解一个完整 Hyperlane 服务示例，说明其设计理念与开发者友好性。\nasync fn request_middleware(ctx: Context) {\n    let socket_addr = ctx.get_socket_addr_or_default_string().await;\n    ctx.set_response_header(SERVER, HYPERLANE)\n      …",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/xin-dai-rust-web-kuang-jia-de-gao-xing-neng-zhi-xuan-15oe",
+          "publishedOn": "2025-06-13T17:49:35.000Z",
+          "wordCount": 936,
+          "title": "新一代 Rust Web 框架的高性能之选",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyq15m3j7fhvjt4nbk4ds.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-nph",
+          "author": "Eastspire",
+          "description": "深入理解Hyperlane的中间件系统：一个大三学生的实践笔记\n\n\n作为一名大三计算机专业的学生，我在使用 Hyperlane 框架开发校园项目的过程中，对其中间件系统有了深入的理解。今天，我想分享一下我在实践中的心得体会。\ngraph TD\n    A[客户端请求] --> B[认证中间件]\n    B --> C[日志中间件]\n    C --> D[控制器]\n\nHyperlane 的中间件采用洋葱模型，请求从外层向内层传递，这种设计让请求处理流程清晰可控。\nasync fn request_middleware(ctx: Context) {\n    let socket_addr = ctx.get_socket_addr_or_default_string().await;\n    ctx.set_response_header(SERVER, HYPERLANE)\n        .await\n        .set_response_header(\"SocketAddr\", socket_addr)\n        .await;\n}\n\n相比其他框架需要通过 trait 或层注册中间件，Hyperlane 直接使用异步函数注册，更加直观。\nasync fn auth_middleware(ctx: Context) {\n    let token = ctx.get_request_header(\"Authorization\").await;\n    match token {\n        Some(token) => {\n            // 验证逻辑\n            ctx.set_request_data(\"user_id\", \"123\").await;\n        }\n        None => {\n           …",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-nph",
+          "publishedOn": "2025-06-13T17:48:28.000Z",
+          "wordCount": 877,
+          "title": "深入理解Hyperlane的中间件系统：一个大三学生的实践笔记",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9nuo9vrqyozgx0a15c0x.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-230a",
+          "author": "Eastspire",
+          "description": "Hyperlane性能优化实战：从理论到实践的深度探索\n\n\n作为一名大三计算机系的学生，我在使用 Hyperlane 开发高并发校园服务时，积累了不少性能优化的经验。这篇文章将从实战角度分享我的优化心得。\nserver\n    .enable_nodelay().await\n    .disable_linger().await\n    .http_line_buffer_size(4096).await\n    .run().await;\n\nwrk -c360 -d60s http://localhost:8000/\n\n\n\n\n框架\nQPS\n延迟\n内存占用\n\n\n\n\nTokio\n340,130\n1.2ms\n基准线\n\n\nHyperlane\n324,323\n1.5ms\n+5%\n\n\nRocket\n298,945\n1.8ms\n+15%\n\n\nGin (Go)\n242,570\n2.1ms\n+25%\n\n\n\nasync fn optimize_connection_pool() {\n    let pool = Pool::builder()\n        .max_size(100)\n        .min_idle(Some(10))\n        .build()\n        .await;\n\n    // 使用连接池\n    let conn = pool.get().await?;\n}\n\nasync fn reuse_buffers(ctx: Context) {\n    let buffer = get_buffer_from_pool().await;\n    ctx.set_response_body(buffer)\n        .await\n        .send_body()\n        .await;\n    return_buffer_to_po…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-230a",
+          "publishedOn": "2025-06-13T17:47:23.000Z",
+          "wordCount": 1031,
+          "title": "Hyperlane性能优化实战：从理论到实践的深度探索",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0wi8ebk4aqo4ozmcqfl1.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-3pa0",
+          "author": "Eastspire",
+          "description": "Hyperlane与微服务架构：校园应用的实战案例分析\n\n\n作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园服务时，尝试了微服务架构的实践。这篇文章将分享我在这个过程中的经验和思考。\n// 用户服务\n#[get]\nasync fn user_service(ctx: Context) {\n    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)\n        .await\n        .set_response_body(\"{\\\"service\\\": \\\"user\\\"}\");\n}\n\n// 商品服务\n#[get]\nasync fn product_service(ctx: Context) {\n    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)\n        .await\n        .set_response_body(\"{\\\"service\\\": \\\"product\\\"}\");\n}\n\nasync fn register_service(service_name: &str, port: u16) {\n    let server = Server::new()\n        .host(\"0.0.0.0\")\n        .await\n        .port(port)\n        .await;\n\n    // 向服务注册中心注册\n    register_to_discovery(service_name, port).await;\n}\n\nasync fn call_service(ctx: Context) {\n    let service_url = discover_service(\"use…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-3pa0",
+          "publishedOn": "2025-06-13T17:46:15.000Z",
+          "wordCount": 980,
+          "title": "Hyperlane与微服务架构：校园应用的实战案例分析",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fr6w5klrs6iszcx5dejtm.png"
+        },
+        {
+          "id": "https://dev.to/vantagemdm/top-apple-device-management-software-for-2025-easy-secure-n4n",
+          "author": "vantage mdm",
+          "description": "Apple device management software is critical for ensuring seamless operation, robust security, and efficient IT workflows. In 2025, several solutions stand out for their features, ease of use, and adaptability to different organizational needs. Let’s dive into the top options and why they are must-haves for any Apple-heavy environment.\nApple products are synonymous with reliability, innovation, and user satisfaction. With increasing adoption in corporate and educational settings, managing these devices effectively ensures that operations stay smooth and secure.\nSecurity Risks: With great technology comes great responsibility. Safeguarding sensitive data on Apple devices is a priority.\nCompatibility: Seamlessly integrating Apple devices with existing infrastructure is often complex.\nDevice …",
+          "link": "https://dev.to/vantagemdm/top-apple-device-management-software-for-2025-easy-secure-n4n",
+          "publishedOn": "2025-06-13T17:46:04.000Z",
+          "wordCount": 1543,
+          "title": "Top Apple Device Management Software for 2025 | Easy & Secure",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F940zxfgkh3wl1ml9oq10.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-3mci",
+          "author": "Eastspire",
+          "description": "Hyperlane：新一代高性能Rust框架的实战体验\n\n\n作为一名大三计算机专业的学生，我在最近的课程项目中深入使用了 Hyperlane 框架。这个被称为\"新一代轻量级高性能框架\"的 Rust Web 框架确实给我留下了深刻印象。本文将从实战角度，分享我对 Hyperlane 的使用体验。\n在项目开始时，我对比了几个主流的 Web 框架：\n\n\n\n框架\n依赖模型\n异步运行时\n中间件支持\nSSE/WebSocket\n路由匹配能力\n\n\n\n\nHyperlane\n仅依赖 Tokio + 标准库\nTokio\n✅ 支持请求/响应\n✅ 原生支持\n✅ 支持正则表达式\n\n\nActix-Web\n较多内部抽象层\nActix\n✅ 请求中间件\n部分支持(需插件)\n⚠️ 路径宏需显式配置\n\n\nAxum\n复杂的 Tower 架构\nTokio\n✅ Tower 中间件\n✅ 需依赖扩展\n⚠️ 动态路由较弱\n\n\n\n最终选择 Hyperlane 的原因是：\n极简的依赖关系\n完整的异步支持\n原生的 WebSocket 集成\n灵活的路由系统\nserver.enable_nodelay().await;\nserver.disable_linger().await;\nserver.http_line_buffer_size(4096).await;\n\nHyperlane 默认启用了这些性能优化选项，这意味着它为高并发连接场景预设了合适的 TCP 和缓冲区参数。\n在实际项目中，我使用 wrk 进行了压力测试：\nwrk -c360 -d60s http://localhost:8000/\n\n测试结果令人惊喜：\n\n\n\n框架\nQPS\n内存占用\n\n\n\n\nHyperlane\n324,323\n最低\n\n\nRocket\n298,945\n中等\n\n\nGin (Go)\n242,570\n较高\n\n\n\nserver\n    .host(\"0.0.0.0\").await\n    .port(60000).await\n    .route(\"/\", root_route).await\n    .route(\"/goods/{id:\\\\d+}\", goods_detail).await\n    .run().await\n    .unwrap();\n\n所有配置都采用异步链式调用模式，无需嵌套配置或宏组合。\n#[get]\nasync fn ws_route(ctx: Context) {\n    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();\n    ctx.set_response_body(key)\n        .await\n        .send_body()\n        .await;\n}\n\n原生的 WebSocket 支持让实时消息推送变得简单。\n#[post]\nasync fn sse_route(ctx: Context) {\n    ctx.set_response_header(CONTENT_TYPE, TEXT_EVENT_STREAM)\n        .await\n        .send()\n        .await;\n\n    for i in 0..10 {\n        ctx.set_response_body(format!(\"data:{}{}\", i, HTTP_DOUBLE_BR))\n            .await\n            .send_body()\n            .await;\n    }\n}\n\n零平台依赖：纯 Rust 实现，跨平台一致性强\n极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲\n灵活的中间件机制：支持请求和响应中间件，生命周期划分清晰\n开箱即用的实时通信：原生支持 WebSocket 和 SSE\nv4.22.0 后，ctx.aborted() 可以中断请求\nv5.25.1 中的 ctx.closed() 可以主动关闭连接\n从简单路由开始：先熟悉基本的 GET/POST 路由\n理解 Context 抽象：这是框架的核心概念\n循序渐进学习中间件：先使用内置中间件，再尝试自定义\n关注性能优化选项：了解默认配置的作用\n探索在微服务架构中的应用\n研究与其他 Rust 生态系统的集成\n尝试贡献一些社区插件\n作为一个学生开发者，我认为 Hyperlane 是一个非常值得投入时间学习的框架。它不仅让我深入理解了 Web 开发的本质，还让我体会到了 Rust 在 Web 领域的强大潜力。如果你也在寻找一个性能强大且易于上手的 Rust Web 框架，Hyperlane 绝对值得一试！",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-3mci",
+          "publishedOn": "2025-06-13T17:45:08.000Z",
+          "wordCount": 842,
+          "title": "Hyperlane：新一代高性能Rust框架的实战体验",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fuk33cla601yu6muhczaa.png"
+        },
+        {
           "id": "https://dev.to/aws-builders/what-is-amazon-nova-an-inside-look-at-aws-foundation-models-227e",
           "author": "Sumsuzzaman Chowdhury",
           "description": "Imagine having access to an AI model so powerful it could build applications, generate code, process documents, or answer complex queries with minimal tuning. Now imagine that same model is backed by the same infrastructure that powers Amazon.com. Welcome to Amazon Nova, AWS's answer to the rapidly evolving foundation model ecosystem.\nIf you're a mid-level AI developer, you’ve probably felt the whiplash of constant innovation—new LLMs every quarter, finicky setups, exploding costs. Amazon Nova isn’t just another model drop. It’s Amazon stepping into the foundation model race with serious firepower and real enterprise-grade solutions.\nNova promises speed, customizability, and tight integration with AWS services you already use—think SageMaker, Bedrock, S3, and IAM. That means fewer headache…",
@@ -16252,6 +16372,36 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://philmckinney.substack.com/p/i-convinced-hps-board-to-buy-palm",
+          "author": null,
+          "description": "Comments",
+          "link": "https://philmckinney.substack.com/p/i-convinced-hps-board-to-buy-palm",
+          "publishedOn": "2025-06-13T18:03:30.000Z",
+          "wordCount": null,
+          "title": "I Convinced HP's Board to Buy Palm for $1.2B. I Watched Them Kill It in 49 Days",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.thefp.com/p/im-the-cto-of-palantir-today-i-join",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.thefp.com/p/im-the-cto-of-palantir-today-i-join",
+          "publishedOn": "2025-06-13T17:57:16.000Z",
+          "wordCount": 14864,
+          "title": "I'm the CTO of Palantir. Today I Join the Army",
+          "imageUrl": "https://substackcdn.com/image/fetch/w_1200,h_600,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7e0ea256-398e-4b02-a87b-16615f106875_1932x1274.jpeg"
+        },
+        {
+          "id": "https://akkartik.name/freewheeling/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://akkartik.name/freewheeling/",
+          "publishedOn": "2025-06-13T17:27:20.000Z",
+          "wordCount": 3208,
+          "title": "Using computers more freely and safely (2023)",
+          "imageUrl": null
+        },
+        {
           "id": "https://quomodocumque.wordpress.com/2017/06/27/when-random-people-give-money-to-random-other-people/",
           "author": null,
           "description": "Comments",
@@ -18100,6 +18250,16 @@
           "wordCount": 18732,
           "title": "The hunt for Marie Curie's radioactive fingerprints in Paris",
           "imageUrl": "https://ychef.files.bbci.co.uk/624x351/p0lgl2vs.jpg"
+        },
+        {
+          "id": "https://blog.polybdenum.com/2020/07/04/subtype-inference-by-example-part-1-introducing-cubiml.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://blog.polybdenum.com/2020/07/04/subtype-inference-by-example-part-1-introducing-cubiml.html",
+          "publishedOn": "2025-06-10T00:04:40.000Z",
+          "wordCount": 2755,
+          "title": "Subtype Inference by Example",
+          "imageUrl": null
         },
         {
           "id": "https://justin.searls.co/posts/why-agents-are-bad-pair-programmers/",
@@ -21810,16 +21970,6 @@
           "wordCount": 3320,
           "title": "Ask HN: How do I learn practical electronic repair?",
           "imageUrl": null
-        },
-        {
-          "id": "https://a16z.com/geo-over-seo/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://a16z.com/geo-over-seo/",
-          "publishedOn": "2025-05-30T05:48:25.000Z",
-          "wordCount": 3300,
-          "title": "How Generative Engine Optimization (GEO) rewrites the rules of search",
-          "imageUrl": "https://d1lamhf6l6yk6d.cloudfront.net/uploads/2025/05/250513-RIP-to-SEO-Yoast-1200x627-1.png"
         }
       ]
     },
@@ -24191,6 +24341,46 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "c16822b7-82a2-449f-bbc9-9f488bfce38f",
+          "author": "Benjamin Schiller",
+          "description": "Walmart and Amazon are both considering issuing stablecoins, potentially revolutionizing payments.",
+          "link": "https://www.coindesk.com/news-analysis/2025/06/13/weekly-recap-milestones-galore-for-stablecoins",
+          "publishedOn": "2025-06-13T17:49:08.000Z",
+          "wordCount": 7301,
+          "title": "Weekly Recap: Milestones Galore for Stablecoins",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/9093467bc2cf0db6eb5f4bcdcdcdda397789ccb8-1500x1000.jpg"
+        },
+        {
+          "id": "cc9710c7-c958-4e14-b7e6-98ad5d827709",
+          "author": "Siamak Masnavi",
+          "description": "Solana’s SOL sharp pullback contrasts with Standard Chartered’s late-May forecast calling for nearly 90% upside by the end of the year.",
+          "link": "https://www.coindesk.com/markets/2025/06/13/solana-s-sol-falls-8-to-usd147-despite-standard-chartered-s-usd275-year-end-target",
+          "publishedOn": "2025-06-13T17:46:52.000Z",
+          "wordCount": 8519,
+          "title": "Solana's SOL Falls 8% to $147 Despite Standard Chartered’s $275 Year-End Target",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/43cc97b01b832b70b50c537be19d7bb82952146c-700x430.png"
+        },
+        {
+          "id": "e4ddd530-7f7c-472e-8cfc-fbe5a7ef7950",
+          "author": "Siamak Masnavi",
+          "description": "Cardano's ADA token dipped more than 6% as Charles Hoskinson defended a proposal to deploy 140M ADA from the treasury to kick-start stablecoin liquidity.",
+          "link": "https://www.coindesk.com/markets/2025/06/13/ada-drops-6-as-cardano-community-debates-usd100m-stablecoin-liquidity-proposal",
+          "publishedOn": "2025-06-13T17:05:04.000Z",
+          "wordCount": 8586,
+          "title": "ADA Drops 6% as Cardano Community Debates $100M Stablecoin Liquidity Proposal",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/1e04aeaf695ada12e7e7c900d227bda447630da3-700x430.png"
+        },
+        {
+          "id": "ac02cff0-a1fb-40b7-b088-5d7c44f579ac",
+          "author": "Oliver Knight",
+          "description": "Despite recent price struggles, NEAR Protocol becomes second most used L1 blockchain with 46 million monthly active users, signaling strong fundamentals amid market volatility.",
+          "link": "https://www.coindesk.com/markets/2025/06/13/near-protocol-surges-4-after-12-8-correction-user-growth-shines",
+          "publishedOn": "2025-06-13T16:19:45.000Z",
+          "wordCount": 8396,
+          "title": "NEAR Protocol Surges 4% After 12.8% Correction, User Growth Shines",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/5eaeca61ec9039c55a0c448c8adca6312f85b96a-700x430.png"
+        },
         {
           "id": "66633d67-ce8f-4fc9-8e0b-4b0764d4de68",
           "author": "Oliver Knight",
@@ -27458,6 +27648,51 @@
       "feedUrl": "https://cointelegraph.com/rss",
       "siteUrl": "https://cointelegraph.com",
       "articles": [
+        {
+          "id": "https://cointelegraph.com/news/saylor-bitcoin-fix-apple-stock-buybacks-finance-redefined",
+          "author": "Cointelegraph by Zoltan Vardai",
+          "description": "Bitcoin exposure may provide more shareholder value to Apple investors, as the tech firm’s stock is struggling to reverse a downtrend.",
+          "link": "https://cointelegraph.com/news/saylor-bitcoin-fix-apple-stock-buybacks-finance-redefined?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publishedOn": "2025-06-13T18:00:00.000Z",
+          "wordCount": null,
+          "title": "Saylor says Bitcoin could fix Apple’s stock buybacks: Finance Redefined",
+          "enclosure": {
+            "url": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDYvMDE5NzY4YmUtMGFhYi03MmFiLWI3NDctZjNiMTU5OGRkNzc2.jpg",
+            "length": "528",
+            "type": "image/jpg"
+          },
+          "imageUrl": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDYvMDE5NzY4YmUtMGFhYi03MmFiLWI3NDctZjNiMTU5OGRkNzc2.jpg"
+        },
+        {
+          "id": "https://cointelegraph.com/news/price-predictions-6-13-btc-eth-xrp-bnb-sol-doge-ada-hype-sui-link",
+          "author": "Cointelegraph by Rakesh Upadhyay",
+          "description": "Dip buyers stepped in to absorb this week’s downside in Bitcoin and select altcoins.",
+          "link": "https://cointelegraph.com/news/price-predictions-6-13-btc-eth-xrp-bnb-sol-doge-ada-hype-sui-link?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publishedOn": "2025-06-13T17:39:41.000Z",
+          "wordCount": null,
+          "title": "Price predictions 6/13: BTC, ETH, XRP, BNB, SOL, DOGE, ADA, HYPE, SUI, LINK",
+          "enclosure": {
+            "url": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDYvMDE5NzZhMjctZmI1YS03OGE2LTljMGQtOGFlMDliYzc2NzY5.jpg",
+            "length": "528",
+            "type": "image/jpg"
+          },
+          "imageUrl": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDYvMDE5NzZhMjctZmI1YS03OGE2LTljMGQtOGFlMDliYzc2NzY5.jpg"
+        },
+        {
+          "id": "https://cointelegraph.com/news/closing-strait-hormuz-biggest-risk-btc-price-weekend",
+          "author": "Cointelegraph by Vince Quill",
+          "description": "Risk assets would take a significant hit if Iran closes the Strait of Hormuz, a narrow waterway supplying 20% of the global oil trade.",
+          "link": "https://cointelegraph.com/news/closing-strait-hormuz-biggest-risk-btc-price-weekend?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publishedOn": "2025-06-13T17:08:37.000Z",
+          "wordCount": null,
+          "title": "Closing Strait of Hormuz is biggest risk to BTC price this weekend — Analyst",
+          "enclosure": {
+            "url": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDEvMDE5NGIwOGMtOGUwNy03NzU0LWI2MTEtMjJlMjZhZmNlOWU0.jpg",
+            "length": "528",
+            "type": "image/jpg"
+          },
+          "imageUrl": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDEvMDE5NGIwOGMtOGUwNy03NzU0LWI2MTEtMjJlMjZhZmNlOWU0.jpg"
+        },
         {
           "id": "https://cointelegraph.com/news/how-to-legally-stake-crypto",
           "author": "Cointelegraph by Dilip Kumar Patairya",

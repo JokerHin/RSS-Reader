@@ -2,10 +2,725 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-06-13T17:08:30.741Z</updated>
+    <updated>2025-06-13T18:13:11.449Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane：新一代高性能Rust框架的实战体验]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-13c3</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-13c3"/>
+        <updated>2025-06-13T18:09:51.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane：新一代高性能Rust框架的实战体验
+
+
+作为一名大三计算机专业的学生，我在最近的课程项目中深入使用了 Hyperlane 框架。这个被称为"新一代轻量级高性能框架"的 Rust Web 框架确实给我留下了深刻印象。本文将从实战角度，分享我对 Hyperlane 的使用体验。
+在项目开始时，我对比了几个主流的 Web 框架：
+
+
+
+框架
+依赖模型
+异步运行时
+中间件支持
+SSE/WebSocket
+路由匹配能力
+
+
+
+
+Hyperlane
+仅依赖 Tokio + 标准库
+Tokio
+✅ 支持请求/响应
+✅ 原生支持
+✅ 支持正则表达式
+
+
+Actix-Web
+较多内部抽象层
+Actix
+✅ 请求中间件
+部分支持(需插件)
+⚠️ 路径宏需显式配置
+
+
+Axum
+复杂的 Tower 架构
+Tokio
+✅ Tower 中间件
+✅ 需依赖扩展
+⚠️ 动态路由较弱
+
+
+
+最终选择 Hyperlane 的原因是：
+极简的依赖关系
+完整的异步支持
+原生的 WebSocket 集成
+灵活的路由系统
+server.enable_nodelay().await;
+server.disable_linger().await;
+server.http_line_buffer_size(4096).await;
+
+Hyperlane 默认启用了这些性能优化选项，这意味着它为高并发连接场景预设了合适的 TCP 和缓冲区参数。
+在实际项目中，我使用 wrk 进行了压力测试：
+wrk -c360 -d60s http://localhost:8000/
+
+测试结果令人惊喜：
+
+
+
+框架
+QPS
+内存占用
+
+
+
+
+Hyperlane
+324,323
+最低
+
+
+Rocket
+298,945
+中等
+
+
+Gin (Go)
+242,570
+较高
+
+
+
+server
+    .host("0.0.0.0").await
+    .port(60000).await
+    .route("/", root_route).await
+    .route("/goods/{id:\\d+}", goods_detail).await
+    .run().await
+    .unwrap();
+
+所有配置都采用异步链式调用模式，无需嵌套配置或宏组合。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    ctx.set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+原生的 WebSocket 支持让实时消息推送变得简单。
+#[post]
+async fn sse_route(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, TEXT_EVENT_STREAM)
+        .await
+        .send()
+        .await;
+
+    for i in 0..10 {
+        ctx.set_response_body(format!("data:{}{}", i, HTTP_DOUBLE_BR))
+            .await
+            .send_body()
+            .await;
+    }
+}
+
+零平台依赖：纯 Rust 实现，跨平台一致性强
+极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲
+灵活的中间件机制：支持请求和响应中间件，生命周期划分清晰
+开箱即用的实时通信：原生支持 WebSocket 和 SSE
+v4.22.0 后，ctx.aborted() 可以中断请求
+v5.25.1 中的 ctx.closed() 可以主动关闭连接
+从简单路由开始：先熟悉基本的 GET/POST 路由
+理解 Context 抽象：这是框架的核心概念
+循序渐进学习中间件：先使用内置中间件，再尝试自定义
+关注性能优化选项：了解默认配置的作用
+探索在微服务架构中的应用
+研究与其他 Rust 生态系统的集成
+尝试贡献一些社区插件
+作为一个学生开发者，我认为 Hyperlane 是一个非常值得投入时间学习的框架。它不仅让我深入理解了 Web 开发的本质，还让我体会到了 Rust 在 Web 领域的强大潜力。如果你也在寻找一个性能强大且易于上手的 Rust Web 框架，Hyperlane 绝对值得一试！]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Junior Year Self-Study Notes My Journey with the Hyperlane Framework]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-38hi</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-38hi"/>
+        <updated>2025-06-13T18:08:48.000Z</updated>
+        <summary type="html"><![CDATA[Day 1: First Encounter with Hyperlane
+
+
+I stumbled upon the Hyperlane Rust HTTP framework on GitHub and was immediately captivated by its performance metrics. The official documentation states:
+"Hyperlane is a high-performance and lightweight Rust HTTP framework designed to simplify the development of modern web services while balancing flexibility and performance."
+I decided to use it for my distributed systems course project. I started with the Cargo.toml file:
+[dependencies]
+hyperlane = "5.25.1"
+
+Today, I delved into the design of Hyperlane's Context. In traditional frameworks, you would retrieve the request method like this:
+let method = ctx.get_request().await.get_method();
+
+But Hyperlane offers a more elegant approach:
+let method = ctx.get_request_method().await;
+
+My Understanding:
+T…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Convinced HP's Board to Buy Palm for $1.2B. I Watched Them Kill It in 49 Days]]></title>
+        <id>https://philmckinney.substack.com/p/i-convinced-hps-board-to-buy-palm</id>
+        <link href="https://philmckinney.substack.com/p/i-convinced-hps-board-to-buy-palm"/>
+        <updated>2025-06-13T18:03:30.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Saylor says Bitcoin could fix Apple’s stock buybacks: Finance Redefined]]></title>
+        <id>https://cointelegraph.com/news/saylor-bitcoin-fix-apple-stock-buybacks-finance-redefined</id>
+        <link href="https://cointelegraph.com/news/saylor-bitcoin-fix-apple-stock-buybacks-finance-redefined?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-06-13T18:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Bitcoin exposure may provide more shareholder value to Apple investors, as the tech firm’s stock is struggling to reverse a downtrend.]]></summary>
+        <author>
+            <name>Cointelegraph by Zoltan Vardai</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mastering the JavaScript Cache API: A Comprehensive Guide]]></title>
+        <id>https://dev.to/maximlogunov/mastering-the-javascript-cache-api-a-comprehensive-guide-d38</id>
+        <link href="https://dev.to/maximlogunov/mastering-the-javascript-cache-api-a-comprehensive-guide-d38"/>
+        <updated>2025-06-13T17:59:54.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+In today's web development landscape, performance is paramount. Users expect fast, responsive web applications that work reliably, even in poor network conditions. The JavaScript Cache API is a powerful tool that enables developers to store network requests and retrieve them efficiently, significantly improving the user experience. This article will explore the Cache API in depth, covering its fundamentals, practical implementations, and best practices.
+The Cache API is part of the Service Worker specification that provides a storage mechanism for Request/Response object pairs. Unlike other browser storage options (like localStorage or sessionStorage), the Cache API is specifically designed to handle HTTP responses, making it ideal for:
+Offline web applications
+Resource cach…]]></summary>
+        <author>
+            <name>Maxim Logunov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Junior Year Self-Study Notes My Journey with the Hyperlane Framework]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-3d5h</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-3d5h"/>
+        <updated>2025-06-13T17:59:10.000Z</updated>
+        <summary type="html"><![CDATA[Day 1: First Encounter with Hyperlane
+
+
+I stumbled upon the Hyperlane Rust HTTP framework on GitHub and was immediately captivated by its performance metrics. The official documentation states:
+"Hyperlane is a high-performance and lightweight Rust HTTP framework designed to simplify the development of modern web services while balancing flexibility and performance."
+I decided to use it for my distributed systems course project. I started with the Cargo.toml file:
+[dependencies]
+hyperlane = "5.25.1"
+
+Today, I delved into the design of Hyperlane's Context. In traditional frameworks, you would retrieve the request method like this:
+let method = ctx.get_request().await.get_method();
+
+But Hyperlane offers a more elegant approach:
+let method = ctx.get_request_method().await;
+
+My Understanding:
+T…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I'm the CTO of Palantir. Today I Join the Army]]></title>
+        <id>https://www.thefp.com/p/im-the-cto-of-palantir-today-i-join</id>
+        <link href="https://www.thefp.com/p/im-the-cto-of-palantir-today-i-join"/>
+        <updated>2025-06-13T17:57:16.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane实时通信指南：WebSocket和SSE实战经验分享]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-4jji</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-4jji"/>
+        <updated>2025-06-13T17:50:39.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane实时通信指南：WebSocket和SSE实战经验分享
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园实时聊天系统时，深入体验了它的 WebSocket 和 SSE 功能。这篇文章将分享我的实战经验。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    let body = ctx.get_request_body().await;
+
+    ctx.set_response_header("Connection", "Upgrade")
+        .await
+        .set_response_header("Upgrade", "websocket")
+        .await
+        .set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+async fn handle_ws_message(ctx: Context) {
+    let message = ctx.get_ws_message().await;
+    match message {
+        WSMessage::Text(text) => {
+            // 处理文本消息
+            ctx.send_ws_text(format!("收到消息: {}", text)).await;
+        }
+        WSMessage::Binary(data) => {
+            // 处理二进制消…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What really stood out was the idea that structure is the solution, not more apps or tools. That’s a shift in thinking for me.]]></title>
+        <id>https://dev.to/theangeloreyes/what-really-stood-out-was-the-idea-that-structure-is-the-solution-not-more-apps-or-tools-thats-a-5hh3</id>
+        <link href="https://dev.to/theangeloreyes/what-really-stood-out-was-the-idea-that-structure-is-the-solution-not-more-apps-or-tools-thats-a-5hh3"/>
+        <updated>2025-06-13T17:49:48.000Z</updated>
+        <summary type="html"><![CDATA[Remote Work Isn't Freedom Without Structure: What TDZ PRO Knows That Most Don't
+Anthony James ・ Jun 10
+#remotework
+        #productivity
+        #entrepreneurship
+        #mindset]]></summary>
+        <author>
+            <name>Angelo Reyes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[新一代 Rust Web 框架的高性能之选]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/xin-dai-rust-web-kuang-jia-de-gao-xing-neng-zhi-xuan-15oe</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/xin-dai-rust-web-kuang-jia-de-gao-xing-neng-zhi-xuan-15oe"/>
+        <updated>2025-06-13T17:49:35.000Z</updated>
+        <summary type="html"><![CDATA[在当前的 Rust Web 框架生态中，Hyperlane 正逐步展现出其作为“新一代轻量级高性能框架”的强大竞争力。本文将通过与主流框架（如 Actix-Web、Axum）对比，全面剖析 Hyperlane 的优势，特别是在性能、特性集成、开发体验和底层架构方面的领先之处。
+
+
+
+框架
+依赖模型
+异步运行时
+中间件支持
+SSE/WebSocket
+路由匹配能力
+
+
+
+
+Hyperlane
+仅依赖 Tokio + 标准库
+Tokio
+✅ 支持请求/响应
+✅ 原生支持
+✅ 支持正则表达式
+
+
+Actix-Web
+大量内部抽象层
+Actix
+✅ 请求中间件
+部分支持（需插件）
+⚠️ 路径宏需显式配置
+
+
+Axum
+Tower 架构复杂
+Tokio
+✅ Tower 中间件
+✅ 需依赖层扩展
+⚠️ 动态路由较弱
+
+
+
+零平台依赖：纯 Rust 实现，跨平台一致性强，无需额外 C 库绑定。
+极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲处理，自动开启 TCP_NODELAY，默认关闭 SO_LINGER，适合高频请求环境。
+中间件机制灵活：支持 request_middleware 与 response_middleware 明确划分，便于请求生命周期控制。
+实时通信开箱即用：原生支持 WebSocket 与 SSE，无需第三方插件扩展。
+下面我们将拆解一个完整 Hyperlane 服务示例，说明其设计理念与开发者友好性。
+async fn request_middleware(ctx: Context) {
+    let socket_addr = ctx.get_socket_addr_or_default_string().await;
+    ctx.set_response_header(SERVER, HYPERLANE)
+      …]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Weekly Recap: Milestones Galore for Stablecoins]]></title>
+        <id>c16822b7-82a2-449f-bbc9-9f488bfce38f</id>
+        <link href="https://www.coindesk.com/news-analysis/2025/06/13/weekly-recap-milestones-galore-for-stablecoins"/>
+        <updated>2025-06-13T17:49:08.000Z</updated>
+        <summary type="html"><![CDATA[Walmart and Amazon are both considering issuing stablecoins, potentially revolutionizing payments.]]></summary>
+        <author>
+            <name>Benjamin Schiller</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入理解Hyperlane的中间件系统：一个大三学生的实践笔记]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-nph</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-nph"/>
+        <updated>2025-06-13T17:48:28.000Z</updated>
+        <summary type="html"><![CDATA[深入理解Hyperlane的中间件系统：一个大三学生的实践笔记
+
+
+作为一名大三计算机专业的学生，我在使用 Hyperlane 框架开发校园项目的过程中，对其中间件系统有了深入的理解。今天，我想分享一下我在实践中的心得体会。
+graph TD
+    A[客户端请求] --> B[认证中间件]
+    B --> C[日志中间件]
+    C --> D[控制器]
+
+Hyperlane 的中间件采用洋葱模型，请求从外层向内层传递，这种设计让请求处理流程清晰可控。
+async fn request_middleware(ctx: Context) {
+    let socket_addr = ctx.get_socket_addr_or_default_string().await;
+    ctx.set_response_header(SERVER, HYPERLANE)
+        .await
+        .set_response_header("SocketAddr", socket_addr)
+        .await;
+}
+
+相比其他框架需要通过 trait 或层注册中间件，Hyperlane 直接使用异步函数注册，更加直观。
+async fn auth_middleware(ctx: Context) {
+    let token = ctx.get_request_header("Authorization").await;
+    match token {
+        Some(token) => {
+            // 验证逻辑
+            ctx.set_request_data("user_id", "123").await;
+        }
+        None => {
+           …]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane性能优化实战：从理论到实践的深度探索]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-230a</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-230a"/>
+        <updated>2025-06-13T17:47:23.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane性能优化实战：从理论到实践的深度探索
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发高并发校园服务时，积累了不少性能优化的经验。这篇文章将从实战角度分享我的优化心得。
+server
+    .enable_nodelay().await
+    .disable_linger().await
+    .http_line_buffer_size(4096).await
+    .run().await;
+
+wrk -c360 -d60s http://localhost:8000/
+
+
+
+
+框架
+QPS
+延迟
+内存占用
+
+
+
+
+Tokio
+340,130
+1.2ms
+基准线
+
+
+Hyperlane
+324,323
+1.5ms
++5%
+
+
+Rocket
+298,945
+1.8ms
++15%
+
+
+Gin (Go)
+242,570
+2.1ms
++25%
+
+
+
+async fn optimize_connection_pool() {
+    let pool = Pool::builder()
+        .max_size(100)
+        .min_idle(Some(10))
+        .build()
+        .await;
+
+    // 使用连接池
+    let conn = pool.get().await?;
+}
+
+async fn reuse_buffers(ctx: Context) {
+    let buffer = get_buffer_from_pool().await;
+    ctx.set_response_body(buffer)
+        .await
+        .send_body()
+        .await;
+    return_buffer_to_po…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Solana's SOL Falls 8% to $147 Despite Standard Chartered’s $275 Year-End Target]]></title>
+        <id>cc9710c7-c958-4e14-b7e6-98ad5d827709</id>
+        <link href="https://www.coindesk.com/markets/2025/06/13/solana-s-sol-falls-8-to-usd147-despite-standard-chartered-s-usd275-year-end-target"/>
+        <updated>2025-06-13T17:46:52.000Z</updated>
+        <summary type="html"><![CDATA[Solana’s SOL sharp pullback contrasts with Standard Chartered’s late-May forecast calling for nearly 90% upside by the end of the year.]]></summary>
+        <author>
+            <name>Siamak Masnavi</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane与微服务架构：校园应用的实战案例分析]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-3pa0</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-3pa0"/>
+        <updated>2025-06-13T17:46:15.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane与微服务架构：校园应用的实战案例分析
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园服务时，尝试了微服务架构的实践。这篇文章将分享我在这个过程中的经验和思考。
+// 用户服务
+#[get]
+async fn user_service(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)
+        .await
+        .set_response_body("{\"service\": \"user\"}");
+}
+
+// 商品服务
+#[get]
+async fn product_service(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)
+        .await
+        .set_response_body("{\"service\": \"product\"}");
+}
+
+async fn register_service(service_name: &str, port: u16) {
+    let server = Server::new()
+        .host("0.0.0.0")
+        .await
+        .port(port)
+        .await;
+
+    // 向服务注册中心注册
+    register_to_discovery(service_name, port).await;
+}
+
+async fn call_service(ctx: Context) {
+    let service_url = discover_service("use…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Top Apple Device Management Software for 2025 | Easy & Secure]]></title>
+        <id>https://dev.to/vantagemdm/top-apple-device-management-software-for-2025-easy-secure-n4n</id>
+        <link href="https://dev.to/vantagemdm/top-apple-device-management-software-for-2025-easy-secure-n4n"/>
+        <updated>2025-06-13T17:46:04.000Z</updated>
+        <summary type="html"><![CDATA[Apple device management software is critical for ensuring seamless operation, robust security, and efficient IT workflows. In 2025, several solutions stand out for their features, ease of use, and adaptability to different organizational needs. Let’s dive into the top options and why they are must-haves for any Apple-heavy environment.
+Apple products are synonymous with reliability, innovation, and user satisfaction. With increasing adoption in corporate and educational settings, managing these devices effectively ensures that operations stay smooth and secure.
+Security Risks: With great technology comes great responsibility. Safeguarding sensitive data on Apple devices is a priority.
+Compatibility: Seamlessly integrating Apple devices with existing infrastructure is often complex.
+Device …]]></summary>
+        <author>
+            <name>vantage mdm</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane：新一代高性能Rust框架的实战体验]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-3mci</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-3mci"/>
+        <updated>2025-06-13T17:45:08.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane：新一代高性能Rust框架的实战体验
+
+
+作为一名大三计算机专业的学生，我在最近的课程项目中深入使用了 Hyperlane 框架。这个被称为"新一代轻量级高性能框架"的 Rust Web 框架确实给我留下了深刻印象。本文将从实战角度，分享我对 Hyperlane 的使用体验。
+在项目开始时，我对比了几个主流的 Web 框架：
+
+
+
+框架
+依赖模型
+异步运行时
+中间件支持
+SSE/WebSocket
+路由匹配能力
+
+
+
+
+Hyperlane
+仅依赖 Tokio + 标准库
+Tokio
+✅ 支持请求/响应
+✅ 原生支持
+✅ 支持正则表达式
+
+
+Actix-Web
+较多内部抽象层
+Actix
+✅ 请求中间件
+部分支持(需插件)
+⚠️ 路径宏需显式配置
+
+
+Axum
+复杂的 Tower 架构
+Tokio
+✅ Tower 中间件
+✅ 需依赖扩展
+⚠️ 动态路由较弱
+
+
+
+最终选择 Hyperlane 的原因是：
+极简的依赖关系
+完整的异步支持
+原生的 WebSocket 集成
+灵活的路由系统
+server.enable_nodelay().await;
+server.disable_linger().await;
+server.http_line_buffer_size(4096).await;
+
+Hyperlane 默认启用了这些性能优化选项，这意味着它为高并发连接场景预设了合适的 TCP 和缓冲区参数。
+在实际项目中，我使用 wrk 进行了压力测试：
+wrk -c360 -d60s http://localhost:8000/
+
+测试结果令人惊喜：
+
+
+
+框架
+QPS
+内存占用
+
+
+
+
+Hyperlane
+324,323
+最低
+
+
+Rocket
+298,945
+中等
+
+
+Gin (Go)
+242,570
+较高
+
+
+
+server
+    .host("0.0.0.0").await
+    .port(60000).await
+    .route("/", root_route).await
+    .route("/goods/{id:\\d+}", goods_detail).await
+    .run().await
+    .unwrap();
+
+所有配置都采用异步链式调用模式，无需嵌套配置或宏组合。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    ctx.set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+原生的 WebSocket 支持让实时消息推送变得简单。
+#[post]
+async fn sse_route(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, TEXT_EVENT_STREAM)
+        .await
+        .send()
+        .await;
+
+    for i in 0..10 {
+        ctx.set_response_body(format!("data:{}{}", i, HTTP_DOUBLE_BR))
+            .await
+            .send_body()
+            .await;
+    }
+}
+
+零平台依赖：纯 Rust 实现，跨平台一致性强
+极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲
+灵活的中间件机制：支持请求和响应中间件，生命周期划分清晰
+开箱即用的实时通信：原生支持 WebSocket 和 SSE
+v4.22.0 后，ctx.aborted() 可以中断请求
+v5.25.1 中的 ctx.closed() 可以主动关闭连接
+从简单路由开始：先熟悉基本的 GET/POST 路由
+理解 Context 抽象：这是框架的核心概念
+循序渐进学习中间件：先使用内置中间件，再尝试自定义
+关注性能优化选项：了解默认配置的作用
+探索在微服务架构中的应用
+研究与其他 Rust 生态系统的集成
+尝试贡献一些社区插件
+作为一个学生开发者，我认为 Hyperlane 是一个非常值得投入时间学习的框架。它不仅让我深入理解了 Web 开发的本质，还让我体会到了 Rust 在 Web 领域的强大潜力。如果你也在寻找一个性能强大且易于上手的 Rust Web 框架，Hyperlane 绝对值得一试！]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Price predictions 6/13: BTC, ETH, XRP, BNB, SOL, DOGE, ADA, HYPE, SUI, LINK]]></title>
+        <id>https://cointelegraph.com/news/price-predictions-6-13-btc-eth-xrp-bnb-sol-doge-ada-hype-sui-link</id>
+        <link href="https://cointelegraph.com/news/price-predictions-6-13-btc-eth-xrp-bnb-sol-doge-ada-hype-sui-link?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-06-13T17:39:41.000Z</updated>
+        <summary type="html"><![CDATA[Dip buyers stepped in to absorb this week’s downside in Bitcoin and select altcoins.]]></summary>
+        <author>
+            <name>Cointelegraph by Rakesh Upadhyay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Using computers more freely and safely (2023)]]></title>
+        <id>https://akkartik.name/freewheeling/</id>
+        <link href="https://akkartik.name/freewheeling/"/>
+        <updated>2025-06-13T17:27:20.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Closing Strait of Hormuz is biggest risk to BTC price this weekend — Analyst]]></title>
+        <id>https://cointelegraph.com/news/closing-strait-hormuz-biggest-risk-btc-price-weekend</id>
+        <link href="https://cointelegraph.com/news/closing-strait-hormuz-biggest-risk-btc-price-weekend?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-06-13T17:08:37.000Z</updated>
+        <summary type="html"><![CDATA[Risk assets would take a significant hit if Iran closes the Strait of Hormuz, a narrow waterway supplying 20% of the global oil trade.]]></summary>
+        <author>
+            <name>Cointelegraph by Vince Quill</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ADA Drops 6% as Cardano Community Debates $100M Stablecoin Liquidity Proposal]]></title>
+        <id>e4ddd530-7f7c-472e-8cfc-fbe5a7ef7950</id>
+        <link href="https://www.coindesk.com/markets/2025/06/13/ada-drops-6-as-cardano-community-debates-usd100m-stablecoin-liquidity-proposal"/>
+        <updated>2025-06-13T17:05:04.000Z</updated>
+        <summary type="html"><![CDATA[Cardano's ADA token dipped more than 6% as Charles Hoskinson defended a proposal to deploy 140M ADA from the treasury to kick-start stablecoin liquidity.]]></summary>
+        <author>
+            <name>Siamak Masnavi</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[What is Amazon Nova? An Inside Look at AWS Foundation Models]]></title>
         <id>https://dev.to/aws-builders/what-is-amazon-nova-an-inside-look-at-aws-foundation-models-227e</id>
@@ -510,6 +1225,16 @@ async fn call_service(ctx: Context) {
     let service_url = discover_service("use…]]></summary>
         <author>
             <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[NEAR Protocol Surges 4% After 12.8% Correction, User Growth Shines]]></title>
+        <id>ac02cff0-a1fb-40b7-b088-5d7c44f579ac</id>
+        <link href="https://www.coindesk.com/markets/2025/06/13/near-protocol-surges-4-after-12-8-correction-user-growth-shines"/>
+        <updated>2025-06-13T16:19:45.000Z</updated>
+        <summary type="html"><![CDATA[Despite recent price struggles, NEAR Protocol becomes second most used L1 blockchain with 46 million monthly active users, signaling strong fundamentals amid market volatility.]]></summary>
+        <author>
+            <name>Oliver Knight</name>
         </author>
     </entry>
     <entry>
@@ -27070,6 +27795,16 @@ The post HONOR X6c Hits The Shelves At RM599 appeared first on Lowyat.NET.]]></s
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Subtype Inference by Example]]></title>
+        <id>https://blog.polybdenum.com/2020/07/04/subtype-inference-by-example-part-1-introducing-cubiml.html</id>
+        <link href="https://blog.polybdenum.com/2020/07/04/subtype-inference-by-example-part-1-introducing-cubiml.html"/>
+        <updated>2025-06-10T00:04:40.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Why agents are bad pair programmers]]></title>
         <id>https://justin.searls.co/posts/why-agents-are-bad-pair-programmers/</id>
         <link href="https://justin.searls.co/posts/why-agents-are-bad-pair-programmers/"/>
@@ -52806,16 +53541,6 @@ The post JBL Flip 7, Charge 6 Land In Malaysia; Priced From RM799 appeared first
         <summary type="html"><![CDATA[Back in April, OpenAIannounced it was rolling back an update to its GPT-4o model that made ChatGPT’s responses to user queries too sycophantic.  An AI model that acts in an overly agreeable and flattering way is more than just annoying. It could reinforce users’ incorrect beliefs, mislead people, and spread misinformation that can be dangerous—a…]]></summary>
         <author>
             <name>Rhiannon Williams</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How Generative Engine Optimization (GEO) rewrites the rules of search]]></title>
-        <id>https://a16z.com/geo-over-seo/</id>
-        <link href="https://a16z.com/geo-over-seo/"/>
-        <updated>2025-05-30T05:48:25.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
