@@ -2,10 +2,536 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-06-13T16:11:36.428Z</updated>
+    <updated>2025-06-13T17:08:30.741Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[What is Amazon Nova? An Inside Look at AWS Foundation Models]]></title>
+        <id>https://dev.to/aws-builders/what-is-amazon-nova-an-inside-look-at-aws-foundation-models-227e</id>
+        <link href="https://dev.to/aws-builders/what-is-amazon-nova-an-inside-look-at-aws-foundation-models-227e"/>
+        <updated>2025-06-13T16:51:40.000Z</updated>
+        <summary type="html"><![CDATA[Imagine having access to an AI model so powerful it could build applications, generate code, process documents, or answer complex queries with minimal tuning. Now imagine that same model is backed by the same infrastructure that powers Amazon.com. Welcome to Amazon Nova, AWS's answer to the rapidly evolving foundation model ecosystem.
+If you're a mid-level AI developer, you’ve probably felt the whiplash of constant innovation—new LLMs every quarter, finicky setups, exploding costs. Amazon Nova isn’t just another model drop. It’s Amazon stepping into the foundation model race with serious firepower and real enterprise-grade solutions.
+Nova promises speed, customizability, and tight integration with AWS services you already use—think SageMaker, Bedrock, S3, and IAM. That means fewer headache…]]></summary>
+        <author>
+            <name>Sumsuzzaman Chowdhury</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[从零开始的Hyperlane框架学习之旅：一个大三学生的真实体验]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/cong-ling-kai-shi-de-hyperlanekuang-jia-xue-xi-zhi-lu-ge-da-san-xue-sheng-de-zhen-shi-ti-yan-bal</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/cong-ling-kai-shi-de-hyperlanekuang-jia-xue-xi-zhi-lu-ge-da-san-xue-sheng-de-zhen-shi-ti-yan-bal"/>
+        <updated>2025-06-13T16:51:15.000Z</updated>
+        <summary type="html"><![CDATA[从零开始的Hyperlane框架学习之旅：一个大三学生的真实体验
+
+
+作为一名大三计算机系的学生，我在上学期的分布式系统课程项目中初次接触到了 Hyperlane 这个 Rust HTTP 框架。从最初的好奇到后来的深入使用，这个框架给我留下了深刻的印象。今天，我想分享一下我使用 Hyperlane 的心路历程。
+第一次看到 Hyperlane 的文档时，我就被它的设计理念所吸引。作为一个性能导向的轻量级框架，它在保持高性能的同时，还提供了非常友好的开发体验。
+首先，我只需要在 Cargo.toml 中添加一行依赖：
+[dependencies]
+hyperlane = "5.25.1"
+
+相比其他框架动辄几十个依赖项，Hyperlane 只依赖 Tokio 和标准库，这让我在项目初始化时就感受到了它的轻量级特性。
+在传统框架中，获取请求方法可能需要这样写：
+let method = ctx.get_request().await.get_method();
+
+而 Hyperlane 提供了更优雅的方式：
+let method = ctx.get_request_method().await;
+
+这种扁平化的 API 设计让代码更加清晰易读，也减少了查阅文档的次数。
+#[methods(get, post)]
+async fn root_route(ctx: Context) {
+    ctx.set_response_status_code(200)
+        .await
+        .set_response_body("Hello hyperlane => /")
+        .await;
+}
+
+这种组合式的路由注解比其他框架一个个声明方法要简洁得多。
+server.route("/goods/{id:\\d+}", |ctx| async move {
+    let id = ctx.get_route_param("id").await.parse::<u32>().unwrap();
+    // 数据库查询逻辑...
+}).await;
+
+内置的正则表达式支持让路由匹配更加灵活，不需要额外的插件。
+在 AWS t2.micro 实例上进行压力测试：
+wrk -c360 -d60s http://localhost:8000/
+
+测试结果令人震惊：
+
+
+
+框架
+QPS
+
+
+
+
+Tokio
+340,130
+
+
+Hyperlane
+324,323
+
+
+Rocket
+298,945
+
+
+Gin (Go)
+242,570
+
+
+
+性能仅比底层的 Tokio 低 5%，但提供了完整的 Web 框架功能，这个数据让我在课程展示时收获了不少惊叹。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    let body = ctx.get_request_body().await;
+    ctx.set_response_body(key).await.send_body().await;
+    ctx.set_response_body(body).await.send_body().await;
+}
+
+无需额外的插件就能支持 WebSocket，这让我在实现实时聊天功能时省去了不少麻烦。
+在升级到 v4.89+ 版本时，我遇到了一些生命周期的变化：
+// v4.89+ 推荐的请求中断方式
+if should_abort {
+    ctx.aborted().await;
+    return;
+}
+
+但框架清晰的版本说明让我很快适应了这些变化。
+API 设计哲学：链式调用设计保持了 Rust 的优雅
+性能密码：建立在 Tokio 的异步架构和零拷贝处理之上
+中间件系统：洋葱模型提供了清晰的扩展点
+路由灵活性：在简单参数和正则表达式之间取得了平衡
+版本管理：仔细阅读 CHANGELOG 避免兼容性问题
+通过这次项目实践，我不仅掌握了 Hyperlane 框架，还对现代 Web 框架的设计理念有了深入的理解。接下来，我计划：
+深入研究 Hyperlane 的 WebSocket 支持
+探索框架如何在底层利用 Rust 的零成本抽象
+尝试基于 Hyperlane 构建微服务架构
+Hyperlane 不仅仅是一个工具，它改变了我对编程的思考方式。每一次 ctx 调用，每一个中间件的编写，都在加深我对 Web 开发本质的理解。这个框架让我明白，性能和开发体验是可以兼得的，这就是 Rust 生态的魅力所在。]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入理解Hyperlane的中间件系统：一个大三学生的实践笔记]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-2jg4</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-2jg4"/>
+        <updated>2025-06-13T16:50:11.000Z</updated>
+        <summary type="html"><![CDATA[深入理解Hyperlane的中间件系统：一个大三学生的实践笔记
+
+
+作为一名大三计算机专业的学生，我在使用 Hyperlane 框架开发校园项目的过程中，对其中间件系统有了深入的理解。今天，我想分享一下我在实践中的心得体会。
+graph TD
+    A[客户端请求] --> B[认证中间件]
+    B --> C[日志中间件]
+    C --> D[控制器]
+
+Hyperlane 的中间件采用洋葱模型，请求从外层向内层传递，这种设计让请求处理流程清晰可控。
+async fn request_middleware(ctx: Context) {
+    let socket_addr = ctx.get_socket_addr_or_default_string().await;
+    ctx.set_response_header(SERVER, HYPERLANE)
+        .await
+        .set_response_header("SocketAddr", socket_addr)
+        .await;
+}
+
+相比其他框架需要通过 trait 或层注册中间件，Hyperlane 直接使用异步函数注册，更加直观。
+async fn auth_middleware(ctx: Context) {
+    let token = ctx.get_request_header("Authorization").await;
+    match token {
+        Some(token) => {
+            // 验证逻辑
+            ctx.set_request_data("user_id", "123").await;
+        }
+        None => {
+           …]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[When random people give money to random other people (2017)]]></title>
+        <id>https://quomodocumque.wordpress.com/2017/06/27/when-random-people-give-money-to-random-other-people/</id>
+        <link href="https://quomodocumque.wordpress.com/2017/06/27/when-random-people-give-money-to-random-other-people/"/>
+        <updated>2025-06-13T16:49:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane实时通信指南：WebSocket和SSE实战经验分享]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-4154</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-4154"/>
+        <updated>2025-06-13T16:49:06.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane实时通信指南：WebSocket和SSE实战经验分享
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园实时聊天系统时，深入体验了它的 WebSocket 和 SSE 功能。这篇文章将分享我的实战经验。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    let body = ctx.get_request_body().await;
+
+    ctx.set_response_header("Connection", "Upgrade")
+        .await
+        .set_response_header("Upgrade", "websocket")
+        .await
+        .set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+async fn handle_ws_message(ctx: Context) {
+    let message = ctx.get_ws_message().await;
+    match message {
+        WSMessage::Text(text) => {
+            // 处理文本消息
+            ctx.send_ws_text(format!("收到消息: {}", text)).await;
+        }
+        WSMessage::Binary(data) => {
+            // 处理二进制消…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane：新一代高性能Rust框架的实战体验]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-40gh</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanexin-dai-gao-xing-neng-rustkuang-jia-de-shi-zhan-ti-yan-40gh"/>
+        <updated>2025-06-13T16:48:02.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane：新一代高性能Rust框架的实战体验
+
+
+作为一名大三计算机专业的学生，我在最近的课程项目中深入使用了 Hyperlane 框架。这个被称为"新一代轻量级高性能框架"的 Rust Web 框架确实给我留下了深刻印象。本文将从实战角度，分享我对 Hyperlane 的使用体验。
+在项目开始时，我对比了几个主流的 Web 框架：
+
+
+
+框架
+依赖模型
+异步运行时
+中间件支持
+SSE/WebSocket
+路由匹配能力
+
+
+
+
+Hyperlane
+仅依赖 Tokio + 标准库
+Tokio
+✅ 支持请求/响应
+✅ 原生支持
+✅ 支持正则表达式
+
+
+Actix-Web
+较多内部抽象层
+Actix
+✅ 请求中间件
+部分支持(需插件)
+⚠️ 路径宏需显式配置
+
+
+Axum
+复杂的 Tower 架构
+Tokio
+✅ Tower 中间件
+✅ 需依赖扩展
+⚠️ 动态路由较弱
+
+
+
+最终选择 Hyperlane 的原因是：
+极简的依赖关系
+完整的异步支持
+原生的 WebSocket 集成
+灵活的路由系统
+server.enable_nodelay().await;
+server.disable_linger().await;
+server.http_line_buffer_size(4096).await;
+
+Hyperlane 默认启用了这些性能优化选项，这意味着它为高并发连接场景预设了合适的 TCP 和缓冲区参数。
+在实际项目中，我使用 wrk 进行了压力测试：
+wrk -c360 -d60s http://localhost:8000/
+
+测试结果令人惊喜：
+
+
+
+框架
+QPS
+内存占用
+
+
+
+
+Hyperlane
+324,323
+最低
+
+
+Rocket
+298,945
+中等
+
+
+Gin (Go)
+242,570
+较高
+
+
+
+server
+    .host("0.0.0.0").await
+    .port(60000).await
+    .route("/", root_route).await
+    .route("/goods/{id:\\d+}", goods_detail).await
+    .run().await
+    .unwrap();
+
+所有配置都采用异步链式调用模式，无需嵌套配置或宏组合。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    ctx.set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+原生的 WebSocket 支持让实时消息推送变得简单。
+#[post]
+async fn sse_route(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, TEXT_EVENT_STREAM)
+        .await
+        .send()
+        .await;
+
+    for i in 0..10 {
+        ctx.set_response_body(format!("data:{}{}", i, HTTP_DOUBLE_BR))
+            .await
+            .send_body()
+            .await;
+    }
+}
+
+零平台依赖：纯 Rust 实现，跨平台一致性强
+极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲
+灵活的中间件机制：支持请求和响应中间件，生命周期划分清晰
+开箱即用的实时通信：原生支持 WebSocket 和 SSE
+v4.22.0 后，ctx.aborted() 可以中断请求
+v5.25.1 中的 ctx.closed() 可以主动关闭连接
+从简单路由开始：先熟悉基本的 GET/POST 路由
+理解 Context 抽象：这是框架的核心概念
+循序渐进学习中间件：先使用内置中间件，再尝试自定义
+关注性能优化选项：了解默认配置的作用
+探索在微服务架构中的应用
+研究与其他 Rust 生态系统的集成
+尝试贡献一些社区插件
+作为一个学生开发者，我认为 Hyperlane 是一个非常值得投入时间学习的框架。它不仅让我深入理解了 Web 开发的本质，还让我体会到了 Rust 在 Web 领域的强大潜力。如果你也在寻找一个性能强大且易于上手的 Rust Web 框架，Hyperlane 绝对值得一试！]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[我用Hyperlane开发校园API的那些事儿：一个Rust新手的框架体验]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/wo-yong-hyperlanekai-fa-xiao-yuan-apide-na-xie-shi-er-ge-rustxin-shou-de-kuang-jia-ti-yan-31j9</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/wo-yong-hyperlanekai-fa-xiao-yuan-apide-na-xie-shi-er-ge-rustxin-shou-de-kuang-jia-ti-yan-31j9"/>
+        <updated>2025-06-13T16:46:57.000Z</updated>
+        <summary type="html"><![CDATA[作为计算机系大三学生，上学期我在做校园二手交易平台项目时，偶然发现了 Hyperlane 这个 Rust HTTP 框架。当时正为选框架发愁——既要性能够强扛住期末交易高峰，又得语法简洁让我这个 Rust 萌新能快速上手。没想到用下来完全超出预期，今天就来聊聊这个宝藏框架的使用体验！
+刚开始写路由函数时，我被 Hyperlane 的 Context（简称 ctx）惊艳到了。记得第一次想获取请求方法，按照 Rust 传统 HTTP 框架的写法，得这样：
+let method = ctx.get_request().await.get_method();
+
+但 Hyperlane 直接把方法"扁平化"了，现在我写的是：
+let method = ctx.get_request_method().await;
+
+就像给书包分层整理一样，框架把请求/响应的子字段都按规则重命名了。设置响应状态码从set_status_code变成set_response_status_code，虽然多了几个字母，但代码逻辑像流程图一样清晰，再也不用翻文档找方法层级了！
+最让我上瘾的是它的请求方法宏。写首页路由时，我试着用了#[methods(get, post)]组合标注，结果比用枚举值一个个声明简单太多。后来发现还能简写#[get]，瞬间觉得写路由像写 Markdown 一样轻松：
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    let body = ctx.get_request_body().await;
+    ctx.set_response_body(key).await.send_body().awai…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Build Clean and Customizable Interfaces with Shadcn UI in React + TypeScript]]></title>
+        <id>https://dev.to/itsfareedh/build-clean-and-customizable-interfaces-with-shadcn-ui-in-react-typescript-4kkh</id>
+        <link href="https://dev.to/itsfareedh/build-clean-and-customizable-interfaces-with-shadcn-ui-in-react-typescript-4kkh"/>
+        <updated>2025-06-13T16:46:44.000Z</updated>
+        <summary type="html"><![CDATA[When building modern front-end applications, developers often struggle to strike the perfect balance between accessibility, design flexibility, and developer experience. Shadcn UI offers a unique solution — combining the power of Radix UI primitives with Tailwind CSS in a developer-friendly and fully customizable package.
+In this post, we’ll explore why Shadcn UI is gaining traction and walk through a step-by-step guide to set it up in a React + TypeScript project. We’ll also build a simple yet styled and accessible Button component using the library.
+Below are some compelling reasons why developers are turning to Shadcn UI:
+1. Built with Radix UI Primitives
+Shadcn UI leverages Radix UI for accessibility and behavior, ensuring components are built with accessibility best practices out of t…]]></summary>
+        <author>
+            <name>Mohammed Fareedh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Understanding T-SQL vs PL/SQL Database Curveballs]]></title>
+        <id>https://dev.to/michael-gokey/understanding-t-sql-vs-plsql-database-curveballs-4cgo</id>
+        <link href="https://dev.to/michael-gokey/understanding-t-sql-vs-plsql-database-curveballs-4cgo"/>
+        <updated>2025-06-13T16:46:32.000Z</updated>
+        <summary type="html"><![CDATA[Picture this: You're troubleshooting an application that worked perfectly on SQL Server. Now it's being moved to Oracle, and everything suddenly seems out of order. The code looks familiar, but it's throwing errors left and right. Welcome to the world of database dialects.
+Here's the thing most people don't tell you: SQL isn't just SQL. Microsoft and Oracle each built their own flavor, and they're different enough to make your head spin.
+T-SQL is Microsoft's procedural extension to SQL. It's what SQL Server speaks. PL/SQL is Oracle's procedural language. The same basic idea, a totally different execution.
+Think of it like American English vs British English. You'll understand most of it, but some words mean completely different things.
+In SQL Server (T-SQL), you declare and go:
+
+DECLARE @u…]]></summary>
+        <author>
+            <name>Michael Gokey</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane路由系统详解：从入门到实践的完整指南]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanelu-you-xi-tong-xiang-jie-cong-ru-men-dao-shi-jian-de-wan-zheng-zhi-nan-571e</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanelu-you-xi-tong-xiang-jie-cong-ru-men-dao-shi-jian-de-wan-zheng-zhi-nan-571e"/>
+        <updated>2025-06-13T16:45:50.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane路由系统详解：从入门到实践的完整指南
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园项目的过程中，对其路由系统有了深入的理解。这篇文章将从实践角度，详细介绍 Hyperlane 的路由系统特性。
+#[get]
+async fn hello_route(ctx: Context) {
+    ctx.set_response_body("Hello, Hyperlane!")
+        .await
+        .send_body()
+        .await;
+}
+
+#[methods(get, post)]
+async fn multi_method_route(ctx: Context) {
+    let method = ctx.get_request_method().await;
+    ctx.set_response_body(format!("Method: {}", method))
+        .await
+        .send_body()
+        .await;
+}
+
+server.route("/user/{id}", |ctx| async move {
+    let user_id = ctx.get_route_param("id").await;
+    // 处理用户信息...
+}).await;
+
+server.route("/product/{id:\\d+}", |ctx| async move {
+    let product_id = ctx.get_route_param("id").await.parse::<u32>().unwrap();
+    // 商品详情处理...
+}).await;
+
+async fn api_routes(ser…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building LogSum: A 3.3ms Log Analyzer with a Beautiful Terminal UI]]></title>
+        <id>https://dev.to/yildizmust4f4/building-logsum-a-33ms-log-analyzer-with-a-beautiful-terminal-ui-13ea</id>
+        <link href="https://dev.to/yildizmust4f4/building-logsum-a-33ms-log-analyzer-with-a-beautiful-terminal-ui-13ea"/>
+        <updated>2025-06-13T16:45:05.000Z</updated>
+        <summary type="html"><![CDATA[I've just released LogSum v0.1.0, a fast log analyzer that can process 10,000 log entries in just 3.3 milliseconds. But speed wasn't the only goal - I wanted to make log analysis actually enjoyable.
+We've all been there: production issues at 3 AM, scrolling through endless logs, trying to spot patterns with tired eyes. Existing tools either:
+Dump everything to stdout (grep, awk)
+Require complex query languages (LogQL, KQL)
+Need heavy infrastructure (ELK stack)
+Cost a fortune (Datadog, Splunk)
+I wanted something that just works, runs locally, and makes patterns obvious.
+LogSum combines three things that rarely go together:
+Blazing fast performance - 3.3ms for 10K entries
+Beautiful terminal UI - with animations and colors
+Intelligent analysis - automatic pattern detection
+🔍 Smart Pattern De…]]></summary>
+        <author>
+            <name>Mustafa Yildiz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Authorization and Amazon Verified Permissions - A New Way to Manage Permissions Part XVI: AVP meets new pricing]]></title>
+        <id>https://dev.to/aws-heroes/authorization-and-amazon-verified-permissions-a-new-way-to-manage-permissions-part-xvi-avp-meets-49jf</id>
+        <link href="https://dev.to/aws-heroes/authorization-and-amazon-verified-permissions-a-new-way-to-manage-permissions-part-xvi-avp-meets-49jf"/>
+        <updated>2025-06-13T16:44:37.000Z</updated>
+        <summary type="html"><![CDATA[Hello there! Long time no see! Let's get back to our series about Amazon Verified Permissions!
+The last few months haven't brought much news in AVP, other than the addition of tags (which should have been added a long time ago), but a few days before re:Inforce, we got a real game changer: a price change.
+As we know, AVP has many advantages, but the biggest drawback has always been the price. For a new service, this made it very difficult for customers to adopt. I've conducted many workshops, talks, and a large implementation around AVP, but this pricing has always been a pain point for many people.
+In this blog post, I want to share my perspective on the price change based on the use case I implemented with my team.
+Until today, pricing looked like this: we paid for the number of authoriz…]]></summary>
+        <author>
+            <name>Daniel Aniszkiewicz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane与微服务架构：校园应用的实战案例分析]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-19le</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-19le"/>
+        <updated>2025-06-13T16:43:46.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane与微服务架构：校园应用的实战案例分析
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园服务时，尝试了微服务架构的实践。这篇文章将分享我在这个过程中的经验和思考。
+// 用户服务
+#[get]
+async fn user_service(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)
+        .await
+        .set_response_body("{\"service\": \"user\"}");
+}
+
+// 商品服务
+#[get]
+async fn product_service(ctx: Context) {
+    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)
+        .await
+        .set_response_body("{\"service\": \"product\"}");
+}
+
+async fn register_service(service_name: &str, port: u16) {
+    let server = Server::new()
+        .host("0.0.0.0")
+        .await
+        .port(port)
+        .await;
+
+    // 向服务注册中心注册
+    register_to_discovery(service_name, port).await;
+}
+
+async fn call_service(ctx: Context) {
+    let service_url = discover_service("use…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ATOM Tumbles 9% as Crypto Market Plunges Amid Middle East Tensions]]></title>
+        <id>66633d67-ce8f-4fc9-8e0b-4b0764d4de68</id>
+        <link href="https://www.coindesk.com/markets/2025/06/13/atom-tumbles-9-as-crypto-market-plunges-amid-middle-east-tensions"/>
+        <updated>2025-06-13T16:12:49.000Z</updated>
+        <summary type="html"><![CDATA[A new support zone has been established, suggesting a short-term bottom.]]></summary>
+        <author>
+            <name>Oliver Knight</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SharpLink Acquires $463M in Ether, Shares Remain 66% Lower]]></title>
+        <id>8b09a36e-8aff-48e8-a329-b3ab660fe65f</id>
+        <link href="https://www.coindesk.com/business/2025/06/13/sharplink-acquires-463m-in-ether-shares-remain-66-lower"/>
+        <updated>2025-06-13T16:05:19.000Z</updated>
+        <summary type="html"><![CDATA[The purchase announcement did little to the stock, which tumbled 70% on a late Thursday filing that allowed investors to sell shares.]]></summary>
+        <author>
+            <name>Krisztian Sandor</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[AI Agents Are Coming For Your APIs]]></title>
         <id>https://dev.to/zuplo/ai-agents-are-coming-for-your-apis-13pn</id>
@@ -1873,6 +2399,16 @@ https://github.com/bornthenord/hotpaws]]></summary>
         <id>https://www.theverge.com/news/686084/anker-recall-uscpsc-power-bank-battery-powercore-a1263</id>
         <link href="https://www.theverge.com/news/686084/anker-recall-uscpsc-power-bank-battery-powercore-a1263"/>
         <updated>2025-06-13T12:41:20.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Job Compass – AI agents that help you find jobs, not replace you]]></title>
+        <id>https://jobcompass.ai/</id>
+        <link href="https://jobcompass.ai/"/>
+        <updated>2025-06-13T12:40:38.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
