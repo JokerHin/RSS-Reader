@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/cong-ling-kai-shi-de-hyperlanekuang-jia-xue-xi-zhi-lu-ge-da-san-xue-sheng-de-zhen-shi-ti-yan-487a",
+          "author": "Eastspire",
+          "description": "从零开始的Hyperlane框架学习之旅：一个大三学生的真实体验\n\n\n作为一名大三计算机系的学生，我在上学期的分布式系统课程项目中初次接触到了 Hyperlane 这个 Rust HTTP 框架。从最初的好奇到后来的深入使用，这个框架给我留下了深刻的印象。今天，我想分享一下我使用 Hyperlane 的心路历程。\n第一次看到 Hyperlane 的文档时，我就被它的设计理念所吸引。作为一个性能导向的轻量级框架，它在保持高性能的同时，还提供了非常友好的开发体验。\n首先，我只需要在 Cargo.toml 中添加一行依赖：\n[dependencies]\nhyperlane = \"5.25.1\"\n\n相比其他框架动辄几十个依赖项，Hyperlane 只依赖 Tokio 和标准库，这让我在项目初始化时就感受到了它的轻量级特性。\n在传统框架中，获取请求方法可能需要这样写：\nlet method = ctx.get_request().await.get_method();\n\n而 Hyperlane 提供了更优雅的方式：\nlet method = ctx.get_request_method().await;\n\n这种扁平化的 API 设计让代码更加清晰易读，也减少了查阅文档的次数。\n#[methods(get, post)]\nasync fn root_route(ctx: Context) {\n    ctx.set_response_status_code(200)\n        .await\n        .set_response_body(\"Hello hyperlane => /\")\n        .await;\n}\n\n这种组合式的路由注解比其他框架一个个声明方法要简洁得多。\nserver.route(\"/goods/{id:\\\\d+}\", |ctx| async move {\n    let id = ctx.get_route_param(\"id\").await.parse::<u32>().unwrap();\n    // 数据库查询逻辑...\n}).await;\n\n内置的正则表达式支持让路由匹配更加灵活，不需要额外的插件。\n在 AWS t2.micro 实例上进行压力测试：\nwrk -c360 -d60s http://localhost:8000/\n\n测试结果令人震惊：\n\n\n\n框架\nQPS\n\n\n\n\nTokio\n340,130\n\n\nHyperlane\n324,323\n\n\nRocket\n298,945\n\n\nGin (Go)\n242,570\n\n\n\n性能仅比底层的 Tokio 低 5%，但提供了完整的 Web 框架功能，这个数据让我在课程展示时收获了不少惊叹。\n#[get]\nasync fn ws_route(ctx: Context) {\n    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();\n    let body = ctx.get_request_body().await;\n    ctx.set_response_body(key).await.send_body().await;\n    ctx.set_response_body(body).await.send_body().await;\n}\n\n无需额外的插件就能支持 WebSocket，这让我在实现实时聊天功能时省去了不少麻烦。\n在升级到 v4.89+ 版本时，我遇到了一些生命周期的变化：\n// v4.89+ 推荐的请求中断方式\nif should_abort {\n    ctx.aborted().await;\n    return;\n}\n\n但框架清晰的版本说明让我很快适应了这些变化。\nAPI 设计哲学：链式调用设计保持了 Rust 的优雅\n性能密码：建立在 Tokio 的异步架构和零拷贝处理之上\n中间件系统：洋葱模型提供了清晰的扩展点\n路由灵活性：在简单参数和正则表达式之间取得了平衡\n版本管理：仔细阅读 CHANGELOG 避免兼容性问题\n通过这次项目实践，我不仅掌握了 Hyperlane 框架，还对现代 Web 框架的设计理念有了深入的理解。接下来，我计划：\n深入研究 Hyperlane 的 WebSocket 支持\n探索框架如何在底层利用 Rust 的零成本抽象\n尝试基于 Hyperlane 构建微服务架构\nHyperlane 不仅仅是一个工具，它改变了我对编程的思考方式。每一次 ctx 调用，每一个中间件的编写，都在加深我对 Web 开发本质的理解。这个框架让我明白，性能和开发体验是可以兼得的，这就是 Rust 生态的魅力所在。",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/cong-ling-kai-shi-de-hyperlanekuang-jia-xue-xi-zhi-lu-ge-da-san-xue-sheng-de-zhen-shi-ti-yan-487a",
+          "publishedOn": "2025-06-13T15:00:26.000Z",
+          "wordCount": 907,
+          "title": "从零开始的Hyperlane框架学习之旅：一个大三学生的真实体验",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffvytm30b665lu862fgkl.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/the-new-generation-of-high-performance-rust-web-frameworks-464o",
+          "author": "Eastspire",
+          "description": "In the current ecosystem of Rust Web frameworks, Hyperlane is increasingly demonstrating its strong competitiveness as a \"new generation of lightweight and high-performance frameworks.\" This article will comprehensively analyze the advantages of Hyperlane by comparing it with mainstream frameworks such as Actix-Web and Axum, especially in terms of performance, feature integration, development experience, and underlying architecture.\n\n\n\nFramework\nDependency Model\nAsync Runtime\nMiddleware Support\nSSE/WebSocket\nRouting Matching Capability\n\n\n\n\nHyperlane\nOnly depends on Tokio + Standard Library\nTokio\n✅ Supports request/response\n✅ Native support\n✅ Supports regular expressions\n\n\nActix-Web\nMany internal abstraction layers\nActix\n✅ Request middleware\nPartial support (requires plugins)\n⚠️ Path macros…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/the-new-generation-of-high-performance-rust-web-frameworks-464o",
+          "publishedOn": "2025-06-13T14:53:02.000Z",
+          "wordCount": 1423,
+          "title": "The New Generation of High-Performance Rust Web Frameworks",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsvf5964jlc31qs51ntuv.png"
+        },
+        {
+          "id": "https://dev.to/karen_londres/smart-fence-monitoring-motion-detection-using-pir-sensors-and-esp8266-2ioc",
+          "author": "Karen Londres",
+          "description": "As urban infrastructure becomes smarter and more interconnected, traditional fencing systems are evolving. No longer are fences just passive barriers—they are becoming intelligent components of property surveillance and security systems. In this blog, we’ll explore how to build a motion detection system for fences using PIR (Passive Infrared) sensors and the ESP8266 microcontroller.\nThis guide is perfect for IoT enthusiasts, developers, and even fence companies looking to offer high-tech solutions in the field of property security. We’ll also explore real-world scenarios where this setup can be implemented—especially in regions with high security demands such as Chicago.\nPIR sensors detect motion by measuring changes in infrared radiation (heat) in their field of view. They're affordable, …",
+          "link": "https://dev.to/karen_londres/smart-fence-monitoring-motion-detection-using-pir-sensors-and-esp8266-2ioc",
+          "publishedOn": "2025-06-13T14:52:11.000Z",
+          "wordCount": 1432,
+          "title": "Smart Fence Monitoring: Motion Detection Using PIR Sensors and ESP8266",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fe55ilnvt8k9nwjmc4ias.png"
+        },
+        {
+          "id": "https://dev.to/ml318097/learn-to-code-with-the-worlds-largest-web-developer-site-449j",
+          "author": "Mehul Lakhanpal",
+          "description": "Explore tutorials, exercises, quizzes, and certifications all in one place:\n🌐 w3schools.com\nStart your coding journey today — from HTML to JavaScript and beyond!",
+          "link": "https://dev.to/ml318097/learn-to-code-with-the-worlds-largest-web-developer-site-449j",
+          "publishedOn": "2025-06-13T14:52:00.000Z",
+          "wordCount": 773,
+          "title": "👨‍💻 Learn to Code with the World’s Largest Web Developer Site!",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fd1coleiywb2655jy6c27.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-2015",
+          "author": "Eastspire",
+          "description": "Hyperlane性能优化实战：从理论到实践的深度探索\n\n\n作为一名大三计算机系的学生，我在使用 Hyperlane 开发高并发校园服务时，积累了不少性能优化的经验。这篇文章将从实战角度分享我的优化心得。\nserver\n    .enable_nodelay().await\n    .disable_linger().await\n    .http_line_buffer_size(4096).await\n    .run().await;\n\nwrk -c360 -d60s http://localhost:8000/\n\n\n\n\n框架\nQPS\n延迟\n内存占用\n\n\n\n\nTokio\n340,130\n1.2ms\n基准线\n\n\nHyperlane\n324,323\n1.5ms\n+5%\n\n\nRocket\n298,945\n1.8ms\n+15%\n\n\nGin (Go)\n242,570\n2.1ms\n+25%\n\n\n\nasync fn optimize_connection_pool() {\n    let pool = Pool::builder()\n        .max_size(100)\n        .min_idle(Some(10))\n        .build()\n        .await;\n\n    // 使用连接池\n    let conn = pool.get().await?;\n}\n\nasync fn reuse_buffers(ctx: Context) {\n    let buffer = get_buffer_from_pool().await;\n    ctx.set_response_body(buffer)\n        .await\n        .send_body()\n        .await;\n    return_buffer_to_po…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-2015",
+          "publishedOn": "2025-06-13T14:51:58.000Z",
+          "wordCount": 1084,
+          "title": "Hyperlane性能优化实战：从理论到实践的深度探索",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F87q8u2txv91lht38phrt.png"
+        },
+        {
+          "id": "https://dev.to/sureni-dhanasekara/advance-types-in-rust-35gg",
+          "author": "Sureni Dhanasekara",
+          "description": "Rust is known for its powerful type system, which enables memory safety, concurrency, and zero-cost abstractions. Rust basic types like integers, boolean, and strings are straightforward, advanced types provide the foundation for writing expressive and safe code in complex systems.\nMost important advanced types in Rust:\nAlgebraic Data Types (Enums & Structs)\nType Aliases\nNewtypes\nPhantomData\nDynamically Sized Types (DSTs)\nTrait Objects\nFunction Pointers\nNever Type (!)\nInferred and Generic Types\nAlgebraic Data Types (ADTs) \nAlgebraic data types is a way to define complex data by combining simpler types.\nThere are two main kinds of ADTs:\nStruct : combine multiple fields together\n    struct Person {\n      name: String,\n      age: u8,\n    }\n\nEnum : define one of many possibilities\n    enum Sha…",
+          "link": "https://dev.to/sureni-dhanasekara/advance-types-in-rust-35gg",
+          "publishedOn": "2025-06-13T14:51:22.000Z",
+          "wordCount": 1696,
+          "title": "Advance Types In Rust",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2x0s8tszl8ob7npzhzzc.jpg"
+        },
+        {
+          "id": "https://dev.to/howardpeter/building-a-space-shooter-game-with-amazon-q-cli-41eb",
+          "author": "HowardPeter",
+          "description": "🧠 Overview\n\n\nAs part of the \"Build Games with Amazon Q CLI\" challenge by the AWS Community, I decided to bring a classic arcade-style game to life: a Space Shooter built with Python and Pygame. With the help of Amazon Q CLI, I was able to rapidly prototype, refactor, and build a modular game with surprising ease – and yes, all while scoring a cool T-shirt!\nAmazon Q CLI is more than just a chatbot in your terminal — it's like pairing with a senior developer. Here's why I found it so useful for this project:\nFast prototyping: I could describe game logic or a mechanic and get all the Python code files.\nInstant debugging: AI spotted logic errors and suggested fixes right away.\nContext-aware: It understood the structure of my project and improved it over time.\nDocumentation help: Even helped m…",
+          "link": "https://dev.to/howardpeter/building-a-space-shooter-game-with-amazon-q-cli-41eb",
+          "publishedOn": "2025-06-13T14:51:19.000Z",
+          "wordCount": 1202,
+          "title": "🚀 Building a Space Shooter Game with Amazon Q CLI",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbsluwrk1dviopcodnms3.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-lel",
+          "author": "Eastspire",
+          "description": "深入理解Hyperlane的中间件系统：一个大三学生的实践笔记\n\n\n作为一名大三计算机专业的学生，我在使用 Hyperlane 框架开发校园项目的过程中，对其中间件系统有了深入的理解。今天，我想分享一下我在实践中的心得体会。\ngraph TD\n    A[客户端请求] --> B[认证中间件]\n    B --> C[日志中间件]\n    C --> D[控制器]\n\nHyperlane 的中间件采用洋葱模型，请求从外层向内层传递，这种设计让请求处理流程清晰可控。\nasync fn request_middleware(ctx: Context) {\n    let socket_addr = ctx.get_socket_addr_or_default_string().await;\n    ctx.set_response_header(SERVER, HYPERLANE)\n        .await\n        .set_response_header(\"SocketAddr\", socket_addr)\n        .await;\n}\n\n相比其他框架需要通过 trait 或层注册中间件，Hyperlane 直接使用异步函数注册，更加直观。\nasync fn auth_middleware(ctx: Context) {\n    let token = ctx.get_request_header(\"Authorization\").await;\n    match token {\n        Some(token) => {\n            // 验证逻辑\n            ctx.set_request_data(\"user_id\", \"123\").await;\n        }\n        None => {\n           …",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-lel",
+          "publishedOn": "2025-06-13T14:50:51.000Z",
+          "wordCount": 942,
+          "title": "深入理解Hyperlane的中间件系统：一个大三学生的实践笔记",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8zzbhyxm7eidjv1j694h.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-58n4",
+          "author": "Eastspire",
+          "description": "Hyperlane实时通信指南：WebSocket和SSE实战经验分享\n\n\n作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园实时聊天系统时，深入体验了它的 WebSocket 和 SSE 功能。这篇文章将分享我的实战经验。\n#[get]\nasync fn ws_route(ctx: Context) {\n    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();\n    let body = ctx.get_request_body().await;\n\n    ctx.set_response_header(\"Connection\", \"Upgrade\")\n        .await\n        .set_response_header(\"Upgrade\", \"websocket\")\n        .await\n        .set_response_body(key)\n        .await\n        .send_body()\n        .await;\n}\n\nasync fn handle_ws_message(ctx: Context) {\n    let message = ctx.get_ws_message().await;\n    match message {\n        WSMessage::Text(text) => {\n            // 处理文本消息\n            ctx.send_ws_text(format!(\"收到消息: {}\", text)).await;\n        }\n        WSMessage::Binary(data) => {\n            // 处理二进制消…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-58n4",
+          "publishedOn": "2025-06-13T14:49:46.000Z",
+          "wordCount": 1029,
+          "title": "Hyperlane实时通信指南：WebSocket和SSE实战经验分享",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1diie82erpp63nu05j9k.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/wo-yu-hyperlanekuang-jia-de-tan-suo-zhi-lu-cong-ru-men-dao-xing-neng-you-hua-58a9",
+          "author": "Eastspire",
+          "description": "作为一名大三计算机专业的学生，我在构建 Web 服务项目时接触到了 Hyperlane 框架。这个高性能的 Rust HTTP 框架彻底改变了我对 Web 开发的认知。下面是我学习并应用 Hyperlane 的真实经历。\n刚开始使用 Hyperlane 时，最让我惊喜的是它简洁的 Context 封装。以前在其它框架中需要冗长的调用：\nlet method = ctx.get_request().await.get_method();\n\n现在只需要一行代码就能搞定：\nlet method = ctx.get_request_method().await;\n\n这种设计让我的代码可读性大幅提升，特别是处理复杂业务逻辑时，不再需要嵌套多个方法调用。\n在实现 RESTful API 时，Hyperlane 的请求方法宏让路由定义变得异常简单：\n#[methods(get, post)]\nasync fn user_profile(ctx: Context) {\n    // 处理GET和POST请求\n    ctx.set_response_status_code(200).await;\n    ctx.set_response_body(\"用户个人资料\").await;\n}\n\n#[get]\nasync fn get_users(ctx: Context) {\n    // 仅处理GET请求\n    let users = fetch_all_users().await;\n    ctx.set_response_body(users).await;\n}\n\n这种声明式语法让我可以专注于业务逻辑而非 HTTP 细节。\n在开发过程中，我发现响应处理特别直观：\n// 设置响应状态\nctx.set_response_status_code(404).await;\n\n// 添加自定义响应头\n…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/wo-yu-hyperlanekuang-jia-de-tan-suo-zhi-lu-cong-ru-men-dao-xing-neng-you-hua-58a9",
+          "publishedOn": "2025-06-13T14:48:38.000Z",
+          "wordCount": 957,
+          "title": "我与Hyperlane框架的探索之旅：从入门到性能优化",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fi4skih77jg38e9uskzvf.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/da-san-zi-xue-bi-ji-tan-suo-hyperlanekuang-jia-de-xin-lu-li-cheng-4hfi",
+          "author": "Eastspire",
+          "description": "Day 1：初识 Hyperlane\n\n\n在 GitHub 上发现了 Hyperlane 这个 Rust HTTP 框架，立刻被它的性能数据吸引。官方文档写着：\n\"hyperlane 是一个高性能且轻量级的 Rust HTTP 框架，设计目标是简化现代 Web 服务的开发，同时兼顾灵活性和性能表现。\"\n我决定用它来完成我的分布式系统课设。从 Cargo.toml 开始：\n[dependencies]\nhyperlane = \"5.25.1\"\n\n今天重点研究了 Hyperlane 的Context设计。传统框架需要这样获取请求方法：\nlet method = ctx.get_request().await.get_method();\n\n但 Hyperlane 提供了更优雅的方式：\nlet method = ctx.get_request_method().await;\n\n我的理解：\n\n这种链式调用简化就像 Rust 的?操作符——把嵌套调用扁平化，代码可读性大幅提升。Hyperlane 通过自动生成 getter/setter 方法，把request.method映射为get_request_method()，太聪明了！\n尝试实现 RESTful 接口时，发现了 Hyperlane 的方法宏：\n#[methods(get, post)]\nasync fn user_api(ctx: Context) {\n    // 处理GET/POST请求\n}\n\n#[delete]\nasync fn delete_user(ctx: Context) {\n    // 处理DELETE请求\n}\n\n遇到的问题：\n\n刚开始忘记给路由函数添加async关键字，编译器报错让我困惑了半小时。Rust 的异步编程真是需要时刻注意细节！\n花了整天研究响应 API，做了个对比表格帮助理解：\n\n\n\n操作类型…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/da-san-zi-xue-bi-ji-tan-suo-hyperlanekuang-jia-de-xin-lu-li-cheng-4hfi",
+          "publishedOn": "2025-06-13T14:47:32.000Z",
+          "wordCount": 1049,
+          "title": "大三自学笔记：探索Hyperlane框架的心路历程",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fd1qzdyd0yze445ov9a6o.png"
+        },
+        {
+          "id": "https://dev.to/semperfitodd/ai-voices-in-healthcare-ensuring-privacy-and-compliance-with-aws-powered-voice-cloning-2a43",
+          "author": "Todd Bernson",
+          "description": "By Todd Bernson, CTO of BSC Analytics, USMC Veteran, and Voice Cloning Nerd with a Respect for HIPAA and Heavy Deadlifts\nHealthcare doesn’t mess around when it comes to privacy. Between HIPAA, HITRUST, and the unofficial but very real “don’t you dare leak my test results” rule, any AI solution operating in this space better know how to behave.\nSo when I decided to bring voice cloning — yes, real-time AI-generated voices — into healthcare workflows, I knew two things:\nIt had to feel human.\nIt had to act like a raider-trained compliance officer.\nLet’s talk about how we built a fully self-hosted, AWS-powered voice cloning platform designed for healthcare environments — balancing personalization with the paranoia (justified!) that comes with handling PHI.\nSimple: people trust people, not robot…",
+          "link": "https://dev.to/semperfitodd/ai-voices-in-healthcare-ensuring-privacy-and-compliance-with-aws-powered-voice-cloning-2a43",
+          "publishedOn": "2025-06-13T14:46:07.000Z",
+          "wordCount": 1665,
+          "title": "AI Voices in Healthcare: Ensuring Privacy and Compliance with AWS-Powered Voice Cloning",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fz96kcoo3ymy046c8kle9.png"
+        },
+        {
           "id": "https://dev.to/_95e41982c9ad08a13458d/xin-dai-rust-web-kuang-jia-de-gao-xing-neng-zhi-xuan-2d5j",
           "author": "Eastspire",
           "description": "在当前的 Rust Web 框架生态中，Hyperlane 正逐步展现出其作为“新一代轻量级高性能框架”的强大竞争力。本文将通过与主流框架（如 Actix-Web、Axum）对比，全面剖析 Hyperlane 的优势，特别是在性能、特性集成、开发体验和底层架构方面的领先之处。\n\n\n\n框架\n依赖模型\n异步运行时\n中间件支持\nSSE/WebSocket\n路由匹配能力\n\n\n\n\nHyperlane\n仅依赖 Tokio + 标准库\nTokio\n✅ 支持请求/响应\n✅ 原生支持\n✅ 支持正则表达式\n\n\nActix-Web\n大量内部抽象层\nActix\n✅ 请求中间件\n部分支持（需插件）\n⚠️ 路径宏需显式配置\n\n\nAxum\nTower 架构复杂\nTokio\n✅ Tower 中间件\n✅ 需依赖层扩展\n⚠️ 动态路由较弱\n\n\n\n零平台依赖：纯 Rust 实现，跨平台一致性强，无需额外 C 库绑定。\n极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲处理，自动开启 TCP_NODELAY，默认关闭 SO_LINGER，适合高频请求环境。\n中间件机制灵活：支持 request_middleware 与 response_middleware 明确划分，便于请求生命周期控制。\n实时通信开箱即用：原生支持 WebSocket 与 SSE，无需第三方插件扩展。\n下面我们将拆解一个完整 Hyperlane 服务示例，说明其设计理念与开发者友好性。\nasync fn request_middleware(ctx: Context) {\n    let socket_addr = ctx.get_socket_addr_or_default_string().await;\n    ctx.set_response_header(SERVER, HYPERLANE)\n      …",
@@ -15892,6 +16012,36 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://research.mietek.io/mi.MartinLof2006.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://research.mietek.io/mi.MartinLof2006.html",
+          "publishedOn": "2025-06-13T14:46:15.000Z",
+          "wordCount": 6834,
+          "title": "100 years of Zermelo's axiom of choice: What was the problem with it? (2006)",
+          "imageUrl": null
+        },
+        {
+          "id": "https://oxcaml.org/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://oxcaml.org/",
+          "publishedOn": "2025-06-13T14:20:38.000Z",
+          "wordCount": 636,
+          "title": "OxCaml - a set of extensions to the OCaml programming language.",
+          "imageUrl": null
+        },
+        {
+          "id": "https://tattoy.sh/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://tattoy.sh/",
+          "publishedOn": "2025-06-13T14:04:35.000Z",
+          "wordCount": 607,
+          "title": "Show HN: Tattoy – a text-based terminal compositor",
+          "imageUrl": "https://tattoy.sh/assets/tattoy_logo.png"
+        },
+        {
           "id": "https://github.com/Techwolf12/qrkey",
           "author": null,
           "description": "Comments",
@@ -15902,6 +16052,36 @@
           "imageUrl": "https://opengraph.githubassets.com/7218020cbb3c500076035a15630a01bc4c8d6984415cb8aa78b580b0735908b7/Techwolf12/qrkey"
         },
         {
+          "id": "https://news.ycombinator.com/item?id=44268448",
+          "author": null,
+          "description": "Comments",
+          "link": "https://news.ycombinator.com/item?id=44268448",
+          "publishedOn": "2025-06-13T13:42:45.000Z",
+          "wordCount": 2656,
+          "title": "Ask HN: How do I give back to people helped me when I was young and had nothing?",
+          "imageUrl": null
+        },
+        {
+          "id": "https://simonwillison.net/2025/Jun/13/prompt-injection-design-patterns/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://simonwillison.net/2025/Jun/13/prompt-injection-design-patterns/",
+          "publishedOn": "2025-06-13T13:27:46.000Z",
+          "wordCount": 2025,
+          "title": "Design Patterns for Securing LLM Agents Against Prompt Injections",
+          "imageUrl": "https://static.simonwillison.net/static/2025/design-patterns-card.jpg"
+        },
+        {
+          "id": "https://arxiv.org/abs/2502.13293",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arxiv.org/abs/2502.13293",
+          "publishedOn": "2025-06-13T13:21:47.000Z",
+          "wordCount": 631,
+          "title": "Geometry from Quantum Temporal Correlations",
+          "imageUrl": "/static/browse/0.3.4/images/arxiv-logo-fb.png"
+        },
+        {
           "id": "https://www.nytimes.com/2025/06/12/technology/meta-scale-ai.html",
           "author": null,
           "description": "Comments",
@@ -15910,6 +16090,16 @@
           "wordCount": null,
           "title": "Meta Invests $14.3B in Scale AI to Kick-Start Superintelligence Lab",
           "imageUrl": null
+        },
+        {
+          "id": "https://www.theverge.com/news/686084/anker-recall-uscpsc-power-bank-battery-powercore-a1263",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.theverge.com/news/686084/anker-recall-uscpsc-power-bank-battery-powercore-a1263",
+          "publishedOn": "2025-06-13T12:41:20.000Z",
+          "wordCount": 6956,
+          "title": "Anker is recalling over 1.1M power banks due to fire and burn risks",
+          "imageUrl": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/06/anker_powercore1.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
         },
         {
           "id": "https://arstechnica.com/security/2025/06/apple-previews-new-import-export-feature-to-make-passkeys-more-interoperable/",
@@ -22611,6 +22801,16 @@
       "siteUrl": null,
       "articles": [
         {
+          "id": "https://venturebeat.com/?p=3012021",
+          "author": "Carl Franzen",
+          "description": "The developer must also publish known failure modes, keep all documentation current, and push updates within 30 days of a version change.",
+          "link": "https://venturebeat.com/ai/senators-rise-act-would-require-ai-developers-to-list-training-data-evaluation-methods-in-exchange-for-safe-harbor-from-lawsuits/",
+          "publishedOn": "2025-06-13T14:59:24.000Z",
+          "wordCount": 2050,
+          "title": "Senator’s RISE Act would require AI developers to list training data, evaluation methods in exchange for ‘safe harbor’ from lawsuits",
+          "imageUrl": "https://venturebeat.com/wp-content/uploads/2025/06/cfr0z3n_low_angle_hitchcockian_suspensful_view_bold_lines_retro_7d3c29b6-84c6-489d-b22e-863844dd098f.png?w=1024?w=1200&strip=all"
+        },
+        {
           "id": "https://venturebeat.com/?p=3010828",
           "author": "Louis Columbus",
           "description": "AI models are under attack. Traditional defenses are failing. Discover why red teaming is crucial for thwarting adversarial threats.",
@@ -23207,6 +23407,16 @@
       "feedUrl": "https://www.technologyreview.com/feed/",
       "siteUrl": "https://www.technologyreview.com",
       "articles": [
+        {
+          "id": "https://www.technologyreview.com/?p=1118600",
+          "author": "MIT Technology Review Insights",
+          "description": "Businesses in highly-regulated industries like financial services, insurance, pharmaceuticals, and health care are increasingly turning to AI-powered tools to streamline complex and sensitive tasks. Conversational AI-driven interfaces are helping hospitals to track the location and delivery of a patient’s time-sensitive cancer drugs. Generative AI chatbots are helping insurance customers answer questions and solve problems. And agentic…",
+          "link": "https://www.technologyreview.com/2025/06/13/1118600/powering-next-gen-services-with-ai-in-regulated-industries/",
+          "publishedOn": "2025-06-13T14:09:40.000Z",
+          "wordCount": 5517,
+          "title": "Powering next-gen services with AI in regulated industries",
+          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2025/06/MITTR2024_EYV12_CoverSocial.png?resize=1200,600"
+        },
         {
           "id": "https://www.technologyreview.com/?p=1118731",
           "author": "Rhiannon Williams",
@@ -26878,6 +27088,51 @@
       "feedUrl": "https://cointelegraph.com/rss",
       "siteUrl": "https://cointelegraph.com",
       "articles": [
+        {
+          "id": "https://cointelegraph.com/news/etf-filings-2025-altcoin-summer",
+          "author": "Cointelegraph by Aaron Wood",
+          "description": "This year has seen an uptick in the number of altcoin ETF applications, with at least 31 filed in the first half of 2025, Cointelegraph Research found.",
+          "link": "https://cointelegraph.com/news/etf-filings-2025-altcoin-summer?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publishedOn": "2025-06-13T15:00:00.000Z",
+          "wordCount": null,
+          "title": "ETF filings explode in 2025, heating hopes of an ‘altcoin summer’",
+          "enclosure": {
+            "url": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjQtMTIvMDE5M2UxM2EtYTIzNS03MmJmLTg1ODUtNWZlMjlkZjM3NzU0.jpg",
+            "length": "528",
+            "type": "image/jpg"
+          },
+          "imageUrl": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjQtMTIvMDE5M2UxM2EtYTIzNS03MmJmLTg1ODUtNWZlMjlkZjM3NzU0.jpg"
+        },
+        {
+          "id": "https://cointelegraph.com/news/blockchain-sports-analytics",
+          "author": "Cointelegraph by Tristan Thompson",
+          "description": "Blockchain can reshape sports analytics as a secure, open and verifiable source of truth for performance data. From elite leagues to fantasy sports, blockchain breaks down data silos, ensures real-time accuracy and embeds trust in the sports ecosystem.",
+          "link": "https://cointelegraph.com/news/blockchain-sports-analytics?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publishedOn": "2025-06-13T15:00:00.000Z",
+          "wordCount": null,
+          "title": "Blockchain is the missing trust layer in sports analytics",
+          "enclosure": {
+            "url": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDYvMDE5NzU5NWYtMjAzNS03MThiLThmZGQtOGM4MzVjMGM2YTEy.jpg",
+            "length": "528",
+            "type": "image/jpg"
+          },
+          "imageUrl": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDYvMDE5NzU5NWYtMjAzNS03MThiLThmZGQtOGM4MzVjMGM2YTEy.jpg"
+        },
+        {
+          "id": "https://cointelegraph.com/explained/how-a-youtuber-hacked-an-800k-crypto-scam-hub-in-cebu-philippines",
+          "author": "Cointelegraph by Dilip Kumar Patairya",
+          "description": "A YouTuber exposed an $800,000 crypto scam in Cebu by hacking CCTV, confronting scammers live and revealing their global fraud operation.",
+          "link": "https://cointelegraph.com/explained/how-a-youtuber-hacked-an-800k-crypto-scam-hub-in-cebu-philippines?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publishedOn": "2025-06-13T14:50:00.000Z",
+          "wordCount": null,
+          "title": "How a YouTuber hacked an $800K crypto scam hub in Cebu, Philippines",
+          "enclosure": {
+            "url": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS9zdG9yYWdlL3VwbG9hZHMvdmlldy8xY2RhODA2ZDZlNjA4NmRiYWFiZWFkMDBiMmRkNTUzZi5qcGc=.jpg",
+            "length": "528",
+            "type": "image/jpg"
+          },
+          "imageUrl": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS9zdG9yYWdlL3VwbG9hZHMvdmlldy8xY2RhODA2ZDZlNjA4NmRiYWFiZWFkMDBiMmRkNTUzZi5qcGc=.jpg"
+        },
         {
           "id": "https://cointelegraph.com/news/sharplink-largest-public-eth-holder-463m",
           "author": "Cointelegraph by Helen Partz",

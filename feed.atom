@@ -2,10 +2,549 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-06-13T14:09:35.982Z</updated>
+    <updated>2025-06-13T15:10:05.078Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[从零开始的Hyperlane框架学习之旅：一个大三学生的真实体验]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/cong-ling-kai-shi-de-hyperlanekuang-jia-xue-xi-zhi-lu-ge-da-san-xue-sheng-de-zhen-shi-ti-yan-487a</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/cong-ling-kai-shi-de-hyperlanekuang-jia-xue-xi-zhi-lu-ge-da-san-xue-sheng-de-zhen-shi-ti-yan-487a"/>
+        <updated>2025-06-13T15:00:26.000Z</updated>
+        <summary type="html"><![CDATA[从零开始的Hyperlane框架学习之旅：一个大三学生的真实体验
+
+
+作为一名大三计算机系的学生，我在上学期的分布式系统课程项目中初次接触到了 Hyperlane 这个 Rust HTTP 框架。从最初的好奇到后来的深入使用，这个框架给我留下了深刻的印象。今天，我想分享一下我使用 Hyperlane 的心路历程。
+第一次看到 Hyperlane 的文档时，我就被它的设计理念所吸引。作为一个性能导向的轻量级框架，它在保持高性能的同时，还提供了非常友好的开发体验。
+首先，我只需要在 Cargo.toml 中添加一行依赖：
+[dependencies]
+hyperlane = "5.25.1"
+
+相比其他框架动辄几十个依赖项，Hyperlane 只依赖 Tokio 和标准库，这让我在项目初始化时就感受到了它的轻量级特性。
+在传统框架中，获取请求方法可能需要这样写：
+let method = ctx.get_request().await.get_method();
+
+而 Hyperlane 提供了更优雅的方式：
+let method = ctx.get_request_method().await;
+
+这种扁平化的 API 设计让代码更加清晰易读，也减少了查阅文档的次数。
+#[methods(get, post)]
+async fn root_route(ctx: Context) {
+    ctx.set_response_status_code(200)
+        .await
+        .set_response_body("Hello hyperlane => /")
+        .await;
+}
+
+这种组合式的路由注解比其他框架一个个声明方法要简洁得多。
+server.route("/goods/{id:\\d+}", |ctx| async move {
+    let id = ctx.get_route_param("id").await.parse::<u32>().unwrap();
+    // 数据库查询逻辑...
+}).await;
+
+内置的正则表达式支持让路由匹配更加灵活，不需要额外的插件。
+在 AWS t2.micro 实例上进行压力测试：
+wrk -c360 -d60s http://localhost:8000/
+
+测试结果令人震惊：
+
+
+
+框架
+QPS
+
+
+
+
+Tokio
+340,130
+
+
+Hyperlane
+324,323
+
+
+Rocket
+298,945
+
+
+Gin (Go)
+242,570
+
+
+
+性能仅比底层的 Tokio 低 5%，但提供了完整的 Web 框架功能，这个数据让我在课程展示时收获了不少惊叹。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    let body = ctx.get_request_body().await;
+    ctx.set_response_body(key).await.send_body().await;
+    ctx.set_response_body(body).await.send_body().await;
+}
+
+无需额外的插件就能支持 WebSocket，这让我在实现实时聊天功能时省去了不少麻烦。
+在升级到 v4.89+ 版本时，我遇到了一些生命周期的变化：
+// v4.89+ 推荐的请求中断方式
+if should_abort {
+    ctx.aborted().await;
+    return;
+}
+
+但框架清晰的版本说明让我很快适应了这些变化。
+API 设计哲学：链式调用设计保持了 Rust 的优雅
+性能密码：建立在 Tokio 的异步架构和零拷贝处理之上
+中间件系统：洋葱模型提供了清晰的扩展点
+路由灵活性：在简单参数和正则表达式之间取得了平衡
+版本管理：仔细阅读 CHANGELOG 避免兼容性问题
+通过这次项目实践，我不仅掌握了 Hyperlane 框架，还对现代 Web 框架的设计理念有了深入的理解。接下来，我计划：
+深入研究 Hyperlane 的 WebSocket 支持
+探索框架如何在底层利用 Rust 的零成本抽象
+尝试基于 Hyperlane 构建微服务架构
+Hyperlane 不仅仅是一个工具，它改变了我对编程的思考方式。每一次 ctx 调用，每一个中间件的编写，都在加深我对 Web 开发本质的理解。这个框架让我明白，性能和开发体验是可以兼得的，这就是 Rust 生态的魅力所在。]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ETF filings explode in 2025, heating hopes of an ‘altcoin summer’]]></title>
+        <id>https://cointelegraph.com/news/etf-filings-2025-altcoin-summer</id>
+        <link href="https://cointelegraph.com/news/etf-filings-2025-altcoin-summer?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-06-13T15:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This year has seen an uptick in the number of altcoin ETF applications, with at least 31 filed in the first half of 2025, Cointelegraph Research found.]]></summary>
+        <author>
+            <name>Cointelegraph by Aaron Wood</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Blockchain is the missing trust layer in sports analytics]]></title>
+        <id>https://cointelegraph.com/news/blockchain-sports-analytics</id>
+        <link href="https://cointelegraph.com/news/blockchain-sports-analytics?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-06-13T15:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Blockchain can reshape sports analytics as a secure, open and verifiable source of truth for performance data. From elite leagues to fantasy sports, blockchain breaks down data silos, ensures real-time accuracy and embeds trust in the sports ecosystem.]]></summary>
+        <author>
+            <name>Cointelegraph by Tristan Thompson</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Senator’s RISE Act would require AI developers to list training data, evaluation methods in exchange for ‘safe harbor’ from lawsuits]]></title>
+        <id>https://venturebeat.com/?p=3012021</id>
+        <link href="https://venturebeat.com/ai/senators-rise-act-would-require-ai-developers-to-list-training-data-evaluation-methods-in-exchange-for-safe-harbor-from-lawsuits/"/>
+        <updated>2025-06-13T14:59:24.000Z</updated>
+        <summary type="html"><![CDATA[The developer must also publish known failure modes, keep all documentation current, and push updates within 30 days of a version change.]]></summary>
+        <author>
+            <name>Carl Franzen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The New Generation of High-Performance Rust Web Frameworks]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/the-new-generation-of-high-performance-rust-web-frameworks-464o</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/the-new-generation-of-high-performance-rust-web-frameworks-464o"/>
+        <updated>2025-06-13T14:53:02.000Z</updated>
+        <summary type="html"><![CDATA[In the current ecosystem of Rust Web frameworks, Hyperlane is increasingly demonstrating its strong competitiveness as a "new generation of lightweight and high-performance frameworks." This article will comprehensively analyze the advantages of Hyperlane by comparing it with mainstream frameworks such as Actix-Web and Axum, especially in terms of performance, feature integration, development experience, and underlying architecture.
+
+
+
+Framework
+Dependency Model
+Async Runtime
+Middleware Support
+SSE/WebSocket
+Routing Matching Capability
+
+
+
+
+Hyperlane
+Only depends on Tokio + Standard Library
+Tokio
+✅ Supports request/response
+✅ Native support
+✅ Supports regular expressions
+
+
+Actix-Web
+Many internal abstraction layers
+Actix
+✅ Request middleware
+Partial support (requires plugins)
+⚠️ Path macros…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Smart Fence Monitoring: Motion Detection Using PIR Sensors and ESP8266]]></title>
+        <id>https://dev.to/karen_londres/smart-fence-monitoring-motion-detection-using-pir-sensors-and-esp8266-2ioc</id>
+        <link href="https://dev.to/karen_londres/smart-fence-monitoring-motion-detection-using-pir-sensors-and-esp8266-2ioc"/>
+        <updated>2025-06-13T14:52:11.000Z</updated>
+        <summary type="html"><![CDATA[As urban infrastructure becomes smarter and more interconnected, traditional fencing systems are evolving. No longer are fences just passive barriers—they are becoming intelligent components of property surveillance and security systems. In this blog, we’ll explore how to build a motion detection system for fences using PIR (Passive Infrared) sensors and the ESP8266 microcontroller.
+This guide is perfect for IoT enthusiasts, developers, and even fence companies looking to offer high-tech solutions in the field of property security. We’ll also explore real-world scenarios where this setup can be implemented—especially in regions with high security demands such as Chicago.
+PIR sensors detect motion by measuring changes in infrared radiation (heat) in their field of view. They're affordable, …]]></summary>
+        <author>
+            <name>Karen Londres</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[👨‍💻 Learn to Code with the World’s Largest Web Developer Site!]]></title>
+        <id>https://dev.to/ml318097/learn-to-code-with-the-worlds-largest-web-developer-site-449j</id>
+        <link href="https://dev.to/ml318097/learn-to-code-with-the-worlds-largest-web-developer-site-449j"/>
+        <updated>2025-06-13T14:52:00.000Z</updated>
+        <summary type="html"><![CDATA[Explore tutorials, exercises, quizzes, and certifications all in one place:
+🌐 w3schools.com
+Start your coding journey today — from HTML to JavaScript and beyond!]]></summary>
+        <author>
+            <name>Mehul Lakhanpal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane性能优化实战：从理论到实践的深度探索]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-2015</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlanexing-neng-you-hua-shi-zhan-cong-li-lun-dao-shi-jian-de-shen-du-tan-suo-2015"/>
+        <updated>2025-06-13T14:51:58.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane性能优化实战：从理论到实践的深度探索
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发高并发校园服务时，积累了不少性能优化的经验。这篇文章将从实战角度分享我的优化心得。
+server
+    .enable_nodelay().await
+    .disable_linger().await
+    .http_line_buffer_size(4096).await
+    .run().await;
+
+wrk -c360 -d60s http://localhost:8000/
+
+
+
+
+框架
+QPS
+延迟
+内存占用
+
+
+
+
+Tokio
+340,130
+1.2ms
+基准线
+
+
+Hyperlane
+324,323
+1.5ms
++5%
+
+
+Rocket
+298,945
+1.8ms
++15%
+
+
+Gin (Go)
+242,570
+2.1ms
++25%
+
+
+
+async fn optimize_connection_pool() {
+    let pool = Pool::builder()
+        .max_size(100)
+        .min_idle(Some(10))
+        .build()
+        .await;
+
+    // 使用连接池
+    let conn = pool.get().await?;
+}
+
+async fn reuse_buffers(ctx: Context) {
+    let buffer = get_buffer_from_pool().await;
+    ctx.set_response_body(buffer)
+        .await
+        .send_body()
+        .await;
+    return_buffer_to_po…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Advance Types In Rust]]></title>
+        <id>https://dev.to/sureni-dhanasekara/advance-types-in-rust-35gg</id>
+        <link href="https://dev.to/sureni-dhanasekara/advance-types-in-rust-35gg"/>
+        <updated>2025-06-13T14:51:22.000Z</updated>
+        <summary type="html"><![CDATA[Rust is known for its powerful type system, which enables memory safety, concurrency, and zero-cost abstractions. Rust basic types like integers, boolean, and strings are straightforward, advanced types provide the foundation for writing expressive and safe code in complex systems.
+Most important advanced types in Rust:
+Algebraic Data Types (Enums & Structs)
+Type Aliases
+Newtypes
+PhantomData
+Dynamically Sized Types (DSTs)
+Trait Objects
+Function Pointers
+Never Type (!)
+Inferred and Generic Types
+Algebraic Data Types (ADTs) 
+Algebraic data types is a way to define complex data by combining simpler types.
+There are two main kinds of ADTs:
+Struct : combine multiple fields together
+    struct Person {
+      name: String,
+      age: u8,
+    }
+
+Enum : define one of many possibilities
+    enum Sha…]]></summary>
+        <author>
+            <name>Sureni Dhanasekara</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🚀 Building a Space Shooter Game with Amazon Q CLI]]></title>
+        <id>https://dev.to/howardpeter/building-a-space-shooter-game-with-amazon-q-cli-41eb</id>
+        <link href="https://dev.to/howardpeter/building-a-space-shooter-game-with-amazon-q-cli-41eb"/>
+        <updated>2025-06-13T14:51:19.000Z</updated>
+        <summary type="html"><![CDATA[🧠 Overview
+
+
+As part of the "Build Games with Amazon Q CLI" challenge by the AWS Community, I decided to bring a classic arcade-style game to life: a Space Shooter built with Python and Pygame. With the help of Amazon Q CLI, I was able to rapidly prototype, refactor, and build a modular game with surprising ease – and yes, all while scoring a cool T-shirt!
+Amazon Q CLI is more than just a chatbot in your terminal — it's like pairing with a senior developer. Here's why I found it so useful for this project:
+Fast prototyping: I could describe game logic or a mechanic and get all the Python code files.
+Instant debugging: AI spotted logic errors and suggested fixes right away.
+Context-aware: It understood the structure of my project and improved it over time.
+Documentation help: Even helped m…]]></summary>
+        <author>
+            <name>HowardPeter</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入理解Hyperlane的中间件系统：一个大三学生的实践笔记]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-lel</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/shen-ru-li-jie-hyperlanede-zhong-jian-jian-xi-tong-ge-da-san-xue-sheng-de-shi-jian-bi-ji-lel"/>
+        <updated>2025-06-13T14:50:51.000Z</updated>
+        <summary type="html"><![CDATA[深入理解Hyperlane的中间件系统：一个大三学生的实践笔记
+
+
+作为一名大三计算机专业的学生，我在使用 Hyperlane 框架开发校园项目的过程中，对其中间件系统有了深入的理解。今天，我想分享一下我在实践中的心得体会。
+graph TD
+    A[客户端请求] --> B[认证中间件]
+    B --> C[日志中间件]
+    C --> D[控制器]
+
+Hyperlane 的中间件采用洋葱模型，请求从外层向内层传递，这种设计让请求处理流程清晰可控。
+async fn request_middleware(ctx: Context) {
+    let socket_addr = ctx.get_socket_addr_or_default_string().await;
+    ctx.set_response_header(SERVER, HYPERLANE)
+        .await
+        .set_response_header("SocketAddr", socket_addr)
+        .await;
+}
+
+相比其他框架需要通过 trait 或层注册中间件，Hyperlane 直接使用异步函数注册，更加直观。
+async fn auth_middleware(ctx: Context) {
+    let token = ctx.get_request_header("Authorization").await;
+    match token {
+        Some(token) => {
+            // 验证逻辑
+            ctx.set_request_data("user_id", "123").await;
+        }
+        None => {
+           …]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How a YouTuber hacked an $800K crypto scam hub in Cebu, Philippines]]></title>
+        <id>https://cointelegraph.com/explained/how-a-youtuber-hacked-an-800k-crypto-scam-hub-in-cebu-philippines</id>
+        <link href="https://cointelegraph.com/explained/how-a-youtuber-hacked-an-800k-crypto-scam-hub-in-cebu-philippines?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-06-13T14:50:00.000Z</updated>
+        <summary type="html"><![CDATA[A YouTuber exposed an $800,000 crypto scam in Cebu by hacking CCTV, confronting scammers live and revealing their global fraud operation.]]></summary>
+        <author>
+            <name>Cointelegraph by Dilip Kumar Patairya</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperlane实时通信指南：WebSocket和SSE实战经验分享]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-58n4</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/hyperlaneshi-shi-tong-xin-zhi-nan-websockethe-sseshi-zhan-jing-yan-fen-xiang-58n4"/>
+        <updated>2025-06-13T14:49:46.000Z</updated>
+        <summary type="html"><![CDATA[Hyperlane实时通信指南：WebSocket和SSE实战经验分享
+
+
+作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园实时聊天系统时，深入体验了它的 WebSocket 和 SSE 功能。这篇文章将分享我的实战经验。
+#[get]
+async fn ws_route(ctx: Context) {
+    let key = ctx.get_request_header(SEC_WEBSOCKET_KEY).await.unwrap();
+    let body = ctx.get_request_body().await;
+
+    ctx.set_response_header("Connection", "Upgrade")
+        .await
+        .set_response_header("Upgrade", "websocket")
+        .await
+        .set_response_body(key)
+        .await
+        .send_body()
+        .await;
+}
+
+async fn handle_ws_message(ctx: Context) {
+    let message = ctx.get_ws_message().await;
+    match message {
+        WSMessage::Text(text) => {
+            // 处理文本消息
+            ctx.send_ws_text(format!("收到消息: {}", text)).await;
+        }
+        WSMessage::Binary(data) => {
+            // 处理二进制消…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[我与Hyperlane框架的探索之旅：从入门到性能优化]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/wo-yu-hyperlanekuang-jia-de-tan-suo-zhi-lu-cong-ru-men-dao-xing-neng-you-hua-58a9</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/wo-yu-hyperlanekuang-jia-de-tan-suo-zhi-lu-cong-ru-men-dao-xing-neng-you-hua-58a9"/>
+        <updated>2025-06-13T14:48:38.000Z</updated>
+        <summary type="html"><![CDATA[作为一名大三计算机专业的学生，我在构建 Web 服务项目时接触到了 Hyperlane 框架。这个高性能的 Rust HTTP 框架彻底改变了我对 Web 开发的认知。下面是我学习并应用 Hyperlane 的真实经历。
+刚开始使用 Hyperlane 时，最让我惊喜的是它简洁的 Context 封装。以前在其它框架中需要冗长的调用：
+let method = ctx.get_request().await.get_method();
+
+现在只需要一行代码就能搞定：
+let method = ctx.get_request_method().await;
+
+这种设计让我的代码可读性大幅提升，特别是处理复杂业务逻辑时，不再需要嵌套多个方法调用。
+在实现 RESTful API 时，Hyperlane 的请求方法宏让路由定义变得异常简单：
+#[methods(get, post)]
+async fn user_profile(ctx: Context) {
+    // 处理GET和POST请求
+    ctx.set_response_status_code(200).await;
+    ctx.set_response_body("用户个人资料").await;
+}
+
+#[get]
+async fn get_users(ctx: Context) {
+    // 仅处理GET请求
+    let users = fetch_all_users().await;
+    ctx.set_response_body(users).await;
+}
+
+这种声明式语法让我可以专注于业务逻辑而非 HTTP 细节。
+在开发过程中，我发现响应处理特别直观：
+// 设置响应状态
+ctx.set_response_status_code(404).await;
+
+// 添加自定义响应头
+…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[大三自学笔记：探索Hyperlane框架的心路历程]]></title>
+        <id>https://dev.to/_95e41982c9ad08a13458d/da-san-zi-xue-bi-ji-tan-suo-hyperlanekuang-jia-de-xin-lu-li-cheng-4hfi</id>
+        <link href="https://dev.to/_95e41982c9ad08a13458d/da-san-zi-xue-bi-ji-tan-suo-hyperlanekuang-jia-de-xin-lu-li-cheng-4hfi"/>
+        <updated>2025-06-13T14:47:32.000Z</updated>
+        <summary type="html"><![CDATA[Day 1：初识 Hyperlane
+
+
+在 GitHub 上发现了 Hyperlane 这个 Rust HTTP 框架，立刻被它的性能数据吸引。官方文档写着：
+"hyperlane 是一个高性能且轻量级的 Rust HTTP 框架，设计目标是简化现代 Web 服务的开发，同时兼顾灵活性和性能表现。"
+我决定用它来完成我的分布式系统课设。从 Cargo.toml 开始：
+[dependencies]
+hyperlane = "5.25.1"
+
+今天重点研究了 Hyperlane 的Context设计。传统框架需要这样获取请求方法：
+let method = ctx.get_request().await.get_method();
+
+但 Hyperlane 提供了更优雅的方式：
+let method = ctx.get_request_method().await;
+
+我的理解：
+
+这种链式调用简化就像 Rust 的?操作符——把嵌套调用扁平化，代码可读性大幅提升。Hyperlane 通过自动生成 getter/setter 方法，把request.method映射为get_request_method()，太聪明了！
+尝试实现 RESTful 接口时，发现了 Hyperlane 的方法宏：
+#[methods(get, post)]
+async fn user_api(ctx: Context) {
+    // 处理GET/POST请求
+}
+
+#[delete]
+async fn delete_user(ctx: Context) {
+    // 处理DELETE请求
+}
+
+遇到的问题：
+
+刚开始忘记给路由函数添加async关键字，编译器报错让我困惑了半小时。Rust 的异步编程真是需要时刻注意细节！
+花了整天研究响应 API，做了个对比表格帮助理解：
+
+
+
+操作类型…]]></summary>
+        <author>
+            <name>Eastspire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[100 years of Zermelo's axiom of choice: What was the problem with it? (2006)]]></title>
+        <id>https://research.mietek.io/mi.MartinLof2006.html</id>
+        <link href="https://research.mietek.io/mi.MartinLof2006.html"/>
+        <updated>2025-06-13T14:46:15.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Voices in Healthcare: Ensuring Privacy and Compliance with AWS-Powered Voice Cloning]]></title>
+        <id>https://dev.to/semperfitodd/ai-voices-in-healthcare-ensuring-privacy-and-compliance-with-aws-powered-voice-cloning-2a43</id>
+        <link href="https://dev.to/semperfitodd/ai-voices-in-healthcare-ensuring-privacy-and-compliance-with-aws-powered-voice-cloning-2a43"/>
+        <updated>2025-06-13T14:46:07.000Z</updated>
+        <summary type="html"><![CDATA[By Todd Bernson, CTO of BSC Analytics, USMC Veteran, and Voice Cloning Nerd with a Respect for HIPAA and Heavy Deadlifts
+Healthcare doesn’t mess around when it comes to privacy. Between HIPAA, HITRUST, and the unofficial but very real “don’t you dare leak my test results” rule, any AI solution operating in this space better know how to behave.
+So when I decided to bring voice cloning — yes, real-time AI-generated voices — into healthcare workflows, I knew two things:
+It had to feel human.
+It had to act like a raider-trained compliance officer.
+Let’s talk about how we built a fully self-hosted, AWS-powered voice cloning platform designed for healthcare environments — balancing personalization with the paranoia (justified!) that comes with handling PHI.
+Simple: people trust people, not robot…]]></summary>
+        <author>
+            <name>Todd Bernson</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OxCaml - a set of extensions to the OCaml programming language.]]></title>
+        <id>https://oxcaml.org/</id>
+        <link href="https://oxcaml.org/"/>
+        <updated>2025-06-13T14:20:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Powering next-gen services with AI in regulated industries]]></title>
+        <id>https://www.technologyreview.com/?p=1118600</id>
+        <link href="https://www.technologyreview.com/2025/06/13/1118600/powering-next-gen-services-with-ai-in-regulated-industries/"/>
+        <updated>2025-06-13T14:09:40.000Z</updated>
+        <summary type="html"><![CDATA[Businesses in highly-regulated industries like financial services, insurance, pharmaceuticals, and health care are increasingly turning to AI-powered tools to streamline complex and sensitive tasks. Conversational AI-driven interfaces are helping hospitals to track the location and delivery of a patient’s time-sensitive cancer drugs. Generative AI chatbots are helping insurance customers answer questions and solve problems. And agentic…]]></summary>
+        <author>
+            <name>MIT Technology Review Insights</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Tattoy – a text-based terminal compositor]]></title>
+        <id>https://tattoy.sh/</id>
+        <link href="https://tattoy.sh/"/>
+        <updated>2025-06-13T14:04:35.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[新一代 Rust Web 框架的高性能之选]]></title>
         <id>https://dev.to/_95e41982c9ad08a13458d/xin-dai-rust-web-kuang-jia-de-gao-xing-neng-zhi-xuan-2d5j</id>
@@ -501,6 +1040,36 @@ The original application need…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Ask HN: How do I give back to people helped me when I was young and had nothing?]]></title>
+        <id>https://news.ycombinator.com/item?id=44268448</id>
+        <link href="https://news.ycombinator.com/item?id=44268448"/>
+        <updated>2025-06-13T13:42:45.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Design Patterns for Securing LLM Agents Against Prompt Injections]]></title>
+        <id>https://simonwillison.net/2025/Jun/13/prompt-injection-design-patterns/</id>
+        <link href="https://simonwillison.net/2025/Jun/13/prompt-injection-design-patterns/"/>
+        <updated>2025-06-13T13:27:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Geometry from Quantum Temporal Correlations]]></title>
+        <id>https://arxiv.org/abs/2502.13293</id>
+        <link href="https://arxiv.org/abs/2502.13293"/>
+        <updated>2025-06-13T13:21:47.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[CoinDesk 20 Performance Update: Bitcoin Price (BTC) Falls 2.2% as All Assets Decline]]></title>
         <id>2ab7cd91-98b8-4822-a362-653a44a0e9b6</id>
         <link href="https://www.coindesk.com/coindesk-indices/2025/06/13/coindesk-20-performance-update-bitcoin-price-btc-falls-2-2-as-all-assets-decline"/>
@@ -809,6 +1378,16 @@ Installation instructions are in the README file of the repository:
 https://github.com/bornthenord/hotpaws]]></summary>
         <author>
             <name>bornthenord</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Anker is recalling over 1.1M power banks due to fire and burn risks]]></title>
+        <id>https://www.theverge.com/news/686084/anker-recall-uscpsc-power-bank-battery-powercore-a1263</id>
+        <link href="https://www.theverge.com/news/686084/anker-recall-uscpsc-power-bank-battery-powercore-a1263"/>
+        <updated>2025-06-13T12:41:20.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
