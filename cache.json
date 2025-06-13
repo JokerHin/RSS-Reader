@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/xin-dai-rust-web-kuang-jia-de-gao-xing-neng-zhi-xuan-2d5j",
+          "author": "Eastspire",
+          "description": "在当前的 Rust Web 框架生态中，Hyperlane 正逐步展现出其作为“新一代轻量级高性能框架”的强大竞争力。本文将通过与主流框架（如 Actix-Web、Axum）对比，全面剖析 Hyperlane 的优势，特别是在性能、特性集成、开发体验和底层架构方面的领先之处。\n\n\n\n框架\n依赖模型\n异步运行时\n中间件支持\nSSE/WebSocket\n路由匹配能力\n\n\n\n\nHyperlane\n仅依赖 Tokio + 标准库\nTokio\n✅ 支持请求/响应\n✅ 原生支持\n✅ 支持正则表达式\n\n\nActix-Web\n大量内部抽象层\nActix\n✅ 请求中间件\n部分支持（需插件）\n⚠️ 路径宏需显式配置\n\n\nAxum\nTower 架构复杂\nTokio\n✅ Tower 中间件\n✅ 需依赖层扩展\n⚠️ 动态路由较弱\n\n\n\n零平台依赖：纯 Rust 实现，跨平台一致性强，无需额外 C 库绑定。\n极致性能优化：底层 I/O 使用 Tokio 的 TcpStream 和异步缓冲处理，自动开启 TCP_NODELAY，默认关闭 SO_LINGER，适合高频请求环境。\n中间件机制灵活：支持 request_middleware 与 response_middleware 明确划分，便于请求生命周期控制。\n实时通信开箱即用：原生支持 WebSocket 与 SSE，无需第三方插件扩展。\n下面我们将拆解一个完整 Hyperlane 服务示例，说明其设计理念与开发者友好性。\nasync fn request_middleware(ctx: Context) {\n    let socket_addr = ctx.get_socket_addr_or_default_string().await;\n    ctx.set_response_header(SERVER, HYPERLANE)\n      …",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/xin-dai-rust-web-kuang-jia-de-gao-xing-neng-zhi-xuan-2d5j",
+          "publishedOn": "2025-06-13T13:59:18.000Z",
+          "wordCount": 999,
+          "title": "新一代 Rust Web 框架的高性能之选",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F7sofbk4x4fks52bjkgat.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/the-new-generation-of-high-performance-rust-web-frameworks-1n5b",
+          "author": "Eastspire",
+          "description": "In the current ecosystem of Rust Web frameworks, Hyperlane is increasingly demonstrating its strong competitiveness as a \"new generation of lightweight and high-performance frameworks.\" This article will comprehensively analyze the advantages of Hyperlane by comparing it with mainstream frameworks such as Actix-Web and Axum, especially in terms of performance, feature integration, development experience, and underlying architecture.\n\n\n\nFramework\nDependency Model\nAsync Runtime\nMiddleware Support\nSSE/WebSocket\nRouting Matching Capability\n\n\n\n\nHyperlane\nOnly depends on Tokio + Standard Library\nTokio\n✅ Supports request/response\n✅ Native support\n✅ Supports regular expressions\n\n\nActix-Web\nMany internal abstraction layers\nActix\n✅ Request middleware\nPartial support (requires plugins)\n⚠️ Path macros…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/the-new-generation-of-high-performance-rust-web-frameworks-1n5b",
+          "publishedOn": "2025-06-13T13:57:09.000Z",
+          "wordCount": 1426,
+          "title": "The New Generation of High-Performance Rust Web Frameworks",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fi3l05c5t20kp0tis350o.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/zhan-wang-hyperlanede-wei-lai-ge-da-san-xue-sheng-de-kai-fa-xin-de-yu-si-kao-23of",
+          "author": "Eastspire",
+          "description": "展望Hyperlane的未来：一个大三学生的开发心得与思考\n\n\n作为一名大三计算机系的学生，在使用 Hyperlane 框架一个学期后，我对这个框架的现状和未来发展有了一些思考。这篇文章将分享我的学习心得和对框架未来的展望。\n极致性能\n接近原生 Tokio 的性能表现\n优秀的内存管理\n低延迟响应\n开发体验\n直观的 API 设计\n完善的文档支持\n友好的错误提示\n\n\n\n框架\nQPS\n延迟\n内存占用\n开发体验\n\n\n\n\nHyperlane\n324,323\n1.5ms\n最低\n优秀\n\n\nActix-Web\n310,000\n1.8ms\n较低\n良好\n\n\nAxum\n305,000\n1.7ms\n中等\n良好\n\n\nGin (Go)\n242,570\n2.1ms\n较高\n优秀\n\n\n\n#[methods(get, post)]\nasync fn flexible_route(ctx: Context) {\n    let method = ctx.get_request_method().await;\n    ctx.set_response_body(format!(\"Method: {}\", method))\n        .await\n        .send_body()\n        .await;\n}\n\n路由系统的设计非常直观，特别是多方法支持和正则匹配功能，大大提高了开发效率。\nasync fn custom_middleware(ctx: Context) {\n    // 前置处理\n    let start = std::time::Instant::now();\n\n    // 请求处理\n\n    // 后置处理\n    println!(\"处理耗时: {:?}\", start.elapsed());\n}\n\n中间件的洋葱模型设计让请求处理流程更加清晰。\nWebAssembly 集成\n\n\n\n\nasync fn wasm_handler(ctx: Context) {\n    let wasm_module = load_wasm_module().await;\n    let result = wasm_module.execute().await;\n    ctx.set_response_body(result).await;\n}\n\nGraphQL 支持\n\n\n\n\nasync fn graphql_handler(ctx: Context) {\n    let query = ctx.get_request_body().await;\n    let schema = build_schema().await;\n    let result = schema.execute(query).await;\n    ctx.set_response_body(result).await;\n}\n\n插件系统\n认证插件\n缓存插件\n监控插件\n工具链完善\n脚手架工具\n调试工具\n性能分析工具\n基础入门\nRust 语言基础\n异步编程概念\nWeb 开发知识\n进阶学习\n源码阅读\n性能优化\n实战项目\n// 项目最佳实践\nasync fn best_practice(ctx: Context) {\n    // 1. 统一错误处理\n    let result = process_request().await\n        .map_err(|e| handle_error(e));\n\n    // 2. 结构化日志\n    log::info!(\"请求处理完成: {:?}\", result);\n\n    // 3. 性能监控\n    metrics::record_request().await;\n}\n\n文档系统\n更多示例代码\n视频教程\n最佳实践指南\n开发工具\nIDE 插件\n调试工具\n性能分析工具\n交流平台\n技术论坛\n问答社区\n代码仓库\n生态系统\n插件市场\n模板项目\n示例应用\n循序渐进\n从简单接口开始\n理解核心概念\n多写示例代码\n实战驱动\n参与实际项目\n解决实际问题\n总结经验教训\n深入学习\n源码分析\n性能优化\n架构设计\n社区参与\n问题反馈\n代码贡献\n经验分享\n技术方向\n云原生支持\n边缘计算\nAI 集成\n应用场景\n微服务架构\n实时应用\n高性能计算\n作为一名学生开发者，我深深感受到 Hyperlane 框架在 Web 开发领域的潜力。它不仅帮助我快速构建了高性能的 Web 应用，还让我对 Rust 生态系统有了更深的理解。我相信，随着框架的不断发展和社区的壮大，Hyperlane 将在 Web 开发领域发挥更大的作用。希望这篇文章能给其他正在学习 Hyperlane 的同学一些启发和帮助！",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/zhan-wang-hyperlanede-wei-lai-ge-da-san-xue-sheng-de-kai-fa-xin-de-yu-si-kao-23of",
+          "publishedOn": "2025-06-13T13:56:04.000Z",
+          "wordCount": 950,
+          "title": "展望Hyperlane的未来：一个大三学生的开发心得与思考",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fa24mlpkw8xhxgt6ycooz.png"
+        },
+        {
+          "id": "https://dev.to/rogeriorioli/como-implementar-o-google-tag-manager-e-analytics-no-nextjs-13-com-eventos-de-clique-4k5a",
+          "author": "Rogerio Orioli",
+          "description": "Como implementar o Google Tag Manager no Next.js 13+ com eventos de clique\n\n\nO que você vai aprender:\nInstalar e configurar o GTM com o pacote oficial do Next.js\n\nRastrear eventos de clique em links e botões\nCriar um helper reutilizável para o dataLayer\n\nDica bônus: usar data-attributes para rastrear sem JavaScript\n(Opcional) Adicionar o Google Analytics 4 junto com o GTM\nO Next.js 13+ traz suporte nativo para scripts de terceiros com o pacote:\nnpm install @next/third-parties\n\nOu com yarn:\nyarn add @next/third-parties\n\nNo arquivo app/layout.tsx ou app/layout.js, importe e adicione o componente:\nimport { GoogleTagManager } from '@next/third-parties/google'\n\nexport default function RootLayout({ children }) {\n  return (\n    <html lang=\"pt\">\n      <body>\n        {children}\n        <GoogleTagMa…",
+          "link": "https://dev.to/rogeriorioli/como-implementar-o-google-tag-manager-e-analytics-no-nextjs-13-com-eventos-de-clique-4k5a",
+          "publishedOn": "2025-06-13T13:55:57.000Z",
+          "wordCount": 1303,
+          "title": "Como implementar o Google Tag Manager e Analytics no Next.js 13+ com eventos de clique",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F75ujiz7mhfqt6xthgp2n.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-42cb",
+          "author": "Eastspire",
+          "description": "Day 1: First Encounter with Hyperlane\n\n\nI stumbled upon the Hyperlane Rust HTTP framework on GitHub and was immediately captivated by its performance metrics. The official documentation states:\n\"Hyperlane is a high-performance and lightweight Rust HTTP framework designed to simplify the development of modern web services while balancing flexibility and performance.\"\nI decided to use it for my distributed systems course project. I started with the Cargo.toml file:\n[dependencies]\nhyperlane = \"5.25.1\"\n\nToday, I delved into the design of Hyperlane's Context. In traditional frameworks, you would retrieve the request method like this:\nlet method = ctx.get_request().await.get_method();\n\nBut Hyperlane offers a more elegant approach:\nlet method = ctx.get_request_method().await;\n\nMy Understanding:\nT…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/junior-year-self-study-notes-my-journey-with-the-hyperlane-framework-42cb",
+          "publishedOn": "2025-06-13T13:55:00.000Z",
+          "wordCount": 1508,
+          "title": "Junior Year Self-Study Notes My Journey with the Hyperlane Framework",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fp3seqmfnkchyhvaaeck9.png"
+        },
+        {
+          "id": "https://dev.to/umangsinha12/released-bitbloom-v100-a-high-performance-bloom-filter-library-in-go-in-this-post-i-cover-3ppa",
+          "author": "Umang Sinha",
+          "description": "Probabilistic Data Structures in Go: Building and Benchmarking a Bloom Filter\nUmang Sinha ・ Jun 13\n#go\n        #datastructures\n        #backend\n        #opensource",
+          "link": "https://dev.to/umangsinha12/released-bitbloom-v100-a-high-performance-bloom-filter-library-in-go-in-this-post-i-cover-3ppa",
+          "publishedOn": "2025-06-13T13:53:49.000Z",
+          "wordCount": 804,
+          "title": "🚀 Released bitbloom v1.0.0: a high-performance Bloom filter library in Go. In this post, I cover what Bloom filters are, how I built one from scratch, and benchmarks showing 2M+ ops/sec. Space-efficient, blazing-fast. 🔗 Full breakdown inside:",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffbctzaxdqo6ky7xfr21b.png"
+        },
+        {
+          "id": "https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-2mgp",
+          "author": "Eastspire",
+          "description": "Hyperlane与微服务架构：校园应用的实战案例分析\n\n\n作为一名大三计算机系的学生，我在使用 Hyperlane 开发校园服务时，尝试了微服务架构的实践。这篇文章将分享我在这个过程中的经验和思考。\n// 用户服务\n#[get]\nasync fn user_service(ctx: Context) {\n    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)\n        .await\n        .set_response_body(\"{\\\"service\\\": \\\"user\\\"}\");\n}\n\n// 商品服务\n#[get]\nasync fn product_service(ctx: Context) {\n    ctx.set_response_header(CONTENT_TYPE, APPLICATION_JSON)\n        .await\n        .set_response_body(\"{\\\"service\\\": \\\"product\\\"}\");\n}\n\nasync fn register_service(service_name: &str, port: u16) {\n    let server = Server::new()\n        .host(\"0.0.0.0\")\n        .await\n        .port(port)\n        .await;\n\n    // 向服务注册中心注册\n    register_to_discovery(service_name, port).await;\n}\n\nasync fn call_service(ctx: Context) {\n    let service_url = discover_service(\"use…",
+          "link": "https://dev.to/_95e41982c9ad08a13458d/hyperlaneyu-wei-fu-wu-jia-gou-xiao-yuan-ying-yong-de-shi-zhan-an-li-fen-xi-2mgp",
+          "publishedOn": "2025-06-13T13:51:43.000Z",
+          "wordCount": 1033,
+          "title": "Hyperlane与微服务架构：校园应用的实战案例分析",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fz71u4ix0u9k091evwgc7.png"
+        },
+        {
+          "id": "https://dev.to/caffinecoder54/docker-volumes-vs-bind-mounts-when-to-use-each-1ah4",
+          "author": "Purushotam Adhikari",
+          "description": "When working with Docker containers, managing persistent data is crucial. Docker provides two primary mechanisms for data persistence: Volumes and Bind Mounts. Understanding when to use each can significantly impact your application's performance, security, and maintainability.\nDocker volumes are the preferred mechanism for persisting data generated and used by Docker containers. They are completely managed by Docker and stored in a part of the host filesystem managed by Docker (/var/lib/docker/volumes/ on Linux).\nManaged entirely by Docker\nIndependent of the host machine's directory structure\nCan be shared among multiple containers\nEasier to back up and migrate\nBetter performance on Docker Desktop (Windows/Mac)\nSupport for volume drivers (remote hosts, cloud providers, encryption)\n# Creat…",
+          "link": "https://dev.to/caffinecoder54/docker-volumes-vs-bind-mounts-when-to-use-each-1ah4",
+          "publishedOn": "2025-06-13T13:49:51.000Z",
+          "wordCount": 1736,
+          "title": "Docker Volumes vs Bind Mounts: When to Use Each",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmm96lndgwqwunawnvtuk.png"
+        },
+        {
+          "id": "https://dev.to/stojay/the-best-ai-tools-a-technical-perspective-for-enthusiasts-4a1c",
+          "author": "Adeyemi Adetilewa",
+          "description": "Several years ago, AI tools seemed out of reach for most people. Today, almost anyone can access a smart assistant, experiment with text generation, or automate complex tasks without writing much code. \nThe pace of innovation is fast, but picking the best AI tools for your needs demands more than trending names or bold claims. Here’s a technical look at what matters and how to choose.\nAll-in-one AI platforms have their place, but specialists now outperform generalists in many areas. For example, code assistants use language models fine-tuned for software development. Image generators have custom engines to understand artistic concepts. Whether you manage data, write copy, or need market research, you’ll find tools built with deep specialization.\nTo see what’s available, explore the AI Tool…",
+          "link": "https://dev.to/stojay/the-best-ai-tools-a-technical-perspective-for-enthusiasts-4a1c",
+          "publishedOn": "2025-06-13T13:49:44.000Z",
+          "wordCount": 1205,
+          "title": "The Best AI Tools: A Technical Perspective for Enthusiasts",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fuiiwzuw14pmqzcseaxu6.jpg"
+        },
+        {
+          "id": "https://dev.to/nzcares/cloud-ai-interoperability-the-3-emr-trends-actually-fixing-healthcare-in-2025-3lh1",
+          "author": "Nzcares",
+          "description": "“Build an EMR,” they said. “It’ll be fun,” they said.\n\nFast forward to 2025, and we’re no longer building record-keeping software — we’re engineering clinical intelligence, workflow orchestration, and care collaboration.\nIf you’re writing software for health systems, you're not just a dev — you're the one helping doctors treat faster, safer, and smarter. So let's break down the three EMR tech trends that actually matter in 2025 (no fluff, promise).\nRemember when uploading a 50MB DICOM file used to take down half the system? Those days are behind us.\nModern EMRs are going cloud-native: containerized, scalable, modular — and dare we say, elegant?\n# k8s-appointment-service.yaml\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: emr-appointment-service\nspec:\n  replicas: 3\n  template:\n    m…",
+          "link": "https://dev.to/nzcares/cloud-ai-interoperability-the-3-emr-trends-actually-fixing-healthcare-in-2025-3lh1",
+          "publishedOn": "2025-06-13T13:48:25.000Z",
+          "wordCount": 1296,
+          "title": "Cloud, AI & Interoperability: The 3 EMR Trends Actually Fixing Healthcare in 2025",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsgcjf85252egmdsg73ox.jpg"
+        },
+        {
+          "id": "https://dev.to/shaohushuo/harmonyos-flutter-repository-stops-updates-5db8",
+          "author": "shaohushuo",
+          "description": "Stop Updates\n\n\nFriends who are familiar with Flutter Harmony development should know that Flutter 3.7.12 Harmony SDK has been released in the open source Harmony community for almost a year. The Harmony adaptation of Flutter 3.22.x has been provided by the Harmony Commando Repository. Recently, some friends reported that it has not stopped updating for more than 2 months, and many people thought that maintenance has stopped.\nThis is not the case.\nFlutter's Harmony adaptation work has been ongoing. The article Harmony Flutter Practice: 15-Flutter Engine Impeller Harmonyization, Performance Optimization and Future details the adaptation work content and future plans. The author mentioned in the previous article The original open source Harmony warehouse stopped updating that with the collect…",
+          "link": "https://dev.to/shaohushuo/harmonyos-flutter-repository-stops-updates-5db8",
+          "publishedOn": "2025-06-13T13:47:10.000Z",
+          "wordCount": 1028,
+          "title": "HarmonyOS Flutter Repository Stops Updates",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5kx2jye9lo2q2mfm80yl.png"
+        },
+        {
+          "id": "https://dev.to/shaohushuo/which-harmonyos-native-applications-are-using-flutter-2057",
+          "author": "shaohushuo",
+          "description": "Background\n\n\nOn August 4, 2023, Huawei released HarmonyOS NEXT at the \"2023 Huawei Developer Conference\" and announced that the system would be open to cooperative enterprise developers.\nHarmonyOS NEXT, also known as HarmonyOS 5.0, is the largest update version in the history of Harmony. Harmony is no longer compatible with Android and uses its own kernel (Harmony kernel), which completely replaces the original system functions in terms of kernel, operating system, and application layer. Harmony has completely gotten rid of the title of \"Android shell\".\nFor Everbright's application manufacturers and developers, all applications must be redeveloped and adapted. So what is the so-called native Harmony development? This article will discuss the following aspects:\nThe original application need…",
+          "link": "https://dev.to/shaohushuo/which-harmonyos-native-applications-are-using-flutter-2057",
+          "publishedOn": "2025-06-13T13:46:41.000Z",
+          "wordCount": 1460,
+          "title": "Which HarmonyOS native applications are using Flutter",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F78heben8btc3ik8p9lg6.png"
+        },
+        {
           "id": "https://dev.to/anistark/apples-liquid-glass-design-1ol5",
           "author": "Kumar Anirudha",
           "description": "When Apple unveiled its new Liquid Glass design language at WWDC '25, designers and devs around the world had a moment of deja vu. If you remember Windows Vista's Aero Glass aesthetic translucent panes, glowing edges, and glassy blurs, this might feel like history repeating itself.\nBut Apple's take isn't just nostalgia; it's refinement.\nLet's rewind.\nVista's Aero Glass was ambitious for its time (2006), introducing frosted translucency, window blur, and fluid motion. The problem? Hardware limitations. It was heavy on resources, inconsistent in UX, and often felt more gimmick than utility.\n\nFast forward to 2025, and Apple's Liquid Glass builds on the same core idea: translucency, depth, and light — but with far more nuance and purpose:\nPerformance-first: Apple's silicon chips and rendering …",
@@ -15772,6 +15892,16 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://github.com/Techwolf12/qrkey",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/Techwolf12/qrkey",
+          "publishedOn": "2025-06-13T13:51:22.000Z",
+          "wordCount": 1477,
+          "title": "Show HN: qrkey - Offline private key backup on paper",
+          "imageUrl": "https://opengraph.githubassets.com/7218020cbb3c500076035a15630a01bc4c8d6984415cb8aa78b580b0735908b7/Techwolf12/qrkey"
+        },
+        {
           "id": "https://www.nytimes.com/2025/06/12/technology/meta-scale-ai.html",
           "author": null,
           "description": "Comments",
@@ -26748,6 +26878,21 @@
       "feedUrl": "https://cointelegraph.com/rss",
       "siteUrl": "https://cointelegraph.com",
       "articles": [
+        {
+          "id": "https://cointelegraph.com/news/sharplink-largest-public-eth-holder-463m",
+          "author": "Cointelegraph by Helen Partz",
+          "description": "While SharpLink has become the largest publicly traded holder of Ether globally, some entities, including the Ethereum Foundation and BlackRock, are still holding more ETH.",
+          "link": "https://cointelegraph.com/news/sharplink-largest-public-eth-holder-463m?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound",
+          "publishedOn": "2025-06-13T13:54:56.000Z",
+          "wordCount": null,
+          "title": "SharpLink buys $463M in ETH, becomes largest public ETH holder",
+          "enclosure": {
+            "url": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDYvMDE5NzY5ODQtYTIyOC03ZWY0LTkyZDAtMzUzMGU0MmI4YWNj.jpg",
+            "length": "528",
+            "type": "image/jpg"
+          },
+          "imageUrl": "https://images.cointelegraph.com/images/528_aHR0cHM6Ly9zMy5jb2ludGVsZWdyYXBoLmNvbS91cGxvYWRzLzIwMjUtMDYvMDE5NzY5ODQtYTIyOC03ZWY0LTkyZDAtMzUzMGU0MmI4YWNj.jpg"
+        },
         {
           "id": "https://cointelegraph.com/explained/blackrock-quietly-accumulated-3-of-all-bitcoin-heres-what-that-means",
           "author": "Cointelegraph by Bradley Peak",
