@@ -2,10 +2,511 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-06-14T14:07:38.657Z</updated>
+    <updated>2025-06-14T15:08:20.306Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Vue コンポーネント 階層]]></title>
+        <id>https://dev.to/nabbisen/vue-konponento-jie-ceng-4dd4</id>
+        <link href="https://dev.to/nabbisen/vue-konponento-jie-ceng-4dd4"/>
+        <updated>2025-06-14T15:04:45.000Z</updated>
+        <summary type="html"><![CDATA[Web アプリを効率的に開発するには、機能を小さな部品に分割して考えることが大切です。この部品こそが コンポーネント (Components) です。
+コンポーネントは、再利用可能な UI の塊です。例えば、EC サイトであれば、商品カード、カートのアイコン、検索バーなど、それぞれを一つのコンポーネントとして作成できます。
+          +--------------------------+
+          |         App.vue          |
+          | (ルート コンポーネント)    |
+          +------------+-------------+
+                       |
+         +-------------+-------------+
+         |                           |
++--------+------------+     +--------+------------+
+|    Header.vue       |     |   MainContent.vue   |
+| (親 コンポーネント)   |     | (親 コンポーネント)   |
++---------------------+     +----+----------------+
+                                 |
+             +-------------------+-------+
+             |                           |
+  +----------+----------+    +-----------+---------+
+  |   ProductCard.vue   |    |     Button.vue      |
+  | (子 コンポーネント)   |    | (子 コンポーネント)   |
+  +---------------------+    +---------------------+
+
+ルート コンポーネント (App.vue): アプリ全体の玄関口となる、最も上位のコンポーネントです。
+親 コンポーネント: 複数の子コンポーネントをまとめる役割を持つコンポーネントです。
+子 コンポーネント: 親コンポーネントの中に組み込まれる、より小さな単位のコンポーネントです。
+コンポーネントは、それぞれが独立した機能とスタイルを持つため、個別に開発・テストができ、チーム開発でも非常に役立ちます。]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vue ディレクティブ 基本要素]]></title>
+        <id>https://dev.to/nabbisen/vue-deirekuteibu-ji-ben-yao-su-1epi</id>
+        <link href="https://dev.to/nabbisen/vue-deirekuteibu-ji-ben-yao-su-1epi"/>
+        <updated>2025-06-14T15:03:41.000Z</updated>
+        <summary type="html"><![CDATA[Vue テンプレートで頻繁に使うディレクティブを学びましょう。これらは HTML 要素に特別な機能を追加します。
+
+
+
+ディレクティブ
+略記
+説明
+例
+
+
+
+
+v-bind
+:
+HTML 属性にデータをバインドする
+<img :src="imageUrl">
+
+
+v-model
+なし
+フォーム要素とデータを双方向バインド
+<input v-model="userName">
+
+
+v-on
+@
+イベントを監視し、処理を実行
+<button @click="handleClick">
+
+
+v-if
+なし
+条件で要素の表示/非表示を切り替え (DOM 削除)
+<p v-if="showMessage">
+
+
+v-show
+なし
+条件で要素の表示/非表示を切り替え (CSS display: none)
+<p v-show="showMessage">
+
+
+v-for
+なし
+リストの要素を繰り返し描画
+<li v-for="item in items" :key="item.id">
+
+
+
+v-bind
+
+
+
+HTML 属性にリアクティブなデータをバインドします。
+略記: :
+
+例: src 属性に画像の URL を、class 属性に動的に変更したい CSS クラスをバインド。
+
+
+
+
+<template>
+  <img :src="imageUrl" :alt="imageAlt" :class="{ 'active': isActive }">
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+const imageUrl = 'https://example.com/image.jpg'
+const imageAlt = 'サンプル画像'
+const isActive = ref(true)
+</script>
+
+…]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vue 3 Composition API エッセンス]]></title>
+        <id>https://dev.to/nabbisen/vue-3-composition-api-etusensu-1nhg</id>
+        <link href="https://dev.to/nabbisen/vue-3-composition-api-etusensu-1nhg"/>
+        <updated>2025-06-14T15:02:34.000Z</updated>
+        <summary type="html"><![CDATA[Vue 3 では、Composition API という新しい API が導入され、より柔軟で再利用しやすいコードを書けるようになりました。それまでの Options API (data, methods, computedなどで区切る形式) に比べて、関連するロジックをまとめて記述できるのが特徴です。
+Composition API の核となる関数群を見てみましょう。
+ref()
+
+
+
+リアクティブな (変化が自動で UI に反映される) 変数を作成します。
+プリミティブ型 (文字列, 数値など) の値をリアクティブにしたい場合に使います。
+値にアクセスする際は .value を付けます。 (例: myVariable.value)
+
+
+
+
+<template>
+  <p>カウント: {{ count }}</p>
+  <button @click="increment">カウントアップ</button>
+</template>
+
+<script setup>
+import { ref } from 'vue'
+
+// リアクティブな変数として count を定義
+const count = ref(0)
+
+const increment = () => {
+  // .value で値にアクセス
+  count.value++
+}
+</script>
+
+computed()
+
+
+
+リアクティブなデータに基づいて、新しいリアクティブな値を生成します。
+依存するデータが変更されたときだけ再計算されます。キャッシュされるので効率的です。
+
+
+
+
+<template>
+  <input type="text" v-model="firstName">
+  <input type="text" v-model="lastName">
+
+  <p>フルネーム: {{ fullNam…]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vue とはどのようなものか]]></title>
+        <id>https://dev.to/nabbisen/vue-tohadonoyounamonoka-4mk3</id>
+        <link href="https://dev.to/nabbisen/vue-tohadonoyounamonoka-4mk3"/>
+        <updated>2025-06-14T15:01:11.000Z</updated>
+        <summary type="html"><![CDATA[いよいよ、 Web アプリの「見た目」と「動き」を作る主役、Vue (ヴュー) について深掘りしていきます。 Vue は、学習コストが低く、直感的に使えるため、初心者にも非常におすすめのフレームワークです。
+直感的で学びやすい:
+シンプルで分かりやすい API 設計がなされており、Web 開発の基礎知識があれば始められます。公式ドキュメントも非常に充実しています。
+軽量で高速:
+パフォーマンスが高く、動作が軽いため、ユーザー体験の良いアプリケーションを構築できます。
+フレームワーク である:
+標準的で高品質な開発環境をすぐに構築できます。個別のライブラリ選定や複雑な設定に時間を費やす必要はありません。
+プログレッシブ 指向:
+小さな機能から大規模なアプリまで、段階的に、且つ柔軟に適用できるという特性を持っています。
+後方互換性 と マイグレーション への配慮:
+Vue では、利用者が長期にわたってプロジェクトを安定して保守・発展できることが重視されています。そのために、新機能設計で後方互換性を考慮したり、マイグレーションガイドの提供に努めたり、ということが行われて来ました。
+活発なコミュニティと豊富なエコシステム:
+世界中で多くの開発者に利用されており、情報交換も支援ツール開発も活発です。
+Vue のプロジェクトを作成すると、いくつかのファイルが生成されます。先ほど npm create vite@latest で作成したフォルダの中を見てみてください。
+中でも特に重要なのが src フォルダの中にある .vue という拡張子のファイル群です。
+.vue ファイルには、一つのコンポーネントの構成に必要な HTML / JavaScript / CSS が集約されています。
+<template>
+  <div>
+    <h1>{{ message }}</h1>
+    <…]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vue 初めてのプロジェクト作成]]></title>
+        <id>https://dev.to/nabbisen/vue-chu-metenopuroziekutozuo-cheng-lgh</id>
+        <link href="https://dev.to/nabbisen/vue-chu-metenopuroziekutozuo-cheng-lgh"/>
+        <updated>2025-06-14T15:00:19.000Z</updated>
+        <summary type="html"><![CDATA[プロジェクトの作成
+
+
+実際の Vue プロジェクトの作成に入りましょう。Vite というものが下支えしてくれるテンプレートで作成します。
+コマンドプロンプトやターミナルで以下を実行してください。
+npm create vue@latest
+
+このコマンドを実行すると、Vite があなたにいくつかの質問をしてきます。質問に答える形で、プロジェクトの基本的な設定を決めます。今回は、以下の選択肢を選んで進めてください。
+ ? Project name: -> my-vue-app (または、あなたが覚えやすい任意のプロジェクト名)
+ ? Add TypeScript? -> Yes (Y/n) (TypeScript を使うことで、より堅牢な開発ができます。この学習セットでも TypeScript を使いますので、Yes を選びましょう。)
+ ? Add JSX Support? -> No (y/N) (JSX は React という別のフレームワークで使われる書き方です)
+ ? Add Vue Router for Single Page Application development? -> No (y/N) (ルーティングは後で手動で追加して学びますので、ここでは No を選びましょう。)
+ ? Add Pinia for State Management? -> No (y/N) (状態管理も後で学びます)
+ ? Add Vitest for Unit Testing? -> No (y/N) (テストは今回は扱いません)
+ ? Add an End-to-End Testing Solution? -> No (y/N) (テストは今回は扱いません)
+ ? Add ESLint for code quality? -> Yes (Y/n) (コードの品質を上げるために、ぜひ追加しましょう)
+ ? Add Prettier for code formatting? -> Yes (Y/n) (コードを自動で整形してくれるので、追加すると便利です)
+設定が完了すると、Vite が指定された名前のディレクトリ (例: my-vue-app) を作成し、必要なファイルや、他のライブラリ (依存関係) を自動的にインストールしてくれます。
+プロジェクトが作成されたら、以下のコマンドを順番に実行します。
+作成されたプロジェクトディレクトリに移動します。
+cd my-vue-app
+
+プロジェクトに必要な依存関係をインストールします。これは npm create vue コマンドで自動的に実行されることもありますが、念のため実行しておきましょう。
+npm install
+
+次のコマンドを実行します。
+npm run dev
+
+ターミナルに以下のようなメッセージが表示されるはずです。
+> my-vue-app@0.0.0 dev
+> vite
+
+  VITE v5.X.XX  ready in XXX ms
+
+  ➜  Local:   http://localhost:5173/  <-- ここをクリック !
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+
+表示された http://localhost:5173/ の URL を Web ブラウザで開いてみてください。(ターミナル上でこの URL をクリックすると、自動的にブラウザが開くことが多いです。)
+Vue のロゴと「You did it!」というメッセージが表示されたシンプルな Web ページが表示されれば、成功です！
+キーボードの Ctrl + c を同時押しすることで、サーバーを停止できます。ふたたび起動するには先ほどと同じ npm run dev を実行します。
+余談ですが、このサーバーには ホットリロード機能 が備わっています。コードを修正するとブラウザの表示も自動的に更新されます。これによって効率的に開発を進めることができます。
+おつかれさまでした ! これで、Vue.js 開発の準備は万端です。
+次の章からは、いよいよ Vue.js のコードを書くための実践的なしくみを基本から学んでいきましょう。
+作成したプロジェクトの src フォルダの中 で、既存ファイルを更新したり新規ファイルを追加したりすることで、実際に動かせますよ。(ただし、この学習セットの中でひとつひとつ詳細に「ここをこうしてください」と言及することはありません。) 適宜試しながら読み進めてください。]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin must upgrade or fall victim to quantum computing in 5 years]]></title>
+        <id>https://cointelegraph.com/news/bitcoin-quantum-computing</id>
+        <link href="https://cointelegraph.com/news/bitcoin-quantum-computing?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
+        <updated>2025-06-14T15:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Unless Bitcoin upgrades its core cryptography in the next five years, the trust it has built over 16 years could be wiped out by a single quantum attack. Urgent upgrades are needed to protect the world’s leading cryptocurrency.]]></summary>
+        <author>
+            <name>Cointelegraph by David Carvalho</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How One Bad Packet Can Take Down the Internet: Welcome to BGP]]></title>
+        <id>https://dev.to/achal_tiwari/how-one-bad-packet-can-take-down-the-internet-welcome-to-bgp-38cd</id>
+        <link href="https://dev.to/achal_tiwari/how-one-bad-packet-can-take-down-the-internet-welcome-to-bgp-38cd"/>
+        <updated>2025-06-14T14:59:40.000Z</updated>
+        <summary type="html"><![CDATA[When you type “google.com” and hit enter, your computer doesn’t just talk to Google. It launches a journey through a chaotic web of networks—thousands of them, run by different companies, countries, and competitors. Somehow, your data weaves through all of them and ends up exactly where it’s supposed to.
+How?
+The short answer is a protocol called BGP—Border Gateway Protocol. It’s the system that tells all these independent networks how to find each other. But calling BGP a “routing protocol” is like calling diplomacy just “talking.” It’s not just technical. It’s political, fragile, and surprisingly old.
+
+Back in the early days of the Internet—when it was basically just a U.S. research network—routing was easy. The whole thing was small, centralized, and trusted. The protocol at the time, E…]]></summary>
+        <author>
+            <name>Achal Tiwari</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[フロントエンドフレームワーク 共通の考え方]]></title>
+        <id>https://dev.to/nabbisen/hurontoendohuremuwaku-gong-tong-nokao-efang-529l</id>
+        <link href="https://dev.to/nabbisen/hurontoendohuremuwaku-gong-tong-nokao-efang-529l"/>
+        <updated>2025-06-14T14:58:40.000Z</updated>
+        <summary type="html"><![CDATA[Vue のようなフロントエンドフレームワークには、共通の考え方 (哲学) があります。
+コードの再利用性を高め、開発効率を良くしてくれます。
+Web ページを「再利用可能な小さな部品」の集まりとして考えます。この部品一つ一つを「コンポーネント」と呼びます。
+例えば、ボタン / ナビゲーションバー / カード型表示など、それぞれを独立したコンポーネントとして作成し、それらを組み合わせてページをつくります。
+開発者は UI とデータを宣言的に関連付けることができ、開発効率を高めることができます。手動での DOM (Document Object Model) 操作の場面が少なくなっています。
+JavaScript のデータ (状態) の変更を自動的に検知し、それに従って HTML (UI) の表示を効率的かつ自動で更新する仕組みです。
+データバインディング (Data Binding):
+
+
+JavaScript のデータが変更されると、自動的に HTML の表示も更新されます。逆に、ユーザーが HTML 上のフォームに入力すると、 JavaScript のデータも自動的に更新される、という双方向の連携も可能です。(後述: データバインディングの種類)
+
+
+
+種類
+説明
+
+
+
+
+
+片方向 --->
+
+JavaScript によるデータ変更で、画面表示が自動で更新される。
+
+
+
+双方向 <-->
+
+JavaScript のデータと UI (画面) 入力が、相互に同期。JavaScript 処理結果が画面に反映されるだけで無く、画面入力内容が JavaScript 処理データに反映される。
+
+
+
+複雑な UI でもコードがシンプルになり、開発しやすくしてくれます。
+宣言的 UI では 最終的な状態だけを宣言します。フレームワークが、その状態になるように自動で要素を更新してくれます。(例: 「このボタンが『クリック済み』の状態になったら、色が赤でテキストは『クリック済み』になる」)
+
+
+一方、命令的 UI というものでは一つ一つの操作を命令します。詳細に記述でき個別最適化に向きますが、コードベースの複雑化または肥大化に注意が必要です。(例: 「このボタンをクリックしたら、この要素の色を赤に変えて、テキストを『クリック済み』にする」)
+これらの哲学を理解することは、 Vue だけでなく他のフレームワーク (Svelte, React, Angular 等) の学習にもきっと役立つでしょう。]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Web アプリ 開発環境]]></title>
+        <id>https://dev.to/nabbisen/web-apuri-kai-fa-huan-jing-4njf</id>
+        <link href="https://dev.to/nabbisen/web-apuri-kai-fa-huan-jing-4njf"/>
+        <updated>2025-06-14T14:57:30.000Z</updated>
+        <summary type="html"><![CDATA[Web アプリ開発を始めるには、いくつかのツールが必要です。
+Node.js / npm / Vite
+VS Code + いくつかのエクステンション
+ターミナルエミュレーター
+Web ブラウザ
+Node.jsは、フロントエンド開発においては、多くの開発ツール (パッケージマネージャー等)の基盤となります。なおオリジナルの役割はサーバーサイドで JavaScript を動かすための実行環境です。
+公式サイトから 最新の長期サポート安定版 (LTS) をダウンロードしてインストールしてください。
+npm は、JavaScript のライブラリやフレームワークを管理するためのツールです。
+yarn / pnpm / bun という別ツールが npm の代替として使われることもあります。いずれでも大筋は変わりません。学習セットでは npm を使います。
+npm 個別のインストールは不要です。Node.jsをインストールすると自動的にインストールされます。
+Vue アプリを素早く構築するためのツールです。複雑な設定なしに開発を始められます。
+Vite (ヴィート) を使用します。
+VS Codeは、コードを書くための無料の高機能エディターです。開発生産性が向上します。拡張機能も豊富です。
+公式サイト からダウンロードしてインストールしてください。
+ESLint: コードの品質を保ち、潜在的な問題を指摘してくれます。
+Prettier: コードを自動でフォーマット (整形) してくれます。
+Vue - Official:  Vue 開発を強力にサポートしてくれます。
+Web アプリをあなたの PC 上 (ローカル環境) で開発する場合、ターミナルエミュレーターというものを使う場面があります。いわゆる "黒い画面" です。文字を打ち込むことでコンピューターを操作できます。
+最初は戸惑うかもしれませんが、よく使うコマンドは限られています。繰り返し使いながら、徐々に慣れて行きましょう。主なものの起動方法は以下の通りです:
+Windows コマンドプロンプト: Windows キー + r を押下 → cmd と入力 → Enter 押下
+macOS ターミナル.app: 「アプリケーション」→「ユーティリティ」→「ターミナル.app」をダブルクリック
+コマンドプロンプトやターミナルで以下を実行し、バージョンが表示されれば OK です。
+node -v
+# Node.js のバージョンが表示される
+npm -v
+# npm のバージョンが表示される]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Web アプリ 基本構成]]></title>
+        <id>https://dev.to/nabbisen/web-apuri-ji-ben-gou-cheng-jn9</id>
+        <link href="https://dev.to/nabbisen/web-apuri-ji-ben-gou-cheng-jn9"/>
+        <updated>2025-06-14T14:56:16.000Z</updated>
+        <summary type="html"><![CDATA[Web サイトや Web アプリ (Web アプリケーション) は、どのようにして私たちの PC (パソコン) やスマートフォンの画面に表示されているのでしょうか ? ここでは、そのしくみと、開発を始めるために必要な環境を整えましょう。
+Web アプリは、大きく分けて 2 つの部分から構成されています。
+
+
+
+フロントエンド (Frontend)
+バックエンド (Backend)
+
+
+
+
+ユーザーが直接触れる部分、つまり Web サイトやアプリの「見た目」と「動き」を担当します。
+ユーザーからは見えない部分で、データの保存 / 処理、ビジネスロジックの実行、セキュリティなどを担当します。
+
+
+HTML で骨格を作り、CSS で装飾し、JavaScript で動きを加えます。
+サーバー、データベースなどがこれにあたります。
+
+
+例: Web サイトのボタン、入力フォーム、アニメーション
+例: ユーザー情報の管理、商品の在庫管理、決済処理
+
+
+
+通常、フロントエンドがバックエンドに「このデータちょうだい」「この情報を保存して」といったリクエストを送り、バックエンドがそれに応答することで Web アプリは成り立っています。
+   ユーザー (ブラウザ)
+      |
+      | (操作 / 表示)
+      v
++-------------------+
+|  フロントエンド     |
+|  (HTML/ CSS /JS)  |
++-------------------+
+      |
+      | (API 通信 - データ要求 または 送信)
+      v
++-------------------+
+|   バックエンド      |
+| (サーバー/API/DB)  |
++-------------------+
+      |
+      | (データの読み書き)
+      v
++-------------------+
+|   データベース      |
++-------------------+]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Master the DOM Event System by Exploring!]]></title>
+        <id>https://dev.to/ml318097/master-the-dom-event-system-by-exploring-gh0</id>
+        <link href="https://dev.to/ml318097/master-the-dom-event-system-by-exploring-gh0"/>
+        <updated>2025-06-14T14:56:00.000Z</updated>
+        <summary type="html"><![CDATA[Want to understand how events really work in the browser?
+Dive into domevents.dev — an interactive way to learn the ins and outs of DOM events.
+Perfect for:
+✅ Frontend devs
+✅ JavaScript learners
+✅ Anyone curious about event bubbling & capturing
+Learn by doing, not just reading!]]></summary>
+        <author>
+            <name>Mehul Lakhanpal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[はじめに - Vue フロントエンド開発入門]]></title>
+        <id>https://dev.to/nabbisen/hazimeni-vue-hurontoendokai-fa-ru-men-1l3a</id>
+        <link href="https://dev.to/nabbisen/hazimeni-vue-hurontoendokai-fa-ru-men-1l3a"/>
+        <updated>2025-06-14T14:55:18.000Z</updated>
+        <summary type="html"><![CDATA[Vue と実践的フローで学ぶ Web アプリ開発
+
+
+ようこそ !
+あなたは今 Web アプリ開発のワクワクする世界への一歩を踏み出そうとしています。Web サイトを見るだけでなく、Web アプリとして自分で動くものをつくれるようになるのは、きっととても楽しい体験になるでしょう。
+この学習セットでは、単に Vue のコードを学ぶだけでなく、Web アプリ開発の全体像と、実際にアプリを作るための実践的な開発フローを学ぶことに重点を置いています。
+はじめに
+Web 開発の基本と環境構築: まずは Web アプリがどう動くのか、開発を始めるための準備をします。
+Vue の基本: Web アプリの「見た目」と「動き」を作る Vue の基本を学びます。
+Vue コンポーネント: アプリを部品 (コンポーネント) に分けて、それらを連携させる方法を学びます。
+SPA ページ切替えと状態管理: SPA サイト構築に必要なルーティングと状態管理について学びます。
+堅牢なアプリ開発: エラーを防ぎ、メンテナンスしやすいコードを書くための TypeScript の基本を学びます。
+Web API: 外部データソースと連携して動的な情報を提供するしくみを学びます。
+美しく使いやすい UI/UX: ユーザーが「使いやすい」「心地よい」と感じるデザインの考え方と、その実装方法を学びます。
+おわりに
+各章では、具体的なコード例や図を豊富に使い、手を動かしながら理解を深められるようになっています。さあ、一緒に Web アプリ開発の旅に出かけましょう !]]></summary>
+        <author>
+            <name>nabbisen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[XML generation]]></title>
+        <id>https://dev.to/liu_yang_fc0e605820ac220c/xml-generation-2j4d</id>
+        <link href="https://dev.to/liu_yang_fc0e605820ac220c/xml-generation-2j4d"/>
+        <updated>2025-06-14T14:49:40.000Z</updated>
+        <summary type="html"><![CDATA[XML Generation
+XML can also serve as a messaging format for communication and interaction between different nodes in distributed systems.
+Precautions
+XML tags must occur in pairs; generating a start tag requires generating an end tag.
+XML tag pairs are case-sensitive. The start and end tags must have consistent case.
+Development Steps
+The XML module provides the XmlSerializer class to generate XML data. The input is a fixed-length ArrayBuffer or DataView object that stores the generated XML data.
+Call different methods to write different content. For example, startElement(name: string) writes the start element tag, and setText(text: string) writes the tag value.
+You can refer to the API interfaces of the XML module in @ohos.xml for detailed descriptions. Call the corresponding functions as needed to generate complete XML data.
+Import the module.
+import { xml, util } from '@kit.ArkTS';
+Create a buffer and construct an XmlSerializer object. You can construct an XmlSerializer object based on ArrayBuffer or DataView.
+// Method 1: Construct XmlSerializer based on ArrayBuffer
+// Method 2: Construct XmlSerializer based on DataView
+Call XML element generation functions.
+serializer.setDeclaration();
+Use Uint8Array to operate on ArrayBuffer, decode Uint8Array with TextDecoder, and output.
+let uint8Array: Uint8Array = new Uint8Array(arrayBuffer);
+The output is as follows:
+<?xml version="1.0" encoding="utf-8"?><bookstore>
+  <book category="COOKING">
+    <title lang="en">Everyday</title>
+    <author>Giana</author>
+    <year>2005</year>
+  </book>
+</bookstore>]]></summary>
+        <author>
+            <name>liu yang</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I have reimplemented Stable Diffusion 3.5 from scratch in pure PyTorch]]></title>
+        <id>https://github.com/yousef-rafat/miniDiffusion</id>
+        <link href="https://github.com/yousef-rafat/miniDiffusion"/>
+        <updated>2025-06-14T13:56:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How to A/B Test Your Prompts and Prove Their ROI]]></title>
         <id>https://dev.to/mikuiwai/how-to-ab-test-your-prompts-and-prove-their-roi-2987</id>
@@ -24049,6 +24550,16 @@ Runner H helps automate everything wit…]]></summary>
         <id>https://blogsystem5.substack.com/p/whatever-happened-to-sandboxfs</id>
         <link href="https://blogsystem5.substack.com/p/whatever-happened-to-sandboxfs"/>
         <updated>2025-06-11T16:37:09.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Texting myself the weather every day]]></title>
+        <id>https://bensilverman.co.uk/posts/daily-weather-sms/</id>
+        <link href="https://bensilverman.co.uk/posts/daily-weather-sms/"/>
+        <updated>2025-06-11T16:33:38.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
