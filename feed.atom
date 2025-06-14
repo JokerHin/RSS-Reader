@@ -2,10 +2,242 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-06-14T07:08:38.237Z</updated>
+    <updated>2025-06-14T08:11:37.247Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[使用 Lumen AI 简化 Git Commit 信息生成]]></title>
+        <id>https://dev.to/xiaodao/shi-yong-lumen-ai-jian-hua-git-commit-xin-xi-sheng-cheng-439a</id>
+        <link href="https://dev.to/xiaodao/shi-yong-lumen-ai-jian-hua-git-commit-xin-xi-sheng-cheng-439a"/>
+        <updated>2025-06-14T07:58:21.000Z</updated>
+        <summary type="html"><![CDATA[作为一名开发者，参与开源项目时，编写清晰的 Git commit 信息可能是一项繁琐的任务，尤其是对英语非母语的开发者。Lumen 是一个利用 AI 自动生成 commit 信息的工具，大大简化了这一过程。本文将分享如何使用 Lumen、解决常见问题，并提供一个 Fish shell 脚本优化工作流。
+Lumen 的核心功能是通过分析代码变更生成符合规范的 commit 信息。基本用法非常简单：
+lumen draft
+
+例如，修改了 README.md 文件后运行：
+lumen draft
+feat(README): Add test section
+
+这会生成一条 commit 信息，但仅显示而未提交。如果想直接提交，可以结合 Git 命令：
+lumen draft | git commit -F -
+
+这将生成 commit 信息并直接提交。
+运行 lumen draft 时，可能会遇到以下错误：
+error: diff (staged) is empty
+
+这是因为 Lumen 默认调用 git diff --staged，而你尚未使用 git add 添加文件到暂存区，导致 diff 为空。
+修改 Lumen 源代码以使用 git diff（而非 git diff --staged）。具体步骤：
+下载 Lumen 源代码（https://github.com/jnsahaj/lumen）。
+编辑 src/command/mod.rs 文件，第 45 行左右，将 Diff::from_working_tree(true) 改为 false：
+
+
+
+
+diff --git a/src/command/mod.rs b/src/command/mod.rs
+index b51a8d1..c643a5b 100644
+--- a/src/command/mod.rs
++++ b/src/command/mod.rs
+@@ -42,7 +42,7 @@ impl CommandType {
+             }
+             CommandType::List => Box::new(ListCommand),
+             CommandType::Draft(context, draft_config) => Box::new(DraftCommand {
+-                git_entity: GitEntity::Diff(Diff::from_working_tree(true)?),
++                git_entity: GitEntity::Diff(Diff::from_working_tree(false)?),
+                 draft_config,
+                 context,
+             }),
+
+保存后重新编译运行，lumen draft 即可基于工作目录的更改生成 commit 信息。
+为避免 AI 生成的 commit 信息直接提交（可能包含错误），可以使用 gum 工具添加确认步骤。以下是一个 Fish shell 函数，自动生成 commit 信息并提供确认选项：
+function aic
+    set RESULT (lumen draft)
+    echo $RESULT
+    echo "Committing..."
+    gum confirm "是否提交代码？" && git commit -a -m "$RESULT" || echo "已取消提交"
+end
+
+确保已安装 lumen 和 gum。
+将上述函数添加到你的 Fish shell 配置文件（通常是 ~/.config/fish/config.fish）。
+修改代码后运行 aic，查看生成的 commit 信息，确认后提交或取消。
+Lumen 是一个强大的工具，能帮助开发者快速生成规范的 Git commit 信息。通过简单的代码修改，可以解决 git diff --staged 的限制。结合 Fish shell 和 gum 工具，你可以进一步优化工作流，确保提交前能够检查 AI 生成的结果。这个方案特别适合非英语母语的开发者，提升效率的同时保持提交信息的质量。]]></summary>
+        <author>
+            <name>晓道</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Goodbye Wait Wait Wait My Junior Year Adventure A Secret Weapon That Makes Code Fly]]></title>
+        <id>https://dev.to/codeqwertyuiop/goodbye-wait-wait-wait-my-junior-year-adventure-a-secret-weapon-that-makes-code-fly-1mn0</id>
+        <link href="https://dev.to/codeqwertyuiop/goodbye-wait-wait-wait-my-junior-year-adventure-a-secret-weapon-that-makes-code-fly-1mn0"/>
+        <updated>2025-06-14T07:57:28.000Z</updated>
+        <summary type="html"><![CDATA[As a junior majoring in Computer Science and Technology, I always felt my programming journey was full of "waiting, waiting, waiting." Waiting for projects to compile, waiting for tests to run, especially when dealing with course designs involving network requests and high concurrency, the sluggish response speed simply made me question life. My roommates often complained too, wondering why these "toy" projects we wrote were so laggy. Until, by a stroke of luck, I encountered a framework that could be called "black technology." It completely overturned my understanding of web backend development and, for the first time, made my code feel like it was "taking off."
+In this "adventure log," I want to share, from the perspective of an ordinary junior student, combined with my learning and prac…]]></summary>
+        <author>
+            <name>codeqwertyuiop</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What I Would Want to Know When Interviewing an AI Engineer]]></title>
+        <id>https://dev.to/hasanulmukit/what-i-would-want-to-know-when-interviewing-an-ai-engineer-71k</id>
+        <link href="https://dev.to/hasanulmukit/what-i-would-want-to-know-when-interviewing-an-ai-engineer-71k"/>
+        <updated>2025-06-14T07:56:00.000Z</updated>
+        <summary type="html"><![CDATA[Hiring an AI Engineer?
+Sure, flashy RAG flows and multi-agent demos look cool—but the real challenge is building a reliable, cost-effective system that works in production. Here’s what I would actually want to know during interviews.
+Question: Can you design data ingestion → preprocessing → model inference → sserving?
+What I’m looking for:
+
+
+Data pipelines (ETL tools, streaming vs batch)
+
+Model hosting (serverless vs containerized)
+
+API layers (REST/gRPC, WebSockets)
+
+Bottlenecks (I/O, network, compute) and mitigation (caching, sharding)
+Question: How would you estimate hosting, inference, and storage costs? How can you reduce them?  
+Details:
+
+
+Pricing models (per-token, per-hour GPU, storage IOPS)
+
+Trade-offs: smaller models, mixed precision, spot instances
+
+Auto-scaling strategies and c…]]></summary>
+        <author>
+            <name>Hasanul Mukit</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Forging an Unbreakable Digital Shield My In-Depth Analysis of a Certain Framework's Security Features]]></title>
+        <id>https://dev.to/codeqwertyuiop/forging-an-unbreakable-digital-shield-my-in-depth-analysis-of-a-certain-frameworks-security-1aj4</id>
+        <link href="https://dev.to/codeqwertyuiop/forging-an-unbreakable-digital-shield-my-in-depth-analysis-of-a-certain-frameworks-security-1aj4"/>
+        <updated>2025-06-14T07:54:22.000Z</updated>
+        <summary type="html"><![CDATA[As a third-year computer science student with an insatiable thirst for knowledge, my exploration of technology never ceases. After countless experiences compiling code and deploying projects, I've come to a profound realization: beyond the pursuit of ultimate performance and an elegant development experience, the security and reliability of a software system are the cornerstones that sustain its very lifeblood. Especially in the current era, where data breaches are frequent and cyber-attack methods are constantly evolving, forging an unbreakable digital shield for our applications has become a critical issue that every developer must seriously consider. Recently, while deeply experiencing a web backend framework built on the Rust language, I was deeply impressed by its thoughtful considera…]]></summary>
+        <author>
+            <name>codeqwertyuiop</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Goodbye Lag, Hello Smoothness My Journey Exploring Efficient Web Development Frameworks]]></title>
+        <id>https://dev.to/codeqwertyuiop/goodbye-lag-hello-smoothness-my-journey-exploring-efficient-web-development-frameworks-28da</id>
+        <link href="https://dev.to/codeqwertyuiop/goodbye-lag-hello-smoothness-my-journey-exploring-efficient-web-development-frameworks-28da"/>
+        <updated>2025-06-14T07:52:17.000Z</updated>
+        <summary type="html"><![CDATA[As a third-year computer science student, I've countless times wrestled with web applications hobbled by performance bottlenecks, the rhythmic clatter of my keyboard a late-night soundtrack to my frustrations. Textbooks painted pictures of efficiency and simplicity, yet real-world projects, with their layers of abstraction, redundant calls, and the ever-present specter of cyclomatic complexity, often left me feeling bewildered. Then, during an accidental exploration of an open-source project, I felt as if I'd pushed open a door to a new world, encountering an unsung hero that reshaped my understanding of "efficiency" and "elegance."
+When I first encountered it, frankly, my expectations weren't high. After all, the market is saturated with frameworks, each with its own merits, and for a new…]]></summary>
+        <author>
+            <name>codeqwertyuiop</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Understanding Dynamic Binding in Java]]></title>
+        <id>https://dev.to/elayaraj31/understanding-dynamic-binding-in-java-40oa</id>
+        <link href="https://dev.to/elayaraj31/understanding-dynamic-binding-in-java-40oa"/>
+        <updated>2025-06-14T07:49:42.000Z</updated>
+        <summary type="html"><![CDATA[🔸 What is Binding in Java?
+Binding means linking a method call to the method definition. There are two types of binding in Java:
+Static Binding – happens at compile time
+Dynamic Binding – happens at runtime
+🔸 What is Dynamic Binding?
+Dynamic Binding (or Late Binding) is when Java decides at runtime which method to call based on the actual object, not the reference type.
+Java where the method implementation to be executed is determined at runtime based on the actual object type, not just its declared type.
+This differs from static binding, where the method call is resolved at compile time
+When and Why Use Dynamic Binding?
+You should use it when:
+✅ You want runtime polymorphism
+
+
+Dynamic binding refers to the process in which linking between method call and method implementation is resolve…]]></summary>
+        <author>
+            <name>Elayaraj C</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Master Windows 11 Kiosk Mode: Single Website Made Easy]]></title>
+        <id>https://dev.to/vantagemdm/master-windows-11-kiosk-mode-single-website-made-easy-a1p</id>
+        <link href="https://dev.to/vantagemdm/master-windows-11-kiosk-mode-single-website-made-easy-a1p"/>
+        <updated>2025-06-14T07:48:47.000Z</updated>
+        <summary type="html"><![CDATA[Introduction 🖥️
+
+
+Have you ever needed a way to limit a Windows 11 device to just one website? Whether for customer-facing kiosks, educational tools, or streamlined workflows, Windows 11 Kiosk Mode provides a seamless solution. In this article, we’ll explore how to set up and optimize the “single website” mode, emphasizing how it can simplify operations. Let’s dive in and discover how this feature can work for you with the added benefit of tools like VantageMDM.
+Windows 11 Kiosk Mode is a specialized setup that locks a device into a single application or website. Designed for public or dedicated-use systems, it ensures that users only access specific resources, reducing distractions and enhancing security.
+In single-website mode, the kiosk locks the browser to display only one predefined …]]></summary>
+        <author>
+            <name>vantage mdm</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The 'Sea-Calming Needle' in the Microservices Wave My Architectural Choices and Practical Experience]]></title>
+        <id>https://dev.to/codeqwertyuiop/the-sea-calming-needle-in-the-microservices-wave-my-architectural-choices-and-practical-experience-3hk6</id>
+        <link href="https://dev.to/codeqwertyuiop/the-sea-calming-needle-in-the-microservices-wave-my-architectural-choices-and-practical-experience-3hk6"/>
+        <updated>2025-06-14T07:48:03.000Z</updated>
+        <summary type="html"><![CDATA[As a computer science student about to enter my senior year, I'm deeply fascinated by the evolution of software architecture. From monolithic giants to Service-Oriented Architecture (SOA), and now to the red-hot microservices architecture, each transformation aims to solve the pain points of its era and propel software engineering towards greater efficiency, flexibility, and reliability. In my studies and practice, microservices, with their numerous advantages like independent deployment, technological heterogeneity, and elastic scalability, have profoundly captivated me. However, microservices are not a silver bullet; while bringing benefits, they also introduce new complexities. Choosing a suitable framework to navigate this microservices wave has become a key focus of my recent thoughts…]]></summary>
+        <author>
+            <name>codeqwertyuiop</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Trading Bot in C# — Part 2— Notifications]]></title>
+        <id>https://dev.to/whalessecretapi/trading-bot-in-c-part-2-notifications-4249</id>
+        <link href="https://dev.to/whalessecretapi/trading-bot-in-c-part-2-notifications-4249"/>
+        <updated>2025-06-14T07:47:26.000Z</updated>
+        <summary type="html"><![CDATA[In the previous post, we implemented a market-watching bot that continuously monitors the BTC/USDT market on Binance exchange and provides updates on the relative-strength indicator (RSI) values.
+With this system in place, we may wish to be notified when noteworthy trading opportunities arise. This blog post will delve into that topic.
+Get Notified!
+
+
+A simple approach would be to send an email whenever RSI crosses a significant threshold. While this approach is valid, we believe that messaging apps could be more advantageous for our intended purpose. Messaging apps typically offer various notification settings, and the ease of joining or leaving a group chat. Although email can provide similar functionalities, it tends to be more complicated, and carries the risk of being perceived as spa…]]></summary>
+        <author>
+            <name>Whale's Secret</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Key Highlights of WWDC 2025 and iOS 26 Rumors]]></title>
+        <id>https://dev.to/aashika_mehra_eb91362ad65/key-highlights-of-wwdc-2025-and-ios-26-rumors-1a1p</id>
+        <link href="https://dev.to/aashika_mehra_eb91362ad65/key-highlights-of-wwdc-2025-and-ios-26-rumors-1a1p"/>
+        <updated>2025-06-14T07:47:18.000Z</updated>
+        <summary type="html"><![CDATA[Key Highlights of WWDC 2025 and iOS 26 Rumors
+What made WWDC 2025 such a landmark event for Apple?
+Apple's 2025 Worldwide Developers Conference (WWDC) was not just another yearly update event. It marked a shift in how the company views software design, artificial intelligence, and user experience. Apple decided to not disclose any hardware at WWDC 2025 and instead focus exclusively on software since they save hardware reveals for the more traditional September event. The keynote unveiled sweeping changes across all major platforms, with the other big reveal being the newly minted iOS 26 and all on display in a new design language called "Liquid Glass."
+What Is the New Liquid Glass Design and How Will It Change Apple Devices?
+Probably the most talked about announcement made at WWDC 2025 was…]]></summary>
+        <author>
+            <name>Aashika mehra</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[My Experience with Hyperlane A Rust Newbie’s Journey in Developing a Campus API]]></title>
+        <id>https://dev.to/codeqwertyuiop/my-experience-with-hyperlane-a-rust-newbies-journey-in-developing-a-campus-api-45fh</id>
+        <link href="https://dev.to/codeqwertyuiop/my-experience-with-hyperlane-a-rust-newbies-journey-in-developing-a-campus-api-45fh"/>
+        <updated>2025-06-14T07:46:54.000Z</updated>
+        <summary type="html"><![CDATA[As a junior computer science student, I was working on a campus second-hand trading platform project last semester when I stumbled upon the Hyperlane Rust HTTP framework. I was in a dilemma about choosing a framework— it needed to be powerful enough to handle the peak trading at the end of the semester, and its syntax had to be simple so that I, as a Rust newbie, could get up to speed quickly. To my pleasant surprise, Hyperlane exceeded all my expectations. Today, I want to share my experience with this amazing framework!
+When I first started writing route functions, I was amazed by Hyperlane’s Context (or ctx for short). I remember the first time I wanted to get the request method. In traditional Rust HTTP frameworks, I would have to write:
+let method = ctx.get_request().await.get_method(…]]></summary>
+        <author>
+            <name>codeqwertyuiop</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Unveiling the Next-Generation Web Engine My In-Depth Experience with a Rust Framework and the Path to Performance Supremacy]]></title>
+        <id>https://dev.to/codeqwertyuiop/unveiling-the-next-generation-web-engine-my-in-depth-experience-with-a-rust-framework-and-the-path-36cg</id>
+        <link href="https://dev.to/codeqwertyuiop/unveiling-the-next-generation-web-engine-my-in-depth-experience-with-a-rust-framework-and-the-path-36cg"/>
+        <updated>2025-06-14T07:42:48.000Z</updated>
+        <summary type="html"><![CDATA[As a third-year student immersed in the world of computer science, my days are consumed by the logic of code and the allure of algorithms. However, while the ocean of theory is vast, it's the crashing waves of practice that truly test the truth. After participating in several campus projects and contributing to some open-source communities, I've increasingly felt that choosing the right development framework is crucial for a project's success, development efficiency, and ultimately, the user experience. Recently, a web backend framework built on the Rust language, with its earth-shattering performance and unique design philosophy, completely overturned my understanding of "efficient" and "modern" web development. Today, as an explorer, combining my "ten-year veteran editor's" pickiness wit…]]></summary>
+        <author>
+            <name>codeqwertyuiop</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Upcoming Core Devices App Will Support Legacy Pebble Watches]]></title>
+        <id>https://www.lowyat.net/?p=355894</id>
+        <link href="https://www.lowyat.net/2025/355894/upcoming-core-devices-app-will-support-legacy-pebble-watches/"/>
+        <updated>2025-06-14T07:16:10.000Z</updated>
+        <summary type="html"><![CDATA[Eric Migicovsky, former Pebble founder and now head of Core Devices, has confirmed that his team’s upcoming Core mobile app for Android and iOS will be compatible with several legacy Pebble models. In a recent blog update, he revealed that the new app is designed to work not only with Core’s upcoming watches, but also […]
+The post Upcoming Core Devices App Will Support Legacy Pebble Watches appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Stop using shady QR apps! Try this clean browser tool]]></title>
         <id>https://dev.to/naman_sachdeva/stop-using-shady-qr-apps-try-this-clean-browser-tool-2i83</id>
@@ -4942,6 +5174,16 @@ async fn call_service(ctx: Context) {
         <summary type="html"><![CDATA[A new support zone has been established, suggesting a short-term bottom.]]></summary>
         <author>
             <name>Oliver Knight</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Peano arithmetic is enough, because Peano arithmetic  encodes computation]]></title>
+        <id>https://math.stackexchange.com/a/5075056/6708</id>
+        <link href="https://math.stackexchange.com/a/5075056/6708"/>
+        <updated>2025-06-13T16:10:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -21074,6 +21316,16 @@ Well, buckle up, buttercup, because that's exactly what we're building today! We
         <summary type="html"><![CDATA[The token traded roughly flat over the past 24 hours, even after Nasdaq submitted a 19b-4 document with the SEC on Tuesday, taking another step towards a spot SUI ETF in the U.S.]]></summary>
         <author>
             <name>Helene Braun</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I uncovered a potential ancient Rome wine scam]]></title>
+        <id>https://phys.org/news/2025-06-uncovered-potential-ancient-rome-wine.html</id>
+        <link href="https://phys.org/news/2025-06-uncovered-potential-ancient-rome-wine.html"/>
+        <updated>2025-06-11T18:33:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -57208,36 +57460,6 @@ The post JBL Flip 7, Charge 6 Land In Malaysia; Priced From RM799 appeared first
         <summary type="html"><![CDATA[Jamie Raskin, the ranking Democrat on the House panel overseeing the legal system, asked the president to produce the guest list of his private event.]]></summary>
         <author>
             <name>Jesse Hamilton</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin falls below $104K, but data shows BTC traders positioned for a rebound]]></title>
-        <id>https://cointelegraph.com/news/bitcoin-falls-below-104k-but-data-shows-btc-traders-positioned-for-a-rebound</id>
-        <link href="https://cointelegraph.com/news/bitcoin-falls-below-104k-but-data-shows-btc-traders-positioned-for-a-rebound?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
-        <updated>2025-05-30T20:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Bitcoin sells off amid mounting macroeconomic uncertainty, but data shows pro traders clinging to their bullish price expectations.]]></summary>
-        <author>
-            <name>Cointelegraph by Marcel Pechman</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[For Bitcoin 2025, the word of the day was ‘freedom’]]></title>
-        <id>https://cointelegraph.com/news/bitcoin-2025-event-recap-freedom</id>
-        <link href="https://cointelegraph.com/news/bitcoin-2025-event-recap-freedom?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
-        <updated>2025-05-30T19:44:18.000Z</updated>
-        <summary type="html"><![CDATA[From Ross Ulbricht's first significant public appearance to Strategy’s Michael Saylor addressing the crowd, the focus of the Bitcoin conference was often on individual liberty.]]></summary>
-        <author>
-            <name>Cointelegraph by Turner Wright</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Xend Finance, Risevest launch tokenized stocks platform in Africa]]></title>
-        <id>https://cointelegraph.com/news/xend-finance-risevest-launch-tokenized-stocks-platform-africa</id>
-        <link href="https://cointelegraph.com/news/xend-finance-risevest-launch-tokenized-stocks-platform-africa?utm_source=rss_feed&amp;utm_medium=rss&amp;utm_campaign=rss_partner_inbound"/>
-        <updated>2025-05-30T19:16:00.000Z</updated>
-        <summary type="html"><![CDATA[The platform allows investors in Africa to access global real estate and stock markets through tokenized fractional shares using stablecoins.]]></summary>
-        <author>
-            <name>Cointelegraph by Christopher Tepedino</name>
         </author>
     </entry>
     <entry>
