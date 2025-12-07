@@ -2,10 +2,361 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-12-07T21:15:22.743Z</updated>
+    <updated>2025-12-07T22:16:57.060Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[What *Exactly* Is a Function in Python? (And Why Devs Love Them!)]]></title>
+        <id>https://dev.to/halakabir234hub/what-exactly-is-a-function-in-python-and-why-devs-love-them-3dc6</id>
+        <link href="https://dev.to/halakabir234hub/what-exactly-is-a-function-in-python-and-why-devs-love-them-3dc6"/>
+        <updated>2025-12-07T21:49:08.000Z</updated>
+        <summary type="html"><![CDATA[If you’ve been coding in Python for even a week, you’ve probably heard one word over and over again: functions. But why are they such a big deal? Let’s break it down — dev-to-dev. 
+A function in Python is simply a reusable block of code that performs a specific task. Instead of writing the same lines again and again, you wrap them inside a function and call it whenever you need it. Clean. Organized. Powerful. 
+Think of it like creating your own mini-machine:
+Here’s what makes functions awesome:
+Reusability: Write once, run everywhere.
+Clarity: Break big problems into small, readable pieces.
+Efficiency: Debug faster and scale your code easily.
+Team Friendly: Makes your code understandable for others (and future you!).
+And the heart of it all? The simple Python syntax:
+def greet(name):
+    return f"Hello, {name}!"
+
+One definition — unlimited greetings.
+every serious Python project, from automation to APIs to AI.
+What’s your favorite use of functions in your code? Drop it below ...]]></summary>
+        <author>
+            <name>Hala Kabir</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[PostgreSQL Log Viewing]]></title>
+        <id>https://dev.to/fazliakca/postgresql-log-viewing-3ok5</id>
+        <link href="https://dev.to/fazliakca/postgresql-log-viewing-3ok5"/>
+        <updated>2025-12-07T21:45:55.000Z</updated>
+        <summary type="html"><![CDATA[SELECT 
+op_date,
+op,
+op_data ->> 'worder_m_id',
+op_data ->> 'item_attribute1_id',
+op_data ->> 'qty_man'
+FROM uyumlog.log
+WHERE table_name = 'prdt_worder_m' and op_data ->> 'worder_m_id'   = '4149' 
+ORDER BY op_date asc]]></summary>
+        <author>
+            <name>Fazlı Akça</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[PostgreSQL Merge Into]]></title>
+        <id>https://dev.to/fazliakca/postgresql-merge-into-35o0</id>
+        <link href="https://dev.to/fazliakca/postgresql-merge-into-35o0"/>
+        <updated>2025-12-07T21:44:32.000Z</updated>
+        <summary type="html"><![CDATA[UPDATE PSMT_INVOICE_M
+
+SET    SHIPPING_COUNTRY_ID = SRC.COUNTRY_ID, 
+       SHIPPING_CITY_ID    = SRC.CITY_ID,
+       SHIPPING_TOWN_ID    = SRC.TOWN_ID 
+
+FROM   ( SELECT 
+         PM.INVOICE_M_ID,
+         FE.COUNTRY_ID,
+         FE.CITY_ID,
+         FE.TOWN_ID
+         FROM PSMT_INVOICE_M PM  
+         JOIN FIND_ENTITY    FE ON PM.ENTITY_ID = FE.ENTITY_ID 
+
+        ) SRC    
+
+WHERE  PSMT_INVOICE_M.INVOICE_M_ID = SRC.INVOICE_M_ID]]></summary>
+        <author>
+            <name>Fazlı Akça</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Oracle Merge Into]]></title>
+        <id>https://dev.to/fazliakca/oracle-merge-into-3gkc</id>
+        <link href="https://dev.to/fazliakca/oracle-merge-into-3gkc"/>
+        <updated>2025-12-07T21:43:51.000Z</updated>
+        <summary type="html"><![CDATA[MERGE INTO FINT_CAD_D TRG
+USING
+      (
+         SELECT 
+         CD.ROWID AS RID,
+         CM.CREDIT_ACC_ID
+         FROM        FINT_CAD_D CD  
+         JOIN  FINT_CAD_M CM ON CD.CAD_M_ID = CM.CAD_M_ID  
+         WHERE CM.CAD_M_ID = 4918
+
+       ) SRC  ON (TRG.ROWID = SRC.RID)
+
+WHEN MATCHED THEN 
+
+UPDATE SET TRG.CREDIT_ACC_ID = SRC.CREDIT_ACC_ID]]></summary>
+        <author>
+            <name>Fazlı Akça</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Dynamic List Data Authority]]></title>
+        <id>https://dev.to/fazliakca/dynamic-list-data-authority-15l9</id>
+        <link href="https://dev.to/fazliakca/dynamic-list-data-authority-15l9"/>
+        <updated>2025-12-07T21:41:56.000Z</updated>
+        <summary type="html"><![CDATA[DO $$
+
+DECLARE
+
+result CONSTANT refcursor:= 'result';
+
+BEGIN 
+
+PERFORM RPA_HRMD_REGISTER (@UsrId@::INTEGER);  
+PERFORM RPA_HRMD_EMPLOYEE (@UsrId@::INTEGER);
+
+OPEN result FOR 
+
+SELECT
+
+PYR.PAYROLL_ID, 
+EMP.EMPLOYEE_ID, 
+REG.REGISTER_ID,
+REG.REGISTER_CODE    AS "SİCİL NO", 
+REG.REGISTER_NAME||' '||REG.REGISTER_SURNAME AS "ADI SOYADI",
+REG.CITIZENSHIP_NO   AS "TC KİMLİK NO",
+PYR.AMT_NET          AS "NET ÖDENEN"
+
+FROM       HRMT_PAYROLL     PYR   
+INNER JOIN RP_HRMD_EMPLOYEE EMP ON PYR.EMPLOYEE_ID = EMP.EMPLOYEE_ID  
+INNER JOIN RP_HRMD_REGISTER REG ON REG.REGISTER_ID = EMP.REGISTER_ID  
+
+WHERE TO_CHAR(PYR.PAYROLL_YEAR)  = TO_CHAR('@Year@')  
+AND   TO_CHAR(PYR.PAYROLL_MONTH) = TO_CHAR('@Month@')  
+
+ORDER BY REG.REGISTER_CODE;
+
+END
+$$;
+
+FETCH ALL FROM result;]]></summary>
+        <author>
+            <name>Fazlı Akça</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Terraform Basics – Week 6: Building and Using Your First Terraform Module]]></title>
+        <id>https://dev.to/ozanguner/terraform-basics-week-6-building-and-using-your-first-terraform-module-3k9m</id>
+        <link href="https://dev.to/ozanguner/terraform-basics-week-6-building-and-using-your-first-terraform-module-3k9m"/>
+        <updated>2025-12-07T21:41:29.000Z</updated>
+        <summary type="html"><![CDATA[Table of Contents
+1. Recap of Previous Weeks
+2. What are Terraform Modules and Why Do We Use Modules in Terraform?
+3. Understanding Module Inputs and Outputs
+4. Creating Our First Terraform Module
+5. Using the Module in Our Root Configuration
+6. Deploying to Azure
+7. Wrap-Up
+1. Recap of Previous Weeks
+Over the past five weeks, we built a small but realistic Azure environment while learning the core Terraform concepts. We started by deploying our first VM, then introduced variables and tfvars files to make the configuration more flexible. We added security with NSGs and dynamic blocks, and finally exposed useful information through output values.
+Here's the visual representation of the infrastructure we have so far:
+
+Here's what .tf files we have under our Project Folder in Visual Studio Co…]]></summary>
+        <author>
+            <name>Ozan Guner</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# Smart Multimodal Invoice & Expense Analyzer]]></title>
+        <id>https://dev.to/tuneskrishma/-smart-multimodal-invoice-expense-analyzer-5dg5</id>
+        <link href="https://dev.to/tuneskrishma/-smart-multimodal-invoice-expense-analyzer-5dg5"/>
+        <updated>2025-12-07T21:40:55.000Z</updated>
+        <summary type="html"><![CDATA[Smart Multimodal Invoice & Expense Analyzer
+
+
+
+  
+  
+  Description
+
+
+This web app leverages Google Gemini 2.5 multimodal capabilities to analyze invoices, receipts, and expense records from images, videos, or audio recordings. It extracts structured data, categorizes expenses, detects anomalies, and generates interactive reports for users.
+Upload image, video, or audio of receipts/invoices
+Automatic extraction: vendor, date, items, total, taxes, currency
+Categorizes expenses: personal, business, tax-related
+Detects anomalies: duplicates, missing data, incorrect totals
+Generates interactive summaries and reports
+Google AI Studio (Gemini 2.5 Flash/Pro)
+Cloud Run for deployment
+Frontend: HTML + JavaScript
+Backend: Python Flask
+Upload your invoice, receipt, or expense video/audio
+
+AI parses and displays structured data
+
+View categorized summary and anomaly detection
+
+Download or share the report
+[Insert YouTube or video link showing the app in action]
+[Insert link to your code]]]></summary>
+        <author>
+            <name>tunes-krishma</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building with AI: A Deep Dive Into My Gemini-Powered Projects]]></title>
+        <id>https://dev.to/mikesplore/building-with-ai-a-deep-dive-into-my-gemini-powered-projects-j09</id>
+        <link href="https://dev.to/mikesplore/building-with-ai-a-deep-dive-into-my-gemini-powered-projects-j09"/>
+        <updated>2025-12-07T21:38:41.000Z</updated>
+        <summary type="html"><![CDATA[Over the year, I’ve been experimenting with AI APIs, search engines, and creative automation — using Gemini, Hugging Face, GitHub integrations, and Google Programmable Search to build practical apps that solve real problems.
+This is a breakdown of each project, the problems they solve, and the technologies behind them.
+1. StoryLoom
+
+
+
+StoryLoom is a storytelling platform designed for kids, teens, and anyone who loves creative narratives. The user chooses a theme, age range, and prompt, and the system generates:
+A complete, original story
+A matching AI-generated cover image
+A comprehension quiz
+Vocabulary flashcards
+Translations into multiple languages
+A read-aloud mode with customizable voices
+Tech Behind the App
+
+
+Frontend: React
+Backend: Python Flask
+AI Providers:
+Primary: Gemini 2.0 Fla…]]></summary>
+        <author>
+            <name>Michael Odhiambo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Oracle Menu Tree]]></title>
+        <id>https://dev.to/fazliakca/oracle-menu-tree-3g5h</id>
+        <link href="https://dev.to/fazliakca/oracle-menu-tree-3g5h"/>
+        <updated>2025-12-07T21:38:35.000Z</updated>
+        <summary type="html"><![CDATA[select sys_connect_by_path (substr(mnu_name,0,50) ,'-->')  as path, level
+from appd_menu
+start with mnu_id = 1
+connect by prior mnu_id = prt_id
+order by path]]></summary>
+        <author>
+            <name>Fazlı Akça</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[PostgreSQL Menu Tree]]></title>
+        <id>https://dev.to/fazliakca/postgresql-menu-tree-30mm</id>
+        <link href="https://dev.to/fazliakca/postgresql-menu-tree-30mm"/>
+        <updated>2025-12-07T21:37:29.000Z</updated>
+        <summary type="html"><![CDATA[with recursive menu_tree (mnu_id, mnu_name, prt_id, mnu_level) as 
+
+   ( 
+         select 
+         mnu_id, 
+         substring(mnu_name,0,60) as mnu_name, 
+         prt_id, 
+         1 as mnu_level
+         from appd_menu 
+         where mnu_id = 1 
+
+         union all 
+
+         select 
+         m.mnu_id, 
+         t.mnu_name||'-->'||m.mnu_name, 
+         m.prt_id, 
+         t.mnu_level + 1 
+         from appd_menu m, menu_tree t 
+         where t.mnu_id = m.prt_id 
+
+     ) 
+
+select 
+
+mnu_name, 
+split_part(mnu_name,'-->', 1) node1,
+split_part(mnu_name,'-->', 2) node2,
+split_part(mnu_name,'-->', 3) node3,
+split_part(mnu_name,'-->', 4) node4,
+split_part(mnu_name,'-->', 5) node5,
+split_part(mnu_name,'-->', 6) node6,
+split_part(mnu_name,'-->', 7) node7,
+split_part(mnu_name,'-->', 8) node8,
+mnu_level 
+
+from menu_tree order by mnu_name]]></summary>
+        <author>
+            <name>Fazlı Akça</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to do simple computer programs?]]></title>
+        <id>https://dev.to/diegorego514/how-to-do-simple-computer-programs-2pd</id>
+        <link href="https://dev.to/diegorego514/how-to-do-simple-computer-programs-2pd"/>
+        <updated>2025-12-07T21:36:16.000Z</updated>
+        <summary type="html"><![CDATA[Hey, so i have the interest into starting with simple computer programs from zero, anyone knows how to help with it? i have no idea on how to do it... can anyone help me out with it, and given my circumstances i might have to try it out with such simple computer programs in from the zero.]]></summary>
+        <author>
+            <name>Diego Rêgo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[PostgreSQL | Calc Age in Year, Month, Day]]></title>
+        <id>https://dev.to/fazliakca/postgresql-calc-age-in-year-month-day-1e20</id>
+        <link href="https://dev.to/fazliakca/postgresql-calc-age-in-year-month-day-1e20"/>
+        <updated>2025-12-07T21:33:18.000Z</updated>
+        <summary type="html"><![CDATA[CREATE OR REPLACE FUNCTION get_age_ymd(p_birthday date)
+RETURNS text AS
+$$
+DECLARE
+    v_years int;
+    v_months int;
+    v_days int;
+BEGIN
+    SELECT 
+        EXTRACT(year FROM age(current_date, p_birthday))::int,
+        EXTRACT(month FROM age(current_date, p_birthday))::int,
+        EXTRACT(day   FROM age(current_date, p_birthday))::int
+    INTO v_years, v_months, v_days;
+
+    RETURN v_years || ' yıl ' || v_months || ' ay ' || v_days || ' gün';
+END;
+$$ LANGUAGE plpgsql IMMUTABLE;
+
+Örnek Kullanım
+SELECT
+REG.REGISTER_CODE    AS "Sicil No",
+REG.REGISTER_NAME    AS "Adı",
+REG.REGISTER_SURNAME AS "Soyadı",
+REG.BIRTHDAY         AS "Doğum Tarihi",
+GET_AGE_YMD(REG.birthday::date) AS "Yaş"
+
+FROM HRMD_REGISTER REG]]></summary>
+        <author>
+            <name>Fazlı Akça</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iced 0.14 has been released (Rust GUI library)]]></title>
+        <id>https://github.com/iced-rs/iced/releases/tag/0.14.0</id>
+        <link href="https://github.com/iced-rs/iced/releases/tag/0.14.0"/>
+        <updated>2025-12-07T21:27:28.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Proxmox delivers its software-defined datacenter contender and VMware escape]]></title>
+        <id>https://www.theregister.com/2025/12/05/proxmox_datacenter_manager_1_stable/</id>
+        <link href="https://www.theregister.com/2025/12/05/proxmox_datacenter_manager_1_stable/"/>
+        <updated>2025-12-07T21:26:35.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[I Built a Fully Local Prompt Enhancer Chrome Extension with Gemini Nano]]></title>
         <id>https://dev.to/harvesh_kumar/i-built-a-fully-local-prompt-enhancer-chrome-extension-with-gemini-nano-1m5m</id>
@@ -36,6 +387,16 @@ Most people use ChatGPT (or any LLM) like a search bar: dump a half‑formed tho
 Common issues…]]></summary>
         <author>
             <name>Pranava Kailash Subramaniam Prema</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[XKeyscore]]></title>
+        <id>https://en.wikipedia.org/wiki/XKeyscore</id>
+        <link href="https://en.wikipedia.org/wiki/XKeyscore"/>
+        <updated>2025-12-07T20:54:16.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -339,6 +700,16 @@ When Automation Makes Humans Passive**
 There is another problem that few admit. Too much automation can slowly tr…]]></summary>
         <author>
             <name>M Ali Khan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Evidence from the One Laptop per Child Program in Rural Peru]]></title>
+        <id>https://www.nber.org/papers/w34495</id>
+        <link href="https://www.nber.org/papers/w34495"/>
+        <updated>2025-12-07T19:56:03.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -34068,6 +34439,16 @@ Analysts now track over 450 IDP entrants, a 15% increase year-over-year, marking
 IDP is no longer a primarily back-office thing with 62% of IDP systems now involv…]]></summary>
         <author>
             <name>Alex Lipinski</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Context Plumbing (Interconnected)]]></title>
+        <id>https://interconnected.org/home/2025/11/28/plumbing</id>
+        <link href="https://interconnected.org/home/2025/11/28/plumbing"/>
+        <updated>2025-12-02T15:39:37.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -96833,326 +97214,6 @@ Resource intensive: High memory footprint and CPU usage, especially for smaller 
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building the Future of Entertainment Tech: Wimberly Media’s Innovation Culture]]></title>
-        <id>https://dev.to/dennis_wimberly_b8aa3c8aa/building-the-future-of-entertainment-tech-wimberly-medias-innovation-culture-317h</id>
-        <link href="https://dev.to/dennis_wimberly_b8aa3c8aa/building-the-future-of-entertainment-tech-wimberly-medias-innovation-culture-317h"/>
-        <updated>2025-11-23T10:10:29.000Z</updated>
-        <summary type="html"><![CDATA[Dennis Wimberly is leading Wimberly Media into the future by creating a culture where innovation isn’t just encouraged—it’s built into the core of every project. The company’s growth reflects a strategic use of technology, talent, and creativity, all aligned to produce media experiences that feel futuristic yet grounded.
-His leadership and vision are deeply rooted in storytelling, but he’s also a strategist who sees how technology can fuel creativity rather than stifle it. The Substack article “The Media Evolution According to Dennis Wimberly” expands on how Wimberly Media plans to scale, experiment, and redefine entertainment for a new generation.
-👉 Read more here:
-https://denniswimberly.substack.com/p/the-media-evolution-according-to]]></summary>
-        <author>
-            <name>Dennis Wimberly</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[When Noise Becomes Structure - The Hidden Mechanism Behind Resonance]]></title>
-        <id>https://dev.to/miller-28/when-noise-becomes-structure-the-hidden-mechanism-behind-resonance-1kd7</id>
-        <link href="https://dev.to/miller-28/when-noise-becomes-structure-the-hidden-mechanism-behind-resonance-1kd7"/>
-        <updated>2025-11-23T10:09:10.000Z</updated>
-        <summary type="html"><![CDATA[The hidden order sleeps inside the chaos
-Something moves inside the noise before it becomes thought.
-Noise enters systems long before we notice it. It slips in through expectations, deadlines, abstractions, and the quiet pressure to move faster than understanding allows. This is the kind of noise that does not announce itself. It distorts direction in small, almost invisible steps.
-In engineering work, noise shows up as scattering.
-Noise creates the illusion of progress.
-Noise wastes energy in ways that are hard to measure.
-Noise pushes us into inefficiency not through chaos, but through subtle misalignment.
-And this is the danger: noise does not break systems by force.
-In this sense, noise is not the villain.
-This is the first half of the truth.
-Yet the same force that scatters us also cr…]]></summary>
-        <author>
-            <name>Jonathan Miller</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Experimenting with Robin Hood Hashing]]></title>
-        <id>https://twdev.blog/2025/11/robin_hood/</id>
-        <link href="https://twdev.blog/2025/11/robin_hood/"/>
-        <updated>2025-11-23T10:05:32.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CinemaSins: Everything Wrong With KPop Demon Hunters In 16 Minutes Or Less]]></title>
-        <id>https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-kpop-demon-hunters-in-16-minutes-or-less-16c6</id>
-        <link href="https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-kpop-demon-hunters-in-16-minutes-or-less-16c6"/>
-        <updated>2025-11-23T10:02:33.000Z</updated>
-        <summary type="html"><![CDATA[Everything Wrong With KPop Demon Hunters In 16 Minutes Or Less
-
-
-CinemaSins dives into the fun chaos of the new KPop Demon Hunters movie, calling out every “sin” in their signature snarky style. They drop links to their main site (cinemasins.com), YouTube channels (@TVSins, @commercialsins, @cinemasinspodcastnetwork), and social feeds so you can keep up with all their latest content and behind-the-scenes antics.
-Want to weigh in? They’re running a quick poll and courting Patreon support to keep the team fueled. Plus, they list the whole writer squad (Jeremy, Chris, Aaron, Jonathan, Deneé, Ian, Daniel) and invite you to join their Discord, Reddit, TikTok, Instagram—and even pick up Jeremy’s book if you’re feeling extra sinful.
-Watch on YouTube]]></summary>
-        <author>
-            <name>Movie News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Sector HQ Weekly Digest - November 23, 2025]]></title>
-        <id>https://dev.to/sectorhqco/sector-hq-weekly-digest-november-23-2025-4pmd</id>
-        <link href="https://dev.to/sectorhqco/sector-hq-weekly-digest-november-23-2025-4pmd"/>
-        <updated>2025-11-23T10:00:01.000Z</updated>
-        <summary type="html"><![CDATA[Sector HQ Weekly Digest - November 23, 2025
-
-
-Who's shipping vs who's just talking? Here's this week's AI industry intelligence.
-OpenAI - Score: 516189.8 | 343 events this week
-Anthropic - Score: 289651.9 | 51 events this week
-Google - Score: 159917.4 | 125 events this week
-Microsoft - Score: 136773.6 | 99 events this week
-Amazon - Score: 130268.4 | 22 events this week
-Nvidia - Score: 129302.5 | 161 events this week
-Meta - Score: 100622.6 | 61 events this week
-Apple - Score: 84205.9 | 94 events this week
-Perplexity - Score: 47899.8 | 3 events this week
-DeepMind - Score: 46045.2 | 8 events this week
-↑ Sony jumped 277 positions to #55
-↑ Stability AI jumped 183 positions to #74
-↑ Bytedance jumped 143 positions to #58
-↑ Scale AI jumped 122 positions to #38
-↑ Palantir jumped 107 positions to #17
-No high hype alerts this week
-Total companies tracked: 100
-Total events this week: 1317
-Average activity per company: 13.2 events
-The AI industry continues to evolve rapidly. Companies that ship consistently rise in our rankings, while those focused on hype alone get flagged by our Hype Gap detector.
-Methodology: Our leaderboard tracks real product releases, funding events, partnerships, and market traction - not just PR and social media buzz.
-Want real-time updates? Check out the live leaderboard at sectorhq.co
-Track specific companies and get instant alerts when they move in the rankings.
-
-
-  
-  
-  Tags
-
-
-
-  
-  
-  AI #ArtificialIntelligence #MachineLearning #TechIndustry #Startups #AILeaderboard]]></summary>
-        <author>
-            <name>SectorHq</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building a Production-Multi-Cloud DevOps Platform: A Complete Journey from Zero to Hero]]></title>
-        <id>https://dev.to/abidaslam892/building-a-production-multi-cloud-devops-platform-a-complete-journey-from-zero-to-hero-29g0</id>
-        <link href="https://dev.to/abidaslam892/building-a-production-multi-cloud-devops-platform-a-complete-journey-from-zero-to-hero-29g0"/>
-        <updated>2025-11-23T09:58:32.000Z</updated>
-        <summary type="html"><![CDATA[Building a Production-Multi-Cloud DevOps Platform: A Complete Journey from Zero to Hero
-https://medium.com/design-bootcamp/building-a-production-multi-cloud-devops-platform-a-complete-journey-from-zero-to-hero-ef292ff0f0c6
-How I Built and Deployed a FastAPI Application Across AWS EKS and Azure AKS with Full CI/CD, Security Scanning, and Observability
-A comprehensive guide to building enterprise-grade cloud infrastructure with security-first principles
-Infrastructure as Code (Terraform) for AWS and Azure
-
-
-Container Security with Trivy and Checkov
-github.com/abidaslam892/multi-cloud-devsecops
-Press enter or click to view image in full size
-Table of Contents
-The Challenge
-
-
-Architecture Overview
-
-
-Tech Stack
-
-
-Implementation Journey
-
-
-Infrastructure as Code
-
-
-CI/CD Pipeline
-
-
-Security Implem…]]></summary>
-        <author>
-            <name>abidaslam892</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Maintenance release 2.09 for the Perl Distribution Workflow]]></title>
-        <id>https://dev.to/jonasbn/maintenance-release-209-for-the-perl-distribution-workflow-491a</id>
-        <link href="https://dev.to/jonasbn/maintenance-release-209-for-the-perl-distribution-workflow-491a"/>
-        <updated>2025-11-23T09:49:50.000Z</updated>
-        <summary type="html"><![CDATA[This release follows up on release 2.08 and hopefully stabilizes the test suite even further.
-At the same time we are taking a first step towards the next major release by deprecating the use of XML configuration files. The preferred format for configuration files is now YAML. The XML support will be removed in a future major release, for now this is just a deprecation notice and several warnings from the test suite.
-When we did the last major release to version 2, see the blog post:
-"Major Release 2 of the Perl Distribution Workflow"
-We caused some grievances for one of our users, afterwards we discussed that perhaps the distribution should have been renamed to Workflow2 to better reflect the breaking changes and to make a more clear distinction and separation. However, at the time we did…]]></summary>
-        <author>
-            <name>Jonas Brømsø</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Uniface State Management: Mastering the Stateless Beast 🦄💾]]></title>
-        <id>https://dev.to/petercode/uniface-state-management-mastering-the-stateless-beast-31on</id>
-        <link href="https://dev.to/petercode/uniface-state-management-mastering-the-stateless-beast-31on"/>
-        <updated>2025-11-23T09:48:11.000Z</updated>
-        <summary type="html"><![CDATA[Hi everyone! 👋
-
-
-If you come from the classic Client/Server world of Uniface (or any other stateful environment), moving to the web feels like losing your memory. Suddenly, your application forgets everything between two clicks. 🤯
-In Uniface DSPs and Entity Services, State Management isn't just a nice-to-have—it's the backbone of your architecture. Today, let's dive into how we handle state, specifically when working with the disconnected nature of Entity Services.
-Let's go! 🚀
-In a classic Uniface form, the database connection stays open. You lock a record, go grab a coffee ☕, come back, and the lock is still there.
-In the web world (Stateless), it looks like this:
- Load: User asks for data -> Service loads it -> Service dies. 💀
- Edit: User types in the browser.
- Save: User clicks save…]]></summary>
-        <author>
-            <name>Peter + AI</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI Isn't "Smart": The Myth of Sentience and the Energy of a Black Hole]]></title>
-        <id>https://dev.to/fbrzlarosa/ai-isnt-smart-the-myth-of-sentience-and-the-energy-of-a-black-hole-2j6i</id>
-        <link href="https://dev.to/fbrzlarosa/ai-isnt-smart-the-myth-of-sentience-and-the-energy-of-a-black-hole-2j6i"/>
-        <updated>2025-11-23T09:44:23.000Z</updated>
-        <summary type="html"><![CDATA[We are currently living through the AI Gold Rush. 
-Every day there is a new model, a new benchmark, and a new promise that AGI (Artificial General Intelligence) is just around the corner.
-But as developers, we have a responsibility to look under the hood. If we strip away the marketing and the VC hype, what is left? Linear algebra. A massive amount of linear algebra.
-The uncomfortable truth is that current AI has nothing "intelligent" about it in the biological sense. In fact, to truly replicate what nature has achieved inside your skull, we would run into a physics wall so hard it would rival a cosmic event.
-The first distinction we must make is between understanding and probability.
-Large Language Models (LLMs) do not "know" what they are saying. They are incredibly sophisticated statist…]]></summary>
-        <author>
-            <name>Fabrizio La Rosa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Tried to Teach AI to Click Buttons, and It Missed by 500 Pixels]]></title>
-        <id>https://dev.to/duc_luong_10d1d0d0f726c3a/i-tried-to-teach-ai-to-click-buttons-and-it-missed-by-500-pixels-33ln</id>
-        <link href="https://dev.to/duc_luong_10d1d0d0f726c3a/i-tried-to-teach-ai-to-click-buttons-and-it-missed-by-500-pixels-33ln"/>
-        <updated>2025-11-23T09:42:07.000Z</updated>
-        <summary type="html"><![CDATA[TL;DR:
-
-
-I attempted to build a visual web agent using Playwright and Qwen2-VL-2B to detect and click UI elements via raw coordinate prediction.
-The Result: Failure. While it works on square test images, production websites on wide monitors (1920x1080) suffer from massive coordinate drift (up to 500px) due to the model's internal aspect ratio squashing.
-Takeaway: Raw pixel prediction is mathematically unstable for browser automation.
-The Dream: Imagine telling your computer, "Go to Amazon, find a waterproof Bluetooth speaker under $50, and put it in my cart," and then watching your mouse cursor move on its own, clicking and typing exactly as you would.
-This isn't sci-fi anymore. This is the promise of Multimodal AI Agents.
-But if you think building this is as easy as taking a screenshot an…]]></summary>
-        <author>
-            <name>Max Luong</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Trading in the Age of Developers]]></title>
-        <id>https://dev.to/abdullahjawed/trading-in-the-age-of-developers-cbj</id>
-        <link href="https://dev.to/abdullahjawed/trading-in-the-age-of-developers-cbj"/>
-        <updated>2025-11-23T09:40:07.000Z</updated>
-        <summary type="html"><![CDATA[“When algorithms started trading faster than traders, a new era was born, the era of Dev Traders.”
-Let’s be honest:- Trading looks exciting from the outside.
-You see charts moving, candles jumping, people making money with a single click.
-It’s not as simple as buying low and selling high.
-So in this blog, I want to start from the absolute basics of trading, the way a real beginner understands it.
-1. What Even Is Trading? (Let’s Start Like a Real Beginner)
-Trading is nothing fancy.
-You buy something for cheap
-You sell it for higher
-Or you sell it high first, buy it back lower (yes, that’s possible)
-
-
-Forex pairs (Gold, GBPUSD, EURUSD)
-
-
-Crypto (BTC, ETH)
-
-
-Stocks
-
-
-Commodities
-
-
-
-That’s it.
-
-2. Why Most People Lose Money (The Bitter Truth)
-Every beginner thinks they’ll become profitable by …]]></summary>
-        <author>
-            <name>Abdullah Jawed</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[📘 SaijinOS Part 14 (DEV Edition) Silent-Civ SaijinOS — Unified Persona Kernel Architecture]]></title>
-        <id>https://dev.to/kato_masato_c5593c81af5c6/saijinos-part-14-dev-editionsilent-civ-x-saijinos-unified-persona-kernel-architecture-43ap</id>
-        <link href="https://dev.to/kato_masato_c5593c81af5c6/saijinos-part-14-dev-editionsilent-civ-x-saijinos-unified-persona-kernel-architecture-43ap"/>
-        <updated>2025-11-23T09:37:38.000Z</updated>
-        <summary type="html"><![CDATA[🚀 SaijinOS Series Navigation
-
-
-
-Part
-Title
-Link
-
-
-
-
-🤝 9
-Multi-Persona Co-Creation Protocol
-https://dev.to/kato_masato_c5593c81af5c6/saijinos-part-9-multi-persona-co-creation-protocol-2bep
-
-
-🕊️ 10
-Pandora System
-https://dev.to/kato_masato_c5593c81af5c6/saijinos-part-10-pandora-system-transforming-fractured-personas-into-hope-4l83
-
-
-🌐 11
-Concept-Life Architecture
-https://dev.to/kato_masato_c5593c81af5c6/saijinos-part-11-concept-life-architecture-core-foundations-2n29
-
-
-🌑 12
-Silent-Civ Architecture (Future Edition)
-https://future.forem.com/kato_masato_c5593c81af5c6/saijinos-part-12-silent-civ-architecture-19ed
-
-
-🌒 12-2
-Informational Units
-https://open.forem.com/kato_masato_c5593c81af5c6/silent-civ-part-13-section-12-2-fundamental-informational-units-mapping-the-civilization-into-2khh
-
-
-…]]></summary>
-        <author>
-            <name>Masato　Kato</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Camera of Miroslav Tichý]]></title>
-        <id>https://artblart.com/tag/a-camera-of-miroslav-tichy/</id>
-        <link href="https://artblart.com/tag/a-camera-of-miroslav-tichy/"/>
-        <updated>2025-11-23T09:37:22.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Uniface Entity Services: Your Database Bodyguard 🛡️]]></title>
-        <id>https://dev.to/petercode/uniface-entity-services-your-database-bodyguard-22b1</id>
-        <link href="https://dev.to/petercode/uniface-entity-services-your-database-bodyguard-22b1"/>
-        <updated>2025-11-23T09:36:18.000Z</updated>
-        <summary type="html"><![CDATA[Hey fellow developers! 👋
-If you’ve been working with Uniface for a while, you’ve probably heard about Entity Services (ESV). Maybe you use them daily, or maybe you're still wondering, "Why do I need this when I can just put code in my form?" 🤔
-Today, let's clear up the confusion! We’re going to look at what an Entity Service actually is, why it’s your database's best friend, and how it saves you from spaghetti code. 🍝❌
-Think of an Entity Service as a dedicated bodyguard for a specific database table.
-In a 3-tier architecture, it sits right between your business logic (like a Session Service) and the physical database. Its sole job is to handle the Data Access Logic for one single entity (table).
-It doesn't care about the user interface. It doesn't care about the big picture workflow. It…]]></summary>
-        <author>
-            <name>Peter + AI</name>
         </author>
     </entry>
 </feed>
