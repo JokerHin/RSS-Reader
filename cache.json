@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/kryko7/advent-of-code-2025-day-2-gift-shop-1lkn",
+          "author": "Minindu Rupasinghe",
+          "description": "We need to find \"invalid\" product IDs in given ranges. An ID is invalid if it's made of a repeated digit sequence.\nPart 1: Find IDs repeated exactly twice (e.g., 1212, 345345)\n\nPart 2: Find IDs repeated at least twice (e.g., 123123, 1111, 12121212)\nPart 1 was straightforward. For each number in the range:\nConvert to string\nCheck if length is even\nSplit in half and compare\n\n\n\nfn invalid_id_sum1(ranges: Vec<(u128, u128)>) -> u128 {\n    let mut id_sum: u128 = 0;\n    for (start, end) in ranges.iter() {\n        for i in *start..*end+1 {\n            let s = i.to_string();\n            if s.len() % 2 != 0 {\n                continue;\n            }\n            let (a, b) = s.split_at(s.len() / 2);\n            let x: u128 = a.parse().expect(\"Expected a number\");\n            let y: u128 = b.parse().ex…",
+          "link": "https://dev.to/kryko7/advent-of-code-2025-day-2-gift-shop-1lkn",
+          "publishedOn": "2025-12-07T16:14:03.000Z",
+          "wordCount": 2103,
+          "title": "Advent of Code 2025 Day 2: Gift Shop 🎁",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2b27d22b5gb70p99al3u.png"
+        },
+        {
+          "id": "https://dev.to/shygyver/building-modern-backends-with-kaapi-request-validation-4dal",
+          "author": "ShyGyver",
+          "description": "Kaapi: A flexible, extensible backend framework for modern APIs with messaging, documentation, and type safety built right in.\n\nThis series is written for backend developers who love TypeScript and can appreciate Hapi’s design philosophy.\nBefore we let any data wander freely into our backend (with muddy boots and questionable intentions), it’s usually a good idea to validate it.\nKaapi is built on top of Hapi, which already comes with great tools for this, thanks to Joi. If you want the full lecture, Hapi’s tutorial explains everything in glorious detail.\nHere’s a tiny example from their documentation, just to remind ourselves how things look with Joi:\napp.route<{ Params: { name: string } }>({\n  method: 'GET',\n  path: '/hello/{name}',\n  handler: function (request, h) {\n    return `Hello ${r…",
+          "link": "https://dev.to/shygyver/building-modern-backends-with-kaapi-request-validation-4dal",
+          "publishedOn": "2025-12-07T16:11:42.000Z",
+          "wordCount": 3354,
+          "title": "Building Modern Backends with Kaapi: Request validation",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fq95u42jc04jr29mlc5o9.png"
+        },
+        {
+          "id": "https://dev.to/sahillearninglinux/understanding-docker-images-and-layers-4c4k",
+          "author": "SAHIL",
+          "description": "In our last post, you ran your very first container. You saw how quickly Docker could start an Nginx web server. But what makes containers so fast and lightweight? The answer lies in how Docker builds and manages its core components: Images and Layers.\n1. The Relationship: Image vs. Container\nA Docker Image is the class (the blueprint). It's a static, read-only set of instructions and components.\nA Docker Container is the object (the instance). It's the running environment created from that image, complete with a thin, writable layer on top.\n\n\n\nComponent\nNature\nRole\nState\n\n\n\n\nImage\nStatic, Read-Only\nThe template for building a container.\nStored on disk.\n\n\nContainer\nDynamic, Read/Write\nThe isolated, running instance of an image.\nRunning in memory.\n\n\n\n2. The Magic: The Layered Filesystem\nDoc…",
+          "link": "https://dev.to/sahillearninglinux/understanding-docker-images-and-layers-4c4k",
+          "publishedOn": "2025-12-07T16:09:52.000Z",
+          "wordCount": 2297,
+          "title": "Understanding Docker Images and Layers",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fz9m0hva5qzknhsjgzzuw.png"
+        },
+        {
+          "id": "https://dev.to/raulsilva/devpill-7-cloud-sql-access-for-your-containers-on-google-kubernetes-engine-2jel",
+          "author": "Raul Paes Silva",
+          "description": "Pre-requirements:\n\n\n\nCloudSQL instance running\na database created\nname: \"cloud-sql-gke-sa\" \nAfter accessing the service account, go to \"Keys\" > Create New Key > type JSON > Create.\nkubectl create secret generic cloud-sql-sa-key \\\n  --from-file=credentials.json=/path/to/service-account.json\n\nExample:\ncontainers:\n  - name: stock-service\n    image: us-central1-docker.pkg.dev/{project_id}/{repo_name}/{database_name}\n    env:\n      - name: DB_HOST\n        value: \"127.0.0.1\"\n      - name: DB_PORT\n        value: \"5432\"\n      - name: DB_USER\n        valueFrom:\n          secretKeyRef:\n            name: app-secrets\n            key: DB_USER\n      - name: DB_PASSWORD\n        valueFrom:\n          secretKeyRef:\n            name: app-secrets\n            key: DB_PASSWORD\n      - name: DB_NAME\n        valueFrom:\n          configMapKeyRef:\n            name: app-config\n            key: DB_NAME\n\n  - name: cloud-sql-proxy\n    image: gcr.io/cloudsql-docker/gce-proxy:1.33.2\n    command:\n      - \"/cloud_sql_proxy\"\n      - \"-instances={project_id}:{region}:stock-db-instance=tcp:5432\"\n      - \"-credential_file=/secrets/credentials.json\"\n    volumeMounts:\n      - name: cloudsql-creds\n        mountPath: /secrets\n        readOnly: true\n\nvolumes:\n  - name: cloudsql-creds\n    secret:\n      secretName: cloud-sql-sa-key\n\nFrom this moment on your application will connect to a local proxy(host=127.0.0.1 port=5432) to access the CloudSQL database.",
+          "link": "https://dev.to/raulsilva/devpill-7-cloud-sql-access-for-your-containers-on-google-kubernetes-engine-2jel",
+          "publishedOn": "2025-12-07T16:05:31.000Z",
+          "wordCount": 1887,
+          "title": "DevPill #7 - Cloud SQL Access for your containers on Google Kubernetes Engine",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyrqd4s8m53c7g2qu9kwa.png"
+        },
+        {
+          "id": "https://dev.to/yuer/turning-chatgpt-into-a-deterministic-flight-risk-runtime-frr-demo-repo-4ee2",
+          "author": "yuer",
+          "description": "Turning ChatGPT into a Deterministic Flight-Risk Runtime (FRR Demo + GitHub Repo)\n\n\nMost people treat ChatGPT as a conversational model.\nI wanted to know what happens if you force it to behave like a deterministic execution engine instead.\nTo test this idea, I built a miniature Flight Readiness Review (FRR) Runtime that runs entirely inside ChatGPT —\n\nno API, no tools, no plugins, no backend — just structure and constraints.\nAnd surprisingly, it works extremely well.\nLLMs are fuzzy by nature:\nThey improvise\n\nThey drift\n\nThey sometimes hallucinate\n\n\n\nSo I wanted to push them to the opposite extreme:\nCan an LLM execute a deterministic pipeline with reproducible outputs\n\neven in a free-form chat environment?\nThe answer is yes, as long as the structure is strong enough.\nThe FRR Runtime process…",
+          "link": "https://dev.to/yuer/turning-chatgpt-into-a-deterministic-flight-risk-runtime-frr-demo-repo-4ee2",
+          "publishedOn": "2025-12-07T16:03:55.000Z",
+          "wordCount": 2152,
+          "title": "Turning ChatGPT into a Deterministic Flight-Risk Runtime (FRR Demo + GitHub Repo)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fa9jlf7swtfqho7c6p54s.png"
+        },
+        {
+          "id": "https://dev.to/10sorry/i-built-a-local-llm-powered-job-search-assistant-open-source-3nc9",
+          "author": "10sorry",
+          "description": "Searching for a job today is surprisingly painful — noisy job boards, irrelevant recommendations and algorithms that try to guess what you want and usually fail.\n\nSo I decided to experiment with a different approach and built a tool that uses a local LLM to search and filter job postings.\n\nMeet JobStalker — an open-source Python project that:\n• parses job listings from multiple sources\n\n• summarizes and analyzes descriptions using your local LLM (Ollama, LM Studio etc.)\n\n• ranks vacancies by relevance\n\n• works fully offline\n\n• keeps all your data (resume, preferences) on your machine\nGitHub: https://github.com/10sorry/JobStalker\nBecause job search is extremely personal. I don’t want my job queries, resume or skills profile sent to remote servers.\n• Python\n\n• Async pipelines\n\n• Integration with local models\n\n• Extensible architecture for custom ranking logic\nI’m planning to add:\n\n• UI for browsing results\n\n• multi-model pipeline\n\n• custom rule-based filters\nIf you want to try it or contribute — I’d love your feedback.\n\nWhat features would you like in a privacy-first job search tool?",
+          "link": "https://dev.to/10sorry/i-built-a-local-llm-powered-job-search-assistant-open-source-3nc9",
+          "publishedOn": "2025-12-07T16:00:40.000Z",
+          "wordCount": 1858,
+          "title": "I built a local LLM-powered job search assistant (open-source)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnodb01qpu1stex8ynxab.png"
+        },
+        {
+          "id": "https://dev.to/aruna_arun_0cda4eb425bb0f/day-17-python-programming-36np",
+          "author": "Aruna Arun",
+          "description": "1. What is Inheritance?\nchild / subclass) to acquire properties and methods of another class (parent / superclass).\n2. Basic Inheritance Example\n3. Types of Inheritance\n1. Single Inheritance\n2. Multilevel Inheritance\n3. Hierarchical Inheritance\n4. Multiple Inheritance\n4. super() Keyword\nWithout super()\ninit(self):\ninit(self):\ninit(self)\nWith super()\ninit(self):\ninit(self):\ninit()\n5. Method Overriding\nredefines parent method.\nobj = Child()\n6. Polymorphism\n1. Function Polymorphism\n2. Method Overriding (Polymorphism)\n3. Operator Overloading\nadd(self, other):\n7. Method Resolution Order (MRO)\n8. Abstract Base Class (Introduction)\nUsed to force child classes to implement methods.\n@abstractmethod\n9. Real-Time Example\nVehicle Example\nclass Vehicle:\n    def start(self):\n        print(\"Vehicle started\")\nclass Bike(Vehicle):\n    def start(self):\n        print(\"Bike started\")\nclass Car(Vehicle):\n    def start(self):\n        print(\"Car started\")\nv = Vehicle()\nb = Bike()\nc = Car()\nv.start()\nb.start()\nc.start()",
+          "link": "https://dev.to/aruna_arun_0cda4eb425bb0f/day-17-python-programming-36np",
+          "publishedOn": "2025-12-07T15:58:47.000Z",
+          "wordCount": 1986,
+          "title": "Day 17: Python programming",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ft4l02dvftmsbsstibyc2.png"
+        },
+        {
+          "id": "https://dev.to/chandrapenugonda/background-vs-foreground-containers-3kbb",
+          "author": "chandra penugonda",
+          "description": "Background vs. Foreground Containers\n\n\nForeground: Attaches to your terminal (e.g., -it); stops on exit.\nBackground (detached): Runs silently; use -d flag.\nRun clock demo in background:\ndocker run -d jpetazzo/clock\n\n-d: Detached mode—container runs without tying to terminal.\nStarts jpetazzo/clock image (displays time); ID returned for reference.\nFrees terminal for other commands.\nCheck processes:\nps\n\nLists host processes; Docker containers appear as child processes of dockerd.\nList running containers:\ndocker ps\n\nShows active containers: ID, image, status, ports.\nFilters to running only; use for quick status.\nView last container:\ndocker ps -l\n\n-l: Latest—shows most recent container (running or stopped).\nQuiet IDs:\ndocker ps -q\n\n-q: Quiet—outputs only container IDs.\nPipe to other commands (e…",
+          "link": "https://dev.to/chandrapenugonda/background-vs-foreground-containers-3kbb",
+          "publishedOn": "2025-12-07T15:57:15.000Z",
+          "wordCount": 2264,
+          "title": "Background vs. Foreground Containers",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fw3i0648uvzesi68qqn8e.gif"
+        },
+        {
+          "id": "https://dev.to/dainyjose/real-time-location-tracking-live-route-updates-in-react-native-4g15",
+          "author": "Dainy Jose",
+          "description": "Introduction\n\n\nIn Part 3 we explored how to show nearby places and draw routes.\nreal-time — tracking a moving user (or driver) on the map and updating the route live.\nWe’ll use:\nreact-native-maps → to display the route\n\n\nexpo-location → to stream position updates\n\n\nsocket.io / API polling → to broadcast position changes (optional for multi-user scenarios)\n\n\n\n  \n  \n  Step 1: Basic Setup\n\n\n\n\nnpx expo install react-native-maps expo-location\nnpm install socket.io-client\n\nimport React, { useEffect, useState } from \"react\";\nimport { View, StyleSheet } from \"react-native\";\nimport MapView, { Marker, Polyline } from \"react-native-maps\";\nimport * as Location from \"expo-location\";\n\nexport default function LiveTrackingScreen() {\n  const [region, setRegion] = useState<any>(null);\n  const [routeCoords, …",
+          "link": "https://dev.to/dainyjose/real-time-location-tracking-live-route-updates-in-react-native-4g15",
+          "publishedOn": "2025-12-07T15:56:04.000Z",
+          "wordCount": 2281,
+          "title": "Real-Time Location Tracking & Live Route Updates in React Native",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc6lmdadff7u0pu9f7nlk.png"
+        },
+        {
+          "id": "https://dev.to/gistpad/building-a-lightweight-pastebin-alternative-engineering-lessons-from-gistpad-p66",
+          "author": "GistPad - share code and notes",
+          "description": "Building a Lightweight Pastebin Alternative: Engineering Lessons from GistPad\n\n\nWhen we started working on GistPad, it wasn’t about launching a product. It started as an internal experiment: how simple could we make a modern code snippet tool without sacrificing performance or usability?\nClassic paste tools are great at one thing: quick sharing. But they weren’t designed as structured developer workspaces or long-term snippet management systems.\nThis led us to explore a different question:\nWhat would a paste tool look like if it were optimized for developers who store and revisit code daily?\nFrom a frontend perspective, the goal was to keep the UI extremely fast and predictable.\nKey technical decisions included:\nReducing render-blocking CSS\nLightweight syntax highlighting strategies\nOptimi…",
+          "link": "https://dev.to/gistpad/building-a-lightweight-pastebin-alternative-engineering-lessons-from-gistpad-p66",
+          "publishedOn": "2025-12-07T15:54:54.000Z",
+          "wordCount": 2029,
+          "title": "Building a Lightweight Pastebin Alternative: Engineering Lessons from GistPad",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fiscqv7c6iuiawdaqn8nx.png"
+        },
+        {
+          "id": "https://dev.to/techbelievers/building-a-heading-tags-analyzer-html-parsing-and-hierarchy-validation-3jda",
+          "author": "Tech Believers",
+          "description": "Introduction\n\n\nHeading tags (H1-H6) provide semantic structure to web content, but many sites have broken hierarchies that confuse search engines and hurt SEO. In this guide, we'll build a comprehensive heading tags analyzer that extracts, validates, and visualizes heading structure.\nProper heading structure follows a logical outline:\n<h1>Main Title</h1>\n  <h2>Section 1</h2>\n    <h3>Subsection 1.1</h3>\n    <h3>Subsection 1.2</h3>\n  <h2>Section 2</h2>\n    <h3>Subsection 2.1</h3>\n      <h4>Detail 2.1.1</h4>\n\nThis creates a tree structure that both search engines and screen readers can navigate.\nfunction extractHeadings(html) {\n    const parser = new DOMParser();\n    const doc = parser.parseFromString(html, 'text/html');\n\n    const headings = [];\n    const headingTags = doc.querySelectorAll('…",
+          "link": "https://dev.to/techbelievers/building-a-heading-tags-analyzer-html-parsing-and-hierarchy-validation-3jda",
+          "publishedOn": "2025-12-07T15:54:46.000Z",
+          "wordCount": 2580,
+          "title": "Building a Heading Tags Analyzer: HTML Parsing and Hierarchy Validation",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyiewszij3rz6qbkkg1ug.png"
+        },
+        {
+          "id": "https://dev.to/aws-builders/aws-cdk-100-drill-exercises-index-progress-001-010-27bk",
+          "author": "TOMOAKI ishihara",
+          "description": "AWS CDK 100 Drill Exercises: #001-#010\n\n\n\n  \n  \n  📊 Progress Overview\n\n\nExercises in this set: 10 | Completed: 1 / 10\n□□□□□□□□□□□□□□□□□□□□ 0%\nLevel Distribution:\n 1 exercises\n 0 exercises\n 0 exercises\n 0 exercise\n#001: S3 Bucket Fundamentals —— From Default Settings to Practical Customization\nContinue your journey with [Index #011-#020] →\n💬 Questions or suggestions? Join the discussion on GitHub",
+          "link": "https://dev.to/aws-builders/aws-cdk-100-drill-exercises-index-progress-001-010-27bk",
+          "publishedOn": "2025-12-07T15:53:46.000Z",
+          "wordCount": 1849,
+          "title": "AWS CDK 100 Drill Exercises: Index & Progress (#001-#010)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fraw.githubusercontent.com%2Fishiharatma%2Fpublic-contents-images%2Fmain%2Faws-cdk-100-drillexercises%2Fcover.png"
+        },
+        {
           "id": "https://dev.to/leee_rodgers1/-56nd",
           "author": "Lee Rodgers1",
           "description": "12 Open Source Gems To Become The Ultimate Developer 🔥\nAnthony Max ・ Dec 7\n#webdev\n        #javascript\n        #programming\n        #opensource",
@@ -37386,106 +37506,6 @@
           "wordCount": 2112,
           "title": "The Real Cost of AI: AWS Bedrock vs. OpenAI vs. Self-Hosting 💰",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5p8txejxu1blu4sf2eq8.png"
-        },
-        {
-          "id": "https://dev.to/fosres/industries-in-demand-for-cert-c-compliant-security-focused-coders-27n6",
-          "author": "fosres",
-          "description": "Between 1985 and 1987, a radiation therapy machine called the Therac-25 killed three people and seriously injured three others. The machine was supposed to deliver controlled doses of radiation to cancer patients. Instead, it delivered radiation doses hundreds of times higher than intended.\nThe cause? A race condition in the C code controlling the machine. When an operator entered treatment parameters too quickly, the software would configure the machine for high-energy electron mode while the safety mechanisms thought it was in low-energy X-ray mode. The patients received massive radiation overdoses.\nOne victim, a 33-year-old woman, felt an intense burning sensation during treatment. She died from radiation poisoning. Another patient, a man receiving treatment for a tumor, received such a…",
-          "link": "https://dev.to/fosres/industries-in-demand-for-cert-c-compliant-security-focused-coders-27n6",
-          "publishedOn": "2025-11-23T04:18:06.000Z",
-          "wordCount": 3393,
-          "title": "Industries Where Your C Code Saves Lives (And They're Hiring)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frr32whpqpj1euj5pq92a.png"
-        },
-        {
-          "id": "https://dev.to/nimmala_nagasanthoshbab/meet-amazon-q-the-ai-assistant-that-actually-knows-your-codebase-4e3k",
-          "author": "Nimmala NAGA SANTHOSH BABA",
-          "description": "The Problem with \"Generic\" AI 🤖\n\n\nWe all love ChatGPT. But have you ever tried to ask it about a specific error in your company's private code?\n\"I'm sorry, I don't have access to your internal repositories.\"\nOr asked it why your specific AWS bill is so high this month?\n\"I cannot access your real-time billing data.\"\nThis is the \"Context Gap.\" Generic AI is smart, but it's blind to your work.\nEnter Amazon Q.\nThink of Amazon Q as an AI assistant that lives inside your AWS account and your IDE (VS Code / IntelliJ).\nIt’s not just trained on the internet; it connects to your data:\n Your Code: It reads your private Git repos.\n Your AWS Environment: It knows what EC2 instances you have running.\n Your Docs: It can read your internal Confluence wikis and PDFs.\nYou can install Amazon Q as a plugin i…",
-          "link": "https://dev.to/nimmala_nagasanthoshbab/meet-amazon-q-the-ai-assistant-that-actually-knows-your-codebase-4e3k",
-          "publishedOn": "2025-11-23T04:17:46.000Z",
-          "wordCount": 2153,
-          "title": "Meet Amazon Q: The AI Assistant That Actually Knows Your Codebase 🦄",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjlbeaul4uzo56az5tnt6.png"
-        },
-        {
-          "id": "https://dev.to/msulaimanmisri/beyond-crud-the-developers-ascent-a-story-of-growth-486c",
-          "author": "Muhamad Sulaiman",
-          "description": "Based on my personal experience. But blend with a Journalist-like story to make it more interesting.\n\nKuala Lumpur — It’s a scene familiar to many in the tech world: a young developer, lit by the glow of a laptop screen, celebrates the launch of their first simple web application. But for seasoned software engineer Ahmad (not his real name), that moment was just the first step of a decade-long journey climbing from novice coder to technical architect—a journey marked less by the mastery of CRUD (Create, Read, Update, Delete) and more by a relentless pursuit of growth and complexity.\n“I still remember the first time my own app let someone add and delete a note,” Ahmad recalls. “It felt like magic. CRUD opened the gate to programming for me. But I eventually realized it’s really just basic s…",
-          "link": "https://dev.to/msulaimanmisri/beyond-crud-the-developers-ascent-a-story-of-growth-486c",
-          "publishedOn": "2025-11-23T04:17:00.000Z",
-          "wordCount": 2288,
-          "title": "Beyond CRUD: The Developer’s Ascent – A Story of Growth",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdlc5yt4hrwbzjiyy7ksb.png"
-        },
-        {
-          "id": "https://dev.to/nimmala_nagasanthoshbab/build-your-first-ai-app-in-60-seconds-no-coding-no-credit-card-4lhh",
-          "author": "Nimmala NAGA SANTHOSH BABA",
-          "description": "The \"Fun\" Side of AWS 🎉\n\n\nUsually, when people talk about AWS, they talk about servers, databases, and billing alarms. 😴\nBut recently, AWS released something completely different. It’s called PartyRock, and it’s the most fun I’ve had with AI in years.\nHere is the pitch:\n  No AWS Account required. (Yes, really).\n  No Credit Card required.\n\n  No Coding required.\n\n  100% Free (for now).\nIt lets you build your own \"Mini AI Apps\" just by describing them.\nAnything that takes text in and gives text/images out.\n  A \"Dad Joke\" Generator 🥸\n  A \"Meal Prep\" Planner 🥦\n  A \"Dungeons & Dragons\" Storyteller 🐉\n  A \"Professional Email\" Rewriter 📧\nWe are going to build an app where you type in a person's interests, and it suggests 3 unique gifts + generates an image of the wrapping paper.\nHead over to …",
-          "link": "https://dev.to/nimmala_nagasanthoshbab/build-your-first-ai-app-in-60-seconds-no-coding-no-credit-card-4lhh",
-          "publishedOn": "2025-11-23T04:15:08.000Z",
-          "wordCount": 2154,
-          "title": "Build Your First AI App in 60 Seconds (No Coding, No Credit Card) 🎸",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyi7j6emud716a0qi7f6r.png"
-        },
-        {
-          "id": "https://dev.to/flameaistudio/the-new-era-of-ai-browsers-why-search-will-change-forever-in-2025-ljp",
-          "author": "FlameAI Studio",
-          "description": "> By FlameAI Studio\n⭐ Introduction\n\n\nSearch is entering its biggest shift since the early 2000s.\nA new category is rising fast: AI browsers — tools like Arc Search, Perplexity, Rabbit, and Rewind that search for you instead of showing you a list of links.\nThis is not a small UX tweak.\nnew way of interacting with the internet.\nIn 2025, AI browsers will become the main gateway to information — and creators, developers, and businesses must adapt now.\n🔍 What Is an AI Browser?\n\n\nAn AI browser does two things that traditional browsers don’t:\n1. Searches on your behalf\nInstead of typing keywords → clicking links → scanning pages,\n2. Understands intent, not keywords\nAI browsers don’t rely on exact-match terms.\n“Find the best free puzzle sites”\n“Compare cognitive models behind 16-type personality …",
-          "link": "https://dev.to/flameaistudio/the-new-era-of-ai-browsers-why-search-will-change-forever-in-2025-ljp",
-          "publishedOn": "2025-11-23T04:14:06.000Z",
-          "wordCount": 2337,
-          "title": "The New Era of AI Browsers — Why Search Will Change Forever in 2025",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx0kjjmtpsh412q3tfmfn.png"
-        },
-        {
-          "id": "https://dev.to/nimmala_nagasanthoshbab/the-aws-ai-architects-cheat-sheet-patterns-pocs-and-blueprints-oif",
-          "author": "Nimmala NAGA SANTHOSH BABA",
-          "description": "Stop Reinventing the Wheel 🛑\n\n\nWhen you start building with AI on AWS, you'll realize something quickly: Everyone is trying to solve the same problems.\n  \"How do I chat with my PDF documents?\" (RAG)\n  \"How do I run this cheaply without managing servers?\" (Serverless)\n  \"How do I make the AI take action, not just talk?\" (Agents)\nThe good news? AWS has already published production-ready blueprints for these.\nIn this post, I’ve curated the best architectural patterns and Proof-of-Concept (POC) repositories directly from the AWS team. Treat this as your \"Cheat Sheet\" for starting any AI project.\nThe Problem: LLMs (like Claude or GPT) don't know about your private data. They hallucinate when asked about your specific company policies.\nThe Solution: Retrieval Augmented Generation (RAG). You \"re…",
-          "link": "https://dev.to/nimmala_nagasanthoshbab/the-aws-ai-architects-cheat-sheet-patterns-pocs-and-blueprints-oif",
-          "publishedOn": "2025-11-23T04:10:34.000Z",
-          "wordCount": 2336,
-          "title": "The AWS AI Architect's Cheat Sheet: Patterns, POCs, and Blueprints 🏗️",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3y5ydovy6yrq89qmquzz.png"
-        },
-        {
-          "id": "https://dev.to/nimmala_nagasanthoshbab/build-your-first-ai-app-in-10-minutes-a-non-coders-guide-to-aws-ai-5f9n",
-          "author": "Nimmala NAGA SANTHOSH BABA",
-          "description": "So, You Want to Build with AI? 🤖\n\n\nLet’s be honest: \"Artificial Intelligence\" sounds intimidating.\nYou picture complex math, endless lines of Python code, and expensive supercomputers. But here’s the secret: You don’t need to build the brain. You just need to know how to talk to it.\nToday, cloud giants like AWS (Amazon Web Services) have done the hard work for us. They’ve wrapped powerful AI models into simple \"services\" that you can use like Lego blocks.\nIn this guide, I’ll show you how a complete beginner can start using AWS AI services to build real, working applications. No PhD required.\nImagine having access to the smartest AI models in the world (like Claude, Llama, or Stable Diffusion) all in one place. That’s AWS Bedrock.\nIt’s not a model itself; it’s a gallery of models. You walk…",
-          "link": "https://dev.to/nimmala_nagasanthoshbab/build-your-first-ai-app-in-10-minutes-a-non-coders-guide-to-aws-ai-5f9n",
-          "publishedOn": "2025-11-23T04:03:32.000Z",
-          "wordCount": 2498,
-          "title": "Build Your First AI App in 10 Minutes: A Non-Coder’s Guide to AWS AI 🚀",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F7r5myng6o2bg6w1wbbhb.png"
-        },
-        {
-          "id": "https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-the-wiz-in-15-minutes-or-less-al7",
-          "author": "Movie News",
-          "description": "Everything Wrong With The Wiz In 15 Minutes Or Less\n\n\nCinemaSins is back on the yellow brick road, giving the 1978 musical The Wiz a no-holds-barred “everything wrong” breakdown—just in time for Wicked’s big-screen return. Expect their signature snark as they rip into plot holes, odd song choices, and any wink-and-nod goofs they can find in under 15 minutes.  \nThey’ve also packed the video description with all the good stuff—links to their main site, social channels, a sinful poll, Patreon support, Discord, Reddit, and even Jeremy’s book—so you can keep the fandom (and the nitpicking) going long after the credits roll.\nWatch on YouTube",
-          "link": "https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-the-wiz-in-15-minutes-or-less-al7",
-          "publishedOn": "2025-11-23T04:00:15.000Z",
-          "wordCount": 1815,
-          "title": "CinemaSins: Everything Wrong With The Wiz In 15 Minutes Or Less",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fi3.ytimg.com%2Fvi%2FBfGAE4GBBsQ%2Fhqdefault.jpg"
-        },
-        {
-          "id": "https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-kpop-demon-hunters-in-16-minutes-or-less-47ni",
-          "author": "Movie News",
-          "description": "TL;DR\n\n\nCinemaSins just unleashed “Everything Wrong With KPop Demon Hunters In 16 Minutes Or Less,” a cheeky rundown of the movie’s biggest goofs, quirks and Easter eggs. Beyond the video, they’re hyping up their website, Discord, Reddit community and socials, plus a poll and Patreon for fans who want to dive deeper.\nThey also drop a shout-out to their writing squad—Jeremy, Chris, Aaron, Jonathan, Deneé, Ian and Daniel—and a full lineup of links so you can binge their other content on YouTube, Instagram, TikTok and more.\nWatch on YouTube",
-          "link": "https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-kpop-demon-hunters-in-16-minutes-or-less-47ni",
-          "publishedOn": "2025-11-23T04:00:09.000Z",
-          "wordCount": 1802,
-          "title": "CinemaSins: Everything Wrong With KPop Demon Hunters In 16 Minutes Or Less",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fi1.ytimg.com%2Fvi%2F0uSXx0ag8YY%2Fhqdefault.jpg"
-        },
-        {
-          "id": "https://dev.to/stelixx-insights/tech-giants-navigate-ai-backlash-infrastructure-investments-and-future-of-work-discussions-amidst-2km8",
-          "author": "Stelixx Insights",
-          "description": "This post delves into the multifaceted technological landscape, covering critical updates from major players and emerging trends.\nWe'll explore Google's stance on AI training and user data privacy amidst user concerns with Microsoft's Windows direction. Hyundai's substantial investment in a dedicated AI data center powered by Nvidia's latest GPUs signals a significant push in autonomous systems. The future of work and society is a hot topic, with Elon Musk and Jensen Huang offering bold predictions about AI's role.\nWe also touch upon advancements in collaborative AI tools like ChatGPT's new group chat features, SpaceX's ongoing Starship development, Vitalik Buterin's perspective on Argentina's tech evolution, and crucial cybersecurity concerns surrounding cryptocurrency mining operations.\nStay tuned for a deeper technical breakdown and analysis.\n\n\n  \n  \n  AI #MachineLearning #CloudComputing #DataCenters #AutonomousVehicles #Robotics #FutureOfWork #ChatGPT #SpaceX #Starship #Ethereum #Crypto #Cybersecurity #NationalSecurity",
-          "link": "https://dev.to/stelixx-insights/tech-giants-navigate-ai-backlash-infrastructure-investments-and-future-of-work-discussions-amidst-2km8",
-          "publishedOn": "2025-11-23T04:00:07.000Z",
-          "wordCount": 1875,
-          "title": "Tech Giants Navigate AI Backlash, Infrastructure Investments, and Future of Work Discussions Amidst Global Developments",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fpostiz-dev.stelixx.com%2Fuploads%2F2025%2F11%2F22%2F71615b1285ac09f26e4aa7d5bfe4bdbe.jpg"
         }
       ]
     },
@@ -37721,6 +37741,36 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://habr.com/en/companies/postgrespro/articles/504498/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://habr.com/en/companies/postgrespro/articles/504498/",
+          "publishedOn": "2025-12-07T15:42:02.000Z",
+          "wordCount": 8495,
+          "title": "Locks in PostgreSQL",
+          "imageUrl": "https://habr.com/share/publication/504498/01e4bc42e4d2b6887ed4d022829ecaf8/"
+        },
+        {
+          "id": "https://www.bbc.co.uk/news/articles/cg5m0mnvnvmo",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.bbc.co.uk/news/articles/cg5m0mnvnvmo",
+          "publishedOn": "2025-12-07T15:23:48.000Z",
+          "wordCount": 5290,
+          "title": "Martin Parr has died",
+          "imageUrl": "https://ichef.bbci.co.uk/ace/branded_news/1200/cpsprodpb/1e67/live/f4221e80-d370-11f0-81cd-9d4cefdadbf4.jpg"
+        },
+        {
+          "id": "https://kmaliszewski9.github.io/scala/2025/12/07/scala3-slowdown.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://kmaliszewski9.github.io/scala/2025/12/07/scala3-slowdown.html",
+          "publishedOn": "2025-12-07T15:08:17.000Z",
+          "wordCount": 703,
+          "title": "Scala 3 slowed us down?",
+          "imageUrl": null
+        },
         {
           "id": "https://www.theguardian.com/us-news/2025/dec/03/customers-pay-more-rising-dollar-store-costs",
           "author": null,
@@ -44472,6 +44522,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://blog.redplanetlabs.com/2025/11/24/the-programmers-who-live-in-flatland/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://blog.redplanetlabs.com/2025/11/24/the-programmers-who-live-in-flatland/",
+          "publishedOn": "2025-11-27T15:44:32.000Z",
+          "wordCount": 3288,
+          "title": "The programmers who live in Flatland",
+          "imageUrl": "https://s0.wp.com/_si/?t=eyJpbWciOiJodHRwczpcL1wvaTAud3AuY29tXC9ibG9nLnJlZHBsYW5ldGxhYnMuY29tXC93cC1jb250ZW50XC91cGxvYWRzXC8yMDIzXC8wNFwvY3JvcHBlZC1jcm9wcGVkLVJQTC1Mb2dvLnBuZz9maXQ9MTgwOCUyQzI1OCZzc2w9MSIsInR4dCI6IkJsb2ciLCJ0ZW1wbGF0ZSI6ImVkZ2UiLCJmb250IjoiIiwiYmxvZ19pZCI6MTU3NTMyMTA0fQ.VaWQF9GRJkBxLOymXFyHweif9kjtUaUIzsDDFen5N2YMQ"
+        },
+        {
           "id": "https://about.gitlab.com/blog/gitlab-discovers-widespread-npm-supply-chain-attack/",
           "author": null,
           "description": "Comments",
@@ -48060,66 +48120,6 @@
           "wordCount": 5572,
           "title": "Google Revisits JPEG XL in Chromium After Earlier Removal",
           "imageUrl": "https://windowsreport.com/wp-content/uploads/2025/11/chromium-supporting-JPEG-XL-on-test-site.png"
-        },
-        {
-          "id": "https://demos.samgentle.com/wolfrominoes/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://demos.samgentle.com/wolfrominoes/",
-          "publishedOn": "2025-11-23T04:16:55.000Z",
-          "wordCount": 2061,
-          "title": "Show HN: Wolfrominoes",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.nytimes.com/2025/11/21/world/cryptography-group-lost-election-results.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.nytimes.com/2025/11/21/world/cryptography-group-lost-election-results.html",
-          "publishedOn": "2025-11-23T03:47:17.000Z",
-          "wordCount": null,
-          "title": "Cryptographers Held an Election. They Can't Decrypt the Results",
-          "imageUrl": null
-        },
-        {
-          "id": "https://blog.greggant.com/posts/2018/05/07/definitive-mac-pro-upgrade-guide.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://blog.greggant.com/posts/2018/05/07/definitive-mac-pro-upgrade-guide.html",
-          "publishedOn": "2025-11-23T03:38:22.000Z",
-          "wordCount": 51990,
-          "title": "The Definitive Classic Mac Pro (2006-2012) Upgrade Guide",
-          "imageUrl": "http://blog.greggant.com/images/posts/2018-05-01-macpro/header.jpg"
-        },
-        {
-          "id": "https://www.youtube.com/watch?v=bR9EN3kUlfg",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.youtube.com/watch?v=bR9EN3kUlfg",
-          "publishedOn": "2025-11-23T03:37:49.000Z",
-          "wordCount": null,
-          "title": "How to make precise sheet metal parts (photochemical machining) [video]",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.righto.com/2025/11/unusual-386-standard-cell-circuits.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.righto.com/2025/11/unusual-386-standard-cell-circuits.html",
-          "publishedOn": "2025-11-23T03:33:42.000Z",
-          "wordCount": 8236,
-          "title": "Unusual circuits in the Intel 386's standard cell logic",
-          "imageUrl": "https://lh3.googleusercontent.com/blogger_img_proxy/AEn0k_sHEs77-md-8JpdwaSV2qfrUiDDAiGV7qut1flInr3kyAGR09bHqHyO18DfkxiBbBkaSmoKO1MLht0nuRuVDbYHfS215MN4QM1FZTNSydIl9YQsHIHajzhudhTZjtQ894iQzGq2BxIv_Q=w1200-h630-p-k-no-nu"
-        },
-        {
-          "id": "http://blog.modelcontextprotocol.io/posts/2025-11-21-mcp-apps/",
-          "author": null,
-          "description": "Comments",
-          "link": "http://blog.modelcontextprotocol.io/posts/2025-11-21-mcp-apps/",
-          "publishedOn": "2025-11-23T03:27:04.000Z",
-          "wordCount": 2220,
-          "title": "MCP Apps just dropped (OpenAI and Anthropic collab) and I think this is huge",
-          "imageUrl": null
         }
       ]
     },

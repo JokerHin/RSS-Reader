@@ -2,10 +2,471 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-12-07T15:16:15.830Z</updated>
+    <updated>2025-12-07T16:20:46.892Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Advent of Code 2025 Day 2: Gift Shop 🎁]]></title>
+        <id>https://dev.to/kryko7/advent-of-code-2025-day-2-gift-shop-1lkn</id>
+        <link href="https://dev.to/kryko7/advent-of-code-2025-day-2-gift-shop-1lkn"/>
+        <updated>2025-12-07T16:14:03.000Z</updated>
+        <summary type="html"><![CDATA[We need to find "invalid" product IDs in given ranges. An ID is invalid if it's made of a repeated digit sequence.
+Part 1: Find IDs repeated exactly twice (e.g., 1212, 345345)
+
+Part 2: Find IDs repeated at least twice (e.g., 123123, 1111, 12121212)
+Part 1 was straightforward. For each number in the range:
+Convert to string
+Check if length is even
+Split in half and compare
+
+
+
+fn invalid_id_sum1(ranges: Vec<(u128, u128)>) -> u128 {
+    let mut id_sum: u128 = 0;
+    for (start, end) in ranges.iter() {
+        for i in *start..*end+1 {
+            let s = i.to_string();
+            if s.len() % 2 != 0 {
+                continue;
+            }
+            let (a, b) = s.split_at(s.len() / 2);
+            let x: u128 = a.parse().expect("Expected a number");
+            let y: u128 = b.parse().ex…]]></summary>
+        <author>
+            <name>Minindu Rupasinghe</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building Modern Backends with Kaapi: Request validation]]></title>
+        <id>https://dev.to/shygyver/building-modern-backends-with-kaapi-request-validation-4dal</id>
+        <link href="https://dev.to/shygyver/building-modern-backends-with-kaapi-request-validation-4dal"/>
+        <updated>2025-12-07T16:11:42.000Z</updated>
+        <summary type="html"><![CDATA[Kaapi: A flexible, extensible backend framework for modern APIs with messaging, documentation, and type safety built right in.
+
+This series is written for backend developers who love TypeScript and can appreciate Hapi’s design philosophy.
+Before we let any data wander freely into our backend (with muddy boots and questionable intentions), it’s usually a good idea to validate it.
+Kaapi is built on top of Hapi, which already comes with great tools for this, thanks to Joi. If you want the full lecture, Hapi’s tutorial explains everything in glorious detail.
+Here’s a tiny example from their documentation, just to remind ourselves how things look with Joi:
+app.route<{ Params: { name: string } }>({
+  method: 'GET',
+  path: '/hello/{name}',
+  handler: function (request, h) {
+    return `Hello ${r…]]></summary>
+        <author>
+            <name>ShyGyver</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Understanding Docker Images and Layers]]></title>
+        <id>https://dev.to/sahillearninglinux/understanding-docker-images-and-layers-4c4k</id>
+        <link href="https://dev.to/sahillearninglinux/understanding-docker-images-and-layers-4c4k"/>
+        <updated>2025-12-07T16:09:52.000Z</updated>
+        <summary type="html"><![CDATA[In our last post, you ran your very first container. You saw how quickly Docker could start an Nginx web server. But what makes containers so fast and lightweight? The answer lies in how Docker builds and manages its core components: Images and Layers.
+1. The Relationship: Image vs. Container
+A Docker Image is the class (the blueprint). It's a static, read-only set of instructions and components.
+A Docker Container is the object (the instance). It's the running environment created from that image, complete with a thin, writable layer on top.
+
+
+
+Component
+Nature
+Role
+State
+
+
+
+
+Image
+Static, Read-Only
+The template for building a container.
+Stored on disk.
+
+
+Container
+Dynamic, Read/Write
+The isolated, running instance of an image.
+Running in memory.
+
+
+
+2. The Magic: The Layered Filesystem
+Doc…]]></summary>
+        <author>
+            <name>SAHIL</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DevPill #7 - Cloud SQL Access for your containers on Google Kubernetes Engine]]></title>
+        <id>https://dev.to/raulsilva/devpill-7-cloud-sql-access-for-your-containers-on-google-kubernetes-engine-2jel</id>
+        <link href="https://dev.to/raulsilva/devpill-7-cloud-sql-access-for-your-containers-on-google-kubernetes-engine-2jel"/>
+        <updated>2025-12-07T16:05:31.000Z</updated>
+        <summary type="html"><![CDATA[Pre-requirements:
+
+
+
+CloudSQL instance running
+a database created
+name: "cloud-sql-gke-sa" 
+After accessing the service account, go to "Keys" > Create New Key > type JSON > Create.
+kubectl create secret generic cloud-sql-sa-key \
+  --from-file=credentials.json=/path/to/service-account.json
+
+Example:
+containers:
+  - name: stock-service
+    image: us-central1-docker.pkg.dev/{project_id}/{repo_name}/{database_name}
+    env:
+      - name: DB_HOST
+        value: "127.0.0.1"
+      - name: DB_PORT
+        value: "5432"
+      - name: DB_USER
+        valueFrom:
+          secretKeyRef:
+            name: app-secrets
+            key: DB_USER
+      - name: DB_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: app-secrets
+            key: DB_PASSWORD
+      - name: DB_NAME
+        valueFrom:
+          configMapKeyRef:
+            name: app-config
+            key: DB_NAME
+
+  - name: cloud-sql-proxy
+    image: gcr.io/cloudsql-docker/gce-proxy:1.33.2
+    command:
+      - "/cloud_sql_proxy"
+      - "-instances={project_id}:{region}:stock-db-instance=tcp:5432"
+      - "-credential_file=/secrets/credentials.json"
+    volumeMounts:
+      - name: cloudsql-creds
+        mountPath: /secrets
+        readOnly: true
+
+volumes:
+  - name: cloudsql-creds
+    secret:
+      secretName: cloud-sql-sa-key
+
+From this moment on your application will connect to a local proxy(host=127.0.0.1 port=5432) to access the CloudSQL database.]]></summary>
+        <author>
+            <name>Raul Paes Silva</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Turning ChatGPT into a Deterministic Flight-Risk Runtime (FRR Demo + GitHub Repo)]]></title>
+        <id>https://dev.to/yuer/turning-chatgpt-into-a-deterministic-flight-risk-runtime-frr-demo-repo-4ee2</id>
+        <link href="https://dev.to/yuer/turning-chatgpt-into-a-deterministic-flight-risk-runtime-frr-demo-repo-4ee2"/>
+        <updated>2025-12-07T16:03:55.000Z</updated>
+        <summary type="html"><![CDATA[Turning ChatGPT into a Deterministic Flight-Risk Runtime (FRR Demo + GitHub Repo)
+
+
+Most people treat ChatGPT as a conversational model.
+I wanted to know what happens if you force it to behave like a deterministic execution engine instead.
+To test this idea, I built a miniature Flight Readiness Review (FRR) Runtime that runs entirely inside ChatGPT —
+
+no API, no tools, no plugins, no backend — just structure and constraints.
+And surprisingly, it works extremely well.
+LLMs are fuzzy by nature:
+They improvise
+
+They drift
+
+They sometimes hallucinate
+
+
+
+So I wanted to push them to the opposite extreme:
+Can an LLM execute a deterministic pipeline with reproducible outputs
+
+even in a free-form chat environment?
+The answer is yes, as long as the structure is strong enough.
+The FRR Runtime process…]]></summary>
+        <author>
+            <name>yuer</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a local LLM-powered job search assistant (open-source)]]></title>
+        <id>https://dev.to/10sorry/i-built-a-local-llm-powered-job-search-assistant-open-source-3nc9</id>
+        <link href="https://dev.to/10sorry/i-built-a-local-llm-powered-job-search-assistant-open-source-3nc9"/>
+        <updated>2025-12-07T16:00:40.000Z</updated>
+        <summary type="html"><![CDATA[Searching for a job today is surprisingly painful — noisy job boards, irrelevant recommendations and algorithms that try to guess what you want and usually fail.
+
+So I decided to experiment with a different approach and built a tool that uses a local LLM to search and filter job postings.
+
+Meet JobStalker — an open-source Python project that:
+• parses job listings from multiple sources
+
+• summarizes and analyzes descriptions using your local LLM (Ollama, LM Studio etc.)
+
+• ranks vacancies by relevance
+
+• works fully offline
+
+• keeps all your data (resume, preferences) on your machine
+GitHub: https://github.com/10sorry/JobStalker
+Because job search is extremely personal. I don’t want my job queries, resume or skills profile sent to remote servers.
+• Python
+
+• Async pipelines
+
+• Integration with local models
+
+• Extensible architecture for custom ranking logic
+I’m planning to add:
+
+• UI for browsing results
+
+• multi-model pipeline
+
+• custom rule-based filters
+If you want to try it or contribute — I’d love your feedback.
+
+What features would you like in a privacy-first job search tool?]]></summary>
+        <author>
+            <name>10sorry</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Day 17: Python programming]]></title>
+        <id>https://dev.to/aruna_arun_0cda4eb425bb0f/day-17-python-programming-36np</id>
+        <link href="https://dev.to/aruna_arun_0cda4eb425bb0f/day-17-python-programming-36np"/>
+        <updated>2025-12-07T15:58:47.000Z</updated>
+        <summary type="html"><![CDATA[1. What is Inheritance?
+child / subclass) to acquire properties and methods of another class (parent / superclass).
+2. Basic Inheritance Example
+3. Types of Inheritance
+1. Single Inheritance
+2. Multilevel Inheritance
+3. Hierarchical Inheritance
+4. Multiple Inheritance
+4. super() Keyword
+Without super()
+init(self):
+init(self):
+init(self)
+With super()
+init(self):
+init(self):
+init()
+5. Method Overriding
+redefines parent method.
+obj = Child()
+6. Polymorphism
+1. Function Polymorphism
+2. Method Overriding (Polymorphism)
+3. Operator Overloading
+add(self, other):
+7. Method Resolution Order (MRO)
+8. Abstract Base Class (Introduction)
+Used to force child classes to implement methods.
+@abstractmethod
+9. Real-Time Example
+Vehicle Example
+class Vehicle:
+    def start(self):
+        print("Vehicle started")
+class Bike(Vehicle):
+    def start(self):
+        print("Bike started")
+class Car(Vehicle):
+    def start(self):
+        print("Car started")
+v = Vehicle()
+b = Bike()
+c = Car()
+v.start()
+b.start()
+c.start()]]></summary>
+        <author>
+            <name>Aruna Arun</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Background vs. Foreground Containers]]></title>
+        <id>https://dev.to/chandrapenugonda/background-vs-foreground-containers-3kbb</id>
+        <link href="https://dev.to/chandrapenugonda/background-vs-foreground-containers-3kbb"/>
+        <updated>2025-12-07T15:57:15.000Z</updated>
+        <summary type="html"><![CDATA[Background vs. Foreground Containers
+
+
+Foreground: Attaches to your terminal (e.g., -it); stops on exit.
+Background (detached): Runs silently; use -d flag.
+Run clock demo in background:
+docker run -d jpetazzo/clock
+
+-d: Detached mode—container runs without tying to terminal.
+Starts jpetazzo/clock image (displays time); ID returned for reference.
+Frees terminal for other commands.
+Check processes:
+ps
+
+Lists host processes; Docker containers appear as child processes of dockerd.
+List running containers:
+docker ps
+
+Shows active containers: ID, image, status, ports.
+Filters to running only; use for quick status.
+View last container:
+docker ps -l
+
+-l: Latest—shows most recent container (running or stopped).
+Quiet IDs:
+docker ps -q
+
+-q: Quiet—outputs only container IDs.
+Pipe to other commands (e…]]></summary>
+        <author>
+            <name>chandra penugonda</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Real-Time Location Tracking & Live Route Updates in React Native]]></title>
+        <id>https://dev.to/dainyjose/real-time-location-tracking-live-route-updates-in-react-native-4g15</id>
+        <link href="https://dev.to/dainyjose/real-time-location-tracking-live-route-updates-in-react-native-4g15"/>
+        <updated>2025-12-07T15:56:04.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+In Part 3 we explored how to show nearby places and draw routes.
+real-time — tracking a moving user (or driver) on the map and updating the route live.
+We’ll use:
+react-native-maps → to display the route
+
+
+expo-location → to stream position updates
+
+
+socket.io / API polling → to broadcast position changes (optional for multi-user scenarios)
+
+
+
+  
+  
+  Step 1: Basic Setup
+
+
+
+
+npx expo install react-native-maps expo-location
+npm install socket.io-client
+
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet } from "react-native";
+import MapView, { Marker, Polyline } from "react-native-maps";
+import * as Location from "expo-location";
+
+export default function LiveTrackingScreen() {
+  const [region, setRegion] = useState<any>(null);
+  const [routeCoords, …]]></summary>
+        <author>
+            <name>Dainy Jose</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Lightweight Pastebin Alternative: Engineering Lessons from GistPad]]></title>
+        <id>https://dev.to/gistpad/building-a-lightweight-pastebin-alternative-engineering-lessons-from-gistpad-p66</id>
+        <link href="https://dev.to/gistpad/building-a-lightweight-pastebin-alternative-engineering-lessons-from-gistpad-p66"/>
+        <updated>2025-12-07T15:54:54.000Z</updated>
+        <summary type="html"><![CDATA[Building a Lightweight Pastebin Alternative: Engineering Lessons from GistPad
+
+
+When we started working on GistPad, it wasn’t about launching a product. It started as an internal experiment: how simple could we make a modern code snippet tool without sacrificing performance or usability?
+Classic paste tools are great at one thing: quick sharing. But they weren’t designed as structured developer workspaces or long-term snippet management systems.
+This led us to explore a different question:
+What would a paste tool look like if it were optimized for developers who store and revisit code daily?
+From a frontend perspective, the goal was to keep the UI extremely fast and predictable.
+Key technical decisions included:
+Reducing render-blocking CSS
+Lightweight syntax highlighting strategies
+Optimi…]]></summary>
+        <author>
+            <name>GistPad - share code and notes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Heading Tags Analyzer: HTML Parsing and Hierarchy Validation]]></title>
+        <id>https://dev.to/techbelievers/building-a-heading-tags-analyzer-html-parsing-and-hierarchy-validation-3jda</id>
+        <link href="https://dev.to/techbelievers/building-a-heading-tags-analyzer-html-parsing-and-hierarchy-validation-3jda"/>
+        <updated>2025-12-07T15:54:46.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+Heading tags (H1-H6) provide semantic structure to web content, but many sites have broken hierarchies that confuse search engines and hurt SEO. In this guide, we'll build a comprehensive heading tags analyzer that extracts, validates, and visualizes heading structure.
+Proper heading structure follows a logical outline:
+<h1>Main Title</h1>
+  <h2>Section 1</h2>
+    <h3>Subsection 1.1</h3>
+    <h3>Subsection 1.2</h3>
+  <h2>Section 2</h2>
+    <h3>Subsection 2.1</h3>
+      <h4>Detail 2.1.1</h4>
+
+This creates a tree structure that both search engines and screen readers can navigate.
+function extractHeadings(html) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+
+    const headings = [];
+    const headingTags = doc.querySelectorAll('…]]></summary>
+        <author>
+            <name>Tech Believers</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AWS CDK 100 Drill Exercises: Index & Progress (#001-#010)]]></title>
+        <id>https://dev.to/aws-builders/aws-cdk-100-drill-exercises-index-progress-001-010-27bk</id>
+        <link href="https://dev.to/aws-builders/aws-cdk-100-drill-exercises-index-progress-001-010-27bk"/>
+        <updated>2025-12-07T15:53:46.000Z</updated>
+        <summary type="html"><![CDATA[AWS CDK 100 Drill Exercises: #001-#010
+
+
+
+  
+  
+  📊 Progress Overview
+
+
+Exercises in this set: 10 | Completed: 1 / 10
+□□□□□□□□□□□□□□□□□□□□ 0%
+Level Distribution:
+ 1 exercises
+ 0 exercises
+ 0 exercises
+ 0 exercise
+#001: S3 Bucket Fundamentals —— From Default Settings to Practical Customization
+Continue your journey with [Index #011-#020] →
+💬 Questions or suggestions? Join the discussion on GitHub]]></summary>
+        <author>
+            <name>TOMOAKI ishihara</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Locks in PostgreSQL]]></title>
+        <id>https://habr.com/en/companies/postgrespro/articles/504498/</id>
+        <link href="https://habr.com/en/companies/postgrespro/articles/504498/"/>
+        <updated>2025-12-07T15:42:02.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Martin Parr has died]]></title>
+        <id>https://www.bbc.co.uk/news/articles/cg5m0mnvnvmo</id>
+        <link href="https://www.bbc.co.uk/news/articles/cg5m0mnvnvmo"/>
+        <updated>2025-12-07T15:23:48.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[[Boost]]]></title>
         <id>https://dev.to/leee_rodgers1/-56nd</id>
@@ -19,6 +480,16 @@ Anthony Max ・ Dec 7
         #opensource]]></summary>
         <author>
             <name>Lee Rodgers1</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Scala 3 slowed us down?]]></title>
+        <id>https://kmaliszewski9.github.io/scala/2025/12/07/scala3-slowdown.html</id>
+        <link href="https://kmaliszewski9.github.io/scala/2025/12/07/scala3-slowdown.html"/>
+        <updated>2025-12-07T15:08:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -65234,6 +65705,16 @@ Watch on YouTube]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[The programmers who live in Flatland]]></title>
+        <id>https://blog.redplanetlabs.com/2025/11/24/the-programmers-who-live-in-flatland/</id>
+        <link href="https://blog.redplanetlabs.com/2025/11/24/the-programmers-who-live-in-flatland/"/>
+        <updated>2025-11-27T15:44:32.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[GitLab discovers widespread NPM supply chain attack]]></title>
         <id>https://about.gitlab.com/blog/gitlab-discovers-widespread-npm-supply-chain-attack/</id>
         <link href="https://about.gitlab.com/blog/gitlab-discovers-widespread-npm-supply-chain-attack/"/>
@@ -96362,258 +96843,6 @@ OpenAI is great, but for Enterprise, it has hidden costs:
  Data Privacy: If you need a private instance, "ChatGPT Enterprise" starts at ~$60/user/month with high minimums.…]]></summary>
         <author>
             <name>Nimmala NAGA SANTHOSH BABA</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Industries Where Your C Code Saves Lives (And They're Hiring)]]></title>
-        <id>https://dev.to/fosres/industries-in-demand-for-cert-c-compliant-security-focused-coders-27n6</id>
-        <link href="https://dev.to/fosres/industries-in-demand-for-cert-c-compliant-security-focused-coders-27n6"/>
-        <updated>2025-11-23T04:18:06.000Z</updated>
-        <summary type="html"><![CDATA[Between 1985 and 1987, a radiation therapy machine called the Therac-25 killed three people and seriously injured three others. The machine was supposed to deliver controlled doses of radiation to cancer patients. Instead, it delivered radiation doses hundreds of times higher than intended.
-The cause? A race condition in the C code controlling the machine. When an operator entered treatment parameters too quickly, the software would configure the machine for high-energy electron mode while the safety mechanisms thought it was in low-energy X-ray mode. The patients received massive radiation overdoses.
-One victim, a 33-year-old woman, felt an intense burning sensation during treatment. She died from radiation poisoning. Another patient, a man receiving treatment for a tumor, received such a…]]></summary>
-        <author>
-            <name>fosres</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Meet Amazon Q: The AI Assistant That Actually Knows Your Codebase 🦄]]></title>
-        <id>https://dev.to/nimmala_nagasanthoshbab/meet-amazon-q-the-ai-assistant-that-actually-knows-your-codebase-4e3k</id>
-        <link href="https://dev.to/nimmala_nagasanthoshbab/meet-amazon-q-the-ai-assistant-that-actually-knows-your-codebase-4e3k"/>
-        <updated>2025-11-23T04:17:46.000Z</updated>
-        <summary type="html"><![CDATA[The Problem with "Generic" AI 🤖
-
-
-We all love ChatGPT. But have you ever tried to ask it about a specific error in your company's private code?
-"I'm sorry, I don't have access to your internal repositories."
-Or asked it why your specific AWS bill is so high this month?
-"I cannot access your real-time billing data."
-This is the "Context Gap." Generic AI is smart, but it's blind to your work.
-Enter Amazon Q.
-Think of Amazon Q as an AI assistant that lives inside your AWS account and your IDE (VS Code / IntelliJ).
-It’s not just trained on the internet; it connects to your data:
- Your Code: It reads your private Git repos.
- Your AWS Environment: It knows what EC2 instances you have running.
- Your Docs: It can read your internal Confluence wikis and PDFs.
-You can install Amazon Q as a plugin i…]]></summary>
-        <author>
-            <name>Nimmala NAGA SANTHOSH BABA</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Beyond CRUD: The Developer’s Ascent – A Story of Growth]]></title>
-        <id>https://dev.to/msulaimanmisri/beyond-crud-the-developers-ascent-a-story-of-growth-486c</id>
-        <link href="https://dev.to/msulaimanmisri/beyond-crud-the-developers-ascent-a-story-of-growth-486c"/>
-        <updated>2025-11-23T04:17:00.000Z</updated>
-        <summary type="html"><![CDATA[Based on my personal experience. But blend with a Journalist-like story to make it more interesting.
-
-Kuala Lumpur — It’s a scene familiar to many in the tech world: a young developer, lit by the glow of a laptop screen, celebrates the launch of their first simple web application. But for seasoned software engineer Ahmad (not his real name), that moment was just the first step of a decade-long journey climbing from novice coder to technical architect—a journey marked less by the mastery of CRUD (Create, Read, Update, Delete) and more by a relentless pursuit of growth and complexity.
-“I still remember the first time my own app let someone add and delete a note,” Ahmad recalls. “It felt like magic. CRUD opened the gate to programming for me. But I eventually realized it’s really just basic s…]]></summary>
-        <author>
-            <name>Muhamad Sulaiman</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Wolfrominoes]]></title>
-        <id>https://demos.samgentle.com/wolfrominoes/</id>
-        <link href="https://demos.samgentle.com/wolfrominoes/"/>
-        <updated>2025-11-23T04:16:55.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Build Your First AI App in 60 Seconds (No Coding, No Credit Card) 🎸]]></title>
-        <id>https://dev.to/nimmala_nagasanthoshbab/build-your-first-ai-app-in-60-seconds-no-coding-no-credit-card-4lhh</id>
-        <link href="https://dev.to/nimmala_nagasanthoshbab/build-your-first-ai-app-in-60-seconds-no-coding-no-credit-card-4lhh"/>
-        <updated>2025-11-23T04:15:08.000Z</updated>
-        <summary type="html"><![CDATA[The "Fun" Side of AWS 🎉
-
-
-Usually, when people talk about AWS, they talk about servers, databases, and billing alarms. 😴
-But recently, AWS released something completely different. It’s called PartyRock, and it’s the most fun I’ve had with AI in years.
-Here is the pitch:
-  No AWS Account required. (Yes, really).
-  No Credit Card required.
-
-  No Coding required.
-
-  100% Free (for now).
-It lets you build your own "Mini AI Apps" just by describing them.
-Anything that takes text in and gives text/images out.
-  A "Dad Joke" Generator 🥸
-  A "Meal Prep" Planner 🥦
-  A "Dungeons & Dragons" Storyteller 🐉
-  A "Professional Email" Rewriter 📧
-We are going to build an app where you type in a person's interests, and it suggests 3 unique gifts + generates an image of the wrapping paper.
-Head over to …]]></summary>
-        <author>
-            <name>Nimmala NAGA SANTHOSH BABA</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The New Era of AI Browsers — Why Search Will Change Forever in 2025]]></title>
-        <id>https://dev.to/flameaistudio/the-new-era-of-ai-browsers-why-search-will-change-forever-in-2025-ljp</id>
-        <link href="https://dev.to/flameaistudio/the-new-era-of-ai-browsers-why-search-will-change-forever-in-2025-ljp"/>
-        <updated>2025-11-23T04:14:06.000Z</updated>
-        <summary type="html"><![CDATA[> By FlameAI Studio
-⭐ Introduction
-
-
-Search is entering its biggest shift since the early 2000s.
-A new category is rising fast: AI browsers — tools like Arc Search, Perplexity, Rabbit, and Rewind that search for you instead of showing you a list of links.
-This is not a small UX tweak.
-new way of interacting with the internet.
-In 2025, AI browsers will become the main gateway to information — and creators, developers, and businesses must adapt now.
-🔍 What Is an AI Browser?
-
-
-An AI browser does two things that traditional browsers don’t:
-1. Searches on your behalf
-Instead of typing keywords → clicking links → scanning pages,
-2. Understands intent, not keywords
-AI browsers don’t rely on exact-match terms.
-“Find the best free puzzle sites”
-“Compare cognitive models behind 16-type personality …]]></summary>
-        <author>
-            <name>FlameAI Studio</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The AWS AI Architect's Cheat Sheet: Patterns, POCs, and Blueprints 🏗️]]></title>
-        <id>https://dev.to/nimmala_nagasanthoshbab/the-aws-ai-architects-cheat-sheet-patterns-pocs-and-blueprints-oif</id>
-        <link href="https://dev.to/nimmala_nagasanthoshbab/the-aws-ai-architects-cheat-sheet-patterns-pocs-and-blueprints-oif"/>
-        <updated>2025-11-23T04:10:34.000Z</updated>
-        <summary type="html"><![CDATA[Stop Reinventing the Wheel 🛑
-
-
-When you start building with AI on AWS, you'll realize something quickly: Everyone is trying to solve the same problems.
-  "How do I chat with my PDF documents?" (RAG)
-  "How do I run this cheaply without managing servers?" (Serverless)
-  "How do I make the AI take action, not just talk?" (Agents)
-The good news? AWS has already published production-ready blueprints for these.
-In this post, I’ve curated the best architectural patterns and Proof-of-Concept (POC) repositories directly from the AWS team. Treat this as your "Cheat Sheet" for starting any AI project.
-The Problem: LLMs (like Claude or GPT) don't know about your private data. They hallucinate when asked about your specific company policies.
-The Solution: Retrieval Augmented Generation (RAG). You "re…]]></summary>
-        <author>
-            <name>Nimmala NAGA SANTHOSH BABA</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Build Your First AI App in 10 Minutes: A Non-Coder’s Guide to AWS AI 🚀]]></title>
-        <id>https://dev.to/nimmala_nagasanthoshbab/build-your-first-ai-app-in-10-minutes-a-non-coders-guide-to-aws-ai-5f9n</id>
-        <link href="https://dev.to/nimmala_nagasanthoshbab/build-your-first-ai-app-in-10-minutes-a-non-coders-guide-to-aws-ai-5f9n"/>
-        <updated>2025-11-23T04:03:32.000Z</updated>
-        <summary type="html"><![CDATA[So, You Want to Build with AI? 🤖
-
-
-Let’s be honest: "Artificial Intelligence" sounds intimidating.
-You picture complex math, endless lines of Python code, and expensive supercomputers. But here’s the secret: You don’t need to build the brain. You just need to know how to talk to it.
-Today, cloud giants like AWS (Amazon Web Services) have done the hard work for us. They’ve wrapped powerful AI models into simple "services" that you can use like Lego blocks.
-In this guide, I’ll show you how a complete beginner can start using AWS AI services to build real, working applications. No PhD required.
-Imagine having access to the smartest AI models in the world (like Claude, Llama, or Stable Diffusion) all in one place. That’s AWS Bedrock.
-It’s not a model itself; it’s a gallery of models. You walk…]]></summary>
-        <author>
-            <name>Nimmala NAGA SANTHOSH BABA</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CinemaSins: Everything Wrong With The Wiz In 15 Minutes Or Less]]></title>
-        <id>https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-the-wiz-in-15-minutes-or-less-al7</id>
-        <link href="https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-the-wiz-in-15-minutes-or-less-al7"/>
-        <updated>2025-11-23T04:00:15.000Z</updated>
-        <summary type="html"><![CDATA[Everything Wrong With The Wiz In 15 Minutes Or Less
-
-
-CinemaSins is back on the yellow brick road, giving the 1978 musical The Wiz a no-holds-barred “everything wrong” breakdown—just in time for Wicked’s big-screen return. Expect their signature snark as they rip into plot holes, odd song choices, and any wink-and-nod goofs they can find in under 15 minutes.  
-They’ve also packed the video description with all the good stuff—links to their main site, social channels, a sinful poll, Patreon support, Discord, Reddit, and even Jeremy’s book—so you can keep the fandom (and the nitpicking) going long after the credits roll.
-Watch on YouTube]]></summary>
-        <author>
-            <name>Movie News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CinemaSins: Everything Wrong With KPop Demon Hunters In 16 Minutes Or Less]]></title>
-        <id>https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-kpop-demon-hunters-in-16-minutes-or-less-47ni</id>
-        <link href="https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-kpop-demon-hunters-in-16-minutes-or-less-47ni"/>
-        <updated>2025-11-23T04:00:09.000Z</updated>
-        <summary type="html"><![CDATA[TL;DR
-
-
-CinemaSins just unleashed “Everything Wrong With KPop Demon Hunters In 16 Minutes Or Less,” a cheeky rundown of the movie’s biggest goofs, quirks and Easter eggs. Beyond the video, they’re hyping up their website, Discord, Reddit community and socials, plus a poll and Patreon for fans who want to dive deeper.
-They also drop a shout-out to their writing squad—Jeremy, Chris, Aaron, Jonathan, Deneé, Ian and Daniel—and a full lineup of links so you can binge their other content on YouTube, Instagram, TikTok and more.
-Watch on YouTube]]></summary>
-        <author>
-            <name>Movie News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Tech Giants Navigate AI Backlash, Infrastructure Investments, and Future of Work Discussions Amidst Global Developments]]></title>
-        <id>https://dev.to/stelixx-insights/tech-giants-navigate-ai-backlash-infrastructure-investments-and-future-of-work-discussions-amidst-2km8</id>
-        <link href="https://dev.to/stelixx-insights/tech-giants-navigate-ai-backlash-infrastructure-investments-and-future-of-work-discussions-amidst-2km8"/>
-        <updated>2025-11-23T04:00:07.000Z</updated>
-        <summary type="html"><![CDATA[This post delves into the multifaceted technological landscape, covering critical updates from major players and emerging trends.
-We'll explore Google's stance on AI training and user data privacy amidst user concerns with Microsoft's Windows direction. Hyundai's substantial investment in a dedicated AI data center powered by Nvidia's latest GPUs signals a significant push in autonomous systems. The future of work and society is a hot topic, with Elon Musk and Jensen Huang offering bold predictions about AI's role.
-We also touch upon advancements in collaborative AI tools like ChatGPT's new group chat features, SpaceX's ongoing Starship development, Vitalik Buterin's perspective on Argentina's tech evolution, and crucial cybersecurity concerns surrounding cryptocurrency mining operations.
-Stay tuned for a deeper technical breakdown and analysis.
-
-
-  
-  
-  AI #MachineLearning #CloudComputing #DataCenters #AutonomousVehicles #Robotics #FutureOfWork #ChatGPT #SpaceX #Starship #Ethereum #Crypto #Cybersecurity #NationalSecurity]]></summary>
-        <author>
-            <name>Stelixx Insights</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cryptographers Held an Election. They Can't Decrypt the Results]]></title>
-        <id>https://www.nytimes.com/2025/11/21/world/cryptography-group-lost-election-results.html</id>
-        <link href="https://www.nytimes.com/2025/11/21/world/cryptography-group-lost-election-results.html"/>
-        <updated>2025-11-23T03:47:17.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Definitive Classic Mac Pro (2006-2012) Upgrade Guide]]></title>
-        <id>https://blog.greggant.com/posts/2018/05/07/definitive-mac-pro-upgrade-guide.html</id>
-        <link href="https://blog.greggant.com/posts/2018/05/07/definitive-mac-pro-upgrade-guide.html"/>
-        <updated>2025-11-23T03:38:22.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to make precise sheet metal parts (photochemical machining) [video]]]></title>
-        <id>https://www.youtube.com/watch?v=bR9EN3kUlfg</id>
-        <link href="https://www.youtube.com/watch?v=bR9EN3kUlfg"/>
-        <updated>2025-11-23T03:37:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Unusual circuits in the Intel 386's standard cell logic]]></title>
-        <id>https://www.righto.com/2025/11/unusual-386-standard-cell-circuits.html</id>
-        <link href="https://www.righto.com/2025/11/unusual-386-standard-cell-circuits.html"/>
-        <updated>2025-11-23T03:33:42.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[MCP Apps just dropped (OpenAI and Anthropic collab) and I think this is huge]]></title>
-        <id>http://blog.modelcontextprotocol.io/posts/2025-11-21-mcp-apps/</id>
-        <link href="http://blog.modelcontextprotocol.io/posts/2025-11-21-mcp-apps/"/>
-        <updated>2025-11-23T03:27:04.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
