@@ -2,10 +2,313 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-12-17T01:24:36.265Z</updated>
+    <updated>2025-12-17T03:19:11.924Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[[AI 協作筆記] gRPC 傳輸優化：基於 Flattening 與 Bitset 的高效方案]]></title>
+        <id>https://dev.to/mesak/grpc-transmission-optimization-an-efficient-solution-based-on-flattening-and-bitset-n4k</id>
+        <link href="https://dev.to/mesak/grpc-transmission-optimization-an-efficient-solution-based-on-flattening-and-bitset-n4k"/>
+        <updated>2025-12-17T03:13:08.000Z</updated>
+        <summary type="html"><![CDATA[[AI 協作筆記] gRPC 傳輸優化：基於 Flattening 與 Bitset 的高效方案
+
+
+本篇文章記錄了在開發高效能資料庫中間件 (hypool) 時，針對 gRPC 傳輸效率與型別限制所採用的優化方案。該方案由 AI 協助提出，借鑑了資料庫底層儲存原理，解決了傳統 gRPC 在傳輸大量資料庫結果集時面臨的兩個主要挑戰。
+在設計資料庫中間件的 API 時，我們通常需要回傳多行的查詢結果。若採用傳統的 gRPC 定義方式，會面臨以下效能與實作上的問題。
+最直觀的 Protobuf 定義通常是將每一行資料定義為一個 Map 或 Object：
+message Row {
+    map<string, string> data = 1;
+}
+message Response {
+    repeated Row rows = 1;
+}
+
+問題分析：
+customer_id, created_at, status。在傳輸過程中，這些欄位名稱 (Key) 會被重複傳輸 10,000 次，佔用了大量的頻寬資源。
+Protobuf (proto3) 的設計哲學將純量型別 (Scalar Types) 視為不可為空。
+string 欄位若為 NULL，傳輸時會被序列化為空字串 ""。
+Client 端無法區分這是「空值」還是「原始資料庫中的 NULL」。
+雖然可以使用 google.protobuf.StringValue 等 Wrapper 類型解決，但這會增加額外的 Message 嵌套層級與處理開銷。
+針對上述挑戰，AI 建議跳脫傳統的 API 物件思維，轉而參考 資料庫底層 (Columnar Storage) 或 ODBC/JDBC 驅動 的實作方式。
+核心優化策略包含以下兩個部分：
+主要用於解決 Key-Value 冗餘問題。
+我們不再傳輸「物件陣列 (Array…]]></summary>
+        <author>
+            <name>Mesak</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Inside the European Chip Renaissance: Malta’s Semiconductor Ambitions at GSCM 2025]]></title>
+        <id>https://dev.to/alpinumblogs/inside-the-european-chip-renaissance-maltas-semiconductor-ambitions-at-gscm-2025-4a7a</id>
+        <link href="https://dev.to/alpinumblogs/inside-the-european-chip-renaissance-maltas-semiconductor-ambitions-at-gscm-2025-4a7a"/>
+        <updated>2025-12-17T03:12:08.000Z</updated>
+        <summary type="html"><![CDATA[Europe’s semiconductor landscape is advancing rapidly, and Malta is positioning itself as one of the region’s emerging innovation centres. The Global Semiconductor Conference Malta (GSCM 2025), hosted by Malta Enterprise, is a core component of this national strategy. As presented on the official GSCM platform, the event aims to bring together policymakers, industry leaders, researchers and start-ups to strengthen Europe’s semiconductor value chain and highlight Malta’s growing role within it.
+The conference reflects Malta’s ambition to become a trusted location for microelectronics research, advanced manufacturing and deep-tech commercialisation. It also aligns with broader European Chips Act objectives focused on supply chain resilience, technology innovation and skills development.
+Buil…]]></summary>
+        <author>
+            <name>Alpinum Consulting</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The 5-Step Method to Audit Any Onboarding Flow (And Find Your Biggest Conversion Leaks)]]></title>
+        <id>https://dev.to/paywallpro/the-5-step-method-to-audit-any-onboarding-flow-and-find-your-biggest-conversion-leaks-5c50</id>
+        <link href="https://dev.to/paywallpro/the-5-step-method-to-audit-any-onboarding-flow-and-find-your-biggest-conversion-leaks-5c50"/>
+        <updated>2025-12-17T03:10:12.000Z</updated>
+        <summary type="html"><![CDATA[Most teams tweak randomly—adjusting copy here, button colors there. But 80% of conversion loss happens in five predictable places.
+The reality: under 2% of app downloads convert to paying subscribers within 30 days. Over 90% don't complete onboarding. Roughly 40% of trial users convert to paid.
+Top apps use a systematic framework to diagnose where users get stuck. After analyzing over 46,000 flows in PaywallPro, I've distilled it into five steps. By the end, you'll know how to audit any subscription flow and find the highest-leverage fixes.
+
+Why it matters: 40%+ drop-off in the first 5 seconds. Users arrive with expectations from your ad or App Store listing. If the first screen doesn't match, they're gone.
+The pattern that kills: Ad promises "AI meal plans" → App Store says "Transform nut…]]></summary>
+        <author>
+            <name>paywallpro</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Blocking Web Scrapers and Crawlers Using Nginx (Without Cloudflare or AWS WAF)]]></title>
+        <id>https://dev.to/ajitkumar/blocking-web-scrapers-and-crawlers-using-nginx-without-cloudflare-or-aws-waf-l9l</id>
+        <link href="https://dev.to/ajitkumar/blocking-web-scrapers-and-crawlers-using-nginx-without-cloudflare-or-aws-waf-l9l"/>
+        <updated>2025-12-17T03:09:50.000Z</updated>
+        <summary type="html"><![CDATA[Web scraping and aggressive crawling can quietly inflate your infrastructure costs—especially when your product is still in development and has few real users. Static assets (images, JavaScript bundles, CSS) are often the biggest cost drivers, not your API or database.
+This article explains how to block and throttle scrapers using Nginx alone, without Cloudflare, AWS WAF, or paid services.
+The setup applies to a common architecture:
+Frontend: Next.js (or any SPA)
+Backend: Django (or similar) via Gunicorn
+Reverse proxy: Nginx
+Hosting: Self-managed VM / EC2
+We will cover:
+Where Nginx configuration files live
+How Nginx processes requests
+How to block known bots by User-Agent
+How to rate-limit static assets and APIs
+How to verify everything safely
+On Ubuntu/Debian systems, Nginx uses a layered…]]></summary>
+        <author>
+            <name>Ajit Kumar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[**Temporal Contextual Attention in Hierarchical Multi-Agent]]></title>
+        <id>https://dev.to/drcarlosruizviquez/temporal-contextual-attention-in-hierarchical-multi-agent-38jm</id>
+        <link href="https://dev.to/drcarlosruizviquez/temporal-contextual-attention-in-hierarchical-multi-agent-38jm"/>
+        <updated>2025-12-17T03:09:23.000Z</updated>
+        <summary type="html"><![CDATA[Temporal Contextual Attention in Hierarchical Multi-Agent Systems with Non-Stationary Reward Functions
+In this challenge, we task the community with developing an AI agent that can adapt to a complex environment with multiple stakeholders and non-stationary rewards.
+Challenge Overview:
+Consider a scenario with N hierarchical multi-agent systems, each comprising M agents, operating in a shared workspace. The agents are tasked with completing K distinct tasks, each with its own temporal context, non-stationary reward function, and multiple stakeholders.
+Constraints:
+The agents in each multi-agent system interact with a common knowledge graph, which evolves over time.
+The reward functions for each task are non-stationary, meaning their parameters change according to a predefined, but unknown,…]]></summary>
+        <author>
+            <name>Dr. Carlos Ruiz Viquez</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Test Blog Post]]></title>
+        <id>https://dev.to/damienjburks/test-blog-post-iom</id>
+        <link href="https://dev.to/damienjburks/test-blog-post-iom"/>
+        <updated>2025-12-17T03:08:58.000Z</updated>
+        <summary type="html"><![CDATA[Table of Contents
+
+
+
+
+Test Blog Post
+
+
+Section 1
+Section 2
+This is a test blog post for integration testing.
+Some content here.
+More content here.]]></summary>
+        <author>
+            <name>Damien J. Burks</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pattern Test]]></title>
+        <id>https://dev.to/damienjburks/pattern-test-hfp</id>
+        <link href="https://dev.to/damienjburks/pattern-test-hfp"/>
+        <updated>2025-12-17T03:07:05.000Z</updated>
+        <summary type="html"><![CDATA[Table of Contents
+
+
+
+Pattern Test
+Testing file pattern compatibility.]]></summary>
+        <author>
+            <name>Damien J. Burks</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Many Websites Still Don’t Accept HEIC Image Uploads]]></title>
+        <id>https://dev.to/_15dcbc74dac0c5c26421/why-many-websites-still-dont-accept-heic-image-uploads-57f5</id>
+        <link href="https://dev.to/_15dcbc74dac0c5c26421/why-many-websites-still-dont-accept-heic-image-uploads-57f5"/>
+        <updated>2025-12-17T03:05:08.000Z</updated>
+        <summary type="html"><![CDATA[HEIC has been around for several years and is widely used on Apple devices.
+From a web development perspective, this isn’t just inertia. There are practical reasons behind it.
+HEIC Support Isn’t as Universal as It Seems
+
+
+While HEIC works well on iOS and macOS, support drops off quickly outside that ecosystem.
+Common limitations include:
+Browsers that can’t decode HEIC natively
+Backend image pipelines built around JPG and PNG
+Third-party libraries lacking stable HEIC support
+For many web platforms, supporting HEIC adds complexity without clear benefits.
+Server-Side Image Processing Constraints
+
+
+Most upload systems rely on established image processing tools.
+Typical issues include:
+Missing or unstable HEIC decoders
+Increased processing cost
+Additional security considerations
+As a result, m…]]></summary>
+        <author>
+            <name>eileen-tools</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Google Cloud for Developers Who Hate Cloud Jargon]]></title>
+        <id>https://dev.to/ramkashyap2050/google-cloud-for-developers-who-hate-cloud-jargon-42ep</id>
+        <link href="https://dev.to/ramkashyap2050/google-cloud-for-developers-who-hate-cloud-jargon-42ep"/>
+        <updated>2025-12-17T03:04:22.000Z</updated>
+        <summary type="html"><![CDATA[Cloud computing in simple terms means using someone else’s hardware to build our projects.
+Cloud is of two types: private cloud and public cloud.
+Private cloud is when a compute cloud is built only for your firm or project, often on-premises. It’s commonly used in banks.
+Over time, most projects have turned into cloud-native ones because as requirements grew drastically, procuring large sets of hardware became impossible, so companies started building directly for the cloud.
+IaaS
+PaaS
+SaaS
+They follow this hierarchy:
+Cloud supports all kinds of architectures such as monoliths, modular monoliths, or services.
+GCP security has six layers:
+Hardware infrastructure layer
+Service deployment layer
+User identity layer
+Storage service layer
+Internet communication layer
+Operations layer
+GCP is offer…]]></summary>
+        <author>
+            <name>RamKashyap</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why many Asian megacities are miserable places]]></title>
+        <id>https://www.economist.com/asia/2025/12/11/why-many-asian-megacities-are-miserable-places</id>
+        <link href="https://www.economist.com/asia/2025/12/11/why-many-asian-megacities-are-miserable-places"/>
+        <updated>2025-12-17T03:03:32.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[From Books to Brands: What I Learned About Digital Leverage]]></title>
+        <id>https://dev.to/jaideepparashar/from-books-to-brands-what-i-learned-about-digital-leverage-4cd5</id>
+        <link href="https://dev.to/jaideepparashar/from-books-to-brands-what-i-learned-about-digital-leverage-4cd5"/>
+        <updated>2025-12-17T03:01:51.000Z</updated>
+        <summary type="html"><![CDATA[For a long time, books were seen as the end product.
+You wrote a book.
+But in the digital era, I learned something far more powerful:
+A book is not a product.
+What changed my trajectory wasn’t writing more books.
+This article is about that shift and the lessons that came with it.
+1. A Book Is the Highest-Density Form of Thinking
+A book forces clarity.
+You can’t hide behind:
+short posts
+viral hooks
+surface-level opinions
+A book demands:
+structured thinking
+coherent frameworks
+tested ideas
+long-form reasoning
+intellectual honesty
+That’s why books carry authority.
+But authority alone is not leverage unless it’s activated.
+2. I Stopped Treating Books as Content and Started Treating Them as IP
+The biggest shift was mental.
+Earlier, a book felt like:
+content I created
+knowledge I shared
+Now, I s…]]></summary>
+        <author>
+            <name>Jaideep Parashar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Software Development in the AI era]]></title>
+        <id>https://dev.to/xpromx/software-development-in-the-ai-era-3n3k</id>
+        <link href="https://dev.to/xpromx/software-development-in-the-ai-era-3n3k"/>
+        <updated>2025-12-17T02:53:23.000Z</updated>
+        <summary type="html"><![CDATA[Many teams using AI ship more code. Not all of them are shipping better software.
+I'm writing this based on what I've seen in real teams adopting AI in production. Look at the metrics — cycle time, velocity, features delivered. If AI can generate most of the code, you might expect teams to be three or four times faster. Often, they're not. The improvement can be smaller than expected.
+In my view, the tools aren't the limiting factor. The system around them is.
+AI accelerates one part of the process: writing code. But software development is more than writing code. It's requirements, architecture, testing, reviews, QA, and release. These parts are interconnected. When only one part speeds up, the system doesn't improve much. Bottlenecks shift to the parts that weren't designed for this spee…]]></summary>
+        <author>
+            <name>Rodrigo Ramirez</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mastering Cloud Security: A Strategic Guide to Securing Your AWS Environment]]></title>
+        <id>https://dev.to/kaths3cdev/mastering-cloud-security-a-strategic-guide-to-securing-your-aws-environment-17lg</id>
+        <link href="https://dev.to/kaths3cdev/mastering-cloud-security-a-strategic-guide-to-securing-your-aws-environment-17lg"/>
+        <updated>2025-12-17T02:53:06.000Z</updated>
+        <summary type="html"><![CDATA[In today’s digital landscape, a single security breach can be catastrophic leading to data loss, financial impact, and reputational damage. For developers and cloud engineers, security cannot be an afterthought; it must be the foundation upon which we build.
+As I deepen my focus on cloud security, I’ve synthesized the core pillars of a secure AWS environment. Whether you are launching your first EC2 instance or architecting a complex microservices application, these are the actionable steps effectively used to secure the cloud.
+
+The most common misconception in cloud computing is assuming that "being on the cloud" means you are automatically secure. It is crucial to understand the Shared Responsibility Model.
+Think of your cloud environment like a boat.
+AWS (The Provider) is the Captain. T…]]></summary>
+        <author>
+            <name>Gerlie Ann Katherine Daga-as</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Crypto exchange HashKey's shares fall 5% on trading debut in Hong Kong]]></title>
+        <id>9bef775a-aa0d-4f4e-932e-6dd781b60101</id>
+        <link href="https://www.coindesk.com/markets/2025/12/17/hashkey-s-shares-fall-5-on-debut-in-hong-kong"/>
+        <updated>2025-12-17T02:36:42.000Z</updated>
+        <summary type="html"><![CDATA[Investors questioned whether Hong Kong’s dominant licensed exchange can turn surging volumes and regulatory advantage into sustainable profits.]]></summary>
+        <author>
+            <name>Sam Reynolds</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hyperliquid’s $200 billion pitch: Is this next Solana-scale DeFi bet?: Asia Morning Briefing]]></title>
+        <id>24795e20-c7dd-425a-902f-15443a8e7c25</id>
+        <link href="https://www.coindesk.com/markets/2025/12/17/cantor-models-usd200-billion-hype-token-valuation-on-hyperliquid-fee-economics-asia-morning-briefing"/>
+        <updated>2025-12-17T02:13:35.000Z</updated>
+        <summary type="html"><![CDATA[Cantor says Hyperliquid is trading infrastructure, not speculative DeFi, with HYPD and PURR offering exposure to fees, buybacks, and CEX share gains.]]></summary>
+        <author>
+            <name>Sam Reynolds</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Locked out: How a gift card purchase destroyed an Apple account]]></title>
+        <id>https://appleinsider.com/articles/25/12/13/locked-out-how-a-gift-card-purchase-destroyed-an-apple-account</id>
+        <link href="https://appleinsider.com/articles/25/12/13/locked-out-how-a-gift-card-purchase-destroyed-an-apple-account"/>
+        <updated>2025-12-17T02:01:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CS 4973: Introduction to Software Development Tooling – Northeastern Univ (2024)]]></title>
+        <id>https://bernsteinbear.com/isdt/</id>
+        <link href="https://bernsteinbear.com/isdt/"/>
+        <updated>2025-12-17T01:26:14.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Notes from Building My Second AI Video Site]]></title>
         <id>https://dev.to/lynn123456/notes-from-building-my-second-ai-video-site-44nl</id>
@@ -115,6 +418,16 @@ Four repositories. Zero CGO. Just go build.
 The main framework with dual backend architecture — choose performance o…]]></summary>
         <author>
             <name>Andrey Kolkov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Learn Japanese contextually while browsing]]></title>
+        <id>https://lingoku.ai/learn-japanese</id>
+        <link href="https://lingoku.ai/learn-japanese"/>
+        <updated>2025-12-17T00:50:40.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -285,6 +598,16 @@ This post guides you through the key ideas from our conversation. Use it to quic
 The Gemini CLI is a powerful, conversational AI agent that lives directly in your command line. It's designed to be a versatile assistant that can help you with your everyday workflows. Unlike a simple chatbot, the Gemini CLI is agentic. This means it can reason, choose tools, and execute multi-step plans to accomplish a goal, all while keeping you informed. It's open-source, extensible, and as w…]]></summary>
         <author>
             <name>Mollie Pettit</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[More than 100 rally against data centers at Michigan Capitol]]></title>
+        <id>https://www.lansingstatejournal.com/story/news/local/2025/12/16/lansing-state-capitol-data-centers-rally-michigan/87792001007/</id>
+        <link href="https://www.lansingstatejournal.com/story/news/local/2025/12/16/lansing-state-capitol-data-centers-rally-michigan/87792001007/"/>
+        <updated>2025-12-16T23:27:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -27192,6 +27515,16 @@ Cuando este concepto finalmente hace “click”, los diagramas de arquitectura 
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Testing a cheaper laminar flow hood]]></title>
+        <id>https://chillphysicsenjoyer.substack.com/p/testing-a-cheaper-laminar-flow-hood</id>
+        <link href="https://chillphysicsenjoyer.substack.com/p/testing-a-cheaper-laminar-flow-hood"/>
+        <updated>2025-12-12T20:40:31.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Security issues with electronic invoices]]></title>
         <id>https://invoice.secvuln.info/</id>
         <link href="https://invoice.secvuln.info/"/>
@@ -36449,6 +36782,16 @@ The round, led by Susa Ventures with participation from MXV Capital and Konrad C
         <summary type="html"><![CDATA[The launch marks a notable shift for the decentralized exchange, which has until now been known almost entirely for its derivatives markets.]]></summary>
         <author>
             <name>Margaux Nijkerk</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Twin suction turbines and 3-Gs in slow corners? Meet the DRG-Lola]]></title>
+        <id>https://arstechnica.com/cars/2025/11/an-electric-car-thats-faster-than-f1-around-monaco-thats-the-idea/</id>
+        <link href="https://arstechnica.com/cars/2025/11/an-electric-car-thats-faster-than-f1-around-monaco-thats-the-idea/"/>
+        <updated>2025-12-11T13:53:58.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -97678,726 +98021,6 @@ The idea came from an article (or book—my memory is a bit fuzzy!) about design
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Docker Image Compression: gzip vs zstd]]></title>
-        <id>https://dev.to/danielcristho/docker-image-compression-gzip-vs-zstd-4eod</id>
-        <link href="https://dev.to/danielcristho/docker-image-compression-gzip-vs-zstd-4eod"/>
-        <updated>2025-12-02T15:15:35.000Z</updated>
-        <summary type="html"><![CDATA[Docker images are already compressed when you push them to registries like Docker Hub, GHCR, AWS ECR, etc.
-So why would anyone compress an image again by using gzip or zstd?
-
-Because in the real world, engineers often need to:
-- move images between servers (air-gapped networks),
-- migrates registries,
-- backup image to object,
-- load or save images repeatedly in Continuous Integration (CI) pipelines.
-In these cases, docker save produces a raw .tar file often huge.
-But what’s the best compression tool? So we will test gzip vs zstd.
-Like I said before, you need to compress your image to:
-- transfer image between SSH or local network (LAN),
-- work with offline or air-gapped servers,
-- backup images to object storage,
-- migrate to new registry.
-Skip compression when images are pushed directly …]]></summary>
-        <author>
-            <name>Daniel Pepuho</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI Agents and context-aware permissions]]></title>
-        <id>https://dev.to/mathewpregasen/ai-agents-and-context-aware-permissions-1gii</id>
-        <link href="https://dev.to/mathewpregasen/ai-agents-and-context-aware-permissions-1gii"/>
-        <updated>2025-12-02T15:12:39.000Z</updated>
-        <summary type="html"><![CDATA[As the internet evolves, misconfigured permissions become a much bigger threat. Why? Because of two words: artificial intelligence—or, AI.
-Enterprise organizations have always needed tight control over their systems. Permissions are necessary for protecting access to resources, as well as meeting compliance rules and customer obligations. An over-permissioned user would be able to access sensitive information; for example, manager-level permissions that let an employee access their entire team’s salary when they should only be able to check their own. Once teams spot such mistakes, they can correct it and move forward without much disruption.
-That’s no longer true once AI enters the picture. AI agents do what humans do, from accessing data to sending emails. But unlike humans, they move th…]]></summary>
-        <author>
-            <name>Mathew Pregasen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: RunMat – runtime with auto CPU/GPU routing for dense math]]></title>
-        <id>https://github.com/runmat-org/runmat</id>
-        <link href="https://github.com/runmat-org/runmat"/>
-        <updated>2025-12-02T15:07:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mistral 3 family of models released]]></title>
-        <id>https://mistral.ai/news/mistral-3</id>
-        <link href="https://mistral.ai/news/mistral-3"/>
-        <updated>2025-12-02T15:01:53.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[BNP Paribas Joins EU Bank Stablecoin Venture Helmed by Ex-Coinbase Germany Exec]]></title>
-        <id>dca48895-bee3-4de7-b2a4-8530f6e467f5</id>
-        <link href="https://www.coindesk.com/business/2025/12/02/bnp-paribas-joins-eu-bank-stablecoin-venture-helmed-by-ex-coinbase-germany-exec"/>
-        <updated>2025-12-02T15:01:27.000Z</updated>
-        <summary type="html"><![CDATA[The group of 10 banks plans to introduce its euro stablecoin next year under a new Dutch entity named Qivalis.]]></summary>
-        <author>
-            <name>Krisztian Sandor</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OpenAI declares 'code red' as Google catches up in AI race]]></title>
-        <id>https://www.theverge.com/news/836212/openai-code-red-chatgpt</id>
-        <link href="https://www.theverge.com/news/836212/openai-code-red-chatgpt"/>
-        <updated>2025-12-02T15:00:16.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mistral launches Mistral 3, a family of open models designed to run on laptops, drones, and edge devices]]></title>
-        <id>67XTC5IvbNuCed38iIXoJB</id>
-        <link href="https://venturebeat.com/ai/mistral-launches-mistral-3-a-family-of-open-models-designed-to-run-on"/>
-        <updated>2025-12-02T15:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Mistral AI, Europe's most prominent artificial intelligence startup, is releasing its most ambitious product suite to date: a family of 10 open-source models designed to run everywhere from smartphones and autonomous drones to enterprise cloud systems, marking a major escalation in the company's challenge to both U.S. tech giants and surging Chinese competitors.
-The Mistral 3 family, launching today, includes a new flagship model called Mistral Large 3 and a suite of smaller "Ministral 3" models optimized for edge computing applications. All models will be released under the permissive Apache 2.0 license, allowing unrestricted commercial use — a sharp contrast to the closed systems offered by OpenAI, Google, and Anthropic.
-The release is a pointed bet by Mistral that the future of artifici…]]></summary>
-        <author>
-            <name>michael.nunez@venturebeat.com (Michael Nuñez)</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Marmot – Single-binary data catalog (no Kafka, no Elasticsearch)]]></title>
-        <id>https://github.com/marmotdata/marmot</id>
-        <link href="https://github.com/marmotdata/marmot"/>
-        <updated>2025-12-02T14:59:40.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Do Some SaaS Startups Grow Faster on Google While Others Stay Invisible?]]></title>
-        <id>https://dev.to/michael_young_e3100131f21/why-do-some-saas-startups-grow-faster-on-google-while-others-stay-invisible-2326</id>
-        <link href="https://dev.to/michael_young_e3100131f21/why-do-some-saas-startups-grow-faster-on-google-while-others-stay-invisible-2326"/>
-        <updated>2025-12-02T14:57:15.000Z</updated>
-        <summary type="html"><![CDATA[Understanding Why SaaS SEO Feels Different
-If there’s one thing I’ve learned working with early stage SaaS teams, it’s that SEO hits differently in this space. You’re not just targeting generic terms or chasing backlinks. You’re trying to show up for users who are actively searching for solutions to specific problems, often tied to workflows or niche industry issues. When I first helped a small SaaS team audit their content, we realized their blog was filled with broad topics that never aligned with user intent. That moment taught me how critical it is for SaaS companies to map content to actual product value.
-The Unique Challenge of SaaS Search Intent
-Unlike e-commerce or local businesses, SaaS search journeys are multi layered. Users don’t just search “software for invoicing” and then bu…]]></summary>
-        <author>
-            <name>Michael Young</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[⚛️ Quantum Machine Learning Algorithms: A Technical Deep Dive (With Qiskit Code)]]></title>
-        <id>https://dev.to/pratik_12b3f8bf3b50e48bae/quantum-machine-learning-algorithms-a-technical-deep-dive-with-qiskit-code-1eh5</id>
-        <link href="https://dev.to/pratik_12b3f8bf3b50e48bae/quantum-machine-learning-algorithms-a-technical-deep-dive-with-qiskit-code-1eh5"/>
-        <updated>2025-12-02T14:56:38.000Z</updated>
-        <summary type="html"><![CDATA[Quantum Machine Learning (QML) blends quantum computing with classical ML to unlock speed-ups in optimization, sampling, and high-dimensional learning.
-🔹 1. Quantum Support Vector Machines (QSVM)
-QSVMs use quantum kernel estimation, which allows efficient mapping of classical data into extremely high-dimensional Hilbert spaces.
-🧪 Qiskit Example — Quantum Kernel
-from qiskit import BasicAer
-feature_map = ZZFeatureMap(feature_dimension=2, reps=2)
-kernel_matrix = quantum_kernel.evaluate(x_vec=[[0, 1]], y_vec=[[1, 0]])
-🔹 2. Quantum Neural Networks (QNNs)
-QNNs use variational quantum circuits trained with classical optimizers in a hybrid loop.
-Qiskit Example — A Simple VQC Model
-from qiskit import Aer
-backend = Aer.get_backend("statevector_simulator")
-qnn = TwoLayerQNN(num_inputs=2, num_qubit…]]></summary>
-        <author>
-            <name>Pratik</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Nixtml: Static website and blog generator written in Nix]]></title>
-        <id>https://github.com/arnarg/nixtml</id>
-        <link href="https://github.com/arnarg/nixtml"/>
-        <updated>2025-12-02T14:54:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Day 2 — The Typed Letter]]></title>
-        <id>https://dev.to/aerabi/day-2-the-typed-letter-5clg</id>
-        <link href="https://dev.to/aerabi/day-2-the-typed-letter-5clg"/>
-        <updated>2025-12-02T14:49:44.000Z</updated>
-        <summary type="html"><![CDATA[Leaving Zum Roten Bären behind them, Rothütle and Gord walk through the quiet evening streets of Freiburg. Gas lamps hum softly, and the Bächle along Salzstraße scatters the lantern light into restless silver ribbons.
-Rothütle unlocks the door to his small apartment, steps inside—and stops.
-An envelope lies on the floor. Perfectly placed. Waiting.
-He opens it carefully, scans the contents, and then says hastily, "I need to leave, Carl might be in trouble."
-Gord whispers, "The timing is funny." Then she adds, "What does it say?"
-Rothütle shows her the letter:
-Herr Osterman,
-I must speak with you at once.
-— Carl Benz
-"What kind of handwriting is this?" Gord asks.
-Rothütle frowns. "It's done by a mechanical writing apparatus. There is one called Schreibkugel created by Danes earlier this year…]]></summary>
-        <author>
-            <name>Mohammad-Ali A'RÂBI</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What will enter the public domain in 2026?]]></title>
-        <id>https://dev.to/technoblogger14o3/what-will-enter-the-public-domain-in-2026-3g1l</id>
-        <link href="https://dev.to/technoblogger14o3/what-will-enter-the-public-domain-in-2026-3g1l"/>
-        <updated>2025-12-02T14:49:24.000Z</updated>
-        <summary type="html"><![CDATA[Ever found yourself in a deep rabbit hole of copyright laws, only to emerge with a bewildered look and a newfound appreciation for public domain? I’ve been exploring this topic lately, and it's fascinating how the landscape of creative works is set to shift in 2026. If you’re anything like me, you might be wondering what it all means for creators, developers, and just regular folks looking to dabble in the arts. So grab a coffee (or your favorite beverage), and let’s chat about what’s coming to the public domain in a few short years.
-Before diving into the juicy stuff of 2026, let’s back up a bit. Ever wondered why certain works are available for remixing and reimagining while others aren’t? It boils down to time and copyright law. In the U.S., works published before 1923 are already in th…]]></summary>
-        <author>
-            <name>Aman Shekhar</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[FULL REDUX INTERNAL]]></title>
-        <id>https://dev.to/zeeshanali0704/full-redux-internal-5a03</id>
-        <link href="https://dev.to/zeeshanali0704/full-redux-internal-5a03"/>
-        <updated>2025-12-02T14:48:40.000Z</updated>
-        <summary type="html"><![CDATA[Here is the COMPLETE internal Redux flow diagram + exact internal code that explains everything end-to-end exactly how Redux works under the hood.
-I’m giving:
-✅ ASCII Diagram (Very clear)
-1. FULL REDUX INTERNAL FLOW DIAGRAM
-
-
-
-
-┌─────────────────────────────┐
-│        Your Component        │
-│   dispatch(action)           │
-└──────────────┬──────────────┘
-               │
-               ▼
-┌─────────────────────────────┐
-│        Store.dispatch        │
-└──────────────┬──────────────┘
-               │
-               ▼
-┌─────────────────────────────┐
-│      Middleware Chain        │
-│ (logger → thunk → custom..) │
-└──────────────┬──────────────┘
-               │
-               ▼
-┌─────────────────────────────┐
-│           Reducer            │
-│  newState = reducer(old, a)  │
-└──────────────┬…]]></summary>
-        <author>
-            <name>ZeeshanAli-0704</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Barclays 26NG OA Ultimate Guide | Hard Mode Memory Manager Real Questions + Passing Tips]]></title>
-        <id>https://dev.to/net_programhelp_e160eef28/barclays-26ng-oa-ultimate-guide-hard-mode-memory-manager-real-questions-passing-tips-83h</id>
-        <link href="https://dev.to/net_programhelp_e160eef28/barclays-26ng-oa-ultimate-guide-hard-mode-memory-manager-real-questions-passing-tips-83h"/>
-        <updated>2025-12-02T14:45:50.000Z</updated>
-        <summary type="html"><![CDATA[Barclays’ Codility OA is notorious for its elimination-level difficulty, especially the Hard mode that favors low-level system simulation. Many candidates fail not because the logic is impossible, but because the edge cases and hidden tests are brutal. Below is a clean, structured breakdown of the latest real memory manager questions, core solution patterns, and common pitfall-avoidance tips to help you ace the OA and secure the interview!
-Platform: Codility
-
-
-Difficulty: Hard (higher than typical LeetCode questions)
-
-
-Key Focus Areas: Memory management, state maintenance, edge-case handling, robust implementation
-
-
-Distinct Features: Long descriptions, many hidden edge cases (fragmentation, invalid ops, double free)
-1. Basic Memory Allocator
-
-
-Requirement:
-
-Manage an N-byte memory block a…]]></summary>
-        <author>
-            <name>net programhelp</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[🔓 Successfully Decrypted MIUI .lsa & .lsav Files Using Python – Full Working Method by TheDevOpsRite]]></title>
-        <id>https://dev.to/thedevopsrite/successfully-decrypted-miui-lsa-lsav-files-using-python-full-working-method-by-thedevopsrite-47k5</id>
-        <link href="https://dev.to/thedevopsrite/successfully-decrypted-miui-lsa-lsav-files-using-python-full-working-method-by-thedevopsrite-47k5"/>
-        <updated>2025-12-02T14:45:00.000Z</updated>
-        <summary type="html"><![CDATA[MIUI encryption has been a major roadblock for users trying to recover their personal photos, videos, and backups stored in .lsa and .lsav files. For a long time, there was no clear working solution — most tools failed, and documentation was almost non-existent.
-On TheDevOpsRite, I have now successfully decrypted .lsa and .lsav files using Python, and I’ve shared the complete working process in a video tutorial.
-✅ What This Solution Covers
-Understanding how MIUI encrypts .lsa and .lsav files
-Extracting the correct decryption hex key
-Using Python + PyCryptodome for real decryption
-Converting encrypted files back into usable photos/videos
-Handling padding and data integrity correctly
-This is a real, tested method — not a theory or fake tool.
-🔐 Security & Ethical Use
-This method is strictly for educational and personal data recovery.
-Only decrypt files you personally own.
-Never share your hex keys publicly on forums or in comments.
-If you need help, always use private and secure communication.
-🛠 Tech Stack Used
-Python 3
-PyCryptodome
-MIUI encrypted backup analysis
-Custom scripts for .lsa / .lsav handling
-🎥 Full Video Tutorial on TheDevOpsRite
-If your MIUI backups are stuck inside .lsa or .lsav files and you want a real recovery solution, this tutorial will guide you from start to finish.
-👉 Watch here: https://youtu.be/t3Mznf2JULU?si=KfTWp_Gi0wec1-6l]]></summary>
-        <author>
-            <name>The DevOps Rite</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[IP Blacklist Tests and Bot Checkers: Why Websites Flag Your Traffic]]></title>
-        <id>https://dev.to/whoerip_/ip-blacklist-tests-and-bot-checkers-why-websites-flag-your-traffic-17a7</id>
-        <link href="https://dev.to/whoerip_/ip-blacklist-tests-and-bot-checkers-why-websites-flag-your-traffic-17a7"/>
-        <updated>2025-12-02T14:43:08.000Z</updated>
-        <summary type="html"><![CDATA[If you keep running into random blocks, login issues, or endless security checks, it doesn’t always mean you did something wrong. Many websites quietly run your connection through an IP blacklist test and a bot checker to decide whether to treat you like a normal visitor or a possible risk.
-An IP blacklist test checks whether your current IP address appears on lists of “bad” or risky IPs. Security companies, anti-spam providers, and some platforms maintain these lists to reduce spam, brute-force logins, scraping, and malware.
-Your IP reputation can suffer even if you did nothing wrong. For example:
-someone on the same Wi-Fi abused a service
-
-
-you use public Wi-Fi in airports, cafés, or coworking spaces
-
-
-your VPN or proxy endpoint is shared by many users
-
-
-the IP belongs to a datacenter ra…]]></summary>
-        <author>
-            <name>Zhenya</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The AI Web3 Merge Is Moving Faster Than You Think]]></title>
-        <id>https://dev.to/thebitcoiner/the-ai-web3-merge-is-moving-faster-than-you-think-4630</id>
-        <link href="https://dev.to/thebitcoiner/the-ai-web3-merge-is-moving-faster-than-you-think-4630"/>
-        <updated>2025-12-02T14:40:30.000Z</updated>
-        <summary type="html"><![CDATA[Developers are now using AI to read smart contracts, predict markets, and secure wallets.
-while AI companies turn to blockchain for data integrity and transparency.
-The result? 
-Smarter, more trustworthy systems.
-It’s not hype. It’s happening.
-Right now, in the code.]]></summary>
-        <author>
-            <name>The_Bitcoiner</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Java decrementExact() Explained: Stop Integer Overflow Bugs]]></title>
-        <id>https://dev.to/satyam_gupta_0d1ff2152dcc/java-decrementexact-explained-stop-integer-overflow-bugs-308g</id>
-        <link href="https://dev.to/satyam_gupta_0d1ff2152dcc/java-decrementexact-explained-stop-integer-overflow-bugs-308g"/>
-        <updated>2025-12-02T14:38:07.000Z</updated>
-        <summary type="html"><![CDATA[Java decrementExact() Explained: Stop Integer Overflow Bugs Before They Happen
-
-
-Alright, let's talk about one of those "silent killer" bugs in programming—the kind that doesn't scream errors at you initially but can cause your app to behave in the weirdest, most unpredictable ways. I'm talking about integer overflow.
-You know the scenario. You're building a cool reverse counter for a rocket launch, managing inventory stock, or just tracking the score in a game. You use a simple count-- or i = i - 1. It seems foolproof, right? But what happens when your counter goes below the minimum value an int can hold?
-Spoiler alert: It wraps around to the maximum value. Your rocket launch countdown might suddenly jump from -2147483648 to 2147483647. Yikes.
-This is where Java's Math.decrementExact() me…]]></summary>
-        <author>
-            <name>Satyam Gupta</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What Is "Open Recursion"?]]></title>
-        <id>https://journal.stuffwithstuff.com/2013/08/26/what-is-open-recursion/</id>
-        <link href="https://journal.stuffwithstuff.com/2013/08/26/what-is-open-recursion/"/>
-        <updated>2025-12-02T14:37:55.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Zig's new plan for asynchronous programs]]></title>
-        <id>https://lwn.net/SubscriberLink/1046084/4c048ee008e1c70e/</id>
-        <link href="https://lwn.net/SubscriberLink/1046084/4c048ee008e1c70e/"/>
-        <updated>2025-12-02T14:31:16.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CoinDesk 20 Performance Update: NEAR Protocol (NEAR) Gains 8.2% as Index Rises]]></title>
-        <id>177b34f7-1d37-44c6-9b0c-2be83cc73c15</id>
-        <link href="https://www.coindesk.com/coindesk-indices/2025/12/02/coindesk-20-performance-update-near-protocol-near-gains-8-2-as-index-rises"/>
-        <updated>2025-12-02T14:17:13.000Z</updated>
-        <summary type="html"><![CDATA[Cronos (CRO) was also a top performer, up 7.6% from Monday.]]></summary>
-        <author>
-            <name>CoinDesk Indices</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bank of America Greenlights Wealth Advisors to Recommend Up to 4% Bitcoin Allocation]]></title>
-        <id>08b6e218-7022-42a5-bba5-7f3e471adac5</id>
-        <link href="https://www.coindesk.com/business/2025/12/02/bank-of-america-greenlights-wealth-advisors-to-recommend-up-to-4-bitcoin-allocation"/>
-        <updated>2025-12-02T14:16:08.000Z</updated>
-        <summary type="html"><![CDATA[The news comes just hours after longtime crypto holdout, asset management giant Vanguard, said it would allow its clientele access to digital asset ETFs.]]></summary>
-        <author>
-            <name>Olivier Acuna</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Understanding Amazon Q Custom Agents: Concepts, Architecture & Inner Workings]]></title>
-        <id>https://dev.to/aws-builders/understanding-amazon-q-custom-agents-concepts-architecture-inner-workings-362</id>
-        <link href="https://dev.to/aws-builders/understanding-amazon-q-custom-agents-concepts-architecture-inner-workings-362"/>
-        <updated>2025-12-02T14:09:35.000Z</updated>
-        <summary type="html"><![CDATA[👋 Hey there, tech enthusiasts! 
-I'm Sarvar, a Cloud Architect with a passion for transforming complex technological challenges into elegant solutions. With extensive experience spanning Cloud Operations (AWS & Azure), Data Operations, Analytics, DevOps, and Generative AI, I've had the privilege of architecting solutions for global enterprises that drive real business impact. Through this article series, I'm excited to share practical insights, best practices, and hands-on experiences from my journey in the tech world. Whether you're a seasoned professional or just starting out, I aim to break down complex concepts into digestible pieces that you can apply in your projects.
-Let's dive in and explore the fascinating world of cloud technology together! 🚀
-Imagine Sarah, a DevOps engineer at …]]></summary>
-        <author>
-            <name>Sarvar Nadaf</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Prompt AI for Consistent JSON Responses]]></title>
-        <id>https://dev.to/cucoleadan/how-to-prompt-ai-for-consistent-json-responses-1gbm</id>
-        <link href="https://dev.to/cucoleadan/how-to-prompt-ai-for-consistent-json-responses-1gbm"/>
-        <updated>2025-12-02T14:03:05.000Z</updated>
-        <summary type="html"><![CDATA[This was originally posted on the VSL Substack publication.
-You just used AI to generate your API integration code, tested it locally, and deployed it to production because it seemingly worked perfectly. Two hours later, your logs are filled with parsing failures and users cannot complete actions because "Invalid JSON" errors are popping up everywhere. The AI gave you working code, but the problem is that it only worked in your controlled test environment with your specific input.
-It happened to me so many times I lost count, so I’m going to share one of the best ways to get your AI to generate valid json, every single time.
-
-When you are building features that depend on structured data like API integrations, database operations, or configuration files, JSON consistency directly determines…]]></summary>
-        <author>
-            <name>cucoleadan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Spectral rendering, part 3: Spectral vs. RGB]]></title>
-        <id>https://momentsingraphics.de/SpectralRendering3Results.html</id>
-        <link href="https://momentsingraphics.de/SpectralRendering3Results.html"/>
-        <updated>2025-12-02T14:02:44.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Game Math Behind a Candy Craze Game: Probability, Cascades, and Level Pacing in HTML5 Puzzlers]]></title>
-        <id>https://dev.to/gamh5games/the-game-math-behind-a-candy-craze-game-probability-cascades-and-level-pacing-in-html5-puzzlers-32k6</id>
-        <link href="https://dev.to/gamh5games/the-game-math-behind-a-candy-craze-game-probability-cascades-and-level-pacing-in-html5-puzzlers-32k6"/>
-        <updated>2025-12-02T14:01:48.000Z</updated>
-        <summary type="html"><![CDATA[Candy puzzle games—often referred to as “candy craze games”—look colorful and playful on the surface, but their underlying mechanics rely heavily on math, probability weighting, grid logic, and pacing algorithms that control difficulty, randomness, and player satisfaction.
-In this article, we’ll explore the mathematical and algorithmic foundations behind a candy craze game:
-How grids are generated
-How randomness is controlled (not actually random!)
-How cascades are determined
-How difficulty ramps up
-And how to design a fair but exciting experience
-Whether you're building your own HTML5 puzzle game or analyzing browser games for UI/logic inspiration, understanding these principles is crucial.
-
-A candy craze game appears simple:
-match 3 candies
-clear them
-trigger cascades
-refill the board
-Bu…]]></summary>
-        <author>
-            <name>gamh5games</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Julia Kasper – Rewetting peatlands is the biggest climate opportunity to cut CO2]]></title>
-        <id>https://dev.to/ogcr/julia-kasper-rewetting-peatlands-is-the-biggest-climate-opportunity-to-cut-co2-4o5m</id>
-        <link href="https://dev.to/ogcr/julia-kasper-rewetting-peatlands-is-the-biggest-climate-opportunity-to-cut-co2-4o5m"/>
-        <updated>2025-12-02T14:01:38.000Z</updated>
-        <summary type="html"><![CDATA[In her recent interview, Julia Kasper, co-founder and CEO of Zukunftmoor, argues that rewetting drained peatlands represents the single biggest climate opportunity in agriculture today. Although peatlands cover only about 3 % of the global land surface, they store more carbon than all the world’s forests combined. When peatlands are drained, a common practice for agriculture, they don’t just release CO₂ once; they leak carbon continuously, year after year. Restoring peatlands thus stops that “constant leak,” and rewetting them can turn a major source of emissions into a long-term carbon sink.
-But rewetting alone is not enough: farmers need viable, sustainable livelihoods. That’s where Zukunftmoor’s innovative approach comes in. They propose combining rewetting with cultivation of Sphagnum moss — a natural plant of peatlands — which can serve as a sustainable substitute for extracted peat in horticultural substrates. This turns rewetting from a purely ecological restoration act into a market-driven, economically viable land-use model. By using drones or hand-seeding methods, and developing harvesting and substrate-supply chains, the approach offers farmers a low-input, long-term pathway to maintain income while restoring degraded peatlands.
-With this combination of climate mitigation and practical agriculture, Kasper’s vision offers peatland regions across Europe a concrete alternative to drainage-based farming — one that aligns environmental restoration with economic viability.
-Original article published on Investing in Regenerative Agriculture.]]></summary>
-        <author>
-            <name>Open Geospatial Carbon Registry (OGCR)</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Proximity to coworkers increases long-run development, lowers short-term output]]></title>
-        <id>https://pallais.scholars.harvard.edu/publications/power-proximity-coworkers-training-tomorrow-or-productivity-today</id>
-        <link href="https://pallais.scholars.harvard.edu/publications/power-proximity-coworkers-training-tomorrow-or-productivity-today"/>
-        <updated>2025-12-02T14:01:05.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ascentra Labs raises $2 million to help consultants use AI instead of all-night Excel marathons]]></title>
-        <id>19V0UlgPojZ7W1OwbJxHN5</id>
-        <link href="https://venturebeat.com/ai/ascentra-labs-raises-usd2-million-to-help-consultants-use-ai-instead-of-all"/>
-        <updated>2025-12-02T14:00:00.000Z</updated>
-        <summary type="html"><![CDATA[While artificial intelligence has stormed into law firms and accounting practices with billion-dollar startups like Harvey leading the charge, the global consulting industry—a $250 billion behemoth—has remained stubbornly analog. A London-based startup founded by former McKinsey consultants is betting $2 million that it can crack open this resistant market, one Excel spreadsheet at a time.
-Ascentra Labs announced Monday that it has closed a $2 million seed round led by NAP, a Berlin-based venture capital firm formerly known as Cavalry Ventures. The funding comes with participation from notable founder-angels including Alan Chang, chief executive of Fuse and former chief revenue officer at Revolut, and Fredrik Hjelm, chief executive of European e-scooter company Voi.
-The investment is modes…]]></summary>
-        <author>
-            <name>michael.nunez@venturebeat.com (Michael Nuñez)</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Engineering a “Candy Craze Game”: Interaction Model]]></title>
-        <id>https://dev.to/gamh5games/engineering-a-candy-craze-game-interaction-model-6ka</id>
-        <link href="https://dev.to/gamh5games/engineering-a-candy-craze-game-interaction-model-6ka"/>
-        <updated>2025-12-02T13:59:11.000Z</updated>
-        <summary type="html"><![CDATA[Candy craze” games—fast, colorful, tap-driven puzzle or matching games—are among the most influential patterns in modern HTML5 casual gaming. Behind the bright animations and candy explosions lies a surprisingly elegant technical architecture built on event systems, rendering pipelines, interaction logic, and resource-efficient desi
-In this article, we’ll examine the engineering principles behind building a c, f
-If you're designing or studying HTML5 games, this genre is a near-perfect cas
-
-A
-
-Grid-ba
-T
-
-Chain reacti
-Particle effec
-Color-rich sprites and animations
-Mobile-first design
-This genre forces the developer to solve:
-how to detect matches efficiently
-how to animate falling pieces
-how to avoid layout jank
-how to maintain 60 FPS
-how to sequence chain reactions without blocking
-A perf…]]></summary>
-        <author>
-            <name>gamh5games</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Seeking Career guidance]]></title>
-        <id>https://dev.to/abby21/seeking-career-guidance-45hb</id>
-        <link href="https://dev.to/abby21/seeking-career-guidance-45hb"/>
-        <updated>2025-12-02T13:54:29.000Z</updated>
-        <summary type="html"><![CDATA[I'm looking for career guidance. I work as senior software engineer. I have 10+yrs of experience. 
-I have worked in java, gwt, angular,react, aws lambda, accessibility,  little bit of mongodb atlas ui. I work well but now when I look back I dont remember these skills in interview poit of view. I also feel lost in career. 
-I want to refresh and upskill to align with current expectations for my experience. Also would like to know what skills and roles will be good choice,so that I can work on it? I have no guidance so I'm seeking for guidance so that I can have a good roadmap.]]></summary>
-        <author>
-            <name>Abby</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building a High-Performance “Crazy Pizza Game” UI: Patterns, Techniques, and Developer Insights]]></title>
-        <id>https://dev.to/gamh5games/building-a-high-performance-crazy-pizza-game-ui-patterns-techniques-and-developer-insights-1bi4</id>
-        <link href="https://dev.to/gamh5games/building-a-high-performance-crazy-pizza-game-ui-patterns-techniques-and-developer-insights-1bi4"/>
-        <updated>2025-12-02T13:54:05.000Z</updated>
-        <summary type="html"><![CDATA[The “crazy pizza game” genre is a perfect case study for modern HTML5 game development.
-This article walks through the engineering patterns behind building a responsive, high-performance crazy pizza game on the web. Instead of focusing only on gameplay, we will explore the deeper architectural decisions that make the experience fluid and addictive.
-
-From an engineering perspective, pizza-assembly games include:
-rapid, state-driven UI changes
-high sprite density
-timers and dynamic difficulty
-touch-first interactions
-immediate player feedback loops
-frequent collision / hitbox checks
-continuous animation sequences
-This makes them excellent for demonstrating:
-rendering strategies
-input management
-memory optimization
-update loops
-performance constraints on real mobile devices
-It’s not just a “s…]]></summary>
-        <author>
-            <name>gamh5games</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Behind the Scenes of a “Crazy Pizza Game”: How HTML5 Casual Games Are Built]]></title>
-        <id>https://dev.to/gamh5games/behind-the-scenes-of-a-crazy-pizza-game-how-html5-casual-games-are-built-1hjn</id>
-        <link href="https://dev.to/gamh5games/behind-the-scenes-of-a-crazy-pizza-game-how-html5-casual-games-are-built-1hjn"/>
-        <updated>2025-12-02T13:49:12.000Z</updated>
-        <summary type="html"><![CDATA[Casual browser games have exploded in popularity over the last few years, and one of the most recognizable formats is the fast-paced “crazy pizza game” — a game where players quickly assemble pizzas, match ingredients, or manage orders under time pressure.
-But what does it take to build a game like this?
-In this article, we’ll break down the design and technical foundations behind a “crazy pizza game,” from core gameplay loops to rendering, performance optimization, asset pipelines, and browser considerations.
-🍕 1. What Defines a “Crazy Pizza Game”?
-A typical crazy pizza game includes these characteristics:
-Fast decision-making
-Time-based challenges (countdowns, increasing speed, etc.)
-Ingredient combinations (drag-and-drop, tap-to-select, matching patterns)
-Continuous feedback (animation…]]></summary>
-        <author>
-            <name>gamh5games</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AuroraCanvas — A Cross-Platform Generative Art Experience]]></title>
-        <id>https://dev.to/s10olamide/auroracanvas-a-cross-platform-generative-art-experience-5ac4</id>
-        <link href="https://dev.to/s10olamide/auroracanvas-a-cross-platform-generative-art-experience-5ac4"/>
-        <updated>2025-12-02T13:48:45.000Z</updated>
-        <summary type="html"><![CDATA[What I Built
-AuroraCanvas is a visually immersive generative art playground built with Uno Platform and powered by AI-assisted color and particle effects.
-Theme: Cosmic / Ambient / Fluid Visuals
-✨ Dynamic AI-generated color palettes
-🌌 Touch/mouse-responsive particle flows
-🎵 Audio-reactive animations
-💫 “Surprise Me” mode: continuously evolving scenes
-🎥 Demo
-Live Demo (WebAssembly): [Insert link]
-Screenshots / GIFs:
-🖥️ Windows: Full-screen particle animations
-📱 iOS / Android: Touch painting mode
-🌐 WASM: Browser-based experience
-Test Account (if login required):
-Email: test@demo.com
-Password: Demo123!
-🧩 Cross-Platform Magic
-Platforms supported:
-iOS, Android
-Windows, macOS, Linux (Skia backend)
-WebAssembly
-Single codebase benefits:
-95% shared code
-XAML-based UI
-Shared logic in .NET
-Onl…]]></summary>
-        <author>
-            <name>s10olamide</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[9 Essential Developer Tools You Should be Exploring Right Now ⚡️🔎]]></title>
-        <id>https://dev.to/madza/9-essential-developer-tools-you-should-be-exploring-right-now-2kdj</id>
-        <link href="https://dev.to/madza/9-essential-developer-tools-you-should-be-exploring-right-now-2kdj"/>
-        <updated>2025-12-02T13:48:06.000Z</updated>
-        <summary type="html"><![CDATA[Modern developer tools have become fundamental components which enhance coding operations while shortening the duration needed to finish projects.
-However the curation and selection process for developer tools that might be useful in the practice can feel as a daunting task because numerous platforms and utilities exist.
-In this article I’ve curated 9 of my recent favorite developer tools which help developers create applications through advanced authentication systems, headless CMS backends, visual website builders, API SDK generators and much more.
-These tools help developers save time while reducing obstacles to work on developing robust software.
-All the tools provide brief descriptions along with essential features, workflow image snaphots and direct access links which enable you to e…]]></summary>
-        <author>
-            <name>Madza</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Describe promotions on AI services available now]]></title>
-        <id>https://dev.to/wadie_realme_733c52996966/describe-promotions-on-ai-services-available-now-4ml7</id>
-        <link href="https://dev.to/wadie_realme_733c52996966/describe-promotions-on-ai-services-available-now-4ml7"/>
-        <updated>2025-12-02T13:47:52.000Z</updated>
-        <summary type="html"><![CDATA[Unleash AI Potential for Less: Top Promotions on AI Services You Can Grab Now!
-
-
-The world of Artificial Intelligence is evolving at lightning speed, offering unprecedented capabilities from advanced large language models to sophisticated image generation and robust data analytics. As businesses and developers race to integrate these powerful tools, a key consideration often arises: cost. The good news? AI service providers understand this need for accessible innovation, and exciting promotions on AI models, subscriptions, and paid plan benefits are blooming!
-This post dives into the current landscape of AI service promotions, helping you identify opportunities to maximize your AI budget, experiment with new technologies, and scale your projects without breaking the bank. Whether you're a …]]></summary>
-        <author>
-            <name>Wadie Realme</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Strategy Gains Nearly 20% From Monday Low as Bear Gloating Suggests at Least Temporary Bottom]]></title>
-        <id>10e7bc95-bcdd-405e-8e37-46766b8e59a3</id>
-        <link href="https://www.coindesk.com/markets/2025/12/02/strategy-s-bitcoin-bet-backfires-on-retail-as-leveraged-etfs-crater-80"/>
-        <updated>2025-12-02T13:47:06.000Z</updated>
-        <summary type="html"><![CDATA[There comes a point when long-standing detractors become so vocal, their tone shifting from criticism to arrogance, that it often reflects conditions that are consistent with a bottom.]]></summary>
-        <author>
-            <name>James Van Straten</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What It’s Really Like to Work as a Senior Data Analyst in Trading: Architecture, Pipelines, and Real Problem-Solving]]></title>
-        <id>https://dev.to/clara_morales/what-its-really-like-to-work-as-a-senior-data-analyst-in-trading-architecture-pipelines-and-1k02</id>
-        <link href="https://dev.to/clara_morales/what-its-really-like-to-work-as-a-senior-data-analyst-in-trading-architecture-pipelines-and-1k02"/>
-        <updated>2025-12-02T13:46:07.000Z</updated>
-        <summary type="html"><![CDATA[By Clara Morales, Senior Data Analyst at Lomixone
-Trading platforms generate one of the richest, noisiest, fastest data environments in tech. Every second contains hundreds of micro-events: price ticks, order placements, cancellations, liquidity shifts, volatility spikes, latency anomalies, user signals, macro news triggers — and all of that must be captured, cleaned, structured, and delivered into analytics pipelines without losing accuracy or speed.
-As a Senior Data Analyst, my job sits somewhere between:
-data engineering
-quantitative analysis
-real-time observability
-product insight generation
-This article walks through how this role actually operates inside a trading environment, ending with a reproducible code example that demonstrates how we solve a real problem: detecting abnormal ma…]]></summary>
-        <author>
-            <name>Clara Morales</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A deep dive into QEMU: The Tiny Code Generator (TCG), part 1]]></title>
-        <id>https://airbus-seclab.github.io/qemu_blog/tcg_p1.html</id>
-        <link href="https://airbus-seclab.github.io/qemu_blog/tcg_p1.html"/>
-        <updated>2025-12-02T13:42:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ONLYOFFICE updated: AI agents & custom hotkeys in new releases]]></title>
-        <id>https://dev.to/onlyoffice/onlyoffice-updated-ai-agents-custom-hotkeys-in-new-releases-hem</id>
-        <link href="https://dev.to/onlyoffice/onlyoffice-updated-ai-agents-custom-hotkeys-in-new-releases-hem"/>
-        <updated>2025-12-02T13:31:04.000Z</updated>
-        <summary type="html"><![CDATA[We are excited to announce major updates across our ecosystem: ONLYOFFICE DocSpace 3.6 and ONLYOFFICE Docs 9.2. These releases introduce a new layer of intelligent assistance with AI Agents in DocSpace and bring significant productivity enhancements to the editors, including customizable hotkeys and macro recording. Let’s explore what’s new for developers and power users.
-The main highlight of DocSpace 3.6 is the introduction of AI agents, bringing intelligent assistance directly into your collaborative workspace. These agents are designed to help you and your team work faster and more efficiently.
-You can set up an AI agent tailored to your specific needs. Once configured, you can interact with it through a dedicated chat interface. Simply ask questions or describe your task, and the agen…]]></summary>
-        <author>
-            <name>Kseniya Fedoruk</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[HTML Invokers: The Coolest API You Aren’t Using Yet]]></title>
-        <id>https://dev.to/web_dev-usman/html-invokers-the-coolest-api-you-arent-using-yet-35nl</id>
-        <link href="https://dev.to/web_dev-usman/html-invokers-the-coolest-api-you-arent-using-yet-35nl"/>
-        <updated>2025-12-02T13:29:44.000Z</updated>
-        <summary type="html"><![CDATA[Invokers are the coolest HTML API that you aren’t using. This is right about to drop in all major browsers. It’s available in Safari Technology Preview and Firefox and Chrome already. It is so cool.
-I want you to support my original content as well please, below is the link: 
-HTML Invokers: The Coolest API You Aren’t Using Yet
-So, what are invokers?
-Invokers let your buttons actually do stuff without JavaScript. Like, at all. You just tell the button what element to control and what to do with it. That’s the whole thing.
-It’s wild that this hasn’t existed until now.
-
-
-
-
-
-  
-  
-  How We’ve Been Doing It (The Old Way)
-
-
-Right now, if you want a button to open a dialog, you’re writing code like this:
-const button = document.querySelector('#open-button');
-const dialog = document.querySelector(…]]></summary>
-        <author>
-            <name>Muhammad Usman</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JAI Router - lightweight Spring Boot routing starter (open for contributors)]]></title>
-        <id>https://dev.to/rrezart_prebreza_60ef7bfb/jai-router-lightweight-spring-boot-routing-starter-open-for-contributors-379b</id>
-        <link href="https://dev.to/rrezart_prebreza_60ef7bfb/jai-router-lightweight-spring-boot-routing-starter-open-for-contributors-379b"/>
-        <updated>2025-12-02T13:25:07.000Z</updated>
-        <summary type="html"><![CDATA[JAI Router is a minimal Spring Boot starter that centralizes dynamic route registration and exposes a small admin API for runtime routing. The project is ready for contributors — see CONTRIBUTING.md and issues labeled good first issue and help wanted.
-Problem
-Dynamic route registration is often scattered across services and hard to test.
-Existing solutions introduce heavy dependencies or tightly couple to framework internals.
-What JAI Router does
-Provides a small, testable API to register and manage routes at runtime.
-Integrates as a Spring Boot starter with minimal dependencies.
-Keeps route storage and dispatching modular and easy to mock in tests.
-Key features
-Runtime route registration and removal.
-Pluggable route matching and handler resolution.
-Small API surface suitable for microservices and integration tests
-.
-Quickstart
-Clone the repo: git clone hhttps://github.com/JAI-create-spec/JAI-Router/tree/develop
-Run locally: ./gradlew bootRun (Java 17)
-See README.md for quick-start snippets and example endpoints.
-Example usage
-How to contribute
-Pick a starter issue labeled good first issue or help wanted.
-Open small PRs with tests; maintainers aim to review quickly.
-Repo and license
-https://github.com/JAI-create-spec/JAI-Router/tree/develop
-License: see LICENSE
-Call to action
-If you work on Spring Boot routing or infrastructure, try the quickstart and pick a starter issue — contributions are welcome.]]></summary>
-        <author>
-            <name>Rrezart Prebreza</name>
         </author>
     </entry>
 </feed>

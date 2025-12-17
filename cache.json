@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/mesak/grpc-transmission-optimization-an-efficient-solution-based-on-flattening-and-bitset-n4k",
+          "author": "Mesak",
+          "description": "[AI 協作筆記] gRPC 傳輸優化：基於 Flattening 與 Bitset 的高效方案\n\n\n本篇文章記錄了在開發高效能資料庫中間件 (hypool) 時，針對 gRPC 傳輸效率與型別限制所採用的優化方案。該方案由 AI 協助提出，借鑑了資料庫底層儲存原理，解決了傳統 gRPC 在傳輸大量資料庫結果集時面臨的兩個主要挑戰。\n在設計資料庫中間件的 API 時，我們通常需要回傳多行的查詢結果。若採用傳統的 gRPC 定義方式，會面臨以下效能與實作上的問題。\n最直觀的 Protobuf 定義通常是將每一行資料定義為一個 Map 或 Object：\nmessage Row {\n    map<string, string> data = 1;\n}\nmessage Response {\n    repeated Row rows = 1;\n}\n\n問題分析：\ncustomer_id, created_at, status。在傳輸過程中，這些欄位名稱 (Key) 會被重複傳輸 10,000 次，佔用了大量的頻寬資源。\nProtobuf (proto3) 的設計哲學將純量型別 (Scalar Types) 視為不可為空。\nstring 欄位若為 NULL，傳輸時會被序列化為空字串 \"\"。\nClient 端無法區分這是「空值」還是「原始資料庫中的 NULL」。\n雖然可以使用 google.protobuf.StringValue 等 Wrapper 類型解決，但這會增加額外的 Message 嵌套層級與處理開銷。\n針對上述挑戰，AI 建議跳脫傳統的 API 物件思維，轉而參考 資料庫底層 (Columnar Storage) 或 ODBC/JDBC 驅動 的實作方式。\n核心優化策略包含以下兩個部分：\n主要用於解決 Key-Value 冗餘問題。\n我們不再傳輸「物件陣列 (Array…",
+          "link": "https://dev.to/mesak/grpc-transmission-optimization-an-efficient-solution-based-on-flattening-and-bitset-n4k",
+          "publishedOn": "2025-12-17T03:13:08.000Z",
+          "wordCount": 2172,
+          "title": "[AI 協作筆記] gRPC 傳輸優化：基於 Flattening 與 Bitset 的高效方案",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fz76t2y82cwqi15uf3yvh.png"
+        },
+        {
+          "id": "https://dev.to/alpinumblogs/inside-the-european-chip-renaissance-maltas-semiconductor-ambitions-at-gscm-2025-4a7a",
+          "author": "Alpinum Consulting",
+          "description": "Europe’s semiconductor landscape is advancing rapidly, and Malta is positioning itself as one of the region’s emerging innovation centres. The Global Semiconductor Conference Malta (GSCM 2025), hosted by Malta Enterprise, is a core component of this national strategy. As presented on the official GSCM platform, the event aims to bring together policymakers, industry leaders, researchers and start-ups to strengthen Europe’s semiconductor value chain and highlight Malta’s growing role within it.\nThe conference reflects Malta’s ambition to become a trusted location for microelectronics research, advanced manufacturing and deep-tech commercialisation. It also aligns with broader European Chips Act objectives focused on supply chain resilience, technology innovation and skills development.\nBuil…",
+          "link": "https://dev.to/alpinumblogs/inside-the-european-chip-renaissance-maltas-semiconductor-ambitions-at-gscm-2025-4a7a",
+          "publishedOn": "2025-12-17T03:12:08.000Z",
+          "wordCount": 2735,
+          "title": "Inside the European Chip Renaissance: Malta’s Semiconductor Ambitions at GSCM 2025",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl40bkf9yyvsocxjxegf4.png"
+        },
+        {
+          "id": "https://dev.to/paywallpro/the-5-step-method-to-audit-any-onboarding-flow-and-find-your-biggest-conversion-leaks-5c50",
+          "author": "paywallpro",
+          "description": "Most teams tweak randomly—adjusting copy here, button colors there. But 80% of conversion loss happens in five predictable places.\nThe reality: under 2% of app downloads convert to paying subscribers within 30 days. Over 90% don't complete onboarding. Roughly 40% of trial users convert to paid.\nTop apps use a systematic framework to diagnose where users get stuck. After analyzing over 46,000 flows in PaywallPro, I've distilled it into five steps. By the end, you'll know how to audit any subscription flow and find the highest-leverage fixes.\n\nWhy it matters: 40%+ drop-off in the first 5 seconds. Users arrive with expectations from your ad or App Store listing. If the first screen doesn't match, they're gone.\nThe pattern that kills: Ad promises \"AI meal plans\" → App Store says \"Transform nut…",
+          "link": "https://dev.to/paywallpro/the-5-step-method-to-audit-any-onboarding-flow-and-find-your-biggest-conversion-leaks-5c50",
+          "publishedOn": "2025-12-17T03:10:12.000Z",
+          "wordCount": 2409,
+          "title": "The 5-Step Method to Audit Any Onboarding Flow (And Find Your Biggest Conversion Leaks)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxhjecp7uu9qv6u0xqmdt.webp"
+        },
+        {
+          "id": "https://dev.to/ajitkumar/blocking-web-scrapers-and-crawlers-using-nginx-without-cloudflare-or-aws-waf-l9l",
+          "author": "Ajit Kumar",
+          "description": "Web scraping and aggressive crawling can quietly inflate your infrastructure costs—especially when your product is still in development and has few real users. Static assets (images, JavaScript bundles, CSS) are often the biggest cost drivers, not your API or database.\nThis article explains how to block and throttle scrapers using Nginx alone, without Cloudflare, AWS WAF, or paid services.\nThe setup applies to a common architecture:\nFrontend: Next.js (or any SPA)\nBackend: Django (or similar) via Gunicorn\nReverse proxy: Nginx\nHosting: Self-managed VM / EC2\nWe will cover:\nWhere Nginx configuration files live\nHow Nginx processes requests\nHow to block known bots by User-Agent\nHow to rate-limit static assets and APIs\nHow to verify everything safely\nOn Ubuntu/Debian systems, Nginx uses a layered…",
+          "link": "https://dev.to/ajitkumar/blocking-web-scrapers-and-crawlers-using-nginx-without-cloudflare-or-aws-waf-l9l",
+          "publishedOn": "2025-12-17T03:09:50.000Z",
+          "wordCount": 2540,
+          "title": "Blocking Web Scrapers and Crawlers Using Nginx (Without Cloudflare or AWS WAF)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fffiypytwd3l46ypgnxol.png"
+        },
+        {
+          "id": "https://dev.to/drcarlosruizviquez/temporal-contextual-attention-in-hierarchical-multi-agent-38jm",
+          "author": "Dr. Carlos Ruiz Viquez",
+          "description": "Temporal Contextual Attention in Hierarchical Multi-Agent Systems with Non-Stationary Reward Functions\nIn this challenge, we task the community with developing an AI agent that can adapt to a complex environment with multiple stakeholders and non-stationary rewards.\nChallenge Overview:\nConsider a scenario with N hierarchical multi-agent systems, each comprising M agents, operating in a shared workspace. The agents are tasked with completing K distinct tasks, each with its own temporal context, non-stationary reward function, and multiple stakeholders.\nConstraints:\nThe agents in each multi-agent system interact with a common knowledge graph, which evolves over time.\nThe reward functions for each task are non-stationary, meaning their parameters change according to a predefined, but unknown,…",
+          "link": "https://dev.to/drcarlosruizviquez/temporal-contextual-attention-in-hierarchical-multi-agent-38jm",
+          "publishedOn": "2025-12-17T03:09:23.000Z",
+          "wordCount": 2076,
+          "title": "**Temporal Contextual Attention in Hierarchical Multi-Agent",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvtv3x2el4fpojm7lh7e4.png"
+        },
+        {
+          "id": "https://dev.to/damienjburks/test-blog-post-iom",
+          "author": "Damien J. Burks",
+          "description": "Table of Contents\n\n\n\n\nTest Blog Post\n\n\nSection 1\nSection 2\nThis is a test blog post for integration testing.\nSome content here.\nMore content here.",
+          "link": "https://dev.to/damienjburks/test-blog-post-iom",
+          "publishedOn": "2025-12-17T03:08:58.000Z",
+          "wordCount": 1694,
+          "title": "Test Blog Post",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fexample.com%2Fcover.jpg"
+        },
+        {
+          "id": "https://dev.to/damienjburks/pattern-test-hfp",
+          "author": "Damien J. Burks",
+          "description": "Table of Contents\n\n\n\nPattern Test\nTesting file pattern compatibility.",
+          "link": "https://dev.to/damienjburks/pattern-test-hfp",
+          "publishedOn": "2025-12-17T03:07:05.000Z",
+          "wordCount": 1671,
+          "title": "Pattern Test",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9rnseovk2bvgwsy3zttp.png"
+        },
+        {
+          "id": "https://dev.to/_15dcbc74dac0c5c26421/why-many-websites-still-dont-accept-heic-image-uploads-57f5",
+          "author": "eileen-tools",
+          "description": "HEIC has been around for several years and is widely used on Apple devices.\nFrom a web development perspective, this isn’t just inertia. There are practical reasons behind it.\nHEIC Support Isn’t as Universal as It Seems\n\n\nWhile HEIC works well on iOS and macOS, support drops off quickly outside that ecosystem.\nCommon limitations include:\nBrowsers that can’t decode HEIC natively\nBackend image pipelines built around JPG and PNG\nThird-party libraries lacking stable HEIC support\nFor many web platforms, supporting HEIC adds complexity without clear benefits.\nServer-Side Image Processing Constraints\n\n\nMost upload systems rely on established image processing tools.\nTypical issues include:\nMissing or unstable HEIC decoders\nIncreased processing cost\nAdditional security considerations\nAs a result, m…",
+          "link": "https://dev.to/_15dcbc74dac0c5c26421/why-many-websites-still-dont-accept-heic-image-uploads-57f5",
+          "publishedOn": "2025-12-17T03:05:08.000Z",
+          "wordCount": 2065,
+          "title": "Why Many Websites Still Don’t Accept HEIC Image Uploads",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnfsvblcazdilwb1we3u8.png"
+        },
+        {
+          "id": "https://dev.to/ramkashyap2050/google-cloud-for-developers-who-hate-cloud-jargon-42ep",
+          "author": "RamKashyap",
+          "description": "Cloud computing in simple terms means using someone else’s hardware to build our projects.\nCloud is of two types: private cloud and public cloud.\nPrivate cloud is when a compute cloud is built only for your firm or project, often on-premises. It’s commonly used in banks.\nOver time, most projects have turned into cloud-native ones because as requirements grew drastically, procuring large sets of hardware became impossible, so companies started building directly for the cloud.\nIaaS\nPaaS\nSaaS\nThey follow this hierarchy:\nCloud supports all kinds of architectures such as monoliths, modular monoliths, or services.\nGCP security has six layers:\nHardware infrastructure layer\nService deployment layer\nUser identity layer\nStorage service layer\nInternet communication layer\nOperations layer\nGCP is offer…",
+          "link": "https://dev.to/ramkashyap2050/google-cloud-for-developers-who-hate-cloud-jargon-42ep",
+          "publishedOn": "2025-12-17T03:04:22.000Z",
+          "wordCount": 2572,
+          "title": "Google Cloud for Developers Who Hate Cloud Jargon",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Feva93ch4zxa4ssfzboih.png"
+        },
+        {
+          "id": "https://dev.to/jaideepparashar/from-books-to-brands-what-i-learned-about-digital-leverage-4cd5",
+          "author": "Jaideep Parashar",
+          "description": "For a long time, books were seen as the end product.\nYou wrote a book.\nBut in the digital era, I learned something far more powerful:\nA book is not a product.\nWhat changed my trajectory wasn’t writing more books.\nThis article is about that shift and the lessons that came with it.\n1. A Book Is the Highest-Density Form of Thinking\nA book forces clarity.\nYou can’t hide behind:\nshort posts\nviral hooks\nsurface-level opinions\nA book demands:\nstructured thinking\ncoherent frameworks\ntested ideas\nlong-form reasoning\nintellectual honesty\nThat’s why books carry authority.\nBut authority alone is not leverage unless it’s activated.\n2. I Stopped Treating Books as Content and Started Treating Them as IP\nThe biggest shift was mental.\nEarlier, a book felt like:\ncontent I created\nknowledge I shared\nNow, I s…",
+          "link": "https://dev.to/jaideepparashar/from-books-to-brands-what-i-learned-about-digital-leverage-4cd5",
+          "publishedOn": "2025-12-17T03:01:51.000Z",
+          "wordCount": 3283,
+          "title": "From Books to Brands: What I Learned About Digital Leverage",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnvlhfvrovt8t85uya3nn.png"
+        },
+        {
+          "id": "https://dev.to/xpromx/software-development-in-the-ai-era-3n3k",
+          "author": "Rodrigo Ramirez",
+          "description": "Many teams using AI ship more code. Not all of them are shipping better software.\nI'm writing this based on what I've seen in real teams adopting AI in production. Look at the metrics — cycle time, velocity, features delivered. If AI can generate most of the code, you might expect teams to be three or four times faster. Often, they're not. The improvement can be smaller than expected.\nIn my view, the tools aren't the limiting factor. The system around them is.\nAI accelerates one part of the process: writing code. But software development is more than writing code. It's requirements, architecture, testing, reviews, QA, and release. These parts are interconnected. When only one part speeds up, the system doesn't improve much. Bottlenecks shift to the parts that weren't designed for this spee…",
+          "link": "https://dev.to/xpromx/software-development-in-the-ai-era-3n3k",
+          "publishedOn": "2025-12-17T02:53:23.000Z",
+          "wordCount": 3919,
+          "title": "Software Development in the AI era",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2mx13x77s8ox85qmbeu2.webp"
+        },
+        {
+          "id": "https://dev.to/kaths3cdev/mastering-cloud-security-a-strategic-guide-to-securing-your-aws-environment-17lg",
+          "author": "Gerlie Ann Katherine Daga-as",
+          "description": "In today’s digital landscape, a single security breach can be catastrophic leading to data loss, financial impact, and reputational damage. For developers and cloud engineers, security cannot be an afterthought; it must be the foundation upon which we build.\nAs I deepen my focus on cloud security, I’ve synthesized the core pillars of a secure AWS environment. Whether you are launching your first EC2 instance or architecting a complex microservices application, these are the actionable steps effectively used to secure the cloud.\n\nThe most common misconception in cloud computing is assuming that \"being on the cloud\" means you are automatically secure. It is crucial to understand the Shared Responsibility Model.\nThink of your cloud environment like a boat.\nAWS (The Provider) is the Captain. T…",
+          "link": "https://dev.to/kaths3cdev/mastering-cloud-security-a-strategic-guide-to-securing-your-aws-environment-17lg",
+          "publishedOn": "2025-12-17T02:53:06.000Z",
+          "wordCount": 2472,
+          "title": "Mastering Cloud Security: A Strategic Guide to Securing Your AWS Environment",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9adw134pifo0sgy5kc57.png"
+        },
+        {
           "id": "https://dev.to/lynn123456/notes-from-building-my-second-ai-video-site-44nl",
           "author": "Lynn",
           "description": "Soraviz is my second AI video project.\nWhen I started it, I thought I had learned enough from my first AI product to move faster and avoid obvious mistakes. In some ways, that’s true. In other ways, building the second one just reveals a different set of problems.\nSome features work, but feel rough.\nWhat’s worth keeping?\nWhat should be rebuilt?\nWhat doesn’t deserve more time?\nI’m considering a proper upgrade of Soraviz — not to make it bigger, but to make it more solid.\nIf you’re also building in public, this phase might feel familiar.\nSometimes progress looks like slowing down and cleaning up.",
@@ -37446,276 +37566,6 @@
           "wordCount": 2862,
           "title": "Introducing: AWS CDK 100 Drill Exercises - Learn by Building",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fraw.githubusercontent.com%2Fishiharatma%2Fpublic-contents-images%2Fmain%2Faws-cdk-100-drillexercises%2Fcover.png"
-        },
-        {
-          "id": "https://dev.to/danielcristho/docker-image-compression-gzip-vs-zstd-4eod",
-          "author": "Daniel Pepuho",
-          "description": "Docker images are already compressed when you push them to registries like Docker Hub, GHCR, AWS ECR, etc.\nSo why would anyone compress an image again by using gzip or zstd?\n\nBecause in the real world, engineers often need to:\n- move images between servers (air-gapped networks),\n- migrates registries,\n- backup image to object,\n- load or save images repeatedly in Continuous Integration (CI) pipelines.\nIn these cases, docker save produces a raw .tar file often huge.\nBut what’s the best compression tool? So we will test gzip vs zstd.\nLike I said before, you need to compress your image to:\n- transfer image between SSH or local network (LAN),\n- work with offline or air-gapped servers,\n- backup images to object storage,\n- migrate to new registry.\nSkip compression when images are pushed directly …",
-          "link": "https://dev.to/danielcristho/docker-image-compression-gzip-vs-zstd-4eod",
-          "publishedOn": "2025-12-02T15:15:35.000Z",
-          "wordCount": 2979,
-          "title": "Docker Image Compression: gzip vs zstd",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8923byd7bowz6hizyavq.png"
-        },
-        {
-          "id": "https://dev.to/mathewpregasen/ai-agents-and-context-aware-permissions-1gii",
-          "author": "Mathew Pregasen",
-          "description": "As the internet evolves, misconfigured permissions become a much bigger threat. Why? Because of two words: artificial intelligence—or, AI.\nEnterprise organizations have always needed tight control over their systems. Permissions are necessary for protecting access to resources, as well as meeting compliance rules and customer obligations. An over-permissioned user would be able to access sensitive information; for example, manager-level permissions that let an employee access their entire team’s salary when they should only be able to check their own. Once teams spot such mistakes, they can correct it and move forward without much disruption.\nThat’s no longer true once AI enters the picture. AI agents do what humans do, from accessing data to sending emails. But unlike humans, they move th…",
-          "link": "https://dev.to/mathewpregasen/ai-agents-and-context-aware-permissions-1gii",
-          "publishedOn": "2025-12-02T15:12:39.000Z",
-          "wordCount": 3599,
-          "title": "AI Agents and context-aware permissions",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgzui267f3w6r6q4to3jo.png"
-        },
-        {
-          "id": "https://dev.to/michael_young_e3100131f21/why-do-some-saas-startups-grow-faster-on-google-while-others-stay-invisible-2326",
-          "author": "Michael Young",
-          "description": "Understanding Why SaaS SEO Feels Different\nIf there’s one thing I’ve learned working with early stage SaaS teams, it’s that SEO hits differently in this space. You’re not just targeting generic terms or chasing backlinks. You’re trying to show up for users who are actively searching for solutions to specific problems, often tied to workflows or niche industry issues. When I first helped a small SaaS team audit their content, we realized their blog was filled with broad topics that never aligned with user intent. That moment taught me how critical it is for SaaS companies to map content to actual product value.\nThe Unique Challenge of SaaS Search Intent\nUnlike e-commerce or local businesses, SaaS search journeys are multi layered. Users don’t just search “software for invoicing” and then bu…",
-          "link": "https://dev.to/michael_young_e3100131f21/why-do-some-saas-startups-grow-faster-on-google-while-others-stay-invisible-2326",
-          "publishedOn": "2025-12-02T14:57:15.000Z",
-          "wordCount": 2269,
-          "title": "Why Do Some SaaS Startups Grow Faster on Google While Others Stay Invisible?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fefptx22pgo9ssazo6hto.png"
-        },
-        {
-          "id": "https://dev.to/pratik_12b3f8bf3b50e48bae/quantum-machine-learning-algorithms-a-technical-deep-dive-with-qiskit-code-1eh5",
-          "author": "Pratik",
-          "description": "Quantum Machine Learning (QML) blends quantum computing with classical ML to unlock speed-ups in optimization, sampling, and high-dimensional learning.\n🔹 1. Quantum Support Vector Machines (QSVM)\nQSVMs use quantum kernel estimation, which allows efficient mapping of classical data into extremely high-dimensional Hilbert spaces.\n🧪 Qiskit Example — Quantum Kernel\nfrom qiskit import BasicAer\nfeature_map = ZZFeatureMap(feature_dimension=2, reps=2)\nkernel_matrix = quantum_kernel.evaluate(x_vec=[[0, 1]], y_vec=[[1, 0]])\n🔹 2. Quantum Neural Networks (QNNs)\nQNNs use variational quantum circuits trained with classical optimizers in a hybrid loop.\nQiskit Example — A Simple VQC Model\nfrom qiskit import Aer\nbackend = Aer.get_backend(\"statevector_simulator\")\nqnn = TwoLayerQNN(num_inputs=2, num_qubit…",
-          "link": "https://dev.to/pratik_12b3f8bf3b50e48bae/quantum-machine-learning-algorithms-a-technical-deep-dive-with-qiskit-code-1eh5",
-          "publishedOn": "2025-12-02T14:56:38.000Z",
-          "wordCount": 2174,
-          "title": "⚛️ Quantum Machine Learning Algorithms: A Technical Deep Dive (With Qiskit Code)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4mvsqkmetbtdlrkfzs8e.png"
-        },
-        {
-          "id": "https://dev.to/aerabi/day-2-the-typed-letter-5clg",
-          "author": "Mohammad-Ali A'RÂBI",
-          "description": "Leaving Zum Roten Bären behind them, Rothütle and Gord walk through the quiet evening streets of Freiburg. Gas lamps hum softly, and the Bächle along Salzstraße scatters the lantern light into restless silver ribbons.\nRothütle unlocks the door to his small apartment, steps inside—and stops.\nAn envelope lies on the floor. Perfectly placed. Waiting.\nHe opens it carefully, scans the contents, and then says hastily, \"I need to leave, Carl might be in trouble.\"\nGord whispers, \"The timing is funny.\" Then she adds, \"What does it say?\"\nRothütle shows her the letter:\nHerr Osterman,\nI must speak with you at once.\n— Carl Benz\n\"What kind of handwriting is this?\" Gord asks.\nRothütle frowns. \"It's done by a mechanical writing apparatus. There is one called Schreibkugel created by Danes earlier this year…",
-          "link": "https://dev.to/aerabi/day-2-the-typed-letter-5clg",
-          "publishedOn": "2025-12-02T14:49:44.000Z",
-          "wordCount": 2289,
-          "title": "Day 2 — The Typed Letter",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3e2ettxyhzrnw0ode70c.png"
-        },
-        {
-          "id": "https://dev.to/technoblogger14o3/what-will-enter-the-public-domain-in-2026-3g1l",
-          "author": "Aman Shekhar",
-          "description": "Ever found yourself in a deep rabbit hole of copyright laws, only to emerge with a bewildered look and a newfound appreciation for public domain? I’ve been exploring this topic lately, and it's fascinating how the landscape of creative works is set to shift in 2026. If you’re anything like me, you might be wondering what it all means for creators, developers, and just regular folks looking to dabble in the arts. So grab a coffee (or your favorite beverage), and let’s chat about what’s coming to the public domain in a few short years.\nBefore diving into the juicy stuff of 2026, let’s back up a bit. Ever wondered why certain works are available for remixing and reimagining while others aren’t? It boils down to time and copyright law. In the U.S., works published before 1923 are already in th…",
-          "link": "https://dev.to/technoblogger14o3/what-will-enter-the-public-domain-in-2026-3g1l",
-          "publishedOn": "2025-12-02T14:49:24.000Z",
-          "wordCount": 2532,
-          "title": "What will enter the public domain in 2026?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fi.imgur.com%2FAPhSd2P.jpeg"
-        },
-        {
-          "id": "https://dev.to/zeeshanali0704/full-redux-internal-5a03",
-          "author": "ZeeshanAli-0704",
-          "description": "Here is the COMPLETE internal Redux flow diagram + exact internal code that explains everything end-to-end exactly how Redux works under the hood.\nI’m giving:\n✅ ASCII Diagram (Very clear)\n1. FULL REDUX INTERNAL FLOW DIAGRAM\n\n\n\n\n┌─────────────────────────────┐\n│        Your Component        │\n│   dispatch(action)           │\n└──────────────┬──────────────┘\n               │\n               ▼\n┌─────────────────────────────┐\n│        Store.dispatch        │\n└──────────────┬──────────────┘\n               │\n               ▼\n┌─────────────────────────────┐\n│      Middleware Chain        │\n│ (logger → thunk → custom..) │\n└──────────────┬──────────────┘\n               │\n               ▼\n┌─────────────────────────────┐\n│           Reducer            │\n│  newState = reducer(old, a)  │\n└──────────────┬…",
-          "link": "https://dev.to/zeeshanali0704/full-redux-internal-5a03",
-          "publishedOn": "2025-12-02T14:48:40.000Z",
-          "wordCount": 2151,
-          "title": "FULL REDUX INTERNAL",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fly9flqzkr9v0rt87cxun.png"
-        },
-        {
-          "id": "https://dev.to/net_programhelp_e160eef28/barclays-26ng-oa-ultimate-guide-hard-mode-memory-manager-real-questions-passing-tips-83h",
-          "author": "net programhelp",
-          "description": "Barclays’ Codility OA is notorious for its elimination-level difficulty, especially the Hard mode that favors low-level system simulation. Many candidates fail not because the logic is impossible, but because the edge cases and hidden tests are brutal. Below is a clean, structured breakdown of the latest real memory manager questions, core solution patterns, and common pitfall-avoidance tips to help you ace the OA and secure the interview!\nPlatform: Codility\n\n\nDifficulty: Hard (higher than typical LeetCode questions)\n\n\nKey Focus Areas: Memory management, state maintenance, edge-case handling, robust implementation\n\n\nDistinct Features: Long descriptions, many hidden edge cases (fragmentation, invalid ops, double free)\n1. Basic Memory Allocator\n\n\nRequirement:\n\nManage an N-byte memory block a…",
-          "link": "https://dev.to/net_programhelp_e160eef28/barclays-26ng-oa-ultimate-guide-hard-mode-memory-manager-real-questions-passing-tips-83h",
-          "publishedOn": "2025-12-02T14:45:50.000Z",
-          "wordCount": 2245,
-          "title": "Barclays 26NG OA Ultimate Guide | Hard Mode Memory Manager Real Questions + Passing Tips",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhjm7oy41ddzp7l1umnxy.png"
-        },
-        {
-          "id": "https://dev.to/thedevopsrite/successfully-decrypted-miui-lsa-lsav-files-using-python-full-working-method-by-thedevopsrite-47k5",
-          "author": "The DevOps Rite",
-          "description": "MIUI encryption has been a major roadblock for users trying to recover their personal photos, videos, and backups stored in .lsa and .lsav files. For a long time, there was no clear working solution — most tools failed, and documentation was almost non-existent.\nOn TheDevOpsRite, I have now successfully decrypted .lsa and .lsav files using Python, and I’ve shared the complete working process in a video tutorial.\n✅ What This Solution Covers\nUnderstanding how MIUI encrypts .lsa and .lsav files\nExtracting the correct decryption hex key\nUsing Python + PyCryptodome for real decryption\nConverting encrypted files back into usable photos/videos\nHandling padding and data integrity correctly\nThis is a real, tested method — not a theory or fake tool.\n🔐 Security & Ethical Use\nThis method is strictly for educational and personal data recovery.\nOnly decrypt files you personally own.\nNever share your hex keys publicly on forums or in comments.\nIf you need help, always use private and secure communication.\n🛠 Tech Stack Used\nPython 3\nPyCryptodome\nMIUI encrypted backup analysis\nCustom scripts for .lsa / .lsav handling\n🎥 Full Video Tutorial on TheDevOpsRite\nIf your MIUI backups are stuck inside .lsa or .lsav files and you want a real recovery solution, this tutorial will guide you from start to finish.\n👉 Watch here: https://youtu.be/t3Mznf2JULU?si=KfTWp_Gi0wec1-6l",
-          "link": "https://dev.to/thedevopsrite/successfully-decrypted-miui-lsa-lsav-files-using-python-full-working-method-by-thedevopsrite-47k5",
-          "publishedOn": "2025-12-02T14:45:00.000Z",
-          "wordCount": 1911,
-          "title": "🔓 Successfully Decrypted MIUI .lsa & .lsav Files Using Python – Full Working Method by TheDevOpsRite",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhjr4vtyetqvj5xj1458m.png"
-        },
-        {
-          "id": "https://dev.to/whoerip_/ip-blacklist-tests-and-bot-checkers-why-websites-flag-your-traffic-17a7",
-          "author": "Zhenya",
-          "description": "If you keep running into random blocks, login issues, or endless security checks, it doesn’t always mean you did something wrong. Many websites quietly run your connection through an IP blacklist test and a bot checker to decide whether to treat you like a normal visitor or a possible risk.\nAn IP blacklist test checks whether your current IP address appears on lists of “bad” or risky IPs. Security companies, anti-spam providers, and some platforms maintain these lists to reduce spam, brute-force logins, scraping, and malware.\nYour IP reputation can suffer even if you did nothing wrong. For example:\nsomeone on the same Wi-Fi abused a service\n\n\nyou use public Wi-Fi in airports, cafés, or coworking spaces\n\n\nyour VPN or proxy endpoint is shared by many users\n\n\nthe IP belongs to a datacenter ra…",
-          "link": "https://dev.to/whoerip_/ip-blacklist-tests-and-bot-checkers-why-websites-flag-your-traffic-17a7",
-          "publishedOn": "2025-12-02T14:43:08.000Z",
-          "wordCount": 2555,
-          "title": "IP Blacklist Tests and Bot Checkers: Why Websites Flag Your Traffic",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhidux71w9k9gdo1eqgrq.png"
-        },
-        {
-          "id": "https://dev.to/thebitcoiner/the-ai-web3-merge-is-moving-faster-than-you-think-4630",
-          "author": "The_Bitcoiner",
-          "description": "Developers are now using AI to read smart contracts, predict markets, and secure wallets.\nwhile AI companies turn to blockchain for data integrity and transparency.\nThe result? \nSmarter, more trustworthy systems.\nIt’s not hype. It’s happening.\nRight now, in the code.",
-          "link": "https://dev.to/thebitcoiner/the-ai-web3-merge-is-moving-faster-than-you-think-4630",
-          "publishedOn": "2025-12-02T14:40:30.000Z",
-          "wordCount": 1721,
-          "title": "The AI Web3 Merge Is Moving Faster Than You Think",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnpwia3lrxhh37nfz9qfp.png"
-        },
-        {
-          "id": "https://dev.to/satyam_gupta_0d1ff2152dcc/java-decrementexact-explained-stop-integer-overflow-bugs-308g",
-          "author": "Satyam Gupta",
-          "description": "Java decrementExact() Explained: Stop Integer Overflow Bugs Before They Happen\n\n\nAlright, let's talk about one of those \"silent killer\" bugs in programming—the kind that doesn't scream errors at you initially but can cause your app to behave in the weirdest, most unpredictable ways. I'm talking about integer overflow.\nYou know the scenario. You're building a cool reverse counter for a rocket launch, managing inventory stock, or just tracking the score in a game. You use a simple count-- or i = i - 1. It seems foolproof, right? But what happens when your counter goes below the minimum value an int can hold?\nSpoiler alert: It wraps around to the maximum value. Your rocket launch countdown might suddenly jump from -2147483648 to 2147483647. Yikes.\nThis is where Java's Math.decrementExact() me…",
-          "link": "https://dev.to/satyam_gupta_0d1ff2152dcc/java-decrementexact-explained-stop-integer-overflow-bugs-308g",
-          "publishedOn": "2025-12-02T14:38:07.000Z",
-          "wordCount": 3200,
-          "title": "Java decrementExact() Explained: Stop Integer Overflow Bugs",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0y6hj6yfzew53mje5sv9.png"
-        },
-        {
-          "id": "https://dev.to/aws-builders/understanding-amazon-q-custom-agents-concepts-architecture-inner-workings-362",
-          "author": "Sarvar Nadaf",
-          "description": "👋 Hey there, tech enthusiasts! \nI'm Sarvar, a Cloud Architect with a passion for transforming complex technological challenges into elegant solutions. With extensive experience spanning Cloud Operations (AWS & Azure), Data Operations, Analytics, DevOps, and Generative AI, I've had the privilege of architecting solutions for global enterprises that drive real business impact. Through this article series, I'm excited to share practical insights, best practices, and hands-on experiences from my journey in the tech world. Whether you're a seasoned professional or just starting out, I aim to break down complex concepts into digestible pieces that you can apply in your projects.\nLet's dive in and explore the fascinating world of cloud technology together! 🚀\nImagine Sarah, a DevOps engineer at …",
-          "link": "https://dev.to/aws-builders/understanding-amazon-q-custom-agents-concepts-architecture-inner-workings-362",
-          "publishedOn": "2025-12-02T14:09:35.000Z",
-          "wordCount": 3564,
-          "title": "Understanding Amazon Q Custom Agents: Concepts, Architecture & Inner Workings",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F79ww1qnd9fijumax5sjc.webp"
-        },
-        {
-          "id": "https://dev.to/cucoleadan/how-to-prompt-ai-for-consistent-json-responses-1gbm",
-          "author": "cucoleadan",
-          "description": "This was originally posted on the VSL Substack publication.\nYou just used AI to generate your API integration code, tested it locally, and deployed it to production because it seemingly worked perfectly. Two hours later, your logs are filled with parsing failures and users cannot complete actions because \"Invalid JSON\" errors are popping up everywhere. The AI gave you working code, but the problem is that it only worked in your controlled test environment with your specific input.\nIt happened to me so many times I lost count, so I’m going to share one of the best ways to get your AI to generate valid json, every single time.\n\nWhen you are building features that depend on structured data like API integrations, database operations, or configuration files, JSON consistency directly determines…",
-          "link": "https://dev.to/cucoleadan/how-to-prompt-ai-for-consistent-json-responses-1gbm",
-          "publishedOn": "2025-12-02T14:03:05.000Z",
-          "wordCount": 3348,
-          "title": "How to Prompt AI for Consistent JSON Responses",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fzua4hvbmx9b4523xn97v.png"
-        },
-        {
-          "id": "https://dev.to/gamh5games/the-game-math-behind-a-candy-craze-game-probability-cascades-and-level-pacing-in-html5-puzzlers-32k6",
-          "author": "gamh5games",
-          "description": "Candy puzzle games—often referred to as “candy craze games”—look colorful and playful on the surface, but their underlying mechanics rely heavily on math, probability weighting, grid logic, and pacing algorithms that control difficulty, randomness, and player satisfaction.\nIn this article, we’ll explore the mathematical and algorithmic foundations behind a candy craze game:\nHow grids are generated\nHow randomness is controlled (not actually random!)\nHow cascades are determined\nHow difficulty ramps up\nAnd how to design a fair but exciting experience\nWhether you're building your own HTML5 puzzle game or analyzing browser games for UI/logic inspiration, understanding these principles is crucial.\n\nA candy craze game appears simple:\nmatch 3 candies\nclear them\ntrigger cascades\nrefill the board\nBu…",
-          "link": "https://dev.to/gamh5games/the-game-math-behind-a-candy-craze-game-probability-cascades-and-level-pacing-in-html5-puzzlers-32k6",
-          "publishedOn": "2025-12-02T14:01:48.000Z",
-          "wordCount": 3276,
-          "title": "The Game Math Behind a Candy Craze Game: Probability, Cascades, and Level Pacing in HTML5 Puzzlers",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwldrclr6xcnp3z4nhvgv.png"
-        },
-        {
-          "id": "https://dev.to/ogcr/julia-kasper-rewetting-peatlands-is-the-biggest-climate-opportunity-to-cut-co2-4o5m",
-          "author": "Open Geospatial Carbon Registry (OGCR)",
-          "description": "In her recent interview, Julia Kasper, co-founder and CEO of Zukunftmoor, argues that rewetting drained peatlands represents the single biggest climate opportunity in agriculture today. Although peatlands cover only about 3 % of the global land surface, they store more carbon than all the world’s forests combined. When peatlands are drained, a common practice for agriculture, they don’t just release CO₂ once; they leak carbon continuously, year after year. Restoring peatlands thus stops that “constant leak,” and rewetting them can turn a major source of emissions into a long-term carbon sink.\nBut rewetting alone is not enough: farmers need viable, sustainable livelihoods. That’s where Zukunftmoor’s innovative approach comes in. They propose combining rewetting with cultivation of Sphagnum moss — a natural plant of peatlands — which can serve as a sustainable substitute for extracted peat in horticultural substrates. This turns rewetting from a purely ecological restoration act into a market-driven, economically viable land-use model. By using drones or hand-seeding methods, and developing harvesting and substrate-supply chains, the approach offers farmers a low-input, long-term pathway to maintain income while restoring degraded peatlands.\nWith this combination of climate mitigation and practical agriculture, Kasper’s vision offers peatland regions across Europe a concrete alternative to drainage-based farming — one that aligns environmental restoration with economic viability.\nOriginal article published on Investing in Regenerative Agriculture.",
-          "link": "https://dev.to/ogcr/julia-kasper-rewetting-peatlands-is-the-biggest-climate-opportunity-to-cut-co2-4o5m",
-          "publishedOn": "2025-12-02T14:01:38.000Z",
-          "wordCount": 1949,
-          "title": "Julia Kasper – Rewetting peatlands is the biggest climate opportunity to cut CO2",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fq0xk594iubepaepkgkyu.png"
-        },
-        {
-          "id": "https://dev.to/gamh5games/engineering-a-candy-craze-game-interaction-model-6ka",
-          "author": "gamh5games",
-          "description": "Candy craze” games—fast, colorful, tap-driven puzzle or matching games—are among the most influential patterns in modern HTML5 casual gaming. Behind the bright animations and candy explosions lies a surprisingly elegant technical architecture built on event systems, rendering pipelines, interaction logic, and resource-efficient desi\nIn this article, we’ll examine the engineering principles behind building a c, f\nIf you're designing or studying HTML5 games, this genre is a near-perfect cas\n\nA\n\nGrid-ba\nT\n\nChain reacti\nParticle effec\nColor-rich sprites and animations\nMobile-first design\nThis genre forces the developer to solve:\nhow to detect matches efficiently\nhow to animate falling pieces\nhow to avoid layout jank\nhow to maintain 60 FPS\nhow to sequence chain reactions without blocking\nA perf…",
-          "link": "https://dev.to/gamh5games/engineering-a-candy-craze-game-interaction-model-6ka",
-          "publishedOn": "2025-12-02T13:59:11.000Z",
-          "wordCount": 2513,
-          "title": "Engineering a “Candy Craze Game”: Interaction Model",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fe4zs4czdeckwwijzt30k.png"
-        },
-        {
-          "id": "https://dev.to/abby21/seeking-career-guidance-45hb",
-          "author": "Abby",
-          "description": "I'm looking for career guidance. I work as senior software engineer. I have 10+yrs of experience. \nI have worked in java, gwt, angular,react, aws lambda, accessibility,  little bit of mongodb atlas ui. I work well but now when I look back I dont remember these skills in interview poit of view. I also feel lost in career. \nI want to refresh and upskill to align with current expectations for my experience. Also would like to know what skills and roles will be good choice,so that I can work on it? I have no guidance so I'm seeking for guidance so that I can have a good roadmap.",
-          "link": "https://dev.to/abby21/seeking-career-guidance-45hb",
-          "publishedOn": "2025-12-02T13:54:29.000Z",
-          "wordCount": 1763,
-          "title": "Seeking Career guidance",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4d3m9h8yqs88yua3e2hq.png"
-        },
-        {
-          "id": "https://dev.to/gamh5games/building-a-high-performance-crazy-pizza-game-ui-patterns-techniques-and-developer-insights-1bi4",
-          "author": "gamh5games",
-          "description": "The “crazy pizza game” genre is a perfect case study for modern HTML5 game development.\nThis article walks through the engineering patterns behind building a responsive, high-performance crazy pizza game on the web. Instead of focusing only on gameplay, we will explore the deeper architectural decisions that make the experience fluid and addictive.\n\nFrom an engineering perspective, pizza-assembly games include:\nrapid, state-driven UI changes\nhigh sprite density\ntimers and dynamic difficulty\ntouch-first interactions\nimmediate player feedback loops\nfrequent collision / hitbox checks\ncontinuous animation sequences\nThis makes them excellent for demonstrating:\nrendering strategies\ninput management\nmemory optimization\nupdate loops\nperformance constraints on real mobile devices\nIt’s not just a “s…",
-          "link": "https://dev.to/gamh5games/building-a-high-performance-crazy-pizza-game-ui-patterns-techniques-and-developer-insights-1bi4",
-          "publishedOn": "2025-12-02T13:54:05.000Z",
-          "wordCount": 2527,
-          "title": "Building a High-Performance “Crazy Pizza Game” UI: Patterns, Techniques, and Developer Insights",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsoyb3g3syp656o4spzk7.png"
-        },
-        {
-          "id": "https://dev.to/gamh5games/behind-the-scenes-of-a-crazy-pizza-game-how-html5-casual-games-are-built-1hjn",
-          "author": "gamh5games",
-          "description": "Casual browser games have exploded in popularity over the last few years, and one of the most recognizable formats is the fast-paced “crazy pizza game” — a game where players quickly assemble pizzas, match ingredients, or manage orders under time pressure.\nBut what does it take to build a game like this?\nIn this article, we’ll break down the design and technical foundations behind a “crazy pizza game,” from core gameplay loops to rendering, performance optimization, asset pipelines, and browser considerations.\n🍕 1. What Defines a “Crazy Pizza Game”?\nA typical crazy pizza game includes these characteristics:\nFast decision-making\nTime-based challenges (countdowns, increasing speed, etc.)\nIngredient combinations (drag-and-drop, tap-to-select, matching patterns)\nContinuous feedback (animation…",
-          "link": "https://dev.to/gamh5games/behind-the-scenes-of-a-crazy-pizza-game-how-html5-casual-games-are-built-1hjn",
-          "publishedOn": "2025-12-02T13:49:12.000Z",
-          "wordCount": 3167,
-          "title": "Behind the Scenes of a “Crazy Pizza Game”: How HTML5 Casual Games Are Built",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwomqmk6plimajtlihtp5.png"
-        },
-        {
-          "id": "https://dev.to/s10olamide/auroracanvas-a-cross-platform-generative-art-experience-5ac4",
-          "author": "s10olamide",
-          "description": "What I Built\nAuroraCanvas is a visually immersive generative art playground built with Uno Platform and powered by AI-assisted color and particle effects.\nTheme: Cosmic / Ambient / Fluid Visuals\n✨ Dynamic AI-generated color palettes\n🌌 Touch/mouse-responsive particle flows\n🎵 Audio-reactive animations\n💫 “Surprise Me” mode: continuously evolving scenes\n🎥 Demo\nLive Demo (WebAssembly): [Insert link]\nScreenshots / GIFs:\n🖥️ Windows: Full-screen particle animations\n📱 iOS / Android: Touch painting mode\n🌐 WASM: Browser-based experience\nTest Account (if login required):\nEmail: test@demo.com\nPassword: Demo123!\n🧩 Cross-Platform Magic\nPlatforms supported:\niOS, Android\nWindows, macOS, Linux (Skia backend)\nWebAssembly\nSingle codebase benefits:\n95% shared code\nXAML-based UI\nShared logic in .NET\nOnl…",
-          "link": "https://dev.to/s10olamide/auroracanvas-a-cross-platform-generative-art-experience-5ac4",
-          "publishedOn": "2025-12-02T13:48:45.000Z",
-          "wordCount": 2138,
-          "title": "AuroraCanvas — A Cross-Platform Generative Art Experience",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9ngehicxcc9ztmrhlzia.png"
-        },
-        {
-          "id": "https://dev.to/madza/9-essential-developer-tools-you-should-be-exploring-right-now-2kdj",
-          "author": "Madza",
-          "description": "Modern developer tools have become fundamental components which enhance coding operations while shortening the duration needed to finish projects.\nHowever the curation and selection process for developer tools that might be useful in the practice can feel as a daunting task because numerous platforms and utilities exist.\nIn this article I’ve curated 9 of my recent favorite developer tools which help developers create applications through advanced authentication systems, headless CMS backends, visual website builders, API SDK generators and much more.\nThese tools help developers save time while reducing obstacles to work on developing robust software.\nAll the tools provide brief descriptions along with essential features, workflow image snaphots and direct access links which enable you to e…",
-          "link": "https://dev.to/madza/9-essential-developer-tools-you-should-be-exploring-right-now-2kdj",
-          "publishedOn": "2025-12-02T13:48:06.000Z",
-          "wordCount": 2849,
-          "title": "9 Essential Developer Tools You Should be Exploring Right Now ⚡️🔎",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Favl792gw3ufctiw5vtg5.png"
-        },
-        {
-          "id": "https://dev.to/wadie_realme_733c52996966/describe-promotions-on-ai-services-available-now-4ml7",
-          "author": "Wadie Realme",
-          "description": "Unleash AI Potential for Less: Top Promotions on AI Services You Can Grab Now!\n\n\nThe world of Artificial Intelligence is evolving at lightning speed, offering unprecedented capabilities from advanced large language models to sophisticated image generation and robust data analytics. As businesses and developers race to integrate these powerful tools, a key consideration often arises: cost. The good news? AI service providers understand this need for accessible innovation, and exciting promotions on AI models, subscriptions, and paid plan benefits are blooming!\nThis post dives into the current landscape of AI service promotions, helping you identify opportunities to maximize your AI budget, experiment with new technologies, and scale your projects without breaking the bank. Whether you're a …",
-          "link": "https://dev.to/wadie_realme_733c52996966/describe-promotions-on-ai-services-available-now-4ml7",
-          "publishedOn": "2025-12-02T13:47:52.000Z",
-          "wordCount": 2715,
-          "title": "Describe promotions on AI services available now",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsibdb9oyildlll7w4qms.png"
-        },
-        {
-          "id": "https://dev.to/clara_morales/what-its-really-like-to-work-as-a-senior-data-analyst-in-trading-architecture-pipelines-and-1k02",
-          "author": "Clara Morales",
-          "description": "By Clara Morales, Senior Data Analyst at Lomixone\nTrading platforms generate one of the richest, noisiest, fastest data environments in tech. Every second contains hundreds of micro-events: price ticks, order placements, cancellations, liquidity shifts, volatility spikes, latency anomalies, user signals, macro news triggers — and all of that must be captured, cleaned, structured, and delivered into analytics pipelines without losing accuracy or speed.\nAs a Senior Data Analyst, my job sits somewhere between:\ndata engineering\nquantitative analysis\nreal-time observability\nproduct insight generation\nThis article walks through how this role actually operates inside a trading environment, ending with a reproducible code example that demonstrates how we solve a real problem: detecting abnormal ma…",
-          "link": "https://dev.to/clara_morales/what-its-really-like-to-work-as-a-senior-data-analyst-in-trading-architecture-pipelines-and-1k02",
-          "publishedOn": "2025-12-02T13:46:07.000Z",
-          "wordCount": 2637,
-          "title": "What It’s Really Like to Work as a Senior Data Analyst in Trading: Architecture, Pipelines, and Real Problem-Solving",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fiosw1fho2xyed65fomil.jpg"
-        },
-        {
-          "id": "https://dev.to/onlyoffice/onlyoffice-updated-ai-agents-custom-hotkeys-in-new-releases-hem",
-          "author": "Kseniya Fedoruk",
-          "description": "We are excited to announce major updates across our ecosystem: ONLYOFFICE DocSpace 3.6 and ONLYOFFICE Docs 9.2. These releases introduce a new layer of intelligent assistance with AI Agents in DocSpace and bring significant productivity enhancements to the editors, including customizable hotkeys and macro recording. Let’s explore what’s new for developers and power users.\nThe main highlight of DocSpace 3.6 is the introduction of AI agents, bringing intelligent assistance directly into your collaborative workspace. These agents are designed to help you and your team work faster and more efficiently.\nYou can set up an AI agent tailored to your specific needs. Once configured, you can interact with it through a dedicated chat interface. Simply ask questions or describe your task, and the agen…",
-          "link": "https://dev.to/onlyoffice/onlyoffice-updated-ai-agents-custom-hotkeys-in-new-releases-hem",
-          "publishedOn": "2025-12-02T13:31:04.000Z",
-          "wordCount": 2645,
-          "title": "ONLYOFFICE updated: AI agents & custom hotkeys in new releases",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fo140q1vodhb9hw4tyjoj.png"
-        },
-        {
-          "id": "https://dev.to/web_dev-usman/html-invokers-the-coolest-api-you-arent-using-yet-35nl",
-          "author": "Muhammad Usman",
-          "description": "Invokers are the coolest HTML API that you aren’t using. This is right about to drop in all major browsers. It’s available in Safari Technology Preview and Firefox and Chrome already. It is so cool.\nI want you to support my original content as well please, below is the link: \nHTML Invokers: The Coolest API You Aren’t Using Yet\nSo, what are invokers?\nInvokers let your buttons actually do stuff without JavaScript. Like, at all. You just tell the button what element to control and what to do with it. That’s the whole thing.\nIt’s wild that this hasn’t existed until now.\n\n\n\n\n\n  \n  \n  How We’ve Been Doing It (The Old Way)\n\n\nRight now, if you want a button to open a dialog, you’re writing code like this:\nconst button = document.querySelector('#open-button');\nconst dialog = document.querySelector(…",
-          "link": "https://dev.to/web_dev-usman/html-invokers-the-coolest-api-you-arent-using-yet-35nl",
-          "publishedOn": "2025-12-02T13:29:44.000Z",
-          "wordCount": 2662,
-          "title": "HTML Invokers: The Coolest API You Aren’t Using Yet",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fby485z2hzxf4dh54gc4n.png"
-        },
-        {
-          "id": "https://dev.to/rrezart_prebreza_60ef7bfb/jai-router-lightweight-spring-boot-routing-starter-open-for-contributors-379b",
-          "author": "Rrezart Prebreza",
-          "description": "JAI Router is a minimal Spring Boot starter that centralizes dynamic route registration and exposes a small admin API for runtime routing. The project is ready for contributors — see CONTRIBUTING.md and issues labeled good first issue and help wanted.\nProblem\nDynamic route registration is often scattered across services and hard to test.\nExisting solutions introduce heavy dependencies or tightly couple to framework internals.\nWhat JAI Router does\nProvides a small, testable API to register and manage routes at runtime.\nIntegrates as a Spring Boot starter with minimal dependencies.\nKeeps route storage and dispatching modular and easy to mock in tests.\nKey features\nRuntime route registration and removal.\nPluggable route matching and handler resolution.\nSmall API surface suitable for microservices and integration tests\n.\nQuickstart\nClone the repo: git clone hhttps://github.com/JAI-create-spec/JAI-Router/tree/develop\nRun locally: ./gradlew bootRun (Java 17)\nSee README.md for quick-start snippets and example endpoints.\nExample usage\nHow to contribute\nPick a starter issue labeled good first issue or help wanted.\nOpen small PRs with tests; maintainers aim to review quickly.\nRepo and license\nhttps://github.com/JAI-create-spec/JAI-Router/tree/develop\nLicense: see LICENSE\nCall to action\nIf you work on Spring Boot routing or infrastructure, try the quickstart and pick a starter issue — contributions are welcome.",
-          "link": "https://dev.to/rrezart_prebreza_60ef7bfb/jai-router-lightweight-spring-boot-routing-starter-open-for-contributors-379b",
-          "publishedOn": "2025-12-02T13:25:07.000Z",
-          "wordCount": 1933,
-          "title": "JAI Router - lightweight Spring Boot routing starter (open for contributors)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fud543o4omm203fzsd7rd.png"
         }
       ]
     },
@@ -38062,6 +37912,36 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://www.economist.com/asia/2025/12/11/why-many-asian-megacities-are-miserable-places",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.economist.com/asia/2025/12/11/why-many-asian-megacities-are-miserable-places",
+          "publishedOn": "2025-12-17T03:03:32.000Z",
+          "wordCount": null,
+          "title": "Why many Asian megacities are miserable places",
+          "imageUrl": null
+        },
+        {
+          "id": "https://appleinsider.com/articles/25/12/13/locked-out-how-a-gift-card-purchase-destroyed-an-apple-account",
+          "author": null,
+          "description": "Comments",
+          "link": "https://appleinsider.com/articles/25/12/13/locked-out-how-a-gift-card-purchase-destroyed-an-apple-account",
+          "publishedOn": "2025-12-17T02:01:38.000Z",
+          "wordCount": null,
+          "title": "Locked out: How a gift card purchase destroyed an Apple account",
+          "imageUrl": null
+        },
+        {
+          "id": "https://bernsteinbear.com/isdt/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://bernsteinbear.com/isdt/",
+          "publishedOn": "2025-12-17T01:26:14.000Z",
+          "wordCount": 1940,
+          "title": "CS 4973: Introduction to Software Development Tooling – Northeastern Univ (2024)",
+          "imageUrl": null
+        },
+        {
           "id": "https://www.ycombinator.com/companies/sei/jobs/TYbKqi0-llm-engineer-mid-senior",
           "author": null,
           "description": "Comments",
@@ -38070,6 +37950,16 @@
           "wordCount": 2405,
           "title": "Sei AI (YC W22) Is Hiring",
           "imageUrl": "https://bookface-images.s3.amazonaws.com/logos/a7dc4cbf954031cc2f12ed1fe58666e55136c8b6.png?1646051125"
+        },
+        {
+          "id": "https://lingoku.ai/learn-japanese",
+          "author": null,
+          "description": "Comments",
+          "link": "https://lingoku.ai/learn-japanese",
+          "publishedOn": "2025-12-17T00:50:40.000Z",
+          "wordCount": 8136,
+          "title": "Show HN: Learn Japanese contextually while browsing",
+          "imageUrl": "https://lingoku.ai/images/og-image-ja.png"
         },
         {
           "id": "https://www.windowslatest.com/2025/12/17/microsoft-confirms-windows-11-will-ask-for-consent-before-sharing-your-personal-files-with-ai-after-outrage/",
@@ -38090,6 +37980,16 @@
           "wordCount": 23,
           "title": "WikiFlix shows us what Netflix would have been like 100 years ago",
           "imageUrl": null
+        },
+        {
+          "id": "https://www.lansingstatejournal.com/story/news/local/2025/12/16/lansing-state-capitol-data-centers-rally-michigan/87792001007/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.lansingstatejournal.com/story/news/local/2025/12/16/lansing-state-capitol-data-centers-rally-michigan/87792001007/",
+          "publishedOn": "2025-12-16T23:27:10.000Z",
+          "wordCount": 3232,
+          "title": "More than 100 rally against data centers at Michigan Capitol",
+          "imageUrl": "https://www.lansingstatejournal.com/gcdn/authoring/authoring-images/2025/12/16/PLSJ/87796429007-data-center-rally-07979.jpg?crop=1498,842,x2,y35&width=1498&height=842&format=pjpg&auto=webp"
         },
         {
           "id": "https://dafny.org/",
@@ -40602,6 +40502,16 @@
           "imageUrl": "https://docs.developer.apple.com/tutorials/developer-og.jpg"
         },
         {
+          "id": "https://chillphysicsenjoyer.substack.com/p/testing-a-cheaper-laminar-flow-hood",
+          "author": null,
+          "description": "Comments",
+          "link": "https://chillphysicsenjoyer.substack.com/p/testing-a-cheaper-laminar-flow-hood",
+          "publishedOn": "2025-12-12T20:40:31.000Z",
+          "wordCount": null,
+          "title": "Testing a cheaper laminar flow hood",
+          "imageUrl": null
+        },
+        {
           "id": "https://invoice.secvuln.info/",
           "author": null,
           "description": "Comments",
@@ -41620,6 +41530,16 @@
           "wordCount": 4,
           "title": "Show HN: An endless scrolling word search game",
           "imageUrl": null
+        },
+        {
+          "id": "https://arstechnica.com/cars/2025/11/an-electric-car-thats-faster-than-f1-around-monaco-thats-the-idea/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arstechnica.com/cars/2025/11/an-electric-car-thats-faster-than-f1-around-monaco-thats-the-idea/",
+          "publishedOn": "2025-12-11T13:53:58.000Z",
+          "wordCount": 2700,
+          "title": "Twin suction turbines and 3-Gs in slow corners? Meet the DRG-Lola",
+          "imageUrl": "https://cdn.arstechnica.net/wp-content/uploads/2025/11/DGR-05-night-1152x648.jpg"
         },
         {
           "id": "https://rapha.land/craft-software-that-makes-people-feel-something/",
@@ -48460,106 +48380,6 @@
           "wordCount": 1168,
           "title": "Is 2026 Next Year?",
           "imageUrl": null
-        },
-        {
-          "id": "https://github.com/runmat-org/runmat",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/runmat-org/runmat",
-          "publishedOn": "2025-12-02T15:07:49.000Z",
-          "wordCount": 11182,
-          "title": "Show HN: RunMat – runtime with auto CPU/GPU routing for dense math",
-          "imageUrl": "https://opengraph.githubassets.com/995056f5d3a93a1e3747cd33d6bf6b82a2dd3642bc1b96497ac5fad287a5349d/runmat-org/runmat"
-        },
-        {
-          "id": "https://mistral.ai/news/mistral-3",
-          "author": null,
-          "description": "Comments",
-          "link": "https://mistral.ai/news/mistral-3",
-          "publishedOn": "2025-12-02T15:01:53.000Z",
-          "wordCount": 4441,
-          "title": "Mistral 3 family of models released",
-          "imageUrl": "https://mistral.ai/img/mistral-cover.png"
-        },
-        {
-          "id": "https://www.theverge.com/news/836212/openai-code-red-chatgpt",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.theverge.com/news/836212/openai-code-red-chatgpt",
-          "publishedOn": "2025-12-02T15:00:16.000Z",
-          "wordCount": 7112,
-          "title": "OpenAI declares 'code red' as Google catches up in AI race",
-          "imageUrl": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/12/STK201_SAM_ALTMAN_CVIRGINIA_C.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200"
-        },
-        {
-          "id": "https://github.com/marmotdata/marmot",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/marmotdata/marmot",
-          "publishedOn": "2025-12-02T14:59:40.000Z",
-          "wordCount": 2748,
-          "title": "Show HN: Marmot – Single-binary data catalog (no Kafka, no Elasticsearch)",
-          "imageUrl": "https://opengraph.githubassets.com/77b37bed3736f029c5ac0a67671af74c71345704c63781a747b515def8444b33/marmotdata/marmot"
-        },
-        {
-          "id": "https://github.com/arnarg/nixtml",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/arnarg/nixtml",
-          "publishedOn": "2025-12-02T14:54:49.000Z",
-          "wordCount": 4136,
-          "title": "Nixtml: Static website and blog generator written in Nix",
-          "imageUrl": "https://opengraph.githubassets.com/ed490de7f41dc9e49b6960a0fc5d73c16052834d63b41b0f1cf0ad5c780d9333/arnarg/nixtml"
-        },
-        {
-          "id": "https://journal.stuffwithstuff.com/2013/08/26/what-is-open-recursion/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://journal.stuffwithstuff.com/2013/08/26/what-is-open-recursion/",
-          "publishedOn": "2025-12-02T14:37:55.000Z",
-          "wordCount": 1547,
-          "title": "What Is \"Open Recursion\"?",
-          "imageUrl": null
-        },
-        {
-          "id": "https://lwn.net/SubscriberLink/1046084/4c048ee008e1c70e/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://lwn.net/SubscriberLink/1046084/4c048ee008e1c70e/",
-          "publishedOn": "2025-12-02T14:31:16.000Z",
-          "wordCount": 1425,
-          "title": "Zig's new plan for asynchronous programs",
-          "imageUrl": null
-        },
-        {
-          "id": "https://momentsingraphics.de/SpectralRendering3Results.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://momentsingraphics.de/SpectralRendering3Results.html",
-          "publishedOn": "2025-12-02T14:02:44.000Z",
-          "wordCount": 3012,
-          "title": "Spectral rendering, part 3: Spectral vs. RGB",
-          "imageUrl": null
-        },
-        {
-          "id": "https://pallais.scholars.harvard.edu/publications/power-proximity-coworkers-training-tomorrow-or-productivity-today",
-          "author": null,
-          "description": "Comments",
-          "link": "https://pallais.scholars.harvard.edu/publications/power-proximity-coworkers-training-tomorrow-or-productivity-today",
-          "publishedOn": "2025-12-02T14:01:05.000Z",
-          "wordCount": 713,
-          "title": "Proximity to coworkers increases long-run development, lowers short-term output",
-          "imageUrl": null
-        },
-        {
-          "id": "https://airbus-seclab.github.io/qemu_blog/tcg_p1.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://airbus-seclab.github.io/qemu_blog/tcg_p1.html",
-          "publishedOn": "2025-12-02T13:42:43.000Z",
-          "wordCount": 1204,
-          "title": "A deep dive into QEMU: The Tiny Code Generator (TCG), part 1",
-          "imageUrl": null
         }
       ]
     },
@@ -50969,36 +50789,6 @@
             "type": "image/webp"
           },
           "imageUrl": "https://images.ctfassets.net/jdtwqhzvc2n1/4DAwyP4OahDixwCOgmDRK0/8c301172d603674eb96b8f67008faf53/nuneybits_Vector_art_of_glowing-code_cloud_4880d34c-2130-4612-92b4-ff55b2bb0255.webp?w=300&q=30"
-        },
-        {
-          "id": "67XTC5IvbNuCed38iIXoJB",
-          "author": "michael.nunez@venturebeat.com (Michael Nuñez)",
-          "description": "Mistral AI, Europe's most prominent artificial intelligence startup, is releasing its most ambitious product suite to date: a family of 10 open-source models designed to run everywhere from smartphones and autonomous drones to enterprise cloud systems, marking a major escalation in the company's challenge to both U.S. tech giants and surging Chinese competitors.\nThe Mistral 3 family, launching today, includes a new flagship model called Mistral Large 3 and a suite of smaller \"Ministral 3\" models optimized for edge computing applications. All models will be released under the permissive Apache 2.0 license, allowing unrestricted commercial use — a sharp contrast to the closed systems offered by OpenAI, Google, and Anthropic.\nThe release is a pointed bet by Mistral that the future of artifici…",
-          "link": "https://venturebeat.com/ai/mistral-launches-mistral-3-a-family-of-open-models-designed-to-run-on",
-          "publishedOn": "2025-12-02T15:00:00.000Z",
-          "wordCount": null,
-          "title": "Mistral launches Mistral 3, a family of open models designed to run on laptops, drones, and edge devices",
-          "enclosure": {
-            "url": "https://images.ctfassets.net/jdtwqhzvc2n1/4Yxx8rUYmqPtp65edDIllA/0966fbacbe24440180ec28d1a3fce518/nuneybits_Retro_computer_with_an_M_on_the_screen_c962f72c-f352-412f-b782-dd91c03696b6.webp?w=300&q=30",
-            "length": "0",
-            "type": "image/webp"
-          },
-          "imageUrl": "https://images.ctfassets.net/jdtwqhzvc2n1/4Yxx8rUYmqPtp65edDIllA/0966fbacbe24440180ec28d1a3fce518/nuneybits_Retro_computer_with_an_M_on_the_screen_c962f72c-f352-412f-b782-dd91c03696b6.webp?w=300&q=30"
-        },
-        {
-          "id": "19V0UlgPojZ7W1OwbJxHN5",
-          "author": "michael.nunez@venturebeat.com (Michael Nuñez)",
-          "description": "While artificial intelligence has stormed into law firms and accounting practices with billion-dollar startups like Harvey leading the charge, the global consulting industry—a $250 billion behemoth—has remained stubbornly analog. A London-based startup founded by former McKinsey consultants is betting $2 million that it can crack open this resistant market, one Excel spreadsheet at a time.\nAscentra Labs announced Monday that it has closed a $2 million seed round led by NAP, a Berlin-based venture capital firm formerly known as Cavalry Ventures. The funding comes with participation from notable founder-angels including Alan Chang, chief executive of Fuse and former chief revenue officer at Revolut, and Fredrik Hjelm, chief executive of European e-scooter company Voi.\nThe investment is modes…",
-          "link": "https://venturebeat.com/ai/ascentra-labs-raises-usd2-million-to-help-consultants-use-ai-instead-of-all",
-          "publishedOn": "2025-12-02T14:00:00.000Z",
-          "wordCount": null,
-          "title": "Ascentra Labs raises $2 million to help consultants use AI instead of all-night Excel marathons",
-          "enclosure": {
-            "url": "https://images.ctfassets.net/jdtwqhzvc2n1/3dciXMn96xuLKTtsZ90F0T/c956c93546100054ffbc0380bc0f0826/Ascentra_Labs_-_team.png?w=300&q=30",
-            "length": "0",
-            "type": "image/png"
-          },
-          "imageUrl": "https://images.ctfassets.net/jdtwqhzvc2n1/3dciXMn96xuLKTtsZ90F0T/c956c93546100054ffbc0380bc0f0826/Ascentra_Labs_-_team.png?w=300&q=30"
         }
       ]
     },
@@ -51404,6 +51194,26 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "9bef775a-aa0d-4f4e-932e-6dd781b60101",
+          "author": "Sam Reynolds",
+          "description": "Investors questioned whether Hong Kong’s dominant licensed exchange can turn surging volumes and regulatory advantage into sustainable profits.",
+          "link": "https://www.coindesk.com/markets/2025/12/17/hashkey-s-shares-fall-5-on-debut-in-hong-kong",
+          "publishedOn": "2025-12-17T02:36:42.000Z",
+          "wordCount": 10116,
+          "title": "Crypto exchange HashKey's shares fall 5% on trading debut in Hong Kong",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/c5468c9a3154e4d78c3b7bd198afb0575ef515c1-936x535.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "24795e20-c7dd-425a-902f-15443a8e7c25",
+          "author": "Sam Reynolds",
+          "description": "Cantor says Hyperliquid is trading infrastructure, not speculative DeFi, with HYPD and PURR offering exposure to fees, buybacks, and CEX share gains.",
+          "link": "https://www.coindesk.com/markets/2025/12/17/cantor-models-usd200-billion-hype-token-valuation-on-hyperliquid-fee-economics-asia-morning-briefing",
+          "publishedOn": "2025-12-17T02:13:35.000Z",
+          "wordCount": 10583,
+          "title": "Hyperliquid’s $200 billion pitch: Is this next Solana-scale DeFi bet?: Asia Morning Briefing",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/459392a51c07877bbe5ffabf2fb4f75bdfb4bf31-1920x1080.jpg?auto=format"
+        },
         {
           "id": "ac8ba4b0-52e0-4ee7-8583-30c2f2950857",
           "author": "Helene Braun",
@@ -56373,46 +56183,6 @@
           "wordCount": 9595,
           "title": "Grayscale’s Chainlink ETF Lists on NYSE Arca, LINK Price Jumps",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/c800c4e0c16b7f34217ac2a7c4f20ae595111ca9-1920x1080.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "dca48895-bee3-4de7-b2a4-8530f6e467f5",
-          "author": "Krisztian Sandor",
-          "description": "The group of 10 banks plans to introduce its euro stablecoin next year under a new Dutch entity named Qivalis.",
-          "link": "https://www.coindesk.com/business/2025/12/02/bnp-paribas-joins-eu-bank-stablecoin-venture-helmed-by-ex-coinbase-germany-exec",
-          "publishedOn": "2025-12-02T15:01:27.000Z",
-          "wordCount": 9781,
-          "title": "BNP Paribas Joins EU Bank Stablecoin Venture Helmed by Ex-Coinbase Germany Exec",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/4b853fc829070009b1c30d6f2163ee9dbda1d6be-1920x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "177b34f7-1d37-44c6-9b0c-2be83cc73c15",
-          "author": "CoinDesk Indices",
-          "description": "Cronos (CRO) was also a top performer, up 7.6% from Monday.",
-          "link": "https://www.coindesk.com/coindesk-indices/2025/12/02/coindesk-20-performance-update-near-protocol-near-gains-8-2-as-index-rises",
-          "publishedOn": "2025-12-02T14:17:13.000Z",
-          "wordCount": 8696,
-          "title": "CoinDesk 20 Performance Update: NEAR Protocol (NEAR) Gains 8.2% as Index Rises",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/bb4aa43513418e62bc79fbcfce667228338ea43f-480x360.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "08b6e218-7022-42a5-bba5-7f3e471adac5",
-          "author": "Olivier Acuna",
-          "description": "The news comes just hours after longtime crypto holdout, asset management giant Vanguard, said it would allow its clientele access to digital asset ETFs.",
-          "link": "https://www.coindesk.com/business/2025/12/02/bank-of-america-greenlights-wealth-advisors-to-recommend-up-to-4-bitcoin-allocation",
-          "publishedOn": "2025-12-02T14:16:08.000Z",
-          "wordCount": 9658,
-          "title": "Bank of America Greenlights Wealth Advisors to Recommend Up to 4% Bitcoin Allocation",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/964dab1387604e4b2c9114c6aa1984ce97df72a4-1920x1080.jpg?auto=format"
-        },
-        {
-          "id": "10e7bc95-bcdd-405e-8e37-46766b8e59a3",
-          "author": "James Van Straten",
-          "description": "There comes a point when long-standing detractors become so vocal, their tone shifting from criticism to arrogance, that it often reflects conditions that are consistent with a bottom.",
-          "link": "https://www.coindesk.com/markets/2025/12/02/strategy-s-bitcoin-bet-backfires-on-retail-as-leveraged-etfs-crater-80",
-          "publishedOn": "2025-12-02T13:47:06.000Z",
-          "wordCount": 9716,
-          "title": "Strategy Gains Nearly 20% From Monday Low as Bear Gloating Suggests at Least Temporary Bottom",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/90d795e942cdee39b61bec3fd5250b0394ff9585-3840x2160.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },
