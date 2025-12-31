@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2025-12-31 datetime="2025-12-31T03:22:42.000Z">2025-12-31</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2025-12-31 datetime="2025-12-31T03:22:42.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2025-12-31 datetime="2025-12-31T04:31:59.000Z">2025-12-31</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2025-12-31 datetime="2025-12-31T04:31:59.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,889 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/java-yeoe-ceori-try-finallywa-try-with-resources-2afc"
+                        open
+                      >
+                        <summary class="article-expander__title">Java 예외 처리 - try-finally와 try-with-resources</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/java-yeoe-ceori-try-finallywa-try-with-resources-2afc">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdddfwufwygz99nwrejdj.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Java 예외 처리
+
+
+Java에서 예외를 처리하고 리소스를 안전하게 관리하는 방법을 살펴봅니다.
+메서드를 끝낼 때 처리해야 할 작업이 있는데, 여러 분기에서 return하는 경우를 생각해 봅시다.
+문제 상황:
+public void process() {
+    Resource resource &#x3D; acquire();
+
+    if (condition1) {
+        cleanup();  // 정리 코드 중복
+        return;
+    }
+
+    if (condition2) {
+        cleanup();  // 정리 코드 중복
+        return;
+    }
+
+    // 처리 로직
+    cleanup();  // 정리 코드 중복
+}
+
+해결책 - finally 사용:
+public void process() {
+    Resource resource &#x3D; acquire();
+    try {
+        if (condition1) {
+            return;
+        }
+
+        if (condition2) {
+            return;
+        }
+
+        // 처리 로직
+    } finally {
+        cleanup();  // 한 번만 작성
+    }
+}
+
+finally 블록은 어떤 경로로 메서드를 빠져나가든 항상 실행됩니다.
+private static void printFile() throws IOException {
+    InputStream input &#x3D; null;
+
+    try {
+        input &#x3D; …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/gradle-plugin-peulreogeuin-extension-property-seoljeong-3api"
+                        open
+                      >
+                        <summary class="article-expander__title">Gradle Plugin - 플러그인, Extension, Property 설정</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/gradle-plugin-peulreogeuin-extension-property-seoljeong-3api">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flu2pyjp1qe6drtmy99r8.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Gradle Plugin
+
+
+플러그인은 태스크들의 집합입니다.
+참고:
+Writing Gradle Plugins
+Custom Plugins
+로컬 경로 또는 원격 URL에서 불러올 수 있습니다.
+apply from: &#x27;other.gradle&#x27;
+
+apply plugin: &#x27;groovy&#x27;
+
+plugins {
+    id &quot;com.jfrog.bintray&quot; version &quot;0.4.1&quot;
+}
+
+apply plugin: GreetingPlugin
+
+class GreetingPlugin implements Plugin {
+    void apply(Project project) {
+        project.task(&#x27;hello&#x27;) &lt;&lt; {
+            println &quot;Hello from the GreetingPlugin&quot;
+        }
+    }
+}
+
+커스텀 태스크와 동일한 방식입니다.
+import ch4.FilePlugin
+apply plugin: FilePlugin
+
+플러그인에 메타데이터가 있으므로 import 경로가 필요 없습니다.
+buildscript {
+    repositories {
+        flatDir { dirs &quot;../Ch04_CustomPlugin3/build/libs/&quot; }
+    }
+    dependencies {
+        classpath group: &#x27;ch4.custom.plugin&#x27;, name: &#x27;Ch04_CustomPlugin3&#x27;, version: &#x27;1.0&#x27;
+    }
+}
+
+apply plugin: &#x27;fileplugin&#x27;
+
+copy.doLast {
+…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/java-json-ceori-gsongwa-jackson-sayongbeob-1fn7"
+                        open
+                      >
+                        <summary class="article-expander__title">Java JSON 처리 - Gson과 Jackson 사용법</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/java-json-ceori-gsongwa-jackson-sayongbeob-1fn7">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fm5633xyhhj1npt3aeox0.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Java JSON 처리 - Gson과 Jackson
+
+
+Java에서 JSON을 다루는 두 가지 대표적인 라이브러리인 Gson과 Jackson의 사용법을 살펴봅니다.
+Google에서 개발한 JSON 라이브러리입니다.
+Gson gson &#x3D; new Gson();
+
+// 객체 -&gt; JSON
+String json &#x3D; gson.toJson(object);
+
+// JSON -&gt; 객체
+MyClass obj &#x3D; gson.fromJson(json, MyClass.class);
+
+List나 Map 같은 제네릭 타입을 변환할 때는 TypeToken을 사용합니다.
+// List 타입 변환
+Type listType &#x3D; new TypeToken&gt;() {}.getType();
+List list &#x3D; gson.fromJson(json, listType);
+
+// 또 다른 예시
+Type cityListType &#x3D; new TypeToken&gt;() {}.getType();
+List cities &#x3D; gson.fromJson(json, cityListType);
+
+JsonObject jsonObject &#x3D; gson.fromJson(messageReviewSearch, JsonObject.class);
+
+특정 필드만 직렬화/역직렬화에 포함시킬 때 사용합니다.
+public class User {
+    @Expose
+    private String name;     // 직렬화 대상
+
+    @Expose
+    private int age;    …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/java-annotation-processorwa-kodeu-saengseong-gibeob-2ca7"
+                        open
+                      >
+                        <summary class="article-expander__title">Java Annotation Processor와 코드 생성 기법</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/java-annotation-processorwa-kodeu-saengseong-gibeob-2ca7">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgm96c9kjzvvqn1z3n5r6.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Java Annotation Processor와 코드 생성 기법
+
+
+Java에서 컴파일 타임에 코드를 생성하거나 변경하는 여러 가지 기법을 살펴봅니다.
+Annotation Processor는 컴파일 타임에 어노테이션을 처리하여 추가적인 작업을 수행합니다.
+Annotation Processor의 일반적인 사용 방식입니다.
+기존 소스 파일을 수정하지 않음
+새로운 Java 소스 파일을 생성
+예: Dagger, MapStruct, AutoValue
+
+
+
+
+@AutoValue
+public abstract class Person {
+    public abstract String name();
+    public abstract int age();
+
+    public static Person create(String name, int age) {
+        return new AutoValue_Person(name, age);
+    }
+}
+// AutoValue_Person.java가 자동 생성됨
+
+Lombok은 Eclipse/javac 컴파일러의 내부 API를 사용하여 AST(Abstract Syntax Tree)를 직접 수정합니다.
+특징:
+기존 클래스에 코드를 주입
+컴파일러 종속적인 방법 사용
+표준이 아닌 내부 API 사용
+참고 문서: Project Lombok Trick Explained
+CGLib이나 ASM 같은 라이브러리를 사용하여 런타임에 바이트코드를 조작합니다.
+사용 사례:
+Spring AOP의 프록시 생성
+Hibernate의 Lazy Loading
+Mockito의 Mock 객체 생성
+
+
+
+
+// CGLib을 사용한 프록시 생성 예시
+Enhancer enhancer &#x3D; new Enhancer();
+enhancer.setSuperclass(MyClass.class);
+enhancer.setCallback(new MethodInterceptor() {
+    @Override
+    public Object intercept(Object obj, Method method,
+            Object[] args, MethodProxy proxy) throws Throwable {
+        // 메서드 호출 전후 처리
+        return proxy.invokeSuper(obj, args);
+    }
+});
+MyClass proxy &#x3D; (MyClass) enhancer.create();
+
+컴파일된 .class 파일을 빌드 단계에서 수정합니다.
+특징:
+빌드 파이프라인에 통합
+컴파일 후 별도의 처리 단계 필요
+AspectJ의 컴파일 타임 위빙 등
+
+
+
+기법
+시점
+장점
+단점
+
+
+
+
+소스 파일 추가
+컴파일 타임
+표준 방식, 투명함
+새 클래스 필요
+
+
+AST 수정
+컴파일 타임
+기존 클래스 수정
+컴파일러 종속
+
+
+런타임 바이트코드
+런타임
+유연함
+성능 오버헤드
+
+
+클래스 파일 후처리
+빌드 타임
+강력함
+빌드 복잡도 증가
+
+
+
+Lombok이 @Data 어노테이션을 처리하는 과정:
+javac 실행: 컴파일러가 Lombok을 Annotation Processor로 로드
+AST 접근: 컴파일러의 내부 API를 통해 AST에 접근
+AST 수정: getter, setter, equals, hashCode 등의 메서드를 AST에 추가
+바이트코드 생성: 수정된 AST로부터 바이트코드 생성
+이는 공식 API가 아닌 내부 API를 사용하므로:
+Java 버전 업그레이드 시 호환성 문제 가능
+IDE 플러그인 필요 (실제 소스에는 없는 메서드이므로)
+표준적인 코드 생성이 필요하면 Annotation Processor를 통한 소스 파일 추가
+기존 클래스 수정이 필요하면 Lombok 스타일 또는 바이트코드 조작 고려
+런타임 동적 기능이 필요하면 CGLib/ASM 활용
+Originally published at https://dss99911.github.io</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/gradle-command-myeongryeongjul-wrapper-meolti-peurojegteu-39kl"
+                        open
+                      >
+                        <summary class="article-expander__title">Gradle Command - 명령줄, Wrapper, 멀티 프로젝트</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/gradle-command-myeongryeongjul-wrapper-meolti-peurojegteu-39kl">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fo1xmye1nnaqxreciauzh.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Command Line &amp; Property
+
+
+
+  
+  
+  특정 빌드 스크립트 파일 실행
+
+
+
+
+-b: 빌드 스크립트 파일 지정
+
+
+
+
+gradle -b apple.gradle
+
+
+
+
+옵션
+설명
+
+
+
+
+
+-d 또는 --debug
+
+가장 상세한 로그 레벨
+
+
+
+-i 또는 --info
+
+Info 레벨
+
+
+
+-S 또는 --full-stacktrace
+
+전체 스택 트레이스
+
+
+
+-s 또는 --stacktrace
+
+스택 트레이스
+
+
+
+-q 또는 --quiet
+
+에러 로그만 출력
+
+
+
+
+
+
+옵션
+설명
+
+
+
+
+--daemon
+현재 기본값
+
+
+--stop
+daemon 중지
+
+
+--no-daemon
+daemon 없이 실행
+
+
+
+gradle --stop
+
+gradle -b sample_build.gradle failedtask --continue test --daemon
+
+# daemon 프로세스 확인
+ps -ef | grep gradle
+
+gradle tasks
+
+--dry-run 또는 -m: 초기화와 설정만 실행하고 실제 실행은 하지 않음
+gradle --dry-run failedTask test --continue
+
+build.gradle이 있는 폴더로 이동:
+gradle hello
+
+# 여러 태스크 실행
+gradle hello hello2
+
+태스크 이름이 sampleTask1, sampleTask2인 경우:
+gradle -q -b build_ordering.gradle sT1 sT2
+
+
+
+
+옵션
+설명
+
+
+
+
+기본
+태스크 실패 시 다음 태스크 중지
+
+
+--continue
+태스크 실패해도 다음 태스크 계속 실행
+
+
+의존…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/lombok-java-boilerplate-kodeu-jegeo-raibeureori-4icg"
+                        open
+                      >
+                        <summary class="article-expander__title">Lombok - Java Boilerplate 코드 제거 라이브러리</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/lombok-java-boilerplate-kodeu-jegeo-raibeureori-4icg">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0smgw48ww1r3ymlnvwdu.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Lombok은 Java에서 반복적인 boilerplate 코드를 어노테이션으로 자동 생성해주는 라이브러리입니다.
+Lombok Features
+@setter
+
+
+필드에 대한 getter와 setter 메서드를 자동 생성합니다.
+public class GetterSetterExample {
+  /**
+   * Age of the person. Water is wet.
+   *
+   * @param age New value for this person&#x27;s age. Sky is blue.
+   * @return The current value of this person&#x27;s age. Circles are round.
+   */
+  @Getter @Setter private int age &#x3D; 10;
+
+  /**
+   * Name of the person.
+   * -- SETTER --
+   * Changes the name of this person.
+   *
+   * @param name The new value.
+   */
+  @Setter(AccessLevel.PROTECTED) private String name;
+
+  @Override public String toString() {
+    return String.format(&quot;%s (age: %d)&quot;, name, age);
+  }
+}
+
+위 코드는 다음과 같이 변환됩니다:
+public class GetterSetterExample {
+  private int age &#x3D; 10;
+  private String name;
+
+  @Override public Str…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/java-pail-ibculryeog-gico-2inh"
+                        open
+                      >
+                        <summary class="article-expander__title">Java 파일 입출력 기초</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/java-pail-ibculryeog-gico-2inh">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx12s7rdiafzmr4ahvf2i.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Java 파일 입출력 기초
+
+
+Java에서 파일을 다루는 기본적인 방법을 살펴봅니다.
+유니크한 이름을 가진 임시 파일을 생성할 수 있습니다.
+File tempFile &#x3D; File.createTempFile(&quot;prefix-&quot;, &quot;.zip&quot;);
+// 결과: prefix-12312124.zip (유니크한 숫자가 자동으로 붙음)
+
+특징:
+시스템 임시 디렉토리에 생성됨
+파일명에 유니크한 숫자가 자동 추가됨
+충돌 없이 안전하게 파일 생성
+File directory &#x3D; new File(&quot;/custom/temp/dir&quot;);
+File tempFile &#x3D; File.createTempFile(&quot;prefix-&quot;, &quot;.zip&quot;, directory);
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+
+// 임시 파일 생성
+Path tempFile &#x3D; Files.createTempFile(&quot;prefix&quot;, &quot;.suffix&quot;);
+
+// 임시 디렉토리 생성
+Path tempDir &#x3D; Files.createTempDirectory(&quot;prefix&quot;);
+
+JVM 종료 시 파일을 자동으로 삭제합니다.
+File tempFile &#x3D; File.createTempFile(&quot;temp&quot;, &quot;.txt&quot;);
+tempFile.deleteOnExit();
+
+주의사항:
+정상 종료 시에만 동작
+강제 종료 시 삭제되지 않음
+많은 파일에 사용 시 메모리 문제 가능
+Path tempFile &#x3D; Files.createTempFile(&quot;temp&quot;, &quot;.txt&quot;);
+try {
+    // 파일 사용
+    Files.write…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/groovy-deiteo-ceori-file-json-xml-57a3"
+                        open
+                      >
+                        <summary class="article-expander__title">Groovy 데이터 처리 - File, JSON, XML</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/groovy-deiteo-ceori-file-json-xml-57a3">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3mr4ru0lzn1g4ofdfb4b.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>File 처리
+
+
+
+  
+  
+  상대 경로
+
+
+
+
+
+new File(&#x27;../aspectjx&#x27;)
+
+// 각 라인 출력하기
+new File(&quot;E:/Example.txt&quot;).eachLine { line -&gt;
+    println &quot;line : $line&quot;
+}
+
+// 전체 문자열 가져오기
+File file &#x3D; new File(&quot;E:/Example.txt&quot;)
+println file.text
+
+new File(&#x27;E:/&#x27;, &#x27;Example.txt&#x27;).withWriter(&#x27;utf-8&#x27;) { writer -&gt;
+    writer.writeLine &#x27;Hello World&#x27;
+}
+
+def src &#x3D; new File(&quot;E:/Example.txt&quot;)
+def dst &#x3D; new File(&quot;E:/Example1.txt&quot;)
+dst 
+    println file.absolutePath
+}
+
+// 폴더의 파일들 탐색
+new File(&quot;E:/Temp&quot;).eachFile() { file -&gt;
+    println file.getAbsolutePath()
+}
+
+// 재귀적 탐색
+new File(&quot;E:/Temp&quot;).eachFileRecurse { file -&gt;
+    println file.getAbsolutePath()
+}
+
+File file &#x3D; new File(&quot;E:/Example.txt&quot;)
+println &quot;The file ${file.absolutePat…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/gradle-dependency-yijonseong-gwanri-beojeon-cungdol-kaesi-4n77"
+                        open
+                      >
+                        <summary class="article-expander__title">Gradle Dependency - 의존성 관리, 버전 충돌, 캐시</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/gradle-dependency-yijonseong-gwanri-beojeon-cungdol-kaesi-4n77">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fclad5x719jcsgry4nwsr.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Gradle Dependency
+
+
+
+  
+  
+  디펜던시 트리 보기
+
+
+app 프로젝트의 디펜던시 트리 보기:
+gradlew app:dependencies
+
+특정 디펜던시 버전 확인하기:
+./gradlew -q dependencies app:dependencies | grep &#x27;com.squareup.okhttp.*&#x27; -o | sort -u
+
+
+
+
+Configuration
+Second-level 의존성 사용
+
+
+
+
+
+compile (deprecated)
+사용 가능
+
+
+implementation
+사용 불가
+
+
+api
+compile과 동일하게 사용 가능
+
+
+
+dependencies {
+     
+}
+
+gradle -b build_depreport.gradle dependencies
+gradle -b build_depreport.gradle dependencies --configuration compile
+
+# 어떤 의존성이 다른 의존성에 의존하는지 확인
+gradle -b build_depreport.gradle dependencyInsight --dependency commons-logging --configuration runtime
+
+
+
+
+Scope
+설명
+
+
+
+
+api
+컴파일 및 런타임에 사용되며 라이브러리 소비자에게 노출됨. 현재 모듈의 public API에서 의존성 타입을 사용하면 api로 지정
+
+
+implementation
+컴파일 및 런타임에 현재 모듈에서 사용되지만, 다른 모듈의 컴파일에는 노출되지 않음. 모듈 내부 로직에 사용
+
+
+com…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/java-web-seukeuraeping-raibeureori-bigyo-jsoup-selenium-htmlunit-2pon"
+                        open
+                      >
+                        <summary class="article-expander__title">Java 웹 스크래핑 라이브러리 비교 - Jsoup, Selenium, HtmlUnit</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/java-web-seukeuraeping-raibeureori-bigyo-jsoup-selenium-htmlunit-2pon">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkh1gtu1dnkjqj6giqlyi.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Java 웹 스크래핑 라이브러리 비교
+
+
+Java에서 웹 크롤링/스크래핑을 위한 다양한 라이브러리를 살펴봅니다.
+가볍고 빠른 HTML 파서입니다.
+특징:
+WebKit 엔진 없음 (순수 HTML 파싱)
+간단하고 사용하기 쉬움
+JavaScript 실행 불가
+사용 사례:
+정적 HTML 페이지 파싱
+서버 사이드 렌더링 페이지
+HTML 구조 분석
+
+
+
+
+// Maven 의존성
+// 
+//     org.jsoup
+//     jsoup
+//     1.15.3
+// 
+
+Document doc &#x3D; Jsoup.connect(&quot;https://example.com&quot;).get();
+Elements links &#x3D; doc.select(&quot;a[href]&quot;);
+for (Element link : links) {
+    System.out.println(link.attr(&quot;href&quot;));
+}
+
+경량 웹 스크래핑 라이브러리입니다.
+특징:
+WebKit 엔진 없음
+HTTP 클라이언트와 HTML 파서 통합
+Headless 브라우저 시뮬레이터입니다.
+특징:
+GUI 없이 브라우저 동작 시뮬레이션
+JavaScript 지원 (불완전)
+JavaScript 파싱 오류 발생 가능
+주의: 일부 복잡한 JavaScript는 파싱 에러가 발생할 수 있습니다.
+실제 브라우저를 자동화하는 도구입니다.
+특징:
+Chrome, Firefox 등 실제 브라우저 사용
+완벽한 JavaScript 지원
+UI 자동화 테스트 …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/mockito-java-moking-peureimweokeu-3d38"
+                        open
+                      >
+                        <summary class="article-expander__title">Mockito - Java 모킹 프레임워크</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/mockito-java-moking-peureimweokeu-3d38">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Faejae0lq1ucea83byeck.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Mockito는 Java에서 단위 테스트를 위한 모킹 프레임워크입니다.
+Mockito Tutorial
+testCompile &#x27;org.mockito:mockito-core:1.10.19&#x27;
+testCompile &#x27;junit:junit:4.12&#x27;
+
+@RunWith(MockitoJUnitRunner.class)
+public class PortfolioTester {
+}
+
+Mockito 클래스의 멤버들을 static import하여 사용합니다.
+@Mock
+StockService stockService;
+
+stockService &#x3D; mock(StockService.class);
+
+mock()은 메서드 호출 순서에 상관없이 mock을 생성합니다.
+// @InjectMocks는 mock 객체를 생성하고 주입합니다
+@InjectMocks
+MathApplication mathApplication &#x3D; new MathApplication();
+
+// @Mock은 주입될 mock 객체를 생성합니다
+@Mock
+CalculatorService calcService;
+
+when(stockService.getPrice(googleStock)).thenReturn(50.00);
+when(stockService.getPrice(microsoftStock)).thenReturn(1000.00);
+
+when(list.get(anyInt())).thenReturn(&quot;dfdf&quot;);
+
+when(stockService.getPrice(googleStock))
+    .thenReturn(50.00)
+    .thenReturn(100.00)
+    .t…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dss99911/gradle-publishing-maven-jeojangso-baepo-jcenter-nexus-2pi6"
+                        open
+                      >
+                        <summary class="article-expander__title">Gradle Publishing - Maven 저장소 배포, JCenter, Nexus</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dss99911/gradle-publishing-maven-jeojangso-baepo-jcenter-nexus-2pi6">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffcz7loamwl4wppv9r089.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Repository
+
+
+여러 저장소를 사용할 수 있습니다: Maven central, corporate Maven/Ivy repository, 로컬 파일 시스템 등
+저장소는 buildscript에 위치합니다.
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+repositories {
+    flatDir { dirs &#x27;/localfile/dir1&#x27;, &#x27;/localfile/dir2&#x27; }
+}
+
+def localMavenRepo &#x3D; &quot;${rootDir}/firebase-perf-repo&quot;
+
+maven {
+    url localMavenRepo
+}
+
+repositories {
+    maven {
+        url &quot;http://repo.mycompany.com/maven2&quot;
+    }
+}
+
+// pom.xml과 jar 파일 경로가 다른 경우
+repositories {
+    maven {
+        url &quot;http://private.repository/pompath&quot;
+        artifactUrls &quot;http://private.repository/jardir&quot;
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+    google()
+    maven {
+        url &#x27;https://maven.fabric.io/public&#x27;
+    }
+}
+
+패턴: upload - Config…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;9
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -925,10 +1808,86 @@ Garbage collection pauses directly lead to increased request latency, which is u
                     class="source-heading__name"
                     data-action="toggle-accordions"
                     title="Click to toggle the source, Ctrl + click to toggle all."
+                  >Lowyat.NET</button>
+                  <a class="source-heading__link" href="https://www.lowyat.net/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;377409"
+                        open
+                      >
+                        <summary class="article-expander__title">OpenAI’s Screenless Device May Be A Pen, Leakster Claims</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2025/377409/openais-screenless-device-pen-leakster-claims/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2025/04/OpenAI-file-pic-1.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Over the past year we’ve heard a little bit about the screenless AI device that OpenAI is working on with Jony Ive. Though that description was just about all we knew about it, until recently anyway. A leakster claims to have the supply chain info of said device, describing it as possibly being a pen. […]
+The post OpenAI’s Screenless Device May Be A Pen, Leakster Claims appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;36
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;377396"
+                        open
+                      >
+                        <summary class="article-expander__title">Company Behind ONEXPLAYER Teaser ONEXSUGAR Wallet Handheld With Foldable Screen</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2025/377396/company-behind-onexplayer-teaser-onexsugar-wallet-handheld-with-foldable-screen/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2025/12/ONEXSUGAR-Wallet-1.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>One-Notebook, the Chinese company behind the ONEXPLAYER and ONEXFLY gaming handhelds, recently teased a new ONEXSUGAR Wallet console. The gimmick for this console, though, is the use of a foldable display. The teaser video, which was shared on the Chinese social media platform, Bilibili, shows a console with an elongated and narrower-than-usual design. Again, the […]
+The post Company Behind ONEXPLAYER Teaser ONEXSUGAR Wallet Handheld With Foldable Screen appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;36
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
                   >Hacker News</button>
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://discourse.llvm.org/t/rfc-llvm-ai-tool-policy-human-in-the-loop/89159"
+                        open
+                      >
+                        <summary class="article-expander__title">We don&#x27;t need more contributors who aren&#x27;t programmers to contribute code</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://discourse.llvm.org/t/rfc-llvm-ai-tool-policy-human-in-the-loop/89159">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://us1.discourse-cdn.com/flex021/uploads/llvm/original/1X/6ac54669f4b30cb07094375cbd65d24163b5b6e0.jpeg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;16
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -982,41 +1941,6 @@ Garbage collection pauses directly lead to increased request latency, which is u
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;44
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >Lowyat.NET</button>
-                  <a class="source-heading__link" href="https://www.lowyat.net/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;377396"
-                        open
-                      >
-                        <summary class="article-expander__title">Company Behind ONEXPLAYER Teaser ONEXSUGAR Wallet Handheld With Foldable Screen</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2025/377396/company-behind-onexplayer-teaser-onexsugar-wallet-handheld-with-foldable-screen/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2025/12/ONEXSUGAR-Wallet-1.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>One-Notebook, the Chinese company behind the ONEXPLAYER and ONEXFLY gaming handhelds, recently teased a new ONEXSUGAR Wallet console. The gimmick for this console, though, is the use of a foldable display. The teaser video, which was shared on the Chinese social media platform, Bilibili, shows a console with an elongated and narrower-than-usual design. Again, the […]
-The post Company Behind ONEXPLAYER Teaser ONEXSUGAR Wallet Handheld With Foldable Screen appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;36
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -49422,6 +50346,26 @@ Read article comprehensive review in Paperium.net:
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.shiveesh.com/thoughts-and-ideas/what-if-heavy-files-actually-felt-heavy"
+                        open
+                      >
+                        <summary class="article-expander__title">What If Heavy Files Felt Heavy?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.shiveesh.com/thoughts-and-ideas/what-if-heavy-files-actually-felt-heavy">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="http://static1.squarespace.com/static/5caa679e523958b22996139c/5cab1eada3b5890001116b07/694bc194583ec11625a32ac9/1766713253518/video-3.gif?format&#x3D;1500w" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -144812,184 +145756,6 @@ The post Apple Watch Series 11 Lightning Review: One For The Optimists appeared 
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://ngrok.com/blog/prompt-caching/"
-                        open
-                      >
-                        <summary class="article-expander__title">Prompt caching: 10x cheaper LLM tokens, but how?</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://ngrok.com/blog/prompt-caching/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://frontend-blog-ngrok.vercel.app/blog-assets/images/2025-12-16-prompt-caching/og.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;20
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://zencoder.ai/zenflow"
-                        open
-                      >
-                        <summary class="article-expander__title">Show HN: Zenflow – orchestrate coding agents without &quot;you&#x27;re right&quot; loops</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://zencoder.ai/zenflow">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://zencoder.ai/hubfs/zencoder-meta-image.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;11
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://jgthms.com/picknplace.js/"
-                        open
-                      >
-                        <summary class="article-expander__title">Show HN: Picknplace.js, an alternative to drag-and-drop</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://jgthms.com/picknplace.js/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://jgthms.com/picknplace.js/images/facebook.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;1
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.theregister.com/2025/12/16/apple_dma_complaint/"
-                        open
-                      >
-                        <summary class="article-expander__title">Devs say Apple still flouting EU&#x27;s Digital Markets Act six months on</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.theregister.com/2025/12/16/apple_dma_complaint/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://regmedia.co.uk/2024/04/17/shutterstock_logo.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://blog.incfly.org/parallelize-clickhouse-aggregation-merge-for-fixed-hash-map/"
-                        open
-                      >
-                        <summary class="article-expander__title">Parallelizing ClickHouse aggregation merge for fixed hash map</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://blog.incfly.org/parallelize-clickhouse-aggregation-merge-for-fixed-hash-map/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://static.ghost.org/v4.0.0/images/publication-cover.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://github.com/Lab700xOrg/aisbom"
-                        open
-                      >
-                        <summary class="article-expander__title">AIsbom – open-source CLI to detect &quot;Pickle Bombs&quot; in PyTorch models</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/Lab700xOrg/aisbom">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://opengraph.githubassets.com/78c6f162b7f011e991976973edf7599debee8d434de7fb5869433bd7d03872e5/Lab700xOrg/aisbom" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;11
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://gh-actions-lockfile.net/"
-                        open
-                      >
-                        <summary class="article-expander__title">Gh-actions-lockfile: generate and verify lockfiles for GitHub Actions</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://gh-actions-lockfile.net/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;1
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://kemble.net/blog/provoke/"
-                        open
-                      >
-                        <summary class="article-expander__title">Writing a blatant Telegram clone using Qt, QML and Rust. And C++</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://kemble.net/blog/provoke/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;10
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://github.com/CrystallineCore/Biscuit"
-                        open
-                      >
-                        <summary class="article-expander__title">Biscuit is a specialized PostgreSQL index for fast pattern matching LIKE queries</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/CrystallineCore/Biscuit">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://opengraph.githubassets.com/9102b4edfe49788cb119935ceb1e71f2cc766ddaefd935028ccfb101dc0e7601/CrystallineCore/Biscuit" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;54
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -147610,367 +148376,6 @@ Let me be honest: I don&#x27;t have perfect memory of your last six months. I&#x
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/nagoorkani2393/fine-tuning-large-language-models-with-lora-and-qlora-268h"
-                        open
-                      >
-                        <summary class="article-expander__title">Fine-Tuning Large Language Models with LoRA and QLoRA</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/nagoorkani2393/fine-tuning-large-language-models-with-lora-and-qlora-268h">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9kbk98wq170yuk8j9dgz.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Large Language Models (LLMs) are powerful out of the box, but their real value appears when they are adapted to domain-specific tasks. Unfortunately, traditional full fine-tuning is expensive, slow, and hardware-heavy, this is where LoRA and QLoRA change the game.
-In this article, we’ll explore what LoRA and QLoRA are, how they work, and how you can fine-tune large models efficiently—even on limited hardware.
-Prompt engineering works well for experimentation, but it has limitations when:
-You need consistent output formats
-
-The domain vocabulary is specialized
-
-You want predictable model behavior
-
-You’re building production-grade AI systems
-
-You’re working with private or proprietary data
-
-
-
-Fine-tuning embeds this knowledge directly into the model, resulting in higher accuracy and stabilit…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/theoscion/building-an-api-first-personal-finance-platform-12-years-and-lessons-in-shipping-vs-perfecting-1i99"
-                        open
-                      >
-                        <summary class="article-expander__title">Building an API-First Personal Finance Platform: 12 Years and Lessons in Shipping vs. Perfecting</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/theoscion/building-an-api-first-personal-finance-platform-12-years-and-lessons-in-shipping-vs-perfecting-1i99">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frq893tgo1ruuxzrf7qco.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>After 12 years of development, I&#x27;m launching Trupocket - an API-first personal finance platform. Here&#x27;s the journey and hard lessons about shipping vs. perfecting.
-Every personal finance app (Mint, YNAB, Monarch Money) is a closed system. No APIs. No developer access. Forced processes and workflows.
-I wanted to build the infrastructure layer - the &quot;AWS of personal finance&quot; - where developers can build financial tools without rebuilding the core ledger. A system that doesn&#x27;t get in the way with managing your finances and understanding truly what is in your pocket.
-Dozens of RESTful endpoints
-OAuth 2.0 authentication
-Multi-tenant household architecture
-Real-time balance calculations
-Categorization with budget tracking
-Scheduled transaction automation
-Financial reports and forecasts
-Accounts …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/hueyemma769/-exploring-rate-limiting-in-go-17fk"
-                        open
-                      >
-                        <summary class="article-expander__title">Exploring Rate Limiting in Go</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/hueyemma769/-exploring-rate-limiting-in-go-17fk">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbxmt945bfkgfxwry2iub.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Let&#x27;s explore rate limiting together in go. If you are here, you probably already know what rate limiting is and why it is important but spare me half a minute to do a brief intro for the guys at the back.
-Rate limiting is a technique used to restrict the number of requests a client can make to a server within a specific time window.
-Why do I need a rate limiter you ask? to prevent DDoS attacks. What is a DDoS attack you ask? DDoS is acronym for Distributed Denial of Service. When your server is suddenly inundated with an absurb amount of internet traffic, you&#x27;re are probably experiencing a DDoS attack.
-Now that we have gotten definitions out of the way, let&#x27;s talk about some common rate limiting algorithms. There are quite a number of rate limiting algorithms with varying degrees of compl…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;9
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/anthonymax/8-open-source-tools-every-developer-should-know-jk0"
-                        open
-                      >
-                        <summary class="article-expander__title">8 Open Source Tools Every Developer Should Know 🔥</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/anthonymax/8-open-source-tools-every-developer-should-know-jk0">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fih3moobnwc0ogkignoli.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>TL;DR
-
-
-It&#x27;s been less than two weeks since my last article, and I&#x27;ve already prepared 8 open source tools that every developer should know.
-Their knowledge will help in various programming situations that arise both in business and in personal projects.
-And, as usual, if you have an interesting project worth adding to the project, we&#x27;d love to hear about it in the comments!
-Hmpl-js - Fetch HTML, render it safely, and keep apps dynamic, modern, and small
-
-
-Let&#x27;s start with a small template language that will allow you to create a design on the server and then transfer it to the client on any domain.
-HMPL.js provides the flexibility to build server-driven templates with minimal JavaScript.
-
-🔍 View the hmpl-js repository ☆
-
-
-
-
-
-
-  
-  
-  2. ⚙️ GitMCP -  free, open-source, remote MCP server f…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-happy-gilmore-2-in-23-minutes-or-less-e23"
-                        open
-                      >
-                        <summary class="article-expander__title">CinemaSins: Everything Wrong With Happy Gilmore 2 In 23 Minutes Or Less</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/popcorn_movies/cinemasins-everything-wrong-with-happy-gilmore-2-in-23-minutes-or-less-e23">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fi2.ytimg.com%2Fvi%2FUl80BHrVj-I%2Fhqdefault.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>CinemaSins is back swinging at Happy Gilmore 2 with their trademark rapid-fire “sins” rundown, wrapping up every nitpick, quip, and face-palm moment in just under 23 minutes of sweet, snarky golf commentary.
-Beyond the video, they’re nudging fans to hit up their site for the latest updates, fill out a “sinful” poll, back them on Patreon, and join the fun on Discord, Reddit, Twitter, Instagram, TikTok—plus don’t miss Jeremy’s new book for even more behind-the-scenes sass.
-Watch on YouTube</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/josemariairiarte/building-portfolio-insights-lessons-from-an-event-driven-net-microservices-dashboard-4m53"
-                        open
-                      >
-                        <summary class="article-expander__title">Building Portfolio Insights: Lessons from an Event‑Driven .NET Microservices Dashboard</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/josemariairiarte/building-portfolio-insights-lessons-from-an-event-driven-net-microservices-dashboard-4m53">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flhbxg7hb1zesyp6gr4wx.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Over the past weeks, I’ve been working on Portfolio Insights, a personal finance dashboard built on a microservices architecture using .NET 8, RabbitMQ, gRPC, and Docker. The project is a continuation of my exploration into distributed systems, following an earlier e‑commerce microservices application, but applied to a more analytics‑driven, number‑centric domain.
-The goal was not to build a production‑ready finance app, but to design and implement a cohesive, end‑to‑end system that demonstrates how independent services can collaborate through synchronous and asynchronous communication, while still supporting a clean and understandable client experience.
- / 
-        Microservices-Infrastructure-Personal-Finance-Dashboard
-      
-    
-📊 Portfolio Insights – Personal Finance Dashboard
-This p…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;10
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/labdev_c81554ba3d4ae28317/pytorch-models-are-executables-why-i-built-a-scanner-to-stop-pickle-bombs-92i"
-                        open
-                      >
-                        <summary class="article-expander__title">PyTorch Models Are Executables: Why I Built a Scanner to Stop &quot;Pickle Bombs&quot;</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/labdev_c81554ba3d4ae28317/pytorch-models-are-executables-why-i-built-a-scanner-to-stop-pickle-bombs-92i">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fexn4rf7wsm5v50rza8en.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The Lie We Tell Ourselves
-requirements.txt religiously. You use Snyk or Dependabot to catch that one vulnerable version of requests. You feel safe.
-Then, you turn around and let your Data Science team download a 5GB .pt (PyTorch) file from a random Hugging Face repository and load it directly into your production environment.
-We treat AI models like &quot;Data&quot; - inert, harmless static files.
-They are not. They are Executables.
-The Technical Reality: What is a .pt file?
-A standard PyTorch model file is actually a Zip archive. Inside that archive, the model weights and architecture are serialized using Python&#x27;s pickle module. The pickle module is famous for one thing in the security world: Remote Code Execution (RCE).
-When you run torch.load(&#x27;model.pt&#x27;), the unpickler parses a stream of opcodes.…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/aws-builders/building-a-serverless-data-analytics-pipeline-with-aws-premier-league-dashboard-34n0"
-                        open
-                      >
-                        <summary class="article-expander__title">Building a Serverless Data Analytics Pipeline with AWS: Premier League Dashboard</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/aws-builders/building-a-serverless-data-analytics-pipeline-with-aws-premier-league-dashboard-34n0">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F73trtv91fwys7zeqbshv.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Inspired by AWS Cookbook by John Culkin &amp; Mike Zazon - Chapter 7: Big Data
-While exploring AWS AI/ML services, I realized that artificial intelligence and machine learning are fundamentally built upon quality data foundations. This insight led me to step back and master the data analytics fundamentals first. What better way than to build a complete serverless pipeline?
-In this post, I&#x27;ll share how I created a scalable analytics solution using AWS S3, Athena, and QuickSight to analyze Premier League data.
-Why Premier League data? As a passionate football enthusiast, I&#x27;m fascinated by the rich statistical narratives that unfold each season. Every match generates meaningful data points, from goals and assists to tactical formations and player performance metrics. This abundance of structured,…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/priya_sharma/i-picked-up-the-javascript-typescript-mastery-bundle--15lc"
-                        open
-                      >
-                        <summary class="article-expander__title">I Picked Up the JavaScript &amp; TypeScript Mastery Bundle - https://www.humblebundle.com/books/javascript-and-typescript-mastery-packt-books?view&#x3D;JaezH0rPzMOk.
-
-Still deciding when to start, but it feels like a good end-of-year read.</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/priya_sharma/i-picked-up-the-javascript-typescript-mastery-bundle--15lc">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6yig7bkioa2pykaa9av2.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Humble Tech Book Bundle: JavaScript and TypeScript Mastery by Packt (pay what you want and help charity)
-  
-
-          
-        
-          
-            Rewrite the script of your career journey with new skills in JavaScript, TypeScript, and more—get our latest Tech Book Bundle today! 
-          
-        
-            
-          humblebundle.com</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/googleworkspace/granular-oauth-consent-for-web-apps-and-workspace-add-ons-2h2f"
-                        open
-                      >
-                        <summary class="article-expander__title">Granular OAuth consent for web apps and Workspace add-ons</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/googleworkspace/granular-oauth-consent-for-web-apps-and-workspace-add-ons-2h2f">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5fbirtoyezhhqgkumrab.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Soon, published web apps and Google Workspace add-ons powered by Apps Script will also present users with this more granular consent screen when requesting an OAuth grant.
-#AppsScript #googleworkspaceplatform #googleworkspacedevelopernews
-Follow youtube.com/@googleworkspacedevs</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/vio_di_code/android-performance-nhung-thu-that-su-lam-app-cham-va-cach-xu-ly-thuc-te-219k"
-                        open
-                      >
-                        <summary class="article-expander__title">Android Performance: Những thứ thật sự làm app chậm (và cách xử lý thực tế)</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/vio_di_code/android-performance-nhung-thu-that-su-lam-app-cham-va-cach-xu-ly-thuc-te-219k">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3wfyiau995hp94ri9tft.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>1️⃣ Hiểu đúng về “Android Performance”
-
-
-Rất nhiều bài viết nói về performance theo kiểu:
-tránh object allocation
-optimize code nhỏ lẻ
-👉 Nhưng trong app thật, 80% vấn đề performance đến từ:
-**Main Thread bị block
-Memory leak
-Startup quá nặng
-UI rendering kém hiệu quả**
-Nếu không đo được → tối ưu chỉ là đoán.
-❌ Sai lầm phổ biến
-Gọi API trên main thread
-Parse JSON nặng trong ViewModel
-Inflate layout phức tạp liên tục
-Xử lý Ads / SDK trong onCreate
-✅ Cách làm đúng (Kotlin)
-
-
-
-
-viewModelScope.launch(Dispatchers.IO) {
-    val data &#x3D; repository.loadData()
-    withContext(Dispatchers.Main) {
-        _uiState.value &#x3D; data
-    }
-}
-
-📌 Nguyên tắc:
-Main thread &#x3D; render UI
-Tất cả IO / computation → background
-❌ Những thứ làm startup chậm
-Init SDK quá sớm (Ads, Analytics)
-Dùng ContentProvider không cầ…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/stellajoseph_c89c136ca44d/how-modern-procurement-teams-are-fixing-broken-purchase-order-processes-50dm"
-                        open
-                      >
-                        <summary class="article-expander__title">How Modern Procurement Teams Are Fixing Broken Purchase Order Processes</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/stellajoseph_c89c136ca44d/how-modern-procurement-teams-are-fixing-broken-purchase-order-processes-50dm">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc5bw7p2wfy464fkcv7jy.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>In many organizations, the purchase order (PO) process still relies on emails, spreadsheets, and manual approvals. While this approach may work at a small scale, it quickly becomes inefficient as procurement volume increases. Delays, duplicate orders, poor spend visibility, and audit risks are common outcomes of an outdated PO workflow.
-Modern procurement teams are now rethinking how purchase orders are created, approved, and tracked—using structured processes and automation to regain control.
-The purchase order process acts as the foundation of procurement governance. It ensures that every purchase is authorized, documented, and aligned with budgets. When implemented correctly, it helps organizations:
-Control maverick spend
-Improve supplier accountability
-Maintain accurate financial recor…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -148165,86 +148570,6 @@ Maintain accurate financial recor…</span>
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="53f37521-0a56-4600-9794-b5d97b00a068"
-                        open
-                      >
-                        <summary class="article-expander__title">U.S. FDIC proposes first U.S. stablecoin rule to emerge from GENIUS Act</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2025/12/16/u-s-fdic-proposes-first-u-s-stablecoin-rule-to-emerge-from-genius-act">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/c2a2a96eac6cd97803a69d711c47febf99da6f15-1920x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The banking regulator began its formal rulemaking process to set up the procedures by which depository institutions can start stablecoin subsidiaries.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;34
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="7b0ed37d-bb25-44d2-bf5c-c6fe2ec644fc"
-                        open
-                      >
-                        <summary class="article-expander__title">Tether leads $8 million investment in Speed to push USDT further into everyday payments</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2025/12/16/tether-leads-usd8-million-investment-in-speed-to-push-usdt-further-into-everyday-payments">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/eacc921a02597598f83ab329fb70558ee220b0cc-3840x2160.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Using the Bitcoin&#x27;s Lightning Network and Tether&#x27;s USDT, Speed handles $1.5 billion in annual payments and serves 1.2 million users.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;33
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="bfc2f888-4dbc-42b3-921b-7e8a3519eb12"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin bounces from Monday&#x27;s worst levels, but sub-$80,000 may come next, analyst says</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2025/12/16/bitcoin-bounces-from-monday-s-worst-levels-but-sub-usd80-000-may-come-next-analyst-says">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/29f9136a0f3e243a10963feb35ba5a9bb4621b98-2136x1164.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Crypto markets remain &quot;fragile,&quot; said Samer Hasn from XS.com. Traders are either stepping aside or being forced out.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;34
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="d94a2e40-3ed9-4bc5-8f04-ab86aaa3a3f4"
-                        open
-                      >
-                        <summary class="article-expander__title">CoreWeave collapse sparks fears of cracks in AI infrastructure boom</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2025/12/16/coreweave-collapse-sparks-fears-of-cracks-in-ai-infrastructure-boom">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/10dcc4879286dbccaa1497b00f130c9ff629fd80-1473x922.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Bitcoin miners who pivoted business plans to high-performance computing benefitted greatly this year, but have seen sharp declines of late.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;34
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -148293,26 +148618,6 @@ Maintain accurate financial recor…</span>
                             <span class="media-object__text">
                               <span>Let’s say your Kubernetes pod crashes at 3am and the logs show nothing useful. By the time you SSH into the node, the container is gone, and you&#x27;re left guessing what happened in those final moments. This is the reality of debugging modern applicatio...</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;21
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="694189cc7d760e7dd4cabc0a"
-                        open
-                      >
-                        <summary class="article-expander__title">Supabase for Beginners</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.freecodecamp.org/news/supabase-for-beginners/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.freecodecamp.org/platform/universal/fcc_meta_1920X1080-indigo.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Supabase is an open-source Backend-as-a-Service (BaaS) platform that provides developers with a powerful set of tools to build applications quickly. This comprehensive video tutorial introduces you to Supabase by building a real-world React.js Sales ...</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;4
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -149247,8 +149552,8 @@ Search data tells the story. Since 2022, global interest in “AI business name 
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/20611252175">
-        <time id="build-timestamp" datetime="2025-12-31T03:25:48.976Z">2025-12-31T03:25:48.976Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/20612150131">
+        <time id="build-timestamp" datetime="2025-12-31T04:36:55.965Z">2025-12-31T04:36:55.965Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>
