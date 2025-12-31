@@ -2,10 +2,256 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2025-12-31T21:17:36.250Z</updated>
+    <updated>2025-12-31T22:19:16.409Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[The Context Graph Manifesto]]></title>
+        <id>https://dev.to/jackcolquitt/the-context-graph-manifesto-2a8m</id>
+        <link href="https://dev.to/jackcolquitt/the-context-graph-manifesto-2a8m"/>
+        <updated>2025-12-31T21:45:00.000Z</updated>
+        <summary type="html"><![CDATA[When Mark Adams and I (Daniel Davis) began working on what has become TrustGraph over 2 years ago, we knew that graph structures would be instrumental in realizing the potential of AI technology, specifically LLMs. 
+I’ve never been particularly fond of the term RAG. In fact, we’ve always shied away from labeling TrustGraph a “RAG platform” because it does so much more than that. And that’s always been the point - to realize the potential of LLMs, you need more than just RAG.
+And no, I’m not about to say all you need are graphs. I’ve never been fond of the term GraphRAG either (especially after Microsoft co-opted the term), because again, you need more than just graph structures. 
+Context Engineering has always felt like a better fit to me, but it just hasn’t seemed to gain traction, until …]]></summary>
+        <author>
+            <name>Daniel Davis</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[FitnessEquation]]></title>
+        <id>https://dev.to/bibimbop123/fitnessequation-28cg</id>
+        <link href="https://dev.to/bibimbop123/fitnessequation-28cg"/>
+        <updated>2025-12-31T21:41:32.000Z</updated>
+        <summary type="html"><![CDATA[A Strength-First Coaching Platform Built for People Who Take Training Seriously
+
+
+
+
+
+
+  
+  
+  Executive Summary
+
+
+FitnessEquation is a strength-focused fitness and coaching platform designed for experienced lifters and personal trainers who care more about accurate data, accountability, and clarity than social feeds or gimmicks.
+Most fitness apps are built to entertain beginners.
+
+FitnessEquation is built to support people who already train — and train others.
+Our goal is simple:
+Reduce friction, increase insight, and make professional-quality coaching scalable.
+We are not trying to replace every fitness app.
+
+We are building the tool people graduate into once they take training seriously.
+The fitness app market is crowded, but fragmented:
+Nutrition apps focus on calories, not performance
+…]]></summary>
+        <author>
+            <name>Brian Kim</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Transaction Race Conditions: Why BEGIN on Pool Breaks Everything]]></title>
+        <id>https://dev.to/ofri-peretz/transaction-race-conditions-why-begin-on-pool-breaks-everything-117h</id>
+        <link href="https://dev.to/ofri-peretz/transaction-race-conditions-why-begin-on-pool-breaks-everything-117h"/>
+        <updated>2025-12-31T21:38:13.000Z</updated>
+        <summary type="html"><![CDATA[This code looks correct. It passes all tests. It works in development.
+In production with 100 concurrent users, it corrupts data.
+// ❌ Dangerous: Transaction on pool
+async function transferFunds(from, to, amount) {
+  await pool.query('BEGIN');
+  await pool.query('UPDATE accounts SET balance = balance - $1 WHERE id = $2', [
+    amount,
+    from,
+  ]);
+  await pool.query('UPDATE accounts SET balance = balance + $1 WHERE id = $2', [
+    amount,
+    to,
+  ]);
+  await pool.query('COMMIT');
+}
+
+A PostgreSQL pool is a set of client connections. Each pool.query() can use a different client.
+Request 1: pool.query('BEGIN')     → Client A
+Request 1: pool.query('UPDATE...')  → Client B (different!)
+Request 2: pool.query('BEGIN')     → Client A (reused!)
+
+Your transaction is now spread across multiple c…]]></summary>
+        <author>
+            <name>Ofri Peretz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Connection Leak That Took Down Our Production Database]]></title>
+        <id>https://dev.to/ofri-peretz/the-connection-leak-that-took-down-our-production-database-3bal</id>
+        <link href="https://dev.to/ofri-peretz/the-connection-leak-that-took-down-our-production-database-3bal"/>
+        <updated>2025-12-31T21:35:53.000Z</updated>
+        <summary type="html"><![CDATA[It was 3 AM. PagerDuty woke me up. Our API was returning 500 errors.
+The database was fine. CPU was fine. Memory was fine. But every query was timing out.
+FATAL: too many connections for role "app_user"
+
+We had exhausted our 100-connection limit. But our traffic was normal. Where were all the connections going?
+After hours of debugging, we found it:
+// ❌ The connection leak hiding in our codebase
+async function getUserOrders(userId) {
+  const client = await pool.connect();
+  const orders = await client.query('SELECT * FROM orders WHERE user_id = $1', [
+    userId,
+  ]);
+  return orders.rows;
+  // Where's client.release()? 🤔
+}
+
+Every call leaked a connection. With 50 requests/minute, we exhausted the pool in 2 minutes.
+
+
+
+Scenario
+Result
+
+
+
+
+Forgot release() entirely
+Connection never retur…]]></summary>
+        <author>
+            <name>Ofri Peretz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Your "Perfect" Architecture is Killing Your Velocity]]></title>
+        <id>https://dev.to/meena_nukala/why-your-perfect-architecture-is-killing-your-velocity-3e8m</id>
+        <link href="https://dev.to/meena_nukala/why-your-perfect-architecture-is-killing-your-velocity-3e8m"/>
+        <updated>2025-12-31T21:34:47.000Z</updated>
+        <summary type="html"><![CDATA[As a Senior DevOps Engineer, I’ve spent years perfecting "The Ultimate Kubernetes Setup." I’ve built service meshes so complex they could map the human genome and CI/CD pipelines so abstracted that developers didn't even know they were using them.
+The Trap of "Resume-Driven Development"
+We’ve all seen it. A team of three developers building a CRUD app with a multi-region, multi-cluster Istio implementation.
+The Senior Perspective: Just because a tool is "Industry Standard" (like Kubernetes) doesn't mean it's right for your current stage. If you can solve the problem with a Managed Service (like AWS App Runner or Vercel), you should.
+> "Efficiency is doing things right; Effectiveness is doing the right things." — Peter Drucker.
+> 
+Over-Engineering for "Future Scale"
+"We need to build this t…]]></summary>
+        <author>
+            <name>Meena Nukala</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Does anyone know of any coding or web development groups in Temple Belton or Killeen or anywhere in Central Texas?]]></title>
+        <id>https://dev.to/mr_lang_1aef3d93e1957494/does-anyone-know-of-any-coding-or-web-development-groups-in-temple-belton-or-killeen-or-anywhere-in-4chi</id>
+        <link href="https://dev.to/mr_lang_1aef3d93e1957494/does-anyone-know-of-any-coding-or-web-development-groups-in-temple-belton-or-killeen-or-anywhere-in-4chi"/>
+        <updated>2025-12-31T21:34:13.000Z</updated>
+        <summary type="html"><![CDATA[A post by Mr. Lang]]></summary>
+        <author>
+            <name>Mr. Lang</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Getting Started with eslint-plugin-secure-coding]]></title>
+        <id>https://dev.to/ofri-peretz/getting-started-with-eslint-plugin-secure-coding-1eda</id>
+        <link href="https://dev.to/ofri-peretz/getting-started-with-eslint-plugin-secure-coding-1eda"/>
+        <updated>2025-12-31T21:31:41.000Z</updated>
+        <summary type="html"><![CDATA[75 security rules. 60 seconds to install. Full OWASP coverage.
+npm install --save-dev eslint-plugin-secure-coding
+
+// eslint.config.js
+import secureCoding from 'eslint-plugin-secure-coding';
+
+export default [secureCoding.configs.recommended];
+
+npx eslint .
+
+You'll see output like:
+src/auth.ts
+  15:3  error  🔒 CWE-798 OWASP:A02 CVSS:7.5 | Hardcoded credential detected
+               Fix: Use environment variable: process.env.DATABASE_PASSWORD
+
+src/utils.ts
+  42:5  error  🔒 CWE-95 OWASP:A03 CVSS:9.8 | Dangerous eval() with expression
+               Fix: Replace eval() with safer alternatives like JSON.parse()
+
+// Balanced for most projects
+secureCoding.configs.recommended;
+
+// Maximum security (all 75 rules as errors)
+secureCoding.configs.strict;
+
+// Web application compliance
+secureCoding…]]></summary>
+        <author>
+            <name>Ofri Peretz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Predicting Champions: Expert Analysis for World Cup 2026]]></title>
+        <id>https://dev.to/mabualzait/predicting-champions-expert-analysis-for-world-cup-2026-3a23</id>
+        <link href="https://dev.to/mabualzait/predicting-champions-expert-analysis-for-world-cup-2026-3a23"/>
+        <updated>2025-12-31T21:28:59.000Z</updated>
+        <summary type="html"><![CDATA[The latest eliminations from the World Cup 2026 qualifying process have left us with a remaining pool of teams that are vying for the coveted title in the United States, Canada, and Mexico. According to ESPN's recent rankings, there are now 64 national teams still in contention, each with their unique strengths, weaknesses, and approaches to the beautiful game.
+Let's take a closer look at some of the top contenders:
+  Brazil: Known for their attacking prowess, Brazil boasts an impressive squad depth, featuring players like Neymar Jr. and Richarlison. However, their defense has been a concern in recent tournaments.
+  France: As reigning champions, France is always a force to be reckoned with. They possess a balanced squad, with key players like Kylian Mbappé and Paul Pogba driving the team …]]></summary>
+        <author>
+            <name>Malik Abualzait</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Technical Deep-Dive: Building "Golden Path" Modules with Terraform and OPA]]></title>
+        <id>https://dev.to/meena_nukala/technical-deep-dive-building-golden-path-modules-with-terraform-and-opa-3a2o</id>
+        <link href="https://dev.to/meena_nukala/technical-deep-dive-building-golden-path-modules-with-terraform-and-opa-3a2o"/>
+        <updated>2025-12-31T21:27:42.000Z</updated>
+        <summary type="html"><![CDATA[Infrastructure as Code (IaC) at Scale, specifically moving from "copy-paste" Terraform to a Modular, Policy-Driven Architecture.
+In my previous post, I mentioned that Senior DevOps Engineers build guardrails, not gates. Today, I want to show you exactly what that looks like in a Terraform repository.
+The "Golden Path" Module Pattern
+Instead of letting developers use the raw aws_s3_bucket resource, we provide a "Golden Path" module. This module encapsulates our company's security standards (encryption, versioning, public access blocks) so the developer doesn't have to think about them.
+The "Senior" Module Structure:
+# modules/secure-s3/main.tf
+resource "aws_s3_bucket" "this" {
+resource "aws_s3_bucket_public_access_block" "this" {
+resource "aws_s3_bucket_server_side_encryption_configuration"…]]></summary>
+        <author>
+            <name>Meena Nukala</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Edge-to-Cloud Swarm Coordination for circular manufacturing supply chains for low-power autonomous deployments]]></title>
+        <id>https://dev.to/rikinptl/edge-to-cloud-swarm-coordination-for-circular-manufacturing-supply-chains-for-low-power-autonomous-b12</id>
+        <link href="https://dev.to/rikinptl/edge-to-cloud-swarm-coordination-for-circular-manufacturing-supply-chains-for-low-power-autonomous-b12"/>
+        <updated>2025-12-31T21:24:15.000Z</updated>
+        <summary type="html"><![CDATA[Edge-to-Cloud Swarm Coordination for circular manufacturing supply chains for low-power autonomous deployments
+
+
+
+  
+  
+  Introduction: The Learning Journey That Revealed a New Paradigm
+
+
+My journey into edge-to-cloud swarm coordination began unexpectedly during a late-night debugging session with a fleet of autonomous material-handling robots in a prototype circular manufacturing facility. While exploring reinforcement learning for multi-agent path planning, I discovered that our centralized cloud orchestration system was creating unacceptable latency for real-time material flow decisions. The robots would occasionally freeze or make suboptimal routing choices while waiting for cloud responses, particularly when handling recycled material streams with unpredictable quality variations.
+Thi…]]></summary>
+        <author>
+            <name>Rikin Patel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Token-Efficient Way to Send Time-Series Data into LLMs]]></title>
+        <id>https://dev.to/manasmudbari/a-token-efficient-way-to-send-time-series-data-into-llms-2h80</id>
+        <link href="https://dev.to/manasmudbari/a-token-efficient-way-to-send-time-series-data-into-llms-2h80"/>
+        <updated>2025-12-31T21:14:08.000Z</updated>
+        <summary type="html"><![CDATA[If you’ve ever pushed time-series data (metrics, logs, network streams, sensor readings) into an LLM, you’ve probably noticed that even small datasets can get expensive and slow very quickly.
+Not because the data is huge, but because of how it gets tokenized.
+This post is about a representation experiment we’ve been running to reduce that overhead, what didn’t work, and what seems to help.
+Time-series data is repetitive by nature:
+timestamps move forward predictably
+values often change slowly
+schema repeats on every row
+Humans immediately see the pattern but LLMs don’t.
+Most LLM tokenizers are optimized for natural language, not numerical streams. Two numbers that look almost identical to us can tokenize very differently. Repeating structure (timestamps, keys, braces) quietly eats context …]]></summary>
+        <author>
+            <name>Manas Mudbari</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[🌐_Network_IO_Performance_Optimization[20251231210816]]]></title>
         <id>https://dev.to/member_6331818c/networkioperformanceoptimization20251231210816-4old</id>
@@ -233,6 +479,16 @@ Try accessing it via the ip_address:port shown in the terminal.
 http://192.168.0.6:3000]]></summary>
         <author>
             <name>Sekti Wicaksono</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[RunAgent Genie – Ultimate Prompt Engineering Game with Advanced Guardrails]]></title>
+        <id>https://genie.run-agent.ai/</id>
+        <link href="https://genie.run-agent.ai/"/>
+        <updated>2025-12-31T20:32:48.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -509,6 +765,16 @@ Understanding the Angular Build Process
 Before diving into deployment strategies, it's essential to understand what happens when you build an Angular appli…]]></summary>
         <author>
             <name>kafeel ahmad</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Blog: PyPI in 2025: A Year in Review]]></title>
+        <id>https://blog.pypi.org/posts/2025-12-31-pypi-2025-in-review/</id>
+        <link href="https://blog.pypi.org/posts/2025-12-31-pypi-2025-in-review/"/>
+        <updated>2025-12-31T19:08:39.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -32567,6 +32833,16 @@ backend:
     name: user-servi…]]></summary>
         <author>
             <name>Srinivasaraju Tangella</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Reality crushed Ÿnsect startup that had raised over $600M for insect farming]]></title>
+        <id>https://techcrunch.com/2025/12/26/how-reality-crushed-ynsect-the-french-startup-that-had-raised-over-600m-for-insect-farming/</id>
+        <link href="https://techcrunch.com/2025/12/26/how-reality-crushed-ynsect-the-french-startup-that-had-raised-over-600m-for-insect-farming/"/>
+        <updated>2025-12-27T00:03:56.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -96765,315 +97041,6 @@ In 2025, many development teams hit a "productivity plateau." While early AI cop
 Throughout the evolution of software construction, we have grappled with a central dilemma: how to endow a system with maximum flexibility and evolvability while ensuring consistency and normativity. Traditional methodologies often pit the two against each other, seeking a fragile balance through complex plugin archite…]]></summary>
         <author>
             <name>canonical</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bhutan commits up to 10,000 bitcoin to back new mindfulness-based economic hub]]></title>
-        <id>4df3bc13-047d-4c17-9635-0a3f9bf6a1e1</id>
-        <link href="https://www.coindesk.com/policy/2025/12/17/bhutan-commits-up-to-10-000-bitcoin-to-back-new-mindfulness-based-economic-hub"/>
-        <updated>2025-12-17T10:15:07.000Z</updated>
-        <summary type="html"><![CDATA[The Himalayan kingdom plans to deploy part of its sovereign bitcoin holdings to fund long-term development through Gelephu Mindfulness City.]]></summary>
-        <author>
-            <name>Jamie Crawley</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Tested AWS Regional NAT Gateway — Here's Why It Changes Everything]]></title>
-        <id>https://dev.to/robindeva/i-tested-aws-regional-nat-gateway-heres-why-it-changes-everything-2ljk</id>
-        <link href="https://dev.to/robindeva/i-tested-aws-regional-nat-gateway-heres-why-it-changes-everything-2ljk"/>
-        <updated>2025-12-17T10:11:50.000Z</updated>
-        <summary type="html"><![CDATA[Last week, I got my hands on the new Regional NAT Gateway for Amazon VPC. After spending a few hours testing it in a real environment, I wanted to share what I learned and why this matters for anyone building on AWS.
-Let me paint you a picture. You're running a three-tier application spread across three Availability Zones (us-east-1a, us-east-1b, us-east-1c). Your backend servers sit in private subnets because, well, that's the right thing to do. But these servers need to reach the internet — maybe to pull security patches, call external APIs, or push logs to a third-party service.
-Three NAT Gateways. Three public subnets. Three separate route tables to maintain. And if you forgot to set up one AZ properly? Your workloads in that zone lose internet access.
-I've seen this go wrong more time…]]></summary>
-        <author>
-            <name>robindeva</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Launching a Nanotechnology Startup: Key Considerations]]></title>
-        <id>https://dev.to/jason-robinson/launching-a-nanotechnology-startup-key-considerations-1ogj</id>
-        <link href="https://dev.to/jason-robinson/launching-a-nanotechnology-startup-key-considerations-1ogj"/>
-        <updated>2025-12-17T10:10:38.000Z</updated>
-        <summary type="html"><![CDATA[Innovation is the lifeblood of economic progress, and few sectors embody this truth more vividly than nanotechnology. Nanotech startups are transforming industries—from healthcare and energy to materials science and electronics—by operating at the molecular and atomic scale to create breakthroughs once thought impossible.
-Yet while the promise of nanotechnology is vast, the path from idea to scalable enterprise is complex. Founders and leaders of nanotech startups face unique challenges that demand not only scientific excellence, but also strategic business planning, regulatory insight, funding acumen, and talent leadership.
-In this article, we explore the critical considerations that emerging nanotechnology ventures must address to thrive. Whether you are a founder preparing to launch a s…]]></summary>
-        <author>
-            <name>Jason Robinson</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How AI Assistants Are Transforming Mobile App Development in 2026]]></title>
-        <id>https://dev.to/devin-rosario/how-ai-assistants-are-transforming-mobile-app-development-in-2026-18en</id>
-        <link href="https://dev.to/devin-rosario/how-ai-assistants-are-transforming-mobile-app-development-in-2026-18en"/>
-        <updated>2025-12-17T10:09:54.000Z</updated>
-        <summary type="html"><![CDATA[The mobile app landscape in 2026 has reached a definitive turning point. For over a decade, development was defined by manual syntax writing and painstaking debugging cycles. Today, the integration of advanced AI assistants into the integrated development environment (IDE) has transitioned the role of the developer from a "coder" to a "system architect."
-This evolution is not merely about speed; it is about the fundamental democratization of high-quality software. As we navigate through 2026, AI assistants are enabling smaller teams to build enterprise-grade applications that previously required massive engineering departments. This shift is particularly visible in tech hubs like Minneapolis and the Twin Cities, where a growing ecosystem of startups is leveraging these tools to compete on …]]></summary>
-        <author>
-            <name>Devin Rosario</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Form API Integration: The Complete Developer's Guide to Backend-less Forms]]></title>
-        <id>https://dev.to/hostspica/form-api-integration-the-complete-developers-guide-to-backend-less-forms-b5c</id>
-        <link href="https://dev.to/hostspica/form-api-integration-the-complete-developers-guide-to-backend-less-forms-b5c"/>
-        <updated>2025-12-17T10:09:20.000Z</updated>
-        <summary type="html"><![CDATA[Published on Dev.to | Hashnode | Medium
-
-As a full-stack developer, I've built countless contact forms, survey forms, and data collection interfaces. After years of setting up Express servers, configuring databases, and managing form endpoints, I discovered something that changed my workflow forever: Form APIs.
-You're building a React app, Vue.js project, or even a simple HTML site. Everything's going smoothly until you need to collect user data. Suddenly, you're faced with:
-# The traditional approach
-mkdir form-backend
-cd form-backend
-npm init -y
-npm install express cors helmet mongoose
-# ... 2 hours later, you have a basic form handler
-
-But what if I told you there's a better way?
-Form APIs are third-party services that handle form submissions for you. Think of them as "Forms as a Servic…]]></summary>
-        <author>
-            <name>HostSpica</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Lessons From Debugging AI Reasoning Errors in Production]]></title>
-        <id>https://dev.to/rohit_gavali_0c2ad84fe4e0/lessons-from-debugging-ai-reasoning-errors-in-production-4g51</id>
-        <link href="https://dev.to/rohit_gavali_0c2ad84fe4e0/lessons-from-debugging-ai-reasoning-errors-in-production-4g51"/>
-        <updated>2025-12-17T10:09:14.000Z</updated>
-        <summary type="html"><![CDATA[The first time our AI-powered code review tool told a senior engineer that their perfectly valid error handling was "dangerous and should be removed," I knew we had a problem.
-The code was fine. The reasoning was catastrophically wrong. And worse—it was wrong in a way that sounded authoritative enough that a junior developer might have believed it.
-We'd spent six months building an AI-assisted code review system. The architecture was solid. The latency was acceptable. The integration was seamless. But when it shipped to production, we discovered something no amount of testing had revealed: AI models are confidently wrong in ways that are nearly impossible to predict.
-That discovery led to three months of debugging AI reasoning errors—a fundamentally different kind of debugging than anythin…]]></summary>
-        <author>
-            <name>Rohit Gavali</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Webhook Automation: Building Real-time Integrations for Form Submissions]]></title>
-        <id>https://dev.to/hostspica/-webhook-automation-building-real-time-integrations-for-form-submissions-4190</id>
-        <link href="https://dev.to/hostspica/-webhook-automation-building-real-time-integrations-for-form-submissions-4190"/>
-        <updated>2025-12-17T10:08:12.000Z</updated>
-        <summary type="html"><![CDATA[Published on Dev.to | Hashnode | Medium
-
-Webhooks are the backbone of modern web automation. They enable real-time communication between services, turning static form submissions into dynamic, automated workflows. In this comprehensive guide, I'll show you how to build powerful webhook integrations that transform your forms into automation powerhouses.
-Think of webhooks as "reverse APIs." Instead of your application asking for data, webhooks push data to your application the moment something happens. For forms, this means instant notifications, real-time processing, and seamless integrations.
-// Traditional polling (inefficient)
-setInterval(async () => {
-  const newSubmissions = await fetch('/api/check-submissions');
-  // Process new submissions
-}, 30000); // Check every 30 seconds
-
-// Web…]]></summary>
-        <author>
-            <name>HostSpica</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Flutter vs. Kotlin Multiplatform: Which Delivers Better ROI?]]></title>
-        <id>https://dev.to/rushilbhuptani/flutter-vs-kotlin-multiplatform-which-delivers-better-roi-25km</id>
-        <link href="https://dev.to/rushilbhuptani/flutter-vs-kotlin-multiplatform-which-delivers-better-roi-25km"/>
-        <updated>2025-12-17T10:08:02.000Z</updated>
-        <summary type="html"><![CDATA[The selection of the appropriate cross-platform framework is no longer a technical choice; it is a business choice. As mobile development is increasingly competitive and the budget is increasingly tight, businesses seek technologies with long-term value, rapid delivery, and high return on investment (ROI).
-What Is Flutter?
-Flutter is a cross-platform application developed by Google as a UI framework. It serves Android, iOS, Web, Desktop, and Embedded all with pixel-perfect UI.
-What Is Kotlin Multiplatform?
-Kotlin Multiplatform is a platform-agnostic framework supported by JetBrains that enables business logic to be shared among platforms, with platform-specific UI being written. It is neither a complete UI toolkit nor a code-sharing strategy but a combination of native UI and shared core l…]]></summary>
-        <author>
-            <name>Rushil Bhuptani</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Windows audio control CLI/GUI tool (pycaw-based). List devices, set default endpoints, adjust volume/mute, and toggle “Listen to this device.”
-
-https://github.com/Mr5niper/WindowsAudioControl-CLI-wGUI]]></title>
-        <id>https://dev.to/mr5niper/windows-audio-control-cligui-tool-pycaw-based-list-devices-set-default-endpoints-adjust-2l9e</id>
-        <link href="https://dev.to/mr5niper/windows-audio-control-cligui-tool-pycaw-based-list-devices-set-default-endpoints-adjust-2l9e"/>
-        <updated>2025-12-17T10:07:35.000Z</updated>
-        <summary type="html"><![CDATA[GitHub - Mr5niper/WindowsAudioControl-CLI-wGUI: Windows audio control CLI/GUI tool (pycaw-based)
-          
-        
-          
-            Windows audio control CLI/GUI tool (pycaw-based). Contribute to Mr5niper/WindowsAudioControl-CLI-wGUI development by creating an account on GitHub.
-          
-        
-            
-          github.com]]></summary>
-        <author>
-            <name>Mr5niper</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The $sql aggregation stage in Oracle Database to replace explain("executionStats")]]></title>
-        <id>https://dev.to/franckpachot/the-sql-aggregation-stage-in-oracle-database-to-replace-explainexecutionstats-3clj</id>
-        <link href="https://dev.to/franckpachot/the-sql-aggregation-stage-in-oracle-database-to-replace-explainexecutionstats-3clj"/>
-        <updated>2025-12-17T10:00:22.000Z</updated>
-        <summary type="html"><![CDATA[As application-driven data models and document databases—made popular by MongoDB—continue to gain traction, Oracle Database has added MongoDB emulation capabilities on top of its SQL query engine. It's only the logical model and exposed API that resemble it, as physical documents are stored in relational tables and fixed-size blocks. This adds another abstraction on top of SQL, and when performance is different from what you expected, you need to look at the physical execution behind the logical query. The $sql stage of an aggregation pipeline can help troubleshoot. Let's take an example.
-I create a one-million-document collection and index it with the ESR (Equality, Sort, Range) Guideline in mind:
-// create the collection
-db.oneMillion.drop();
-db.oneMillion.createIndex({ e: 1, s: 1, r: 1 …]]></summary>
-        <author>
-            <name>Franck Pachot</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Mephisto – A RAM-only, ad-free disposable email PWA built with React]]></title>
-        <id>https://mephistomail.site/</id>
-        <link href="https://mephistomail.site/"/>
-        <updated>2025-12-17T09:54:48.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Unofficial Guide to Contributing to OpenTelemetry — where to look and who to talk to!]]></title>
-        <id>https://dev.to/didiviking/the-unofficial-guide-to-contributing-to-opentelemetry-where-to-look-and-who-to-talk-to-2nno</id>
-        <link href="https://dev.to/didiviking/the-unofficial-guide-to-contributing-to-opentelemetry-where-to-look-and-who-to-talk-to-2nno"/>
-        <updated>2025-12-17T09:51:50.000Z</updated>
-        <summary type="html"><![CDATA[OpenTelemetry provides the tools and standards to collect metrics, logs, and traces from applications and services. Getting started with contributions can feel overwhelming, so here is something people rarely tell you.
-Jumping into OpenTelemetry is not just about learning the code, it is about understanding the community and the workflows behind it. Most guides focus on good first issues or setting up your local environment, but here is what you will not hear as often.
-Most devs don't know about this website, CLOTributor, that helps you check out good first issues from a number of Cloud Native projects. I love it! 
-Start small. Contributing does not mean implementing core protocols on day one. Documentation improvements, examples, test fixes, and localization are all meaningful contributio…]]></summary>
-        <author>
-            <name>didiViking</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[DAO Corporation Launches W+ 3D: A Global Social Platform in 3D]]></title>
-        <id>https://dev.to/kamilla_ergalieva_06781b3/dao-corporation-launches-w-3d-a-global-social-platform-in-3d-5hll</id>
-        <link href="https://dev.to/kamilla_ergalieva_06781b3/dao-corporation-launches-w-3d-a-global-social-platform-in-3d-5hll"/>
-        <updated>2025-12-17T09:49:42.000Z</updated>
-        <summary type="html"><![CDATA[DAO Corporation today announced the launch of W+ 3D, a next-generation social platform that transforms online interaction into three-dimensional, AI-enhanced spaces. The platform is now available in 178 countries and is designed to scale to up to 1 billion users.
-From Feeds to 3D Worlds
-W+ 3D moves beyond traditional social feeds, offering users immersive experiences that combine:
-Interactive 3D rooms
-Personalized avatars
-Dynamic, spatial content
-AI-assisted creation tools
-“Social media has remained flat for too long,” said a DAO Corporation spokesperson. “W+ 3D gives people the freedom to interact, create, and connect in a digital space that feels alive.”
-AI at the Core
-AI in W+ 3D is integrated at the platform level to:
-Personalize interactions
-Assist in building 3D spaces
-Optimize real-time social engagement
-This approach allows users to create immersive worlds without technical expertise, making 3D social networking accessible to everyone.
-A Platform for the Future
-Beyond being a social network, W+ 3D is part of DAO Corporation’s broader ecosystem, built to support multiple services, digital economies, and future expansion. The platform encourages community creation, authentic interaction, and global connection.
-“W+ 3D is not just a social network; it is a social infrastructure for the next decade,” said the spokesperson.
-About DAO Corporation:
-DAO Corporation is a technology company focused on creating AI-driven social ecosystems. Its mission is to transform digital interaction and empower users globally.]]></summary>
-        <author>
-            <name>kamilla ergalieva</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Control Windows Volume With Mouse Side Buttons]]></title>
-        <id>https://dev.to/yehuda_v/control-windows-volume-with-mouse-side-buttons-21cm</id>
-        <link href="https://dev.to/yehuda_v/control-windows-volume-with-mouse-side-buttons-21cm"/>
-        <updated>2025-12-17T09:49:19.000Z</updated>
-        <summary type="html"><![CDATA[I wanted to share a small and useful project I built called MouseVolume. It is a lightweight Windows tool that lets you control your system volume using the side buttons of your mouse, for anyone who has them. No need to look for the volume keys on the keyboard anymore.
-🔹 Forward mouse button increases the volume
-Download here:
-https://github.com/Yehuda-V/MouseVolume/releases/tag/v1.0.0
-• Installer
-• Portable
-If you are interested, you can find the full source code here:
-https://github.com/Yehuda-V/MouseVolume]]></summary>
-        <author>
-            <name>yehuda v</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Is Mozilla trying hard to kill itself?]]></title>
-        <id>https://infosec.press/brunomiguel/is-mozilla-trying-hard-to-kill-itself</id>
-        <link href="https://infosec.press/brunomiguel/is-mozilla-trying-hard-to-kill-itself"/>
-        <updated>2025-12-17T09:37:24.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Fahmi: Malaysian Telcos Must Prepare For Quantum, Satellite Tech Shift Within 10 Years]]></title>
-        <id>https://www.lowyat.net/?p=376522</id>
-        <link href="https://www.lowyat.net/2025/376522/telcos-must-prepare-for-quantum-satellite-tech-shift-within-10-years/"/>
-        <updated>2025-12-17T09:26:24.000Z</updated>
-        <summary type="html"><![CDATA[Malaysian telcos must be prepared to transform their organisational structures and business models to address new challenges brought about by rapid global technological advancements, said Communications Minister Datuk Fahmi Fadzil. Speaking at the MCMC 2025 Scholarship Awards ceremony yesterday, he pointed to emerging technologies such as quantum communications, quantum encryption and satellite communications as key […]
-The post Fahmi: Malaysian Telcos Must Prepare For Quantum, Satellite Tech Shift Within 10 Years appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI Tools Directory for Small Businesses]]></title>
-        <id>https://dev.to/_fde76ff2d01974642930b/ai-tools-directory-for-small-businesses-413g</id>
-        <link href="https://dev.to/_fde76ff2d01974642930b/ai-tools-directory-for-small-businesses-413g"/>
-        <updated>2025-12-17T09:19:40.000Z</updated>
-        <summary type="html"><![CDATA[Your company has 15 people. You don't have 200. You're not ready for enterprise pricing, but you're too big for "whatever the founder thinks is cool."
-This is the middle ground where most small businesses get stuck. You're between "indie" and "enterprise." You need tools that work for you specifically.
-The AI tools directory for small businesses has to be different from what works for startups or freelancers. You have teams. You have departments that hate each other. You have compliance concerns. You have budgets set six months ago.
-Most AI tools are built for one of three personas:
-Individual: Me, in my home office, building something alone
-Startup: Venture-backed, moving fast, spending whatever it takes
-Enterprise: 500+ people, annual contracts, compliance requirements
-Small businesses d…]]></summary>
-        <author>
-            <name>ayi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built a Local-First Git Analytics Tool (Without AI) — Here’s Why]]></title>
-        <id>https://dev.to/stoyan_korudzhiev_51f6add/i-built-a-local-first-git-analytics-tool-without-ai-heres-why-1dmm</id>
-        <link href="https://dev.to/stoyan_korudzhiev_51f6add/i-built-a-local-first-git-analytics-tool-without-ai-heres-why-1dmm"/>
-        <updated>2025-12-17T09:18:41.000Z</updated>
-        <summary type="html"><![CDATA[Exploring what Git history can tell us about how we work — without uploading data, dashboards, or black boxes.
-For most of my career, Git history was something I used, not something I analyzed.
-I’d inspect logs when debugging, skim commits when reviewing PRs, or glance at contribution graphs occasionally — but I never treated Git history as a meaningful signal about how I actually work over time.
-That changed when I started feeling increasingly uncomfortable with modern developer analytics tools.
-Many tools promise deep insights into productivity and focus.
-Upload your data
-Process it remotely
-Return a dashboard
-Add AI-generated interpretations
-Even when these tools look polished, they often feel disconnected from how developers actually reason about their work.
-As developers, we care abou…]]></summary>
-        <author>
-            <name>Stoyan Korudzhiev</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How We Built an LLM Gateway Processing Millions of Requests (And Why We Pivoted)]]></title>
-        <id>https://dev.to/tamishmhatre/how-we-built-an-llm-gateway-processing-millions-of-requests-and-why-we-pivoted-585j</id>
-        <link href="https://dev.to/tamishmhatre/how-we-built-an-llm-gateway-processing-millions-of-requests-and-why-we-pivoted-585j"/>
-        <updated>2025-12-17T09:18:21.000Z</updated>
-        <summary type="html"><![CDATA[The Problem: API Fragmentation
-The "Smart Router" (and the Spoofing Myth)
-A common challenge and a source of recent rumors is how gateways handle specific model requests.
-The Myth: "Gateways route expensive models (like Claude 3 Opus) to cheaper ones (like Sonnet) to save money."
-The Reality: Our router is deterministic. If your API request specifies model: claude-3-opus, our gateway directs that traffic specifically to an Opus endpoint.
-We aggregate supply. If AWS Bedrock is rate-limited on Opus, we might failover to another direct provider, but we do not silently downgrade the model class. You get the compute you pay for.
-
-Caption: Internal cost breakdown showing massive consumption of genuine Claude Opus and Sonnet compute.
-Handling Scale & The $1M Bill
-Scaling to millions of requests i…]]></summary>
-        <author>
-            <name>Tamish</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Performance Testing Tools in Software Testing: JMeter, K6, Gatling & More]]></title>
-        <id>https://dev.to/emilyjackson/performance-testing-tools-in-software-testing-jmeter-k6-gatling-more-3dbd</id>
-        <link href="https://dev.to/emilyjackson/performance-testing-tools-in-software-testing-jmeter-k6-gatling-more-3dbd"/>
-        <updated>2025-12-17T09:18:21.000Z</updated>
-        <summary type="html"><![CDATA[Ever opened a website that took forever to load and immediately hit the back button?
-In today’s digital world, performance is not a “nice to have” — it’s a deal breaker. Whether it’s an e-commerce app during a sale, a fintech platform on payday, or a SaaS product onboarding new users, slow performance can cost you revenue, trust, and brand value.
-That’s where **performance testing tools **come into play.
-In this guide, we’ll break down the most popular performance testing tools in software testing—what they do, how they differ, and when to use which one—without drowning you in jargon. If you’re a tester, developer, or decision-maker, this blog is for you.
-## What Is Performance Testing (In Simple Words)?
-Performance testing checks how fast, stable, and scalable your application is under di…]]></summary>
-        <author>
-            <name>Emily Jackson</name>
         </author>
     </entry>
     <entry>

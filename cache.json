@@ -29,6 +29,116 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/jackcolquitt/the-context-graph-manifesto-2a8m",
+          "author": "Daniel Davis",
+          "description": "When Mark Adams and I (Daniel Davis) began working on what has become TrustGraph over 2 years ago, we knew that graph structures would be instrumental in realizing the potential of AI technology, specifically LLMs. \nI’ve never been particularly fond of the term RAG. In fact, we’ve always shied away from labeling TrustGraph a “RAG platform” because it does so much more than that. And that’s always been the point - to realize the potential of LLMs, you need more than just RAG.\nAnd no, I’m not about to say all you need are graphs. I’ve never been fond of the term GraphRAG either (especially after Microsoft co-opted the term), because again, you need more than just graph structures. \nContext Engineering has always felt like a better fit to me, but it just hasn’t seemed to gain traction, until …",
+          "link": "https://dev.to/jackcolquitt/the-context-graph-manifesto-2a8m",
+          "publishedOn": "2025-12-31T21:45:00.000Z",
+          "wordCount": 4700,
+          "title": "The Context Graph Manifesto",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2rw4k6ef3q3d91puyfvc.png"
+        },
+        {
+          "id": "https://dev.to/bibimbop123/fitnessequation-28cg",
+          "author": "Brian Kim",
+          "description": "A Strength-First Coaching Platform Built for People Who Take Training Seriously\n\n\n\n\n\n\n  \n  \n  Executive Summary\n\n\nFitnessEquation is a strength-focused fitness and coaching platform designed for experienced lifters and personal trainers who care more about accurate data, accountability, and clarity than social feeds or gimmicks.\nMost fitness apps are built to entertain beginners.\n\nFitnessEquation is built to support people who already train — and train others.\nOur goal is simple:\nReduce friction, increase insight, and make professional-quality coaching scalable.\nWe are not trying to replace every fitness app.\n\nWe are building the tool people graduate into once they take training seriously.\nThe fitness app market is crowded, but fragmented:\nNutrition apps focus on calories, not performance\n…",
+          "link": "https://dev.to/bibimbop123/fitnessequation-28cg",
+          "publishedOn": "2025-12-31T21:41:32.000Z",
+          "wordCount": 2433,
+          "title": "FitnessEquation",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fppbnva6nfh8sg56zth7o.png"
+        },
+        {
+          "id": "https://dev.to/ofri-peretz/transaction-race-conditions-why-begin-on-pool-breaks-everything-117h",
+          "author": "Ofri Peretz",
+          "description": "This code looks correct. It passes all tests. It works in development.\nIn production with 100 concurrent users, it corrupts data.\n// ❌ Dangerous: Transaction on pool\nasync function transferFunds(from, to, amount) {\n  await pool.query('BEGIN');\n  await pool.query('UPDATE accounts SET balance = balance - $1 WHERE id = $2', [\n    amount,\n    from,\n  ]);\n  await pool.query('UPDATE accounts SET balance = balance + $1 WHERE id = $2', [\n    amount,\n    to,\n  ]);\n  await pool.query('COMMIT');\n}\n\nA PostgreSQL pool is a set of client connections. Each pool.query() can use a different client.\nRequest 1: pool.query('BEGIN')     → Client A\nRequest 1: pool.query('UPDATE...')  → Client B (different!)\nRequest 2: pool.query('BEGIN')     → Client A (reused!)\n\nYour transaction is now spread across multiple c…",
+          "link": "https://dev.to/ofri-peretz/transaction-race-conditions-why-begin-on-pool-breaks-everything-117h",
+          "publishedOn": "2025-12-31T21:38:13.000Z",
+          "wordCount": 2145,
+          "title": "Transaction Race Conditions: Why BEGIN on Pool Breaks Everything",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fekl923vfod712nyp2vqj.png"
+        },
+        {
+          "id": "https://dev.to/ofri-peretz/the-connection-leak-that-took-down-our-production-database-3bal",
+          "author": "Ofri Peretz",
+          "description": "It was 3 AM. PagerDuty woke me up. Our API was returning 500 errors.\nThe database was fine. CPU was fine. Memory was fine. But every query was timing out.\nFATAL: too many connections for role \"app_user\"\n\nWe had exhausted our 100-connection limit. But our traffic was normal. Where were all the connections going?\nAfter hours of debugging, we found it:\n// ❌ The connection leak hiding in our codebase\nasync function getUserOrders(userId) {\n  const client = await pool.connect();\n  const orders = await client.query('SELECT * FROM orders WHERE user_id = $1', [\n    userId,\n  ]);\n  return orders.rows;\n  // Where's client.release()? 🤔\n}\n\nEvery call leaked a connection. With 50 requests/minute, we exhausted the pool in 2 minutes.\n\n\n\nScenario\nResult\n\n\n\n\nForgot release() entirely\nConnection never retur…",
+          "link": "https://dev.to/ofri-peretz/the-connection-leak-that-took-down-our-production-database-3bal",
+          "publishedOn": "2025-12-31T21:35:53.000Z",
+          "wordCount": 2092,
+          "title": "The Connection Leak That Took Down Our Production Database",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffxstiegi1zicqhqdg7dq.png"
+        },
+        {
+          "id": "https://dev.to/meena_nukala/why-your-perfect-architecture-is-killing-your-velocity-3e8m",
+          "author": "Meena Nukala",
+          "description": "As a Senior DevOps Engineer, I’ve spent years perfecting \"The Ultimate Kubernetes Setup.\" I’ve built service meshes so complex they could map the human genome and CI/CD pipelines so abstracted that developers didn't even know they were using them.\nThe Trap of \"Resume-Driven Development\"\nWe’ve all seen it. A team of three developers building a CRUD app with a multi-region, multi-cluster Istio implementation.\nThe Senior Perspective: Just because a tool is \"Industry Standard\" (like Kubernetes) doesn't mean it's right for your current stage. If you can solve the problem with a Managed Service (like AWS App Runner or Vercel), you should.\n> \"Efficiency is doing things right; Effectiveness is doing the right things.\" — Peter Drucker.\n> \nOver-Engineering for \"Future Scale\"\n\"We need to build this t…",
+          "link": "https://dev.to/meena_nukala/why-your-perfect-architecture-is-killing-your-velocity-3e8m",
+          "publishedOn": "2025-12-31T21:34:47.000Z",
+          "wordCount": 2159,
+          "title": "Why Your \"Perfect\" Architecture is Killing Your Velocity",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Feh7qcfi25tdya28mf47m.jpg"
+        },
+        {
+          "id": "https://dev.to/mr_lang_1aef3d93e1957494/does-anyone-know-of-any-coding-or-web-development-groups-in-temple-belton-or-killeen-or-anywhere-in-4chi",
+          "author": "Mr. Lang",
+          "description": "A post by Mr. Lang",
+          "link": "https://dev.to/mr_lang_1aef3d93e1957494/does-anyone-know-of-any-coding-or-web-development-groups-in-temple-belton-or-killeen-or-anywhere-in-4chi",
+          "publishedOn": "2025-12-31T21:34:13.000Z",
+          "wordCount": 1681,
+          "title": "Does anyone know of any coding or web development groups in Temple Belton or Killeen or anywhere in Central Texas?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fghwtp0p15zt2n6odoxa6.png"
+        },
+        {
+          "id": "https://dev.to/ofri-peretz/getting-started-with-eslint-plugin-secure-coding-1eda",
+          "author": "Ofri Peretz",
+          "description": "75 security rules. 60 seconds to install. Full OWASP coverage.\nnpm install --save-dev eslint-plugin-secure-coding\n\n// eslint.config.js\nimport secureCoding from 'eslint-plugin-secure-coding';\n\nexport default [secureCoding.configs.recommended];\n\nnpx eslint .\n\nYou'll see output like:\nsrc/auth.ts\n  15:3  error  🔒 CWE-798 OWASP:A02 CVSS:7.5 | Hardcoded credential detected\n               Fix: Use environment variable: process.env.DATABASE_PASSWORD\n\nsrc/utils.ts\n  42:5  error  🔒 CWE-95 OWASP:A03 CVSS:9.8 | Dangerous eval() with expression\n               Fix: Replace eval() with safer alternatives like JSON.parse()\n\n// Balanced for most projects\nsecureCoding.configs.recommended;\n\n// Maximum security (all 75 rules as errors)\nsecureCoding.configs.strict;\n\n// Web application compliance\nsecureCoding…",
+          "link": "https://dev.to/ofri-peretz/getting-started-with-eslint-plugin-secure-coding-1eda",
+          "publishedOn": "2025-12-31T21:31:41.000Z",
+          "wordCount": 2179,
+          "title": "Getting Started with eslint-plugin-secure-coding",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frv3r26ilulcyy83mknpx.png"
+        },
+        {
+          "id": "https://dev.to/mabualzait/predicting-champions-expert-analysis-for-world-cup-2026-3a23",
+          "author": "Malik Abualzait",
+          "description": "The latest eliminations from the World Cup 2026 qualifying process have left us with a remaining pool of teams that are vying for the coveted title in the United States, Canada, and Mexico. According to ESPN's recent rankings, there are now 64 national teams still in contention, each with their unique strengths, weaknesses, and approaches to the beautiful game.\nLet's take a closer look at some of the top contenders:\n  Brazil: Known for their attacking prowess, Brazil boasts an impressive squad depth, featuring players like Neymar Jr. and Richarlison. However, their defense has been a concern in recent tournaments.\n  France: As reigning champions, France is always a force to be reckoned with. They possess a balanced squad, with key players like Kylian Mbappé and Paul Pogba driving the team …",
+          "link": "https://dev.to/mabualzait/predicting-champions-expert-analysis-for-world-cup-2026-3a23",
+          "publishedOn": "2025-12-31T21:28:59.000Z",
+          "wordCount": 2180,
+          "title": "Predicting Champions: Expert Analysis for World Cup 2026",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcpw0mpep890zyvu6xpm1.png"
+        },
+        {
+          "id": "https://dev.to/meena_nukala/technical-deep-dive-building-golden-path-modules-with-terraform-and-opa-3a2o",
+          "author": "Meena Nukala",
+          "description": "Infrastructure as Code (IaC) at Scale, specifically moving from \"copy-paste\" Terraform to a Modular, Policy-Driven Architecture.\nIn my previous post, I mentioned that Senior DevOps Engineers build guardrails, not gates. Today, I want to show you exactly what that looks like in a Terraform repository.\nThe \"Golden Path\" Module Pattern\nInstead of letting developers use the raw aws_s3_bucket resource, we provide a \"Golden Path\" module. This module encapsulates our company's security standards (encryption, versioning, public access blocks) so the developer doesn't have to think about them.\nThe \"Senior\" Module Structure:\n# modules/secure-s3/main.tf\nresource \"aws_s3_bucket\" \"this\" {\nresource \"aws_s3_bucket_public_access_block\" \"this\" {\nresource \"aws_s3_bucket_server_side_encryption_configuration\"…",
+          "link": "https://dev.to/meena_nukala/technical-deep-dive-building-golden-path-modules-with-terraform-and-opa-3a2o",
+          "publishedOn": "2025-12-31T21:27:42.000Z",
+          "wordCount": 2105,
+          "title": "Technical Deep-Dive: Building \"Golden Path\" Modules with Terraform and OPA",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fj80ls6rh6ueq09vc855d.jpg"
+        },
+        {
+          "id": "https://dev.to/rikinptl/edge-to-cloud-swarm-coordination-for-circular-manufacturing-supply-chains-for-low-power-autonomous-b12",
+          "author": "Rikin Patel",
+          "description": "Edge-to-Cloud Swarm Coordination for circular manufacturing supply chains for low-power autonomous deployments\n\n\n\n  \n  \n  Introduction: The Learning Journey That Revealed a New Paradigm\n\n\nMy journey into edge-to-cloud swarm coordination began unexpectedly during a late-night debugging session with a fleet of autonomous material-handling robots in a prototype circular manufacturing facility. While exploring reinforcement learning for multi-agent path planning, I discovered that our centralized cloud orchestration system was creating unacceptable latency for real-time material flow decisions. The robots would occasionally freeze or make suboptimal routing choices while waiting for cloud responses, particularly when handling recycled material streams with unpredictable quality variations.\nThi…",
+          "link": "https://dev.to/rikinptl/edge-to-cloud-swarm-coordination-for-circular-manufacturing-supply-chains-for-low-power-autonomous-b12",
+          "publishedOn": "2025-12-31T21:24:15.000Z",
+          "wordCount": 3486,
+          "title": "Edge-to-Cloud Swarm Coordination for circular manufacturing supply chains for low-power autonomous deployments",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyd8n3e1xewl0ww8z2tj5.png"
+        },
+        {
+          "id": "https://dev.to/manasmudbari/a-token-efficient-way-to-send-time-series-data-into-llms-2h80",
+          "author": "Manas Mudbari",
+          "description": "If you’ve ever pushed time-series data (metrics, logs, network streams, sensor readings) into an LLM, you’ve probably noticed that even small datasets can get expensive and slow very quickly.\nNot because the data is huge, but because of how it gets tokenized.\nThis post is about a representation experiment we’ve been running to reduce that overhead, what didn’t work, and what seems to help.\nTime-series data is repetitive by nature:\ntimestamps move forward predictably\nvalues often change slowly\nschema repeats on every row\nHumans immediately see the pattern but LLMs don’t.\nMost LLM tokenizers are optimized for natural language, not numerical streams. Two numbers that look almost identical to us can tokenize very differently. Repeating structure (timestamps, keys, braces) quietly eats context …",
+          "link": "https://dev.to/manasmudbari/a-token-efficient-way-to-send-time-series-data-into-llms-2h80",
+          "publishedOn": "2025-12-31T21:14:08.000Z",
+          "wordCount": 2121,
+          "title": "A Token-Efficient Way to Send Time-Series Data into LLMs",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdmxwzggoomts9ss0fukx.jpg"
+        },
+        {
           "id": "https://dev.to/member_6331818c/networkioperformanceoptimization20251231210816-4old",
           "author": "member_6331818c",
           "description": "As an engineer focused on network performance optimization, I have accumulated rich experience in network IO optimization through various projects. Recently, I participated in a project with extremely high network performance requirements - a real-time video streaming platform. This project made me re-examine the performance of web frameworks in network IO. Today I want to share practical network IO performance optimization experience based on real project experience.\nIn network IO performance optimization, there are several key factors that need special attention:\nTCP connection establishment, maintenance, and closure have important impacts on performance. Connection reuse, TCP parameter tuning, etc., are all key optimization points.\nData needs to be serialized before network transmission…",
@@ -37337,166 +37447,6 @@
           "wordCount": 6941,
           "title": "XDef: An Evolution-Oriented Metamodel and Its Construction Philosophy",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8jvbc5k21d5zgfxr6k00.png"
-        },
-        {
-          "id": "https://dev.to/robindeva/i-tested-aws-regional-nat-gateway-heres-why-it-changes-everything-2ljk",
-          "author": "robindeva",
-          "description": "Last week, I got my hands on the new Regional NAT Gateway for Amazon VPC. After spending a few hours testing it in a real environment, I wanted to share what I learned and why this matters for anyone building on AWS.\nLet me paint you a picture. You're running a three-tier application spread across three Availability Zones (us-east-1a, us-east-1b, us-east-1c). Your backend servers sit in private subnets because, well, that's the right thing to do. But these servers need to reach the internet — maybe to pull security patches, call external APIs, or push logs to a third-party service.\nThree NAT Gateways. Three public subnets. Three separate route tables to maintain. And if you forgot to set up one AZ properly? Your workloads in that zone lose internet access.\nI've seen this go wrong more time…",
-          "link": "https://dev.to/robindeva/i-tested-aws-regional-nat-gateway-heres-why-it-changes-everything-2ljk",
-          "publishedOn": "2025-12-17T10:11:50.000Z",
-          "wordCount": 2436,
-          "title": "I Tested AWS Regional NAT Gateway — Here's Why It Changes Everything",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fm7jci1q6gxz9x96hasv1.png"
-        },
-        {
-          "id": "https://dev.to/jason-robinson/launching-a-nanotechnology-startup-key-considerations-1ogj",
-          "author": "Jason Robinson",
-          "description": "Innovation is the lifeblood of economic progress, and few sectors embody this truth more vividly than nanotechnology. Nanotech startups are transforming industries—from healthcare and energy to materials science and electronics—by operating at the molecular and atomic scale to create breakthroughs once thought impossible.\nYet while the promise of nanotechnology is vast, the path from idea to scalable enterprise is complex. Founders and leaders of nanotech startups face unique challenges that demand not only scientific excellence, but also strategic business planning, regulatory insight, funding acumen, and talent leadership.\nIn this article, we explore the critical considerations that emerging nanotechnology ventures must address to thrive. Whether you are a founder preparing to launch a s…",
-          "link": "https://dev.to/jason-robinson/launching-a-nanotechnology-startup-key-considerations-1ogj",
-          "publishedOn": "2025-12-17T10:10:38.000Z",
-          "wordCount": 2614,
-          "title": "Launching a Nanotechnology Startup: Key Considerations",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5xzu4imqj5os9ojohhdr.jpg"
-        },
-        {
-          "id": "https://dev.to/devin-rosario/how-ai-assistants-are-transforming-mobile-app-development-in-2026-18en",
-          "author": "Devin Rosario",
-          "description": "The mobile app landscape in 2026 has reached a definitive turning point. For over a decade, development was defined by manual syntax writing and painstaking debugging cycles. Today, the integration of advanced AI assistants into the integrated development environment (IDE) has transitioned the role of the developer from a \"coder\" to a \"system architect.\"\nThis evolution is not merely about speed; it is about the fundamental democratization of high-quality software. As we navigate through 2026, AI assistants are enabling smaller teams to build enterprise-grade applications that previously required massive engineering departments. This shift is particularly visible in tech hubs like Minneapolis and the Twin Cities, where a growing ecosystem of startups is leveraging these tools to compete on …",
-          "link": "https://dev.to/devin-rosario/how-ai-assistants-are-transforming-mobile-app-development-in-2026-18en",
-          "publishedOn": "2025-12-17T10:09:54.000Z",
-          "wordCount": 2568,
-          "title": "How AI Assistants Are Transforming Mobile App Development in 2026",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1uqp7bchwiwghauw95wt.png"
-        },
-        {
-          "id": "https://dev.to/hostspica/form-api-integration-the-complete-developers-guide-to-backend-less-forms-b5c",
-          "author": "HostSpica",
-          "description": "Published on Dev.to | Hashnode | Medium\n\nAs a full-stack developer, I've built countless contact forms, survey forms, and data collection interfaces. After years of setting up Express servers, configuring databases, and managing form endpoints, I discovered something that changed my workflow forever: Form APIs.\nYou're building a React app, Vue.js project, or even a simple HTML site. Everything's going smoothly until you need to collect user data. Suddenly, you're faced with:\n# The traditional approach\nmkdir form-backend\ncd form-backend\nnpm init -y\nnpm install express cors helmet mongoose\n# ... 2 hours later, you have a basic form handler\n\nBut what if I told you there's a better way?\nForm APIs are third-party services that handle form submissions for you. Think of them as \"Forms as a Servic…",
-          "link": "https://dev.to/hostspica/form-api-integration-the-complete-developers-guide-to-backend-less-forms-b5c",
-          "publishedOn": "2025-12-17T10:09:20.000Z",
-          "wordCount": 3712,
-          "title": "Form API Integration: The Complete Developer's Guide to Backend-less Forms",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fh7f3ie5rzxo4d5o6m9nt.png"
-        },
-        {
-          "id": "https://dev.to/rohit_gavali_0c2ad84fe4e0/lessons-from-debugging-ai-reasoning-errors-in-production-4g51",
-          "author": "Rohit Gavali",
-          "description": "The first time our AI-powered code review tool told a senior engineer that their perfectly valid error handling was \"dangerous and should be removed,\" I knew we had a problem.\nThe code was fine. The reasoning was catastrophically wrong. And worse—it was wrong in a way that sounded authoritative enough that a junior developer might have believed it.\nWe'd spent six months building an AI-assisted code review system. The architecture was solid. The latency was acceptable. The integration was seamless. But when it shipped to production, we discovered something no amount of testing had revealed: AI models are confidently wrong in ways that are nearly impossible to predict.\nThat discovery led to three months of debugging AI reasoning errors—a fundamentally different kind of debugging than anythin…",
-          "link": "https://dev.to/rohit_gavali_0c2ad84fe4e0/lessons-from-debugging-ai-reasoning-errors-in-production-4g51",
-          "publishedOn": "2025-12-17T10:09:14.000Z",
-          "wordCount": 4503,
-          "title": "Lessons From Debugging AI Reasoning Errors in Production",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fz0gq2xic9txqjj1o19a3.png"
-        },
-        {
-          "id": "https://dev.to/hostspica/-webhook-automation-building-real-time-integrations-for-form-submissions-4190",
-          "author": "HostSpica",
-          "description": "Published on Dev.to | Hashnode | Medium\n\nWebhooks are the backbone of modern web automation. They enable real-time communication between services, turning static form submissions into dynamic, automated workflows. In this comprehensive guide, I'll show you how to build powerful webhook integrations that transform your forms into automation powerhouses.\nThink of webhooks as \"reverse APIs.\" Instead of your application asking for data, webhooks push data to your application the moment something happens. For forms, this means instant notifications, real-time processing, and seamless integrations.\n// Traditional polling (inefficient)\nsetInterval(async () => {\n  const newSubmissions = await fetch('/api/check-submissions');\n  // Process new submissions\n}, 30000); // Check every 30 seconds\n\n// Web…",
-          "link": "https://dev.to/hostspica/-webhook-automation-building-real-time-integrations-for-form-submissions-4190",
-          "publishedOn": "2025-12-17T10:08:12.000Z",
-          "wordCount": 3965,
-          "title": "Webhook Automation: Building Real-time Integrations for Form Submissions",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhxo3bjtb2ctt1y5kq78h.png"
-        },
-        {
-          "id": "https://dev.to/rushilbhuptani/flutter-vs-kotlin-multiplatform-which-delivers-better-roi-25km",
-          "author": "Rushil Bhuptani",
-          "description": "The selection of the appropriate cross-platform framework is no longer a technical choice; it is a business choice. As mobile development is increasingly competitive and the budget is increasingly tight, businesses seek technologies with long-term value, rapid delivery, and high return on investment (ROI).\nWhat Is Flutter?\nFlutter is a cross-platform application developed by Google as a UI framework. It serves Android, iOS, Web, Desktop, and Embedded all with pixel-perfect UI.\nWhat Is Kotlin Multiplatform?\nKotlin Multiplatform is a platform-agnostic framework supported by JetBrains that enables business logic to be shared among platforms, with platform-specific UI being written. It is neither a complete UI toolkit nor a code-sharing strategy but a combination of native UI and shared core l…",
-          "link": "https://dev.to/rushilbhuptani/flutter-vs-kotlin-multiplatform-which-delivers-better-roi-25km",
-          "publishedOn": "2025-12-17T10:08:02.000Z",
-          "wordCount": 2523,
-          "title": "Flutter vs. Kotlin Multiplatform: Which Delivers Better ROI?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5f039hf4ejo73vbjbjfo.png"
-        },
-        {
-          "id": "https://dev.to/mr5niper/windows-audio-control-cligui-tool-pycaw-based-list-devices-set-default-endpoints-adjust-2l9e",
-          "author": "Mr5niper",
-          "description": "GitHub - Mr5niper/WindowsAudioControl-CLI-wGUI: Windows audio control CLI/GUI tool (pycaw-based)\n          \n        \n          \n            Windows audio control CLI/GUI tool (pycaw-based). Contribute to Mr5niper/WindowsAudioControl-CLI-wGUI development by creating an account on GitHub.\n          \n        \n            \n          github.com",
-          "link": "https://dev.to/mr5niper/windows-audio-control-cligui-tool-pycaw-based-list-devices-set-default-endpoints-adjust-2l9e",
-          "publishedOn": "2025-12-17T10:07:35.000Z",
-          "wordCount": 1716,
-          "title": "Windows audio control CLI/GUI tool (pycaw-based). List devices, set default endpoints, adjust volume/mute, and toggle “Listen to this device.”\r\n\r\nhttps://github.com/Mr5niper/WindowsAudioControl-CLI-wGUI",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjto00m1qjdukcrn6adoo.png"
-        },
-        {
-          "id": "https://dev.to/franckpachot/the-sql-aggregation-stage-in-oracle-database-to-replace-explainexecutionstats-3clj",
-          "author": "Franck Pachot",
-          "description": "As application-driven data models and document databases—made popular by MongoDB—continue to gain traction, Oracle Database has added MongoDB emulation capabilities on top of its SQL query engine. It's only the logical model and exposed API that resemble it, as physical documents are stored in relational tables and fixed-size blocks. This adds another abstraction on top of SQL, and when performance is different from what you expected, you need to look at the physical execution behind the logical query. The $sql stage of an aggregation pipeline can help troubleshoot. Let's take an example.\nI create a one-million-document collection and index it with the ESR (Equality, Sort, Range) Guideline in mind:\n// create the collection\ndb.oneMillion.drop();\ndb.oneMillion.createIndex({ e: 1, s: 1, r: 1 …",
-          "link": "https://dev.to/franckpachot/the-sql-aggregation-stage-in-oracle-database-to-replace-explainexecutionstats-3clj",
-          "publishedOn": "2025-12-17T10:00:22.000Z",
-          "wordCount": 3640,
-          "title": "The $sql aggregation stage in Oracle Database to replace explain(\"executionStats\")",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcsysvq3j3kdvjaic256f.png"
-        },
-        {
-          "id": "https://dev.to/didiviking/the-unofficial-guide-to-contributing-to-opentelemetry-where-to-look-and-who-to-talk-to-2nno",
-          "author": "didiViking",
-          "description": "OpenTelemetry provides the tools and standards to collect metrics, logs, and traces from applications and services. Getting started with contributions can feel overwhelming, so here is something people rarely tell you.\nJumping into OpenTelemetry is not just about learning the code, it is about understanding the community and the workflows behind it. Most guides focus on good first issues or setting up your local environment, but here is what you will not hear as often.\nMost devs don't know about this website, CLOTributor, that helps you check out good first issues from a number of Cloud Native projects. I love it! \nStart small. Contributing does not mean implementing core protocols on day one. Documentation improvements, examples, test fixes, and localization are all meaningful contributio…",
-          "link": "https://dev.to/didiviking/the-unofficial-guide-to-contributing-to-opentelemetry-where-to-look-and-who-to-talk-to-2nno",
-          "publishedOn": "2025-12-17T09:51:50.000Z",
-          "wordCount": 2969,
-          "title": "The Unofficial Guide to Contributing to OpenTelemetry — where to look and who to talk to!",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffmaa0eomnrkt8eyy3koa.png"
-        },
-        {
-          "id": "https://dev.to/kamilla_ergalieva_06781b3/dao-corporation-launches-w-3d-a-global-social-platform-in-3d-5hll",
-          "author": "kamilla ergalieva",
-          "description": "DAO Corporation today announced the launch of W+ 3D, a next-generation social platform that transforms online interaction into three-dimensional, AI-enhanced spaces. The platform is now available in 178 countries and is designed to scale to up to 1 billion users.\nFrom Feeds to 3D Worlds\nW+ 3D moves beyond traditional social feeds, offering users immersive experiences that combine:\nInteractive 3D rooms\nPersonalized avatars\nDynamic, spatial content\nAI-assisted creation tools\n“Social media has remained flat for too long,” said a DAO Corporation spokesperson. “W+ 3D gives people the freedom to interact, create, and connect in a digital space that feels alive.”\nAI at the Core\nAI in W+ 3D is integrated at the platform level to:\nPersonalize interactions\nAssist in building 3D spaces\nOptimize real-time social engagement\nThis approach allows users to create immersive worlds without technical expertise, making 3D social networking accessible to everyone.\nA Platform for the Future\nBeyond being a social network, W+ 3D is part of DAO Corporation’s broader ecosystem, built to support multiple services, digital economies, and future expansion. The platform encourages community creation, authentic interaction, and global connection.\n“W+ 3D is not just a social network; it is a social infrastructure for the next decade,” said the spokesperson.\nAbout DAO Corporation:\nDAO Corporation is a technology company focused on creating AI-driven social ecosystems. Its mission is to transform digital interaction and empower users globally.",
-          "link": "https://dev.to/kamilla_ergalieva_06781b3/dao-corporation-launches-w-3d-a-global-social-platform-in-3d-5hll",
-          "publishedOn": "2025-12-17T09:49:42.000Z",
-          "wordCount": 1881,
-          "title": "DAO Corporation Launches W+ 3D: A Global Social Platform in 3D",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F948j6z6txj07479wn6ev.png"
-        },
-        {
-          "id": "https://dev.to/yehuda_v/control-windows-volume-with-mouse-side-buttons-21cm",
-          "author": "yehuda v",
-          "description": "I wanted to share a small and useful project I built called MouseVolume. It is a lightweight Windows tool that lets you control your system volume using the side buttons of your mouse, for anyone who has them. No need to look for the volume keys on the keyboard anymore.\n🔹 Forward mouse button increases the volume\nDownload here:\nhttps://github.com/Yehuda-V/MouseVolume/releases/tag/v1.0.0\n• Installer\n• Portable\nIf you are interested, you can find the full source code here:\nhttps://github.com/Yehuda-V/MouseVolume",
-          "link": "https://dev.to/yehuda_v/control-windows-volume-with-mouse-side-buttons-21cm",
-          "publishedOn": "2025-12-17T09:49:19.000Z",
-          "wordCount": 1811,
-          "title": "Control Windows Volume With Mouse Side Buttons",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F33tohoi0er5baze4fzcc.png"
-        },
-        {
-          "id": "https://dev.to/_fde76ff2d01974642930b/ai-tools-directory-for-small-businesses-413g",
-          "author": "ayi",
-          "description": "Your company has 15 people. You don't have 200. You're not ready for enterprise pricing, but you're too big for \"whatever the founder thinks is cool.\"\nThis is the middle ground where most small businesses get stuck. You're between \"indie\" and \"enterprise.\" You need tools that work for you specifically.\nThe AI tools directory for small businesses has to be different from what works for startups or freelancers. You have teams. You have departments that hate each other. You have compliance concerns. You have budgets set six months ago.\nMost AI tools are built for one of three personas:\nIndividual: Me, in my home office, building something alone\nStartup: Venture-backed, moving fast, spending whatever it takes\nEnterprise: 500+ people, annual contracts, compliance requirements\nSmall businesses d…",
-          "link": "https://dev.to/_fde76ff2d01974642930b/ai-tools-directory-for-small-businesses-413g",
-          "publishedOn": "2025-12-17T09:19:40.000Z",
-          "wordCount": 2982,
-          "title": "AI Tools Directory for Small Businesses",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwcteg5sd9qakslga25tk.png"
-        },
-        {
-          "id": "https://dev.to/stoyan_korudzhiev_51f6add/i-built-a-local-first-git-analytics-tool-without-ai-heres-why-1dmm",
-          "author": "Stoyan Korudzhiev",
-          "description": "Exploring what Git history can tell us about how we work — without uploading data, dashboards, or black boxes.\nFor most of my career, Git history was something I used, not something I analyzed.\nI’d inspect logs when debugging, skim commits when reviewing PRs, or glance at contribution graphs occasionally — but I never treated Git history as a meaningful signal about how I actually work over time.\nThat changed when I started feeling increasingly uncomfortable with modern developer analytics tools.\nMany tools promise deep insights into productivity and focus.\nUpload your data\nProcess it remotely\nReturn a dashboard\nAdd AI-generated interpretations\nEven when these tools look polished, they often feel disconnected from how developers actually reason about their work.\nAs developers, we care abou…",
-          "link": "https://dev.to/stoyan_korudzhiev_51f6add/i-built-a-local-first-git-analytics-tool-without-ai-heres-why-1dmm",
-          "publishedOn": "2025-12-17T09:18:41.000Z",
-          "wordCount": 3065,
-          "title": "I Built a Local-First Git Analytics Tool (Without AI) — Here’s Why",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsmgr2p9rbdkwe568mp3b.png"
-        },
-        {
-          "id": "https://dev.to/tamishmhatre/how-we-built-an-llm-gateway-processing-millions-of-requests-and-why-we-pivoted-585j",
-          "author": "Tamish",
-          "description": "The Problem: API Fragmentation\nThe \"Smart Router\" (and the Spoofing Myth)\nA common challenge and a source of recent rumors is how gateways handle specific model requests.\nThe Myth: \"Gateways route expensive models (like Claude 3 Opus) to cheaper ones (like Sonnet) to save money.\"\nThe Reality: Our router is deterministic. If your API request specifies model: claude-3-opus, our gateway directs that traffic specifically to an Opus endpoint.\nWe aggregate supply. If AWS Bedrock is rate-limited on Opus, we might failover to another direct provider, but we do not silently downgrade the model class. You get the compute you pay for.\n\nCaption: Internal cost breakdown showing massive consumption of genuine Claude Opus and Sonnet compute.\nHandling Scale & The $1M Bill\nScaling to millions of requests i…",
-          "link": "https://dev.to/tamishmhatre/how-we-built-an-llm-gateway-processing-millions-of-requests-and-why-we-pivoted-585j",
-          "publishedOn": "2025-12-17T09:18:21.000Z",
-          "wordCount": 2180,
-          "title": "How We Built an LLM Gateway Processing Millions of Requests (And Why We Pivoted)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkpbivpl8ehetz1d5m2zu.png"
-        },
-        {
-          "id": "https://dev.to/emilyjackson/performance-testing-tools-in-software-testing-jmeter-k6-gatling-more-3dbd",
-          "author": "Emily Jackson",
-          "description": "Ever opened a website that took forever to load and immediately hit the back button?\nIn today’s digital world, performance is not a “nice to have” — it’s a deal breaker. Whether it’s an e-commerce app during a sale, a fintech platform on payday, or a SaaS product onboarding new users, slow performance can cost you revenue, trust, and brand value.\nThat’s where **performance testing tools **come into play.\nIn this guide, we’ll break down the most popular performance testing tools in software testing—what they do, how they differ, and when to use which one—without drowning you in jargon. If you’re a tester, developer, or decision-maker, this blog is for you.\n## What Is Performance Testing (In Simple Words)?\nPerformance testing checks how fast, stable, and scalable your application is under di…",
-          "link": "https://dev.to/emilyjackson/performance-testing-tools-in-software-testing-jmeter-k6-gatling-more-3dbd",
-          "publishedOn": "2025-12-17T09:18:21.000Z",
-          "wordCount": 2683,
-          "title": "Performance Testing Tools in Software Testing: JMeter, K6, Gatling & More",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbv3kj039rfhxm80lq1rd.png"
         }
       ]
     },
@@ -37693,6 +37643,16 @@
           "imageUrl": "https://media1.tenor.com/m/rA-_vwUI_E8AAAAC/gg.gif"
         },
         {
+          "id": "https://genie.run-agent.ai/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://genie.run-agent.ai/",
+          "publishedOn": "2025-12-31T20:32:48.000Z",
+          "wordCount": 55,
+          "title": "RunAgent Genie – Ultimate Prompt Engineering Game with Advanced Guardrails",
+          "imageUrl": null
+        },
+        {
           "id": "https://www.science.org/doi/10.1126/science.adv7434",
           "author": null,
           "description": "Comments",
@@ -37701,6 +37661,16 @@
           "wordCount": null,
           "title": "All-optical synthesis chip for large-scale intelligent semantic vision",
           "imageUrl": null
+        },
+        {
+          "id": "https://blog.pypi.org/posts/2025-12-31-pypi-2025-in-review/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://blog.pypi.org/posts/2025-12-31-pypi-2025-in-review/",
+          "publishedOn": "2025-12-31T19:08:39.000Z",
+          "wordCount": 1531,
+          "title": "Blog: PyPI in 2025: A Year in Review",
+          "imageUrl": "https://blog.pypi.org/assets/images/social/posts/2025-12-31-pypi-2025-in-review.png"
         },
         {
           "id": "https://toidiu.com/blog/2025-12-25-privacy-and-control/",
@@ -40311,6 +40281,16 @@
           "wordCount": 2752,
           "title": "Publishing your work increases your luck",
           "imageUrl": "https://images.ctfassets.net/s5uo95nf6njh/4iLgSG3oAeIN9jW716sC7D/a9648d871e068d18244cc1ab1c42f2a6/1200x630-ReadMe-Twitter_LI_Post-Kathy_Korevec-Guide__2_.jpg"
+        },
+        {
+          "id": "https://techcrunch.com/2025/12/26/how-reality-crushed-ynsect-the-french-startup-that-had-raised-over-600m-for-insect-farming/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://techcrunch.com/2025/12/26/how-reality-crushed-ynsect-the-french-startup-that-had-raised-over-600m-for-insect-farming/",
+          "publishedOn": "2025-12-27T00:03:56.000Z",
+          "wordCount": 3656,
+          "title": "Reality crushed Ÿnsect startup that had raised over $600M for insect farming",
+          "imageUrl": "https://techcrunch.com/wp-content/uploads/2025/12/ynsect-4.jpg?resize=1200,801"
         },
         {
           "id": "https://exe.dev/",
@@ -47351,26 +47331,6 @@
           "wordCount": 1002,
           "title": "Vm.overcommit_memory=2 is always the right setting for servers",
           "imageUrl": null
-        },
-        {
-          "id": "https://mephistomail.site/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://mephistomail.site/",
-          "publishedOn": "2025-12-17T09:54:48.000Z",
-          "wordCount": 184,
-          "title": "Show HN: Mephisto – A RAM-only, ad-free disposable email PWA built with React",
-          "imageUrl": null
-        },
-        {
-          "id": "https://infosec.press/brunomiguel/is-mozilla-trying-hard-to-kill-itself",
-          "author": null,
-          "description": "Comments",
-          "link": "https://infosec.press/brunomiguel/is-mozilla-trying-hard-to-kill-itself",
-          "publishedOn": "2025-12-17T09:37:24.000Z",
-          "wordCount": 1138,
-          "title": "Is Mozilla trying hard to kill itself?",
-          "imageUrl": "https://infosec.press/img/avatars/b.png"
         }
       ]
     },
@@ -48568,16 +48528,6 @@
           "wordCount": 11386,
           "title": "India Reveals DHRUV64, Country’s First 1.0GHz Processor",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/12/DHRUV64-1.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=376522",
-          "author": "Heirul Kamel",
-          "description": "Malaysian telcos must be prepared to transform their organisational structures and business models to address new challenges brought about by rapid global technological advancements, said Communications Minister Datuk Fahmi Fadzil. Speaking at the MCMC 2025 Scholarship Awards ceremony yesterday, he pointed to emerging technologies such as quantum communications, quantum encryption and satellite communications as key […]\nThe post Fahmi: Malaysian Telcos Must Prepare For Quantum, Satellite Tech Shift Within 10 Years appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2025/376522/telcos-must-prepare-for-quantum-satellite-tech-shift-within-10-years/",
-          "publishedOn": "2025-12-17T09:26:24.000Z",
-          "wordCount": 11655,
-          "title": "Fahmi: Malaysian Telcos Must Prepare For Quantum, Satellite Tech Shift Within 10 Years",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/12/telcos-must-prepare-for-quantum-satellite-shift-1.jpg"
         }
       ]
     },
@@ -52269,16 +52219,6 @@
           "wordCount": 10336,
           "title": "Bitcoin long term holder supply hits 8 month low, breaking historical cycle patterns",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/726d2811504156b0779d9c7153d6414159cd24a3-3200x1800.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "4df3bc13-047d-4c17-9635-0a3f9bf6a1e1",
-          "author": "Jamie Crawley",
-          "description": "The Himalayan kingdom plans to deploy part of its sovereign bitcoin holdings to fund long-term development through Gelephu Mindfulness City.",
-          "link": "https://www.coindesk.com/policy/2025/12/17/bhutan-commits-up-to-10-000-bitcoin-to-back-new-mindfulness-based-economic-hub",
-          "publishedOn": "2025-12-17T10:15:07.000Z",
-          "wordCount": 10000,
-          "title": "Bhutan commits up to 10,000 bitcoin to back new mindfulness-based economic hub",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/cea9f4fef04e3ac91c879f25c3304b72561be4c9-1920x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },
