@@ -2,10 +2,395 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-01-02T19:12:51.943Z</updated>
+    <updated>2026-01-02T20:20:55.494Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[The N+1 Insert Loop That Slowed Our API to a Crawl]]></title>
+        <id>https://dev.to/ofri-peretz/the-n1-insert-loop-that-slowed-our-api-to-a-crawl-4534</id>
+        <link href="https://dev.to/ofri-peretz/the-n1-insert-loop-that-slowed-our-api-to-a-crawl-4534"/>
+        <updated>2026-01-02T20:06:27.000Z</updated>
+        <summary type="html"><![CDATA[Our CSV import endpoint was timing out. 30 seconds wasn't enough.
+// ❌ The pattern that killed our performance
+async function importUsers(users) {
+  for (const user of users) {
+    await pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [
+      user.name,
+      user.email,
+    ]);
+  }
+}
+
+For 1000 users:
+1000 round trips to database
+~50ms per query
+50 seconds total
+
+
+
+Rows
+N+1 Time
+Bulk Time
+Speedup
+
+
+
+
+100
+5s
+50ms
+100x
+
+
+1000
+50s
+100ms
+500x
+
+
+10000
+500s
+500ms
+1000x
+
+
+
+// ✅ Single query, any number of rows
+async function importUsers(users) {
+  const values = users
+    .map((u, i) => `($${i * 2 + 1}, $${i * 2 + 2})`)
+    .join(', ');
+
+  const params = users.flatMap((u) => [u.name, u.email]);
+
+  await pool.query(`INSERT INTO users (name, email) VALUES ${values}`, params);
+}
+
+Or ev…]]></summary>
+        <author>
+            <name>Ofri Peretz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Task Manager with Laravel + Inertia.js (Vue 3): CRUD, Tags, Filters, and a Kanban Board]]></title>
+        <id>https://dev.to/blamsa0mine/building-a-task-manager-with-laravel-inertiajs-vue-3-crud-tags-filters-and-a-kanban-board-34hh</id>
+        <link href="https://dev.to/blamsa0mine/building-a-task-manager-with-laravel-inertiajs-vue-3-crud-tags-filters-and-a-kanban-board-34hh"/>
+        <updated>2026-01-02T20:05:01.000Z</updated>
+        <summary type="html"><![CDATA[What we’re building
+
+
+In this article, I’ll walk through how I built a Task Manager using:
+Laravel 12 (back-end, routing, validation, Eloquent)
+Inertia.js (no API layer, SPA-like UX)
+Vue 3 + Vite (front-end)
+TypeScript (typed UI components)
+Features included:
+✅ Full CRUD (create, list, edit, delete tasks)
+✅ Filters (status, priority, tag, overdue)
+✅ Search (title + details)
+✅ Sorting (created date or due date with nulls last)
+✅ Tags (many-to-many, custom colors, create-on-the-fly)
+✅ Kanban board (drag & drop between columns)
+✅ Small animations on drop (Vue TransitionGroup)
+✅ Flash messages (success) shared via Inertia
+This is a great “real app” example of Laravel + Inertia because it’s not just a CRUD — it starts to feel like a product.
+If you like Laravel but don’t want to maintain a sepa…]]></summary>
+        <author>
+            <name>A0mineTV</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CPUs & RAM Explained — How Computers Actually Think and Remember]]></title>
+        <id>https://dev.to/cristiansifuentes/cpus-ram-explained-how-computers-actually-think-and-remember-a5g</id>
+        <link href="https://dev.to/cristiansifuentes/cpus-ram-explained-how-computers-actually-think-and-remember-a5g"/>
+        <updated>2026-01-02T20:02:38.000Z</updated>
+        <summary type="html"><![CDATA[Every modern device you use — laptops, phones, ATMs, smart TVs, even car dashboards — relies on two core components:
+the CPU (processor) and memory (RAM).
+They are the thinking and remembering parts of a computer.
+Understanding how they work together is a foundational skill for any software engineer. This article explains CPUs and RAM from the ground up — not as marketing terms, but as real physical systems built from transistors, electricity, and time.
+The CPU (Central Processing Unit) is the component responsible for executing instructions.
+Every calculation, comparison, loop, condition, or function call in your code eventually becomes an operation executed by the CPU.
+At a high level, the CPU:
+Performs mathematical operations
+
+Moves data between memory locations
+Makes decisions (branchi…]]></summary>
+        <author>
+            <name>Cristian Sifuentes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Por qué estoy aprendiendo espanol?]]></title>
+        <id>https://dev.to/davidscanu/por-que-estoy-aprendiendo-espanol-50gd</id>
+        <link href="https://dev.to/davidscanu/por-que-estoy-aprendiendo-espanol-50gd"/>
+        <updated>2026-01-02T19:57:40.000Z</updated>
+        <summary type="html"><![CDATA[Con frecuencia, la gente me pregunta: "¿Por qué estás aprendiendo español?". Esto es un poco extraño porque no sé realmente qué contestar a eso. En verdad, no sé realmente por qué empecé a aprender este idioma pero lo que sé ahora es por qué sigo. Es de lo que hablaré en este artículo.
+Siempre he querido aprender el español, pero no encontré la motivación real. Tenía un nivel bastante alto de inglés y eso era suficiente para mí durante muchos años. Podía ver y leer todo lo que quería en inglés. Leí un montón de libros y artículos en inglés. También, estaba siguiendo muchos canales de YouTube en inglés. Para mí, francés e inglés eran intercambiables, es decir que solo me preocupaba del contenido o la información que estaba buscando cuando veía un video en francés o inglés.
+Al contrario, ant…]]></summary>
+        <author>
+            <name>David Scanu</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Boolean Field Becomes null in Spring Boot DTO? Here’s Why (And How to Fix It)]]></title>
+        <id>https://dev.to/abhishek_shahi_9d131e426d/boolean-field-becomes-null-in-spring-boot-dto-heres-why-and-how-to-fix-it-4i39</id>
+        <link href="https://dev.to/abhishek_shahi_9d131e426d/boolean-field-becomes-null-in-spring-boot-dto-heres-why-and-how-to-fix-it-4i39"/>
+        <updated>2026-01-02T19:57:06.000Z</updated>
+        <summary type="html"><![CDATA[If you’re building REST APIs using Spring Boot, you may encounter a strange and frustrating issue:
+null.
+No exception.
+No warning.
+No stack trace.
+This is not a bug in Spring Boot — it’s a Jackson + Java Bean naming trap that frequently appears in real-world applications.
+In this article, you’ll learn:
+- Why boolean values become null in Spring Boot DTOs
+- How Jackson maps JSON properties to Java fields
+- Why @JsonProperty fixes the issue
+- The recommended best practice to avoid this forever
+Consider this request payload sent from the frontend:
+{
+  "isActive": true
+}
+
+
+Now look at the DTO:
+public class UserRequest {
+
+    private Boolean isActive;
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isAct…]]></summary>
+        <author>
+            <name>Abhishek Shahi</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Seed Corn]]></title>
+        <id>https://dev.to/justcatdev/the-seed-corn-4pn4</id>
+        <link href="https://dev.to/justcatdev/the-seed-corn-4pn4"/>
+        <updated>2026-01-02T19:56:12.000Z</updated>
+        <summary type="html"><![CDATA[Episode II
+
+
+The first episode discussed the thinkers; this episode focuses on the doers.
+This is not an argument against automation or AI.
+It is an argument against mistaking acceleration for succession.
+
+The doers
+Execute -> Build -> Operate
+As they work, they accumulate the tacit/tribal knowledge
+
+Earn battle scars, and more importantly, the judgment
+
+Over time, some transition to become "The Thinkers"
+See...
+The doers are thinkers in incubation
+In other words
+You don’t grow thinkers by hiring them.
+Automation attacks the doer layer first.
+Not because doers lack value, but because:
+their work is observable
+repeatable
+specifiable
+The immediate gain looks rational:
+cheaper
+faster
+scalable
+But the unseen loss is this:
+You are not just removing labour...
+That is the seed corn.
+AI is absolutely needed
+The missing point is this:
+If AI is to automate the work that once trained our future thinkers, then we must deliberately invent new paths for judgment to form.]]></summary>
+        <author>
+            <name>JustC</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Zephyr on Arduino UNO Q MCU]]></title>
+        <id>https://dev.to/danielmx/zephyr-on-arduino-uno-q-mcu-5974</id>
+        <link href="https://dev.to/danielmx/zephyr-on-arduino-uno-q-mcu-5974"/>
+        <updated>2026-01-02T19:53:20.000Z</updated>
+        <summary type="html"><![CDATA[The Arduino UNO Q have a STM32U585 inside doing all the Arduino stuff, it communicates with main processor and GPIO pins on board; it seems the only way to get a pinout is the schematics:
+https://docs.arduino.cc/resources/schematics/ABX00162-schematics.pdf
+The pinout image have brief information about the MCU pins
+ 
+Source
+But only shows that pins belong to MCU, and the only indication are on RGB LED 3 and 4 that shows the GPIO used for the MCU.
+For this example it will be needed:
+Zephyr (on the PC Host, probably can be reused the version in UNO Q)
+ADB tools (to connect to the device from PC Host)
+You need to install / update Zephyr. Is important to have at least version 4.3.0 as that is the first version with support
+It can be used the blinky example directly from documentation:
+# use the…]]></summary>
+        <author>
+            <name>Daniel Guerrero</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fundamentals, Documentation, and Discomfort: Keys to Dev Growth]]></title>
+        <id>https://dev.to/koralarts/fundamentals-documentation-and-discomfort-keys-to-dev-growth-310n</id>
+        <link href="https://dev.to/koralarts/fundamentals-documentation-and-discomfort-keys-to-dev-growth-310n"/>
+        <updated>2026-01-02T19:50:12.000Z</updated>
+        <summary type="html"><![CDATA[During my tenure as a software engineer of 10 years, mostly in a startup environment, I've seen many developers of varying skill levels come and go. I've noticed a few things that hinder their development. As I reflect, I realized that I suffered from these as well, especially early on in my career.
+I'm writing this post to hopefully help you reflect as well, and ask yourself, "Am I doing any of these?"
+It's imperative you learn the fundamentals of software development; at the minimum, understand the fundamentals of the language you work with. Having the fundamentals provides a solid foundation for you to learn new languages, concepts, and frameworks efficiently.
+You might say to yourself, "I already know the fundamentals. I use this language everyday." Do you really understand it on a dee…]]></summary>
+        <author>
+            <name>Karl Castillo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[search_path Hijacking: The PostgreSQL Attack You've Never Heard Of]]></title>
+        <id>https://dev.to/ofri-peretz/searchpath-hijacking-the-postgresql-attack-youve-never-heard-of-10co</id>
+        <link href="https://dev.to/ofri-peretz/searchpath-hijacking-the-postgresql-attack-youve-never-heard-of-10co"/>
+        <updated>2026-01-02T19:49:31.000Z</updated>
+        <summary type="html"><![CDATA[Most developers know about SQL injection. Few know about search_path hijacking.
+It's just as dangerous.
+PostgreSQL's search_path determines which schema to look in when you reference an unqualified table name.
+-- With search_path = public, these are equivalent:
+SELECT * FROM users;
+SELECT * FROM public.users;
+
+If an attacker can control the search_path, they can redirect your queries to malicious tables:
+// ❌ Dynamic search_path from user input
+const schema = req.query.tenant; // Attacker controls this
+await client.query(`SET search_path TO ${schema}`);
+await client.query('SELECT * FROM users'); // Now queries attacker's schema
+
+The attacker:
+Creates a schema with a malicious users table
+Sets search_path to their schema
+Your query returns their fake data
+
+
+
+Attack
+Impact
+
+
+
+
+Data theft
+Ret…]]></summary>
+        <author>
+            <name>Ofri Peretz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bits & Bytes Explained — The True Foundation of All Software]]></title>
+        <id>https://dev.to/cristiansifuentes/bits-bytes-explained-the-true-foundation-of-all-software-1l8d</id>
+        <link href="https://dev.to/cristiansifuentes/bits-bytes-explained-the-true-foundation-of-all-software-1l8d"/>
+        <updated>2026-01-02T19:48:28.000Z</updated>
+        <summary type="html"><![CDATA[Every message you send, every image you see, every app you open — from emojis to operating systems — is built on two deceptively simple concepts:
+bits and bytes.
+They are the atoms of the digital world.
+
+And if you truly want to understand software engineering, you must understand them deeply.
+This article breaks down what bits and bytes really are, why they exist, and how they power everything from IP addresses to emojis.
+A bit (short for binary digit) is the smallest unit of information in computing.
+It can exist in only two possible states:
+0 or 1
+
+off or on
+false or true
+low voltage or high voltage
+At the physical level, a bit is implemented using a transistor — a tiny electronic switch that either allows electricity to flow or blocks it.
+In electronic circuits:
+A high voltage (for exa…]]></summary>
+        <author>
+            <name>Cristian Sifuentes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Publish (On Your) Own Site, Syndicate Elsewhere]]></title>
+        <id>https://indieweb.org/POSSE#</id>
+        <link href="https://indieweb.org/POSSE#"/>
+        <updated>2026-01-02T19:48:25.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🚀_Ultimate_Web_Framework_Speed_Showdown[20260102194711]]]></title>
+        <id>https://dev.to/member_6331818c/ultimatewebframeworkspeedshowdown20260102194711-5g8j</id>
+        <link href="https://dev.to/member_6331818c/ultimatewebframeworkspeedshowdown20260102194711-5g8j"/>
+        <updated>2026-01-02T19:47:13.000Z</updated>
+        <summary type="html"><![CDATA[As a full-stack engineer with 10 years of development experience, I've witnessed the rise and fall of countless web frameworks. From the early jQuery era to today's high-performance Rust frameworks, I've seen the rapid evolution of web development technology. Today I want to share a performance comparison test that shocked me and completely changed my understanding of web framework performance.
+In 2024, the performance requirements for web applications are getting higher and higher. Whether it's e-commerce websites, social platforms, or enterprise applications, users expect millisecond-level response times. I spent a full month conducting comprehensive performance tests on mainstream web frameworks on the market, including Tokio, Rocket, Gin, Go standard library, Rust standard library, Nod…]]></summary>
+        <author>
+            <name>member_6331818c</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Server headers that talk too much]]></title>
+        <id>https://dev.to/liudasjan/server-headers-that-talk-too-much-10kp</id>
+        <link href="https://dev.to/liudasjan/server-headers-that-talk-too-much-10kp"/>
+        <updated>2026-01-02T19:43:58.000Z</updated>
+        <summary type="html"><![CDATA[People like to say “security is hard”.
+If your API responds with something like:
+Server: nginx/1.18.0
+Apache/2.4.49
+
+you’ve already helped the attacker more than you think.
+Why this matters in practice? Exposing an exact server version makes fingerprinting trivial:
+identify the tech
+identify the version
+map it to known CVEs
+automate exploitation
+This isn’t theory. This is how large-scale attacks start.
+OWASP explicitly points out that knowing the server and its version helps determine whether it’s vulnerable — especially when older or partially patched components are involved.
+“But we patch regularly…” Good. Then this check passes and nobody cares. Until: 
+the reverse proxy wasn’t updated
+OpenSSL lagged behind
+a rushed hotfix re-enabled “helpful” headers
+And because nothing breaks, nobody notices. That’s why this issue survives in production for months.
+The fix is boring (and that’s good)
+Don’t disclose server versions in headers
+Keep banners minimal 
+Don’t leak framework or proxy details unless absolutely necessary
+Remove version info → remove a whole class of cheap attacks.
+I documented this check in more detail here]]></summary>
+        <author>
+            <name>Liudas</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Grok Can't Apologize. So Why Do Headlines Keep Saying It Did?]]></title>
+        <id>https://www.readtpa.com/p/grok-cant-apologize-grok-isnt-sentient</id>
+        <link href="https://www.readtpa.com/p/grok-cant-apologize-grok-isnt-sentient"/>
+        <updated>2026-01-02T19:30:52.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[4th Edition Unix in the Browser]]></title>
+        <id>https://unixv4.dev/</id>
+        <link href="https://unixv4.dev/"/>
+        <updated>2026-01-02T19:18:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TinyTinyTPU: 2×2 systolic-array TPU-style matrix-multiply unit deployed on FPGA]]></title>
+        <id>https://github.com/Alanma23/tinytinyTPU-co</id>
+        <link href="https://github.com/Alanma23/tinytinyTPU-co"/>
+        <updated>2026-01-02T19:13:24.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Surviving Breaking Changes in Evolving C# APIs, Hard Lessons and Practical Strategies for .NET Devs]]></title>
         <id>https://dev.to/saber-amani/surviving-breaking-changes-in-evolving-c-apis-hard-lessons-and-practical-strategies-for-net-devs-2g5p</id>
@@ -272,6 +657,16 @@ Today, we’re entering another shift.
 AI tools can now generate production-ready code from a sentence. Fr…]]></summary>
         <author>
             <name>DevUnionX</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Accounting for Computer Scientists (2011)]]></title>
+        <id>https://martin.kleppmann.com/2011/03/07/accounting-for-computer-scientists.html</id>
+        <link href="https://martin.kleppmann.com/2011/03/07/accounting-for-computer-scientists.html"/>
+        <updated>2026-01-02T18:16:07.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -614,6 +1009,16 @@ Advanced Persistent Threats (APTs) represent some of the most dangerous and comp
 Given their sophistication, defending against APTs requires a proactive, multi-layered defense strategy that addresses detection, prevention, response, and continuous improvement of security controls. In this article, we'll explore the best defensive strategies and how organizations can protect themselves from APTs, leveraging cutting-edge techno…]]></summary>
         <author>
             <name>Emanuele Balsamo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The rsync algorithm (1996) [pdf]]]></title>
+        <id>https://www.andrew.cmu.edu/course/15-749/READINGS/required/cas/tridgell96.pdf</id>
+        <link href="https://www.andrew.cmu.edu/course/15-749/READINGS/required/cas/tridgell96.pdf"/>
+        <updated>2026-01-02T16:56:19.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -95217,356 +95622,6 @@ https://grafana.com/blog/
 The post Steam Winter Sale 2025 Is Now On; Here Are Some Of The Highlights appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Top AI Tools for Productivity in 2025]]></title>
-        <id>https://dev.to/_fde76ff2d01974642930b/top-ai-tools-for-productivity-in-2025-356e</id>
-        <link href="https://dev.to/_fde76ff2d01974642930b/top-ai-tools-for-productivity-in-2025-356e"/>
-        <updated>2025-12-19T08:16:54.000Z</updated>
-        <summary type="html"><![CDATA[It's January 2025, and every productivity article tells you the same lie: AI will save you 10 hours a week.
-In reality? Most people implement one new tool, get hyped for three days, then revert to their old system because the learning curve sucked.
-The top AI tools for productivity in 2025 aren't magic. They're just ruthlessly focused on one thing: removing friction from the work you already do.
-Last year's productivity stack isn't this year's stack. Here's what actually shifted:
-AI became embedded, not bolted-on. A year ago, you'd use ChatGPT as a separate app. Now productivity tools have AI native. Your email client suggests replies. Your calendar proposes meeting times. Your note app completes your thoughts.
-Agentic AI entered the mainstream. Tools like Zapier + Claude can now execute m…]]></summary>
-        <author>
-            <name>ayi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[50% Toll Discount On 23, 24 December 2025 For Christmas]]></title>
-        <id>https://www.lowyat.net/?p=376711</id>
-        <link href="https://www.lowyat.net/2025/376711/50-toll-discount-on-23-24-december-2025-for-christmas/"/>
-        <updated>2025-12-19T08:11:30.000Z</updated>
-        <summary type="html"><![CDATA[The 50% toll discount is back for the last time this year, in conjunction with the Christmas festivities. The Works Minister, Datuk Seri Alexander Nanta Linggi, has announced that the discount will be offered for two days, on 23 and 24 December. The toll discount is applicable to all Class 1 vehicles, except on the […]
-The post 50% Toll Discount On 23, 24 December 2025 For Christmas appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Keran</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Simple Tool for Video Conversion and Compression]]></title>
-        <id>https://dev.to/curry_lau_9674447236abfc0/a-simple-tool-for-video-conversion-and-compression-4gij</id>
-        <link href="https://dev.to/curry_lau_9674447236abfc0/a-simple-tool-for-video-conversion-and-compression-4gij"/>
-        <updated>2025-12-19T08:09:51.000Z</updated>
-        <summary type="html"><![CDATA[Most of the time, working with videos doesn’t mean editing.
-You record a screen demo.
-And suddenly, you’re stuck looking for a quick way to convert or compress a video — without installing heavy software or creating an account.
-That’s the problem I wanted to solve.
-Why Conversion and Compression Matter
-In daily design and development work, video files are everywhere:
-Screen recordings for demos
-Short clips for product previews
-Walkthrough videos for clients or teammates
-But large video files slow everything down:
-Uploads take longer
-Sharing becomes annoying
-Some platforms reject the file altogether
-Often, all you need is:
-A different format
-A smaller file size
-A version that’s easier to send
-Not a full editing suite.
-What the QuickZap Video Converter Focuses On
-The QuickZap Video Converter is built around two core actions:
-Video Conversion
-
-
-Video Compression
-
-
-
-No timelines.
-Just upload → convert or compress → download.
-Designed to Be Lightweight
-The goal wasn’t to compete with professional video tools.
-Browser-based
-No login required
-Clean interface
-Fast and straightforward
-It’s a tool you use for a minute — and then move on with your work.
-Part of the QuickZap Toolbox
-This video tool is one of many small utilities inside QuickZap — a growing collection of focused tools for designers and developers.
-Each tool exists for one reason:
-Make repetitive, everyday tasks easier.
-No bloated features.
-Try It
-The Video Converter & Compressor is live on QuickZap:
-https://www.quickzap.xyz/video-convert
-Free to use, directly in your browser.
-If you have suggestions for other tools that could save time in your daily work, I’d love to hear them.]]></summary>
-        <author>
-            <name>quickzap</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build a White Label Travel Portal: A Developer's Guide]]></title>
-        <id>https://dev.to/dhiraj_kumar_163e7e663e6e/how-to-build-a-white-label-travel-portal-a-developers-guide-48ig</id>
-        <link href="https://dev.to/dhiraj_kumar_163e7e663e6e/how-to-build-a-white-label-travel-portal-a-developers-guide-48ig"/>
-        <updated>2025-12-19T08:09:24.000Z</updated>
-        <summary type="html"><![CDATA[Introduction:
-white label travel portal lets businesses offer flight, hotel, and car bookings under their own brand. Here's how to build one.
-What You Need:
-1. API Integrations
-2. Core Features
-3. Tech Stack
-4. Key Challenges
-5. Architecture Tips
-Quick Start:
-Monetization:
-Add markup on bookings or charge subscription fees to your clients.
-Conclusion:
-White label travel portals are complex but rewarding projects. Start small, focus on one vertical (flights or hotels), then expand.]]></summary>
-        <author>
-            <name>Dhiraj Kumar</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What It Takes to Build FinTech Apps That Survive Real User Growth]]></title>
-        <id>https://dev.to/mary_andree/what-it-takes-to-build-fintech-apps-that-survive-real-user-growth-2o3</id>
-        <link href="https://dev.to/mary_andree/what-it-takes-to-build-fintech-apps-that-survive-real-user-growth-2o3"/>
-        <updated>2025-12-19T08:07:29.000Z</updated>
-        <summary type="html"><![CDATA[Most FinTech products don’t fail at launch.
-A few thousand users are forgiving.
-Real growth doesn’t just increase traffic.
-Scaling a typical consumer app usually means handling more reads, more writes, and more sessions.
-Transactions must be correct every time.
-In practice, this means growth stresses FinTech systems in ways that are easy to underestimate during MVP development.
-One of the earliest problems that appears under real load is data consistency.
-At low traffic, race conditions are rare enough to go unnoticed.
-In one project, a balance update worked reliably in staging and early production.
-Nothing was “broken” in the usual sense.
-Growth didn’t introduce the bug.
-When FinTech systems slow down, the first instinct is often to optimize application logic.
-Common examples include:
-exh…]]></summary>
-        <author>
-            <name>Mary Andree</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[5 Terminal Commands That Saved Me Hours of Clicking]]></title>
-        <id>https://dev.to/maame-codes/5-terminal-commands-that-saved-me-hours-of-clicking-4mfn</id>
-        <link href="https://dev.to/maame-codes/5-terminal-commands-that-saved-me-hours-of-clicking-4mfn"/>
-        <updated>2025-12-19T08:06:58.000Z</updated>
-        <summary type="html"><![CDATA[When I first started coding, I was terrified of the terminal.
-That blank black screen with the blinking green cursor? It looked like something out of The Matrix, something only "senior engineers" with grey beards knew how to use. Me? I loved my mouse. I loved my GUI. I was a professional at dragging and dropping files and right-clicking to create new folders.
-But as I started building projects and diving into more complex tools, the GUI started feeling... slow.
-I found myself clicking through ten layers of nested folders just to find one file. My wrist was actually starting to hurt from all the double-clicking. I realized that if I wanted to be fast, efficient, and actually understand what the computer was doing, I had to ditch the mouse and embrace the command line.
-It was awkward at firs…]]></summary>
-        <author>
-            <name>Maame Afua A. P. Fordjour</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Analisis Kualitas dan Keamanan Sistem Informasi]]></title>
-        <id>https://dev.to/ahmadasroni38/analisis-kualitas-dan-keamanan-sistem-informasi-435g</id>
-        <link href="https://dev.to/ahmadasroni38/analisis-kualitas-dan-keamanan-sistem-informasi-435g"/>
-        <updated>2025-12-19T08:05:14.000Z</updated>
-        <summary type="html"><![CDATA[Halo, rekan-rekan praktisi, akademisi, dosen, dan mahasiswa yang sedang mendalami Sistem Informasi!
-
-Selamat datang di bab yang menjadi pondasi kuat dalam membangun sistem informasi berkualitas tinggi: Analisis Kualitas dan Keamanan. Sebagai praktisi yang telah mengimplementasikan puluhan proyek SI di perusahaan multinasional dan sebagai akademisi yang mengajar ribuan mahasiswa, saya selalu menekankan bahwa sistem informasi yang hebat bukan hanya yang "berfungsi", tapi yang handal, aman, dan memberikan nilai bisnis nyata.
-Bayangkan kamu membangun aplikasi banking online. Kalau kualitas buruk (bug banyak, lambat), pengguna kabur. Kalau keamanan lemah (mudah dihack), perusahaan rugi miliaran. Analisis kualitas dan keamanan adalah "perisai" yang melindungi investasi kita. Bab ini dirancang mu…]]></summary>
-        <author>
-            <name>ahmadasroni38</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Create a Contact Form in React.js with Email Notifications]]></title>
-        <id>https://dev.to/davecodes/how-to-create-a-contact-form-in-reactjs-with-email-notifications-4ao7</id>
-        <link href="https://dev.to/davecodes/how-to-create-a-contact-form-in-reactjs-with-email-notifications-4ao7"/>
-        <updated>2025-12-19T08:04:04.000Z</updated>
-        <summary type="html"><![CDATA[Do you want to build a functional contact form for your React application?
-Whether you're building a portfolio website, business landing page, or complex web application, contact forms are essential for user engagement.
-In this comprehensive guide, you'll learn how to create a contact form in React.js. I'll also show you how to implement email notification functionality using an email service provider.
-Step 1: Setting Up Your React Project
-Step 2: Building the Contact Form Component
-Step 3: Handling Form State and Validation
-Step 4: Creating the Backend Server
-Step 5: Connecting Backend to Contact Form
-Step 6: Testing Your Contact Form
-Troubleshooting Common Errors
-Best Practices and Security
-Frequently Asked Questions
-
-
-Before we dive in, make sure you have these requirements set up:
-Node…]]></summary>
-        <author>
-            <name>David Ozokoye</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI時代に手動APIテストが破綻する理由10選]]></title>
-        <id>https://dev.to/nakamura_takuya/aishi-dai-nishou-dong-apitesutogapo-zhan-suruli-you-10xuan-5h07</id>
-        <link href="https://dev.to/nakamura_takuya/aishi-dai-nishou-dong-apitesutogapo-zhan-suruli-you-10xuan-5h07"/>
-        <updated>2025-12-19T08:03:31.000Z</updated>
-        <summary type="html"><![CDATA[「人の目で確認すれば大丈夫」という幻想
-
-
-先月、僕のチームで起きた出来事です。
-ChatGPTでAPIコードを生成して、いつものように手動でテストしていました。「AIが作ったコードでも、最後は人がチェックすれば問題ない」そう思っていたんです。
-ところが、ある日突然、手動テストが完全に破綻しました。
-APIの変更スピードが速すぎて、テストが全然追いつかない。気づいたら、「確認したつもり」のAPIが本番で次々とエラーを起こすという最悪の事態に。
-「なんで今まで大丈夫だったのに、急にダメになったんだろう？」
-その答えが分かったとき、問題は僕のスキルじゃなくて、時代構造そのものが変わったことだと理解しました。
-この記事では、僕が実際に体験した「手動APIテストの破綻」から学んだ10の教訓を共有します。
-もしあなたも「まだ手動で大丈夫」と思っているなら、この話は他人事じゃないかもしれません。
-僕が体験した破綻の瞬間
-
-
-
-  
-  
-  1. AIのコード生成速度に人間が追いつけない現実
-
-
-これが一番ショックでした。
-ChatGPTに「ユーザー管理APIを作って」と頼むと、5分でエンドポイント10個分のコードが出てくる。でも、それを手動でテストしようとすると、1日かかっても終わらない。
-エンドポイントが30分で5個増える
-リクエスト構造が1時間で3回変わる
-影響範囲の確認だけで半日潰れる
-「あれ？なんで僕だけこんなに遅いんだろう」って思ったけど、問題は僕のスキルじゃなくて、構造そのものだったんです。
-AIが作ったAPIって、見た目はめちゃくちゃ完成度が高いんですよ。
-// ChatGPTが生成したAPI（一見完璧に見える）
-app.post('/api/users', async (req, res) => {
-  const { name, email } = req.body…]]></summary>
-        <author>
-            <name>takuya</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[React Query Server Components: Managing Server-Driven Data at Scale]]></title>
-        <id>https://dev.to/paloma_kingsley_8f28c45cb/react-query-server-components-managing-server-driven-data-at-scale-3k0c</id>
-        <link href="https://dev.to/paloma_kingsley_8f28c45cb/react-query-server-components-managing-server-driven-data-at-scale-3k0c"/>
-        <updated>2025-12-19T08:03:27.000Z</updated>
-        <summary type="html"><![CDATA[Introduction
-
-
-In today’s business environment, digital products are expected to deliver accurate data instantly while maintaining speed and reliability at every interaction. Many organizations struggle when their applications cannot keep server-driven data in sync, leading to delayed updates, inconsistent user experiences, and avoidable operational strain. 
-These challenges often intensify as platforms scale, traffic increases, and customer expectations rise. A structured approach that connects server-side data handling with controlled state management offers businesses a clear path to stability and performance. 
-Read on the blog to know more about how React Query server components help businesses address these demands effectively.
-Types of React Query Server Components Driving Business P…]]></summary>
-        <author>
-            <name>Paloma Kingsley</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Design a Rate Limiter in a System Design Interview?]]></title>
-        <id>https://dev.to/somadevtoo/how-to-design-a-rate-limiter-in-a-system-design-interview-1ec1</id>
-        <link href="https://dev.to/somadevtoo/how-to-design-a-rate-limiter-in-a-system-design-interview-1ec1"/>
-        <updated>2025-12-19T08:02:58.000Z</updated>
-        <summary type="html"><![CDATA[credit --- ByteByteGo
-Hello Devs, System design interviews often test your ability to solve problems that balance performance, scalability, and correctness. One of the most common questions I've encountered is:
-"How would you design a Rate Limiter?"
-I've been asked this exact question multiple times, and each time the interviewer wanted to see how I approached it systematically.
-The rate limiter is not just an academic problem --- it's at the heart of many real systems. APIs, login attempts, payment systems, and messaging platforms all use rate limiting to prevent abuse, control costs, and ensure fairness among users.
-In this article, I'll walk you through the problem, the key requirements, different design approaches, and show you code examples (including the simple timestamp array method…]]></summary>
-        <author>
-            <name>Soma</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Angular Accessibility Just Got Easier: Introducing Angular ARIA]]></title>
-        <id>https://dev.to/brianmtreese/angular-accessibility-just-got-easier-introducing-angular-aria-3k71</id>
-        <link href="https://dev.to/brianmtreese/angular-accessibility-just-got-easier-introducing-angular-aria-3k71"/>
-        <updated>2025-12-19T08:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Angular recently introduced a new accessibility package called Angular ARIA, released in Developer Preview a few weeks ago. If you've seen it mentioned in the docs, you've probably wondered: Do I need this? Is this something I should start using now? And what problem is it actually trying to solve?
- 
-
-
-
-
-
-This tutorial answers those questions by walking through a realistic example showing what Angular ARIA does, why it exists, and when it actually makes sense to use it.
-This is especially relevant now as Angular continues to invest in first-class accessibility tooling.
-Angular ARIA is a collection of headless, accessible directives that implement common WAI-ARIA interaction patterns.
-"Headless" just means there are no styles and no markup assumptions.
-Angular ARIA provides behavior and acc…]]></summary>
-        <author>
-            <name>Brian Treese</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Build AI-Powered Smart Replies with React and Synthetic]]></title>
-        <id>https://dev.to/envitab/build-ai-powered-smart-replies-with-react-and-synthetic-44hc</id>
-        <link href="https://dev.to/envitab/build-ai-powered-smart-replies-with-react-and-synthetic-44hc"/>
-        <updated>2025-12-19T07:59:08.000Z</updated>
-        <summary type="html"><![CDATA[You’ve probably used Gmail’s Smart Reply or Slack’s suggested messages, which are short, AI-generated responses like “Sounds good 👍” or “Let’s do it!”. With a single tap response, you can save time and keep conversations flowing.
-By reducing time spent typing, conversations stay active, drop-off rates decrease, and chat apps feel more innovative and modern.
-Smart replies can be used in customer support apps (agents pick relevant replies and respond faster), marketplaces or communities (buyers and sellers exchange quick transactional messages), or even productivity tools or workplace chat platforms (users save time on repetitive confirmations like “Yes,” “Got it,” or “On it”).
-In this tutorial, we’ll use Stream’s React SDK and Synthetic’s inference API to bring smart replies into chat. You…]]></summary>
-        <author>
-            <name>Ekemini Samuel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Here’s What The Apple Foldable iPhone May Look Like]]></title>
-        <id>https://www.lowyat.net/?p=376719</id>
-        <link href="https://www.lowyat.net/2025/376719/apple-foldable-iphone-render/"/>
-        <updated>2025-12-19T07:54:59.000Z</updated>
-        <summary type="html"><![CDATA[At this point, much has been said about the Apple foldable iPhone, which has yet to come into existence. But while past rumours have honed in on the device’s specifics, this recent leak offers the first glimpse of what the handset may look like. In a recent report by German site iPhone-Ticker, several CAD drawings […]
-The post Here’s What The Apple Foldable iPhone May Look Like appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[E-Hailing Drivers Clocking Over 2,000km Monthly Eligible For BUDI95 Quota Increase]]></title>
-        <id>https://www.lowyat.net/?p=376720</id>
-        <link href="https://www.lowyat.net/2025/376720/e-hailing-drivers-clocking-over-2000km-monthly-eligible-for-budi95-quota-increase/"/>
-        <updated>2025-12-19T07:49:51.000Z</updated>
-        <summary type="html"><![CDATA[E-hailing drivers who travel less than 2,000km a month will no longer qualify for additional subsidised petrol under the BUDI95 scheme, according to a report by New Straits Times (NST). The policy applies to Malaysian citizens with valid driving licences and aims to better target subsidies towards active full-time drivers. Finance Minister II Datuk Seri […]
-The post E-Hailing Drivers Clocking Over 2,000km Monthly Eligible For BUDI95 Quota Increase appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Alleged Pricing Of AMD Ryzen 7 9850X3D CPU Appears Ahead Of Launch]]></title>
-        <id>https://www.lowyat.net/?p=376702</id>
-        <link href="https://www.lowyat.net/2025/376702/alleged-pricing-amd-ryzen-9850x3d-early/"/>
-        <updated>2025-12-19T07:34:06.000Z</updated>
-        <summary type="html"><![CDATA[The AMD Ryzen 7 9850X3D is widely speculated to be making its debut in January 2026, a rumour that has persisted since a dataminer found the CPU being listed on the chipmaker’s French-based driver webpage. Now, the alleged pricing of AMD’s next 3D V-Cache processor has been leaked by some PC retailers in Europe. Over […]
-The post Alleged Pricing Of AMD Ryzen 7 9850X3D CPU Appears Ahead Of Launch appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>John Law</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Supabase preview environments with Autodock]]></title>
-        <id>https://dev.to/mikesol/supabase-preview-environments-with-autodock-1f0l</id>
-        <link href="https://dev.to/mikesol/supabase-preview-environments-with-autodock-1f0l"/>
-        <updated>2025-12-19T07:18:56.000Z</updated>
-        <summary type="html"><![CDATA[At Extuitive, we're using Supabase. It works great locally, and it works great in production, but we were missing an easy way to create preview environments. Supabase has some info about this, but it feels clunky and is difficult to wire up to other parts of a stack, like Next.js or Inngest.
-I'm also the lead developer of Autodock, and my team has adopted it for end-to-end preview environments powered by Supabase. The preview goes live in minutes with minimal config. This article is a quick guide on how to go from 0->Supabase on Autodock.
-To follow along with this tutorial, clone supabase:
- git clone --depth 1 https://github.com/supabase/supabase/
-
-And cd into examples/slack-clone/nextjs-slack-clone.
-Then, in your coding agent, install Autodock MCP. I use Claude Code, so the command would …]]></summary>
-        <author>
-            <name>Mike Solomon</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Getting Started with Ansible: A Beginner’s Guide]]></title>
-        <id>https://dev.to/anushree_gm/getting-started-with-ansible-a-beginners-guide-3deh</id>
-        <link href="https://dev.to/anushree_gm/getting-started-with-ansible-a-beginners-guide-3deh"/>
-        <updated>2025-12-19T07:13:20.000Z</updated>
-        <summary type="html"><![CDATA[What do you think Ansible is? If you’ve ever wished you could control all your servers the way you control your TV with a single remote, that’s exactly what Ansible does for IT infrastructure. Instead of logging into each machine and running commands manually, Ansible lets you automate everything from one place—like magic!
-Why Do We Need It?
-What is Ansible?
-Key Features
-Agentless: No need to install software on managed machines.
-Uses YAML: Playbooks are written in a human-readable format.
-Idempotent: Running the same playbook multiple times without changing the result after the first time.
-In the key features we have mentioned managed machines. What does that exactly mean?
-Control Node (or Control Machine)
-This is the system where Ansible is installed and from which you run your automatio…]]></summary>
-        <author>
-            <name>Anushree GM</name>
         </author>
     </entry>
     <entry>

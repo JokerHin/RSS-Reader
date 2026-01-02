@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-01-02 datetime="2026-01-02T19:00:53.000Z">2026-01-02</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-01-02 datetime="2026-01-02T19:00:53.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-01-02 datetime="2026-01-02T20:06:27.000Z">2026-01-02</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-01-02 datetime="2026-01-02T20:06:27.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,471 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/ofri-peretz/the-n1-insert-loop-that-slowed-our-api-to-a-crawl-4534"
+                        open
+                      >
+                        <summary class="article-expander__title">The N+1 Insert Loop That Slowed Our API to a Crawl</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ofri-peretz/the-n1-insert-loop-that-slowed-our-api-to-a-crawl-4534">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffwhvzhr213wviwky8s66.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Our CSV import endpoint was timing out. 30 seconds wasn&#x27;t enough.
+// ❌ The pattern that killed our performance
+async function importUsers(users) {
+  for (const user of users) {
+    await pool.query(&#x27;INSERT INTO users (name, email) VALUES ($1, $2)&#x27;, [
+      user.name,
+      user.email,
+    ]);
+  }
+}
+
+For 1000 users:
+1000 round trips to database
+~50ms per query
+50 seconds total
+
+
+
+Rows
+N+1 Time
+Bulk Time
+Speedup
+
+
+
+
+100
+5s
+50ms
+100x
+
+
+1000
+50s
+100ms
+500x
+
+
+10000
+500s
+500ms
+1000x
+
+
+
+// ✅ Single query, any number of rows
+async function importUsers(users) {
+  const values &#x3D; users
+    .map((u, i) &#x3D;&gt; &#x60;($${i * 2 + 1}, $${i * 2 + 2})&#x60;)
+    .join(&#x27;, &#x27;);
+
+  const params &#x3D; users.flatMap((u) &#x3D;&gt; [u.name, u.email]);
+
+  await pool.query(&#x60;INSERT INTO users (name, email) VALUES ${values}&#x60;, params);
+}
+
+Or ev…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/blamsa0mine/building-a-task-manager-with-laravel-inertiajs-vue-3-crud-tags-filters-and-a-kanban-board-34hh"
+                        open
+                      >
+                        <summary class="article-expander__title">Building a Task Manager with Laravel + Inertia.js (Vue 3): CRUD, Tags, Filters, and a Kanban Board</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/blamsa0mine/building-a-task-manager-with-laravel-inertiajs-vue-3-crud-tags-filters-and-a-kanban-board-34hh">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0d8nhodi9c3xbrwyjm64.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>What we’re building
+
+
+In this article, I’ll walk through how I built a Task Manager using:
+Laravel 12 (back-end, routing, validation, Eloquent)
+Inertia.js (no API layer, SPA-like UX)
+Vue 3 + Vite (front-end)
+TypeScript (typed UI components)
+Features included:
+✅ Full CRUD (create, list, edit, delete tasks)
+✅ Filters (status, priority, tag, overdue)
+✅ Search (title + details)
+✅ Sorting (created date or due date with nulls last)
+✅ Tags (many-to-many, custom colors, create-on-the-fly)
+✅ Kanban board (drag &amp; drop between columns)
+✅ Small animations on drop (Vue TransitionGroup)
+✅ Flash messages (success) shared via Inertia
+This is a great “real app” example of Laravel + Inertia because it’s not just a CRUD — it starts to feel like a product.
+If you like Laravel but don’t want to maintain a sepa…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;10
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/cristiansifuentes/cpus-ram-explained-how-computers-actually-think-and-remember-a5g"
+                        open
+                      >
+                        <summary class="article-expander__title">CPUs &amp; RAM Explained — How Computers Actually Think and Remember</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cristiansifuentes/cpus-ram-explained-how-computers-actually-think-and-remember-a5g">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0suh99ndyg74voheswj2.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Every modern device you use — laptops, phones, ATMs, smart TVs, even car dashboards — relies on two core components:
+the CPU (processor) and memory (RAM).
+They are the thinking and remembering parts of a computer.
+Understanding how they work together is a foundational skill for any software engineer. This article explains CPUs and RAM from the ground up — not as marketing terms, but as real physical systems built from transistors, electricity, and time.
+The CPU (Central Processing Unit) is the component responsible for executing instructions.
+Every calculation, comparison, loop, condition, or function call in your code eventually becomes an operation executed by the CPU.
+At a high level, the CPU:
+Performs mathematical operations
+
+Moves data between memory locations
+Makes decisions (branchi…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;9
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/davidscanu/por-que-estoy-aprendiendo-espanol-50gd"
+                        open
+                      >
+                        <summary class="article-expander__title">Por qué estoy aprendiendo espanol?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/davidscanu/por-que-estoy-aprendiendo-espanol-50gd">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbs0ojz9n4agus3zxvsvl.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Con frecuencia, la gente me pregunta: &quot;¿Por qué estás aprendiendo español?&quot;. Esto es un poco extraño porque no sé realmente qué contestar a eso. En verdad, no sé realmente por qué empecé a aprender este idioma pero lo que sé ahora es por qué sigo. Es de lo que hablaré en este artículo.
+Siempre he querido aprender el español, pero no encontré la motivación real. Tenía un nivel bastante alto de inglés y eso era suficiente para mí durante muchos años. Podía ver y leer todo lo que quería en inglés. Leí un montón de libros y artículos en inglés. También, estaba siguiendo muchos canales de YouTube en inglés. Para mí, francés e inglés eran intercambiables, es decir que solo me preocupaba del contenido o la información que estaba buscando cuando veía un video en francés o inglés.
+Al contrario, ant…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;9
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/abhishek_shahi_9d131e426d/boolean-field-becomes-null-in-spring-boot-dto-heres-why-and-how-to-fix-it-4i39"
+                        open
+                      >
+                        <summary class="article-expander__title">Boolean Field Becomes null in Spring Boot DTO? Here’s Why (And How to Fix It)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/abhishek_shahi_9d131e426d/boolean-field-becomes-null-in-spring-boot-dto-heres-why-and-how-to-fix-it-4i39">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2o2q3lj4x7dla5gdlb5y.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>If you’re building REST APIs using Spring Boot, you may encounter a strange and frustrating issue:
+null.
+No exception.
+No warning.
+No stack trace.
+This is not a bug in Spring Boot — it’s a Jackson + Java Bean naming trap that frequently appears in real-world applications.
+In this article, you’ll learn:
+- Why boolean values become null in Spring Boot DTOs
+- How Jackson maps JSON properties to Java fields
+- Why @JsonProperty fixes the issue
+- The recommended best practice to avoid this forever
+Consider this request payload sent from the frontend:
+{
+  &quot;isActive&quot;: true
+}
+
+
+Now look at the DTO:
+public class UserRequest {
+
+    private Boolean isActive;
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive &#x3D; isAct…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/justcatdev/the-seed-corn-4pn4"
+                        open
+                      >
+                        <summary class="article-expander__title">The Seed Corn</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/justcatdev/the-seed-corn-4pn4">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxo5u5a632xwb4ro9zgb9.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Episode II
+
+
+The first episode discussed the thinkers; this episode focuses on the doers.
+This is not an argument against automation or AI.
+It is an argument against mistaking acceleration for succession.
+
+The doers
+Execute -&gt; Build -&gt; Operate
+As they work, they accumulate the tacit/tribal knowledge
+
+Earn battle scars, and more importantly, the judgment
+
+Over time, some transition to become &quot;The Thinkers&quot;
+See...
+The doers are thinkers in incubation
+In other words
+You don’t grow thinkers by hiring them.
+Automation attacks the doer layer first.
+Not because doers lack value, but because:
+their work is observable
+repeatable
+specifiable
+The immediate gain looks rational:
+cheaper
+faster
+scalable
+But the unseen loss is this:
+You are not just removing labour...
+That is the seed corn.
+AI is absolutely needed
+The missing point is this:
+If AI is to automate the work that once trained our future thinkers, then we must deliberately invent new paths for judgment to form.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/danielmx/zephyr-on-arduino-uno-q-mcu-5974"
+                        open
+                      >
+                        <summary class="article-expander__title">Zephyr on Arduino UNO Q MCU</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/danielmx/zephyr-on-arduino-uno-q-mcu-5974">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F14s1utq8elm6rgi7g789.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Arduino UNO Q have a STM32U585 inside doing all the Arduino stuff, it communicates with main processor and GPIO pins on board; it seems the only way to get a pinout is the schematics:
+https://docs.arduino.cc/resources/schematics/ABX00162-schematics.pdf
+The pinout image have brief information about the MCU pins
+ 
+Source
+But only shows that pins belong to MCU, and the only indication are on RGB LED 3 and 4 that shows the GPIO used for the MCU.
+For this example it will be needed:
+Zephyr (on the PC Host, probably can be reused the version in UNO Q)
+ADB tools (to connect to the device from PC Host)
+You need to install / update Zephyr. Is important to have at least version 4.3.0 as that is the first version with support
+It can be used the blinky example directly from documentation:
+# use the…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/koralarts/fundamentals-documentation-and-discomfort-keys-to-dev-growth-310n"
+                        open
+                      >
+                        <summary class="article-expander__title">Fundamentals, Documentation, and Discomfort: Keys to Dev Growth</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/koralarts/fundamentals-documentation-and-discomfort-keys-to-dev-growth-310n">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frekutkceokxgx295ryq3.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>During my tenure as a software engineer of 10 years, mostly in a startup environment, I&#x27;ve seen many developers of varying skill levels come and go. I&#x27;ve noticed a few things that hinder their development. As I reflect, I realized that I suffered from these as well, especially early on in my career.
+I&#x27;m writing this post to hopefully help you reflect as well, and ask yourself, &quot;Am I doing any of these?&quot;
+It&#x27;s imperative you learn the fundamentals of software development; at the minimum, understand the fundamentals of the language you work with. Having the fundamentals provides a solid foundation for you to learn new languages, concepts, and frameworks efficiently.
+You might say to yourself, &quot;I already know the fundamentals. I use this language everyday.&quot; Do you really understand it on a dee…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/ofri-peretz/searchpath-hijacking-the-postgresql-attack-youve-never-heard-of-10co"
+                        open
+                      >
+                        <summary class="article-expander__title">search_path Hijacking: The PostgreSQL Attack You&#x27;ve Never Heard Of</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ofri-peretz/searchpath-hijacking-the-postgresql-attack-youve-never-heard-of-10co">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1jc21e3q5petyd92xlx5.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Most developers know about SQL injection. Few know about search_path hijacking.
+It&#x27;s just as dangerous.
+PostgreSQL&#x27;s search_path determines which schema to look in when you reference an unqualified table name.
+-- With search_path &#x3D; public, these are equivalent:
+SELECT * FROM users;
+SELECT * FROM public.users;
+
+If an attacker can control the search_path, they can redirect your queries to malicious tables:
+// ❌ Dynamic search_path from user input
+const schema &#x3D; req.query.tenant; // Attacker controls this
+await client.query(&#x60;SET search_path TO ${schema}&#x60;);
+await client.query(&#x27;SELECT * FROM users&#x27;); // Now queries attacker&#x27;s schema
+
+The attacker:
+Creates a schema with a malicious users table
+Sets search_path to their schema
+Your query returns their fake data
+
+
+
+Attack
+Impact
+
+
+
+
+Data theft
+Ret…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/cristiansifuentes/bits-bytes-explained-the-true-foundation-of-all-software-1l8d"
+                        open
+                      >
+                        <summary class="article-expander__title">Bits &amp; Bytes Explained — The True Foundation of All Software</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cristiansifuentes/bits-bytes-explained-the-true-foundation-of-all-software-1l8d">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffg2j34o1t5355mmd6xls.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Every message you send, every image you see, every app you open — from emojis to operating systems — is built on two deceptively simple concepts:
+bits and bytes.
+They are the atoms of the digital world.
+
+And if you truly want to understand software engineering, you must understand them deeply.
+This article breaks down what bits and bytes really are, why they exist, and how they power everything from IP addresses to emojis.
+A bit (short for binary digit) is the smallest unit of information in computing.
+It can exist in only two possible states:
+0 or 1
+
+off or on
+false or true
+low voltage or high voltage
+At the physical level, a bit is implemented using a transistor — a tiny electronic switch that either allows electricity to flow or blocks it.
+In electronic circuits:
+A high voltage (for exa…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/member_6331818c/ultimatewebframeworkspeedshowdown20260102194711-5g8j"
+                        open
+                      >
+                        <summary class="article-expander__title">🚀_Ultimate_Web_Framework_Speed_Showdown[20260102194711]</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/member_6331818c/ultimatewebframeworkspeedshowdown20260102194711-5g8j">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcl3dfqa9i62hrw0cc1l5.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>As a full-stack engineer with 10 years of development experience, I&#x27;ve witnessed the rise and fall of countless web frameworks. From the early jQuery era to today&#x27;s high-performance Rust frameworks, I&#x27;ve seen the rapid evolution of web development technology. Today I want to share a performance comparison test that shocked me and completely changed my understanding of web framework performance.
+In 2024, the performance requirements for web applications are getting higher and higher. Whether it&#x27;s e-commerce websites, social platforms, or enterprise applications, users expect millisecond-level response times. I spent a full month conducting comprehensive performance tests on mainstream web frameworks on the market, including Tokio, Rocket, Gin, Go standard library, Rust standard library, Nod…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/liudasjan/server-headers-that-talk-too-much-10kp"
+                        open
+                      >
+                        <summary class="article-expander__title">Server headers that talk too much</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/liudasjan/server-headers-that-talk-too-much-10kp">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Feo6jllrov8rq2ht461x0.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>People like to say “security is hard”.
+If your API responds with something like:
+Server: nginx/1.18.0
+Apache/2.4.49
+
+you’ve already helped the attacker more than you think.
+Why this matters in practice? Exposing an exact server version makes fingerprinting trivial:
+identify the tech
+identify the version
+map it to known CVEs
+automate exploitation
+This isn’t theory. This is how large-scale attacks start.
+OWASP explicitly points out that knowing the server and its version helps determine whether it’s vulnerable — especially when older or partially patched components are involved.
+“But we patch regularly…” Good. Then this check passes and nobody cares. Until: 
+the reverse proxy wasn’t updated
+OpenSSL lagged behind
+a rushed hotfix re-enabled “helpful” headers
+And because nothing breaks, nobody notices. That’s why this issue survives in production for months.
+The fix is boring (and that’s good)
+Don’t disclose server versions in headers
+Keep banners minimal 
+Don’t leak framework or proxy details unless absolutely necessary
+Remove version info → remove a whole class of cheap attacks.
+I documented this check in more detail here</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -6876,324 +7341,88 @@ Later, as a side hobby, I worked with ActionScript (RIP Flash), which eventually
                     class="source-heading__name"
                     data-action="toggle-accordions"
                     title="Click to toggle the source, Ctrl + click to toggle all."
-                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
-                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="844969cb-63c6-4ce9-a827-1b227ababba7"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitfinex hacker Ilya Lichtenstein credits Trump’s First Step Act for early prison release</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/01/02/crypto-hacker-ilya-lichtenstein-credits-trump-s-first-step-act-for-early-prison-release">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/9d5e9e821ae5f5453a5c2fe8e1076ec0f1fd6568-1920x1079.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The U.S. hacker pleaded guilty to stealing and laundering nearly 120,000 bitcoin from cryptocurrency exchange Bitfinex in 2016.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;34
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="5fbf53b5-aa7d-43ab-a1cc-c2b3fc61dae3"
-                        open
-                      >
-                        <summary class="article-expander__title">Tom Lee urges BitMine shareholders to approve share increase ahead of January 14 vote</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/01/02/tom-lee-urges-bitmine-shareholders-to-approve-share-increase-ahead-of-jan-14-vote">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/13c2f3d8f4a14835d564bac5cf5d5cdd106bdcfd-1919x1080.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The chairman of the former bitcoin miner-turned-ether treasury firm reiterated his view that Ethereum is the future of finance.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;34
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="8515c229-3dd2-4a5c-b2a0-fae7cfb038cc"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin pushes above $90,000 as traders eye change in pattern</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/bitcoin-pushes-above-usd90-000-as-traders-eye-change-in-pattern">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/ad9ee8dab91a300e5696f81b3b2b61422e6df159-1080x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Particularly hard-hit in 2025&#x27;s final sessions, crypto-related stocks are bouncing in this year&#x27;s first trading day.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;32
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="ebf89c28-522f-4042-b37a-689a0b4aa142"
-                        open
-                      >
-                        <summary class="article-expander__title">$110 billion in crypto left South Korea in 2025 owing to strict trading rules</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/01/02/usd110-billion-in-crypto-left-south-korea-in-2025-owing-to-strict-trading-rules">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/108512002c2e59c2562e0797e4658ea9337dfd80-1920x1080.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>While South Korean financial officials acknowledged the need for new rules, disagreements over stablecoins delayed a broader crypto framework.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;34
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="861b0b33-61ee-409c-a353-4e8cff0df1d1"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin miner Bitfarms exiting Latin America with $30M sale of Paraguay site</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/01/02/bitcoin-miner-bitfarms-to-exit-latin-america-with-usd30m-sale-of-paraguay-site">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/58e935863e39605892acf3fca91ceba74c90f9c9-1920x1080.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The company is selling the site to the Sympatheia Power Fund, managed by Singapore-based Hawksburn Capital.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;32
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="e4ac850b-3033-4314-9d68-cc07ac23fc51"
-                        open
-                      >
-                        <summary class="article-expander__title">Iran accepts cryptocurrency as payment for advanced weapons</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/01/02/iran-accepts-cryptocurrency-as-payment-for-advanced-weapons">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/56384cad1c4ed5151c5608147e8af347c0e91e5d-1920x1080.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Prospective customers could purchase weapons such as missiles, tanks and drones using crypto, according to a government website.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;32
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="5650ae16-fdfb-4c4f-9388-58c0d07b1d9f"
-                        open
-                      >
-                        <summary class="article-expander__title">Turkmenistan legalizes crypto mining and exchanges to boost the economy</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/01/02/turkmenistan-legalizes-crypto-mining-and-exchanges-to-boost-the-economy">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f6f7c191d18f7193daaabdf752e7c5a3245747ba-1920x1080.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The legislation aims to boost economic development and foreign investment while treating virtual assets strictly as property.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;33
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="77dd144d-0b91-46fc-86f8-9abb0ba65914"
-                        open
-                      >
-                        <summary class="article-expander__title">Internet Computer climbs back to $3 as short-term momentum improves</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/internet-computer-climbs-back-to-usd3-as-short-term-momentum-improves">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b15d04dfc79b4b84a0708401543a3f2a22b62567-700x430.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>ICP pushed above the $3 level on rising activity, holding recent gains as traders reassess near-term direction.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;33
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="680ce6ea-93b7-47a7-bd3f-048a5ec304ec"
-                        open
-                      >
-                        <summary class="article-expander__title">BONK jumps more than 10% in 24 hours as momentum pushes price higher</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/bonk-jumps-more-than-10-in-24-hours-as-momentum-pushes-price-higher">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f89742871c0c22bc608e62058b402b2037946f60-700x430.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The Solana-based token passed through a key technical level before easing back into consolidation.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;33
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="955fa033-d7aa-4d8f-834e-ff99fcdb15d2"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin ETFs lose record $4.57 billion in two months</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/bitcoin-etfs-lose-record-usd4-57-billion-in-two-months">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b7990c1aee6dc662da6a92e4675c895b7b28cf2b-1920x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Spot BTC ETFs registered their sharpest outflows on record through November and December as prices dropped 20%.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;33
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="63fe0d0f-0d23-4232-8a96-6371a012e097"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin&#x27;s squeeze sets stage for major price swing</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/bitcoin-s-squeeze-sets-stage-for-major-price-swing">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/aa651f593b05892413d8006cdf3a5cea49f53472-1260x843.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>BTC&#x27;s volatility bands have compressed to levels that have historically paved the way for a renewed price turbulence.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;33
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="2dbcec5a-af8b-4f8f-b209-b4a094e83c41"
-                        open
-                      >
-                        <summary class="article-expander__title">Cardano&#x27;s ADA pops 7%, bitcoin, ether show steady gains as traders enter 2026</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/cardano-s-ada-pops-7-bitcoin-ether-show-steady-gains-as-traders-enter-2026">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f49d4c68e25542b032d598eca35cddf2b90b900e-3840x2160.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>ADA outperforms as traders return from the holiday break, but analysts say the market is still far from a broad altcoin season.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;34
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="5ff8b689-aabc-49bd-8334-d5d1191cecd1"
-                        open
-                      >
-                        <summary class="article-expander__title">Tether adds nearly $800 million in bitcoin, bringing holdings above 96,000 BTC</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/tether-adds-nearly-usd800-million-in-bitcoin-bringing-holdings-above-96-000-btc">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b2e3ecb2dd0afc982a2fd15713b824b337e2c807-1919x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The purchase is part of Tether&#x27;s strategy to use up to 15% of its quarterly profits for bitcoin acquisitions.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;33
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="3ef1af5a-8a4d-480d-aa8b-cc9eb3e27f26"
-                        open
-                      >
-                        <summary class="article-expander__title">Dogecoin surges 7% as a double-bottom break sparks DOGE rally</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/dogecoin-surges-7-as-a-double-bottom-break-sparks-doge-rally">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/680d3e2c4962a57acefd0777b65cf58822b6f6fb-1206x738.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The breakout was supported by spot activity, indicating a healthier market move.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;36
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="1f0122b1-4712-407e-a560-50eb0f7a302f"
-                        open
-                      >
-                        <summary class="article-expander__title">XRP bounces, but $2 remains the hurdle as exchange supply hits 8-year low</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/xrp-bounces-but-usd2-remains-the-hurdle-as-exchange-supply-hits-8-year-low">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6fbff84ac0802a0cd07b9da692897222c9f84981-1196x740.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Exchange balances have decreased by about 57% since October, suggesting tokens are moving into longer-term storage.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;36
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
                   >Hacker News</button>
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://indieweb.org/POSSE#"
+                        open
+                      >
+                        <summary class="article-expander__title">Publish (On Your) Own Site, Syndicate Elsewhere</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://indieweb.org/POSSE#">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;19
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.readtpa.com/p/grok-cant-apologize-grok-isnt-sentient"
+                        open
+                      >
+                        <summary class="article-expander__title">Grok Can&#x27;t Apologize. So Why Do Headlines Keep Saying It Did?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.readtpa.com/p/grok-cant-apologize-grok-isnt-sentient">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://substackcdn.com/image/fetch/$s_!S_rh!,w_1200,h_600,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F330536b4-d6bc-414f-a739-6804eb3e76e0_1024x682.jpeg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;19
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://unixv4.dev/"
+                        open
+                      >
+                        <summary class="article-expander__title">4th Edition Unix in the Browser</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://unixv4.dev/">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;15
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://github.com/Alanma23/tinytinyTPU-co"
+                        open
+                      >
+                        <summary class="article-expander__title">TinyTinyTPU: 2×2 systolic-array TPU-style matrix-multiply unit deployed on FPGA</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/Alanma23/tinytinyTPU-co">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://opengraph.githubassets.com/ac8f860cbab31d467f88a92b994e6080e4ef09eb43aadaffecff5d54f029c902/Alanma23/tinytinyTPU-co" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;30
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -7218,6 +7447,25 @@ Later, as a side hobby, I worked with ActionScript (RIP Flash), which eventually
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://martin.kleppmann.com/2011/03/07/accounting-for-computer-scientists.html"
+                        open
+                      >
+                        <summary class="article-expander__title">Accounting for Computer Scientists (2011)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://martin.kleppmann.com/2011/03/07/accounting-for-computer-scientists.html">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;10
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://www.clicksphone.com/en/communicator"
                         open
                       >
@@ -7228,6 +7476,25 @@ Later, as a side hobby, I worked with ActionScript (RIP Flash), which eventually
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;15
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.andrew.cmu.edu/course/15-749/READINGS/required/cas/tridgell96.pdf"
+                        open
+                      >
+                        <summary class="article-expander__title">The rsync algorithm (1996) [pdf]</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.andrew.cmu.edu/course/15-749/READINGS/required/cas/tridgell96.pdf">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;39
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -7923,6 +8190,320 @@ Later, as a side hobby, I worked with ActionScript (RIP Flash), which eventually
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
+                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="844969cb-63c6-4ce9-a827-1b227ababba7"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitfinex hacker Ilya Lichtenstein credits Trump’s First Step Act for early prison release</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/01/02/crypto-hacker-ilya-lichtenstein-credits-trump-s-first-step-act-for-early-prison-release">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/9d5e9e821ae5f5453a5c2fe8e1076ec0f1fd6568-1920x1079.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The U.S. hacker pleaded guilty to stealing and laundering nearly 120,000 bitcoin from cryptocurrency exchange Bitfinex in 2016.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;34
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="5fbf53b5-aa7d-43ab-a1cc-c2b3fc61dae3"
+                        open
+                      >
+                        <summary class="article-expander__title">Tom Lee urges BitMine shareholders to approve share increase ahead of January 14 vote</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/01/02/tom-lee-urges-bitmine-shareholders-to-approve-share-increase-ahead-of-jan-14-vote">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/13c2f3d8f4a14835d564bac5cf5d5cdd106bdcfd-1919x1080.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The chairman of the former bitcoin miner-turned-ether treasury firm reiterated his view that Ethereum is the future of finance.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;34
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="8515c229-3dd2-4a5c-b2a0-fae7cfb038cc"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin pushes above $90,000 as traders eye change in pattern</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/bitcoin-pushes-above-usd90-000-as-traders-eye-change-in-pattern">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/ad9ee8dab91a300e5696f81b3b2b61422e6df159-1080x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Particularly hard-hit in 2025&#x27;s final sessions, crypto-related stocks are bouncing in this year&#x27;s first trading day.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;32
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="ebf89c28-522f-4042-b37a-689a0b4aa142"
+                        open
+                      >
+                        <summary class="article-expander__title">$110 billion in crypto left South Korea in 2025 owing to strict trading rules</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/01/02/usd110-billion-in-crypto-left-south-korea-in-2025-owing-to-strict-trading-rules">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/108512002c2e59c2562e0797e4658ea9337dfd80-1920x1080.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>While South Korean financial officials acknowledged the need for new rules, disagreements over stablecoins delayed a broader crypto framework.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;34
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="861b0b33-61ee-409c-a353-4e8cff0df1d1"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin miner Bitfarms exiting Latin America with $30M sale of Paraguay site</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/01/02/bitcoin-miner-bitfarms-to-exit-latin-america-with-usd30m-sale-of-paraguay-site">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/58e935863e39605892acf3fca91ceba74c90f9c9-1920x1080.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The company is selling the site to the Sympatheia Power Fund, managed by Singapore-based Hawksburn Capital.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;32
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="e4ac850b-3033-4314-9d68-cc07ac23fc51"
+                        open
+                      >
+                        <summary class="article-expander__title">Iran accepts cryptocurrency as payment for advanced weapons</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/01/02/iran-accepts-cryptocurrency-as-payment-for-advanced-weapons">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/56384cad1c4ed5151c5608147e8af347c0e91e5d-1920x1080.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Prospective customers could purchase weapons such as missiles, tanks and drones using crypto, according to a government website.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;32
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="5650ae16-fdfb-4c4f-9388-58c0d07b1d9f"
+                        open
+                      >
+                        <summary class="article-expander__title">Turkmenistan legalizes crypto mining and exchanges to boost the economy</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/01/02/turkmenistan-legalizes-crypto-mining-and-exchanges-to-boost-the-economy">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f6f7c191d18f7193daaabdf752e7c5a3245747ba-1920x1080.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The legislation aims to boost economic development and foreign investment while treating virtual assets strictly as property.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;33
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="77dd144d-0b91-46fc-86f8-9abb0ba65914"
+                        open
+                      >
+                        <summary class="article-expander__title">Internet Computer climbs back to $3 as short-term momentum improves</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/internet-computer-climbs-back-to-usd3-as-short-term-momentum-improves">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b15d04dfc79b4b84a0708401543a3f2a22b62567-700x430.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>ICP pushed above the $3 level on rising activity, holding recent gains as traders reassess near-term direction.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;33
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="680ce6ea-93b7-47a7-bd3f-048a5ec304ec"
+                        open
+                      >
+                        <summary class="article-expander__title">BONK jumps more than 10% in 24 hours as momentum pushes price higher</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/bonk-jumps-more-than-10-in-24-hours-as-momentum-pushes-price-higher">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f89742871c0c22bc608e62058b402b2037946f60-700x430.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Solana-based token passed through a key technical level before easing back into consolidation.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;33
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="955fa033-d7aa-4d8f-834e-ff99fcdb15d2"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin ETFs lose record $4.57 billion in two months</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/bitcoin-etfs-lose-record-usd4-57-billion-in-two-months">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b7990c1aee6dc662da6a92e4675c895b7b28cf2b-1920x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Spot BTC ETFs registered their sharpest outflows on record through November and December as prices dropped 20%.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;33
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="63fe0d0f-0d23-4232-8a96-6371a012e097"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin&#x27;s squeeze sets stage for major price swing</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/bitcoin-s-squeeze-sets-stage-for-major-price-swing">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/aa651f593b05892413d8006cdf3a5cea49f53472-1260x843.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>BTC&#x27;s volatility bands have compressed to levels that have historically paved the way for a renewed price turbulence.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;33
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="2dbcec5a-af8b-4f8f-b209-b4a094e83c41"
+                        open
+                      >
+                        <summary class="article-expander__title">Cardano&#x27;s ADA pops 7%, bitcoin, ether show steady gains as traders enter 2026</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/cardano-s-ada-pops-7-bitcoin-ether-show-steady-gains-as-traders-enter-2026">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f49d4c68e25542b032d598eca35cddf2b90b900e-3840x2160.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>ADA outperforms as traders return from the holiday break, but analysts say the market is still far from a broad altcoin season.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;34
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="5ff8b689-aabc-49bd-8334-d5d1191cecd1"
+                        open
+                      >
+                        <summary class="article-expander__title">Tether adds nearly $800 million in bitcoin, bringing holdings above 96,000 BTC</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/tether-adds-nearly-usd800-million-in-bitcoin-bringing-holdings-above-96-000-btc">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b2e3ecb2dd0afc982a2fd15713b824b337e2c807-1919x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The purchase is part of Tether&#x27;s strategy to use up to 15% of its quarterly profits for bitcoin acquisitions.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;33
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="3ef1af5a-8a4d-480d-aa8b-cc9eb3e27f26"
+                        open
+                      >
+                        <summary class="article-expander__title">Dogecoin surges 7% as a double-bottom break sparks DOGE rally</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/dogecoin-surges-7-as-a-double-bottom-break-sparks-doge-rally">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/680d3e2c4962a57acefd0777b65cf58822b6f6fb-1206x738.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The breakout was supported by spot activity, indicating a healthier market move.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;36
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="1f0122b1-4712-407e-a560-50eb0f7a302f"
+                        open
+                      >
+                        <summary class="article-expander__title">XRP bounces, but $2 remains the hurdle as exchange supply hits 8-year low</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/01/02/xrp-bounces-but-usd2-remains-the-hurdle-as-exchange-supply-hits-8-year-low">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6fbff84ac0802a0cd07b9da692897222c9f84981-1196x740.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Exchange balances have decreased by about 57% since October, suggesting tokens are moving into longer-term storage.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;36
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -145108,452 +145689,6 @@ https://grafana.com/blog/
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/_fde76ff2d01974642930b/top-ai-tools-for-productivity-in-2025-356e"
-                        open
-                      >
-                        <summary class="article-expander__title">Top AI Tools for Productivity in 2025</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/_fde76ff2d01974642930b/top-ai-tools-for-productivity-in-2025-356e">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F58ln4awpvisnq025b3yh.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>It&#x27;s January 2025, and every productivity article tells you the same lie: AI will save you 10 hours a week.
-In reality? Most people implement one new tool, get hyped for three days, then revert to their old system because the learning curve sucked.
-The top AI tools for productivity in 2025 aren&#x27;t magic. They&#x27;re just ruthlessly focused on one thing: removing friction from the work you already do.
-Last year&#x27;s productivity stack isn&#x27;t this year&#x27;s stack. Here&#x27;s what actually shifted:
-AI became embedded, not bolted-on. A year ago, you&#x27;d use ChatGPT as a separate app. Now productivity tools have AI native. Your email client suggests replies. Your calendar proposes meeting times. Your note app completes your thoughts.
-Agentic AI entered the mainstream. Tools like Zapier + Claude can now execute m…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;9
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/curry_lau_9674447236abfc0/a-simple-tool-for-video-conversion-and-compression-4gij"
-                        open
-                      >
-                        <summary class="article-expander__title">A Simple Tool for Video Conversion and Compression</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/curry_lau_9674447236abfc0/a-simple-tool-for-video-conversion-and-compression-4gij">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fn15oy0not00opvv2ig4f.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Most of the time, working with videos doesn’t mean editing.
-You record a screen demo.
-And suddenly, you’re stuck looking for a quick way to convert or compress a video — without installing heavy software or creating an account.
-That’s the problem I wanted to solve.
-Why Conversion and Compression Matter
-In daily design and development work, video files are everywhere:
-Screen recordings for demos
-Short clips for product previews
-Walkthrough videos for clients or teammates
-But large video files slow everything down:
-Uploads take longer
-Sharing becomes annoying
-Some platforms reject the file altogether
-Often, all you need is:
-A different format
-A smaller file size
-A version that’s easier to send
-Not a full editing suite.
-What the QuickZap Video Converter Focuses On
-The QuickZap Video Converter is built around two core actions:
-Video Conversion
-
-
-Video Compression
-
-
-
-No timelines.
-Just upload → convert or compress → download.
-Designed to Be Lightweight
-The goal wasn’t to compete with professional video tools.
-Browser-based
-No login required
-Clean interface
-Fast and straightforward
-It’s a tool you use for a minute — and then move on with your work.
-Part of the QuickZap Toolbox
-This video tool is one of many small utilities inside QuickZap — a growing collection of focused tools for designers and developers.
-Each tool exists for one reason:
-Make repetitive, everyday tasks easier.
-No bloated features.
-Try It
-The Video Converter &amp; Compressor is live on QuickZap:
-https://www.quickzap.xyz/video-convert
-Free to use, directly in your browser.
-If you have suggestions for other tools that could save time in your daily work, I’d love to hear them.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/dhiraj_kumar_163e7e663e6e/how-to-build-a-white-label-travel-portal-a-developers-guide-48ig"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Build a White Label Travel Portal: A Developer&#x27;s Guide</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dhiraj_kumar_163e7e663e6e/how-to-build-a-white-label-travel-portal-a-developers-guide-48ig">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc6dlw4147yi2errtsvmw.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Introduction:
-white label travel portal lets businesses offer flight, hotel, and car bookings under their own brand. Here&#x27;s how to build one.
-What You Need:
-1. API Integrations
-2. Core Features
-3. Tech Stack
-4. Key Challenges
-5. Architecture Tips
-Quick Start:
-Monetization:
-Add markup on bookings or charge subscription fees to your clients.
-Conclusion:
-White label travel portals are complex but rewarding projects. Start small, focus on one vertical (flights or hotels), then expand.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/mary_andree/what-it-takes-to-build-fintech-apps-that-survive-real-user-growth-2o3"
-                        open
-                      >
-                        <summary class="article-expander__title">What It Takes to Build FinTech Apps That Survive Real User Growth</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mary_andree/what-it-takes-to-build-fintech-apps-that-survive-real-user-growth-2o3">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ff6isjtmmo2lwjv1sfekn.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Most FinTech products don’t fail at launch.
-A few thousand users are forgiving.
-Real growth doesn’t just increase traffic.
-Scaling a typical consumer app usually means handling more reads, more writes, and more sessions.
-Transactions must be correct every time.
-In practice, this means growth stresses FinTech systems in ways that are easy to underestimate during MVP development.
-One of the earliest problems that appears under real load is data consistency.
-At low traffic, race conditions are rare enough to go unnoticed.
-In one project, a balance update worked reliably in staging and early production.
-Nothing was “broken” in the usual sense.
-Growth didn’t introduce the bug.
-When FinTech systems slow down, the first instinct is often to optimize application logic.
-Common examples include:
-exh…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/maame-codes/5-terminal-commands-that-saved-me-hours-of-clicking-4mfn"
-                        open
-                      >
-                        <summary class="article-expander__title">5 Terminal Commands That Saved Me Hours of Clicking</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/maame-codes/5-terminal-commands-that-saved-me-hours-of-clicking-4mfn">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjm5ww6sxg2896nzmfzm9.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>When I first started coding, I was terrified of the terminal.
-That blank black screen with the blinking green cursor? It looked like something out of The Matrix, something only &quot;senior engineers&quot; with grey beards knew how to use. Me? I loved my mouse. I loved my GUI. I was a professional at dragging and dropping files and right-clicking to create new folders.
-But as I started building projects and diving into more complex tools, the GUI started feeling... slow.
-I found myself clicking through ten layers of nested folders just to find one file. My wrist was actually starting to hurt from all the double-clicking. I realized that if I wanted to be fast, efficient, and actually understand what the computer was doing, I had to ditch the mouse and embrace the command line.
-It was awkward at firs…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;9
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/ahmadasroni38/analisis-kualitas-dan-keamanan-sistem-informasi-435g"
-                        open
-                      >
-                        <summary class="article-expander__title">Analisis Kualitas dan Keamanan Sistem Informasi</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ahmadasroni38/analisis-kualitas-dan-keamanan-sistem-informasi-435g">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fql1gdwbyvfkgdvzdgxna.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Halo, rekan-rekan praktisi, akademisi, dosen, dan mahasiswa yang sedang mendalami Sistem Informasi!
-
-Selamat datang di bab yang menjadi pondasi kuat dalam membangun sistem informasi berkualitas tinggi: Analisis Kualitas dan Keamanan. Sebagai praktisi yang telah mengimplementasikan puluhan proyek SI di perusahaan multinasional dan sebagai akademisi yang mengajar ribuan mahasiswa, saya selalu menekankan bahwa sistem informasi yang hebat bukan hanya yang &quot;berfungsi&quot;, tapi yang handal, aman, dan memberikan nilai bisnis nyata.
-Bayangkan kamu membangun aplikasi banking online. Kalau kualitas buruk (bug banyak, lambat), pengguna kabur. Kalau keamanan lemah (mudah dihack), perusahaan rugi miliaran. Analisis kualitas dan keamanan adalah &quot;perisai&quot; yang melindungi investasi kita. Bab ini dirancang mu…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/davecodes/how-to-create-a-contact-form-in-reactjs-with-email-notifications-4ao7"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Create a Contact Form in React.js with Email Notifications</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/davecodes/how-to-create-a-contact-form-in-reactjs-with-email-notifications-4ao7">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9ogam6hkzx965mhf5l31.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Do you want to build a functional contact form for your React application?
-Whether you&#x27;re building a portfolio website, business landing page, or complex web application, contact forms are essential for user engagement.
-In this comprehensive guide, you&#x27;ll learn how to create a contact form in React.js. I&#x27;ll also show you how to implement email notification functionality using an email service provider.
-Step 1: Setting Up Your React Project
-Step 2: Building the Contact Form Component
-Step 3: Handling Form State and Validation
-Step 4: Creating the Backend Server
-Step 5: Connecting Backend to Contact Form
-Step 6: Testing Your Contact Form
-Troubleshooting Common Errors
-Best Practices and Security
-Frequently Asked Questions
-
-
-Before we dive in, make sure you have these requirements set up:
-Node…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;19
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/nakamura_takuya/aishi-dai-nishou-dong-apitesutogapo-zhan-suruli-you-10xuan-5h07"
-                        open
-                      >
-                        <summary class="article-expander__title">AI時代に手動APIテストが破綻する理由10選</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/nakamura_takuya/aishi-dai-nishou-dong-apitesutogapo-zhan-suruli-you-10xuan-5h07">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx747e1ifw5g74738jdl4.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>「人の目で確認すれば大丈夫」という幻想
-
-
-先月、僕のチームで起きた出来事です。
-ChatGPTでAPIコードを生成して、いつものように手動でテストしていました。「AIが作ったコードでも、最後は人がチェックすれば問題ない」そう思っていたんです。
-ところが、ある日突然、手動テストが完全に破綻しました。
-APIの変更スピードが速すぎて、テストが全然追いつかない。気づいたら、「確認したつもり」のAPIが本番で次々とエラーを起こすという最悪の事態に。
-「なんで今まで大丈夫だったのに、急にダメになったんだろう？」
-その答えが分かったとき、問題は僕のスキルじゃなくて、時代構造そのものが変わったことだと理解しました。
-この記事では、僕が実際に体験した「手動APIテストの破綻」から学んだ10の教訓を共有します。
-もしあなたも「まだ手動で大丈夫」と思っているなら、この話は他人事じゃないかもしれません。
-僕が体験した破綻の瞬間
-
-
-
-  
-  
-  1. AIのコード生成速度に人間が追いつけない現実
-
-
-これが一番ショックでした。
-ChatGPTに「ユーザー管理APIを作って」と頼むと、5分でエンドポイント10個分のコードが出てくる。でも、それを手動でテストしようとすると、1日かかっても終わらない。
-エンドポイントが30分で5個増える
-リクエスト構造が1時間で3回変わる
-影響範囲の確認だけで半日潰れる
-「あれ？なんで僕だけこんなに遅いんだろう」って思ったけど、問題は僕のスキルじゃなくて、構造そのものだったんです。
-AIが作ったAPIって、見た目はめちゃくちゃ完成度が高いんですよ。
-// ChatGPTが生成したAPI（一見完璧に見える）
-app.post(&#x27;/api/users&#x27;, async (req, res) &#x3D;&gt; {
-  const { name, email } &#x3D; req.body…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/paloma_kingsley_8f28c45cb/react-query-server-components-managing-server-driven-data-at-scale-3k0c"
-                        open
-                      >
-                        <summary class="article-expander__title">React Query Server Components: Managing Server-Driven Data at Scale</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/paloma_kingsley_8f28c45cb/react-query-server-components-managing-server-driven-data-at-scale-3k0c">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fof5pt5qrqropywk9s8r8.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Introduction
-
-
-In today’s business environment, digital products are expected to deliver accurate data instantly while maintaining speed and reliability at every interaction. Many organizations struggle when their applications cannot keep server-driven data in sync, leading to delayed updates, inconsistent user experiences, and avoidable operational strain. 
-These challenges often intensify as platforms scale, traffic increases, and customer expectations rise. A structured approach that connects server-side data handling with controlled state management offers businesses a clear path to stability and performance. 
-Read on the blog to know more about how React Query server components help businesses address these demands effectively.
-Types of React Query Server Components Driving Business P…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/somadevtoo/how-to-design-a-rate-limiter-in-a-system-design-interview-1ec1"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Design a Rate Limiter in a System Design Interview?</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/somadevtoo/how-to-design-a-rate-limiter-in-a-system-design-interview-1ec1">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvof1wno1gpd54dre7192.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>credit --- ByteByteGo
-Hello Devs, System design interviews often test your ability to solve problems that balance performance, scalability, and correctness. One of the most common questions I&#x27;ve encountered is:
-&quot;How would you design a Rate Limiter?&quot;
-I&#x27;ve been asked this exact question multiple times, and each time the interviewer wanted to see how I approached it systematically.
-The rate limiter is not just an academic problem --- it&#x27;s at the heart of many real systems. APIs, login attempts, payment systems, and messaging platforms all use rate limiting to prevent abuse, control costs, and ensure fairness among users.
-In this article, I&#x27;ll walk you through the problem, the key requirements, different design approaches, and show you code examples (including the simple timestamp array method…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;10
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/brianmtreese/angular-accessibility-just-got-easier-introducing-angular-aria-3k71"
-                        open
-                      >
-                        <summary class="article-expander__title">Angular Accessibility Just Got Easier: Introducing Angular ARIA</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/brianmtreese/angular-accessibility-just-got-easier-introducing-angular-aria-3k71">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffbe04muerkl9wjvpzxjh.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Angular recently introduced a new accessibility package called Angular ARIA, released in Developer Preview a few weeks ago. If you&#x27;ve seen it mentioned in the docs, you&#x27;ve probably wondered: Do I need this? Is this something I should start using now? And what problem is it actually trying to solve?
- 
-
-
-
-
-
-This tutorial answers those questions by walking through a realistic example showing what Angular ARIA does, why it exists, and when it actually makes sense to use it.
-This is especially relevant now as Angular continues to invest in first-class accessibility tooling.
-Angular ARIA is a collection of headless, accessible directives that implement common WAI-ARIA interaction patterns.
-&quot;Headless&quot; just means there are no styles and no markup assumptions.
-Angular ARIA provides behavior and acc…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;13
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/envitab/build-ai-powered-smart-replies-with-react-and-synthetic-44hc"
-                        open
-                      >
-                        <summary class="article-expander__title">Build AI-Powered Smart Replies with React and Synthetic</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/envitab/build-ai-powered-smart-replies-with-react-and-synthetic-44hc">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ft1yzc7n0acf96p7w0eyk.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>You’ve probably used Gmail’s Smart Reply or Slack’s suggested messages, which are short, AI-generated responses like “Sounds good 👍” or “Let’s do it!”. With a single tap response, you can save time and keep conversations flowing.
-By reducing time spent typing, conversations stay active, drop-off rates decrease, and chat apps feel more innovative and modern.
-Smart replies can be used in customer support apps (agents pick relevant replies and respond faster), marketplaces or communities (buyers and sellers exchange quick transactional messages), or even productivity tools or workplace chat platforms (users save time on repetitive confirmations like “Yes,” “Got it,” or “On it”).
-In this tutorial, we’ll use Stream’s React SDK and Synthetic’s inference API to bring smart replies into chat. You…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;21
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/mikesol/supabase-preview-environments-with-autodock-1f0l"
-                        open
-                      >
-                        <summary class="article-expander__title">Supabase preview environments with Autodock</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mikesol/supabase-preview-environments-with-autodock-1f0l">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fht0go70kekdwibrinh5l.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>At Extuitive, we&#x27;re using Supabase. It works great locally, and it works great in production, but we were missing an easy way to create preview environments. Supabase has some info about this, but it feels clunky and is difficult to wire up to other parts of a stack, like Next.js or Inngest.
-I&#x27;m also the lead developer of Autodock, and my team has adopted it for end-to-end preview environments powered by Supabase. The preview goes live in minutes with minimal config. This article is a quick guide on how to go from 0-&gt;Supabase on Autodock.
-To follow along with this tutorial, clone supabase:
- git clone --depth 1 https://github.com/supabase/supabase/
-
-And cd into examples/slack-clone/nextjs-slack-clone.
-Then, in your coding agent, install Autodock MCP. I use Claude Code, so the command would …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/anushree_gm/getting-started-with-ansible-a-beginners-guide-3deh"
-                        open
-                      >
-                        <summary class="article-expander__title">Getting Started with Ansible: A Beginner’s Guide</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/anushree_gm/getting-started-with-ansible-a-beginners-guide-3deh">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fy9jedtp47qj6fiaq693k.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>What do you think Ansible is? If you’ve ever wished you could control all your servers the way you control your TV with a single remote, that’s exactly what Ansible does for IT infrastructure. Instead of logging into each machine and running commands manually, Ansible lets you automate everything from one place—like magic!
-Why Do We Need It?
-What is Ansible?
-Key Features
-Agentless: No need to install software on managed machines.
-Uses YAML: Playbooks are written in a human-readable format.
-Idempotent: Running the same playbook multiple times without changing the result after the first time.
-In the key features we have mentioned managed machines. What does that exactly mean?
-Control Node (or Control Machine)
-This is the system where Ansible is installed and from which you run your automatio…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;9
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -146389,90 +146524,6 @@ The post Warframe On Android First Impressions appeared first on Lowyat.NET.</sp
                               <span>Christmas is around the corner, and making it better is the coinciding Steam Winter Sale of 2025. This one’s going on for a bit longer, lasting from now until 5 January 10AM PT, or 2AM of 6 January for us here in Malaysia. As with the previous seasonal sale, there are titles that are getting discounts […]
 The post Steam Winter Sale 2025 Is Now On; Here Are Some Of The Highlights appeared first on Lowyat.NET.</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;37
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;376711"
-                        open
-                      >
-                        <summary class="article-expander__title">50% Toll Discount On 23, 24 December 2025 For Christmas</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2025/376711/50-toll-discount-on-23-24-december-2025-for-christmas/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2023/03/npe-toll-01a.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The 50% toll discount is back for the last time this year, in conjunction with the Christmas festivities. The Works Minister, Datuk Seri Alexander Nanta Linggi, has announced that the discount will be offered for two days, on 23 and 24 December. The toll discount is applicable to all Class 1 vehicles, except on the […]
-The post 50% Toll Discount On 23, 24 December 2025 For Christmas appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;35
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;376719"
-                        open
-                      >
-                        <summary class="article-expander__title">Here’s What The Apple Foldable iPhone May Look Like</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2025/376719/apple-foldable-iphone-render/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2025/12/apple-foldable-iphone-cad-3.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>At this point, much has been said about the Apple foldable iPhone, which has yet to come into existence. But while past rumours have honed in on the device’s specifics, this recent leak offers the first glimpse of what the handset may look like. In a recent report by German site iPhone-Ticker, several CAD drawings […]
-The post Here’s What The Apple Foldable iPhone May Look Like appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;37
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;376720"
-                        open
-                      >
-                        <summary class="article-expander__title">E-Hailing Drivers Clocking Over 2,000km Monthly Eligible For BUDI95 Quota Increase</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2025/376720/e-hailing-drivers-clocking-over-2000km-monthly-eligible-for-budi95-quota-increase/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2025/05/Bolt-e-hailing.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>E-hailing drivers who travel less than 2,000km a month will no longer qualify for additional subsidised petrol under the BUDI95 scheme, according to a report by New Straits Times (NST). The policy applies to Malaysian citizens with valid driving licences and aims to better target subsidies towards active full-time drivers. Finance Minister II Datuk Seri […]
-The post E-Hailing Drivers Clocking Over 2,000km Monthly Eligible For BUDI95 Quota Increase appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;38
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;376702"
-                        open
-                      >
-                        <summary class="article-expander__title">Alleged Pricing Of AMD Ryzen 7 9850X3D CPU Appears Ahead Of Launch</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2025/376702/alleged-pricing-amd-ryzen-9850x3d-early/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2024/11/AMD-Ryzen-7-9800X3D-8.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The AMD Ryzen 7 9850X3D is widely speculated to be making its debut in January 2026, a rumour that has persisted since a dataminer found the CPU being listed on the chipmaker’s French-based driver webpage. Now, the alleged pricing of AMD’s next 3D V-Cache processor has been leaked by some PC retailers in Europe. Over […]
-The post Alleged Pricing Of AMD Ryzen 7 9850X3D CPU Appears Ahead Of Launch appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;36
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -147604,8 +147655,8 @@ Search data tells the story. Since 2022, global interest in “AI business name 
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/20664868671">
-        <time id="build-timestamp" datetime="2026-01-02T19:12:51.781Z">2026-01-02T19:12:51.781Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/20665976527">
+        <time id="build-timestamp" datetime="2026-01-02T20:20:55.347Z">2026-01-02T20:20:55.347Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>

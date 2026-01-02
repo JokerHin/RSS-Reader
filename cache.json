@@ -29,6 +29,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/ofri-peretz/the-n1-insert-loop-that-slowed-our-api-to-a-crawl-4534",
+          "author": "Ofri Peretz",
+          "description": "Our CSV import endpoint was timing out. 30 seconds wasn't enough.\n// ❌ The pattern that killed our performance\nasync function importUsers(users) {\n  for (const user of users) {\n    await pool.query('INSERT INTO users (name, email) VALUES ($1, $2)', [\n      user.name,\n      user.email,\n    ]);\n  }\n}\n\nFor 1000 users:\n1000 round trips to database\n~50ms per query\n50 seconds total\n\n\n\nRows\nN+1 Time\nBulk Time\nSpeedup\n\n\n\n\n100\n5s\n50ms\n100x\n\n\n1000\n50s\n100ms\n500x\n\n\n10000\n500s\n500ms\n1000x\n\n\n\n// ✅ Single query, any number of rows\nasync function importUsers(users) {\n  const values = users\n    .map((u, i) => `($${i * 2 + 1}, $${i * 2 + 2})`)\n    .join(', ');\n\n  const params = users.flatMap((u) => [u.name, u.email]);\n\n  await pool.query(`INSERT INTO users (name, email) VALUES ${values}`, params);\n}\n\nOr ev…",
+          "link": "https://dev.to/ofri-peretz/the-n1-insert-loop-that-slowed-our-api-to-a-crawl-4534",
+          "publishedOn": "2026-01-02T20:06:27.000Z",
+          "wordCount": 2144,
+          "title": "The N+1 Insert Loop That Slowed Our API to a Crawl",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffwhvzhr213wviwky8s66.png"
+        },
+        {
+          "id": "https://dev.to/blamsa0mine/building-a-task-manager-with-laravel-inertiajs-vue-3-crud-tags-filters-and-a-kanban-board-34hh",
+          "author": "A0mineTV",
+          "description": "What we’re building\n\n\nIn this article, I’ll walk through how I built a Task Manager using:\nLaravel 12 (back-end, routing, validation, Eloquent)\nInertia.js (no API layer, SPA-like UX)\nVue 3 + Vite (front-end)\nTypeScript (typed UI components)\nFeatures included:\n✅ Full CRUD (create, list, edit, delete tasks)\n✅ Filters (status, priority, tag, overdue)\n✅ Search (title + details)\n✅ Sorting (created date or due date with nulls last)\n✅ Tags (many-to-many, custom colors, create-on-the-fly)\n✅ Kanban board (drag & drop between columns)\n✅ Small animations on drop (Vue TransitionGroup)\n✅ Flash messages (success) shared via Inertia\nThis is a great “real app” example of Laravel + Inertia because it’s not just a CRUD — it starts to feel like a product.\nIf you like Laravel but don’t want to maintain a sepa…",
+          "link": "https://dev.to/blamsa0mine/building-a-task-manager-with-laravel-inertiajs-vue-3-crud-tags-filters-and-a-kanban-board-34hh",
+          "publishedOn": "2026-01-02T20:05:01.000Z",
+          "wordCount": 2980,
+          "title": "Building a Task Manager with Laravel + Inertia.js (Vue 3): CRUD, Tags, Filters, and a Kanban Board",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0d8nhodi9c3xbrwyjm64.png"
+        },
+        {
+          "id": "https://dev.to/cristiansifuentes/cpus-ram-explained-how-computers-actually-think-and-remember-a5g",
+          "author": "Cristian Sifuentes",
+          "description": "Every modern device you use — laptops, phones, ATMs, smart TVs, even car dashboards — relies on two core components:\nthe CPU (processor) and memory (RAM).\nThey are the thinking and remembering parts of a computer.\nUnderstanding how they work together is a foundational skill for any software engineer. This article explains CPUs and RAM from the ground up — not as marketing terms, but as real physical systems built from transistors, electricity, and time.\nThe CPU (Central Processing Unit) is the component responsible for executing instructions.\nEvery calculation, comparison, loop, condition, or function call in your code eventually becomes an operation executed by the CPU.\nAt a high level, the CPU:\nPerforms mathematical operations\n\nMoves data between memory locations\nMakes decisions (branchi…",
+          "link": "https://dev.to/cristiansifuentes/cpus-ram-explained-how-computers-actually-think-and-remember-a5g",
+          "publishedOn": "2026-01-02T20:02:38.000Z",
+          "wordCount": 2617,
+          "title": "CPUs & RAM Explained — How Computers Actually Think and Remember",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0suh99ndyg74voheswj2.png"
+        },
+        {
+          "id": "https://dev.to/davidscanu/por-que-estoy-aprendiendo-espanol-50gd",
+          "author": "David Scanu",
+          "description": "Con frecuencia, la gente me pregunta: \"¿Por qué estás aprendiendo español?\". Esto es un poco extraño porque no sé realmente qué contestar a eso. En verdad, no sé realmente por qué empecé a aprender este idioma pero lo que sé ahora es por qué sigo. Es de lo que hablaré en este artículo.\nSiempre he querido aprender el español, pero no encontré la motivación real. Tenía un nivel bastante alto de inglés y eso era suficiente para mí durante muchos años. Podía ver y leer todo lo que quería en inglés. Leí un montón de libros y artículos en inglés. También, estaba siguiendo muchos canales de YouTube en inglés. Para mí, francés e inglés eran intercambiables, es decir que solo me preocupaba del contenido o la información que estaba buscando cuando veía un video en francés o inglés.\nAl contrario, ant…",
+          "link": "https://dev.to/davidscanu/por-que-estoy-aprendiendo-espanol-50gd",
+          "publishedOn": "2026-01-02T19:57:40.000Z",
+          "wordCount": 2770,
+          "title": "Por qué estoy aprendiendo espanol?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbs0ojz9n4agus3zxvsvl.png"
+        },
+        {
+          "id": "https://dev.to/abhishek_shahi_9d131e426d/boolean-field-becomes-null-in-spring-boot-dto-heres-why-and-how-to-fix-it-4i39",
+          "author": "Abhishek Shahi",
+          "description": "If you’re building REST APIs using Spring Boot, you may encounter a strange and frustrating issue:\nnull.\nNo exception.\nNo warning.\nNo stack trace.\nThis is not a bug in Spring Boot — it’s a Jackson + Java Bean naming trap that frequently appears in real-world applications.\nIn this article, you’ll learn:\n- Why boolean values become null in Spring Boot DTOs\n- How Jackson maps JSON properties to Java fields\n- Why @JsonProperty fixes the issue\n- The recommended best practice to avoid this forever\nConsider this request payload sent from the frontend:\n{\n  \"isActive\": true\n}\n\n\nNow look at the DTO:\npublic class UserRequest {\n\n    private Boolean isActive;\n\n    public Boolean getIsActive() {\n        return isActive;\n    }\n\n    public void setIsActive(Boolean isActive) {\n        this.isActive = isAct…",
+          "link": "https://dev.to/abhishek_shahi_9d131e426d/boolean-field-becomes-null-in-spring-boot-dto-heres-why-and-how-to-fix-it-4i39",
+          "publishedOn": "2026-01-02T19:57:06.000Z",
+          "wordCount": 2292,
+          "title": "Boolean Field Becomes null in Spring Boot DTO? Here’s Why (And How to Fix It)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2o2q3lj4x7dla5gdlb5y.png"
+        },
+        {
+          "id": "https://dev.to/justcatdev/the-seed-corn-4pn4",
+          "author": "JustC",
+          "description": "Episode II\n\n\nThe first episode discussed the thinkers; this episode focuses on the doers.\nThis is not an argument against automation or AI.\nIt is an argument against mistaking acceleration for succession.\n\nThe doers\nExecute -> Build -> Operate\nAs they work, they accumulate the tacit/tribal knowledge\n\nEarn battle scars, and more importantly, the judgment\n\nOver time, some transition to become \"The Thinkers\"\nSee...\nThe doers are thinkers in incubation\nIn other words\nYou don’t grow thinkers by hiring them.\nAutomation attacks the doer layer first.\nNot because doers lack value, but because:\ntheir work is observable\nrepeatable\nspecifiable\nThe immediate gain looks rational:\ncheaper\nfaster\nscalable\nBut the unseen loss is this:\nYou are not just removing labour...\nThat is the seed corn.\nAI is absolutely needed\nThe missing point is this:\nIf AI is to automate the work that once trained our future thinkers, then we must deliberately invent new paths for judgment to form.",
+          "link": "https://dev.to/justcatdev/the-seed-corn-4pn4",
+          "publishedOn": "2026-01-02T19:56:12.000Z",
+          "wordCount": 1841,
+          "title": "The Seed Corn",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxo5u5a632xwb4ro9zgb9.png"
+        },
+        {
+          "id": "https://dev.to/danielmx/zephyr-on-arduino-uno-q-mcu-5974",
+          "author": "Daniel Guerrero",
+          "description": "The Arduino UNO Q have a STM32U585 inside doing all the Arduino stuff, it communicates with main processor and GPIO pins on board; it seems the only way to get a pinout is the schematics:\nhttps://docs.arduino.cc/resources/schematics/ABX00162-schematics.pdf\nThe pinout image have brief information about the MCU pins\n \nSource\nBut only shows that pins belong to MCU, and the only indication are on RGB LED 3 and 4 that shows the GPIO used for the MCU.\nFor this example it will be needed:\nZephyr (on the PC Host, probably can be reused the version in UNO Q)\nADB tools (to connect to the device from PC Host)\nYou need to install / update Zephyr. Is important to have at least version 4.3.0 as that is the first version with support\nIt can be used the blinky example directly from documentation:\n# use the…",
+          "link": "https://dev.to/danielmx/zephyr-on-arduino-uno-q-mcu-5974",
+          "publishedOn": "2026-01-02T19:53:20.000Z",
+          "wordCount": 1997,
+          "title": "Zephyr on Arduino UNO Q MCU",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F14s1utq8elm6rgi7g789.png"
+        },
+        {
+          "id": "https://dev.to/koralarts/fundamentals-documentation-and-discomfort-keys-to-dev-growth-310n",
+          "author": "Karl Castillo",
+          "description": "During my tenure as a software engineer of 10 years, mostly in a startup environment, I've seen many developers of varying skill levels come and go. I've noticed a few things that hinder their development. As I reflect, I realized that I suffered from these as well, especially early on in my career.\nI'm writing this post to hopefully help you reflect as well, and ask yourself, \"Am I doing any of these?\"\nIt's imperative you learn the fundamentals of software development; at the minimum, understand the fundamentals of the language you work with. Having the fundamentals provides a solid foundation for you to learn new languages, concepts, and frameworks efficiently.\nYou might say to yourself, \"I already know the fundamentals. I use this language everyday.\" Do you really understand it on a dee…",
+          "link": "https://dev.to/koralarts/fundamentals-documentation-and-discomfort-keys-to-dev-growth-310n",
+          "publishedOn": "2026-01-02T19:50:12.000Z",
+          "wordCount": 2260,
+          "title": "Fundamentals, Documentation, and Discomfort: Keys to Dev Growth",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frekutkceokxgx295ryq3.png"
+        },
+        {
+          "id": "https://dev.to/ofri-peretz/searchpath-hijacking-the-postgresql-attack-youve-never-heard-of-10co",
+          "author": "Ofri Peretz",
+          "description": "Most developers know about SQL injection. Few know about search_path hijacking.\nIt's just as dangerous.\nPostgreSQL's search_path determines which schema to look in when you reference an unqualified table name.\n-- With search_path = public, these are equivalent:\nSELECT * FROM users;\nSELECT * FROM public.users;\n\nIf an attacker can control the search_path, they can redirect your queries to malicious tables:\n// ❌ Dynamic search_path from user input\nconst schema = req.query.tenant; // Attacker controls this\nawait client.query(`SET search_path TO ${schema}`);\nawait client.query('SELECT * FROM users'); // Now queries attacker's schema\n\nThe attacker:\nCreates a schema with a malicious users table\nSets search_path to their schema\nYour query returns their fake data\n\n\n\nAttack\nImpact\n\n\n\n\nData theft\nRet…",
+          "link": "https://dev.to/ofri-peretz/searchpath-hijacking-the-postgresql-attack-youve-never-heard-of-10co",
+          "publishedOn": "2026-01-02T19:49:31.000Z",
+          "wordCount": 2072,
+          "title": "search_path Hijacking: The PostgreSQL Attack You've Never Heard Of",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1jc21e3q5petyd92xlx5.png"
+        },
+        {
+          "id": "https://dev.to/cristiansifuentes/bits-bytes-explained-the-true-foundation-of-all-software-1l8d",
+          "author": "Cristian Sifuentes",
+          "description": "Every message you send, every image you see, every app you open — from emojis to operating systems — is built on two deceptively simple concepts:\nbits and bytes.\nThey are the atoms of the digital world.\n\nAnd if you truly want to understand software engineering, you must understand them deeply.\nThis article breaks down what bits and bytes really are, why they exist, and how they power everything from IP addresses to emojis.\nA bit (short for binary digit) is the smallest unit of information in computing.\nIt can exist in only two possible states:\n0 or 1\n\noff or on\nfalse or true\nlow voltage or high voltage\nAt the physical level, a bit is implemented using a transistor — a tiny electronic switch that either allows electricity to flow or blocks it.\nIn electronic circuits:\nA high voltage (for exa…",
+          "link": "https://dev.to/cristiansifuentes/bits-bytes-explained-the-true-foundation-of-all-software-1l8d",
+          "publishedOn": "2026-01-02T19:48:28.000Z",
+          "wordCount": 2548,
+          "title": "Bits & Bytes Explained — The True Foundation of All Software",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffg2j34o1t5355mmd6xls.png"
+        },
+        {
+          "id": "https://dev.to/member_6331818c/ultimatewebframeworkspeedshowdown20260102194711-5g8j",
+          "author": "member_6331818c",
+          "description": "As a full-stack engineer with 10 years of development experience, I've witnessed the rise and fall of countless web frameworks. From the early jQuery era to today's high-performance Rust frameworks, I've seen the rapid evolution of web development technology. Today I want to share a performance comparison test that shocked me and completely changed my understanding of web framework performance.\nIn 2024, the performance requirements for web applications are getting higher and higher. Whether it's e-commerce websites, social platforms, or enterprise applications, users expect millisecond-level response times. I spent a full month conducting comprehensive performance tests on mainstream web frameworks on the market, including Tokio, Rocket, Gin, Go standard library, Rust standard library, Nod…",
+          "link": "https://dev.to/member_6331818c/ultimatewebframeworkspeedshowdown20260102194711-5g8j",
+          "publishedOn": "2026-01-02T19:47:13.000Z",
+          "wordCount": 3162,
+          "title": "🚀_Ultimate_Web_Framework_Speed_Showdown[20260102194711]",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcl3dfqa9i62hrw0cc1l5.png"
+        },
+        {
+          "id": "https://dev.to/liudasjan/server-headers-that-talk-too-much-10kp",
+          "author": "Liudas",
+          "description": "People like to say “security is hard”.\nIf your API responds with something like:\nServer: nginx/1.18.0\nApache/2.4.49\n\nyou’ve already helped the attacker more than you think.\nWhy this matters in practice? Exposing an exact server version makes fingerprinting trivial:\nidentify the tech\nidentify the version\nmap it to known CVEs\nautomate exploitation\nThis isn’t theory. This is how large-scale attacks start.\nOWASP explicitly points out that knowing the server and its version helps determine whether it’s vulnerable — especially when older or partially patched components are involved.\n“But we patch regularly…” Good. Then this check passes and nobody cares. Until: \nthe reverse proxy wasn’t updated\nOpenSSL lagged behind\na rushed hotfix re-enabled “helpful” headers\nAnd because nothing breaks, nobody notices. That’s why this issue survives in production for months.\nThe fix is boring (and that’s good)\nDon’t disclose server versions in headers\nKeep banners minimal \nDon’t leak framework or proxy details unless absolutely necessary\nRemove version info → remove a whole class of cheap attacks.\nI documented this check in more detail here",
+          "link": "https://dev.to/liudasjan/server-headers-that-talk-too-much-10kp",
+          "publishedOn": "2026-01-02T19:43:58.000Z",
+          "wordCount": 1834,
+          "title": "Server headers that talk too much",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Feo6jllrov8rq2ht461x0.png"
+        },
+        {
           "id": "https://dev.to/saber-amani/surviving-breaking-changes-in-evolving-c-apis-hard-lessons-and-practical-strategies-for-net-devs-2g5p",
           "author": "Saber Amani",
           "description": "Handling Breaking Changes in Evolving APIs: Lessons from the Trenches\n\n\nWhen you ship APIs in the real world, change is inevitable. But breaking changes? That’s where things get expensive, fast. I’ve been on both sides: the dev introducing a “simple” tweak that nuked integrations, and the poor soul on-call when a client’s dashboard went dark. Here’s what I’ve learned the hard way about managing breaking changes in growing APIs, focusing on C#/.NET.\nNot every change is a breaking change (contrary to what your more anxious teammates might say). But some are more dangerous than they look. Here’s a quick, practical list I keep in mind:\nRemoving or renaming an endpoint or field\n\n\nChanging response shape (e.g., a property becomes an object)\n\n\nTightening validation (suddenly, old requests are rej…",
@@ -37367,146 +37487,6 @@
           "wordCount": 1814,
           "title": "Digital Identity Verification for Banks (2026)",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8wzh0qovxmw9ylaj45va.png"
-        },
-        {
-          "id": "https://dev.to/_fde76ff2d01974642930b/top-ai-tools-for-productivity-in-2025-356e",
-          "author": "ayi",
-          "description": "It's January 2025, and every productivity article tells you the same lie: AI will save you 10 hours a week.\nIn reality? Most people implement one new tool, get hyped for three days, then revert to their old system because the learning curve sucked.\nThe top AI tools for productivity in 2025 aren't magic. They're just ruthlessly focused on one thing: removing friction from the work you already do.\nLast year's productivity stack isn't this year's stack. Here's what actually shifted:\nAI became embedded, not bolted-on. A year ago, you'd use ChatGPT as a separate app. Now productivity tools have AI native. Your email client suggests replies. Your calendar proposes meeting times. Your note app completes your thoughts.\nAgentic AI entered the mainstream. Tools like Zapier + Claude can now execute m…",
-          "link": "https://dev.to/_fde76ff2d01974642930b/top-ai-tools-for-productivity-in-2025-356e",
-          "publishedOn": "2025-12-19T08:16:54.000Z",
-          "wordCount": 2693,
-          "title": "Top AI Tools for Productivity in 2025",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F58ln4awpvisnq025b3yh.webp"
-        },
-        {
-          "id": "https://dev.to/curry_lau_9674447236abfc0/a-simple-tool-for-video-conversion-and-compression-4gij",
-          "author": "quickzap",
-          "description": "Most of the time, working with videos doesn’t mean editing.\nYou record a screen demo.\nAnd suddenly, you’re stuck looking for a quick way to convert or compress a video — without installing heavy software or creating an account.\nThat’s the problem I wanted to solve.\nWhy Conversion and Compression Matter\nIn daily design and development work, video files are everywhere:\nScreen recordings for demos\nShort clips for product previews\nWalkthrough videos for clients or teammates\nBut large video files slow everything down:\nUploads take longer\nSharing becomes annoying\nSome platforms reject the file altogether\nOften, all you need is:\nA different format\nA smaller file size\nA version that’s easier to send\nNot a full editing suite.\nWhat the QuickZap Video Converter Focuses On\nThe QuickZap Video Converter is built around two core actions:\nVideo Conversion\n\n\nVideo Compression\n\n\n\nNo timelines.\nJust upload → convert or compress → download.\nDesigned to Be Lightweight\nThe goal wasn’t to compete with professional video tools.\nBrowser-based\nNo login required\nClean interface\nFast and straightforward\nIt’s a tool you use for a minute — and then move on with your work.\nPart of the QuickZap Toolbox\nThis video tool is one of many small utilities inside QuickZap — a growing collection of focused tools for designers and developers.\nEach tool exists for one reason:\nMake repetitive, everyday tasks easier.\nNo bloated features.\nTry It\nThe Video Converter & Compressor is live on QuickZap:\nhttps://www.quickzap.xyz/video-convert\nFree to use, directly in your browser.\nIf you have suggestions for other tools that could save time in your daily work, I’d love to hear them.",
-          "link": "https://dev.to/curry_lau_9674447236abfc0/a-simple-tool-for-video-conversion-and-compression-4gij",
-          "publishedOn": "2025-12-19T08:09:51.000Z",
-          "wordCount": 1984,
-          "title": "A Simple Tool for Video Conversion and Compression",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fn15oy0not00opvv2ig4f.png"
-        },
-        {
-          "id": "https://dev.to/dhiraj_kumar_163e7e663e6e/how-to-build-a-white-label-travel-portal-a-developers-guide-48ig",
-          "author": "Dhiraj Kumar",
-          "description": "Introduction:\nwhite label travel portal lets businesses offer flight, hotel, and car bookings under their own brand. Here's how to build one.\nWhat You Need:\n1. API Integrations\n2. Core Features\n3. Tech Stack\n4. Key Challenges\n5. Architecture Tips\nQuick Start:\nMonetization:\nAdd markup on bookings or charge subscription fees to your clients.\nConclusion:\nWhite label travel portals are complex but rewarding projects. Start small, focus on one vertical (flights or hotels), then expand.",
-          "link": "https://dev.to/dhiraj_kumar_163e7e663e6e/how-to-build-a-white-label-travel-portal-a-developers-guide-48ig",
-          "publishedOn": "2025-12-19T08:09:24.000Z",
-          "wordCount": 1863,
-          "title": "How to Build a White Label Travel Portal: A Developer's Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc6dlw4147yi2errtsvmw.png"
-        },
-        {
-          "id": "https://dev.to/mary_andree/what-it-takes-to-build-fintech-apps-that-survive-real-user-growth-2o3",
-          "author": "Mary Andree",
-          "description": "Most FinTech products don’t fail at launch.\nA few thousand users are forgiving.\nReal growth doesn’t just increase traffic.\nScaling a typical consumer app usually means handling more reads, more writes, and more sessions.\nTransactions must be correct every time.\nIn practice, this means growth stresses FinTech systems in ways that are easy to underestimate during MVP development.\nOne of the earliest problems that appears under real load is data consistency.\nAt low traffic, race conditions are rare enough to go unnoticed.\nIn one project, a balance update worked reliably in staging and early production.\nNothing was “broken” in the usual sense.\nGrowth didn’t introduce the bug.\nWhen FinTech systems slow down, the first instinct is often to optimize application logic.\nCommon examples include:\nexh…",
-          "link": "https://dev.to/mary_andree/what-it-takes-to-build-fintech-apps-that-survive-real-user-growth-2o3",
-          "publishedOn": "2025-12-19T08:07:29.000Z",
-          "wordCount": 2494,
-          "title": "What It Takes to Build FinTech Apps That Survive Real User Growth",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ff6isjtmmo2lwjv1sfekn.jpg"
-        },
-        {
-          "id": "https://dev.to/maame-codes/5-terminal-commands-that-saved-me-hours-of-clicking-4mfn",
-          "author": "Maame Afua A. P. Fordjour",
-          "description": "When I first started coding, I was terrified of the terminal.\nThat blank black screen with the blinking green cursor? It looked like something out of The Matrix, something only \"senior engineers\" with grey beards knew how to use. Me? I loved my mouse. I loved my GUI. I was a professional at dragging and dropping files and right-clicking to create new folders.\nBut as I started building projects and diving into more complex tools, the GUI started feeling... slow.\nI found myself clicking through ten layers of nested folders just to find one file. My wrist was actually starting to hurt from all the double-clicking. I realized that if I wanted to be fast, efficient, and actually understand what the computer was doing, I had to ditch the mouse and embrace the command line.\nIt was awkward at firs…",
-          "link": "https://dev.to/maame-codes/5-terminal-commands-that-saved-me-hours-of-clicking-4mfn",
-          "publishedOn": "2025-12-19T08:06:58.000Z",
-          "wordCount": 2559,
-          "title": "5 Terminal Commands That Saved Me Hours of Clicking",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjm5ww6sxg2896nzmfzm9.png"
-        },
-        {
-          "id": "https://dev.to/ahmadasroni38/analisis-kualitas-dan-keamanan-sistem-informasi-435g",
-          "author": "ahmadasroni38",
-          "description": "Halo, rekan-rekan praktisi, akademisi, dosen, dan mahasiswa yang sedang mendalami Sistem Informasi!\n\nSelamat datang di bab yang menjadi pondasi kuat dalam membangun sistem informasi berkualitas tinggi: Analisis Kualitas dan Keamanan. Sebagai praktisi yang telah mengimplementasikan puluhan proyek SI di perusahaan multinasional dan sebagai akademisi yang mengajar ribuan mahasiswa, saya selalu menekankan bahwa sistem informasi yang hebat bukan hanya yang \"berfungsi\", tapi yang handal, aman, dan memberikan nilai bisnis nyata.\nBayangkan kamu membangun aplikasi banking online. Kalau kualitas buruk (bug banyak, lambat), pengguna kabur. Kalau keamanan lemah (mudah dihack), perusahaan rugi miliaran. Analisis kualitas dan keamanan adalah \"perisai\" yang melindungi investasi kita. Bab ini dirancang mu…",
-          "link": "https://dev.to/ahmadasroni38/analisis-kualitas-dan-keamanan-sistem-informasi-435g",
-          "publishedOn": "2025-12-19T08:05:14.000Z",
-          "wordCount": 2239,
-          "title": "Analisis Kualitas dan Keamanan Sistem Informasi",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fql1gdwbyvfkgdvzdgxna.png"
-        },
-        {
-          "id": "https://dev.to/davecodes/how-to-create-a-contact-form-in-reactjs-with-email-notifications-4ao7",
-          "author": "David Ozokoye",
-          "description": "Do you want to build a functional contact form for your React application?\nWhether you're building a portfolio website, business landing page, or complex web application, contact forms are essential for user engagement.\nIn this comprehensive guide, you'll learn how to create a contact form in React.js. I'll also show you how to implement email notification functionality using an email service provider.\nStep 1: Setting Up Your React Project\nStep 2: Building the Contact Form Component\nStep 3: Handling Form State and Validation\nStep 4: Creating the Backend Server\nStep 5: Connecting Backend to Contact Form\nStep 6: Testing Your Contact Form\nTroubleshooting Common Errors\nBest Practices and Security\nFrequently Asked Questions\n\n\nBefore we dive in, make sure you have these requirements set up:\nNode…",
-          "link": "https://dev.to/davecodes/how-to-create-a-contact-form-in-reactjs-with-email-notifications-4ao7",
-          "publishedOn": "2025-12-19T08:04:04.000Z",
-          "wordCount": 5583,
-          "title": "How to Create a Contact Form in React.js with Email Notifications",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9ogam6hkzx965mhf5l31.png"
-        },
-        {
-          "id": "https://dev.to/nakamura_takuya/aishi-dai-nishou-dong-apitesutogapo-zhan-suruli-you-10xuan-5h07",
-          "author": "takuya",
-          "description": "「人の目で確認すれば大丈夫」という幻想\n\n\n先月、僕のチームで起きた出来事です。\nChatGPTでAPIコードを生成して、いつものように手動でテストしていました。「AIが作ったコードでも、最後は人がチェックすれば問題ない」そう思っていたんです。\nところが、ある日突然、手動テストが完全に破綻しました。\nAPIの変更スピードが速すぎて、テストが全然追いつかない。気づいたら、「確認したつもり」のAPIが本番で次々とエラーを起こすという最悪の事態に。\n「なんで今まで大丈夫だったのに、急にダメになったんだろう？」\nその答えが分かったとき、問題は僕のスキルじゃなくて、時代構造そのものが変わったことだと理解しました。\nこの記事では、僕が実際に体験した「手動APIテストの破綻」から学んだ10の教訓を共有します。\nもしあなたも「まだ手動で大丈夫」と思っているなら、この話は他人事じゃないかもしれません。\n僕が体験した破綻の瞬間\n\n\n\n  \n  \n  1. AIのコード生成速度に人間が追いつけない現実\n\n\nこれが一番ショックでした。\nChatGPTに「ユーザー管理APIを作って」と頼むと、5分でエンドポイント10個分のコードが出てくる。でも、それを手動でテストしようとすると、1日かかっても終わらない。\nエンドポイントが30分で5個増える\nリクエスト構造が1時間で3回変わる\n影響範囲の確認だけで半日潰れる\n「あれ？なんで僕だけこんなに遅いんだろう」って思ったけど、問題は僕のスキルじゃなくて、構造そのものだったんです。\nAIが作ったAPIって、見た目はめちゃくちゃ完成度が高いんですよ。\n// ChatGPTが生成したAPI（一見完璧に見える）\napp.post('/api/users', async (req, res) => {\n  const { name, email } = req.body…",
-          "link": "https://dev.to/nakamura_takuya/aishi-dai-nishou-dong-apitesutogapo-zhan-suruli-you-10xuan-5h07",
-          "publishedOn": "2025-12-19T08:03:31.000Z",
-          "wordCount": 1775,
-          "title": "AI時代に手動APIテストが破綻する理由10選",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx747e1ifw5g74738jdl4.png"
-        },
-        {
-          "id": "https://dev.to/paloma_kingsley_8f28c45cb/react-query-server-components-managing-server-driven-data-at-scale-3k0c",
-          "author": "Paloma Kingsley",
-          "description": "Introduction\n\n\nIn today’s business environment, digital products are expected to deliver accurate data instantly while maintaining speed and reliability at every interaction. Many organizations struggle when their applications cannot keep server-driven data in sync, leading to delayed updates, inconsistent user experiences, and avoidable operational strain. \nThese challenges often intensify as platforms scale, traffic increases, and customer expectations rise. A structured approach that connects server-side data handling with controlled state management offers businesses a clear path to stability and performance. \nRead on the blog to know more about how React Query server components help businesses address these demands effectively.\nTypes of React Query Server Components Driving Business P…",
-          "link": "https://dev.to/paloma_kingsley_8f28c45cb/react-query-server-components-managing-server-driven-data-at-scale-3k0c",
-          "publishedOn": "2025-12-19T08:03:27.000Z",
-          "wordCount": 2300,
-          "title": "React Query Server Components: Managing Server-Driven Data at Scale",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fof5pt5qrqropywk9s8r8.png"
-        },
-        {
-          "id": "https://dev.to/somadevtoo/how-to-design-a-rate-limiter-in-a-system-design-interview-1ec1",
-          "author": "Soma",
-          "description": "credit --- ByteByteGo\nHello Devs, System design interviews often test your ability to solve problems that balance performance, scalability, and correctness. One of the most common questions I've encountered is:\n\"How would you design a Rate Limiter?\"\nI've been asked this exact question multiple times, and each time the interviewer wanted to see how I approached it systematically.\nThe rate limiter is not just an academic problem --- it's at the heart of many real systems. APIs, login attempts, payment systems, and messaging platforms all use rate limiting to prevent abuse, control costs, and ensure fairness among users.\nIn this article, I'll walk you through the problem, the key requirements, different design approaches, and show you code examples (including the simple timestamp array method…",
-          "link": "https://dev.to/somadevtoo/how-to-design-a-rate-limiter-in-a-system-design-interview-1ec1",
-          "publishedOn": "2025-12-19T08:02:58.000Z",
-          "wordCount": 3059,
-          "title": "How to Design a Rate Limiter in a System Design Interview?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvof1wno1gpd54dre7192.png"
-        },
-        {
-          "id": "https://dev.to/brianmtreese/angular-accessibility-just-got-easier-introducing-angular-aria-3k71",
-          "author": "Brian Treese",
-          "description": "Angular recently introduced a new accessibility package called Angular ARIA, released in Developer Preview a few weeks ago. If you've seen it mentioned in the docs, you've probably wondered: Do I need this? Is this something I should start using now? And what problem is it actually trying to solve?\n \n\n\n\n\n\nThis tutorial answers those questions by walking through a realistic example showing what Angular ARIA does, why it exists, and when it actually makes sense to use it.\nThis is especially relevant now as Angular continues to invest in first-class accessibility tooling.\nAngular ARIA is a collection of headless, accessible directives that implement common WAI-ARIA interaction patterns.\n\"Headless\" just means there are no styles and no markup assumptions.\nAngular ARIA provides behavior and acc…",
-          "link": "https://dev.to/brianmtreese/angular-accessibility-just-got-easier-introducing-angular-aria-3k71",
-          "publishedOn": "2025-12-19T08:00:00.000Z",
-          "wordCount": 3855,
-          "title": "Angular Accessibility Just Got Easier: Introducing Angular ARIA",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffbe04muerkl9wjvpzxjh.jpg"
-        },
-        {
-          "id": "https://dev.to/envitab/build-ai-powered-smart-replies-with-react-and-synthetic-44hc",
-          "author": "Ekemini Samuel",
-          "description": "You’ve probably used Gmail’s Smart Reply or Slack’s suggested messages, which are short, AI-generated responses like “Sounds good 👍” or “Let’s do it!”. With a single tap response, you can save time and keep conversations flowing.\nBy reducing time spent typing, conversations stay active, drop-off rates decrease, and chat apps feel more innovative and modern.\nSmart replies can be used in customer support apps (agents pick relevant replies and respond faster), marketplaces or communities (buyers and sellers exchange quick transactional messages), or even productivity tools or workplace chat platforms (users save time on repetitive confirmations like “Yes,” “Got it,” or “On it”).\nIn this tutorial, we’ll use Stream’s React SDK and Synthetic’s inference API to bring smart replies into chat. You…",
-          "link": "https://dev.to/envitab/build-ai-powered-smart-replies-with-react-and-synthetic-44hc",
-          "publishedOn": "2025-12-19T07:59:08.000Z",
-          "wordCount": 6179,
-          "title": "Build AI-Powered Smart Replies with React and Synthetic",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ft1yzc7n0acf96p7w0eyk.jpg"
-        },
-        {
-          "id": "https://dev.to/mikesol/supabase-preview-environments-with-autodock-1f0l",
-          "author": "Mike Solomon",
-          "description": "At Extuitive, we're using Supabase. It works great locally, and it works great in production, but we were missing an easy way to create preview environments. Supabase has some info about this, but it feels clunky and is difficult to wire up to other parts of a stack, like Next.js or Inngest.\nI'm also the lead developer of Autodock, and my team has adopted it for end-to-end preview environments powered by Supabase. The preview goes live in minutes with minimal config. This article is a quick guide on how to go from 0->Supabase on Autodock.\nTo follow along with this tutorial, clone supabase:\n git clone --depth 1 https://github.com/supabase/supabase/\n\nAnd cd into examples/slack-clone/nextjs-slack-clone.\nThen, in your coding agent, install Autodock MCP. I use Claude Code, so the command would …",
-          "link": "https://dev.to/mikesol/supabase-preview-environments-with-autodock-1f0l",
-          "publishedOn": "2025-12-19T07:18:56.000Z",
-          "wordCount": 2159,
-          "title": "Supabase preview environments with Autodock",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fht0go70kekdwibrinh5l.jpg"
-        },
-        {
-          "id": "https://dev.to/anushree_gm/getting-started-with-ansible-a-beginners-guide-3deh",
-          "author": "Anushree GM",
-          "description": "What do you think Ansible is? If you’ve ever wished you could control all your servers the way you control your TV with a single remote, that’s exactly what Ansible does for IT infrastructure. Instead of logging into each machine and running commands manually, Ansible lets you automate everything from one place—like magic!\nWhy Do We Need It?\nWhat is Ansible?\nKey Features\nAgentless: No need to install software on managed machines.\nUses YAML: Playbooks are written in a human-readable format.\nIdempotent: Running the same playbook multiple times without changing the result after the first time.\nIn the key features we have mentioned managed machines. What does that exactly mean?\nControl Node (or Control Machine)\nThis is the system where Ansible is installed and from which you run your automatio…",
-          "link": "https://dev.to/anushree_gm/getting-started-with-ansible-a-beginners-guide-3deh",
-          "publishedOn": "2025-12-19T07:13:20.000Z",
-          "wordCount": 2582,
-          "title": "Getting Started with Ansible: A Beginner’s Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fy9jedtp47qj6fiaq693k.png"
         }
       ]
     },
@@ -37643,6 +37623,46 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://indieweb.org/POSSE#",
+          "author": null,
+          "description": "Comments",
+          "link": "https://indieweb.org/POSSE#",
+          "publishedOn": "2026-01-02T19:48:25.000Z",
+          "wordCount": 5614,
+          "title": "Publish (On Your) Own Site, Syndicate Elsewhere",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.readtpa.com/p/grok-cant-apologize-grok-isnt-sentient",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.readtpa.com/p/grok-cant-apologize-grok-isnt-sentient",
+          "publishedOn": "2026-01-02T19:30:52.000Z",
+          "wordCount": 5737,
+          "title": "Grok Can't Apologize. So Why Do Headlines Keep Saying It Did?",
+          "imageUrl": "https://substackcdn.com/image/fetch/$s_!S_rh!,w_1200,h_600,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F330536b4-d6bc-414f-a739-6804eb3e76e0_1024x682.jpeg"
+        },
+        {
+          "id": "https://unixv4.dev/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://unixv4.dev/",
+          "publishedOn": "2026-01-02T19:18:36.000Z",
+          "wordCount": 4370,
+          "title": "4th Edition Unix in the Browser",
+          "imageUrl": null
+        },
+        {
+          "id": "https://github.com/Alanma23/tinytinyTPU-co",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/Alanma23/tinytinyTPU-co",
+          "publishedOn": "2026-01-02T19:13:24.000Z",
+          "wordCount": 8976,
+          "title": "TinyTinyTPU: 2×2 systolic-array TPU-style matrix-multiply unit deployed on FPGA",
+          "imageUrl": "https://opengraph.githubassets.com/ac8f860cbab31d467f88a92b994e6080e4ef09eb43aadaffecff5d54f029c902/Alanma23/tinytinyTPU-co"
+        },
+        {
           "id": "https://www.behind-the-enemy-lines.com/2025/12/fighting-fire-with-fire-scalable-oral.html",
           "author": null,
           "description": "Comments",
@@ -37653,6 +37673,16 @@
           "imageUrl": "https://blogger.googleusercontent.com/img/a/AVvXsEg5fX5d3GQ2cOHfJpbT5os_5WBQSnb5iLSULS76cNn0LGOFq3RxpjyAu4sGJ2DEFMpo8_mWe9Vum1yzpLbfI82qK-m2yXDFQApP_X01G_fO0xFz-utUW3dHelb8XsqEHP3sgHNjxKAEKnZoCJDZkpJVneeF_ej0T8sq_HGm9YtWeE42I_hWkpfDDB1jbd8=w1200-h630-p-k-no-nu"
         },
         {
+          "id": "https://martin.kleppmann.com/2011/03/07/accounting-for-computer-scientists.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://martin.kleppmann.com/2011/03/07/accounting-for-computer-scientists.html",
+          "publishedOn": "2026-01-02T18:16:07.000Z",
+          "wordCount": 2998,
+          "title": "Accounting for Computer Scientists (2011)",
+          "imageUrl": null
+        },
+        {
           "id": "https://www.clicksphone.com/en/communicator",
           "author": null,
           "description": "Comments",
@@ -37661,6 +37691,16 @@
           "wordCount": 4367,
           "title": "Clicks Communicator",
           "imageUrl": "https://cdn.prod.website-files.com/66f575e72f06b9820f448d43/6957c2f239a9f8b7c2518950_communicator-opengraph.jpg"
+        },
+        {
+          "id": "https://www.andrew.cmu.edu/course/15-749/READINGS/required/cas/tridgell96.pdf",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.andrew.cmu.edu/course/15-749/READINGS/required/cas/tridgell96.pdf",
+          "publishedOn": "2026-01-02T16:56:19.000Z",
+          "wordCount": 11784,
+          "title": "The rsync algorithm (1996) [pdf]",
+          "imageUrl": null
         },
         {
           "id": "https://www.punkt.ch/blogs/news/punkt-unveils-mc03",
@@ -48078,46 +48118,6 @@
           "wordCount": 11174,
           "title": "Steam Winter Sale 2025 Is Now On; Here Are Some Of The Highlights",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/12/Steam-Winter-Sale-2025.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=376711",
-          "author": "Keran",
-          "description": "The 50% toll discount is back for the last time this year, in conjunction with the Christmas festivities. The Works Minister, Datuk Seri Alexander Nanta Linggi, has announced that the discount will be offered for two days, on 23 and 24 December. The toll discount is applicable to all Class 1 vehicles, except on the […]\nThe post 50% Toll Discount On 23, 24 December 2025 For Christmas appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2025/376711/50-toll-discount-on-23-24-december-2025-for-christmas/",
-          "publishedOn": "2025-12-19T08:11:30.000Z",
-          "wordCount": 10610,
-          "title": "50% Toll Discount On 23, 24 December 2025 For Christmas",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2023/03/npe-toll-01a.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=376719",
-          "author": "Nurul Kamil",
-          "description": "At this point, much has been said about the Apple foldable iPhone, which has yet to come into existence. But while past rumours have honed in on the device’s specifics, this recent leak offers the first glimpse of what the handset may look like. In a recent report by German site iPhone-Ticker, several CAD drawings […]\nThe post Here’s What The Apple Foldable iPhone May Look Like appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2025/376719/apple-foldable-iphone-render/",
-          "publishedOn": "2025-12-19T07:54:59.000Z",
-          "wordCount": 11098,
-          "title": "Here’s What The Apple Foldable iPhone May Look Like",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/12/apple-foldable-iphone-cad-3.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=376720",
-          "author": "Heirul Kamel",
-          "description": "E-hailing drivers who travel less than 2,000km a month will no longer qualify for additional subsidised petrol under the BUDI95 scheme, according to a report by New Straits Times (NST). The policy applies to Malaysian citizens with valid driving licences and aims to better target subsidies towards active full-time drivers. Finance Minister II Datuk Seri […]\nThe post E-Hailing Drivers Clocking Over 2,000km Monthly Eligible For BUDI95 Quota Increase appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2025/376720/e-hailing-drivers-clocking-over-2000km-monthly-eligible-for-budi95-quota-increase/",
-          "publishedOn": "2025-12-19T07:49:51.000Z",
-          "wordCount": 11387,
-          "title": "E-Hailing Drivers Clocking Over 2,000km Monthly Eligible For BUDI95 Quota Increase",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/05/Bolt-e-hailing.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=376702",
-          "author": "John Law",
-          "description": "The AMD Ryzen 7 9850X3D is widely speculated to be making its debut in January 2026, a rumour that has persisted since a dataminer found the CPU being listed on the chipmaker’s French-based driver webpage. Now, the alleged pricing of AMD’s next 3D V-Cache processor has been leaked by some PC retailers in Europe. Over […]\nThe post Alleged Pricing Of AMD Ryzen 7 9850X3D CPU Appears Ahead Of Launch appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2025/376702/alleged-pricing-amd-ryzen-9850x3d-early/",
-          "publishedOn": "2025-12-19T07:34:06.000Z",
-          "wordCount": 10763,
-          "title": "Alleged Pricing Of AMD Ryzen 7 9850X3D CPU Appears Ahead Of Launch",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2024/11/AMD-Ryzen-7-9800X3D-8.jpg"
         }
       ]
     },
