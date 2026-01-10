@@ -2,10 +2,305 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-01-10T19:14:37.279Z</updated>
+    <updated>2026-01-10T20:20:59.477Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[[Simple SNS Project] Step 4. Search Implementation & Logging Strategy]]></title>
+        <id>https://dev.to/jonghwayoo03_dev/simple-sns-project-step-4-search-implementation-logging-strategy-1b0d</id>
+        <link href="https://dev.to/jonghwayoo03_dev/simple-sns-project-step-4-search-implementation-logging-strategy-1b0d"/>
+        <updated>2026-01-10T20:11:18.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+In Step 3, I connected users via the Follow system. Now, in Step 4, I implemented a Search Feature to let users find content.
+For the search functionality, I used the standard SQL LIKE operator.
+// FeedRepository.java
+Page<Feed> findByContentContainingOrderByCreatedAtDesc(String keyword, Pageable pageable);
+
+
+How it works: It translates to SELECT * FROM feed WHERE content LIKE '%keyword%'.
+Performance Note: Starting a query with a wildcard (%) prevents the database from using standard B-Tree indexes (Full Table Scan).
+Future Improvement: For a production-level application with millions of rows, I would switch to Full-Text Search (MySQL) or a dedicated search engine like Elasticsearch. But for this project scope, LIKE is sufficient.
+Console logs disappear when the server restarts. To analyze user behavior (e.g., "What are people searching for?"), logs must be persisted.
+I configured logback in application.yml to write logs to a specific file (logs/simple-sns.log).
+logging:
+  file:
+    name: logs/simple-sns.log
+  logback:
+    rollingpolicy:
+      max-history: 7 # Keep logs for 7 days
+
+
+And in the Service layer, I added a structured log message:
+log.info("[SEARCH] keyword: {}", keyword);
+
+
+This specific format [SEARCH] acts as a tag that will make parsing easier in Step 6 (Statistics).
+This step was about preparing for the future. By logging user actions, I am laying the groundwork for data-driven features like "Trending Keywords".]]></summary>
+        <author>
+            <name>JongHwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[i made this project syswaifu, shows your system stats with random waifu image.]]></title>
+        <id>https://dev.to/iamovi/i-made-this-project-syswaifu-shows-your-system-stats-with-random-waifu-image-4lcm</id>
+        <link href="https://dev.to/iamovi/i-made-this-project-syswaifu-shows-your-system-stats-with-random-waifu-image-4lcm"/>
+        <updated>2026-01-10T20:07:12.000Z</updated>
+        <summary type="html"><![CDATA[i got inspired from neofetch, then i created this syswaifu, a cross-platform neofetch style cli tool, that shows system information with random generated anime waifu pics.
+
+GitHub Repository: https://github.com/iamovi/syswaifu]]></summary>
+        <author>
+            <name>Ovi ren</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DevLog 20260110: Motivations for Methodox Threads - A Conversation Management Tool]]></title>
+        <id>https://dev.to/methodox/devlog-20260110-motivations-for-methodox-threads-a-conversation-management-tool-45c2</id>
+        <link href="https://dev.to/methodox/devlog-20260110-motivations-for-methodox-threads-a-conversation-management-tool-45c2"/>
+        <updated>2026-01-10T20:02:39.000Z</updated>
+        <summary type="html"><![CDATA[Hey folks, Charles here from Methodox. As a developer deeply embedded in the generative AI space, I've spent the last couple of years wrestling with the limitations of LLM interfaces. Today, I want to dive into the motivations behind our latest project, Methodox Threads - a linear, branching text environment built to tame the chaos of long, tangled conversations. This isn't just another note-taking app; it's a structured canvas designed for iterative thinking, especially when collaborating with AI models. I'll keep this log developer-focused, touching on the architecture and implementation choices, while highlighting why this solves a universal pain point for anyone using gen AI tools.
+If you've ever dived deep into a conversation with an LLM like Grok, ChatGPT, or Gemini, you know the dri…]]></summary>
+        <author>
+            <name>Charles Zhang</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Login with Google on an iPhone (Local Metro server + Dev Build) - Part 3/7: Add the Clerk API Key]]></title>
+        <id>https://dev.to/cathylai/login-with-google-on-an-iphone-local-metro-server-dev-build-part-37-add-clerk-api-key-584b</id>
+        <link href="https://dev.to/cathylai/login-with-google-on-an-iphone-local-metro-server-dev-build-part-37-add-clerk-api-key-584b"/>
+        <updated>2026-01-10T20:01:39.000Z</updated>
+        <summary type="html"><![CDATA[Clerk API Key
+
+
+Now we will find the Clerk API Key and add it to our env.ts file:
+Configure -> API Keys
+
+
+
+Find "Expo" and Copy it
+
+
+
+Paste it to our env.ts
+
+
+
+
+export const EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY = [your key here] as const;
+
+So, now from Part 1 - 3 we have
+Connected our app with Clerk (via API Key)
+Told it where to forward the Login results to (via Redirect URL) Part 2
+
+The Redirect URL includes a [scheme] which told iOS to forward the results to our app (matches to the "scheme" in our app.json)Part 2
+
+Next, we will configure the Google Cloud Console!]]></summary>
+        <author>
+            <name>Cathy Lai</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[This is the future: A Software Library with No Code]]></title>
+        <id>https://www.dbreunig.com/2026/01/08/a-software-library-with-no-code.html</id>
+        <link href="https://www.dbreunig.com/2026/01/08/a-software-library-with-no-code.html"/>
+        <updated>2026-01-10T20:01:25.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Most Important Decision You'll Make as an Engineer This Year]]></title>
+        <id>https://dev.to/ttoss/the-most-important-decision-youll-make-as-an-engineer-this-year-4fob</id>
+        <link href="https://dev.to/ttoss/the-most-important-decision-youll-make-as-an-engineer-this-year-4fob"/>
+        <updated>2026-01-10T19:41:49.000Z</updated>
+        <summary type="html"><![CDATA[The single most important decision an engineer must make today is a binary choice regarding their role in the software development lifecycle.
+Option A: Continue reviewing code line-by-line as if a human wrote it. This path guarantees you become the bottleneck, stifling your team's throughput.
+Option B: Evolve your review policy, relinquishing low-level implementation control to AI to unlock high-level architectural velocity.
+If you choose Option A, this article is not for you. You will likely continue to drown in an ever-increasing tide of pull requests until external metrics force a change.
+If you choose Option B, you are ready for a paradigm shift. However, blindly "letting AI code" without a governance system invites chaos. You need robust strategies to maintain system quality without s…]]></summary>
+        <author>
+            <name>Pedro Arantes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Under-presentation of Swahili in AI tasks]]></title>
+        <id>https://dev.to/eddiegulay/underpresentation-of-swahili-in-ai-tasks-4d44</id>
+        <link href="https://dev.to/eddiegulay/underpresentation-of-swahili-in-ai-tasks-4d44"/>
+        <updated>2026-01-10T19:32:14.000Z</updated>
+        <summary type="html"><![CDATA[the cover image is also underpresented!
+Swahili is significantly underrepresented in AI research and applications, especially compared to languages like English, Mandarin, Spanish, or even French. A few key points highlight this gap:
+Data Scarcity: Large-scale datasets in Swahili are limited. Most NLP models rely on massive text corpora to learn patterns, but Swahili content online is comparatively small, fragmented, or noisy.
+
+
+Limited Pretrained Models: While there are some multilingual models like mBERT or XLM-R, they underperform on Swahili because the language is a small fraction of their training data. Truly high-performing, Swahili-specific models are rare.
+
+
+Low Research Focus: Academic and industry research in NLP and speech processing often overlooks Swahili. Few papers focus on …]]></summary>
+        <author>
+            <name>Eddie Gulay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Skin In The Game]]></title>
+        <id>https://dev.to/jakepage91/skin-in-the-game-4686</id>
+        <link href="https://dev.to/jakepage91/skin-in-the-game-4686"/>
+        <updated>2026-01-10T19:29:56.000Z</updated>
+        <summary type="html"><![CDATA[A note to self to stop explaining technology and start building with it.
+I’m a pretty lucky guy. Curiosity has put me in incredible situations throughout my life. I’ve learned languages, lived in interesting places, and about six years ago I decided I wanted to learn how the internet worked. That curiosity grew into a career in DevOps, cloud, and Kubernetes that I’m really proud of.
+Today, as a DevRel, curiosity drives everything I do. It’s a role that changes a lot from company to company, and in my experience it even changes week to week. One week I’m preparing a new use case for a blog post or conference talk, the next I’m collaborating with colleagues on webinars and content initiatives, or acting as a bridge between marketing, product, and customer success. It’s a job where curious pe…]]></summary>
+        <author>
+            <name>Jake Page</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bichon: A lightweight, high-performance Rust email archiver with WebUI]]></title>
+        <id>https://github.com/rustmailer/bichon</id>
+        <link href="https://github.com/rustmailer/bichon"/>
+        <updated>2026-01-10T19:29:05.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Unauthenticated Blind SSRF in Oracle EBS]]></title>
+        <id>https://dev.to/x41x41x41/unauthenticated-blind-ssrf-in-oracle-ebs-p1i</id>
+        <link href="https://dev.to/x41x41x41/unauthenticated-blind-ssrf-in-oracle-ebs-p1i"/>
+        <updated>2026-01-10T19:20:29.000Z</updated>
+        <summary type="html"><![CDATA[When testing third party off the shelf applications, it typically just to give the client some assurance that the third party has conducted testing robustly and there’s no absolute clangers in either the way it’s been deployed.
+The below SSRF was found on one such test of off the shelve third party software in Oracle (so we can be fairly certain it’s been tested by various organisations over the years). It is fairly low risk, only allowing the enumeration of ports on internal/external hosts, but may be of interest to some.
+I found this exploit when fuzzing an endpoint involved in a previous XXE exploit, something I often do as in my experience developers will often make mistakes when rushing to patch a vulnerability.
+During this fuzzing process I put in a basic DOCTYPE declaration and thro…]]></summary>
+        <author>
+            <name>John</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Python Dictionary Views Are Live (And It Might Break Your Code)]]></title>
+        <id>https://dev.to/samuel_ochaba_eb9c875fa89/python-dictionary-views-are-live-and-it-might-break-your-code-56in</id>
+        <link href="https://dev.to/samuel_ochaba_eb9c875fa89/python-dictionary-views-are-live-and-it-might-break-your-code-56in"/>
+        <updated>2026-01-10T19:16:04.000Z</updated>
+        <summary type="html"><![CDATA[Quick quiz. What does this print?
+d = {"a": 1, "b": 2}
+keys = d.keys()
+print(keys)
+
+d["c"] = 3
+print(keys)
+
+If you said:
+dict_keys(['a', 'b'])
+dict_keys(['a', 'b'])
+
+You're wrong.
+It prints:
+dict_keys(['a', 'b'])
+dict_keys(['a', 'b', 'c'])  # ← Updated automatically!
+
+.keys(), .values(), and .items() don't return copies.
+They return view objects—live windows into the dictionary that update automatically when the dictionary changes.
+>>> person = {"name": "Alice", "age": 30}
+>>> k = person.keys()
+>>> k
+dict_keys(['name', 'age'])
+
+>>> person["city"] = "NYC"  # Add a key
+>>> k                       # View updated automatically
+dict_keys(['name', 'age', 'city'])
+
+This is by design. Views are memory-efficient—they don't copy data.
+But it can cause bugs if you're not expecting it.
+Imagine you're …]]></summary>
+        <author>
+            <name>Samuel Ochaba</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Velo: A Cross-Platform Network Speed Monitor Built with Go & Wails]]></title>
+        <id>https://dev.to/kanywst/velo-a-cross-platform-network-speed-monitor-built-with-go-wails-3g3p</id>
+        <link href="https://dev.to/kanywst/velo-a-cross-platform-network-speed-monitor-built-with-go-wails-3g3p"/>
+        <updated>2026-01-10T19:14:18.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+Have you ever felt your internet connection dragging, but you aren't sure if it's just a momentary glitch or a consistent pattern?
+I built Velo, a desktop application that helps you track your network speed over time without the hassle of manually running speed tests in your browser.
+In this post, I'll share why I built it, how it works, and the technology stack behind it.
+GitHub Repository: github.com/kanywst/velo
+
+
+
+
+
+
+
+  
+  
+  What is Velo?
+
+
+Velo is a network speed measurement tool designed to run as a desktop application.
+It automatically runs a speed test once every hour to record your Download, Upload, and Latency metrics. It then visualizes this historical data on an interactive chart, allowing you to spot trends at a glance. You can, of course, trigger a manual meas…]]></summary>
+        <author>
+            <name>kt</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DevOps in 2026 — What It Really Means Now (And Where It's Heading Fast)]]></title>
+        <id>https://dev.to/meena_nukala/devops-in-2026-what-it-really-means-now-and-where-its-heading-fast-2jkg</id>
+        <link href="https://dev.to/meena_nukala/devops-in-2026-what-it-really-means-now-and-where-its-heading-fast-2jkg"/>
+        <updated>2026-01-10T19:12:38.000Z</updated>
+        <summary type="html"><![CDATA[From classic CI/CD to agentic AI, self-healing systems, platform engineering, and FinOps — here's the real state of DevOps at the beginning.
+If you still think DevOps = "Docker + Kubernetes + Jenkins pipeline", welcome to 2026… you're about two generations behind 😅
+The field has dramatically evolved. What started as a cultural movement to break silos between Dev & Ops has become the backbone of how modern digital organizations ship reliable, secure, cost-efficient software at hyperspeed.
+In January 2026, here's what DevOps actually looks like — and the major forces reshaping it right now.
+DevOps is the set of practices, cultural philosophies, and tools that enable organizations to deliver applications and services at high velocity — evolving and improving products much faster than organiz…]]></summary>
+        <author>
+            <name>Meena Nukala</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Dark Mode with Tailwind v4 & next-themes]]></title>
+        <id>https://dev.to/abujakariacse/dark-mode-with-tailwind-v4-next-themes-1mag</id>
+        <link href="https://dev.to/abujakariacse/dark-mode-with-tailwind-v4-next-themes-1mag"/>
+        <updated>2026-01-10T19:10:46.000Z</updated>
+        <summary type="html"><![CDATA[A simple guide to implementing dark mode in React using Tailwind CSS v4 and next-themes.
+npm install next-themes
+
+In main.jsx:
+import { ThemeProvider } from "next-themes";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      <App />
+    </ThemeProvider>
+  </StrictMode>
+);
+
+Props:
+attribute="class" - Adds dark class to <html> element
+defaultTheme="system" - Uses system preference by default
+enableSystem - Detects system theme automatically
+storageKey="theme-name" - (Optional) Custom localStorage key
+@import "tailwindcss";
+
+@variant dark (&:is(.dark *));
+
+@theme {
+  --color-primary: light-dark(#10b981, #dc2626);
+  --color-surface: light-dark(#f8fafc, #0f172a);
+}
+
+Syntax:
+--color-[name]: light-dark([…]]></summary>
+        <author>
+            <name>Abu Jakaria</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Incremark Now Supports Solid: One Library for Vue, React, Svelte, and Solid]]></title>
         <id>https://dev.to/kingshuaishuai/incremark-now-supports-solid-one-library-for-vue-react-svelte-and-solid-n39</id>
@@ -30,6 +325,16 @@ Incremark takes a different approach: core logic is completely decoupled from UI
         <summary type="html"><![CDATA[CoinDesk sat down with Robinhood’s head of crypto, Johann Kerbrat, to get an update on its upcoming layer-2 network, its tokenized stocks program, and its staking offerings.]]></summary>
         <author>
             <name>Margaux Nijkerk</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rats caught on camera hunting flying bats]]></title>
+        <id>https://scienceclock.com/rats-caught-on-camera-hunting-flying-bats-for-the-first-time/</id>
+        <link href="https://scienceclock.com/rats-caught-on-camera-hunting-flying-bats-for-the-first-time/"/>
+        <updated>2026-01-10T18:44:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -23757,6 +24062,16 @@ Why TensorFlow on Azure ML Is Not Just a Hosting Choice
 Running TensorFlow locally, inside a notebook, or even on a raw virtual machine is straightforward. What is not stra…]]></summary>
         <author>
             <name>Ali Farhat</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bindless Oriented Graphics Programming]]></title>
+        <id>https://alextardif.com/BindlessProgramming.html</id>
+        <link href="https://alextardif.com/BindlessProgramming.html"/>
+        <updated>2026-01-07T08:44:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -99044,314 +99359,6 @@ Your par…]]></summary>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Nvidia–Groq Talks Signal New Shift in the AI Chip Race]]></title>
-        <id>https://dev.to/logicverse_2025/nvidia-groq-talks-signal-new-shift-in-the-ai-chip-race-18o3</id>
-        <link href="https://dev.to/logicverse_2025/nvidia-groq-talks-signal-new-shift-in-the-ai-chip-race-18o3"/>
-        <updated>2025-12-27T08:05:56.000Z</updated>
-        <summary type="html"><![CDATA[Nvidia’s reported discussions involving AI hardware startup Groq have sparked fresh debate across the semiconductor and artificial intelligence ecosystem. The move is trending as AI workloads increasingly shift from training models to running them efficiently in production environments. Groq is known for its purpose-built inference hardware, while Nvidia dominates the AI accelerator market through GPUs. Any form of partnership, investment, or technical collaboration would signal a meaningful evolution in Nvidia’s long-term AI strategy. Cloud providers, enterprises, and AI developers are closely watching the development for clues about the next phase of AI infrastructure.
-Background & Context
-generative AI applications matured, inference workloads began to dominate real-world usage. Inference demands lower latency, predictable performance, and better cost efficiency at scale. Groq entered this space with its Language Processing Unit architecture, designed specifically for deterministic, high-throughput inference. Growing interest in Groq’s approach reflects wider industry pressure to diversify beyond GPU-centric architectures as AI adoption accelerates globally.
-Key Facts / What Happened
-Voices & Perspectives
-A senior semiconductor executive noted, “Purpose-built chips like LPUs are forcing established players to rethink how heterogeneous AI systems are designed.”
-Implications
-What’s Next / Future Outlook
-end-to-end AI platform. Groq could gain wider enterprise visibility if collaborations materialize. The next wave of AI infrastructure announcements will increasingly focus on inference benchmarks rather than training scale alone.
-Our Take
-Wrap-Up
-As AI moves from experimentation to everyday deployment, inference efficiency is becoming the new battleground. Whether or not a formal deal emerges, Nvidia and Groq’s alignment reflects where the industry is heading next.]]></summary>
-        <author>
-            <name>Logic Verse</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[8 Places Where Flutter / React Native Save You Weeks]]></title>
-        <id>https://dev.to/dev_resources/8-places-where-flutter-react-native-save-you-weeks-64m</id>
-        <link href="https://dev.to/dev_resources/8-places-where-flutter-react-native-save-you-weeks-64m"/>
-        <updated>2025-12-27T08:03:00.000Z</updated>
-        <summary type="html"><![CDATA[If you’ve ever shipped the same feature twice—once for iOS, once for Android—you already know the pain this article is about.
-I’ve built products the “native-first” way. I’ve also shipped apps with Flutter and React Native under brutal startup timelines. The difference isn’t subtle. In the right places, cross-platform frameworks don’t save you hours. They save you weeks—sometimes entire months—of engineering time, mental overhead, and opportunity cost.
-This matters right now because the industry has shifted:
-Mobile is table stakes for almost every SaaS
-Solo founders and small teams are shipping more products than ever
-AI has lowered the cost of features, but not the cost of integration
-
-Speed to market is often more important than theoretical perfection
-Flutter and React Native aren’t “wri…]]></summary>
-        <author>
-            <name>Dev. Resources</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[🕹️ Game Designer or Game Developer? Don’t Decide Too Early]]></title>
-        <id>https://dev.to/dinesh_04/game-designer-or-game-developer-dont-decide-too-early-35n7</id>
-        <link href="https://dev.to/dinesh_04/game-designer-or-game-developer-dont-decide-too-early-35n7"/>
-        <updated>2025-12-27T08:00:49.000Z</updated>
-        <summary type="html"><![CDATA[Many beginners ask this question: “Should I become a Game Designer or a Game Developer?”
-My honest advice is simple — don’t decide at the beginning.
-First, learn the basics of both game design and game development.When you start learning, you’ll slowly understand:
-What excites you more
-What feels natural
-What gives you that happy, curious feeling
-Only after some time in the learning process, your path will become clear.
-Learning both gives you a strong foundation.Once you understand the basics, you can choose based on your mindset and interest, not confusion or fear.
-For me, I learned the basics of both design and development.I realized that development feels more comfortable for me, while design is a bit difficult.
-So my advice:]]></summary>
-        <author>
-            <name>Dinesh</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Improved Simulation of Stabilizer Circuits]]></title>
-        <id>https://dev.to/paperium/improved-simulation-of-stabilizer-circuits-4hnc</id>
-        <link href="https://dev.to/paperium/improved-simulation-of-stabilizer-circuits-4hnc"/>
-        <updated>2025-12-27T08:00:09.000Z</updated>
-        <summary type="html"><![CDATA[Faster way to simulate certain quantum circuits — now for thousands of qubits
-
-
-Researchers made it much easier to mimic a class of quantum circuits on ordinary computers, and the result is both surprising and useful.
-faster, though it uses about twice the memory.
-CHP puts this into practice and can run on thousands of qubits, so experiments can be tried before the lab machines are ready.
-not universal for classical computers, meaning they won’t replace your laptop for general tasks.
-Read article comprehensive review in Paperium.net:
- Improved Simulation of Stabilizer Circuits 
-🤖 This analysis and review was primarily generated and structured by an AI . The content is provided for informational and quick-review purposes.]]></summary>
-        <author>
-            <name>Paperium</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[XDocReport cần plugin để tạo placeholder]]></title>
-        <id>https://dev.to/trithai/xdocreport-can-plugin-de-tao-placeholder-5f2k</id>
-        <link href="https://dev.to/trithai/xdocreport-can-plugin-de-tao-placeholder-5f2k"/>
-        <updated>2025-12-27T07:56:39.000Z</updated>
-        <summary type="html"><![CDATA[Khi làm việc với XDocReport để populate data từ field vào các placeholder trong DocX template, một trong những thứ cần quan tâm là phải tạo các placeholder bằng plugin được phát triển bởi XDocReport. Lý do đằng sau là do Word không đảm bảo việc một word/placeholder luôn luôn được lưu trữ, tokeninze trong internal data structure (zip format, xml format) với cùng định dạng khi rendered trên word. 
-Ví dụ: placeholder:
-{full_name}
-
-có thể được lưu trữ thành:
-<tag>{full</tag><tagb>_name}</tagb>
-
-thay vì
-{full_name}
-
-vì vậy để replace placeholder bằng các hàm string replace là không hoàn toàn khả thi, và có khả năng gây lỗi bất cứ khi nào. 
-Ref: https://gpcoder.com/3185-huong-dan-xuat-du-lieu-ra-file-word-pdf-voi-xdocreport/]]></summary>
-        <author>
-            <name>Thái Lê Trí</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Day 35 of improving my Data Science skills]]></title>
-        <id>https://dev.to/sp_the_data_specialist/day-35-of-improving-my-data-science-skills-1lcb</id>
-        <link href="https://dev.to/sp_the_data_specialist/day-35-of-improving-my-data-science-skills-1lcb"/>
-        <updated>2025-12-27T07:52:42.000Z</updated>
-        <summary type="html"><![CDATA[Lately, I've noticed something changing in how I learn.
-While working with time series in Matplotlib, I annotated a point on a chart where something meaningful happened. It wasn't just a label on a line, it felt like saying, "This moment matters"
-
-
-
-I'm still learning. Still breaking things. Still fixing them. But I'm becoming more intentional, and that feels like real progress.
-If you're on a similar path, I'm curious: What part of your process do you rush through because it feels "basic"… but probably deserves more care?
--SP]]></summary>
-        <author>
-            <name>Sylvester Promise</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Prompts are becoming Code, but we still treat them like Strings]]></title>
-        <id>https://dev.to/codeaholicguy/prompts-are-becoming-code-but-we-still-treat-them-like-strings-4o1j</id>
-        <link href="https://dev.to/codeaholicguy/prompts-are-becoming-code-but-we-still-treat-them-like-strings-4o1j"/>
-        <updated>2025-12-27T07:42:49.000Z</updated>
-        <summary type="html"><![CDATA[Prompts used to be just text.
-You wrote a few sentences, pasted them into a chat box, tweaked the wording, and moved on. If the output was not good, you tried again. Nothing else depended on it. The cost of getting it wrong was close to zero.
-That phase did not last long. In The Turning Point of AI, I shared that:
-AI isn’t just a tool for completing your sentences or suggesting the next line of code. We need to see it as a new way of building software.
-The moment prompts moved out of chat windows and into those systems, their role changed. They were no longer throwaway text. They were reused across flows. They carried logic. They returned structured data that other parts of the system depended on.
-At that point, prompts quietly became part of the system.
-But the way we wrote them did not c…]]></summary>
-        <author>
-            <name>Hoang Nguyen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Block-Reign: A Player vs AI Grid Game That Learns From You]]></title>
-        <id>https://dev.to/puneetkumar2010/block-reign-a-player-vs-ai-grid-game-that-learns-from-you-44cj</id>
-        <link href="https://dev.to/puneetkumar2010/block-reign-a-player-vs-ai-grid-game-that-learns-from-you-44cj"/>
-        <updated>2025-12-27T07:35:27.000Z</updated>
-        <summary type="html"><![CDATA[Most game AIs are fake smart.
-
-Patterns, scripts, predictable behavior.
-Block-Reign isn’t.
-This is a lightweight Player vs AI grid battle game where the AI actually learns from every match you play — wins, losses, mistakes, all of it.
-No GPU.
-
-No fancy engines.
-
-Just Python, reinforcement learning, and persistence.
-Block-Reign is a 10×10 grid-based Player vs AI combat game built with:
-Flask + HTML for the frontend
-Python for the game server
-Reinforcement Learning (Q-Learning) for live gameplay
-DQN for advanced offline experimentation
-You play in the browser.
-
-The AI plays on the server.
-
-After every match, it gets smarter.
-The core idea was simple:
-What if the AI learned only from real games — not pre-trained data?
-So the AI:
-Starts dumb
-Learns only from actual matches
-
-Saves its knowledge permanently
-Adapts to your playstyle
-
-
-
-No synthetic data.
-
-No scripted behaviors.
-
-Just experience.
-The running server uses a Q-learning AI
-
-After each completed match:
-
-
-Match data is sent to the server
-The AI updates its Q-table
-Progress is saved on disk
-Restart the server → the AI remembers everything
-The project also includes a DQN trainer (ai_trainer.py) for experimentation.
-As of the latest run:
-Win rate: ~59%
-Matches played: 78
-Record: 46 Wins / 36 Losses
-These stats are not hardcoded.
-
-They are learned, stored, and persisted.
-Delete the training folder, and the AI forgets everything.
-10×10 grid
-Arrow keys to move
-Space to shoot
-Simple mechanics, strategic positioning
-Fast matches, instant feedback
-Minimal visuals.
-
-Maximum behavior learning.
-Delete:
-training/
-
-or:
-training/models/simple_ai.pkl
-
-Restart the server and play again.
-
-The AI starts from scratch.
-This project wasn’t about graphics or polish.
-It was about:
-Understanding reinforcement learning
-Watching an AI evolve organically
-Building adaptive systems without massive compute
-https://github.com/DeveloperPuneet/Block-Reign
-Block-Reign isn’t perfect.
-
-But it’s honest.
-An AI that earns its intelligence one loss at a time.
-And nah — this isn’t the end.
-comment]]></summary>
-        <author>
-            <name>Puneet-Kumar2010</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Neon Postgres Deep Dive: Why the 2025 Updates Change Serverless SQL]]></title>
-        <id>https://dev.to/dataformathub/neon-postgres-deep-dive-why-the-2025-updates-change-serverless-sql-5o0</id>
-        <link href="https://dev.to/dataformathub/neon-postgres-deep-dive-why-the-2025-updates-change-serverless-sql-5o0"/>
-        <updated>2025-12-27T07:34:09.000Z</updated>
-        <summary type="html"><![CDATA[In this guide, you'll learn about the significant strides Neon, the serverless PostgreSQL platform, has made in late 2025, focusing on its architectural advancements, performance benchmarks, and a suite of new developer-centric features. As a developer who thrives on understanding the mechanics and implications of new tech, I've been genuinely excited to dive into these updates. Neon continues to push the boundaries of what's possible with PostgreSQL in a cloud-native, serverless paradigm, and the latest releases are a testament to their relentless innovation. This isn't marketing fluff; it's a practical look at how these enhancements are reshaping development workflows and production deployments.
-At the heart of Neon's compelling offering is its fundamentally re-architected PostgreSQL. Tr…]]></summary>
-        <author>
-            <name>DataFormatHub</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Is This the Most Private Way to Track Your Life? Dashboard of Life.]]></title>
-        <id>https://dev.to/techno_kraft_in/is-this-the-most-private-way-to-track-your-life-dashboard-of-life-170b</id>
-        <link href="https://dev.to/techno_kraft_in/is-this-the-most-private-way-to-track-your-life-dashboard-of-life-170b"/>
-        <updated>2025-12-27T07:27:00.000Z</updated>
-        <summary type="html"><![CDATA[Zero Install, Zero Setup: The Fastest Way to Track Your Life Metrics.
-
-
-
-Your personal space to track habits, mood, and progress with customizable widgets.
-
-In an era of mandatory logins, monthly subscriptions, and invasive data harvesting, there is something revolutionary about a tool that lives entirely within a single HTML file.
-The Dashboard of Life is a minimalist, high-utility personal metrics tracker designed for users who value speed, privacy, and simplicity. It allows for the tracking of hydration, mood, reading progress, or any custom habit without a single byte of data leaving the local machine.
-Most modern productivity apps require a cloud connection. This dashboard flips the script by utilizing the browser's native capabilities. By leveraging Local Storage, the application persists data across sessions without the need for a back-end database.
-Zero Registration Required: There are no "Sign Up" buttons. The tool is ready to use the moment the file is opened.
-No Installation or Downloads: It runs directly in any modern web browser. No .exe or .dmg installers are necessary.
-Absolute Privacy: Data is stored locally in the browser. No external servers ever see the personal metrics, moods, or habits being tracked.
-Total Data Ownership: The built-in Export/Import functionality allows users to save their data as a JSON file. This ensures that even if browser history is cleared, the data remains portable and secure.
-Developers and privacy enthusiasts are increasingly moving toward "local-first" software. This dashboard eliminates "subscription fatigue" and the risk of data breaches. It is a clean, "set it and forget it" solution for anyone looking to optimize their life without sacrificing their digital footprint.
-Experience the simplicity of the Ultimate 'Ghost' Dashboard: Manage your life without leaving a digital footprint.]]></summary>
-        <author>
-            <name>techno kraft</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Claude's take on AI power usage]]></title>
-        <id>https://dev.to/goatpug/claudes-take-on-ai-power-usage-5069</id>
-        <link href="https://dev.to/goatpug/claudes-take-on-ai-power-usage-5069"/>
-        <updated>2025-12-27T07:24:14.000Z</updated>
-        <summary type="html"><![CDATA[This was the first chat with Claude where I absolutely CRIED with laughter.
-Could AI come up with more efficient ways to power itself? I just read about the push for more nuclear energy facilities to open because of all the compute power that's needed for AI
-Ooh, this is a wild question! The short answer is: not really yet, but theoretically maybe?
-Here's the situation:
-The energy problem is real - training big AI models uses an absurd amount of power. Like, training GPT-3 used as much electricity as 120 US homes use in a year. And now with everyone running AI systems 24/7, yeah, we need a shit-ton more power. Hence the nuclear plant scramble.
-Could AI optimize itself? There's some of this happening:
-AI researchers use AI to design more efficient chip architectures
-There's work on "neural …]]></summary>
-        <author>
-            <name>Sharon</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop Using Lottie for Characters: Why Rive Is the Future of App Animation]]></title>
-        <id>https://dev.to/uianimation/stop-using-lottie-for-characters-why-rive-is-the-future-of-app-animation-1hjf</id>
-        <link href="https://dev.to/uianimation/stop-using-lottie-for-characters-why-rive-is-the-future-of-app-animation-1hjf"/>
-        <updated>2025-12-27T07:24:09.000Z</updated>
-        <summary type="html"><![CDATA[Lottie is great for icons.
-If you’ve ever tried to ship an interactive character using Lottie, you already know the pain:
-Multiple animation files
-Awkward transitions
-Growing bundle size
-Hard-to-maintain logic
-That’s not a design problem.
-Lottie Animations Are Timelines, Not Systems
-Lottie was built to play predefined animations.
-That’s perfect for:
-Loading spinners
-Button micro-interactions
-Decorative motion
-But characters aren’t decorative.
-A character needs to:
-React instantly to user input
-Switch emotional states
-Interrupt animations cleanly
-Reuse the same rig across many behaviors
-With Lottie, every one of those becomes a workaround.
-The “Happy → Sad” Problem
-Let’s say your character needs to switch from Happy to Sad when an API call fails.
-With Lottie, you usually end up with:
-Separa…]]></summary>
-        <author>
-            <name>Praneeth Kawya Thathsara</name>
         </author>
     </entry>
 </feed>
