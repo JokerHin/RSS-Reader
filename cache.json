@@ -29,6 +29,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/mojoatomic/your-atomic-deploys-probably-arent-atomic-3p7a",
+          "author": "mojoatomic",
+          "description": "If you're using symlink swaps for zero-downtime deployments, you've probably written something like this:\nln -sfn releases/20260112 current\n\nLooks atomic. It's not.\nRun that command through strace:\nsymlink(\"releases/20260112\", \"current\") = -1 EEXIST\nunlink(\"current\") = 0                    \nsymlink(\"releases/20260112\", \"current\") = 0\n\nSee the problem? Between unlink and symlink, the current symlink doesn't exist. Under load, some percentage of requests hit that gap and get ENOENT.\nYour \"zero-downtime\" deploy just caused downtime.\nThis is well-documented:\nln -s releases/20260112 .tmp/current.$$\nmv -T .tmp/current.$$ current\n\nCreate a temp symlink, then use mv -T to atomically replace the target. The -T flag makes mv call rename(2), which is atomic on POSIX filesystems.\nProblem solved. Unles…",
+          "link": "https://dev.to/mojoatomic/your-atomic-deploys-probably-arent-atomic-3p7a",
+          "publishedOn": "2026-01-12T22:13:09.000Z",
+          "wordCount": 2318,
+          "title": "Your \"Atomic\" Deploys Probably Aren't Atomic",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Favka49w5nwq01v6xrjhu.png"
+        },
+        {
+          "id": "https://dev.to/alifunk/why-ownership-is-the-best-certification-building-infrastructure-for-an-aws-legend-4nd5",
+          "author": "Ali-Funk",
+          "description": "After 8 years in IT Operations, I made a conscious decision: I’m not just going to \"learn\" Cloud Security. I’m going to live it.\nI am currently in the middle of a full career pivot. My days are spent on foundational IT retraining, my nights are dedicated to AWS certifications and Cloud Security. But certificates are just paper if you don't apply them.\nI promised myself that I wouldn't use this time to just \"park\" and wait for a degree. I am building a \"launchpad\".\nThe Project: Building a Home for Cloud Architects\nRecently, I had the opportunity to support Marko Sluga a true authority in the AWS world and someone I’ve looked up to for learning cloud architecture. His community needed a new home, a place to discuss complex AWS topics, share knowledge, and grow together.\nI volunteered to desi…",
+          "link": "https://dev.to/alifunk/why-ownership-is-the-best-certification-building-infrastructure-for-an-aws-legend-4nd5",
+          "publishedOn": "2026-01-12T21:39:07.000Z",
+          "wordCount": 2153,
+          "title": "Why \"Ownership\" is the Best Certification: Building Infrastructure for an AWS Legend",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhnynbcdud1dulqhhh62v.png"
+        },
+        {
+          "id": "https://dev.to/siy/the-underlying-process-of-request-processing-1od4",
+          "author": "Sergiy Yevtushenko",
+          "description": "The Underlying Process of Request Processing\n\n\n\n  \n  \n  Beyond Languages and Frameworks\n\n\nEvery request your system handles follows the same fundamental process. It doesn't matter if you're writing Java, Rust, or Python. It doesn't matter if you're using Spring, Express, or raw sockets. The underlying process is universal because it mirrors how humans naturally solve problems.\nWhen you receive a question, you don't answer immediately. You gather context. You retrieve relevant knowledge. You combine pieces of information. You transform raw data into meaningful understanding. Only then do you formulate a response. This is data transformation--taking input and gradually collecting necessary pieces of knowledge to provide a correct answer.\nSoftware request processing works identically.\nEvery r…",
+          "link": "https://dev.to/siy/the-underlying-process-of-request-processing-1od4",
+          "publishedOn": "2026-01-12T21:36:33.000Z",
+          "wordCount": 2717,
+          "title": "The Underlying Process of Request Processing",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fzqxle7p28feobnalmgri.png"
+        },
+        {
+          "id": "https://dev.to/x0x7b/observing-behavioral-anomalies-in-web-applications-beyond-signature-scanners-g6p",
+          "author": "0x7b",
+          "description": "Most web scanners rely on payload signatures and response matching. In practice, I often see cases where the server behaves differently without any explicit error:\nlatency spikes\nunexpected redirects\nstatus changes\nSignature-based tools usually report these scenarios as “clean”, even though they indicate backend instability or logic issues.\nThe challenge is that these anomalies don’t fit traditional vulnerability categories like SQLi or XSS — they’re about how the system reacts under unusual input, not whether a known exploit triggers.\nExample Observation\nBelow is a sample result from testing http://testphp.vulnweb.com/artists.php:\n\nScreenshot showing latency spikes (RTT) and body hash changes for specific inputs. Signature-based scanners would likely mark this as “clean”.\nNotice:\nartist=SLEEP(1) causes response time to jump from ~197ms → 3212ms\nBODY_HASH changes indicate server response altered\nOther inputs (%22, %5C, %255c) also trigger body changes without explicit errors\nThese anomalies highlight how a server can behave unexpectedly under test conditions, which traditional signature-based scanners often miss.\nI’m curious how others in web security detect and interpret these kinds of behavioral anomalies during testing.\n(Optional reference for context: Blink\n)",
+          "link": "https://dev.to/x0x7b/observing-behavioral-anomalies-in-web-applications-beyond-signature-scanners-g6p",
+          "publishedOn": "2026-01-12T21:35:54.000Z",
+          "wordCount": 1839,
+          "title": "Observing Behavioral Anomalies in Web Applications Beyond Signature Scanners",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1629iwpmfo71ptzzm71x.png"
+        },
+        {
+          "id": "https://dev.to/rsionnach/shift-left-reliability-4poo",
+          "author": "Rob Fox",
+          "description": "We've become exceptionally good at incident response. Modern teams restore service quickly, run thoughtful postmortems, and hold themselves accountable through corrective actions.\nAnd yet…\nA team ships a change that passes every test, gets all the required approvals, and still brings down checkout for 47 minutes. The postmortem conclusion? \"We should have known our latency SLO was already at 94% before deploying.\"\nMany postmortems point to the same root cause: changes we introduced ourselves. Not hardware failures. Not random outages. Just software behaving exactly as we told it to.\nWe continue to treat reliability as something to evaluate once those changes are already live. This isn't a failure of tooling or process. It's a question of when we decide whether a system is ready.\n\nWe've inv…",
+          "link": "https://dev.to/rsionnach/shift-left-reliability-4poo",
+          "publishedOn": "2026-01-12T21:34:19.000Z",
+          "wordCount": 2607,
+          "title": "Shift-Left Reliability",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F33iph7ifhtvrkxbiwdwx.png"
+        },
+        {
+          "id": "https://dev.to/valgard/claude-code-must-haves-january-2026-kem",
+          "author": "Sven Pöche",
+          "description": "October 2025, I was facing a change. My Anthropic API costs had grown too high—partly due to my RooCode Agile Software Development Team Framework (a multi-agent system I'd built for AI-assisted development). My boss suggested an alternative: Claude Code with a team subscription. Within days, I had access to an ecosystem that was just beginning to unfold.\nThe first weeks were overwhelming. Claude Code was a moving target: the plugin system launched in October while I was already using it productively. Skills, MCPs, Hooks—everywhere new possibilities, but also decisions. What do you really need? What's nice-to-have? And how do you prevent the context window from filling up with unnecessary tools?\nAfter three months of intensive exploration—from October 2025 to today, January 2026—I've gained…",
+          "link": "https://dev.to/valgard/claude-code-must-haves-january-2026-kem",
+          "publishedOn": "2026-01-12T21:33:08.000Z",
+          "wordCount": 5691,
+          "title": "Claude Code Must-Haves - January 2026",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fo4u9i5q5lklsheaoskuq.png"
+        },
+        {
+          "id": "https://dev.to/envitab/clone-medtalk-hipaa-ready-video-and-chat-consultations-in-flutter-27dp",
+          "author": "Ekemini Samuel",
+          "description": "Telehealth is transforming the way patients and providers connect, offering faster access to care and reducing barriers caused by distance or scheduling. A critical part of this experience is enabling secure, real-time video consultations alongside features like chat messaging for sharing updates, questions, and follow-ups.\nWith Stream's healthcare chat solution, developers can build HIPAA-ready communication features into their apps.\nIn this tutorial, you'll learn how to clone MedTalk, a telehealth platform designed for seamless communication between doctors and patients. We'll use Flutter Web to deliver a responsive cross-platform experience and Stream's Chat & Video SDKs to power HIPAA-ready messaging and video calls. \nHere’s a demo video of the complete application:\n\n\n\n\n\n  \n  \n  Prereq…",
+          "link": "https://dev.to/envitab/clone-medtalk-hipaa-ready-video-and-chat-consultations-in-flutter-27dp",
+          "publishedOn": "2026-01-12T21:28:52.000Z",
+          "wordCount": 6803,
+          "title": "Clone MedTalk: HIPAA-Ready Video and Chat Consultations in Flutter",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnbr4zmimh11nmgkctb15.JPG"
+        },
+        {
+          "id": "https://dev.to/hopewell_mahlombe_f5d82ba/building-natures-view-a-responsive-website-using-html-css-javascript-4hnl",
+          "author": "Hopewell Mahlombe",
+          "description": "I recently built a project called Nature’s View, a responsive website focused on raising awareness about nature while practicing clean frontend development.\nThe main goal was to build something that looks good on desktop and mobile, without using frameworks — just HTML, CSS Grid, and vanilla JavaScript.\nTech Stack\nHTML5 (semantic layout)\nCSS Grid & Flexbox\nVanilla JavaScript\nMobile-responsive design\nWhat I Focused On\nResponsive layout (desktop → mobile)\nImage slideshow without libraries\nTheme toggling (light / dark)\nClean, readable CSS\nChallenges I Faced\nThis helped me understand media queries, flexible layouts, and why designing mobile-first matters.\nWhy This Project Matters\nenvironmental awareness.\nProject Links\nGitHub Repo: (mahlombehopewell/Nature-s-view-mobile-variation-)\nLive Demo: (https://mahlombehopewell.github.io/Nature-s-view-mobile-variation-/)\nI’d love feedback from other developers — especially on layout structure and responsiveness.\nTags:\n\n\n  \n  \n  webdev #frontend #html #css #javascript #responsiveDesign",
+          "link": "https://dev.to/hopewell_mahlombe_f5d82ba/building-natures-view-a-responsive-website-using-html-css-javascript-4hnl",
+          "publishedOn": "2026-01-12T21:24:49.000Z",
+          "wordCount": 1836,
+          "title": "Building Nature’s View — A Responsive Website Using HTML, CSS & JavaScript",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F456fvgb38ikkoyuohv47.png"
+        },
+        {
+          "id": "https://dev.to/whaaat_9819bdb68eccf5b8a/why-your-secret-sharing-tool-needs-post-quantum-cryptography-today-20j3",
+          "author": "Whaaat!",
+          "description": "The \"Harvest Now, Decrypt Later\" Threat\n\n\nQuantum computers capable of breaking RSA and ECC encryption don't exist yet. But here's the problem: adversaries are already collecting encrypted data today, planning to decrypt it once quantum computers arrive.\nFor sensitive data that needs to remain confidential for years, this is a real threat.\nPost-quantum cryptography (PQC) uses mathematical problems that are hard for both classical AND quantum computers to solve. In August 2024, NIST standardized three PQC algorithms:\nML-KEM (Kyber) - Key encapsulation\nML-DSA (Dilithium) - Digital signatures\nSLH-DSA (SPHINCS+) - Hash-based signatures\nI recently added PQC support to NoTrust.now, a zero-knowledge secret sharing tool. Here's how:\n// Using crystals-kyber-js library\nimport { MlKem768 } from 'crystals-kyber-js';\n\n// Receiver generates keypair\nconst [publicKey, privateKey] = await MlKem768.generateKeyPair();\n\n// Sender encapsulates a shared secret\nconst [ciphertext, sharedSecret] = await MlKem768.encapsulate(publicKey);\n\n// Receiver decapsulates to get the same shared secret\nconst decryptedSecret = await MlKem768.decapsulate(ciphertext, privateKey);\n\nFor defense in depth, combine PQC with classical crypto:\nGenerate ephemeral X25519 keypair (classical)\nGenerate ephemeral ML-KEM-768 keypair (post-quantum)\nCombine both shared secrets: finalKey = HKDF(x25519Secret || kyberSecret)\n\n\n\nThis ensures security even if one algorithm is broken.\nYou can test PQC secret sharing at NoTrust.now/createpqc. The encryption happens entirely in your browser - zero-knowledge architecture means the server never sees your plaintext.\nNIST PQC Standards\ncrystals-kyber-js\nPost-Quantum Cryptography for Developers\nWhat do you think about PQC adoption? Too early or just in time? Let me know in the comments.",
+          "link": "https://dev.to/whaaat_9819bdb68eccf5b8a/why-your-secret-sharing-tool-needs-post-quantum-cryptography-today-20j3",
+          "publishedOn": "2026-01-12T21:24:02.000Z",
+          "wordCount": 1924,
+          "title": "Why Your Secret Sharing Tool Needs Post-Quantum Cryptography Today",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F93ajmmvow1bm5ci4kulv.png"
+        },
+        {
+          "id": "https://dev.to/joerucci/the-3-most-common-env-leaks-and-how-to-prevent-them-2omc",
+          "author": "Joe Rucci",
+          "description": "Most .env leaks are not the result of sophisticated attacks. They happen when teams move fast, add engineers, and rely on workflows that were never designed for long-term security. The failures look casual because they are: a copy-paste here, a quick fix in a build log there. The good news is that the root causes are consistent, which means the fixes can be consistent too. If you want the short version of how Ghostable approaches this, start at ghostable.dev.\n.env files are simple, portable, and easy to copy. That convenience made sense when one developer owned a single environment. It breaks down when multiple people need access, deployments are automated, and compliance expectations tighten. The same behaviors that make teams productive also create long-lived leak paths, and the risk is …",
+          "link": "https://dev.to/joerucci/the-3-most-common-env-leaks-and-how-to-prevent-them-2omc",
+          "publishedOn": "2026-01-12T21:23:11.000Z",
+          "wordCount": 2211,
+          "title": "The 3 Most Common .env Leaks (and How to Prevent Them)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Faheg5y6962gaty11sv52.jpg"
+        },
+        {
+          "id": "https://dev.to/sabin_sim/cnet-day-07-48f4",
+          "author": "Sabin Sim",
+          "description": "day 07: Interface & Dependency Inversion \nDecoupling services from concrete implementations using contracts\nIntroduction\ninterfaces and dependency inversion\nto ensure that the Service does not depend on a specific storage mechanism.\n\n\n\n\n\n🌊 System Flow\nRequest: The Controller receives a request.\nDelegation: The Controller forwards the request to the Service.\nDependency Inversion:\n    The Service does not know the concrete repository.\n    It only calls methods defined in IHelloRepository.\n  \nExecution:\n    Program.cs injects the actual implementation (HelloRepository)\n    that fulfills the contract.\n  \n1️⃣ Model: Data Contract\nnamespace HelloFlow.Models;\n\npublic class HelloResponse\n{\n    public string Message { get; set; } = string.Empty;\n    public DateTime CreatedAt { get; set; }\n    publ…",
+          "link": "https://dev.to/sabin_sim/cnet-day-07-48f4",
+          "publishedOn": "2026-01-12T21:20:53.000Z",
+          "wordCount": 2438,
+          "title": "C#.NET - day 07",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fzbuxa1zxh0pi9uo4fs96.png"
+        },
+        {
+          "id": "https://dev.to/ujjawal0711/day-5-c-strings-the-danger-of-the-null-terminator-0-49ma",
+          "author": "Ujjawal Chaudhary",
+          "description": "In Python or Java, strings are objects. You don't worry about how they end.\nIn C, a string is just a lie. It's actually just a character array.\nSo how does the computer know where the string stops? It looks for a secret hidden character called the Null Terminator (\\0).\nIf you forget space for this \\0, functions like printf won't stop reading.\nThey will keep printing memory (garbage data, or even sensitive data) until they accidentally hit a 0 somewhere in your RAM.\nThis is the root cause of the famous Buffer Overflow vulnerability.\nHere is the code demonstrating \"Safe\" vs \"Unsafe\" strings.\n\n\n// Day 5: The most dangerous character in C\n\n#include <stdio.h>\n\nint main() {\n    // 1. Safe String (Compiler adds \\0 automatically)\n    // Size is 6 bytes ('H', 'e', 'l', 'l', 'o', '\\0')\n    char safe[] = \"Hello\"; \n\n    // 2. Unsafe String (Manually built, NO null terminator)\n    // Size is 2 bytes. \n    char unsafe[2] = {'H', 'i'}; \n\n    printf(\"Safe String: %s\\n\", safe);\n\n    // DANGER: printf keeps reading memory until it finds a 0.\n    // It will print \"Hi\" followed by random garbage from your RAM!\n    printf(\"Unsafe String: %s\\n\", unsafe);\n\n    return 0;\n}\n\n📂 View the source code on GitHub: https://github.com/Ujjawal0711/30-Days",
+          "link": "https://dev.to/ujjawal0711/day-5-c-strings-the-danger-of-the-null-terminator-0-49ma",
+          "publishedOn": "2026-01-12T21:18:02.000Z",
+          "wordCount": 1890,
+          "title": "Day 5: C Strings: The Danger of the Null Terminator (\\0)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2o7l4vvny5certv2356g.png"
+        },
+        {
           "id": "https://dev.to/aws-builders/letting-kiro-drive-autopilot-and-hooks-12c0",
           "author": "Peter McAree",
           "description": "Following on from my previous post, I thought I would dive a little deeper into two specific features with AWS Kiro that I use frequently. Two features that I feel work well for my use cases.\nAs I build trust with agentic workflows, I find myself delegating more tasks (of specific types) to Kiro's agent. That trust is building through the spec-driven development nature of Kiro, and the approach that it takes.\nTasks are broken down into small, atomic pieces of work that have been defined and reviewed up front. This approach makes it much more comfortable to enable \"autopilot\" mode with Kiro, in combination with hooks to allow the agent to handle these tasks with confidence.\nAI-driven software development workflows have came a long way from just a glorified autocomplete. The notion of allowi…",
@@ -37087,126 +37207,6 @@
           "wordCount": 2053,
           "title": "Turning Complexity into Smart Simplicity Is a Thinking Skill, Not a Shortcut",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6uy05pzd9jkdwqpfapsf.png"
-        },
-        {
-          "id": "https://dev.to/etherspot/glamsterdam-bitcoin-in-metamask-eil-7702-alignment-pillarx-universal-gas-tank-5869",
-          "author": "Alexandra",
-          "description": "As the year winds down and the holidays roll in, we’re wrapping up Ethereum’s biggest infrastructure updates like gifts under the tree 🎄\nThe latest news we'll cover:\nGlamsterdam: Next Ethereum Upgrade Targets MEV Manipulation and Block Efficiency\nMetaMask Officially Integrates Bitcoin After Long Anticipation\nEthereum Builders Align on EIL, Intents, and the Role of EIP-7702\nPillarX Introduces Universal Gas Tank to Remove Cross-Chain Gas Friction\nCoBuilders Unveils Local Playground for Ethereum Interop Layer\nPour yourself something warm ☕, sit back, and let’s unwrap what builders have been shipping across the ecosystem.\nEthereum developers are advancing a major protocol upgrade named “Glamsterdam,” which is intended to address long-standing issues around Maximum Extractable Value (MEV) fair…",
-          "link": "https://dev.to/etherspot/glamsterdam-bitcoin-in-metamask-eil-7702-alignment-pillarx-universal-gas-tank-5869",
-          "publishedOn": "2025-12-29T10:11:23.000Z",
-          "wordCount": 2960,
-          "title": "Glamsterdam, Bitcoin in MetaMask, EIL & 7702 Alignment, PillarX Universal Gas Tank",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fj6ukv6bu38ssxdtqreee.png"
-        },
-        {
-          "id": "https://dev.to/mgonzalezo/hybrid-mlops-pipeline-implementation-guide-4odc",
-          "author": "Marco Gonzalez",
-          "description": "Bursting to SageMaker Training from OpenShift Pipelines\nOverview\nArchitecture\nPrerequisites\nPhase 1: ROSA Cluster Setup\nPhase 2: OpenShift Pipelines Installation\nPhase 3: AWS Controllers for Kubernetes (ACK)\nPhase 4: Amazon SageMaker Integration\nPhase 5: Model Storage with S3\nPhase 6: KServe Model Serving\nPhase 7: End-to-End Pipeline\nTesting and Validation\nResource Cleanup\nTroubleshooting\nThis platform delivers a hybrid MLOps solution that optimizes costs by leveraging the best of both worlds: OpenShift for orchestration and management, and AWS SageMaker for intensive GPU training workloads. Instead of maintaining expensive GPU instances 24/7, this architecture enables dynamic \"bursting\" to AWS for training while maintaining cost-effective inference on OpenShift.\nCost Optimization: Pay for…",
-          "link": "https://dev.to/mgonzalezo/hybrid-mlops-pipeline-implementation-guide-4odc",
-          "publishedOn": "2025-12-29T10:11:18.000Z",
-          "wordCount": 6538,
-          "title": "Hybrid MLOps Pipeline: Implementation Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fq7j6rn73wf3b5dgtfa7x.png"
-        },
-        {
-          "id": "https://dev.to/aserrano/speed-up-your-worker-with-cache-api-5-lines-of-code-3d96",
-          "author": "Alejandro",
-          "description": "Want to make your Worker 10x faster?\nCache API is your friend. Here's how to use it in 5 lines:\nexport default {\n  async fetch(request: Request): Promise<Response> {\n    const cache = caches.default;\n\n    // Try to get from cache first\n    let response = await cache.match(request);\n\n    if (!response) {\n      // Cache miss - fetch from origin\n      response = await fetch(request);\n\n      // Cache for 1 hour\n      response = new Response(response.body, response);\n      response.headers.set('Cache-Control', 'max-age=3600');\n\n      // Store in cache\n      await cache.put(request, response.clone());\n    }\n\n    return response;\n  }\n};\n\nThat's it. 5 lines (the important ones).\nChecks if response is in cache\nIf yes → returns cached version (super fast)\nIf no → fetches from origin\nStores in cache for next time\nReturns response\nBefore caching:\nEvery request hits your origin\nResponse time: 200-500ms\nHigh CPU usage\nAfter caching:\nCached requests return in <10ms\n70-90% cache hit rate is common\nMinimal CPU usage\nOn my API:\nP50 latency: 450ms → 15ms\nP95 latency: 800ms → 25ms\nCache hit rate: 85%\nOnly cache GET requests\nSet appropriate TTL (don't cache forever)\nUse cache keys for different variants\nInvalidate cache when data changes\nCache API is built into Workers. No setup. No cost. Just speed.\nWant more performance patterns? I've got caching strategies, database optimization, and more in my complete guide: https://appybot.gumroad.com/l/oatoe",
-          "link": "https://dev.to/aserrano/speed-up-your-worker-with-cache-api-5-lines-of-code-3d96",
-          "publishedOn": "2025-12-29T10:05:12.000Z",
-          "wordCount": 1908,
-          "title": "Speed Up Your Worker with Cache API (5 Lines of Code)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4w2k18nrqd29gx93so3p.png"
-        },
-        {
-          "id": "https://dev.to/szabgab/perl-weekly-753-happy-new-year-1mpd",
-          "author": "Gabor Szabo",
-          "description": "Originally published at Perl Weekly 753\nHi there!\nThere was not a lot of action this week, but I had a live session on contributing to a Perl project and then another one contributing to a Python project. There were more guests at the Python event, but we were more productive during the Perl event. Partially as the packaging and dependency management system of Perl is more standardized than that of Python. Who would have thought :-)\nI've scheduled a new event to contribute to a Perl module. I really hope that these sessions will encourage more people to start contributing. First relatively small things and then as we run out of the smaller things we can work on more difficult tasks.\nIf you are looking for a New Year's resolution here is a challenge: Make one contribution to an open source …",
-          "link": "https://dev.to/szabgab/perl-weekly-753-happy-new-year-1mpd",
-          "publishedOn": "2025-12-29T10:03:27.000Z",
-          "wordCount": 5654,
-          "title": "Perl 🐪 Weekly #753 - Happy New Year!",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkn9ayfagpn38wp6c7ux5.png"
-        },
-        {
-          "id": "https://dev.to/composiodev/function-calling-with-google-gemini-3-google-adk-google-genai-55l5",
-          "author": "Developer Harsh",
-          "description": "What is function calling in LLMs?\n\n\nLarge Language Models cannot access external systems such as APIs, databases, or SaaS apps independently; function calling is the pattern that enables them to do so safely. \nInstead of returning only natural language, the model can decide to “call” a function by emitting a structured description of which tool to use and which parameters to pass.\nYou expose your internal or third‑party APIs to the model as functions, and the LLM chooses when and how to use them for tasks like sending emails, updating Sheets, scheduling events, or fetching live data such as weather and stock prices.\nIrony is that, despite the name, the LLM does not execute code itself; it returns a structured functionCall An object that your application uses to trigger real API calls and t…",
-          "link": "https://dev.to/composiodev/function-calling-with-google-gemini-3-google-adk-google-genai-55l5",
-          "publishedOn": "2025-12-29T10:01:19.000Z",
-          "wordCount": 9499,
-          "title": "Function Calling With Google Gemini 3 - Google ADK & Google Genai",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1z61xe2qpu3k54jh808r.png"
-        },
-        {
-          "id": "https://dev.to/vjnvisakh/unveiling-the-threat-of-clickjacking-in-web-security-75c",
-          "author": "Visakh Vijayan",
-          "description": "In the realm of web security, one of the stealthy threats that often goes unnoticed is Clickjacking. This technique, also known as UI redress attack, involves deceiving a user into clicking on a hidden element by overlaying it with a legitimate-looking element. Let's delve deeper into this insidious practice and understand how it can compromise the security of web applications.\nAt its core, Clickjacking exploits the transparency of iframes to trick users into performing unintended actions on a different page. The attacker conceals a malicious button or link beneath an innocent-looking element, such as a fake play button or a transparent overlay.\n<iframe src='malicious-site.com' style='opacity: 0;'></iframe>\n<button onclick='clickJackedFunction()'>Click me!</button>\n\nThe consequences of falling victim to a Clickjacking attack can range from innocuous to severe. In some cases, users might unknowingly like a social media post or follow a malicious account. However, more malicious scenarios involve transferring funds, changing account settings, or even downloading malware onto the user's device.\nTo shield web applications from Clickjacking attacks, developers can implement several defensive strategies. One common approach is to employ the X-Frame-Options header, which allows websites to control if and how their content is embedded into other sites.\nX-Frame-Options: DENY\n\nAdditionally, Content Security Policy (CSP) directives can restrict which domains are allowed to embed a site's content, mitigating the risk of Clickjacking.\nContent-Security-Policy: frame-ancestors 'none'\n\nClickjacking poses a significant threat to the security and integrity of web applications. By understanding how this technique operates and implementing robust security measures, developers can fortify their websites against this surreptitious form of attack. Stay vigilant, stay secure!",
-          "link": "https://dev.to/vjnvisakh/unveiling-the-threat-of-clickjacking-in-web-security-75c",
-          "publishedOn": "2025-12-29T10:00:06.000Z",
-          "wordCount": 2307,
-          "title": "Unveiling the Threat of Clickjacking in Web Security",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Feht6fxeds7stcplp6ze2.png"
-        },
-        {
-          "id": "https://dev.to/amitsurana/beyond-keywords-engineering-a-production-ready-agentic-search-framework-in-go-3j45",
-          "author": "Amit Surana",
-          "description": "Search systems have historically been optimized for retrieval: given a query, return the most relevant documents. That model breaks down the moment user intent shifts from finding information to solving problems.\nConsider a query like:\n“How will tomorrow's weather in Seattle affect flight prices to JFK?”\nThis isn't a search problem. It's a reasoning problem — one that requires decomposition, orchestration across multiple systems, and synthesis into a coherent answer.\nThis is where agentic search comes in.\nIn this article, I'll walk through how we designed and productionized an agentic search framework in Go — not as a demo, but as a real system operating under production constraints like latency, cost, concurrency, and failure modes.\nKeyword and vector search systems excel at matching quer…",
-          "link": "https://dev.to/amitsurana/beyond-keywords-engineering-a-production-ready-agentic-search-framework-in-go-3j45",
-          "publishedOn": "2025-12-29T10:00:02.000Z",
-          "wordCount": 2625,
-          "title": "Beyond Keywords: Engineering a Production-Ready Agentic Search Framework in Go",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F218ntu4tja9pg3i8pysc.png"
-        },
-        {
-          "id": "https://dev.to/hrishikesh_dalal_ced8f95e/ep-61-how-to-search-1-billion-rows-in-milliseconds-561g",
-          "author": "Hrishikesh Dalal",
-          "description": "The Problem: The \"Full Table Scan\"\n\n\nImagine a library with 1 million books. If you want to find \"The Great Gatsby\" and the books aren't organized, you have to look at every single book one by one until you find it. In database terms, this is a Full Table Scan ( time complexity).\nAs your database grows from thousands to millions of rows, your SELECT queries will slow down to a crawl, eventually timing out and crashing your application.\n\nAn Index is a separate data structure that stores a sorted version of a column’s data alongside a pointer (Reference) to the actual row in the main table.\nMost relational databases (like PostgreSQL and MySQL) use a B-Tree (Balanced Tree) structure.\nThe Root: The search starts at the top node.\nThe Decision: The system compares your value (e.g., \"User ID 505\"…",
-          "link": "https://dev.to/hrishikesh_dalal_ced8f95e/ep-61-how-to-search-1-billion-rows-in-milliseconds-561g",
-          "publishedOn": "2025-12-29T10:00:01.000Z",
-          "wordCount": 2307,
-          "title": "EP 6.1: How to Search 1 Billion Rows in Milliseconds",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjrnek3255nprtycki97q.png"
-        },
-        {
-          "id": "https://dev.to/setevoy/terraform-using-ephemeral-resources-and-write-only-attributes-56lg",
-          "author": "Arseny Zinchenko",
-          "description": "Ephemeral resources and write-only arguments appeared in Terraform a long time ago, back in version 1.10, but there was no opportunity to write about them in detail.\nThe main idea behind them is not to leave “traces” in the state file, which is especially useful for passwords or tokens, because the data only exists during the execution of Terraform itself in its memory.\nHowever, there are certain limitations to their use — we’ll look at those later, but first, let’s see everything in action.\nExample without ephemeral values and write-only arguments\nUsing Write-Only Attributes\nUsing Ephemeral Resources\nThe “This output value is not declared as returning an ephemeral value” error\nThe “Ephemeral outputs are not allowed in context of a root module” error\nUsing values from Ephemeral resources\nU…",
-          "link": "https://dev.to/setevoy/terraform-using-ephemeral-resources-and-write-only-attributes-56lg",
-          "publishedOn": "2025-12-29T10:00:00.000Z",
-          "wordCount": 4166,
-          "title": "Terraform: using Ephemeral Resources and Write-Only Attributes",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqfvnssbls9avznmbhxq3.png"
-        },
-        {
-          "id": "https://dev.to/rushikesh_langale_36c5154/a-beginners-guide-to-aiops-what-it-teams-need-to-know-1l48",
-          "author": "Rushikesh Langale",
-          "description": "Modern IT environments are noisy, complex, and always on. Cloud platforms, microservices, containers, and hybrid systems generate more data than humans can process in real time. That’s where AIOps comes in. As explained in this insightful overview byTechnology Radius, AIOps is quickly becoming a core capability for organizations that want to stay resilient, proactive, and efficient in today’s digital landscape.\nThis guide breaks AIOps down in simple terms—what it is, why it matters, and how IT teams can start using it effectively.\nWhat Is AIOps?\nAIOps stands for Artificial Intelligence for IT Operations. It applies machine learning and advanced analytics to IT operational data.\nInstead of reacting to alerts after something breaks, AIOps helps teams spot issues before they escalate.\nAt its …",
-          "link": "https://dev.to/rushikesh_langale_36c5154/a-beginners-guide-to-aiops-what-it-teams-need-to-know-1l48",
-          "publishedOn": "2025-12-29T09:59:00.000Z",
-          "wordCount": 2115,
-          "title": "A Beginner’s Guide to AIOps: What IT Teams Need to Know",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmv3wgxj3adqjxkmc5bhj.png"
-        },
-        {
-          "id": "https://dev.to/lightningdev123/setting-up-and-testing-paypal-webhooks-locally-without-guesswork-56c6",
-          "author": "Lightning Developer",
-          "description": "When you build a payment flow with PayPal, the real work often starts after the user clicks “Pay.” Payments get approved, captures succeed or fail, refunds happen later, disputes appear days after a transaction, and subscriptions renew on their own schedule. All of this information reaches your system through webhooks.\nThe challenge is local development. PayPal cannot send webhook requests to localhost, and deploying every small change just to test an event quickly becomes frustrating. This is where a tunneling tool like Pinggy fits naturally into the workflow.\nThis article walks through a practical, developer-friendly way to set up and test PayPal webhooks locally, using a simple Node.js server and a single command tunnel.\nPayPal webhooks are HTTP callbacks sent to your server whenever so…",
-          "link": "https://dev.to/lightningdev123/setting-up-and-testing-paypal-webhooks-locally-without-guesswork-56c6",
-          "publishedOn": "2025-12-29T09:57:09.000Z",
-          "wordCount": 2553,
-          "title": "Setting Up and Testing PayPal Webhooks Locally Without Guesswork",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F78lix8eszppn0k07euyy.png"
-        },
-        {
-          "id": "https://dev.to/paras594/web-accessibility-reference-guide-j08",
-          "author": "Paras 🧙‍♂️",
-          "description": "Hey everyone, \nRecently I put together this web accessibility reference guide repo. \nIt highlights key things to watch out for when building web UIs, like keyboard support, semantics, and focus behavior.\nIt’s a collection of accessibility checks I personally find important and easy to miss or forget. \nI also added some HTML, CSS, and javascript examples that focus on keyboard accessibility. \nGithub repo: https://github.com/paras594/web-accessibility-guide\nFeel free to bookmark it or star the repo so it’s easy to come back to when needed.\nAlso if you find anything that can enhance it, you can share it in the comments or raise a PR on the repo. \nThank you. Hope it helps.",
-          "link": "https://dev.to/paras594/web-accessibility-reference-guide-j08",
-          "publishedOn": "2025-12-29T09:56:41.000Z",
-          "wordCount": 1789,
-          "title": "Web Accessibility Reference Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0m97yzhu76xjmghvbeps.png"
         }
       ]
     },
@@ -37511,6 +37511,16 @@
           "wordCount": 941,
           "title": "Clearspace (YC W23) Is Hiring an Applied Researcher (ML)",
           "imageUrl": "https://bookface-images.s3.amazonaws.com/logos/f2e3b81821aebd257e6c3669a3c71c38273ce5a7.png?1765325404"
+        },
+        {
+          "id": "https://www.promptarmor.com/resources/superhuman-ai-exfiltrates-emails",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.promptarmor.com/resources/superhuman-ai-exfiltrates-emails",
+          "publishedOn": "2026-01-12T18:38:39.000Z",
+          "wordCount": 12843,
+          "title": "Superhuman AI exfiltrates emails",
+          "imageUrl": "https://framerusercontent.com/images/2lbVDBQQDjEskEIMcWzjNKfrY.png?width=1447&height=887"
         },
         {
           "id": "https://github.com/sarusso/bedtime",
@@ -39991,6 +40001,16 @@
           "wordCount": 2991,
           "title": "Show HN: Miditui – a terminal app/UI for MIDI composing, mixing, and playback",
           "imageUrl": "https://opengraph.githubassets.com/afcbcd8dedb7c298762c37bc382c02d0b3b19b1d0ee095fc1f5a404f4a4bdcb0/minimaxir/miditui"
+        },
+        {
+          "id": "https://www.raphkoster.com/2017/09/22/31098/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.raphkoster.com/2017/09/22/31098/",
+          "publishedOn": "2026-01-08T16:50:58.000Z",
+          "wordCount": 8643,
+          "title": "What old tennis players teach us (2017)",
+          "imageUrl": "https://i0.wp.com/www.raphkoster.com/wp-content/uploads/2025/10/biglogo-transparency.png?fit=512%2C512&ssl=1"
         },
         {
           "id": "https://www.caranddriver.com/news/a69938250/waymo-ojai-autonomous-robotaxi-details/",
@@ -47961,26 +47981,6 @@
           "wordCount": 7747,
           "title": "Can I throw a C++ exception from a structured exception?",
           "imageUrl": "https://devblogs.microsoft.com/oldnewthing/wp-content/uploads/sites/38/2019/02/ShowCover.jpg"
-        },
-        {
-          "id": "https://www.independent.ie/business/digital-euro-what-it-is-and-how-we-will-use-the-new-form-of-cash/a165973061.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.independent.ie/business/digital-euro-what-it-is-and-how-we-will-use-the-new-form-of-cash/a165973061.html",
-          "publishedOn": "2025-12-29T10:12:16.000Z",
-          "wordCount": 8750,
-          "title": "EU to build no-fee payments service like Visa/Mastercard and Apple/Google Pay",
-          "imageUrl": "https://focus.independent.ie/thumbor/rqV192UBmBCnPu115MAaE27HRB4=/629x460/smart/prod-mh-ireland/56e0c2c9-9ab1-438c-b8eb-53bdb169cffd/db2e6bc7-3263-46c5-88d5-2c2d964ef561/IB%20digital%20euro.jpg"
-        },
-        {
-          "id": "https://teodordyakov.github.io/brainfuck-agi/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://teodordyakov.github.io/brainfuck-agi/",
-          "publishedOn": "2025-12-29T09:40:09.000Z",
-          "wordCount": 514,
-          "title": "Asking Gemini 3 for Brainf*ck code puts it in an infinite loop",
-          "imageUrl": null
         }
       ]
     },
@@ -49525,6 +49525,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "02d75f62-28fc-4d04-bed7-818602d1f661",
+          "author": "Krisztian Sandor",
+          "description": "Traders rotated to Monero (XMR), Zcash (ZEC) and Railgun (RAIL) as bitcoin, ether remain stuck under key resistance levels.",
+          "link": "https://www.coindesk.com/markets/2026/01/12/bitcoin-stalls-below-usd92-000-as-privacy-coins-rally-crypto-miners-surge-on-meta-ai-news",
+          "publishedOn": "2026-01-12T22:16:36.000Z",
+          "wordCount": 9470,
+          "title": "Bitcoin stalls below $92,000 as privacy coins rally; crypto miners surge on Meta AI news",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/9c77aa33f72315427616b5b3a37df7985e66a0ae-2182x1184.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "8fcf9055-de19-4a92-959e-e717f5cbfcbf",
           "author": "Jesse Hamilton",
@@ -52284,16 +52294,6 @@
           "wordCount": 10184,
           "title": "Bitcoin reverses early gains, drops below $88,000 as Nasdaq futures wilt",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/4b7e5599df26678d493d176865c1a7c528e63c81-1473x902.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "59b93536-7345-4c1e-931f-e8b23fb00cd6",
-          "author": "James Van Straten",
-          "description": "While large bitcoin holders accumulate, smaller investors are selling.",
-          "link": "https://www.coindesk.com/markets/2025/12/29/bitcoin-whales-have-been-the-main-accumulators-in-the-usd80-000-range",
-          "publishedOn": "2025-12-29T10:07:39.000Z",
-          "wordCount": 9739,
-          "title": "Bitcoin whales have been the main accumulators in the $80,000 range",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/3882a9e87e3b876ada01aaecfa5798804cffa9c5-1313x557.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },
