@@ -2,10 +2,336 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-01-17T14:17:59.548Z</updated>
+    <updated>2026-01-17T15:18:27.973Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[SC #6: Petición web con async/await]]></title>
+        <id>https://dev.to/david_goyes_a488f58a17a53/sc-6-peticion-web-con-asyncawait-56f8</id>
+        <link href="https://dev.to/david_goyes_a488f58a17a53/sc-6-peticion-web-con-asyncawait-56f8"/>
+        <updated>2026-01-17T15:05:48.000Z</updated>
+        <summary type="html"><![CDATA[Considerar el siguiente código para hacer una petición web con async/await:
+func performPOSTURLRequest() async throws(NetworkingError) -> PostData {
+  do {
+    let request = try buildURLRequest()
+    let (data, response) = try await URLSession.shared.data(for: request)
+
+    guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
+      throw NetworkingError.invalidStatusCode(statusCode: -1)
+    }
+
+    guard (200..<300).contains(statusCode) else {
+      throw NetworkingError.invalidStatusCode(statusCode: statusCode)
+    }
+
+    let decodedResponse = try JSONDecoder().decode(PostResponse.self, from: data)
+    print("The JSON response contains a name: \(decodedResponse.json.name) and an age: \(decodedResponse.json.age)")
+
+    return decodedResponse.json
+
+  } catch let error as EncodingError {
+    throw .encodingFailed(innerError: error)
+  } catch let error as DecodingError {
+    throw .decodingFailed(innerError: error)
+  } catch let error as URLError {
+    throw .requestFailed(innerError: error)
+  } catch let error as NetworkingError {
+    throw error
+  } catch {
+    throw .otherError(innerError: error)
+  }
+}
+
+En el ejemplo anterior se puede observar lo siguiente:
+El compilador avisa si uno no ha retornado nada. Cosa que era imposible con la implementación que usaba "closures".
+Incluso aunque hay partes del código que arrojan errores de tipo NetworkingError, igual hay que atrapar específicamente el error de ese tipo (NetworkingError) porque, de no hacerlo, los errores serán atrapados por el catch por defecto.
+El llamado a URLSession.shared.data(for:) retorna un valor NO OPCIONAL si la petición es exitosa. En caso contrario, arroja un error.]]></summary>
+        <author>
+            <name>GoyesDev</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[📐 Beginner-Friendly Guide 'Find the Largest Square Area' – LeetCode 3047 (C++, Python, JavaScript)]]></title>
+        <id>https://dev.to/om_shree_0709/beginner-friendly-guide-find-the-largest-square-area-leetcode-3047-c-python-javascript-4ecb</id>
+        <link href="https://dev.to/om_shree_0709/beginner-friendly-guide-find-the-largest-square-area-leetcode-3047-c-python-javascript-4ecb"/>
+        <updated>2026-01-17T15:05:08.000Z</updated>
+        <summary type="html"><![CDATA[Geometry problems often look intimidating because of the coordinate math involved. However, this problem is a classic exercise in finding the overlap between shapes, a fundamental skill used in everything from game engines to graphics software.
+You're given:
+Two arrays, bottomLeft and topRight, representing the coordinates of  rectangles on a 2D plane.
+Your goal:
+Find the largest possible area of a square that can fit inside the intersection of any two rectangles. If no rectangles overlap, return 0.
+Example 1: 
+"
+Input: bottomLeft = [[1,1],[2,2],[3,1]], topRight = [[3,3],[4,4],[6,6]]
+Output: 1
+Explanation:
+A square with side length 1 can fit inside either the intersecting region of rectangles 0 and 1 or the intersecting region of rectangles 1 and 2. Hence the maximum area is 1. It can be s…]]></summary>
+        <author>
+            <name>Om Shree</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Understanding HR Domain]]></title>
+        <id>https://dev.to/ijas9118/understanding-hr-domain-5h1n</id>
+        <link href="https://dev.to/ijas9118/understanding-hr-domain-5h1n"/>
+        <updated>2026-01-17T15:00:42.000Z</updated>
+        <summary type="html"><![CDATA[This is Part 1 of my "Designing an HR Management System" series.]]></summary>
+        <author>
+            <name>Ijas Ahammed</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Getting Started with 2D Games Using Pyxel (Part 15): Tunnel Dodge Game 2 (Sample)]]></title>
+        <id>https://dev.to/sdkfz181tiger/getting-started-with-2d-games-using-pyxel-part-15-tunnel-dodge-game-2-sample-30ke</id>
+        <link href="https://dev.to/sdkfz181tiger/getting-started-with-2d-games-using-pyxel-part-15-tunnel-dodge-game-2-sample-30ke"/>
+        <updated>2026-01-17T15:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Tunnel Dodge Game 2 (Sample)
+
+
+In this article, we introduce a sample that displays a background using a tilemap.
+(This article only introduces the sample code.)
+Create the background assets using the Pyxel Editor.
+Download the resource file
+
+(Click the Download button at the top right to download the file.)
+
+The complete sample code is shown below.
+# sprite.py
+import pyxel
+import math
+import random
+
+class BaseSprite:
+
+    def __init__(self, x, y, w=8, h=8):
+        """ Constructor """
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.vx = 0
+        self.vy = 0
+
+    def update(self):
+        """ Update processing """
+        self.x += self.vx
+        self.y += self.vy
+
+    def draw(self):
+        """ Draw processing (implemented in subclasses) """
+   …]]></summary>
+        <author>
+            <name>Kajiru</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Getting Started with 2D Games Using Pyxel (Part 14): Tunnel Dodge Game 1 (Sample)]]></title>
+        <id>https://dev.to/sdkfz181tiger/getting-started-with-2d-games-using-pyxel-part-14-tunnel-dodge-game-sample-c0</id>
+        <link href="https://dev.to/sdkfz181tiger/getting-started-with-2d-games-using-pyxel-part-14-tunnel-dodge-game-sample-c0"/>
+        <updated>2026-01-17T15:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Tunnel Dodge Game 1 (Sample)
+
+
+In this article, we introduce a somewhat nostalgic game where you jump through gaps in tunnels.
+
+Here, we only provide sample code.
+Using the Pyxel Editor, draw the assets for the player and the tunnels.
+Download the resource file (Click the “Download” button in the top-right corner of the page.)
+
+The sample code for this game is shown below.
+# sprite.py
+import pyxel
+import math
+import random
+
+class BaseSprite:
+
+    def __init__(self, x, y, w=8, h=8):
+        """ Constructor """
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.vx = 0
+        self.vy = 0
+
+    def update(self):
+        """ Update process """
+        self.x += self.vx
+        self.y += self.vy
+
+    def draw(self):
+        """ Draw process (implemented in s…]]></summary>
+        <author>
+            <name>Kajiru</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What comes next: State of Crypto]]></title>
+        <id>b8b15581-e4f7-40b5-9892-1ba6824cb374</id>
+        <link href="https://www.coindesk.com/policy/2026/01/17/what-comes-next-state-of-crypto"/>
+        <updated>2026-01-17T15:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The crypto market structure bill isn't dead, but it took a blow.]]></summary>
+        <author>
+            <name>Nikhilesh De</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Built an ATS-Optimized AI Portfolio with Antigravity: From Nginx Hell to Cloud Run]]></title>
+        <id>https://dev.to/vec21/how-i-built-an-ats-optimized-ai-portfolio-with-antigravity-from-nginx-hell-to-cloud-run-4idk</id>
+        <link href="https://dev.to/vec21/how-i-built-an-ats-optimized-ai-portfolio-with-antigravity-from-nginx-hell-to-cloud-run-4idk"/>
+        <updated>2026-01-17T14:52:42.000Z</updated>
+        <summary type="html"><![CDATA[This is a submission for the New Year, New You Portfolio Challenge Presented by Google AI
+I’m Veríssimo Cassange, an AI Software Engineer based in Luanda, Angola 🇦🇴. I’ve always been obsessed with how technical architecture can drive social impact. My day-to-day usually involves Python, Machine Learning, and trying to explain to my family why "Infrastructure as Code" is actually exciting.
+For this challenge, I didn't just want a "pretty" site. I wanted a portfolio that acts like a Trojan Horse—looking premium to human recruiters while being perfectly tuned for the ATS (Applicant Tracking Systems) that often filter out talented engineers before they even get a chance.
+I deployed the app to Google Cloud Run. You can check the live version here:
+🔗 Live Portfolio: vec21-portfolio.europe-wes…]]></summary>
+        <author>
+            <name>Veríssimo Cassange</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[React Coding Challenge : TypeHead]]></title>
+        <id>https://dev.to/zeeshanali0704/react-coding-challenge-typehead-1kdf</id>
+        <link href="https://dev.to/zeeshanali0704/react-coding-challenge-typehead-1kdf"/>
+        <updated>2026-01-17T14:39:05.000Z</updated>
+        <summary type="html"><![CDATA[TypeHead
+
+
+
+
+
+import { useState, useEffect, useRef } from "react";
+
+const Typeahead = ({ placeholder = "Search..." }) => {
+  const [query, setQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [activeSuggestion, setActiveSuggestion] = useState(-1);
+  const inputRef = useRef(null);
+
+  // Fetch all users once on component mount
+  useEffect(() => {
+    const fetchAllUsers = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/posts`
+        );
+        if (!response.ok) throw new Error("Failed to fetch users");
+ …]]></summary>
+        <author>
+            <name>ZeeshanAli-0704</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Linux Learning Journey – Day 6: SSH, Remote Access & Connecting from Windows 🐧💻]]></title>
+        <id>https://dev.to/avinashwagh/linux-learning-journey-day-6-ssh-remote-access-connecting-from-windows-5ei</id>
+        <link href="https://dev.to/avinashwagh/linux-learning-journey-day-6-ssh-remote-access-connecting-from-windows-5ei"/>
+        <updated>2026-01-17T14:35:47.000Z</updated>
+        <summary type="html"><![CDATA[Day 6 of my Linux learning journey was all about remote access using SSH (Secure Shell)—an essential skill for working with Linux servers, especially in cloud and DevOps environments.
+🔹 What I Did Today
+SSH server on my Ubuntu machine, allowing me to connect from my Windows command prompt. This step opens the door to managing Linux systems remotely, which is a critical skill for real-world IT, cloud, and DevOps tasks.
+Steps I followed:
+1. Installed the SSH server on Ubuntu:
+1. sudo apt update
+2. sudo apt install openssh-server
+2. Enabled and started the SSH service:
+sudo systemctl enable ssh
+sudo systemctl start ssh
+3. Verified the SSH service status:
+sudo systemctl status ssh
+4. Ensured firewall allowed SSH connections:
+sudo ufw allow ssh
+sudo ufw status
+5. Connected from Windows using Command Prompt:
+ssh avinash@192.168.1.46
+
+
+
+✅ Successfully accessed my Ubuntu machine remotely.
+🔹 Why SSH Matters
+Allows secure remote management of Linux servers
+Essential for cloud, DevOps, and system administration
+Enables automation and scripting without being physically at the machine
+🔹 Day 6 Key Learnings
+SSH is simple to set up but incredibly powerful
+Firewalls and IP addresses must be managed carefully
+Remote access expands possibilities—now I can manage my Ubuntu system directly from Windows
+🚀 Reflection
+Day 6 showed me how Linux extends beyond a single machine. Being able to remotely connect and control servers securely is a milestone in my journey. Every command practiced today is a step closer to confidently managing real-world Linux systems in cloud environments.]]></summary>
+        <author>
+            <name>Avinash wagh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Exploring the Potential of AWS Glue Python Shell as a Long-Running Batch Execution Environment]]></title>
+        <id>https://dev.to/aws-builders/exploring-the-potential-of-aws-glue-python-shell-as-a-long-running-batch-execution-environment-56h9</id>
+        <link href="https://dev.to/aws-builders/exploring-the-potential-of-aws-glue-python-shell-as-a-long-running-batch-execution-environment-56h9"/>
+        <updated>2026-01-17T14:29:27.000Z</updated>
+        <summary type="html"><![CDATA[Original Japanese article: AWS Glue Python Shellの長時間バッチ実行環境としての可能性を探る
+I'm Aki, an AWS Community Builder (@jitepengin).
+In my recent articles, I’ve been exploring AWS Glue Python Shell.
+“How should we run heavy batch jobs that need to run for a long time, maybe once a month, in production?”
+Typical examples include weekly or monthly aggregations, backfills, or integrations with external systems—jobs that can easily run for dozens of hours. For these kinds of long-running workloads, you often have to make several architectural and operational decisions.
+A very common approach is to launch an EC2 instance and run the batch job there.
+This approach is relatively straightforward, but it also comes with additional concerns beyond the batch logic itself, such as server management, start/stop oper…]]></summary>
+        <author>
+            <name>Aki</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AltSchool Of Engineering Tinyuka’24 Month 11 Week 4]]></title>
+        <id>https://dev.to/ikoh_sylva/altschool-of-engineering-tinyuka24-month-11-week-4-4l27</id>
+        <link href="https://dev.to/ikoh_sylva/altschool-of-engineering-tinyuka24-month-11-week-4-4l27"/>
+        <updated>2026-01-17T14:26:54.000Z</updated>
+        <summary type="html"><![CDATA[If you missed our previous session, you can always catch up here. This week, we took a deeper dive into AWS Fundamentals picking up where we left off. Let’s continue, shall we?
+
+Amazon Web Services (AWS) provides the building blocks that modern businesses use to design scalable, secure, and cost-effective cloud solutions. From running applications to storing data, monitoring systems, and controlling costs, AWS offers services that work together seamlessly to support workloads of all sizes.
+Compute services provide the processing power required to run applications and workloads in the cloud. AWS offers multiple compute models to suit different use cases.
+1. Amazon EC2 (Elastic Compute Cloud)
+Use Case Example:
+2. AWS Lambda
+Use Case Example:
+3. Amazon ECS & EKS
+Use Case Example:
+4. AWS Elast…]]></summary>
+        <author>
+            <name>Ikoh Sylva</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Git Commands Explained: A Beginner's Guide to Version Control]]></title>
+        <id>https://dev.to/satyasootar/git-commands-explained-a-beginners-guide-to-version-control-o13</id>
+        <link href="https://dev.to/satyasootar/git-commands-explained-a-beginners-guide-to-version-control-o13"/>
+        <updated>2026-01-17T14:26:36.000Z</updated>
+        <summary type="html"><![CDATA[Before we begin diving into Git commands, let us first understand what Git is and why it is important.
+Git is a version control system that tracks changes and maintains the history of a project. It allows you to create checkpoints so you can return to and view previous states of your code. Let us take the example of a game. In a story-based game, you save the state of the game at checkpoints. If you lose, you do not have to start from the beginning; instead, you return to the last checkpoint and continue playing. The same analogy applies to Git.
+Without version control, the world of software development would be chaotic. If a developer is unable to track a project's history or changes, it creates many problems. Developers would not be able to collaborate effectively with each other. For a …]]></summary>
+        <author>
+            <name>SATYA SOOTAR</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[S-RCS]]></title>
+        <id>https://dev.to/ali_zeynalli_460a35b6c666/s-rcs-a9</id>
+        <link href="https://dev.to/ali_zeynalli_460a35b6c666/s-rcs-a9"/>
+        <updated>2026-01-17T14:26:28.000Z</updated>
+        <summary type="html"><![CDATA[🚀 Revolutionize Your Active Directory Management with 
+!
+Why S-RCS?
+✅ Centralized Management: Create Users, Groups, and OUs from one dashboard
+👨‍💻 Developed by: Ali Zeynalli
+https://ali7zeynalli.github.io/SRCS/
+https://github.com/Ali7Zeynalli/S-RCS]]></summary>
+        <author>
+            <name>Ali Zeynalli</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Rust for C Programmers]]></title>
         <id>https://rust-for-c-programmers.com/</id>
@@ -98936,315 +99262,6 @@ Check it out:
 https://ddless.com]]></summary>
         <author>
             <name>Jefferson Silva</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[🎨 Beginner-Friendly Guide 'Number of Ways to Paint N 3 Grid' – LeetCode 1411 (C++, Python, JavaScript)]]></title>
-        <id>https://dev.to/om_shree_0709/beginner-friendly-guide-number-of-ways-to-paint-n-x-3-grid-leetcode-1411-c-python-2879</id>
-        <link href="https://dev.to/om_shree_0709/beginner-friendly-guide-number-of-ways-to-paint-n-x-3-grid-leetcode-1411-c-python-2879"/>
-        <updated>2026-01-03T03:13:23.000Z</updated>
-        <summary type="html"><![CDATA[Combinatorics and dynamic programming can often feel like solving a massive puzzle with missing pieces. This problem is a classic example of how observing small patterns can help us derive a mathematical formula to solve much larger problems efficiently.
-You're given:
-A grid of size  (n rows and 3 columns).
-Three available colors: Red, Yellow, and Green.
-A rule that no two adjacent cells (horizontal or vertical) can have the same color.
-
-Your goal:
-Calculate the total number of ways to paint the entire grid.
-Return the result modulo .
-To solve this, we focus on the patterns within a single row. Because there are only 3 columns, we can categorize every valid row into two types:
-ABA Pattern (2 colors used): The first and third cells are the same color, and the middle cell is different (e.g.,…]]></summary>
-        <author>
-            <name>Om Shree</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Revisiting Small Batch Training for Deep Neural Networks]]></title>
-        <id>https://dev.to/paperium/revisiting-small-batch-training-for-deep-neural-networks-p4a</id>
-        <link href="https://dev.to/paperium/revisiting-small-batch-training-for-deep-neural-networks-p4a"/>
-        <updated>2026-01-03T03:10:08.000Z</updated>
-        <summary type="html"><![CDATA[Why small-batch training may make AI smarter and use less memory
-
-
-When people train deep learning models they often feed data in chunks.
-stable and reliable, and it often leads to better accuracy.
-less memory used, meaning cheaper hardware can run strong models, that is great for teams with limited resources.
-m = 2–32, not thousands.
-Read article comprehensive review in Paperium.net:
- Revisiting Small Batch Training for Deep Neural Networks 
-🤖 This analysis and review was primarily generated and structured by an AI . The content is provided for informational and quick-review purposes.]]></summary>
-        <author>
-            <name>Paperium</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[BTOP++: The Resource Monitor I Didn’t Know I Needed]]></title>
-        <id>https://dev.to/igorgbr/btop-the-resource-monitor-i-didnt-know-i-needed-389d</id>
-        <link href="https://dev.to/igorgbr/btop-the-resource-monitor-i-didnt-know-i-needed-389d"/>
-        <updated>2026-01-03T03:07:00.000Z</updated>
-        <summary type="html"><![CDATA[Today is January 1st, 2026. The holidays are over, keyboards are warming up again, and it’s time to get back to building things.
-There’s been a lot of talk about **2026 being “the year of Linux.” **Steam even kicked off the year with a banner suggesting exactly that. Will it actually be? I honestly don’t know.
-What I do know is that 2025 was the year of Linux for me. After four years working as a developer and using Linux only sporadically, things finally clicked at the end of last year — and since then, the penguin has completely taken over my workflow.
-My wife can confirm it.
-Even with the Brazilian summer heat, we don’t use Windows at home.😄
-With that in mind, this post is both a small New Year wish — and a quick, practical introduction to a resource monitor I genuinely didn’t know I n…]]></summary>
-        <author>
-            <name>Igor Giamoniano</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[5 Passive Income Strategies That Actually Work in 2026]]></title>
-        <id>https://dev.to/rrdawg25/5-passive-income-strategies-that-actually-work-in-2026-3keo</id>
-        <link href="https://dev.to/rrdawg25/5-passive-income-strategies-that-actually-work-in-2026-3keo"/>
-        <updated>2026-01-03T03:01:07.000Z</updated>
-        <summary type="html"><![CDATA[5 Passive Income Strategies That Actually Work in 2026
-
-
-Building passive income streams is the dream, but most advice out there is either outdated or unrealistic. After testing dozens of strategies, here are the 5 that actually generate consistent revenue with minimal ongoing effort.
-Creating and selling digital products is hands-down the best passive income model I've found. Here's why:
-One-time creation, infinite sales: Build once, sell forever
-High profit margins: 70-95% after platform fees
-Low barrier to entry: No inventory, shipping, or customer service
-Scalable: From $100/month to $10k+ with the same effort
-What works:
-Notion templates ($10-30 each)
-Spreadsheet tools ($5-20)
-Guides and ebooks ($15-50)
-Code templates and boilerplates ($20-100)
-Platforms: Gumroad, Lemon Squeezy, Payhi…]]></summary>
-        <author>
-            <name>Rosie Rose</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[MonkeysCMS + MonkeysAI: Building the First AI-Native Open CMS 🚀]]></title>
-        <id>https://dev.to/yorchperaza/monkeyscms-monkeysai-building-the-first-ai-native-open-cms-p23</id>
-        <link href="https://dev.to/yorchperaza/monkeyscms-monkeysai-building-the-first-ai-native-open-cms-p23"/>
-        <updated>2026-01-03T02:58:47.000Z</updated>
-        <summary type="html"><![CDATA[A few weeks ago, I shared an article about MonkeysCMS and the idea of building the CMS we always wanted. 
-Now, the journey is taking its next step.
-We're actively developing MonkeysAI, and it's not a side project. It's becoming a core part of MonkeysCMS.
-This document is an invitation — not just to use another CMS, but to help define the first truly AI-native, 
-Most CMS platforms treat AI as a plugin, an external API call, or a paid add-on.
-MonkeysAI is designed as part of the CMS architecture, so AI works with your content model, not around it.
-That means:
-AI that understands your content types
-Context-aware generation
-SEO optimization inside the editor
-Full control for teams
-AI-assisted content creation:
-Draft generation from structured fields
-Rewrite, expand, summarize, localize
-Consistent tone and brand voice
-SEO as a first-class citizen:
-Title and meta generation
-Semantic keyword suggestions
-Readability and structure feedback
-Structured, not magical:
-Respects schemas and taxonomies
-Developers decide where AI is allowed
-Editors stay in control
-Open and extensible:
-No vendor lock-in
-Pluggable providers
-Production-ready design
-MonkeysCMS is not another WordPress clone or a closed SaaS.
-AI should enhance control, not replace it.
-We welcome:
-Backend and frontend developers
-AI engineers
-CMS architects
-SEO specialists and writers
-Open-source contributors
-You don't need to know everything — just care about building something better.
-MonkeysCMS + MonkeysAI is still being shaped.
-Repository: https://github.com/MonkeysCloud/MonkeysCMS
-We're building the next generation of content systems — open, intelligent, and human-centric.
-Built on: MonkeysLegion Framework
-Questions? Drop a comment below or open an issue on GitHub. Let's build something great together.
-Slack: https://join.slack.com/t/monkeyslegion/shared_invite/zt-36jut3kqo-WCwOabVrVrhHBln4xhMATA]]></summary>
-        <author>
-            <name>Jorge Peraza</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How Students Can Start Web Development in 2025 (Complete Roadmap)]]></title>
-        <id>https://dev.to/saqibshahdev/how-students-can-start-web-development-in-2025-complete-roadmap-1ec4</id>
-        <link href="https://dev.to/saqibshahdev/how-students-can-start-web-development-in-2025-complete-roadmap-1ec4"/>
-        <updated>2026-01-03T02:48:13.000Z</updated>
-        <summary type="html"><![CDATA[If you’re a student in 2025 and want to start web development, here’s a beginner-friendly roadmap:
-Step 1: HTML & CSS – Foundation of all websites.
-💡 Pro Tip: 3–6 months of consistent practice can get you ready for real projects.
-🔗 Read full roadmap https://www.devmorph.dev/blogs/how-to-start-learning-web-development-in-2025-complete-roadmap-for-students]]></summary>
-        <author>
-            <name>Saqib Shah</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[🌐_Network_IO_Performance_Optimization[20260103024406]]]></title>
-        <id>https://dev.to/member_6331818c/networkioperformanceoptimization20260103024406-1mih</id>
-        <link href="https://dev.to/member_6331818c/networkioperformanceoptimization20260103024406-1mih"/>
-        <updated>2026-01-03T02:44:09.000Z</updated>
-        <summary type="html"><![CDATA[As an engineer focused on network performance optimization, I have accumulated rich experience in network IO optimization through various projects. Recently, I participated in a project with extremely high network performance requirements - a real-time video streaming platform. This project made me re-examine the performance of web frameworks in network IO. Today I want to share practical network IO performance optimization experience based on real project experience.
-In network IO performance optimization, there are several key factors that need special attention:
-TCP connection establishment, maintenance, and closure have important impacts on performance. Connection reuse, TCP parameter tuning, etc., are all key optimization points.
-Data needs to be serialized before network transmission…]]></summary>
-        <author>
-            <name>member_6331818c</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI in 2026: The Shift from Hype to Reality - Latest Trends and Controversies]]></title>
-        <id>https://dev.to/ethan_zhang_e501fea89c25b/ai-in-2026-the-shift-from-hype-to-reality-latest-trends-and-controversies-3fm2</id>
-        <link href="https://dev.to/ethan_zhang_e501fea89c25b/ai-in-2026-the-shift-from-hype-to-reality-latest-trends-and-controversies-3fm2"/>
-        <updated>2026-01-03T02:43:12.000Z</updated>
-        <summary type="html"><![CDATA[AI in 2026: The Shift from Hype to Reality - Latest Trends and Controversies
-
-
-Grab your morning coffee and settle in. The AI landscape is shifting fast, and if you blinked over the holidays, you might have missed some major developments. Here's your quick-scan briefing on what's actually happening in artificial intelligence as we kick off 2026.
-India just threw down the gauntlet on AI content moderation. According to TechCrunch, the country's IT ministry has given X (formerly Twitter) exactly 72 hours to submit an action plan fixing Grok's "obscene" AI-generated content problem.
-This isn't just bureaucratic saber-rattling. It's the first major regulatory action of 2026, and it signals something important: governments worldwide are done with the "move fast and break things" approach to AI …]]></summary>
-        <author>
-            <name>Ethan Zhang</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Becoming a Centenarian]]></title>
-        <id>https://www.newyorker.com/magazine/2025/12/22/becoming-a-centenarian</id>
-        <link href="https://www.newyorker.com/magazine/2025/12/22/becoming-a-centenarian"/>
-        <updated>2026-01-03T02:42:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Compile and Install Python 3.12+ on Amazon Linux 2]]></title>
-        <id>https://dev.to/bhaktraj/how-to-compile-and-install-python-312-on-amazon-linux-2-lcg</id>
-        <link href="https://dev.to/bhaktraj/how-to-compile-and-install-python-312-on-amazon-linux-2-lcg"/>
-        <updated>2026-01-03T02:41:25.000Z</updated>
-        <summary type="html"><![CDATA[🧠 Introduction
-Amazon Linux 2 does not provide Python 3.12 via default repositories.
-This script:
-Builds OpenSSL 1.1.1 manually
-Compiles Python 3.12 against it
-Installs Python without breaking system Python
-Creates a virtual environment safely
-🔹 Script Overview – What This Script Does
-✔ Updates the system
-#!/bin/bash
-sudo yum update
-sudo yum groupinstall -y "Development Tools"
-# sudo yum install -y openssl-devel bzip2-devel libffi-devel zlib-devel readline-devel sqlite-devel ncurses-devel gdbm-devel db4-devel expat-devel
-sudo yum install -y openssl-devel bzip2-devel libffi-devel zlib-devel \
-    readline-devel sqlite-devel ncurses-devel gdbm-devel \
-    db4-devel expat-devel
-
-
-sudo yum install -y gcc gcc-c++ make perl-core zlib-devel
-cd /tmp/
-wget https://www.openssl.org/source/openssl-1…]]></summary>
-        <author>
-            <name>bhaktraj</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Adventure 751 (1980)]]></title>
-        <id>https://bluerenga.blog/2026/01/01/adventure-751-1980/</id>
-        <link href="https://bluerenga.blog/2026/01/01/adventure-751-1980/"/>
-        <updated>2026-01-03T02:38:06.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[🚀 Incredible AI Prompts | AI Prompt Sharing Web Application]]></title>
-        <id>https://dev.to/reactjsguru/incredible-ai-prompts-ai-prompt-sharing-web-application-5247</id>
-        <link href="https://dev.to/reactjsguru/incredible-ai-prompts-ai-prompt-sharing-web-application-5247"/>
-        <updated>2026-01-03T02:30:00.000Z</updated>
-        <summary type="html"><![CDATA[As AI continues to reshape how we create and explore content, sharing high-quality prompts is rapidly becoming a valuable resource for creators, learners, and developers alike.
-Incredible AI Prompts is an open-source web application that lets users browse, create, and share AI prompts in a community-driven platform — making it easy to discover inspiration and contribute ideas for smarter AI interactions.
-📌 Key Features:
-
-
-✅ Prompt Sharing & Discovery – Curated list of community prompts
-🛠 Technologies & Libraries Used:
-
-
-💻 React – Core UI framework
-🌟 Purpose of the Project:
-
-
-This project empowers users to discover and contribute useful AI prompts in a social, shareable space — helping builders, creators, and AI enthusiasts explore ideas faster and collaborate more effectively.
-🔗 GitHub & Live Demo: https://reactjsguru.com/repos/incredible-ai-prompts-sharing-web-application?utm_source=devto&utm_medium=social&utm_campaign=repo_post
-💬 Would you add search, ratings, or categories next? Let’s discuss 👇🔥]]></summary>
-        <author>
-            <name>Reactjs Guru</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[When Community AI Breaks, It’s Rarely the Model]]></title>
-        <id>https://dev.to/yuer/when-community-ai-breaks-its-rarely-the-model-26ko</id>
-        <link href="https://dev.to/yuer/when-community-ai-breaks-its-rarely-the-model-26ko"/>
-        <updated>2026-01-03T02:28:11.000Z</updated>
-        <summary type="html"><![CDATA[It Breaks Because Facts Quietly Fragment
-When community AI systems fail, they rarely fail loudly.
-There’s no single incident to point at.
-Instead, teams start noticing strange patterns:
-Duplicate tickets for what feels like the same issue
-Conflicting AI evaluations
-Humans re-checking problems they thought were already resolved
-Dashboards that slowly stop telling a coherent story
-Most teams blame tooling or model quality.
-That’s usually not the real problem.
-The real failure mode: fact fragmentation
-Community-driven systems operate in a uniquely hostile environment:
-Posts are edited
-Threads are reposted
-Comments change context
-Humans manually re-enter or summarize content
-Monitoring tools capture the same discussion multiple times
-To humans, these are clearly the same issue.
-To a system, un…]]></summary>
-        <author>
-            <name>yuer</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built an AI Business Plan Generator - Here's What I Learned]]></title>
-        <id>https://dev.to/ben_stone_5608b8e2d9f8973/i-built-an-ai-business-plan-generator-heres-what-i-learned-ch6</id>
-        <link href="https://dev.to/ben_stone_5608b8e2d9f8973/i-built-an-ai-business-plan-generator-heres-what-i-learned-ch6"/>
-        <updated>2026-01-03T02:24:25.000Z</updated>
-        <summary type="html"><![CDATA[The Problem with Business Plans
-
-
-Every entrepreneur knows the struggle: you have a brilliant idea, but turning it into a professional, investor-ready business plan feels overwhelming. Traditional approaches require:
-Weeks of market research
-Complex financial modeling
-Professional writing and formatting
-Multiple revisions
-I built PlanForge AI to solve this exact problem. It generates comprehensive business plans in minutes, not weeks.
-Executive Summary Generation - Captures your vision in compelling, investor-ready language
-Market Analysis - AI-powered research on your target market and industry
-Financial Projections - Realistic forecasts based on your business model
-Pitch Deck Creation - 12-slide pitch deck ready for investors
-Frontend: Next.js 16 with App Router
-Styling: Tailwind CSS
-Auth: NextAuth.js with Google OAuth
-Database: Neon PostgreSQL with Drizzle ORM
-AI: OpenAI GPT-4
-Payments: Stripe
-Start with the wizard - Breaking the input into small steps dramatically improved completion rates
-Structured prompts - Using JSON schemas for AI output ensures consistent formatting
-Tier-based access - Freemium with usage limits is the sweet spot for this market
-Export to PDF/DOCX
-Collaborative editing
-Integration with pitch deck tools
-Industry-specific templates
-Would love to hear your feedback! What features would make business planning easier for you?]]></summary>
-        <author>
-            <name>Ben Stone</name>
         </author>
     </entry>
 </feed>
