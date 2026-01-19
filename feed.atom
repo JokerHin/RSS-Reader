@@ -2,10 +2,377 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-01-19T09:32:56.926Z</updated>
+    <updated>2026-01-19T10:27:22.211Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Extracting a Shared Box URL from the Login Page]]></title>
+        <id>https://dev.to/vast-cow/extracting-a-shared-box-url-from-the-login-page-5d75</id>
+        <link href="https://dev.to/vast-cow/extracting-a-shared-box-url-from-the-login-page-5d75"/>
+        <updated>2026-01-19T10:23:36.000Z</updated>
+        <summary type="html"><![CDATA[When you open a Box file link on Windows, your browser may redirect you to the Box login page instead of taking you directly to the shared content. In many cases, the login page URL includes a query parameter that contains the original destination. If you need to quickly recover the shareable link (for example, to send it to someone or open it in another environment), it is useful to extract that destination URL from the login page.
+The following JavaScript snippet is designed for that purpose. It reads the current login page URL, retrieves the redirect_url parameter from the query string, reconstructs the full destination URL, and copies it to your clipboard automatically.
+(function () {
+  const hostOrig = location.host;
+
+  // Skip if host does not end with box.com
+  if (!hostOrig.endsWit…]]></summary>
+        <author>
+            <name>vast cow</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I bundle my codebase so ChatGPT can actually understand it]]></title>
+        <id>https://dev.to/koistya/how-i-bundle-my-codebase-so-chatgpt-can-actually-understand-it-lp1</id>
+        <link href="https://dev.to/koistya/how-i-bundle-my-codebase-so-chatgpt-can-actually-understand-it-lp1"/>
+        <updated>2026-01-19T10:21:57.000Z</updated>
+        <summary type="html"><![CDATA[LLM chat apps are great at answering questions — until you point them at a real codebase.
+Once a project grows past a certain size, context becomes the bottleneck: too many files, too much noise, not enough structure.
+I kept running into this while working with modern JS / Bun projects, so I built a small CLI to solve my own workflow problem.
+Most LLM chat apps work best when:
+context is linear
+
+
+files are grouped by meaning, not size
+
+
+references are precise (file + line)
+
+
+
+But real repos are:
+hierarchical
+
+
+noisy
+
+
+full of things the model doesn’t need
+
+
+
+The result is vague or hallucinated answers.
+Instead of feeding the whole repo, I generate an LLM-optimized snapshot:
+code is bundled by domain (web, api, docs, etc.)
+
+
+each bundle is indexed with file paths + line numbers
+
+
+.gitignore is respected by default
+
+
+no config needed to get started
+
+
+
+The output is just plain text files — easy to upload or attach to ChatGPT, Gemini, or Claude.
+That tool became srcpack.
+A few workflows where this has been surprisingly effective:
+Exploring large repos – Asking “where does auth actually live?” or “what touches billing?”
+
+
+Avoiding context limits – Instead of pasting files manually, I attach a focused bundle.
+
+
+Sharing with non-technical teammates – I upload an LLM-friendly snapshot to Google Drive and share it. 
+
+
+
+PMs or designers can ask:
+“What shipped this week?”
+“What’s still in progress?”
+“Which parts are risky?”
+
+
+
+It acts like a lightweight, read-only AI interface to the codebase.
+npx srcpack # or bunx srcpack
+
+That’s it — zero config by default.
+Docs: https://kriasoft.com/srcpack/
+
+GitHub: https://github.com/kriasoft/srcpack
+
+
+
+
+
+
+
+  
+  
+  Closing thought
+
+
+I don’t think this is the final answer to LLM + codebase interaction, but it’s been a very practical improvement for day-to-day work.
+Curious how others are handling large-repo context with LLMs — especially in fast-moving projects.]]></summary>
+        <author>
+            <name>Konstantin Tarkus</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Block Outbound Traffic for a Specific Linux User with iptables (While Keeping Listening Ports Working)]]></title>
+        <id>https://dev.to/vast-cow/block-outbound-traffic-for-a-specific-linux-user-with-iptables-while-keeping-listening-ports-48li</id>
+        <link href="https://dev.to/vast-cow/block-outbound-traffic-for-a-specific-linux-user-with-iptables-while-keeping-listening-ports-48li"/>
+        <updated>2026-01-19T10:18:34.000Z</updated>
+        <summary type="html"><![CDATA[In some environments you may want to prevent a particular local user from initiating outbound network connections, while still allowing that user to run services that listen on ports and respond to inbound connections. This can be achieved with iptables by blocking only NEW outbound connections from that user, while allowing ESTABLISHED/RELATED traffic to continue.
+This article shows a clean, minimal ruleset to accomplish that goal.
+For userA:
+Block new outbound connections (e.g., curl, package downloads, external API calls).
+Keep port listening and inbound service responses working (e.g., a daemon binding to 0.0.0.0:8080 and responding to remote clients).
+The key is to add a rule in the OUTPUT chain that matches the user and drops/rejects only traffic in conntrack state NEW.
+Root privileg…]]></summary>
+        <author>
+            <name>vast cow</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[🔧 Integrating tmux automatically in VS Code with persistent sessions]]></title>
+        <id>https://dev.to/pookdeveloper/integrating-tmux-automatically-in-vs-code-with-persistent-sessions-95k</id>
+        <link href="https://dev.to/pookdeveloper/integrating-tmux-automatically-in-vs-code-with-persistent-sessions-95k"/>
+        <updated>2026-01-19T10:13:43.000Z</updated>
+        <summary type="html"><![CDATA[If you use VS Code as your editor but rely on tmux as the real source of truth for your terminal sessions, it's natural to want the integrated terminal to always land in the right tmux session — without manual commands or duplicated sessions.
+VS Code allows you to configure a terminal profile like this:
+// "terminal.integrated.profiles.osx": {
+//   "tmux-shell": {
+//     "path": "tmux",
+//     "args": ["new-session", "-A", "-s", "${workspaceFolderBasename}"]
+//   }
+// },
+// "terminal.integrated.defaultProfile.osx": "tmux-shell"
+
+What this does well:
+One workspace → one tmux session
+Automatic persistence via -A
+
+Simple, clean configuration
+No scripts involved
+For many setups, this is good enough and elegant.
+settings.json does not support conditional logic.
+Variables like ${workspaceFolderB…]]></summary>
+        <author>
+            <name>pookdeveloper</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Web3, Explained like ABC]]></title>
+        <id>https://dev.to/greyacee/web3-explained-like-abc-4mmh</id>
+        <link href="https://dev.to/greyacee/web3-explained-like-abc-4mmh"/>
+        <updated>2026-01-19T10:10:11.000Z</updated>
+        <summary type="html"><![CDATA[Humor me, try Googling the word **Web3.**
+You’ll find a ton of results, most of them filled with big technical words that make it feel like you need a computer science degree just to understand what’s going on. 
+But here’s the truth: even if you’re not in the technical space, it’s important to understand the big idea behind Web3, especially if you’re an investor, creator, or just someone who uses the internet daily.
+Because Web3 is changing how the internet works.
+I'll break it all down, simply.
+Web3 didn’t just appear overnight.
+It started with Bitcoin.
+What is Bitcoin?
+Bitcoin is a digital currency that lets people send money directly to each other without banks.
+Basically, instead of trusting a bank, people trust a system called a blockchain.
+What is a blockchain?
+A blockchain is like a public notebook that:
+Records every transaction,
+Is shared across thousands of computers,
+And cannot be easily changed or hacked.
+So instead of one company controlling the data, everyone shares and verifies it together.
+Then Came Ethereum
+Five years after Bitcoin, Ethereum was launched.
+So… What Is Web3?
+In simple terms:
+Web3 is the version of the internet where users own their data, money, and digital assets. Instead of sending transactions through banks, apps, or corporations, you send them directly to a decentralized blockchain.
+Web3 is about:
+Ownership
+Transparency
+Freedom
+Control returning to users
+Instead of:
+The platform owns your data.
+Web3 says:
+You own your data.]]></summary>
+        <author>
+            <name>Grace Ben</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Wikipedia: WikiProject AI Cleanup]]></title>
+        <id>https://en.wikipedia.org/wiki/Wikipedia:WikiProject_AI_Cleanup</id>
+        <link href="https://en.wikipedia.org/wiki/Wikipedia:WikiProject_AI_Cleanup"/>
+        <updated>2026-01-19T10:09:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Coding Assistants: Helpful or Harmful?]]></title>
+        <id>https://dev.to/nevpetda/ai-coding-assistants-helpful-or-harmful-1iol</id>
+        <link href="https://dev.to/nevpetda/ai-coding-assistants-helpful-or-harmful-1iol"/>
+        <updated>2026-01-19T10:09:36.000Z</updated>
+        <summary type="html"><![CDATA[Denis Tsyplakov, Solutions Architect at DataArt, explores the less-discussed side of AI coding agents. While they can boost productivity, they also introduce risks that are easy to underestimate.
+In a short experiment, Denis asked an AI code assistant to solve a simple task. The result was telling: without strong coding skills and a solid grasp of system architecture, AI-generated code can quickly become overcomplicated, inefficient, and challenging to maintain.
+People have mixed feelings about AI coding assistants. Some think they’re revolutionary, others don't trust them at all, and most engineers fall somewhere in between: cautious but curious.
+Success stories rarely help. Claims like “My 5-year-old built this in 15 minutes” are often dismissed as marketing exaggeration. This skepticism…]]></summary>
+        <author>
+            <name>Nevena</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Built a Git Log Diff Workflow Plugin for Neovim]]></title>
+        <id>https://dev.to/salanoid/how-i-built-a-git-log-diff-workflow-plugin-for-neovim-278m</id>
+        <link href="https://dev.to/salanoid/how-i-built-a-git-log-diff-workflow-plugin-for-neovim-278m"/>
+        <updated>2026-01-19T10:03:44.000Z</updated>
+        <summary type="html"><![CDATA[When I switched fully to Neovim a while back, one of the things I missed most from JetBrains IDEs (like RubyMine) was Git integration, especially the Git log view I’d use every day to quickly inspect recent commits and diffs. In RubyMine I’d often ask: “What changed in the last three commits?” and get an instant interactive history view.
+Neovim, however, doesn’t have this kind of UI built in, and while there are many Git plugins out there (from inline signs like gitsigns.nvim to full interfaces like Neogit), none gave me exactly the workflow I wanted: a compact “pick commits, then diff them” experience.
+So I built a plugin for that: gitlogdiff.nvim: a tiny Neovim plugin for listing recent Git commits and quickly seeing their diffs.
+At its core, gitlogdiff.nvim gives you:
+A simple commit list, sourced from git log, showing your recent history
+
+
+Easy navigation with j/k and selecting commits with 
+
+
+Pressing  opens a diff view (via diffview.nvim) comparing commits
+
+
+
+This workflow feels much closer to the Git log explorer I used in JetBrains, right inside Neovim, without leaving your editor.
+The plugin is on GitHub - here. Drop issues, ideas, or pull requests! It’s meant to stay lightweight but extendable, and someday might support alternative diff viewers beyond Diffview too.
+Happy viming! 🧑‍💻]]></summary>
+        <author>
+            <name>Salajan Silviu</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Build a List of Major Web Browsers]]></title>
+        <id>https://dev.to/richardpascoe/build-a-list-of-major-web-browsers-m7h</id>
+        <link href="https://dev.to/richardpascoe/build-a-list-of-major-web-browsers-m7h"/>
+        <updated>2026-01-19T10:00:04.000Z</updated>
+        <summary type="html"><![CDATA[After grinding through two sets of fairly heavy theory lessons over the weekend and writing about them, it was a relief to get back to a freeCodeCamp workshop.
+The workshop in question had me building a list of major web browsers with the HTML boilerplate provided, as shown beyond:
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>List of Browsers and Descriptions</title>
+    </head>
+    <body>
+
+    </body>
+</html>
+
+As before on freeCodeCamp, earlier theory lessons will now be put into practice with this workshop - with Description Lists front-and-center!
+In each exercise, I used description list elements to add a title and description. Every step followed the same pattern…]]></summary>
+        <author>
+            <name>Richard Pascoe</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What it’s like to be banned from the US for fighting online hate]]></title>
+        <id>https://www.technologyreview.com/?p=1131384</id>
+        <link href="https://www.technologyreview.com/2026/01/19/1131384/what-its-like-to-be-banned-from-the-us-for-fighting-online-hate/"/>
+        <updated>2026-01-19T10:00:00.000Z</updated>
+        <summary type="html"><![CDATA[It was early evening in Berlin, just a day before Christmas Eve, when Josephine Ballon got an unexpected email from US Customs and Border Protection. The status of her ability to travel to the United States had changed—she’d no longer be able to enter the country.  At first, she couldn’t find any information online as…]]></summary>
+        <author>
+            <name>Eileen Guo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[n8n vs Zapier: Which Automation Tool Should You Use in 2026?]]></title>
+        <id>https://dev.to/guidetodo/n8n-vs-zapier-which-automation-tool-should-you-use-in-2026-43i9</id>
+        <link href="https://dev.to/guidetodo/n8n-vs-zapier-which-automation-tool-should-you-use-in-2026-43i9"/>
+        <updated>2026-01-19T09:58:57.000Z</updated>
+        <summary type="html"><![CDATA[By 2026, workflow automation has evolved from a "nice-to-have" into the backbone of modern business operations. The debate, however, remains the same: n8n vs. Zapier. Both platforms have matured significantly, leveraging AI and expanded integration libraries, but they still cater to fundamentally different philosophies.
+If you are trying to decide which tool belongs in your tech stack this year, this guide breaks down the differences in pricing, usability, power, and AI capabilities to help you make the right choice.
+Zapier remains the undisputed king of accessibility. Its mission is to make automation available to everyone, regardless of technical ability. In 2026, Zapier’s "Natural Language Actions" have become even more refined, allowing users to describe a workflow in plain English and…]]></summary>
+        <author>
+            <name>Guide todo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rapid On-Demand Rides Fixed At RM2 Starting February 2026]]></title>
+        <id>https://www.lowyat.net/?p=378932</id>
+        <link href="https://www.lowyat.net/2026/378932/rapid-on-demand-rides-fixed-at-rm2-starting-february-2026/"/>
+        <updated>2026-01-19T09:57:38.000Z</updated>
+        <summary type="html"><![CDATA[Prasarana Malaysia announced that its Rapid On-Demand service will adopt a fixed fare of RM2 starting February 2026. The company’s head of planning and strategy, Sharul Azwa Abdul Rani, said the move marks the service’s exit from its Proof of Concept phase, which began following its introduction in May 2023. The new Rapid On-Demand fare […]
+The post Rapid On-Demand Rides Fixed At RM2 Starting February 2026 appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Jolla Phone Proved We've Been Using Smartphones Wrong All Along]]></title>
+        <id>https://techglimmer.io/jolla-phone-2026-review-kill-switch-privacy-review/#Jolla</id>
+        <link href="https://techglimmer.io/jolla-phone-2026-review-kill-switch-privacy-review/#Jolla"/>
+        <updated>2026-01-19T09:55:31.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vibe Coding Will Replace Traditional Debugging by 2027]]></title>
+        <id>https://dev.to/numbpill3d/vibe-coding-will-replace-traditional-debugging-by-2027-2e1h</id>
+        <link href="https://dev.to/numbpill3d/vibe-coding-will-replace-traditional-debugging-by-2027-2e1h"/>
+        <updated>2026-01-19T09:51:28.000Z</updated>
+        <summary type="html"><![CDATA[A terminal flickers on an empty desk. The glow of the screen barely illuminates the coffee-stained notebook next to it. A script runs somewhere in the background, and you’re staring at errors that shouldn’t exist—or maybe they shouldn’t matter. You feel the weight of a thousand lines of code pressing down. And yet, the solution doesn’t come from stepping through each function, setting breakpoints, or chasing an elusive stack trace. It comes from something else. Something you feel. Something you vibe.
+By 2027, this is how software development will work. Traditional debugging—the painstaking, line-by-line, breakpoint-driven slog that has dominated engineering since punch cards—will be obsolete. Not because computers get smarter, but because humans will code differently. We’ll code with intui…]]></summary>
+        <author>
+            <name>v. Splicer</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Workaround for Certbot Installation on Raspbian 11 (Bullseye) armv7l with Python 3.9]]></title>
+        <id>https://dev.to/vast-cow/workaround-for-certbot-installation-on-raspbian-11-bullseye-armv7l-with-python-39-17mp</id>
+        <link href="https://dev.to/vast-cow/workaround-for-certbot-installation-on-raspbian-11-bullseye-armv7l-with-python-39-17mp"/>
+        <updated>2026-01-19T09:47:23.000Z</updated>
+        <summary type="html"><![CDATA[Pin Dependencies to Avoid pip Install Failures
+
+
+On Raspbian 11 (Bullseye) running on armv7l, installing Certbot via pip under Python 3.9 can fail due to build and dependency compatibility issues. A practical workaround is to pin versions explicitly so pip resolves a known-good combination. In particular, locking cffi to a compatible release helps prevent compilation or wheel resolution errors that block Certbot installation.
+Use the following approach to proceed reliably:
+pip install "cffi<2.0.0" certbot
+
+Pin cffi to a specific version known to work on armv7l
+Install a matching Certbot version in the same command
+Prefer a clean virtual environment to avoid conflicting packages
+Re-run with --no-cache-dir if you suspect cached artifacts
+Verify the installed versions after completion
+As an alternative approach, you can install the system development package for libffi so that cffi==2.0.0 can be built/installed successfully even on armv7l environments.
+sudo apt update
+sudo apt install -y libffi-dev
+pip install "cffi==2.0.0"
+
+If you still encounter build-related issues, also ensure basic build tooling is present (e.g., build-essential and Python headers), and retry with --no-cache-dir.
+This version-pinning strategy provides a stable path to install Certbot on constrained ARM environments without changing the OS or Python version.]]></summary>
+        <author>
+            <name>vast cow</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vibe Coding in 2026: Teaching Machines to Sense Flow]]></title>
+        <id>https://dev.to/numbpill3d/vibe-coding-in-2026-teaching-machines-to-sense-flow-2l28</id>
+        <link href="https://dev.to/numbpill3d/vibe-coding-in-2026-teaching-machines-to-sense-flow-2l28"/>
+        <updated>2026-01-19T09:47:17.000Z</updated>
+        <summary type="html"><![CDATA[The hum of a server rack in the corner of an abandoned warehouse is the first thing you notice. It’s not the whirring fans or the blinking LEDs, though those are there, constant and hypnotic. It’s the rhythm. The pulse. Like a faint heartbeat in a city of machines, barely audible, but somehow present. In that moment, you realize that machines are learning more than logic—they’re learning flow.
+Flow is that slippery, almost mythical state humans talk about when everything aligns: your fingers on the keyboard, your thoughts and actions moving in sync, the world outside receding into a blur. You can’t explain it in code. You can only feel it. Or at least, until 2026, you could. Now, we’re teaching machines to catch that feeling.
+Most AI today is blunt. It’s transactional. It sees the world in…]]></summary>
+        <author>
+            <name>v. Splicer</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[US believes its power matters more than international law, UN chief]]></title>
+        <id>https://www.bbc.co.uk/news/articles/c4g0zx0llpzo</id>
+        <link href="https://www.bbc.co.uk/news/articles/c4g0zx0llpzo"/>
+        <updated>2026-01-19T09:36:26.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[OpenAI Killing Start-Ups? AI Strategy Reality Check]]></title>
         <id>https://dev.to/dr_hernani_costa/openai-killing-start-ups-ai-strategy-reality-check-468l</id>
@@ -387,6 +754,16 @@ Hint: The data storage has some loose security measures. Can you find the flag h
 mysql database f…]]></summary>
         <author>
             <name>James K.</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Radboud University selects Fairphone as standard smartphone for employees]]></title>
+        <id>https://www.ru.nl/en/staff/news/radboud-university-selects-fairphone-as-standard-smartphone-for-employees</id>
+        <link href="https://www.ru.nl/en/staff/news/radboud-university-selects-fairphone-as-standard-smartphone-for-employees"/>
+        <updated>2026-01-19T08:23:04.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -32538,6 +32915,16 @@ GitHub: https://github.com/kosa12/hyprKCS]]></summary>
         <id>https://arstechnica.com/security/2026/01/never-before-seen-linux-malware-is-far-more-advanced-than-typical/</id>
         <link href="https://arstechnica.com/security/2026/01/never-before-seen-linux-malware-is-far-more-advanced-than-typical/"/>
         <updated>2026-01-14T14:42:06.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fluid Gears Rotate Without Teeth]]></title>
+        <id>https://phys.org/news/2026-01-fluid-gears-rotate-teeth-mechanical.html</id>
+        <link href="https://phys.org/news/2026-01-fluid-gears-rotate-teeth-mechanical.html"/>
+        <updated>2026-01-14T14:39:00.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -99785,266 +100172,6 @@ Recording security audit logs affects system response speed.
 I designed a comprehensive security pe…]]></summary>
         <author>
             <name>member_8659c28a</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Everything You Need to Know About Email Encryption in 2026]]></title>
-        <id>https://soatok.blog/2026/01/04/everything-you-need-to-know-about-email-encryption-in-2026/</id>
-        <link href="https://soatok.blog/2026/01/04/everything-you-need-to-know-about-email-encryption-in-2026/"/>
-        <updated>2026-01-04T22:07:39.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Scaling API Access with Azure API Management: From Manual to Self-Service]]></title>
-        <id>https://dev.to/anoushnet/scaling-api-access-with-azure-api-management-from-manual-to-self-service-3299</id>
-        <link href="https://dev.to/anoushnet/scaling-api-access-with-azure-api-management-from-manual-to-self-service-3299"/>
-        <updated>2026-01-04T22:03:40.000Z</updated>
-        <summary type="html"><![CDATA[Introduction
-
-
-Working on a healthcare application using .NET and Azure. The backend is .NET Core with SQL Server and Azure Functions on Azure Cloud. This application is a B2B product, where we need to expose our APIs to external clients and users who integrate with our services.
-We came out first with a traditional approach where each client would get custom API endpoints and we generate a GUID id (API key) for each client/user. We store the ids in our database and based on API key we authorize and authenticate the clients. But as we scaled up hundreds/thousands of facilities and users, this became unmanageable. Also, it is not secure to have the main API endpoint accessible to public. We needed a better way.
-This article describes how I architected our API access to be scalable, self-ser…]]></summary>
-        <author>
-            <name>Anoush</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[10 hours with Gas Town (out of a possible 48)]]></title>
-        <id>https://dev.to/mike_lady_d0e50f634af72dd/10-hours-with-gas-town-out-of-a-possible-48-2272</id>
-        <link href="https://dev.to/mike_lady_d0e50f634af72dd/10-hours-with-gas-town-out-of-a-possible-48-2272"/>
-        <updated>2026-01-04T22:03:31.000Z</updated>
-        <summary type="html"><![CDATA[I am now paying $200/mo for Claude Code and that is a steal, or: how programming is ruined for me.
-
-Figure 1: Welcome to Gas Town”
-Steve Yegge dropped this article on us on the 1st of the year. It is, at the very minimum, a wild introduction to his new coding agent orchestration framework. 48 hours later, I am now paying $200/month for Claude code. 💸 💸 💸 
-He teased that this framework was coming out sometime in December, but I honestly had forgotten about it until I got the email notification from Medium for his blog. As soon as I saw it in my inbox, I was hooked. Rereading it again after using it in 10 of the last 48 hours, what he describes in the intro makes much more sense.
-I will try to simplify, summarize, and just put in different words the most important bits from my experience …]]></summary>
-        <author>
-            <name>Mike Lady</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Dissecting a C64 Autoboot Program]]></title>
-        <id>https://bumbershootsoft.wordpress.com/2026/01/03/dissecting-a-c64-autoboot-program/</id>
-        <link href="https://bumbershootsoft.wordpress.com/2026/01/03/dissecting-a-c64-autoboot-program/"/>
-        <updated>2026-01-04T22:02:47.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Grid Is Running Out of Time And Modernization Can’t Be Treated as Optional]]></title>
-        <id>https://dev.to/jay_hernandez_2bd53ee4f53/the-grid-is-running-out-of-time-and-modernization-cant-be-treated-as-optional-30bb</id>
-        <link href="https://dev.to/jay_hernandez_2bd53ee4f53/the-grid-is-running-out-of-time-and-modernization-cant-be-treated-as-optional-30bb"/>
-        <updated>2026-01-04T22:02:18.000Z</updated>
-        <summary type="html"><![CDATA[People talk about the U.S. power grid as if it’s a single machine that either works or doesn’t. The truth is more complicated. The grid isn’t failing it’s aging. And it’s aging in a way that makes every new demand placed on it feel like we’re stretching a system that was never designed for the world we live in now.
-As someone who works in backend development and spends a lot of time thinking about system behavior, I can’t help seeing the grid as one massive distributed system. And from that perspective, the warning signs are obvious. We’re trying to run modern, dynamic, unpredictable workloads on infrastructure built for a completely different era.
-The grid was originally designed for one directional power flow, predictable demand, and centralized control. Today we’re asking it to handle d…]]></summary>
-        <author>
-            <name>Josh Hernandez</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Design Patterns in a Real-World Tkinter Application: From Lateral Coupling to Clean Architecture]]></title>
-        <id>https://dev.to/giuseppe_costanzi_952ec07/design-patterns-in-a-real-world-tkinter-application-from-lateral-coupling-to-clean-architecture-25dh</id>
-        <link href="https://dev.to/giuseppe_costanzi_952ec07/design-patterns-in-a-real-world-tkinter-application-from-lateral-coupling-to-clean-architecture-25dh"/>
-        <updated>2026-01-04T22:02:03.000Z</updated>
-        <summary type="html"><![CDATA[What you can build with Python's standard library
-Python, Tkinter, SQLite. The "batteries included" stack.
-Most tutorials stop at a contact list or a todo app. But this stack can do much more — production applications solving real problems, with clean architecture and proper design patterns.
-This article shows how. No external GUI frameworks, no ORMs, no heavyweight dependencies. Just the standard library, good patterns, and real-world requirements.
-I'll walk you through Inventarium, a laboratory inventory management system running in production at a hospital. Along the way, we'll cover:
-Singleton (two different implementations!)
-Observer (decoupled view communication)
-Registry (Toplevel window management)
-Template Method
-Mixin Architecture
-All with real code, real problems, and real solut…]]></summary>
-        <author>
-            <name>giuseppe costanzi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[finally() in JavaScript: Why It Can't (Usually) Change a Promise's Result]]></title>
-        <id>https://dev.to/sashadudkina5/finally-in-javascript-why-it-cant-usually-change-a-promises-result-4o9j</id>
-        <link href="https://dev.to/sashadudkina5/finally-in-javascript-why-it-cant-usually-change-a-promises-result-4o9j"/>
-        <updated>2026-01-04T21:49:38.000Z</updated>
-        <summary type="html"><![CDATA[A common misconception is that finally() behaves like then().
-
-In reality, it doesn’t receive values, ignores return values, and only affects a promise in very specific cases. Let’s see why.
-finally(): Why It Can’t Change a Promise Result
-
-
-  
-  
-  finally() doesn’t receive arguments
-
-
-Let's start with a quick quiz to test your understanding:
-myPromise.then(() => return "Hi, Sasha!")
-.finally(res => console.log(res + "Whats up?")) 
-
-//what will appear in console?
-
-If you think the answer is “Hi, Sasha!Whats up?” then keep reading 🙂
-The finally method doesn't have its own low-level implementation in the Promise specification.
-Under the hood, it simply delegates to then, using the same callback for both success and failure:
-promise.finally(onDone);
-// is roughly equivalent to
-promise.then(o…]]></summary>
-        <author>
-            <name>Aleksandra Dudkina</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[React Higher-Order Components (HOCs) in a Hooks-First World]]></title>
-        <id>https://dev.to/ward_khaddour/react-higher-order-components-hocs-in-a-hooks-first-world-5gco</id>
-        <link href="https://dev.to/ward_khaddour/react-higher-order-components-hocs-in-a-hooks-first-world-5gco"/>
-        <updated>2026-01-04T21:48:51.000Z</updated>
-        <summary type="html"><![CDATA[Sharing logic between React components is no longer about how to reuse logic, but where it belongs — hooks, utilities, render props, and higher-order components all exist — but a question of where each abstraction actually fits.
-In modern React, hooks dominate the reuse of logic. Yet some problems remain awkward to solve with hooks alone — especially when logic needs to wrap, adapt, or standardize behavior across heterogeneous components, including third-party ones.
-In this article, we will examine the use cases, advantages, and disadvantages of HOCs.
-Higher-order components provide a clean way to extend a component with additional behaviour, without changing its implementation or ownership.
-The extra logic could be:
-Analytics: track how many times a button has been clicked.
-
-
-Authenticati…]]></summary>
-        <author>
-            <name>Ward Khaddour</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[C-Sentinel: System prober that captures "system fingerprints" for AI analysis]]></title>
-        <id>https://github.com/williamofai/c-sentinel</id>
-        <link href="https://github.com/williamofai/c-sentinel"/>
-        <updated>2026-01-04T21:46:34.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI Agents: Mastering 3 Essential Patterns (ReAct). Part 2 of 3]]></title>
-        <id>https://dev.to/gabrielmrojas/ai-agents-mastering-3-essential-patterns-react-part-2-of-3-1b1d</id>
-        <link href="https://dev.to/gabrielmrojas/ai-agents-mastering-3-essential-patterns-react-part-2-of-3-1b1d"/>
-        <updated>2026-01-04T21:45:08.000Z</updated>
-        <summary type="html"><![CDATA[Article [Part 1]
-The code for these patterns is available on Github. [Repo]
-With the "Tool Using" pattern (Article 1), we gave the AI "hands" to interact with the outside world. With ReAct, we are installing a "functional brain."
-Let's recap: in Article 1, everything was very linear. Stimulus → Response. You asked for a piece of data, the agent fired a tool, and that was it. No doubts, no plans. But let's be realistic, the real world is messy. What happens when the question isn't solved with a single click? What happens when you need to investigate, compare data, and then perform a calculation?
-That is where the linear model crashes and ReAct (proposed by some very smart folks at Princeton and Google in 2022) comes into play, which is basically the industry standard today.
-The name comes f…]]></summary>
-        <author>
-            <name>Gabriel Melendez</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Agentes de IA: Dominando 3 Patrones Esenciales (ReAct). Parte 2 de 3]]></title>
-        <id>https://dev.to/gabrielmrojas/agentes-de-ia-dominando-3-patrones-esenciales-react-parte-2-de-3-1mdb</id>
-        <link href="https://dev.to/gabrielmrojas/agentes-de-ia-dominando-3-patrones-esenciales-react-parte-2-de-3-1mdb"/>
-        <updated>2026-01-04T21:44:57.000Z</updated>
-        <summary type="html"><![CDATA[Artículo [Parte 1]
-El código de estos patrones está disponible en Github. [Repo]
-Si con el patrón "Tool Using" (Nivel 1) le dimos "manos" a la IA para que pudiera tocar el mundo exterior, con ReAct le estamos instalando un "cerebro funcional".
-Hagamos memoria: en el Nivel 1 todo era muy lineal. Estímulo → Respuesta. Tú pedías un dato, el agente disparaba una herramienta y listo. Sin dudas ni planes. Pero seamos realistas, el mundo real es desordenado. ¿Qué pasa cuando la pregunta no se resuelve con un solo clic? ¿Qué pasa cuando hay que investigar, comparar datos y luego hacer un cálculo?
-Ahí es donde el modelo lineal se estrella y entra en juego ReAct (propuesto por gente muy lista de Princeton y Google en 2022), que hoy en día es básicamente el estándar de la industria.
-El nombre viene d…]]></summary>
-        <author>
-            <name>Gabriel Melendez</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: An LLM-Powered PCB Schematic Checker (Major Update)]]></title>
-        <id>https://traceformer.io/</id>
-        <link href="https://traceformer.io/"/>
-        <updated>2026-01-04T21:43:26.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Recent Advances in Recurrent Neural Networks]]></title>
-        <id>https://dev.to/paperium/recent-advances-in-recurrent-neural-networks-2f1d</id>
-        <link href="https://dev.to/paperium/recent-advances-in-recurrent-neural-networks-2f1d"/>
-        <updated>2026-01-04T21:40:29.000Z</updated>
-        <summary type="html"><![CDATA[New Advances in Teaching Machines to Remember Sequences
-
-
-Computers are getting better at spotting patterns over time, and some new work is helping them keep track of what happened before.
-learn from streams of information, and can memory small details from earlier moments.
-long-term info and reduce the forgetting.
-sequences are where the action is.
-Read article comprehensive review in Paperium.net:
- Recent Advances in Recurrent Neural Networks 
-🤖 This analysis and review was primarily generated and structured by an AI . The content is provided for informational and quick-review purposes.]]></summary>
-        <author>
-            <name>Paperium</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[🚀 Building an AI-Powered Stock Trading Bot in Python (With Backtesting)]]></title>
-        <id>https://dev.to/sajjasudhakararao/building-an-ai-powered-stock-trading-bot-in-python-with-backtesting-19f6</id>
-        <link href="https://dev.to/sajjasudhakararao/building-an-ai-powered-stock-trading-bot-in-python-with-backtesting-19f6"/>
-        <updated>2026-01-04T21:37:13.000Z</updated>
-        <summary type="html"><![CDATA[From prediction to execution — a practical guide for engineers
-📌 Introduction
-In this post, I’ll walk you through:
-Designing an AI agent for stock price prediction
-Converting predictions into trading decisions
-Backtesting the strategy on historical data
-Preparing the system for real-world deployment
-This guide is hands-on, practical, and written for:
-Software / DevOps engineers
-Python developers
-Anyone curious about AI in finance
-🧠 What Is an AI Trading Agent?
-Observes the market (historical & live data)
-Learns patterns using machine learning
-Makes decisions (Buy / Sell / Hold)
-Executes trades automatically
-Improves through evaluation and backtesting
-Core Components
-| Component          | Purpose                                     |
-| ------------------ | -------------------------------…]]></summary>
-        <author>
-            <name>Sajja Sudhakararao</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Documentation Is a Decision System, Not a Knowledge Base]]></title>
-        <id>https://dev.to/daniellewashington/documentation-is-a-decision-system-not-a-knowledge-base-4139</id>
-        <link href="https://dev.to/daniellewashington/documentation-is-a-decision-system-not-a-knowledge-base-4139"/>
-        <updated>2026-01-04T21:33:57.000Z</updated>
-        <summary type="html"><![CDATA[Think about the last time you stood in front of a restaurant menu with forty items. 
-You knew what each dish was. The descriptions were thorough. Everything was explained. But you still couldn't decide what to order. Too many options, not enough guidance. You wanted someone to just tell you what's good.
-That's what your documentation does to users.
-We've built encyclopedias when people need guides. We've cataloged every possible path when what they really need is someone to say: "Start here. This way works."
-A note on context: This exploration comes from years of documenting cloud and AI-native infrastructure and developer tools, where technical decisions have real consequences. The patterns I'm sharing translate across domains, but how you apply them will depend on your specific context (…]]></summary>
-        <author>
-            <name>DanielleWashington</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Beyond the Chatbot: Architecture for Production-Grade Agents (Context as a Service)]]></title>
-        <id>https://dev.to/mosiddi/beyond-the-chatbot-architecture-for-production-grade-agents-context-as-a-service-b0h</id>
-        <link href="https://dev.to/mosiddi/beyond-the-chatbot-architecture-for-production-grade-agents-context-as-a-service-b0h"/>
-        <updated>2026-01-04T21:33:34.000Z</updated>
-        <summary type="html"><![CDATA[We are past the "Hello World" phase of AI Agents.
-The internet is flooded with tutorials on how to make an LLM call a weather API. But if you are building agents for enterprise production, you know that making the LLM "do things" is the easy part.
-The hard part is preventing it from doing bad things, understanding what it learned, and rendering the output in a way that isn't just a wall of text.
-I’ve been working on an architecture I call Context as a Service (CaaS). It decouples the "Brain" (LLM) from the "Infrastructure" (Tools/UI) using a set of deterministic layers.
-Here is the architecture that turns a toy agent into a production system.
-The Problem: Prompt Engineering is fragile. Begging an LLM, "Please do not drop the database," is not a security strategy.
-The Solution: A determinis…]]></summary>
-        <author>
-            <name>Imran Siddique</name>
         </author>
     </entry>
 </feed>
