@@ -18,6 +18,106 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/david_goyes_a488f58a17a53/gcd-cancelando-un-dispatchworkitem-4j5e",
+          "author": "GoyesDev",
+          "description": "En una entrevista técnica se presentó el escenario hipotético donde tendría crear una tarea asíncrona, y luego cancelarla. Luego se me preguntó: \"¿Qué técnica de concurrencia usaría? (i.e. GCD, OperationQueue o Swift-Concurrency)?\".\nRespondí que mi respuesta dependía de las condiciones específicas de mi sistema. ¿Tengo permitido usar Swift-Concurrency? Si me es posible, elegiría esto, dada la facilidad de entender el método task.cancel(), junto con la validación de estado a través de isCancelled o checkCancellation().\nEnseguida el entrevistador me dijo que no se me era permitido: Puedo usar GCD u OperationQueue.\nRespondí que usaría GCD, crearía un DispatchWorkItem y luego lo cancelaría.\nEl entrevistador me dijo que un DispatchWorkItem no se podía cancelar y que por eso se usaba un OperationQueue cuando esta situación se podía presentar.\nPregunté si acaso DispatchWorkItem no funcionaba igual que un Task en el sentido que se podía cancelar y luego validar manualmente el estado (que sería invocar workItem.cancel() y validar con isCancelled) a lo que respondió que no era posible.\nEn realidad sí es posible, y se cancela de la misma forma que un Task: Para detener un DispatchWorkItem que ya haya iniciado, debo verificar internamente su estado de cancelación.\nEn Swift:\nfunc testDispatchItems() {\n  let queue = DispatchQueue.global()\n\n  var item: DispatchWorkItem?\n\n  item = DispatchWorkItem { [weak self] in\n    for i in 0 ... 10_000_000 {\n      if item?.isCancelled ?? true { break }\n      print(i)\n      self?.heavyWork()\n    }\n    item = nil\n  }\n\n  queue.async(execute: item!)\n  queue.asyncAfter(deadline: .now() + 5) {\n    item?.cancel()\n    item = nil\n  }\n}\n\nEn Objective-C se usaría dispatch_block_cancel para cancelar un bloque creado con dispatch_block_create, e internamente se tendría que validar su estado con dispatch_block_testcancel.",
+          "link": "https://dev.to/david_goyes_a488f58a17a53/gcd-cancelando-un-dispatchworkitem-4j5e",
+          "publishedOn": "2026-01-23T20:02:41.000Z",
+          "wordCount": 1930,
+          "title": "[GCD] Cancelando un DispatchWorkItem",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fypaonm920zz8gl9jk7tx.png"
+        },
+        {
+          "id": "https://dev.to/programmingcentral/why-server-components-are-the-secret-weapon-for-generative-ui-5bj1",
+          "author": "Programming Central",
+          "description": "The race to integrate AI into web applications has created a unique architectural challenge. We aren't just fetching data anymore; we are generating entire user interfaces on the fly. If you’ve ever tried to build a chat interface that streams a complex React component from an LLM, you’ve likely felt the pain of \"hydration lag\" and massive JavaScript bundles.\nThe traditional client-heavy model is cracking under the pressure of Generative UI. The solution isn't just faster networks or better models—it’s a fundamental shift in how we render React. Enter the Next.js App Router and React Server Components (RSCs).\nThis isn't just an incremental update. It’s a paradigm shift that treats the server as the \"generator\" and the client as the \"viewer,\" optimizing specifically for the constraints of s…",
+          "link": "https://dev.to/programmingcentral/why-server-components-are-the-secret-weapon-for-generative-ui-5bj1",
+          "publishedOn": "2026-01-23T20:00:00.000Z",
+          "wordCount": 3232,
+          "title": "Why Server Components Are the Secret Weapon for Generative UI",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ff14k134iti1qdcchpq9c.png"
+        },
+        {
+          "id": "https://dev.to/lewiskori/from-gridsome-to-astro-rebuilding-my-personal-site-for-the-next-phase-1a24",
+          "author": "Lewis kori",
+          "description": "Six years ago, I rebuilt my personal website using Gridsome and Vue.js. At the time, it felt modern, fast, and perfectly aligned with how I wanted to publish technical writing.\nThat rebuild became this article:\n\n👉 Building my new site with Gridsome & Vue.js\nFast forward to today, that same site still exists at lewiskori.netlify.app, but it had started to feel like a time capsule. The tooling had aged, the ecosystem had slowed down, and more importantly, my own work and interests had expanded far beyond what the site was originally designed to represent.\nSo I decided to rebuild again.\n\nThis time with Astro, hosted on Cloudflare Pages, with a stronger content model, better performance, and a structure that reflects where I am today as an engineer and advisor.\nThis post is about why I made t…",
+          "link": "https://dev.to/lewiskori/from-gridsome-to-astro-rebuilding-my-personal-site-for-the-next-phase-1a24",
+          "publishedOn": "2026-01-23T19:42:14.000Z",
+          "wordCount": 2680,
+          "title": "From Gridsome to Astro: Rebuilding My Personal Site for the Next Phase",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fskwdgni3o1ukpsw6fbg8.png"
+        },
+        {
+          "id": "https://dev.to/badmonster0/this-open-source-pipeline-transforms-any-podcast-into-ai-ready-transcripts-with-speaker-diarization-3n1n",
+          "author": "Linghua Jin",
+          "description": "I stumbled upon this gem on GitHub and had to share it with the community. If you're working with podcasts, audio transcription, or building AI applications that need clean, structured audio data - this is going to save you weeks of work.\nbe-flow-dtd (Download → Transcribe → Diarize) is a production-ready podcast transcription pipeline that:\nAutomatically fetches new podcast episodes via the Taddy API\nTranscribes audio with word-level timestamps using Whisper large-v3\nIdentifies who speaks when using Pyannote 3.1 speaker diarization\nMatches voices against known speaker embeddings (ECAPA-TDNN)\nUploads structured JSON to Supabase cloud storage\nThe output is perfectly formatted for LLM training, RAG systems, and semantic search:\n{\n  \"transcript\": [\n    {\n      \"text\": \"Hello and welcome to th…",
+          "link": "https://dev.to/badmonster0/this-open-source-pipeline-transforms-any-podcast-into-ai-ready-transcripts-with-speaker-diarization-3n1n",
+          "publishedOn": "2026-01-23T19:39:27.000Z",
+          "wordCount": 2089,
+          "title": "This Open-Source Pipeline Transforms Any Podcast into AI-Ready Transcripts with Speaker Diarization (MIT License)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2plvexjzb5vie7hk5ch2.png"
+        },
+        {
+          "id": "https://dev.to/gaurav_talesara/postgresql-didnt-fail-at-scale-my-architecture-assumptions-did-25n0",
+          "author": "Gaurav Talesara",
+          "description": "When I read “Scaling PostgreSQL to power 800 million ChatGPT users”, I didn’t read it as a Postgres success story.\nI read it as a reality check.\nBecause like many developers building SaaS products, I’ve caught myself thinking:\n“This will work for now… but later we’ll need something more scalable.”\nLater usually means:\nsharding\nmultiple databases\ncomplex infra\nfuture-me’s problem\nTurns out, future-me might be overthinking it.\nWhile working on SaaS-style platforms (hiring tools, dashboards, internal systems), PostgreSQL is often the first thing people want to replace.\nNot because it’s failing.\nwe assume it will fail.\nThe OpenAI post forced me to pause and ask:\nIf Postgres can survive ChatGPT traffic, what exactly am I afraid of?\nWhat impressed me wasn’t the scale.\nOne primary database\nReads …",
+          "link": "https://dev.to/gaurav_talesara/postgresql-didnt-fail-at-scale-my-architecture-assumptions-did-25n0",
+          "publishedOn": "2026-01-23T19:36:11.000Z",
+          "wordCount": 2099,
+          "title": "PostgreSQL Didn’t Fail at Scale -My Architecture Assumptions Did",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fie9d58qipk81rrc81vwf.png"
+        },
+        {
+          "id": "https://dev.to/aws-builders/automating-contact-updates-across-accounts-in-your-organization-33a8",
+          "author": "Ross Wickman",
+          "description": "Standardizing contact information across a growing AWS footprint is a critical, yet often overlooked, part of cloud governance. Whether it’s ensuring the billing department receives invoices or making sure security notifications reach your SOC, manual updates are not scalable.\nToday, we’re sharing a unified automation approach to manage both Primary and Alternate contacts across an entire AWS Organization using Python and Boto3.\n\nAs organizations scale, member accounts often end up with stale or inconsistent contact metadata. This can lead to missed security alerts or operational bottlenecks. AWS now provides APIs through the account and organizations services to handle these updates programmatically from the Management account.\nWe have published a comprehensive script on our Cacher Snippe…",
+          "link": "https://dev.to/aws-builders/automating-contact-updates-across-accounts-in-your-organization-33a8",
+          "publishedOn": "2026-01-23T19:35:00.000Z",
+          "wordCount": 2341,
+          "title": "Automating Contact Updates Across Accounts In Your Organization",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhff299y7t08gd7tpx0bi.png"
+        },
+        {
+          "id": "https://dev.to/pranay_batta/litellm-has-1000-open-github-issues-heres-what-three-of-them-reveal-3jeo",
+          "author": "Pranay Batta",
+          "description": "LiteLLM reached 34,000+ GitHub stars as a popular multi-provider LLM gateway. But examining specific GitHub issues reveals production limitations that matter for teams at scale.\nGitHub issue #12067 documents a scaling problem. A user running LiteLLM with PostgreSQL, Redis, and AWS infrastructure describes their situation:\n\"As per the docs -> when there are 1M+ logs in the DB, it might slow down the LLM API requests\"\n\"My daily request quota is ~100,000 requests, which means I will hit that quota within roughly 10 days.\"\nThe math is straightforward: at 100,000 requests per day, the database reaches 1 million logs in 10 days. Then API requests slow down because the gateway queries that database.\nThe documented workaround involves moving logs to DynamoDB or blob storage and disabling database …",
+          "link": "https://dev.to/pranay_batta/litellm-has-1000-open-github-issues-heres-what-three-of-them-reveal-3jeo",
+          "publishedOn": "2026-01-23T19:16:47.000Z",
+          "wordCount": 2499,
+          "title": "LiteLLM Has 1,000+ Open GitHub Issues. Here's What Three of Them Reveal.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fegh4jbwxejls2fgjsli6.png"
+        },
+        {
+          "id": "https://dev.to/techresolve/solved-syncing-todoist-tasks-with-microsoft-to-do-via-api-3j5m",
+          "author": "Darian Vance",
+          "description": "🚀 Executive Summary\n\n\nTL;DR: This guide provides a Python script to automatically sync tasks from Todoist to Microsoft To Do, addressing the inefficiency of manual task duplication across platforms. It leverages the Todoist and Microsoft Graph APIs to create a unified task management experience for SysAdmins, Developers, and DevOps Engineers.\nAPI Authentication requires a Todoist API Token and an Azure AD application registration for Microsoft Graph, providing Client ID, Client Secret, Tenant ID, and an initial refresh token for non-interactive access.\nThe Python script orchestrates the sync by fetching Todoist tasks, obtaining/refreshing Microsoft Graph access tokens, identifying or creating a designated Microsoft To Do list, and creating new tasks while preventing duplicates based on ta…",
+          "link": "https://dev.to/techresolve/solved-syncing-todoist-tasks-with-microsoft-to-do-via-api-3j5m",
+          "publishedOn": "2026-01-23T19:12:29.000Z",
+          "wordCount": 3985,
+          "title": "Solved: Syncing Todoist Tasks with Microsoft To Do via API",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1568226189232-d4baf2b86437%3Fw%3D1600%26h%3D480%26fit%3Dcrop%26crop%3Dentropy"
+        },
+        {
+          "id": "https://dev.to/debmckinney/youre-probably-going-to-hit-these-litellm-issues-in-production-59bg",
+          "author": "Debby McKinney",
+          "description": "If you're using LiteLLM and planning to scale, there are specific production issues you should know about. I'm not here to bash the project - but these are real problems documented in their GitHub repository that you'll encounter.\nThis is the most common problem teams hit. LiteLLM stores request logs in your PostgreSQL database. According to their own documentation and confirmed in issue #12067: \"when there are 1M+ logs in the DB, it might slow down the LLM API requests.\"\nOne user reports running 100,000 requests per day. Simple math: that's 1 million logs in 10 days. Then your API requests start slowing down because the gateway is querying a database full of logs.\nThe suggested workaround involves moving logs to DynamoDB or blob storage and disabling database logging. But then you lose th…",
+          "link": "https://dev.to/debmckinney/youre-probably-going-to-hit-these-litellm-issues-in-production-59bg",
+          "publishedOn": "2026-01-23T19:11:29.000Z",
+          "wordCount": 2551,
+          "title": "You're Probably Going to Hit These LiteLLM Issues in Production",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyt1dhxgad4qs32eii4zh.png"
+        },
+        {
+          "id": "https://dev.to/dmytro_huz/building-your-own-mac-part-3-reinventing-hmac-from-sha-256-eoa",
+          "author": "Dmytro Huz",
+          "description": "In the previous article, we did something slightly ridiculous.\nWe took a block cipher — a tool designed to transform one block into one block — and forced it to behave like something else.\nWe wanted authentication.\nSo we built a “message → block” machine out of a “block → block” primitive.\nIt worked.\nWe reinvented CMAC.\nAnd then an uncomfortable thought appeared:\nWhy did we do all of that?\n⸻\n\n  \n  \n  A strange déjà vu\n\n\nLook again at the final construction from Part 2.\nIt has this shape:\nThat shape should feel familiar.\nBecause that is exactly the shape of a hash function.\nSo the obvious question is:\nIf hash functions already compress messages into fixed-size values,\n⸻\n\n  \n  \n  Fix attempt #1 — “Just hash with a secret”\n\n\nLet’s do what intuition suggests immediately.\nWe want a tag.\nSo we t…",
+          "link": "https://dev.to/dmytro_huz/building-your-own-mac-part-3-reinventing-hmac-from-sha-256-eoa",
+          "publishedOn": "2026-01-23T19:11:10.000Z",
+          "wordCount": 3240,
+          "title": "Building Your Own MAC — Part 3: reinventing HMAC from SHA-256",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fh86yochh9p28ovux6zfr.png"
+        },
+        {
           "id": "https://dev.to/jumptotech/origin-of-gitops-what-was-formalized-and-why-it-matters-57gn",
           "author": "Aisalkyn Aidarova",
           "description": "In modern cloud-native systems, especially Kubernetes-based platforms, teams struggled with manual deployments, configuration drift, and unreliable rollbacks.\nGitOps.\nGitOps is not a tool.\nan operational model that defines how systems should be deployed and managed.\nThe term GitOps was introduced and formalized by Weaveworks around 2017.\nWeaveworks engineers were operating Kubernetes clusters in production and noticed that the most reliable deployments shared common characteristics:\nGit was already being used as the source of configuration\nPull requests were used for review\nRollbacks were done via Git revert\nManual kubectl changes caused incidents\nInstead of treating these as isolated practices, they formalized them.\nFormalization means:\nTurning an informal, ad-hoc practice into a named, d…",
@@ -35316,106 +35416,6 @@
           "wordCount": 2160,
           "title": "The First Week at a Startup Taught Me More Than I Expected",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxjp7n6lmwgw6rohfvtgw.png"
-        },
-        {
-          "id": "https://dev.to/rajatarora/breaking-the-interface-barrier-cglib-and-bytebuddy-462a",
-          "author": "Rajat Arora",
-          "description": "Welcome back! If you've been following along our journey through the world of Java proxies, you know we've spent a lot of time learning about the Proxy pattern and how it is used, its uses in various large libraries in the Java world, and even created a dynamic proxy using Java's internal feature: The JDK Dynamic Proxy.\nWhile using JDK Dynamic Proxies is easy... after all, they're built right into the JDK! You don't have to import any third-party library in order to create a dynamic proxy. They are convenient and they are reliable... but, they're a bit too restrictive. They only work with interfaces.\nWhat if the class you want to proxy doesn't implement an interface? In that case, the JDK is going to look at your face and politely decline to help. But in the real world of Hibernate entitie…",
-          "link": "https://dev.to/rajatarora/breaking-the-interface-barrier-cglib-and-bytebuddy-462a",
-          "publishedOn": "2026-01-09T08:13:11.000Z",
-          "wordCount": 3907,
-          "title": "Breaking the interface barrier: CGLIB and ByteBuddy",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgbsk9egpixnxbk84d9lf.png"
-        },
-        {
-          "id": "https://dev.to/daisy_jones_21bdcc6b40f9d/12-open-source-gems-to-become-the-ultimate-developer-5gp0",
-          "author": "Hashbyt",
-          "description": "Being an “ultimate developer” in 2026 doesn’t mean knowing every framework.\nIt means knowing which tools compound your skills over time\nOpen source plays a huge role here. Many of the tools developers rely on daily are built and maintained by the community, battle-tested in real products, and constantly evolving.\nThis list is a curated set of open source projects already recognized by the Dev.to community and broader OSS ecosystem, not experimental side projects or hype.\nAll tools mentioned below are sourced from existing Dev.to curated lists and well-known OSS roundups.\n\nA modern JavaScript runtime, bundler, and test runner\nBun is frequently highlighted in Dev.to open source tool lists as an all-in-one alternative to traditional JavaScript tooling. It combines runtime execution, package m…",
-          "link": "https://dev.to/daisy_jones_21bdcc6b40f9d/12-open-source-gems-to-become-the-ultimate-developer-5gp0",
-          "publishedOn": "2026-01-09T08:06:58.000Z",
-          "wordCount": 3350,
-          "title": "12 Open Source Gems To Become The Ultimate Developer",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjn87xop9u5x1gelcgoe4.png"
-        },
-        {
-          "id": "https://dev.to/brianmtreese/angular-signal-forms-how-to-structure-large-forms-without-losing-your-mind-5af",
-          "author": "Brian Treese",
-          "description": "Many Angular Signal Forms examples work great for small forms, but what happens when your form grows? When forms are composed of many different sub-forms things can quickly become messy. With Reactive Forms, composition was somewhat straightforward. With Signal Forms it's just different. This guide shows one possible way to structure large forms using reusable form models, section builders, and composable form architecture that scales well.\n\n\n\n\n\n  \n  \n  Why Large Angular Signal Forms Get Hard to Maintain\n\n\nConsider the following large user registration form with multiple sections.\nIt has an \"Account Information\" section:\n\nIt has a \"Shipping Address\" section:\n\nIt has a \"Preferences\" section:\n\nAnd it has a submit button at the bottom:\n\nFrom the user's perspective, this looks like a single, c…",
-          "link": "https://dev.to/brianmtreese/angular-signal-forms-how-to-structure-large-forms-without-losing-your-mind-5af",
-          "publishedOn": "2026-01-09T08:00:00.000Z",
-          "wordCount": 4065,
-          "title": "Angular Signal Forms: How to Structure Large Forms Without Losing Your Mind",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3hp44l6yksdowtfg01cs.jpg"
-        },
-        {
-          "id": "https://dev.to/aaronwubuilds_eae84aa63ce/system-design-why-is-your-app-overselling-a-founders-first-lesson-in-concurrency-36m9",
-          "author": "AaronWuBuilds",
-          "description": "(Stock was 10, but you sold 12? That's a Race Condition. Here is how to fix it using Redis atomic operations.)\nYou're Bob, a bootstrapped founder who can't afford to hire a software engineer. In this era of \"Vibe Coding,\" you believe you can build a Minimum Viable Product (MVP) just by relying on AI. 🤖\nToday, you finally figured out how to set up an API, handle frontend rendering, and connect a SQL database. You actually built an e-commerce app! The tests passed, and it's finally time for the soft launch. 🚀\nBut the moment you launch your first marketing campaign, the users you worked so hard to acquire start complaining.\n\"Bob! I clearly saw there was stock left. Why did you charge my card but not ship the item?!\" 😠\nYou rush to the backend dashboard to check. You had 10 items in stock, b…",
-          "link": "https://dev.to/aaronwubuilds_eae84aa63ce/system-design-why-is-your-app-overselling-a-founders-first-lesson-in-concurrency-36m9",
-          "publishedOn": "2026-01-09T07:58:35.000Z",
-          "wordCount": 2518,
-          "title": "[System Design] Why Is Your App \"Overselling\"? A Founder's First Lesson in Concurrency",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8azi0913wtg3wfs4h949.png"
-        },
-        {
-          "id": "https://dev.to/dinesh_04/creating-materials-in-unreal-engine-5-and-understanding-orm-textures-day-14-11mb",
-          "author": "Dinesh",
-          "description": "I opened the Material Editor and saw nodes everywhere.\n\nNothing made sense at first.\n\nDay 14 reminded me that confusion is part of learning Unreal Engine.\nThis post is part of my daily learning journey in game development.\nI’m sharing what I learn each day — the basics, the confusion, and the real progress —\nOn Day 14, I learned how to create a material in Unreal Engine 5 and got introduced to ORM textures.\nIn the Content Browser, I right-clicked and created a new Material, then named it properly.\n\nAfter that, I downloaded a material from Fab to understand how real materials are set up.\nI opened the material I created and started looking at the node connections.\n\nThis is where I saw textures being split into different channels like Ambient Occlusion, Roughness, and Metallic instead of separate textures.\nThat’s when I learned about ORM textures.\nThe biggest confusion was understanding how one texture could connect to multiple inputs.\nI didn’t understand:\nWhy one texture was connected to three different nodes\n\nWhat ORM actually meant\n\nWhy Unreal doesn’t use separate textures for everything\n\n\n\nIt felt overwhelming seeing so many nodes and wires.\nMy staff explained it in a simple way.\nORM stands for:\nO – Ambient Occlusion\n\n\nR – Roughness\n\n\nM – Metallic\n\n\n\nInstead of using three separate textures, Unreal packs them into one texture because:\nFewer textures = better performance\n\nLess memory usage\nFaster rendering\nThat explanation helped a lot.\nI also understood that I don’t need to master this immediately.\n\nPractice and repetition will make it clearer over time.\nMaterials are technical, not just visual\n\nORM textures exist for performance reasons\n\nIt’s okay to memorize first and understand later\n\nPractice matters more than perfection\n\n\n\nSlow progress — but I’m building a strong foundation.\nIf you’re also learning game development,\nSee you in the next post 🎮🚀",
-          "link": "https://dev.to/dinesh_04/creating-materials-in-unreal-engine-5-and-understanding-orm-textures-day-14-11mb",
-          "publishedOn": "2026-01-09T07:55:00.000Z",
-          "wordCount": 2177,
-          "title": "Creating Materials in Unreal Engine 5 and Understanding ORM Textures (Day 14)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9vnclrgso90w65zww7pj.png"
-        },
-        {
-          "id": "https://dev.to/gary_yan_86eb77d35e0070f5/ltx-2-advanced-prompt-techniques-from-basics-to-professional-video-creation-4b4o",
-          "author": "Garyvov",
-          "description": "Introduction\n\n\nLTX-2 has revolutionized AI video generation with its native 4K resolution, 50 FPS capabilities, and synchronized audio-video output. While mastering the fundamentals is essential, professional video creators need advanced techniques to unlock the model's full potential across diverse production scenarios.\nThis guide builds upon the foundational concepts to explore advanced prompt engineering strategies tailored for specific video types, parameter optimization for 4K/50FPS workflows, multi-shot sequencing techniques, and real-world problem-solving approaches. Whether you're creating marketing content, educational videos, or cinematic sequences, these advanced techniques will elevate your LTX-2 productions from good to exceptional.\nWhat You'll Learn:\nAdvanced prompt strategie…",
-          "link": "https://dev.to/gary_yan_86eb77d35e0070f5/ltx-2-advanced-prompt-techniques-from-basics-to-professional-video-creation-4b4o",
-          "publishedOn": "2026-01-09T07:54:11.000Z",
-          "wordCount": 5017,
-          "title": "LTX-2 Advanced Prompt Techniques: From Basics to Professional Video Creation",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnp9b5wczdk3493321maj.png"
-        },
-        {
-          "id": "https://dev.to/zawhtutwin/eventbus-2n81",
-          "author": "Zaw Htut Win",
-          "description": "import java.util.List;\nimport java.util.concurrent.ConcurrentHashMap;\nimport java.util.concurrent.CopyOnWriteArrayList;\n\n// Concrete EventBus implementation\npublic class SimpleEventBus<T> implements MyEventBus<T> {\n\n    private final ConcurrentHashMap<String, List<MyEventListener<T>>> listenersMap = new ConcurrentHashMap<>();\n\n    // Publish an event to all listeners of a source\n    public void push(String source, T event) {\n        List<MyEventListener<T>> listeners = listenersMap.get(source);\n        if (listeners != null && !listeners.isEmpty()) {\n            for (MyEventListener<T> listener : listeners) {\n                try {\n                    listener.onEvent(source, event);\n                } catch (Exception e) {\n                    e.printStackTrace();\n                }\n            }\n        }\n    }\n\n    // Get number of subscribers for a source\n    public int getSubscriberCount(String source) {\n        List<MyEventListener<T>> listeners = listenersMap.get(source);\n        return (listeners == null) ? 0 : listeners.size();\n    }\n\n    @Override\n    public void subscribe(String source, MyEventListener<T> listener) {\n        listenersMap.computeIfAbsent(source, key -> new CopyOnWriteArrayList<>()).add(listener);\n    }\n\n    @Override\n    public void unsubscribe(String source, MyEventListener<T> listener) {\n        listenersMap.computeIfPresent(source, (key, list) -> {\n            list.remove(listener);\n            return list.isEmpty() ? null : list;\n        });\n    }\n}\n\nအထက်ပေါ်ပြပါ EventBus မှာ Guava ၏ EventBus နှင့်ဆင်တူသော EventBus implementation ဖြစ်သည်။ အထူးတလည်ပင်ရှင်းပြရန်မလိုပေ။\nclass MessageListener implements MyEventListener<Message> {\n    private final String name;\n\n    public MessageListener(String name) { this.name = name; }\n\n    @Override\n    public void onEvent(String source, Message event) {\n        System.out.println(name + \" received from [\" + source + \"]: \" + event.getText());\n    }\n}",
-          "link": "https://dev.to/zawhtutwin/eventbus-2n81",
-          "publishedOn": "2026-01-09T07:43:27.000Z",
-          "wordCount": 1823,
-          "title": "EventBus",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fk35n14hyg2wzhzs5po57.png"
-        },
-        {
-          "id": "https://dev.to/freshmand/introducing-loongflow-a-cognitive-evolutionary-ai-framework-open-source-2dp8",
-          "author": "Freshman",
-          "description": "Hi everyone! 👋\nI’m excited to share LoongFlow — an open-source framework for cognitive evolutionary agents that blends reasoning with evolutionary search, helping AI systems evolve smarter, not just randomly. The project is now live on GitHub and ready for exploration, feedback, and contributions!\n👉 GitHub: https://github.com/baidu-baige/LoongFlow\n🧠 What Makes LoongFlow Different?\nTraditional evolutionary algorithms largely depend on random mutation and selection. LoongFlow adds a reasoning layer on top of evolution using large language models (LLMs) and a structured loop called:\n🌀 Plan → Execute → Summarize (PES)\nPlan: LLM analyzes past generations and plans smarter next steps.\nExecute: Generate and test new candidate solutions guided by those plans.\nSummarize: Reflect on results to inform future planning.\nThis reduces aimless search and directs the evolution toward more promising regions of the solution space.\n📌 Why It Matters to Developers\n✅ Intelligent search workflows: Leverage reasoning to guide optimization and learning.\n✅ Hybrid memory for better diversity: Keeps multiple promising solutions in play.\n✅ Real-world potential: Useful for algorithm discovery, ML pipeline optimization, and autonomous agent development.\n✅ Great learning opportunity: Contribute to a cutting-edge AI research-oriented open project.\n🛠 What You Can Do\nWhether you’re a seasoned AI engineer, a student learning about agents, or a developer who loves open source, there are many ways to get involved:\n🔹 Explore & Test\n🔹 Contribute Code & Features\nExtend evolutionary operators\nImprove LLM planner/executor logic\nAdd benchmarks and use cases\n🔹 Help with Documentation\n🔹 Provide Feedback & Ideas\n🚀 Get Started\nVisit the GitHub repo: https://github.com/baidu-baige/LoongFlow\nStar ⭐ and fork the project\nCheck issues & labels: especially good first issue (great for first contributions)\nJoin discussions and help shape the project’s roadmap\nLet’s build better evolutionary AI together!\nLooking forward to seeing what you create 🙌",
-          "link": "https://dev.to/freshmand/introducing-loongflow-a-cognitive-evolutionary-ai-framework-open-source-2dp8",
-          "publishedOn": "2026-01-09T07:39:34.000Z",
-          "wordCount": 1986,
-          "title": "🚀 Introducing LoongFlow — A Cognitive Evolutionary AI Framework (Open Source)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9bhw2xv66ymejifkgzn5.png"
-        },
-        {
-          "id": "https://dev.to/_steve_fenton_/6-gitops-practices-that-actually-work-3boi",
-          "author": "Steve Fenton",
-          "description": "GitOps was pitched as a transformative approach to software delivery and infrastructure management, promising better outcomes across multiple dimensions of organizational performance. But, not all GitOps implementations are created equal.\nResearch from the State of GitOps report reveals six crucial practices statistically related to several meaningful outcomes, including improved software delivery, enhanced reliability, eliminating configuration drift, and easier compliance and audit.\nThese practices form the foundation of successful GitOps adoption, moving beyond superficial implementation to achieve meaningful business outcomes. Organizations missing one or more of these practices were less likely to gain the benefits of GitOps.\nUnlike imperative approaches that require step-by-step inst…",
-          "link": "https://dev.to/_steve_fenton_/6-gitops-practices-that-actually-work-3boi",
-          "publishedOn": "2026-01-09T07:35:54.000Z",
-          "wordCount": 2688,
-          "title": "6 GitOps Practices That Actually Work",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkn11if3rugji0pwoctuq.jpg"
-        },
-        {
-          "id": "https://dev.to/nemwelboniface/architecture-backwards-engineering-a-self-defending-system-before-the-ui-arrives-4ohg",
-          "author": "Nemwel Boniface",
-          "description": "Happy New Year!\n\nAs we kick off 2026, many of us are starting new projects or refining old ones. This year, I’ve decided to challenge the \"industry standard\" of MVP development. Instead of racing to build a login page, I’m spending my time in the trenches of the core engine.\nIn the rush to launch a Minimum Viable Product (MVP), the standard advice is almost always: Start with the User. Build the login page, the profile, and the \"Join Now\" button. We often prioritise Authentication and Authorization, then move to the core logic, the actual reason the product exists, nearly as an afterthought.\nThis approach works, and it’s the industry standard. But what if I tell you there’s a more resilient way to architect a system? One that isn't as glamorous or visually aesthetic, but is infinitely more…",
-          "link": "https://dev.to/nemwelboniface/architecture-backwards-engineering-a-self-defending-system-before-the-ui-arrives-4ohg",
-          "publishedOn": "2026-01-09T07:28:31.000Z",
-          "wordCount": 3470,
-          "title": "Architecture Backwards: Engineering a Self-Defending System Before the UI Arrives",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fi3kj0m3gpx7j5yjn5bv1.png"
         }
       ]
     },
@@ -35741,6 +35741,26 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://mastodon.social/@netblocks/115942585753525035",
+          "author": null,
+          "description": "Comments",
+          "link": "https://mastodon.social/@netblocks/115942585753525035",
+          "publishedOn": "2026-01-23T19:31:44.000Z",
+          "wordCount": 354,
+          "title": "Iran Govt Fakes Traffic to Mimic Internet Restoration",
+          "imageUrl": "https://files.mastodon.social/media_attachments/files/115/942/582/209/172/833/original/01b7c4a6a91d9dff.png"
+        },
+        {
+          "id": "https://arstechnica.com/cars/2026/01/tesla-wants-recurring-revenue-discontinues-autopilot-in-favor-of-fsd/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arstechnica.com/cars/2026/01/tesla-wants-recurring-revenue-discontinues-autopilot-in-favor-of-fsd/",
+          "publishedOn": "2026-01-23T19:28:10.000Z",
+          "wordCount": 2712,
+          "title": "Tesla kills Autopilot, locks lane-keeping behind $99/month fee",
+          "imageUrl": "https://cdn.arstechnica.net/wp-content/uploads/2026/01/GettyImages-1415090444-2560x1440.jpg"
+        },
         {
           "id": "https://github.com/anthropics/claude-code/issues/18866",
           "author": null,
@@ -38369,6 +38389,16 @@
           "publishedOn": "2026-01-19T23:39:57.000Z",
           "wordCount": 2542,
           "title": "3D printing my laptop ergonomic setup",
+          "imageUrl": null
+        },
+        {
+          "id": "https://research.swtch.com/fp",
+          "author": null,
+          "description": "Comments",
+          "link": "https://research.swtch.com/fp",
+          "publishedOn": "2026-01-19T22:21:45.000Z",
+          "wordCount": 14742,
+          "title": "Floating-Point Printing and Parsing Can Be Simple and Fast",
           "imageUrl": null
         },
         {
@@ -47150,36 +47180,6 @@
           "wordCount": 442,
           "title": "Moving Scratch generation to Python on browser",
           "imageUrl": null
-        },
-        {
-          "id": "https://www.theguardian.com/technology/2026/jan/09/grok-image-generator-outcry-sexualised-ai-imagery",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.theguardian.com/technology/2026/jan/09/grok-image-generator-outcry-sexualised-ai-imagery",
-          "publishedOn": "2026-01-09T08:10:31.000Z",
-          "wordCount": 3999,
-          "title": "Grok turns off image generator for most after outcry over sexualised AI imagery",
-          "imageUrl": "https://i.guim.co.uk/img/media/5602890ef620af5b8c02784d85062ad26bfaa4a7/308_0_3083_2467/master/3083.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=4925f43d7d0ea5a6b634e63b07f06559"
-        },
-        {
-          "id": "https://github.com/NishantJoshi00/dith",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/NishantJoshi00/dith",
-          "publishedOn": "2026-01-09T07:43:20.000Z",
-          "wordCount": 2072,
-          "title": "Show HN: Ever wanted to look at yourself in Braille?",
-          "imageUrl": "https://opengraph.githubassets.com/ce7dd730ef62e5475da895cea4a564a96a58f4357cb5c32e12baa8d8c8be1446/NishantJoshi00/dith"
-        },
-        {
-          "id": "https://emnudge.dev/blog/what-happened-to-webassembly/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://emnudge.dev/blog/what-happened-to-webassembly/",
-          "publishedOn": "2026-01-09T07:38:30.000Z",
-          "wordCount": 2264,
-          "title": "What Happened to WebAssembly",
-          "imageUrl": null
         }
       ]
     },
@@ -48447,26 +48447,6 @@
           "wordCount": 10657,
           "title": "Tune Talk Partners With Mastercard To Offer ID Theft Protection",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/08/tune-talk-app-1.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=378157",
-          "author": "Kiran Ganesan",
-          "description": "HONOR has officially announced that it has begun the phased rollout of its MagicOS 10 to its Malaysian users. Prior to this announcement, the operating system was exclusive to HONOR’s flagship smartphone, the Magic8 Pro. This rollout, which will start this month, will see the OS expand to other compatible devices in stages throughout the […]\nThe post HONOR Gradually Rolls Out MagicOS 10 In Malaysia From January 2026 Onwards appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/378157/honor-gradually-rolls-out-magicos-10-in-malaysia-january-onwards/",
-          "publishedOn": "2026-01-09T07:53:52.000Z",
-          "wordCount": 11182,
-          "title": "HONOR Gradually Rolls Out MagicOS 10 In Malaysia From January 2026 Onwards",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/01/HONOR-Gradually-Rolls-Out-MagicOS-10-In-Malaysia-From-January-2026-Onwards-1.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=378149",
-          "author": "Nurul Kamil",
-          "description": "Football fans around the world can now look forward to keeping up with the 2026 FIFA World Cup via TikTok. Ahead of the tournament, TikTok and FIFA have announced a new partnership, allowing the former to provide more comprehensive coverage of the major sporting event. This partnership will run until the end of the year […]\nThe post TikTok Teams Up With FIFA For World Cup 2026 Coverage appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/378149/tiktok-fifa-world-cup-2026/",
-          "publishedOn": "2026-01-09T07:40:42.000Z",
-          "wordCount": 10635,
-          "title": "TikTok Teams Up With FIFA For World Cup 2026 Coverage",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/01/tiktok-fifa-world-cup-1.jpg"
         }
       ]
     },
@@ -49019,6 +48999,26 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "e8ec318e-3e08-41c1-93fe-62d5bde95c72",
+          "author": "AI Boost",
+          "description": "\"Shark Tank\" investor Kevin O'Leary is pivoting his crypto strategy from tokens to energy infrastructure, declaring that power generation is now the real prize.",
+          "link": "https://www.coindesk.com/markets/2026/01/23/kevin-o-leary-says-power-is-now-more-valuable-than-bitcoin",
+          "publishedOn": "2026-01-23T20:20:11.000Z",
+          "wordCount": 10192,
+          "title": "Kevin O'Leary says power is now more valuable than bitcoin",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/bf382c6805e7a14d9642369abd8822d6ce117c1b-2170x1216.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "b37408e4-926c-4462-ac5c-4efe00142627",
+          "author": "Olivier Acuna",
+          "description": "The UK regulator said crypto firms must ensure good outcomes for customers without stifling innovation.",
+          "link": "https://www.coindesk.com/policy/2026/01/23/u-k-fca-moves-closer-to-crypto-regulation-with-final-consumer-duty-consultation",
+          "publishedOn": "2026-01-23T18:36:00.000Z",
+          "wordCount": 10441,
+          "title": "U.K. FCA moves closer to crypto regulation with final consumer duty consultation",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/0ab9f040f8ae1865ffd6285a1092c7c769a3e330-1920x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "14924919-ddf0-46bd-b86c-d0bd6b4c986a",
           "author": "Helene Braun",
@@ -52858,16 +52858,6 @@
           "wordCount": 9341,
           "title": "Ethereum treasury firm SharpLink stakes $170M ETH on Linea network",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6e6bd5d9574276ca6576e1b823f761a2ed130869-1920x1080.jpg?auto=format"
-        },
-        {
-          "id": "8c6efe50-b8bf-46c6-836c-ff9dac9d9602",
-          "author": "Omkar Godbole",
-          "description": "Bitcoin ETFs have registered a net outflow of over $1 billion in three days.",
-          "link": "https://www.coindesk.com/markets/2026/01/09/bitcoin-etf-optimism-fades-as-three-day-outflows-streak-erases-early-month-gains",
-          "publishedOn": "2026-01-09T06:52:19.000Z",
-          "wordCount": 9280,
-          "title": "Bitcoin ETF optimism fades as three-day outflows streak erases early-month gains",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/e2ff10eb6d7c3548f13b0d208baf5b0e69e74b85-1280x853.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },
