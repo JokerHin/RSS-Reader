@@ -2,10 +2,306 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-02-07T11:20:33.938Z</updated>
+    <updated>2026-02-07T12:46:18.552Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[How to Dynamically Switch Local LLMs with LangChain]]></title>
+        <id>https://dev.to/harishkotra/how-to-dynamically-switch-local-llms-with-langchain-5aje</id>
+        <link href="https://dev.to/harishkotra/how-to-dynamically-switch-local-llms-with-langchain-5aje"/>
+        <updated>2026-02-07T12:30:00.000Z</updated>
+        <summary type="html"><![CDATA[In production RAG applications, you often need to evaluate different models against the same prompts. Does Llama 3.2 handle formatting better? Is Gemma 3 (12B) better at reasoning?
+Hardcoding model swaps or reloading your application is slow. In this post, I'll show you how to use LangChain's configurable_alternatives to build a Streamlit app where you can hot-swap models per request.
+We want a User Interface (Streamlit) that passes a configuration object to our Logic Layer (LangChain). The Logic Layer then routes the request to the appropriate Model Provider (Ollama).
+graph TD
+    User[User via Streamlit] -->|Selects Model| UI[UI Config]
+    UI -->|config='gemma'| Chain[LangChain Runnable]
+
+    subgraph "Swappable Backend"
+        Chain -->|Default| Llama[Llama 3.2]
+        Chain -->|Alternative| Gemma[Gemma 3 (12B)]
+    end
+
+    Llama --> Output
+    Gemma --> Output
+
+The core magic lies in the configurable_alternatives method on any Runnable (including LLMs).
+from langchain_ollama import OllamaLLM
+from langchain_core.runnables import ConfigurableField
+
+# 1. Base Model
+llm = OllamaLLM(model="llama3.2")
+
+# 2. Add Alternatives
+llm_swappable = llm.configurable_alternatives(
+    ConfigurableField(id="model_provider"), 
+    default_key="llama",
+    gemma=OllamaLLM(model="gemma3:12b")
+)
+
+# 3. Invoke with Config
+response = llm_swappable.invoke(
+    "Why is the sky blue?", 
+    config={"configurable": {"model_provider": "gemma"}}
+)
+
+This approach decouples your Chain Definition from your Execution Configuration. You build the pipeline once, and modify its behavior at runtime. This is essential for:
+ A/B Testing: Randomly routing 50% of traffic to a new model.
+ User Preference: Letting power users choose their "engine".
+ Fallback: If the primary model times out, switch to a backup.
+By combining Streamlit for the frontend and LangChain's LCEL for dynamic routing, we built a robust "Model Playground" in under 50 lines of code.
+Github repo is here: https://github.com/harishkotra/langchain-ollama-cookbook]]></summary>
+        <author>
+            <name>Harish Kotra (he/him)</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why I use Typetify: A Type-Safe Alternative to Lodash]]></title>
+        <id>https://dev.to/hosby/why-i-use-typetify-a-type-safe-alternative-to-lodash-3gp0</id>
+        <link href="https://dev.to/hosby/why-i-use-typetify-a-type-safe-alternative-to-lodash-3gp0"/>
+        <updated>2026-02-07T12:28:45.000Z</updated>
+        <summary type="html"><![CDATA[Runtime TypeScript helpers that actually protect you when it matters most.
+TL;DR: I built Typetify — a zero-dependency utility library for TypeScript that provides runtime safety, not just compile-time types. Think Lodash, but TypeScript-first.
+npm install typetify
+
+Lodash is great. I've used it for years. But when you add TypeScript to the mix, something feels... off.
+_.pick() Trap
+
+
+
+
+
+import _ from 'lodash'
+
+const user = {
+  id: 1,
+  name: 'John',
+  email: 'john@example.com',
+  password: 'secret123'
+}
+
+// TypeScript says this is fine 🤷
+const safe = _.pick(user, ['id', 'name', 'emial']) // Typo!
+//                                        ^^^^^^
+
+// Runtime: { id: 1, name: 'John', emial: undefined }
+// No error, no warning, just silent failure
+
+TypeScript can't catch this because Lodash's…]]></summary>
+        <author>
+            <name>Siddick FOFANA</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to scrape Telegram channels: The complete guide to extracting posts, media, and metadata]]></title>
+        <id>https://dev.to/eunit/how-to-scrape-telegram-channels-the-complete-guide-to-extracting-posts-media-and-metadata-2ff</id>
+        <link href="https://dev.to/eunit/how-to-scrape-telegram-channels-the-complete-guide-to-extracting-posts-media-and-metadata-2ff"/>
+        <updated>2026-02-07T12:28:27.000Z</updated>
+        <summary type="html"><![CDATA[How to scrape Telegram channels: The complete guide to extracting posts, media, and metadata
+
+
+Telegram has evolved into a global powerhouse for real-time information, hosting over 1 billion active users in 2026. From niche specialized groups to massive news broadcasts with millions of subscribers, the platform is a goldmine for market researchers, AI developers, and competitive intelligence analysts. However, the platform is notoriously difficult to scrape. Its data is locked behind a mobile-first interface and strictly protected by anti-bot measures.
+Manual data collection doesn't scale in today's era of automation. If you are trying to monitor trends across a hundred channels or build a dataset for a large language model, you need an automated solution. This is where Telegram Channels S…]]></summary>
+        <author>
+            <name>Emmanuel Uchenna</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Quark's Outlines: Python Code Blocks]]></title>
+        <id>https://dev.to/mike-vincent/quarks-outlines-python-code-blocks-j0n</id>
+        <link href="https://dev.to/mike-vincent/quarks-outlines-python-code-blocks-j0n"/>
+        <updated>2026-02-07T12:13:50.000Z</updated>
+        <summary type="html"><![CDATA[Quark’s Outlines: Python Code Blocks
+
+
+Overview, Historical Timeline, Problems & Solutions
+When you write a Python program, you group statements together. This group is called a Python code block. A code block is a section of code that Python can run as one unit. It can be as short as one line or as long as a full module.
+You use code blocks in many places. A function body is a code block. A class definition is a code block. Each module you import is also a code block. Python reads these blocks and sets up the right space to run them.
+Python lets you group statements into code blocks that run together.
+def greet(name):
+    print("Hello,", name)
+
+greet("Ada")
+# prints:
+# Hello, Ada
+
+The function body is a code block. Python runs it when you call greet().
+You use code blocks in many parts of…]]></summary>
+        <author>
+            <name>Mike Vincent</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Developer Soft Skills Matter: A Deep Dive]]></title>
+        <id>https://dev.to/mrakdon/why-developer-soft-skills-matter-a-deep-dive-5cg3</id>
+        <link href="https://dev.to/mrakdon/why-developer-soft-skills-matter-a-deep-dive-5cg3"/>
+        <updated>2026-02-07T12:13:30.000Z</updated>
+        <summary type="html"><![CDATA[Why Developer Soft Skills Matter
+
+
+In a world where technology evolves at lightning speed, the ability to write clean code is no longer enough. Developers who can communicate clearly, collaborate effectively, and adapt to change consistently outpace their peers, earn trust from stakeholders, and accelerate product delivery. This article unpacks why soft skills are a non‑negotiable part of a modern developer’s toolkit and offers concrete steps to cultivate them.
+Insight: Technical brilliance draws attention; soft‑skill mastery sustains influence.
+Why soft skills directly impact code quality and delivery speed.
+The key soft‑skill categories every developer should master.
+Real‑world examples of soft skills in action.
+Practical techniques to embed soft‑skill growth into your daily workflow.
+Cl…]]></summary>
+        <author>
+            <name>Mrakdon.com</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I accidentally start SDD by failing at prompts for six months]]></title>
+        <id>https://dev.to/marcosomma/how-i-accidentally-start-sdd-by-failing-at-prompts-for-six-months-477l</id>
+        <link href="https://dev.to/marcosomma/how-i-accidentally-start-sdd-by-failing-at-prompts-for-six-months-477l"/>
+        <updated>2026-02-07T12:12:01.000Z</updated>
+        <summary type="html"><![CDATA[The confession
+
+
+I spent the first six months of serious AI pair programming producing what I now call vibe architecture.
+You know the pattern. You open a chat with a strong model. You explain what you want. It produces clean code fast. You feel productive. Three weeks later the repo looks like it was designed by five different people, on five different days, with five different mental models.
+Each file is locally correct. The system is globally confused.
+I would plan with the model in one session. I would implement in another. By step five the implementation had drifted far enough that the plan was basically historical fiction. Then I would come back after a weekend and lose the thread. Not because the model did something wrong. It did exactly what I asked at each moment. The issue was co…]]></summary>
+        <author>
+            <name>marcosomma</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I wrote my first article here @dev.to, sharing my solution for deploying a Laravel app in a limited shared hosting environment without SSH access. I hope someone will find it useful, enjoy it, and leave a comment]]></title>
+        <id>https://dev.to/houdaifa360/i-wrote-my-first-article-here-devto-sharing-my-solution-for-deploying-a-laravel-app-in-a-limited-133a</id>
+        <link href="https://dev.to/houdaifa360/i-wrote-my-first-article-here-devto-sharing-my-solution-for-deploying-a-laravel-app-in-a-limited-133a"/>
+        <updated>2026-02-07T12:08:45.000Z</updated>
+        <summary type="html"><![CDATA[Deploying Laravel on Shared Hosting (No SSH Required)
+HoudaifaDevBS ・ Feb 7
+#laravel
+        #php
+        #tutorial
+        #cpanel]]></summary>
+        <author>
+            <name>HoudaifaDevBS</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Deploying Laravel on Shared Hosting (No SSH Required)]]></title>
+        <id>https://dev.to/houdaifa360/deploying-laravel-on-shared-hosting-no-ssh-required-1kbg</id>
+        <link href="https://dev.to/houdaifa360/deploying-laravel-on-shared-hosting-no-ssh-required-1kbg"/>
+        <updated>2026-02-07T12:04:29.000Z</updated>
+        <summary type="html"><![CDATA[Have you ever wondered if you can deploy a Laravel application on shared hosting without SSH?
+The answer is YES. I faced this exact situation during my early freelance journey: a client with a tight budget needed to see the first version of his Laravel website online before moving forward. The hosting environment had no SSH, no Composer, no Artisan, no NPM.
+So I had to figure out a safe and reliable alternative.
+In this article, I'll share the exact workflow I use to deploy Laravel applications on shared hosting without SSH access.
+A typical Laravel project looks like this:
+project/  
+ ├── app/  
+ ├── bootstrap/  
+ ├── config/  
+ ├── public/  
+ ├── storage/  
+ ├── vendor/  
+ └── artisan
+
+However, shared hosting usually exposes only one public directory:
+├── public_html/
+
+If there is SSH ac…]]></summary>
+        <author>
+            <name>HoudaifaDevBS</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Generative Art Game with React: Blobs - Dead or Alive]]></title>
+        <id>https://dev.to/alfredosalzillo/building-a-generative-art-game-with-react-blobs-dead-or-alive-jf5</id>
+        <link href="https://dev.to/alfredosalzillo/building-a-generative-art-game-with-react-blobs-dead-or-alive-jf5"/>
+        <updated>2026-02-07T12:03:56.000Z</updated>
+        <summary type="html"><![CDATA[🎨 Blobs: Dead or Alive?
+
+
+Have you ever looked at a random SVG shape and thought, "That looks like it has a personality"? 
+That’s exactly how Blobs - Dead or Alive was born. What started as a generative art experiment turned into a fully functional skill game where you hunt for specific, procedurally generated "blobs" before the timer runs out.
+In this post, we’ll look at the technical "DNA" of these blobs and how React powers the game engine.
+The most impressive part of Alfredo Salzillo's project is the Generative Blob Engine. Every blob is rendered on the fly using SVGs.
+A blob isn't just a circle; it’s a set of random points connected via splines. By calculating points around a center and adding a "randomness factor" to their distance from the origin, we get that organic, wobbly shape.…]]></summary>
+        <author>
+            <name>Alfredo Salzillo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[RepoSensei: An AI-Assisted CLI Tool to Explore GitHub Repositories]]></title>
+        <id>https://dev.to/sijomonps/reposensei-an-ai-assisted-cli-tool-to-explore-github-repositories-1053</id>
+        <link href="https://dev.to/sijomonps/reposensei-an-ai-assisted-cli-tool-to-explore-github-repositories-1053"/>
+        <updated>2026-02-07T12:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This is a submission for the GitHub Copilot CLI Challenge
+I built RepoSensei, a terminal-based CLI tool that helps developers quickly understand unfamiliar GitHub repositories.
+When opening a new codebase, beginners often struggle to figure out:
+What type of project it is
+Which files are important
+Where to start reading the code
+RepoSensei solves this problem directly from the terminal.
+
+It scans the current directory, detects the project type, highlights important files (like README and entry points), and provides beginner-friendly guidance on where to start.
+The goal of this project is to make developer onboarding easier using AI-assisted tools in the command line.
+🔗 GitHub Repository:
+
+https://github.com/sijomonps/Copliot-CLI
+cd path/to/any/project
+python path/to/reposensei.py
+
+
+I built RepoSensei using GitHub Copilot CLI directly from the terminal.
+During development, I used Copilot CLI to:
+Generate the initial CLI structure
+Improve repository and project-type detection logic
+Refine beginner-friendly explanations
+Review and understand code while iterating on features
+Using GitHub Copilot CLI made the development process faster and more interactive.
+
+Instead of switching between tools, I was able to collaborate with Copilot directly from the command line, which aligned perfectly with the goal of building a terminal-focused project.
+This project demonstrates how AI-powered developer tools can improve learning and productivity directly from the CLI.]]></summary>
+        <author>
+            <name>Sijomon P.S</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Documented My Terraform DevSecOps Project]]></title>
+        <id>https://dev.to/techgirli/how-i-documented-my-terraform-devsecops-project-42bo</id>
+        <link href="https://dev.to/techgirli/how-i-documented-my-terraform-devsecops-project-42bo"/>
+        <updated>2026-02-07T12:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Documenting a Terraform DevSecOps project effectively combines automated documentation, clear architecture visualization, and reproducible setup instructions—mirroring real-world DevOps practices where clarity, consistency, and collaboration are critical. Using tools like terraform-docs, you can automatically generate and maintain up-to-date READMEs, while integrating diagrams and step-by-step guides ensures onboarding and audits are seamless.
+****Tools
+Terraform CLI
+terraform-docs (installed locally or in CI)
+Markdown editor
+Diagramming tool (e.g., Lucidchart, Draw.io, or Excalidraw)
+GitHub or similar repo platform 
+
+****Step-by-step instructions
+Install terraform-docs using a package manager (e.g., choco install terraform-docs on Windows, brew install terraform-docs on macOS, or download…]]></summary>
+        <author>
+            <name>Miracle Olorunsola</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Invisible Workforce]]></title>
+        <id>https://dev.to/rawveg/the-invisible-workforce-20g4</id>
+        <link href="https://dev.to/rawveg/the-invisible-workforce-20g4"/>
+        <updated>2026-02-07T12:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Every morning across corporate offices worldwide, a familiar digital routine unfolds. Company email, check. Slack, check. Salesforce, check. And then, in separate browser windows that never appear in screen-sharing sessions, ChatGPT Plus launches. Thousands of employees are paying the £20 monthly subscription themselves. Their managers don't know. IT certainly doesn't know. But productivity metrics tell a different story.
+This pattern represents a quiet revolution happening across the modern workplace. It's not a coordinated rebellion, but rather millions of individual decisions made by workers who've discovered that artificial intelligence can dramatically amplify their output. The numbers are staggering: 75% of knowledge workers now use AI tools at work, with 77% of employees pasting dat…]]></summary>
+        <author>
+            <name>Tim Green</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The AI boom is causing shortages everywhere else]]></title>
+        <id>https://www.washingtonpost.com/technology/2026/02/07/ai-spending-economy-shortages/</id>
+        <link href="https://www.washingtonpost.com/technology/2026/02/07/ai-spending-economy-shortages/"/>
+        <updated>2026-02-07T11:21:29.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[I stopped setting goals. Here's what happened.]]></title>
         <id>https://dev.to/betatesterlife/i-stopped-setting-goals-heres-what-happened-5cmc</id>
@@ -23042,6 +23338,16 @@ The JSON has trailing commas, sing…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[ga68, the GNU Algol 68 Compiler – FOSDEM 2026 [video]]]></title>
+        <id>https://fosdem.org/2026/schedule/event/PEXRTN-ga68-intro/</id>
+        <link href="https://fosdem.org/2026/schedule/event/PEXRTN-ga68-intro/"/>
+        <updated>2026-02-03T15:38:24.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Bitcoin bounce fails, with price falling back to $77,000 while precious metals renew surge]]></title>
         <id>1989958c-7f39-4f62-b29b-c5676095c08f</id>
         <link href="https://www.coindesk.com/markets/2026/02/03/bitcoin-bounce-fails-with-price-falling-back-below-usd77-000-while-precious-metals-renew-surge"/>
@@ -23602,6 +23908,16 @@ Without formal documentation, it becomes imperative to infer the underlying syst
         <id>https://forums.freebsd.org/threads/kde-plasma-login-manager-wont-support-systemd-free-linux-or-bsd-systems.101393/</id>
         <link href="https://forums.freebsd.org/threads/kde-plasma-login-manager-wont-support-systemd-free-linux-or-bsd-systems.101393/"/>
         <updated>2026-02-03T13:32:06.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Where did all the starships go?]]></title>
+        <id>https://www.datawrapper.de/blog/science-fiction-decline</id>
+        <link href="https://www.datawrapper.de/blog/science-fiction-decline"/>
+        <updated>2026-02-03T13:27:08.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -91797,106 +92113,6 @@ Step 3: Choose VM Type
 For this tutorial, we're selecting Virtual Machine—the standard option that's best for lower-traffic workloads, testing, or controlling/highly customizing apps, OS, or file systems. You can later attach it t…]]></summary>
         <author>
             <name>Kolarinde Awopetutimileyin</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ChameleonBio: Adaptive Professional Portfolio]]></title>
-        <id>https://dev.to/kheai/chameleonbio-adaptive-professional-portfolio-3l23</id>
-        <link href="https://dev.to/kheai/chameleonbio-adaptive-professional-portfolio-3l23"/>
-        <updated>2026-01-24T00:43:29.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for the New Year, New You Portfolio Challenge Presented by Google AI
-I am a philosophy-driven technologist merging 20 years of hardware/software expertise with cutting-edge AI. My work focuses on modeling knowledge and optimizing freedom. 
-With ChameleonBio, I wanted to express that a professional identity isn't static—it’s a conversation. I believe a portfolio should adapt to its audience just as effectively as a real-world career coach would.
-
-
-
-
-
-  
-  
-  Portfolio
-
-
-ChameleonBio: Adaptive Professional Portfolio
-An intelligent portfolio that dynamically rewrites its professional summary and adjusts its visual theme based on the visitor's role and tone using Gemini AI.
-Live Demo: ChameleonBio
-ChameleonBio is built on a stack designed for speed, intelligence, and aesth…]]></summary>
-        <author>
-            <name>Kai Chew</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Swift Shenanigans- a series I'm gonna make]]></title>
-        <id>https://dev.to/ryan_bae_5bd7d40241e52c14/swift-shenanigans-a-series-im-gonna-make-3hg0</id>
-        <link href="https://dev.to/ryan_bae_5bd7d40241e52c14/swift-shenanigans-a-series-im-gonna-make-3hg0"/>
-        <updated>2026-01-24T00:40:44.000Z</updated>
-        <summary type="html"><![CDATA[I've been thinking about Swift, and I've just realized every single book I have with Swift is kid-friendly. So I'm going to make a series; it's gonna assume you know the basics like let vs var, basic printing, functions, and basic OOP knowledge. I'm going to start with #1: How to use classes]]></summary>
-        <author>
-            <name>Ryan Bae</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CVE-2026-24420: CVE-2026-24420: When `isset()` Becomes a Backdoor in phpMyFAQ]]></title>
-        <id>https://dev.to/cverports/cve-2026-24420-cve-2026-24420-when-isset-becomes-a-backdoor-in-phpmyfaq-149b</id>
-        <link href="https://dev.to/cverports/cve-2026-24420-cve-2026-24420-when-isset-becomes-a-backdoor-in-phpmyfaq-149b"/>
-        <updated>2026-01-24T00:40:17.000Z</updated>
-        <summary type="html"><![CDATA[CVE-2026-24420: When isset() Becomes a Backdoor in phpMyFAQ
-
-
-
-Vulnerability ID: CVE-2026-24420
-CVSS Score: 6.5
-Published: 2026-01-23
-A logic flaw in phpMyFAQ's permission system allows authenticated users to download attachments they explicitly shouldn't have access to, thanks to a misuse of PHP's isset() function and flawed boolean algebra.
-phpMyFAQ v3.2.x and early 4.x contains a Broken Access Control vulnerability. The application checks if a permission key exists rather than if it is true, and prioritizes group permissions over user restrictions. This allows any authenticated user to download restricted attachments.
-CWE: CWE-284 / CWE-862
-CVSS v3.1: 6.5 (Medium)
-Attack Vector: Network (Authenticated)
-Impact: Confidentiality Loss
-Privileges Required: Low (Any valid user)
-Exploit Status: PoC Available
-phpMyFAQ
-phpMyFAQ: <= 3.2.13 (Fixed in: 3.2.14)
-b2e4f6a
-
-
-Fix permission check in attachment.php
-- if (($groupPermission || ($groupPermission && $userPermission)) && isset($permission['dlattachment'])) {
-+ if (($groupPermission && $userPermission) && !empty($permission['dlattachment']) && $permission['dlattachment'] === true) {
-
-Upgrade to phpMyFAQ v3.2.14 or later.
-Manually patch attachment.php to replace isset() with value checks.
-Disable the attachment functionality entirely via configuration if patching is not possible.
-Remediation Steps:
-Backup your phpMyFAQ database and files.
-Download the latest release from the official phpMyFAQ repository.
-Replace the application files with the new version.
-Verify the fix by attempting to download an attachment with a restricted user account.
-GHSA Advisory
-Official Vendor Site
-Read the full report for CVE-2026-24420 on our website for more details including interactive diagrams and full exploit analysis.]]></summary>
-        <author>
-            <name>CVE Reports</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Dwm.tmux – a dwm-inspired window manager for tmux]]></title>
-        <id>https://github.com/saysjonathan/dwm.tmux</id>
-        <link href="https://github.com/saysjonathan/dwm.tmux"/>
-        <updated>2026-01-24T00:15:20.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Use the Singleton Design Pattern in Flutter: Lazy, Eager, and Factory Variations]]></title>
-        <id>69740b7bc3e68b8de44a179f</id>
-        <link href="https://www.freecodecamp.org/news/how-to-use-the-singleton-design-pattern-in-flutter-lazy-eager-and-factory-variations/"/>
-        <updated>2026-01-23T23:59:55.000Z</updated>
-        <summary type="html"><![CDATA[In software engineering, sometimes you need only one instance of a class across your entire application. Creating multiple instances in such cases can lead to inconsistent behavior, wasted memory, or resource conflicts. The Singleton Design Pattern i...]]></summary>
-        <author>
-            <name>Oluwaseyi Fatunmole</name>
         </author>
     </entry>
 </feed>

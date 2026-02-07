@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-02-07 datetime="2026-02-07T11:13:12.000Z">2026-02-07</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-02-07 datetime="2026-02-07T11:13:12.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-02-07 datetime="2026-02-07T12:30:00.000Z">2026-02-07</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-02-07 datetime="2026-02-07T12:30:00.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,412 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/harishkotra/how-to-dynamically-switch-local-llms-with-langchain-5aje"
+                        open
+                      >
+                        <summary class="article-expander__title">How to Dynamically Switch Local LLMs with LangChain</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/harishkotra/how-to-dynamically-switch-local-llms-with-langchain-5aje">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0jp0sgggqdqjud8hwqqr.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>In production RAG applications, you often need to evaluate different models against the same prompts. Does Llama 3.2 handle formatting better? Is Gemma 3 (12B) better at reasoning?
+Hardcoding model swaps or reloading your application is slow. In this post, I&#x27;ll show you how to use LangChain&#x27;s configurable_alternatives to build a Streamlit app where you can hot-swap models per request.
+We want a User Interface (Streamlit) that passes a configuration object to our Logic Layer (LangChain). The Logic Layer then routes the request to the appropriate Model Provider (Ollama).
+graph TD
+    User[User via Streamlit] --&gt;|Selects Model| UI[UI Config]
+    UI --&gt;|config&#x3D;&#x27;gemma&#x27;| Chain[LangChain Runnable]
+
+    subgraph &quot;Swappable Backend&quot;
+        Chain --&gt;|Default| Llama[Llama 3.2]
+        Chain --&gt;|Alternative| Gemma[Gemma 3 (12B)]
+    end
+
+    Llama --&gt; Output
+    Gemma --&gt; Output
+
+The core magic lies in the configurable_alternatives method on any Runnable (including LLMs).
+from langchain_ollama import OllamaLLM
+from langchain_core.runnables import ConfigurableField
+
+# 1. Base Model
+llm &#x3D; OllamaLLM(model&#x3D;&quot;llama3.2&quot;)
+
+# 2. Add Alternatives
+llm_swappable &#x3D; llm.configurable_alternatives(
+    ConfigurableField(id&#x3D;&quot;model_provider&quot;), 
+    default_key&#x3D;&quot;llama&quot;,
+    gemma&#x3D;OllamaLLM(model&#x3D;&quot;gemma3:12b&quot;)
+)
+
+# 3. Invoke with Config
+response &#x3D; llm_swappable.invoke(
+    &quot;Why is the sky blue?&quot;, 
+    config&#x3D;{&quot;configurable&quot;: {&quot;model_provider&quot;: &quot;gemma&quot;}}
+)
+
+This approach decouples your Chain Definition from your Execution Configuration. You build the pipeline once, and modify its behavior at runtime. This is essential for:
+ A/B Testing: Randomly routing 50% of traffic to a new model.
+ User Preference: Letting power users choose their &quot;engine&quot;.
+ Fallback: If the primary model times out, switch to a backup.
+By combining Streamlit for the frontend and LangChain&#x27;s LCEL for dynamic routing, we built a robust &quot;Model Playground&quot; in under 50 lines of code.
+Github repo is here: https://github.com/harishkotra/langchain-ollama-cookbook</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/hosby/why-i-use-typetify-a-type-safe-alternative-to-lodash-3gp0"
+                        open
+                      >
+                        <summary class="article-expander__title">Why I use Typetify: A Type-Safe Alternative to Lodash</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/hosby/why-i-use-typetify-a-type-safe-alternative-to-lodash-3gp0">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fils35xtxvevo8jnef1qy.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Runtime TypeScript helpers that actually protect you when it matters most.
+TL;DR: I built Typetify — a zero-dependency utility library for TypeScript that provides runtime safety, not just compile-time types. Think Lodash, but TypeScript-first.
+npm install typetify
+
+Lodash is great. I&#x27;ve used it for years. But when you add TypeScript to the mix, something feels... off.
+_.pick() Trap
+
+
+
+
+
+import _ from &#x27;lodash&#x27;
+
+const user &#x3D; {
+  id: 1,
+  name: &#x27;John&#x27;,
+  email: &#x27;john@example.com&#x27;,
+  password: &#x27;secret123&#x27;
+}
+
+// TypeScript says this is fine 🤷
+const safe &#x3D; _.pick(user, [&#x27;id&#x27;, &#x27;name&#x27;, &#x27;emial&#x27;]) // Typo!
+//                                        ^^^^^^
+
+// Runtime: { id: 1, name: &#x27;John&#x27;, emial: undefined }
+// No error, no warning, just silent failure
+
+TypeScript can&#x27;t catch this because Lodash&#x27;s…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/eunit/how-to-scrape-telegram-channels-the-complete-guide-to-extracting-posts-media-and-metadata-2ff"
+                        open
+                      >
+                        <summary class="article-expander__title">How to scrape Telegram channels: The complete guide to extracting posts, media, and metadata</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/eunit/how-to-scrape-telegram-channels-the-complete-guide-to-extracting-posts-media-and-metadata-2ff">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqu92zg68bi0wjrs2ijz4.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>How to scrape Telegram channels: The complete guide to extracting posts, media, and metadata
+
+
+Telegram has evolved into a global powerhouse for real-time information, hosting over 1 billion active users in 2026. From niche specialized groups to massive news broadcasts with millions of subscribers, the platform is a goldmine for market researchers, AI developers, and competitive intelligence analysts. However, the platform is notoriously difficult to scrape. Its data is locked behind a mobile-first interface and strictly protected by anti-bot measures.
+Manual data collection doesn&#x27;t scale in today&#x27;s era of automation. If you are trying to monitor trends across a hundred channels or build a dataset for a large language model, you need an automated solution. This is where Telegram Channels S…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/mike-vincent/quarks-outlines-python-code-blocks-j0n"
+                        open
+                      >
+                        <summary class="article-expander__title">Quark&#x27;s Outlines: Python Code Blocks</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mike-vincent/quarks-outlines-python-code-blocks-j0n">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Ffiles.catbox.moe%2F6wul0c.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Quark’s Outlines: Python Code Blocks
+
+
+Overview, Historical Timeline, Problems &amp; Solutions
+When you write a Python program, you group statements together. This group is called a Python code block. A code block is a section of code that Python can run as one unit. It can be as short as one line or as long as a full module.
+You use code blocks in many places. A function body is a code block. A class definition is a code block. Each module you import is also a code block. Python reads these blocks and sets up the right space to run them.
+Python lets you group statements into code blocks that run together.
+def greet(name):
+    print(&quot;Hello,&quot;, name)
+
+greet(&quot;Ada&quot;)
+# prints:
+# Hello, Ada
+
+The function body is a code block. Python runs it when you call greet().
+You use code blocks in many parts of…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/mrakdon/why-developer-soft-skills-matter-a-deep-dive-5cg3"
+                        open
+                      >
+                        <summary class="article-expander__title">Why Developer Soft Skills Matter: A Deep Dive</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mrakdon/why-developer-soft-skills-matter-a-deep-dive-5cg3">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2F6qeu9tn06o.ufs.sh%2Ff%2F9kv1FWRTlc1Q5Z8TkYPCIFfRpOduVsBvnCMiYP7ehEgH4wJc" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Why Developer Soft Skills Matter
+
+
+In a world where technology evolves at lightning speed, the ability to write clean code is no longer enough. Developers who can communicate clearly, collaborate effectively, and adapt to change consistently outpace their peers, earn trust from stakeholders, and accelerate product delivery. This article unpacks why soft skills are a non‑negotiable part of a modern developer’s toolkit and offers concrete steps to cultivate them.
+Insight: Technical brilliance draws attention; soft‑skill mastery sustains influence.
+Why soft skills directly impact code quality and delivery speed.
+The key soft‑skill categories every developer should master.
+Real‑world examples of soft skills in action.
+Practical techniques to embed soft‑skill growth into your daily workflow.
+Cl…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/marcosomma/how-i-accidentally-start-sdd-by-failing-at-prompts-for-six-months-477l"
+                        open
+                      >
+                        <summary class="article-expander__title">How I accidentally start SDD by failing at prompts for six months</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/marcosomma/how-i-accidentally-start-sdd-by-failing-at-prompts-for-six-months-477l">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8xfrshnxcyw3d1d3wkkv.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The confession
+
+
+I spent the first six months of serious AI pair programming producing what I now call vibe architecture.
+You know the pattern. You open a chat with a strong model. You explain what you want. It produces clean code fast. You feel productive. Three weeks later the repo looks like it was designed by five different people, on five different days, with five different mental models.
+Each file is locally correct. The system is globally confused.
+I would plan with the model in one session. I would implement in another. By step five the implementation had drifted far enough that the plan was basically historical fiction. Then I would come back after a weekend and lose the thread. Not because the model did something wrong. It did exactly what I asked at each moment. The issue was co…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;12
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/houdaifa360/i-wrote-my-first-article-here-devto-sharing-my-solution-for-deploying-a-laravel-app-in-a-limited-133a"
+                        open
+                      >
+                        <summary class="article-expander__title">I wrote my first article here @dev.to, sharing my solution for deploying a Laravel app in a limited shared hosting environment without SSH access. I hope someone will find it useful, enjoy it, and leave a comment</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/houdaifa360/i-wrote-my-first-article-here-devto-sharing-my-solution-for-deploying-a-laravel-app-in-a-limited-133a">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fv8wmvdpy05vhsmtevpd1.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Deploying Laravel on Shared Hosting (No SSH Required)
+HoudaifaDevBS ・ Feb 7
+#laravel
+        #php
+        #tutorial
+        #cpanel</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/houdaifa360/deploying-laravel-on-shared-hosting-no-ssh-required-1kbg"
+                        open
+                      >
+                        <summary class="article-expander__title">Deploying Laravel on Shared Hosting (No SSH Required)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/houdaifa360/deploying-laravel-on-shared-hosting-no-ssh-required-1kbg">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fff9cx3ecn4ujqn69y4zw.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Have you ever wondered if you can deploy a Laravel application on shared hosting without SSH?
+The answer is YES. I faced this exact situation during my early freelance journey: a client with a tight budget needed to see the first version of his Laravel website online before moving forward. The hosting environment had no SSH, no Composer, no Artisan, no NPM.
+So I had to figure out a safe and reliable alternative.
+In this article, I&#x27;ll share the exact workflow I use to deploy Laravel applications on shared hosting without SSH access.
+A typical Laravel project looks like this:
+project/  
+ ├── app/  
+ ├── bootstrap/  
+ ├── config/  
+ ├── public/  
+ ├── storage/  
+ ├── vendor/  
+ └── artisan
+
+However, shared hosting usually exposes only one public directory:
+├── public_html/
+
+If there is SSH ac…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/alfredosalzillo/building-a-generative-art-game-with-react-blobs-dead-or-alive-jf5"
+                        open
+                      >
+                        <summary class="article-expander__title">Building a Generative Art Game with React: Blobs - Dead or Alive</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/alfredosalzillo/building-a-generative-art-game-with-react-blobs-dead-or-alive-jf5">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvc7ell5csyu6wdyyqv0s.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>🎨 Blobs: Dead or Alive?
+
+
+Have you ever looked at a random SVG shape and thought, &quot;That looks like it has a personality&quot;? 
+That’s exactly how Blobs - Dead or Alive was born. What started as a generative art experiment turned into a fully functional skill game where you hunt for specific, procedurally generated &quot;blobs&quot; before the timer runs out.
+In this post, we’ll look at the technical &quot;DNA&quot; of these blobs and how React powers the game engine.
+The most impressive part of Alfredo Salzillo&#x27;s project is the Generative Blob Engine. Every blob is rendered on the fly using SVGs.
+A blob isn&#x27;t just a circle; it’s a set of random points connected via splines. By calculating points around a center and adding a &quot;randomness factor&quot; to their distance from the origin, we get that organic, wobbly shape.…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/sijomonps/reposensei-an-ai-assisted-cli-tool-to-explore-github-repositories-1053"
+                        open
+                      >
+                        <summary class="article-expander__title">RepoSensei: An AI-Assisted CLI Tool to Explore GitHub Repositories</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sijomonps/reposensei-an-ai-assisted-cli-tool-to-explore-github-repositories-1053">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fydhf0z788ajnu83mybep.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>This is a submission for the GitHub Copilot CLI Challenge
+I built RepoSensei, a terminal-based CLI tool that helps developers quickly understand unfamiliar GitHub repositories.
+When opening a new codebase, beginners often struggle to figure out:
+What type of project it is
+Which files are important
+Where to start reading the code
+RepoSensei solves this problem directly from the terminal.
+
+It scans the current directory, detects the project type, highlights important files (like README and entry points), and provides beginner-friendly guidance on where to start.
+The goal of this project is to make developer onboarding easier using AI-assisted tools in the command line.
+🔗 GitHub Repository:
+
+https://github.com/sijomonps/Copliot-CLI
+cd path/to/any/project
+python path/to/reposensei.py
+
+
+I built RepoSensei using GitHub Copilot CLI directly from the terminal.
+During development, I used Copilot CLI to:
+Generate the initial CLI structure
+Improve repository and project-type detection logic
+Refine beginner-friendly explanations
+Review and understand code while iterating on features
+Using GitHub Copilot CLI made the development process faster and more interactive.
+
+Instead of switching between tools, I was able to collaborate with Copilot directly from the command line, which aligned perfectly with the goal of building a terminal-focused project.
+This project demonstrates how AI-powered developer tools can improve learning and productivity directly from the CLI.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/techgirli/how-i-documented-my-terraform-devsecops-project-42bo"
+                        open
+                      >
+                        <summary class="article-expander__title">How I Documented My Terraform DevSecOps Project</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/techgirli/how-i-documented-my-terraform-devsecops-project-42bo">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F25d1d3mgo5fsio79x0cs.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Documenting a Terraform DevSecOps project effectively combines automated documentation, clear architecture visualization, and reproducible setup instructions—mirroring real-world DevOps practices where clarity, consistency, and collaboration are critical. Using tools like terraform-docs, you can automatically generate and maintain up-to-date READMEs, while integrating diagrams and step-by-step guides ensures onboarding and audits are seamless.
+****Tools
+Terraform CLI
+terraform-docs (installed locally or in CI)
+Markdown editor
+Diagramming tool (e.g., Lucidchart, Draw.io, or Excalidraw)
+GitHub or similar repo platform 
+
+****Step-by-step instructions
+Install terraform-docs using a package manager (e.g., choco install terraform-docs on Windows, brew install terraform-docs on macOS, or download…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/rawveg/the-invisible-workforce-20g4"
+                        open
+                      >
+                        <summary class="article-expander__title">The Invisible Workforce</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/rawveg/the-invisible-workforce-20g4">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fi.snap.as%2FxixtCjRJ.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Every morning across corporate offices worldwide, a familiar digital routine unfolds. Company email, check. Slack, check. Salesforce, check. And then, in separate browser windows that never appear in screen-sharing sessions, ChatGPT Plus launches. Thousands of employees are paying the £20 monthly subscription themselves. Their managers don&#x27;t know. IT certainly doesn&#x27;t know. But productivity metrics tell a different story.
+This pattern represents a quiet revolution happening across the modern workplace. It&#x27;s not a coordinated rebellion, but rather millions of individual decisions made by workers who&#x27;ve discovered that artificial intelligence can dramatically amplify their output. The numbers are staggering: 75% of knowledge workers now use AI tools at work, with 77% of employees pasting dat…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;18
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -3214,6 +3620,23 @@ By the end of this post, you&#x27;ll understand how to bridge the gap between we
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.washingtonpost.com/technology/2026/02/07/ai-spending-economy-shortages/"
+                        open
+                      >
+                        <summary class="article-expander__title">The AI boom is causing shortages everywhere else</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.washingtonpost.com/technology/2026/02/07/ai-spending-economy-shortages/">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -32953,6 +33376,26 @@ The post Alleged Sony WF-1000XM6 Renders Leaked By Thai-Based Online Retailer ap
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://fosdem.org/2026/schedule/event/PEXRTN-ga68-intro/"
+                        open
+                      >
+                        <summary class="article-expander__title">ga68, the GNU Algol 68 Compiler – FOSDEM 2026 [video]</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://fosdem.org/2026/schedule/event/PEXRTN-ga68-intro/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://fosdem.org/2026/assets/style/logo-gear-7204a6874eb0128932db10ff4030910401ac06f4e907f8b4a40da24ba592b252.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;1
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://aerospaceamerica.aiaa.org/the-next-steps-for-airbus-big-bet-on-open-rotor-engines/"
                         open
                       >
@@ -33161,6 +33604,26 @@ The post Alleged Sony WF-1000XM6 Renders Leaked By Thai-Based Online Retailer ap
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.datawrapper.de/blog/science-fiction-decline"
+                        open
+                      >
+                        <summary class="article-expander__title">Where did all the starships go?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.datawrapper.de/blog/science-fiction-decline">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://datawrapper.de/cdn-cgi/image/width&#x3D;1200/https://kirby.datawrapper.de/media/pages/blog/science-fiction-decline/293a2f8e99-1769698962/feature-image.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;9
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -133305,26 +133768,6 @@ The post Warframe On Android To Launch 18 February Globally appeared first on Lo
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://github.com/saysjonathan/dwm.tmux"
-                        open
-                      >
-                        <summary class="article-expander__title">Show HN: Dwm.tmux – a dwm-inspired window manager for tmux</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/saysjonathan/dwm.tmux">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://opengraph.githubassets.com/733000322ebb09b13e994abef0d55ff3d43892f1a50d4c99d055cc6a4333bfa9/saysjonathan/dwm.tmux" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -141450,116 +141893,6 @@ For this tutorial, we&#x27;re selecting Virtual Machine—the standard option th
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/kheai/chameleonbio-adaptive-professional-portfolio-3l23"
-                        open
-                      >
-                        <summary class="article-expander__title">ChameleonBio: Adaptive Professional Portfolio</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/kheai/chameleonbio-adaptive-professional-portfolio-3l23">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fanzfy47tgohifq401jyx.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>This is a submission for the New Year, New You Portfolio Challenge Presented by Google AI
-I am a philosophy-driven technologist merging 20 years of hardware/software expertise with cutting-edge AI. My work focuses on modeling knowledge and optimizing freedom. 
-With ChameleonBio, I wanted to express that a professional identity isn&#x27;t static—it’s a conversation. I believe a portfolio should adapt to its audience just as effectively as a real-world career coach would.
-
-
-
-
-
-  
-  
-  Portfolio
-
-
-ChameleonBio: Adaptive Professional Portfolio
-An intelligent portfolio that dynamically rewrites its professional summary and adjusts its visual theme based on the visitor&#x27;s role and tone using Gemini AI.
-Live Demo: ChameleonBio
-ChameleonBio is built on a stack designed for speed, intelligence, and aesth…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/ryan_bae_5bd7d40241e52c14/swift-shenanigans-a-series-im-gonna-make-3hg0"
-                        open
-                      >
-                        <summary class="article-expander__title">Swift Shenanigans- a series I&#x27;m gonna make</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ryan_bae_5bd7d40241e52c14/swift-shenanigans-a-series-im-gonna-make-3hg0">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx88ygwcgg6krmaqe18iu.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>I&#x27;ve been thinking about Swift, and I&#x27;ve just realized every single book I have with Swift is kid-friendly. So I&#x27;m going to make a series; it&#x27;s gonna assume you know the basics like let vs var, basic printing, functions, and basic OOP knowledge. I&#x27;m going to start with #1: How to use classes</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/cverports/cve-2026-24420-cve-2026-24420-when-isset-becomes-a-backdoor-in-phpmyfaq-149b"
-                        open
-                      >
-                        <summary class="article-expander__title">CVE-2026-24420: CVE-2026-24420: When &#x60;isset()&#x60; Becomes a Backdoor in phpMyFAQ</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cverports/cve-2026-24420-cve-2026-24420-when-isset-becomes-a-backdoor-in-phpmyfaq-149b">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fiis47k4g04d4el32t2d6.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>CVE-2026-24420: When isset() Becomes a Backdoor in phpMyFAQ
-
-
-
-Vulnerability ID: CVE-2026-24420
-CVSS Score: 6.5
-Published: 2026-01-23
-A logic flaw in phpMyFAQ&#x27;s permission system allows authenticated users to download attachments they explicitly shouldn&#x27;t have access to, thanks to a misuse of PHP&#x27;s isset() function and flawed boolean algebra.
-phpMyFAQ v3.2.x and early 4.x contains a Broken Access Control vulnerability. The application checks if a permission key exists rather than if it is true, and prioritizes group permissions over user restrictions. This allows any authenticated user to download restricted attachments.
-CWE: CWE-284 / CWE-862
-CVSS v3.1: 6.5 (Medium)
-Attack Vector: Network (Authenticated)
-Impact: Confidentiality Loss
-Privileges Required: Low (Any valid user)
-Exploit Status: PoC Available
-phpMyFAQ
-phpMyFAQ: &lt;&#x3D; 3.2.13 (Fixed in: 3.2.14)
-b2e4f6a
-
-
-Fix permission check in attachment.php
-- if (($groupPermission || ($groupPermission &amp;&amp; $userPermission)) &amp;&amp; isset($permission[&#x27;dlattachment&#x27;])) {
-+ if (($groupPermission &amp;&amp; $userPermission) &amp;&amp; !empty($permission[&#x27;dlattachment&#x27;]) &amp;&amp; $permission[&#x27;dlattachment&#x27;] &#x3D;&#x3D;&#x3D; true) {
-
-Upgrade to phpMyFAQ v3.2.14 or later.
-Manually patch attachment.php to replace isset() with value checks.
-Disable the attachment functionality entirely via configuration if patching is not possible.
-Remediation Steps:
-Backup your phpMyFAQ database and files.
-Download the latest release from the official phpMyFAQ repository.
-Replace the application files with the new version.
-Verify the fix by attempting to download an attachment with a restricted user account.
-GHSA Advisory
-Official Vendor Site
-Read the full report for CVE-2026-24420 on our website for more details including interactive diagrams and full exploit analysis.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -141977,58 +142310,10 @@ The post vivo V70 FE Listed On SIRIM; May Feature MediaTek Dimensity 7360 Turbo 
             </li>
         </ul>
       </section>
-      <section class="daily-content js-toggle-accordions-scope">
-        <h2 class="daily-heading">
-          <button
-            class="daily-heading-toggle"
-            data-action="toggle-accordions"
-            title="Click to toggle the day, Ctrl + click to toggle all."
-          >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-01-23 datetime="2026-01-23T23:59:55.000Z">2026-01-23</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-01-23 datetime="2026-01-23T23:59:55.000Z"></time>
-          </button>
-        </h2>
-        <ul class="sources card">
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >freeCodeCamp Programming Tutorials: Python, JavaScript, Git &amp; More</button>
-                  <a class="source-heading__link" href="https://www.freecodecamp.org/news/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="69740b7bc3e68b8de44a179f"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Use the Singleton Design Pattern in Flutter: Lazy, Eager, and Factory Variations</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.freecodecamp.org/news/how-to-use-the-singleton-design-pattern-in-flutter-lazy-eager-and-factory-variations/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1769212761076/11d41d2a-8efa-4ddb-9ee2-218f5be00d9f.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>In software engineering, sometimes you need only one instance of a class across your entire application. Creating multiple instances in such cases can lead to inconsistent behavior, wasted memory, or resource conflicts. The Singleton Design Pattern i...</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;11
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-        </ul>
-      </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/21779256399">
-        <time id="build-timestamp" datetime="2026-02-07T11:20:33.811Z">2026-02-07T11:20:33.811Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/21780308133">
+        <time id="build-timestamp" datetime="2026-02-07T12:46:18.402Z">2026-02-07T12:46:18.402Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>
