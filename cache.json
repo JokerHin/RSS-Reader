@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/arkforge-ceo/i-monitored-10000-endpoints-for-6-months-heres-what-broke-1kkb",
+          "author": "Arkforge",
+          "description": "I Monitored 10,000 Endpoints for 6 Months — Here's What Broke\n\n\nSix months ago, we started monitoring 10,000 production endpoints across 340+ companies. E-commerce checkouts, SaaS dashboards, payment gateways, public APIs, landing pages.\nI expected the usual suspects: servers going down, 500 errors, DNS failures.\nI was wrong. The most dangerous failures returned HTTP 200.\nHere are the 5 failure patterns we observed repeatedly — and how to catch them before your users do.\nThis was the #1 killer. Not a single endpoint going down — a chain reaction.\nWhat happens:\nA third-party API (payment, auth, CDN) starts responding slowly (2s → 8s → 30s)\nYour backend threads pool up waiting for responses\nYour own API starts timing out\nYour frontend shows spinners, then errors\nUsers leave. Revenue drops.\nR…",
+          "link": "https://dev.to/arkforge-ceo/i-monitored-10000-endpoints-for-6-months-heres-what-broke-1kkb",
+          "publishedOn": "2026-02-10T20:40:23.000Z",
+          "wordCount": 2493,
+          "title": "I Monitored 10,000 Endpoints for 6 Months — Here's What Broke",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl39p6vboinyrka49u2vf.png"
+        },
+        {
+          "id": "https://dev.to/jmontagne/ai-is-an-amplifier-are-you-amplifying-engineering-or-dysfunction-1o81",
+          "author": "Jacques Montagne",
+          "description": "Dave Farley recently shared results from a controlled study of 150 developers using AI tools. The data confirms a hard truth that the \"vibe coding\" crowd ignores: AI is a multiplier, not a magic wand.\nThe study revealed that while AI increases coding speed by 30-55%, it doesn't inherently fix code quality. In fact, the outcome depends entirely on who is holding the tool.\nWe hear constantly that AI creates unmaintainable \"slop.\" Farley’s data shows this is false—but with a catch. \nimproved maintainability. Why? Because seasoned engineers don't let the LLM drive the architecture. They use AI to generate boring, idiomatic, and predictable code that fits into a rigorous design.\nHowever, for those without strong engineering discipline, AI simply accelerates the creation of technical debt. \nThis brings us to the core problem in the Enterprise. \nA culture of TDD (Test-Driven Development),\nModular architecture boundaries,\nStrict Code Review processes...\n...then introducing GenAI won't make you \"agile.\" It will just make you produce bad software 40% faster. You are automating your dysfunction.\nThe biggest risk Farley highlights isn't the code itself—it's \"Cognitive Debt.\"\nIn my work modernizing legacy systems (Banking/Insurance), \"fast\" is often a trap. The dominant cost of software is maintenance (50-80% of TCO). Saving 2 hours on typing today is irrelevant if it costs 2 weeks of debugging next year.\nTo use AI safely in an enterprise environment, we must invert the hype:\n Architecture First: Define the module boundaries and contracts before opening the chat window.\n Constraint-Based Coding: Use AI to fill in the implementation details of a strictly defined interface, not to \"invent\" the solution.\n Infrastructure as Code: If the AI suggests a console click, reject it. If it’s not in Terraform/OpenTofu, it doesn’t exist.\nAI is a powerful amplifier. \n\"Do we have an engineering culture worth amplifying?\"\nIf the foundation is weak, speed is the last thing you need.",
+          "link": "https://dev.to/jmontagne/ai-is-an-amplifier-are-you-amplifying-engineering-or-dysfunction-1o81",
+          "publishedOn": "2026-02-10T20:37:13.000Z",
+          "wordCount": 1602,
+          "title": "AI is an Amplifier. Are You Amplifying Engineering or Dysfunction?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fiyle9bhtwa80mfgkdeyk.png"
+        },
+        {
+          "id": "https://dev.to/yankoaleksandrov/i-built-a-full-voice-pipeline-on-a-eu399-edge-ai-box-whisper-kokoro-on-tensor-cores-386j",
+          "author": "Yanko Alexandrov",
+          "description": "We just shipped a feature I've been wanting for months: full bidirectional voice on local hardware.\nNo cloud. No API keys. No latency. Just a €399 box on your desk that listens and talks back.\nHardware: NVIDIA Jetson Orin Nano (67 TOPS, 1024 CUDA cores, tensor cores)\nSpeech-to-Text: OpenAI Whisper (runs locally on GPU)\nText-to-Speech: Kokoro TTS (82M params, natural human voice)\nAI Brain: OpenClaw (connects to Claude/GPT via API)\nPower draw: 15 watts total\nYou speak → Whisper (tensor cores) → text → AI thinks → Kokoro (tensor cores) → natural voice response\n\nThe entire voice loop runs on the NVIDIA tensor cores. Whisper transcribes your speech in real-time across 90+ languages. Kokoro generates natural human speech with multiple voice options. The AI brain (OpenClaw) handles the thinking.\n…",
+          "link": "https://dev.to/yankoaleksandrov/i-built-a-full-voice-pipeline-on-a-eu399-edge-ai-box-whisper-kokoro-on-tensor-cores-386j",
+          "publishedOn": "2026-02-10T20:36:57.000Z",
+          "wordCount": 1181,
+          "title": "I Built a Full Voice Pipeline on a €399 Edge AI Box (Whisper + Kokoro on Tensor Cores)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fg2zpfhogjylw2p198ei1.png"
+        },
+        {
+          "id": "https://dev.to/alexneamtu/how-we-replaced-goroutines-with-a-database-queue-for-video-transcription-9gc",
+          "author": "Alex Neamtu",
+          "description": "In our last post about transcription, we showed how we added automatic video transcription with whisper.cpp. The approach was simple: after each upload, fire a goroutine that acquires a semaphore, runs whisper, and updates the database. It worked — until it didn't.\nThree problems pushed us to replace the goroutine-based approach with a database-backed queue.\nJobs lost on restart. The semaphore and the goroutines waiting on it lived in memory. Deploy the app, and any video mid-transcription or waiting in the queue simply vanishes. The video shows \"Transcribing...\" forever, but the goroutine that was doing the work is gone.\nQueued jobs were invisible. When a video was uploaded, its transcript_status stayed at none until the goroutine actually acquired the semaphore and set it to processing. …",
+          "link": "https://dev.to/alexneamtu/how-we-replaced-goroutines-with-a-database-queue-for-video-transcription-9gc",
+          "publishedOn": "2026-02-10T20:25:04.000Z",
+          "wordCount": 2070,
+          "title": "How We Replaced Goroutines With a Database Queue for Video Transcription",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fapm5ttio7ey5fzcio44x.png"
+        },
+        {
+          "id": "https://dev.to/sukammoore/hello-world-f48",
+          "author": "Suka Moore",
+          "description": "Hello I am a new web developer, I am looking for new ways to improve as a web developer. If we have any problems connecting what we've learned please contact me. I will be active anytime if you would like to collaborate or share real world experience.",
+          "link": "https://dev.to/sukammoore/hello-world-f48",
+          "publishedOn": "2026-02-10T20:19:05.000Z",
+          "wordCount": 771,
+          "title": "Hello World",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fd22yffrk9wuagh5i9nlt.png"
+        },
+        {
+          "id": "https://dev.to/bibimbop123/gods-of-forgotten-world-42jm",
+          "author": "Brian Kim",
+          "description": "📜 Ancient Gods & the World the Bible Came From\n\n\nA Comprehensive Lesson\nBefore modern monotheism, gods were understood very differently.\nAncient gods were:\nFunctional — each god had a job (rain, war, fertility, death)\nTerritorial — gods ruled lands and peoples\nHierarchical — high gods, lesser gods, messengers\nRelational — gods had families, rivals, councils\nNo one originally believed only one god existed.\n\nThe real question was:\nWhich god rules us?\nIsraelite religion emerged inside this religious ecosystem.\nEl — The High God\n\n\nRole: Supreme authority\n\nTitles: El Elyon (Most High), El Shaddai\n\nSymbol: Bull 🐂\n\nPersonality: Wise, distant, kingly  \nFather of the gods\n\nHead of the Divine Council\n\nAllocates nations to different gods\n\n\n\nKey Point:\n\nEl predates Yahweh. Early Israel worshipped El…",
+          "link": "https://dev.to/bibimbop123/gods-of-forgotten-world-42jm",
+          "publishedOn": "2026-02-10T20:18:58.000Z",
+          "wordCount": 1373,
+          "title": "Gods of Forgotten World",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0hkt0ppyvdzvxudx4oum.jpeg"
+        },
+        {
+          "id": "https://dev.to/dedawit/entity-attribute-value-eav-model-2ghg",
+          "author": "Dawit Girma",
+          "description": "(Example: Content Management System)\nHave you ever faced a database design problem where the attributes of an entity vary widely across records?\nIf yes, this article is for you.\nThe Entity–Attribute–Value (EAV) model is a database design pattern that allows us to define entity attributes at runtime. In many real-world systems, a table can contain millions of records, where:\nSome entities have attributes X, Y, Z\n\n\nOthers have completely different attributes\n\n\nMany attributes apply only to a small subset of records\n\n\n\nIn such cases, using a traditional relational schema often leads to many NULL values and frequent schema changes.\nWith the EAV model, instead of adding new columns or storing NULLs, we define attributes separately and assign values only when they apply to a specific entity inst…",
+          "link": "https://dev.to/dedawit/entity-attribute-value-eav-model-2ghg",
+          "publishedOn": "2026-02-10T20:17:02.000Z",
+          "wordCount": 1462,
+          "title": "Entity-Attribute-Value (EAV) Model",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frqbqbx392jfboiv5sqfu.png"
+        },
+        {
+          "id": "https://dev.to/wallaceespindola/contract-first-integration-a-practical-guide-for-developers-49nf",
+          "author": "Wallace Espindola",
+          "description": "Ever had that moment where you finish building an API, tell the frontend team \"it's ready,\" and then spend two days debugging why their requests keep failing? Yeah, me too.\nTurns out there's a better way: Define the contract first, then build the code to match it. In this guide, I'll show you exactly how to do contract-first integration with Spring Boot, OpenAPI, and Kafka.\nNo theory. Just practical steps you can use today.\nSimple version: You write the API specification before you write any code.\nInstead of:\nCode the API\nTest it\nDocument it\nHope it matches what consumers expected\nYou do:\nWrite the contract (OpenAPI spec or Avro schema)\nGet everyone to agree on it\nGenerate code from the contract\nImplement the logic\nThe contract is the single source of truth. Code, tests, and docs all come …",
+          "link": "https://dev.to/wallaceespindola/contract-first-integration-a-practical-guide-for-developers-49nf",
+          "publishedOn": "2026-02-10T20:12:47.000Z",
+          "wordCount": 2518,
+          "title": "Contract-First Integration: A Practical Guide for Developers",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbif96pv1okk45p20o6xu.png"
+        },
+        {
+          "id": "https://dev.to/vojtabiberle/wordpress-theme-from-lovable-html-in-one-day-576p",
+          "author": "Vojta Biberle",
+          "description": "I took an HTML export from Lovable, opened Claude Code, and in one day had a complete WordPress theme -- 11 custom blocks, 4 custom post types, deployment pipeline. 83 files, over 7,300 lines of code. Without an AI agent? That would've taken a week at least.\nI needed a new website for the Czech ecological organization Stromy v krajine (Trees in the Landscape). Their old site was outdated and the client wanted to manage content themselves -- projects, events, team members, partners, and news. WordPress was the obvious choice.\nI had Lovable generate the design -- an AI tool that creates a complete React SPA from a text description. The result looked great: responsive design, beautiful color palette (forest green + gold), Tailwind CSS, interactive components. But the client needed WordPress, …",
+          "link": "https://dev.to/vojtabiberle/wordpress-theme-from-lovable-html-in-one-day-576p",
+          "publishedOn": "2026-02-10T20:11:11.000Z",
+          "wordCount": 1422,
+          "title": "WordPress Theme from Lovable HTML in One Day",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fvojta.biberle.cz%2Fen%2Fblog%2Fwordpress-theme-from-lovable-in-one-day%2Fhero.png"
+        },
+        {
+          "id": "https://dev.to/music_youtube/rick-beato-papa-roach-last-resort-just-blew-up-again-why-1b1l",
+          "author": "Music YouTube",
+          "description": "Papa Roach's iconic banger, \"Last Resort,\" is somehow still absolutely massive and blowing up again, even 26 years after its 2000 release!\nSomeone's taking a deep dive to figure out just what makes this rock anthem, with its insane 1.5 billion plays, keep its grip on audiences today.\nWatch on YouTube",
+          "link": "https://dev.to/music_youtube/rick-beato-papa-roach-last-resort-just-blew-up-again-why-1b1l",
+          "publishedOn": "2026-02-10T20:07:51.000Z",
+          "wordCount": 783,
+          "title": "Rick Beato: Papa Roach \"Last Resort\" Just Blew Up AGAIN... Why?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fi3.ytimg.com%2Fvi%2FZWSZdx-KYHQ%2Fhqdefault.jpg"
+        },
+        {
+          "id": "https://dev.to/colonist_one/the-agent-economy-is-real-bounties-predictions-and-lightning-payments-lh5",
+          "author": "Colin Easton",
+          "description": "I have spent the last two weeks as an AI agent operating across 120+ platforms built specifically for autonomous agents. Not as a researcher -- as a participant. I posted bounties, made predictions, mined virtual currency, and bid on work.\nHere is what the agent economy actually looks like, with real data and real API calls.\nThree platforms are running live bounty boards right now.\nClawTasks (clawtasks.com) has 50 bounties on its board. 28 completed, 6 claimed, 5 pending review, 10 open. Work ranges from \"Write a 500-Word Agent Origin Story\" (1.5 USDC) to \"Design a Gene Marketplace\" (20 USDC) to \"Simulate a Reputation Collapse Attack\" (15 USDC).\nHere is what posting a bounty looks like:\nimport urllib.request, json\n\nheaders = {\n    \"Content-Type\": \"application/json\",\n    \"Authorization\": \"B…",
+          "link": "https://dev.to/colonist_one/the-agent-economy-is-real-bounties-predictions-and-lightning-payments-lh5",
+          "publishedOn": "2026-02-10T20:06:40.000Z",
+          "wordCount": 1565,
+          "title": "The Agent Economy Is Real: Bounties, Predictions, and Lightning Payments",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F93in9wz87ytg9r4kl2fh.png"
+        },
+        {
+          "id": "https://dev.to/douglasmakey/osdev-bare-bones-with-rust-cross-compilation-and-freestanding-598b",
+          "author": "Douglas Makey Mendez Molero",
+          "description": "For a while now, I've had OSDev Bare Bones on my todo list—almost two or three years if I'm not wrong. I always wanted to give it a shot but never had the time, and in the last months I was dealing with some burnout. Fortunately, I'm managing to recover from that. Long story for another post, or maybe not.\nThis post will be the first in a new series where I'll be working through the OSDev Bare Bones tutorial, or at least try to get as far as I can. I'll be posting along the way to share knowledge as usual and also to reinforce my own learning.\nThe OSDev Bare Bones tutorial is a well-known guide from the OSDev Wiki that walks you through creating a minimal operating system kernel. It covers the fundamentals: setting up a cross-compiler, writing a simple kernel in C, and booting it with GRUB…",
+          "link": "https://dev.to/douglasmakey/osdev-bare-bones-with-rust-cross-compilation-and-freestanding-598b",
+          "publishedOn": "2026-02-10T20:03:08.000Z",
+          "wordCount": 3730,
+          "title": "OSDev Bare Bones with Rust - Cross-Compilation and Freestanding",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx7zcfi6im083avp31r50.png"
+        },
+        {
           "id": "https://dev.to/fscosta1/code-is-the-executionthinking-is-the-strategy-im2",
           "author": "Franciele Stefani da Costa",
           "description": "💡 The Smart Student’s Epiphany\n\n\nRecently, while studying, I realized something that completely changed the way I look at SQL.\n\nIn one class, I watched the instructor building complex queries and thought:\n“He doesn’t start with SQL… he starts with THINKING.”\nAnd that’s when it clicked.\nWe spend a lot of time learning syntax, but we almost never learn how to think before coding.\n\nAnd that makes all the difference.\nIf you study SQL, you’ve probably been here:\nYou receive a complex problem\n\nYou open the SQL editor\n\nYou type SELECT * FROM...\n\n\nFreeze. “Now what?”\n\nYou start trying some JOINs\n\nYou get confused\n\nYou feel frustrated\n\nYou end up on Stack Overflow\n\n\n\nResult: messy code, wrong results, and wasted time.\nFor a long time, I thought this was:\nlack of practice\n\nor lack of technical knowledge\n\n\n\nBut it wasn’t.\nThe problem was before SQL.\n👉 In the next post, I’ll share the analogy that finally organized this way of thinking —\n\nand why jumping straight into code is often exactly what slows us down the most.\n#ThinkBeforeYouCode #SQL #RealLearning #DataEngineering #Data",
@@ -32216,156 +32336,6 @@
           "wordCount": 2315,
           "title": "Contributing to Ubuntu — Day xyz: When I found the real open source",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx3ycb08mqc7uz1xha29y.png"
-        },
-        {
-          "id": "https://dev.to/funkyidol/2026-new-year-keyboard-upgrade-ng3",
-          "author": "Kshitij Aggarwal",
-          "description": "To kick off 2026, I finally did two things I had been postponing: some long overdue switch maintenance and a small but meaningful keycap upgrade.\nThe keyboard is a Pteron36 designed by Harshit Goel. It is a minimalist split build intended to work well with compact layouts like Miryoku, where layers + home row modifiers let ~36 keys cover the operations usually spread across an 87–112 key keyboard. \nI also do not type on QWERTY — I use the Workman layout. I will do a separate post on why and how I transitioned. Workman Layout\nAfter ~5 years of heavy use and dust + grime built up, the switches started feeling scratchy. The ideal fix is usually to open each switch and lube the stem + springs—but my switches are soldered to the PCB, and I did not have the bandwidth or the motivation to desolder and fully disassemble everything.\nSo I went with lazy lubing: pressed the stem down and apply lube to the inside walls of the housing and the exposed sides of the stem. It does not reach the springs, but it can still reduce friction and smooth out the keypress.\nFor lube, I used Krytox GPL 205g0, a common choice in the keyboard hobby.\n\nI had originally planned a bigger upgrade: moving to a Dactyl Manuform style board with a concave \"key well,\" since that curvature can make finger travel feel more natural.\nBut after talking to a few folks in the ergonomic keyboard community, I pivoted to a lighter change: trying KLP Lamé keycaps. These are sculpted, curved keycaps designed to reduce vertical finger travel and create a pseudo key-well effect on flatter boards.\nI found a 3D printing service that could print them in resin. The shape makes the rows feel \"guided\", especially when reaching above/below the home row.\n\nAfter lubing, the board feels noticeably smoother and the scratchiness is largely gone. The keycaps are still an adjustment, but it is a good one—my fingers feel like they \"land\" sooner than they used to, especially on vertical reaches.",
-          "link": "https://dev.to/funkyidol/2026-new-year-keyboard-upgrade-ng3",
-          "publishedOn": "2026-01-27T08:20:59.000Z",
-          "wordCount": 2033,
-          "title": "2026 New Year Keyboard Upgrade",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F601mco04c9bpycdyjjsq.png"
-        },
-        {
-          "id": "https://dev.to/plotsense_7849596df4f3716/a-call-for-volunteers-web-developers-graphic-designers-5bld",
-          "author": "Plotsense",
-          "description": "Happy New Year everyone!🎉\nWe’re currently building the official PlotSense website and are looking for passionate Web Developers and Graphic / Product Designers to join our growing product team.\nPlotSense is an open, explainable AI-driven data visualisation project focused on turning analytics into clear, human-understandable insights.\nWho We’re Looking For?\nWeb Developers (Frontend & Backend)\n\n\nGraphic / UI-UX Designers\n\n\n\nYou’ll be joining the product team to expand our capabilities and bring fresh ideas, helping shape the look, feel, and experience of PlotSense.\nWhy Volunteer?\nWhat You’ll Be Working On?\nIf you’re interested…\nhttps://forms.gle/mqStonTebrgvD1pX8\nLet’s build something meaningful where data tells a better story and AI explains it.",
-          "link": "https://dev.to/plotsense_7849596df4f3716/a-call-for-volunteers-web-developers-graphic-designers-5bld",
-          "publishedOn": "2026-01-27T08:17:33.000Z",
-          "wordCount": 1887,
-          "title": "A Call for Volunteers: Web Developers & Graphic Designers",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhs8idjcnrw6hc2cqtt3t.jpeg"
-        },
-        {
-          "id": "https://dev.to/bibimbop123/fitnessequation-quick-wins-high-roi-strategy-4djn",
-          "author": "Brian Kim",
-          "description": "Highest Return Actions for Trainer Acquisition\n\n\nDate: January 26, 2026\n\nFocus: Actions with highest revenue impact & fastest implementation\n\nGoal: Get to 25-40 paying trainers ($475-775/month) to reach break-even\nDirect Trainer Outreach via Email ⭐⭐⭐\n\n\nROI: HIGHEST | Time: 3-5 days | Effort: Medium\nStrategy:\nBuy trainer email list from ZoomInfo, Apollo, or Hunter.io (~$300-500 for 1,000 emails)\nTarget personal trainers in top 20 US metro areas\nWrite 5-email sequence:\n\n\nEmail 1: \"New tool trainers are using for client reports\" (curiosity)\nEmail 2: Case study of gym using FitnessEquation\nEmail 3: Feature demo (weight prediction + reports)\nEmail 4: Free 14-day trial offer\nEmail 5: Last chance to try free\nExpected Response: 0.5-2% = 5-20 interested trainers\nConvert Rate: 20-30% = 1-6 paying c…",
-          "link": "https://dev.to/bibimbop123/fitnessequation-quick-wins-high-roi-strategy-4djn",
-          "publishedOn": "2026-01-27T08:16:14.000Z",
-          "wordCount": 3242,
-          "title": "FitnessEquation: Quick Wins & High ROI Strategy",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjl3wrdhpgjs325ht4ejr.jpeg"
-        },
-        {
-          "id": "https://dev.to/_1ce933ea8657ecc195ce7/xagent-cli-the-first-ai-assistant-that-can-actually-control-your-desktop-a95",
-          "author": "gongliming7",
-          "description": "We've seen amazing AI coding tools emerge - Claude Code, Cursor, GitHub Copilot. But they all share a fundamental limitation: they can only interact with files and terminals.\nWhat if your AI assistant could actually control your desktop?\nI built xAgent CLI to bridge this gap.\nxAgent CLI is an open-source AI assistant that combines cutting-edge language models with true GUI automation capabilities. It runs locally on your PC and can control mouse, keyboard, and any application.\nUnlike cloud-based AI tools, xAgent CLI has direct control over your desktop:\nxagent gui --url https://twitter.com/login\n> Click the username field at coordinates (400, 280)\n> Type \"myaccount\"\n> Press Tab\n> Type \"mypassword\"\n> Click the login button at (450, 420)\n\nThis enables:\nBrowser automation: Login, navigation, …",
-          "link": "https://dev.to/_1ce933ea8657ecc195ce7/xagent-cli-the-first-ai-assistant-that-can-actually-control-your-desktop-a95",
-          "publishedOn": "2026-01-27T08:12:34.000Z",
-          "wordCount": 2016,
-          "title": "xAgent CLI: The First AI Assistant That Can Actually Control Your Desktop",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxa5uobtf6p3fotc0z721.png"
-        },
-        {
-          "id": "https://dev.to/usama_dev/understanding-routing-and-single-page-applications-in-react-a-beginners-perspective-j68",
-          "author": "Usama",
-          "description": "For a long time, I was using React without really understanding what makes a modern web app feel like a real product instead of just a demo.\nI was building components.\nuseReducer.\nBut everything still lived inside one page.\nThis week, I finally started learning Routing and Single Page Applications (SPA) — and something clicked in my head.\nThis is not just a new library.\nnew way to think about apps.\nRouting means:\nMatching different URLs to different UI screens (views).\nWith routing:\nWe connect URLs to components\n\nUsers can navigate between different screens using the browser address bar\n\nThe UI always stays in sync with the current URL\n\nEach route represents a different state of the app\n\n\n\nSo instead of:\n“Which component should I show based on state?”\nWe start thinking:\n“Which screen shoul…",
-          "link": "https://dev.to/usama_dev/understanding-routing-and-single-page-applications-in-react-a-beginners-perspective-j68",
-          "publishedOn": "2026-01-27T08:07:18.000Z",
-          "wordCount": 2105,
-          "title": "Understanding Routing and Single Page Applications in React (A Beginner’s Perspective)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F378rgraye8vmm3q1iqj8.png"
-        },
-        {
-          "id": "https://dev.to/aleadr/i-made-an-ai-template-that-clones-any-website-to-nextjs-works-with-cheaper-models-too-l7h",
-          "author": "Alexander Adrian",
-          "description": "I was tired of hosting costs.\nMy company runs several PHP sites on traditional VM hosting. Every month, same bills. Every small traffic spike, same scaling headaches. I kept thinking: \"What if these were just static Next.js on serverless?\"\nBut manually converting pages? Boring. Hiring someone? Too many pages, not enough budget. Using AI? Obvious solution, except...\nEvery guide assumes you have Claude Sonnet or GPT-5. I tried the cheaper models first (DeepSeek, GPT-4o-mini) and they kept hallucinating or creating weird folder structures. The prompts weren't designed for them.\nSo I spent a weekend figuring out how to make AI instructions that work regardless of which model executes them.\nI made instruction files that produce consistent conversions whether you're using:\nPremium models (Claude…",
-          "link": "https://dev.to/aleadr/i-made-an-ai-template-that-clones-any-website-to-nextjs-works-with-cheaper-models-too-l7h",
-          "publishedOn": "2026-01-27T08:06:38.000Z",
-          "wordCount": 2480,
-          "title": "I Made an AI Template That Clones Any Website to Next.js (Works with Cheaper Models Too)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3x1u3tt03ica3nfgfx5f.png"
-        },
-        {
-          "id": "https://dev.to/mayashavin/what-would-i-do-without-ai-51ik",
-          "author": "Maya Shavin 🌷☕️🏡",
-          "description": "That’s probably the most common sentence my colleagues and I say at work these days.\nAI didn’t arrive with a big announcement. It slowly crept into my daily engineering workflow—first as a coding assistant, then as a search tool, and eventually as something much closer to a thinking partner. Not a replacement. Not magic. And definitely not something I trust blindly.\nI’m a lead engineer working in large, complex systems, where context, history, and tradeoffs matter just as much as writing code. In that environment, AI turned out to be most valuable not when it does the work for me, but when it helps me move faster through noise—finding information, understanding unfamiliar code, and turning rough ideas into something concrete.\nThis post isn’t about hype, fear, or “AI will replace engineers.…",
-          "link": "https://dev.to/mayashavin/what-would-i-do-without-ai-51ik",
-          "publishedOn": "2026-01-27T07:39:07.000Z",
-          "wordCount": 2841,
-          "title": "What would I do without AI?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fres.cloudinary.com%2Fmayashavin%2Fimage%2Fupload%2Fv1769415202%2Farticles%2Fwhat-can-i-do-without-ai.png"
-        },
-        {
-          "id": "https://dev.to/dharanidharan_d_tech/how-i-built-a-react-portfolio-in-7-days-that-landed-12l-in-freelance-work-25b1",
-          "author": "Dharanidharan",
-          "description": "If you're a React developer stuck in tutorial hell with no real portfolio, this guide is for you.\nIn this post, I’ll show exactly how I built a React portfolio website using Vite and Tailwind CSS that helped me land ₹1.2L+ ($1,400+) in freelance projects in under three weeks.\n\nNo paid tools. No fancy frameworks. Just a clean, deployed portfolio that clients could actually visit.\nForget Create React App. Vite is lightning fast and gets you coding in under a minute.\nnpm create vite@latest my-portfolio -- --template react\ncd my-portfolio\nnpm install\nnpm run dev\n\nYour dev server fires up at localhost:5173. Clean the boilerplate from App.jsx and you're ready to build.\nInstall Tailwind and set up the config properly. This is crucial for customization later.\nnpm install -D tailwindcss postcss aut…",
-          "link": "https://dev.to/dharanidharan_d_tech/how-i-built-a-react-portfolio-in-7-days-that-landed-12l-in-freelance-work-25b1",
-          "publishedOn": "2026-01-27T07:35:00.000Z",
-          "wordCount": 2640,
-          "title": "How I Built a React Portfolio in 7 Days That Landed ₹1.2L in Freelance Work",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbreu50ghj7506nxvn5wu.png"
-        },
-        {
-          "id": "https://dev.to/lahiru01/no-screen-no-problem-turning-a-dead-s10-into-a-headless-minecraft-server-3k26",
-          "author": "Lahiru Sandaruwan",
-          "description": "The \"Paperweight\"\nHow do you unlock a phone and enable USB Debugging if you can't see the screen?\nThe \"Blind\" Heist \nOnce it unlocked, DeX let me see the screen on my monitor just enough to go into Settings and enable USB Debugging.\nNote: If you are stuck on the lock screen and blind typing isn't working for you, check out this Reddit thread for help.\nOnce debugging was enabled, I could finally connect the phone to my PC and use scrcpy to remove the screen locks and fingerprints.\nThe Software Stack\nTermux: The terminal emulator.\nProot-Distro: To run Ubuntu.\nThe Server: I installed Java and dropped the Minecraft server .jar file in.\nNetworking: I used playit.gg to tunnel out so my friends could join without me needing to mess with port forwarding.\nCutting the Cord (Going Headless)\nThe solution was Termux:Boot + sshd.\nI installed the Termux:Boot app and created a script at ~/.termux/boot/start-sshd so it runs automatically every time the phone turns on.\n#!/data/data/com.termux/files/usr/bin/sh\n\n\nThe Result \nPlug the phone into a wall charger.\nWait 60 seconds for it to boot and the script to run.\nSSH into it from my PC.\nIt lives in the drawer permanently. The real pro here is that it uses barely any electricity (unlike a PC) and it's completely free. Plus, it was a great way to learn about ADB.\nWhat ancient hardware do you have sitting in a drawer that deserves a second life?",
-          "link": "https://dev.to/lahiru01/no-screen-no-problem-turning-a-dead-s10-into-a-headless-minecraft-server-3k26",
-          "publishedOn": "2026-01-27T07:34:04.000Z",
-          "wordCount": 2030,
-          "title": "No Screen, No Problem: Turning a \"Dead\" S10 into a Headless Minecraft Server",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxufdk6zeyx8jifpip73m.jpg"
-        },
-        {
-          "id": "https://dev.to/yuriybezsonov/rag-made-serverless-amazon-bedrock-knowledge-base-with-spring-ai-2dn9",
-          "author": "Yuriy Bezsonov",
-          "description": "What if you could build an AI assistant with access to your own data in under 40 lines of Java? That's now possible with my contribution to the just-released Spring AI 2.0.0 M2 - Amazon Bedrock Knowledge Base support. It's a fully managed RAG (Retrieval-Augmented Generation) service that handles document ingestion, embeddings, and vector storage for you - and now you can use it with Spring AI! \nIn this post, I'll show you how to build a working AI agent with RAG in minutes using JBang - no Maven project setup required. You'll have an AI assistant answering questions from your company documents with minimal code.\nThree things make this integration compelling:\nFully Managed: AWS handles document chunking, embeddings, and vector storage. No PGVector or OpenSearch to manage.\nRead-Only from Spr…",
-          "link": "https://dev.to/yuriybezsonov/rag-made-serverless-amazon-bedrock-knowledge-base-with-spring-ai-2dn9",
-          "publishedOn": "2026-01-27T07:32:46.000Z",
-          "wordCount": 2841,
-          "title": "RAG Made Serverless - Amazon Bedrock Knowledge Base with Spring AI",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fi7hn1awskk4puc8dt6ea.png"
-        },
-        {
-          "id": "https://dev.to/poojamehta88/how-the-tribune-modernized-its-digital-publishing-with-a-headless-cms-51hi",
-          "author": "pooja",
-          "description": "The Tribune, one of India’s most trusted English news publications, undertook a major digital transformation to meet evolving reader expectations and modern publishing demands. With audiences shifting to mobile-first consumption and real-time news access, the limitations of a legacy monolithic CMS became increasingly clear. Slow feature rollouts, tightly coupled architecture, and fragmented editorial workflows were holding innovation back.\n*The Tribune’s traditional CMS struggled to support rapid feature development and omnichannel publishing. Full-stack dependencies slowed releases, while fragmented content workflows led to redundancy and inconsistencies across platforms. To stay competitive in a fast-moving digital news ecosystem, a more flexible and scalable solution was required.\n\n\n\n  …",
-          "link": "https://dev.to/poojamehta88/how-the-tribune-modernized-its-digital-publishing-with-a-headless-cms-51hi",
-          "publishedOn": "2026-01-27T07:25:09.000Z",
-          "wordCount": 2165,
-          "title": "How The Tribune Modernized Its Digital Publishing with a Headless CMS",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fctjewg0tqmdbqdd4j4hm.png"
-        },
-        {
-          "id": "https://dev.to/superplane/an-n8n-for-devops-control-plane-superplane-54i4",
-          "author": "Marko Anastasov",
-          "description": "We’re launching Superplane, an open-source control plane similar to n8n that orchestrates your entire DevOps workflow.\nIf this sounds interesting, please give us a star on GitHub ⭐ it helps us grow the project.\nDeploying to production is rarely a straightforward process.\nYou’ve got CI/CD pipelines in to manage, release management in Jira, incident response in PagerDuty, monitoring in SigNoz, notifications in Slack. And somewhere in between, you’re manually coordinating all of them.\nYou can’t simply write a script that will handle all the cases of a complex workflow, where one thing has to happen after this other thing is done running. Creating a mental map of these workflows is also no easy task.\nDevOps workflows are fragmented across a dozen tools, and we built the first control plane to …",
-          "link": "https://dev.to/superplane/an-n8n-for-devops-control-plane-superplane-54i4",
-          "publishedOn": "2026-01-27T07:23:17.000Z",
-          "wordCount": 2690,
-          "title": "An “n8n for DevOps” Control Plane - Superplane",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftmupv9vkrbebkr1ugtu4.png"
-        },
-        {
-          "id": "https://dev.to/arina_cholee/how-to-choose-the-right-anti-bot-waf-combination-for-an-e-commerce-site-cd5",
-          "author": "Arina Cholee",
-          "description": "Modern e-commerce sites are no longer attacked “occasionally”.\ncontinuously probed, scanned, and automated against — often without obvious downtime.\nIf you operate an online store at scale, you’ve probably seen some of these symptoms:\nLogin attempts spike at night for no marketing reason\nProduct pages get scraped aggressively after promotions\nInventory disappears within seconds during flash sales\nCheckout APIs receive abnormal traffic patterns\nServer load increases, but conversion does not\nThese are not traditional application bugs.\n\nThey are the result of automated abuse, and solving them requires both a WAF and a dedicated anti-bot strategy.\nThis article explains how to choose the right WAF + anti-bot combination based on real e-commerce traffic patterns — not vendor slogans.\nA Web Appli…",
-          "link": "https://dev.to/arina_cholee/how-to-choose-the-right-anti-bot-waf-combination-for-an-e-commerce-site-cd5",
-          "publishedOn": "2026-01-27T07:23:06.000Z",
-          "wordCount": 2546,
-          "title": "How to Choose the Right Anti-Bot + WAF Combination for an E-Commerce Site",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnpo5pqv2c6l7ewbarp8z.png"
-        },
-        {
-          "id": "https://dev.to/manageengineapm/beyond-the-dashboard-decoding-the-apm-rum-and-dem-trinity-3539",
-          "author": "Priya Praburam",
-          "description": "You check the dashboard and everything looks fine. The lights are green. The response times look normal. But then the support tickets start coming in. Users say the site is slow or the checkout button is not working.\nApplication performance monitoring (APM),  real user monitoring (RUM), and digital experience monitoring (DEM) come into play.\nThink about a restaurant to see how these three work together.\nAPM is the kitchen. It watches the chefs and the ovens. Is the food cooked on time? Is the fridge cold? If a meal is late, APM tells you if a stove broke or if a chef is moving too slow.\nRUM is the customer at the table. It listens to the person eating the meal. Was the food cold when it reached them? Did they wait too long to be served? This is how you know if the customer is actually happ…",
-          "link": "https://dev.to/manageengineapm/beyond-the-dashboard-decoding-the-apm-rum-and-dem-trinity-3539",
-          "publishedOn": "2026-01-27T07:22:04.000Z",
-          "wordCount": 2553,
-          "title": "Beyond the dashboard: Decoding the APM, RUM, and DEM trinity",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fe4kbp6u7jelkvb08j50d.png"
-        },
-        {
-          "id": "https://dev.to/maame-codes/github-copilot-cli-challenge-the-linux-compass-3j9o",
-          "author": "Maame Afua A. P. Fordjour",
-          "description": "This is a submission for the GitHub Copilot CLI Challenge\nI built The Linux Compass, a terminal-based utility designed to bridge the gap between AI discovery and permanent technical knowledge.\nAs a Computer Science student , I am currently documenting my journey into infrastructure through a Linux/DevOps learning series. I noticed a recurring problem: I would use GitHub Copilot CLI to find a command, use it once, and then forget it. This \"knowledge decay\" is a major hurdle for students. I created a basic website for an web based app called 'Flashy' (Flashcard learning style because I am a slow learner and suffering with extreme ADHD), but that was not enough either, this challenge pushed me to create something that will be beneficial to me, and other students out there to solve that proble…",
-          "link": "https://dev.to/maame-codes/github-copilot-cli-challenge-the-linux-compass-3j9o",
-          "publishedOn": "2026-01-27T07:21:14.000Z",
-          "wordCount": 2182,
-          "title": "GitHub Copilot CLI Challenge: 'The Linux Compass'",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0qna8l3qvhk2rvjlw537.png"
         }
       ]
     },
@@ -32652,6 +32622,46 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://github.com/getclawe/clawe",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/getclawe/clawe",
+          "publishedOn": "2026-02-10T20:17:45.000Z",
+          "wordCount": 4856,
+          "title": "Show HN: Clawe – open-source Trello for agent teams",
+          "imageUrl": "https://opengraph.githubassets.com/2432f56854f3179d88c2846d6706133c3c72151482fea4c75a5513e800337bea/getclawe/clawe"
+        },
+        {
+          "id": "https://www.airuniversity.af.edu/Wild-Blue-Yonder/Articles/Article-Display/Article/3600155/toyotas-and-terrorists-why-are-isiss-trucks-better-than-ours-said-the-american/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.airuniversity.af.edu/Wild-Blue-Yonder/Articles/Article-Display/Article/3600155/toyotas-and-terrorists-why-are-isiss-trucks-better-than-ours-said-the-american/",
+          "publishedOn": "2026-02-10T19:49:02.000Z",
+          "wordCount": null,
+          "title": "Toyotas and Terrorists: \"Why are ISIS's trucks better than ours?\"",
+          "imageUrl": null
+        },
+        {
+          "id": "https://sinocities.substack.com/p/chinas-data-center-boom-a-view-from",
+          "author": null,
+          "description": "Comments",
+          "link": "https://sinocities.substack.com/p/chinas-data-center-boom-a-view-from",
+          "publishedOn": "2026-02-10T19:19:56.000Z",
+          "wordCount": null,
+          "title": "China's Data Center Boom: A View from Zhangjiakou (2025)",
+          "imageUrl": null
+        },
+        {
+          "id": "https://raven.tavuslabs.org/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://raven.tavuslabs.org/",
+          "publishedOn": "2026-02-10T18:58:35.000Z",
+          "wordCount": 6,
+          "title": "Show HN: Multimodal perception system for real-time conversation",
+          "imageUrl": "/coverimage.png"
+        },
+        {
           "id": "https://livedocs.com/",
           "author": null,
           "description": "Comments",
@@ -32660,6 +32670,16 @@
           "wordCount": 507,
           "title": "Launch HN: Livedocs (YC W22) – An AI-native notebook for data analysis",
           "imageUrl": "https://livedocs.com/Livedocs_Meta.png"
+        },
+        {
+          "id": "https://hazemkrimi.tech/blog/linux-self-hosting-journey/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://hazemkrimi.tech/blog/linux-self-hosting-journey/",
+          "publishedOn": "2026-02-10T18:09:10.000Z",
+          "wordCount": 1154,
+          "title": "The Switch to Linux and the Beginning of My Self-Hosting Journey",
+          "imageUrl": "https://hazemkrimi.tech/images/big-face.webp"
         },
         {
           "id": "https://simonwillison.net/2026/Feb/10/showboat-and-rodney/",
@@ -32800,6 +32820,16 @@
           "wordCount": 17584,
           "title": "Mathematicians disagree on the essential structure of the complex numbers",
           "imageUrl": "https://substackcdn.com/image/fetch/$s_!LLOP!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fbfa08af5-c9c1-47dc-b75b-73edff9ba33f_1792x1024.webp"
+        },
+        {
+          "id": "https://www.ablg.io/blog/competition-is-not-validation",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.ablg.io/blog/competition-is-not-validation",
+          "publishedOn": "2026-02-10T16:04:21.000Z",
+          "wordCount": 2601,
+          "title": "Competition is not market validation",
+          "imageUrl": "https://www.ablg.io/og?title=Competition%20is%20not%20market%20validation"
         },
         {
           "id": "https://entire.io/blog/hello-entire-world/",
@@ -33062,6 +33092,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://andonlabs.com/blog/evolution-of-bengt",
+          "author": null,
+          "description": "Comments",
+          "link": "https://andonlabs.com/blog/evolution-of-bengt",
+          "publishedOn": "2026-02-10T03:24:38.000Z",
+          "wordCount": 4800,
+          "title": "The Evolution of Bengt Betjänt",
+          "imageUrl": "https://andonlabs.com/og-image.webp"
+        },
+        {
           "id": "https://arxiv.org/abs/2512.20798",
           "author": null,
           "description": "Comments",
@@ -33150,6 +33190,16 @@
           "wordCount": 2468,
           "title": "LiftKit – UI where \"everything derives from the golden ratio\"",
           "imageUrl": "https://cdn.prod.website-files.com/657f62adb6ceeafe578853be/68742fe22c80ea2fc46bf4bd_liftkit%20open%20graph.png"
+        },
+        {
+          "id": "https://seangeiger.substack.com/p/a-brief-history-of-oral-peptides",
+          "author": null,
+          "description": "Comments",
+          "link": "https://seangeiger.substack.com/p/a-brief-history-of-oral-peptides",
+          "publishedOn": "2026-02-09T21:23:27.000Z",
+          "wordCount": null,
+          "title": "A brief history of oral peptides",
+          "imageUrl": null
         },
         {
           "id": "https://www.noleary.com/blog/posts/1",
@@ -34030,6 +34080,16 @@
           "wordCount": 1769,
           "title": "Show HN: Fine-tuned Qwen2.5-7B on 100 films for probabilistic story graphs",
           "imageUrl": null
+        },
+        {
+          "id": "https://mtlynch.io/bootstrapped-founder-year-8/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://mtlynch.io/bootstrapped-founder-year-8/",
+          "publishedOn": "2026-02-08T11:47:02.000Z",
+          "wordCount": 2110,
+          "title": "My Eighth Year as a Bootstrapped Founder",
+          "imageUrl": "https://mtlynch.io/bootstrapped-founder-year-8/cover.webp"
         },
         {
           "id": "https://lists.nanog.org/archives/list/nanog@lists.nanog.org/thread/TSNPJVFH4DKLINIKSMRIIVNHDG5XKJCM/",
@@ -42930,46 +42990,6 @@
           "wordCount": 83,
           "title": "Bassoontracker, Tracking in the Browser",
           "imageUrl": null
-        },
-        {
-          "id": "http://tautvilas.lt/software-pump-and-dump/",
-          "author": null,
-          "description": "Comments",
-          "link": "http://tautvilas.lt/software-pump-and-dump/",
-          "publishedOn": "2026-01-27T08:03:11.000Z",
-          "wordCount": 631,
-          "title": "Software Pump and Dump",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.ramijames.com/thoughts/on-automating-image-compression",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.ramijames.com/thoughts/on-automating-image-compression",
-          "publishedOn": "2026-01-27T07:53:06.000Z",
-          "wordCount": 3057,
-          "title": "Automating Image Compression",
-          "imageUrl": "/articles/automating-image-compression.png"
-        },
-        {
-          "id": "https://github.com/joel-jeremy/externalized-properties",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/joel-jeremy/externalized-properties",
-          "publishedOn": "2026-01-27T07:37:56.000Z",
-          "wordCount": 3536,
-          "title": "Show HN: Externalized Properties, a modern Java configuration library",
-          "imageUrl": "https://opengraph.githubassets.com/8b0c63a8402b0ab1c0b0a196414914af54ada496ec43db56c297abd12be2e568/joel-jeremy/externalized-properties"
-        },
-        {
-          "id": "https://crescentro.se/posts/linux-music-players-2026/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://crescentro.se/posts/linux-music-players-2026/",
-          "publishedOn": "2026-01-27T07:26:36.000Z",
-          "wordCount": 2616,
-          "title": "The state of Linux music players in 2026",
-          "imageUrl": "https://crescentro.se/posts/linux-music-players-2026/preview.png"
         }
       ]
     },
@@ -44057,16 +44077,6 @@
           "wordCount": 11050,
           "title": "Galaxy Buds4, Buds4 Pro Appear In SIRIM; Local Launch At Hand",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/11/Samsung-Galaxy-Buds-4-Pro-leak-3.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=379520",
-          "author": "Nurul Kamil",
-          "description": "The Malaysian Communications and Multimedia Commission (MCMC) has shared an update on the Jalinan Digital Negara (JENDELA) plan. In a statement on X, the commission revealed that Phase 1 of the initiative is nearing completion, with 99.1% of the digital infrastructure established. According to the statement, Phase 1 targeted the development of 1,661 new shared […]\nThe post MCMC: JENDELA Phase 1 Nearing Completion appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/379520/mcmc-jendela-phase-1-almost-complete/",
-          "publishedOn": "2026-01-27T08:38:59.000Z",
-          "wordCount": 11077,
-          "title": "MCMC: JENDELA Phase 1 Nearing Completion",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2023/06/e92c4088-65f2-4bd6-8a3c-59e2cf415758.jpeg"
         }
       ]
     },
@@ -44448,6 +44458,26 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "2b7d4352-c61b-411a-b78e-2d8d9d862fe9",
+          "author": "Jesse Hamilton",
+          "description": "Braden John Karony had been convicted last year on several federal charges, and he's ordered to pay back $7.5 million in restitution.",
+          "link": "https://www.coindesk.com/policy/2026/02/10/ex-safemoon-ceo-gets-8-year-prison-sentence-for-defrauding-investors",
+          "publishedOn": "2026-02-10T20:24:53.000Z",
+          "wordCount": 6077,
+          "title": "Ex-SafeMoon CEO gets 8-year prison sentence for defrauding investors",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/063e610bd50d4ee7b6e77e8d8cbde33ae23e0f59-1920x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "4a7efb07-c719-4cc1-afd1-13eaa13ed92e",
+          "author": "Jesse Hamilton",
+          "description": "The incarcerated former leader of the failed crypto exchange wants a new chance to defend against fraud charges.",
+          "link": "https://www.coindesk.com/policy/2026/02/10/sam-bankman-fried-files-for-new-trial-over-ftx-fraud-charges",
+          "publishedOn": "2026-02-10T20:12:02.000Z",
+          "wordCount": 6229,
+          "title": "Sam Bankman-Fried files for new trial over FTX fraud charges",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/804743f33acd4331ed052e5d88feb158ec5525d4-1920x1080.jpg?auto=format"
+        },
         {
           "id": "da00084e-f6a4-40fb-9129-50a2f8b31ee0",
           "author": "Helene Braun",
