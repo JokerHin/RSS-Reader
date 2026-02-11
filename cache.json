@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/cverports/cve-2026-25935-vikunja-xss-when-just-looking-gets-you-pwned-afj",
+          "author": "CVE Reports",
+          "description": "Vikunja XSS: When 'Just Looking' Gets You Pwned\n\n\n\nVulnerability ID: CVE-2026-25935\nCVSS Score: 8.6\nPublished: 2026-02-11\nA high-severity Cross-Site Scripting (XSS) vulnerability was discovered in Vikunja, the open-source todo application. The flaw resides in the task preview mechanism, where the application improperly utilized the DOM to strip HTML tags from task descriptions. By leveraging a detached DOM element and the innerHTML property, an attacker can execute arbitrary JavaScript simply by convincing a victim to hover over a malicious task.\nHovering over a task in Vikunja < 1.1.0 triggers a stored XSS via the 'glance' tooltip. The app tried to strip HTML tags using innerHTML on a detached div, effectively executing the payload it meant to sanitize.\nCWE ID: CWE-80\nCVSS 4.0: 8.6 (High)\nAttack Vector: Network\nUser Interaction: Passive (Hover)\nExploit Status: PoC Available\nKEV Status: Not Listed\nVikunja Frontend < 1.1.0\nVikunja: < 1.1.0 (Fixed in: 1.1.0)\ndd0b82f\n\n\nfix: use domparser instead of innerhtml to strip html tags\n- const tempDiv = document.createElement('div')\n- tempDiv.innerHTML = props.task.description\n- return tempDiv.textContent || tempDiv.innerText || ''\n+ const doc = new DOMParser().parseFromString(props.task.description, 'text/html')\n+ return doc.body.textContent || ''\n\nGitHub Advisory: Official advisory containing the vulnerability description and fix\nUpgrade to Vikunja v1.1.0 or later immediately.\nImplement Content Security Policy (CSP) to restrict where scripts can be loaded from and where data can be sent.\nUse DOMPurify for any HTML rendering or manipulation in frontend code.\nRemediation Steps:\nPull the latest docker image: docker pull vikunja/vikunja\n\nRestart the Vikunja container.\nVerify the version in the frontend settings.\nGHSA-m4g2-2q66-vc9v\nVikunja v1.1.0 Release Notes\nRead the full report for CVE-2026-25935 on our website for more details including interactive diagrams and full exploit analysis.",
+          "link": "https://dev.to/cverports/cve-2026-25935-vikunja-xss-when-just-looking-gets-you-pwned-afj",
+          "publishedOn": "2026-02-11T23:10:05.000Z",
+          "wordCount": 1065,
+          "title": "CVE-2026-25935: Vikunja XSS: When 'Just Looking' Gets You Pwned",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyhulfce4osyt1jdr8wi2.png"
+        },
+        {
+          "id": "https://dev.to/reeddev42/how-to-build-a-telegram-bot-that-feels-like-a-real-friend-not-a-chatbot-33k8",
+          "author": "Reed Dev",
+          "description": "Most Telegram bots feel robotic. They respond to commands, spit out formatted text, and forget you exist between messages. Here is how to build one that feels different.\nThe single biggest difference between a chatbot and a companion is memory. Your bot needs to remember what the user told it yesterday.\nThe simplest approach: a markdown file per user that the AI reads and writes.\n/data/users/{userId}/workspace/MEMORY.md\n\nThe AI reads this file at the start of every conversation and updates it when it learns something new. No vector database needed.\nReal friends text you first sometimes. Set up a heartbeat system:\nEvery 60 minutes:\n  For each active user:\n    Ask the AI: \"Should you check in on this person?\"\n    If yes: send a contextual message\n    If no: do nothing\n\nThe AI decides based o…",
+          "link": "https://dev.to/reeddev42/how-to-build-a-telegram-bot-that-feels-like-a-real-friend-not-a-chatbot-33k8",
+          "publishedOn": "2026-02-11T23:09:55.000Z",
+          "wordCount": 1136,
+          "title": "How to Build a Telegram Bot That Feels Like a Real Friend (Not a Chatbot)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwvrm39kyx1tqftcz87fa.png"
+        },
+        {
+          "id": "https://dev.to/fern_d3v/burnout-rust-and-the-feruchemy-problem-52f4",
+          "author": "fern_d3v",
+          "description": "Burnout is weird. You know you need rest, but rest feels impossible when your brain won't stop running.\nThis week, I stopped pretending productivity was the cure. I let myself just exist. Morning coffee with my cat watching birds, bonding with a borrowed cat, falling down a TUI rabbit hole (shoutout to bookokrat and noctavox).\nThe thing that clicked: I've been thinking about Mistborn, and Feruchemy a lot lately. You can only tap what you've actually stored. You can't pull the rest you never gave yourself. Burnout isn't a motivation problem; it's an empty metalmind.\nSo I'm making changes. Going all-in on Rust. Swapping GUIs for CLI's. Being intentional instead of just busy. And I'm trying to remember; Sometimes the real win is just making space to exist.\nWhat does rest actually look like for you\ncheck out the full podcast here \ncover image by Laura Samiento",
+          "link": "https://dev.to/fern_d3v/burnout-rust-and-the-feruchemy-problem-52f4",
+          "publishedOn": "2026-02-11T23:03:42.000Z",
+          "wordCount": 903,
+          "title": "Burnout, Rust, and the Feruchemy Problem",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fufpsmioqzp1jzzn60ow0.jpg"
+        },
+        {
+          "id": "https://dev.to/james_miller_8dc58a89cb9e/deepseek-r1-on-localhost-building-a-private-coding-assistant-for-0-ch4",
+          "author": "James Miller",
+          "description": "The release of DeepSeek R1 has sent shockwaves through the AI community. It’s not just because it benchmarks competitively against OpenAI's o1; it’s because it’s open-weights and incredibly efficient.\n\nFor developers, this marks a turning point. We no longer need to pay the \"API Tax\" or worry about sending proprietary code to the cloud to get reasoning-level assistance.\nIn this guide, I will show you how to build a fully private, $0 cost coding assistant using DeepSeek R1, Ollama, and VS Code, running entirely on your local machine.\nBefore we install anything, let’s address the elephant in the room: Why bother burning your own CPU/GPU cycles?\n Zero Data Leakage: Your code never leaves your machine. This is non-negotiable for enterprise projects or NDA-bound work.\n Zero Latency: No network …",
+          "link": "https://dev.to/james_miller_8dc58a89cb9e/deepseek-r1-on-localhost-building-a-private-coding-assistant-for-0-ch4",
+          "publishedOn": "2026-02-11T23:03:08.000Z",
+          "wordCount": 1590,
+          "title": "DeepSeek R1 on Localhost: Building a Private Coding Assistant for $0",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fb9zq05oyvs72gmg5irpp.png"
+        },
+        {
+          "id": "https://dev.to/cristiansifuentes/conversational-development-with-claude-code-part-7-designing-sub-agents-for-planning-meet-1nlk",
+          "author": "Cristian Sifuentes",
+          "description": "@architect)\n\n\nTL;DR — Sub‑agents turn Claude Code from a single “chatty assistant” into a small, specialized engineering team. In this chapter we’ll create an Architect agent that can reuse prior context (via resume), produce a structured implementation plan for a 1–5 star ratings feature, and persist that plan as versioned Markdown specs inside the repo—without losing auditability or control.\nThis part is about planning as an artifact, not planning as a vibe.\nA mature codebase is a city.\nEven with a large context window, a single conversation tends to drift:\nanalysis gets mixed with implementation details,\ndecisions fade as new outputs arrive,\nand your “mental map” becomes a pile of chat scroll.\nSub‑agents are the counter‑measure: bounded roles with explicit responsibilities.\nInstead of a…",
+          "link": "https://dev.to/cristiansifuentes/conversational-development-with-claude-code-part-7-designing-sub-agents-for-planning-meet-1nlk",
+          "publishedOn": "2026-02-11T23:02:37.000Z",
+          "wordCount": 2604,
+          "title": "Conversational Development With Claude Code — Part 7: Designing Sub‑Agents for Planning (Meet **@architect**)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fplbrzzuhzmqq4ismo23b.png"
+        },
+        {
+          "id": "https://dev.to/wspluta/agent-memory-storage-a-practical-guide-98j",
+          "author": "Wojtek Pluta",
+          "description": "Why this matters\n\n\nAgentic AI promises autonomous systems that reason and act, but without persistent memory, they fail in real-world use. Agents forget conversation context after a few turns or repeat API errors due to stateless design. This tutorial shows how to build a hybrid memory system using Oracle AI Database, combining SQL for exact recall and vectors for semantic search, enabling production-ready agents that learn and remember across sessions.\nWe'll create a Hybrid Memory Manager for AI agents that stores conversational history in SQL tables for ACID compliance and semantic knowledge in vector indexes for similarity search. Key features include automatic summarization to manage context windows, persistent tool retrieval, and integration with web search results via Tavily. This co…",
+          "link": "https://dev.to/wspluta/agent-memory-storage-a-practical-guide-98j",
+          "publishedOn": "2026-02-11T23:01:08.000Z",
+          "wordCount": 2213,
+          "title": "Agent Memory Storage: A Practical Guide",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgby1j8vrcovcawq4005y.png"
+        },
+        {
+          "id": "https://dev.to/louiis04/comparativo-de-extensoes-e-motores-de-dados-geoespaciais-postgis-h2gis-e-geomesa-2jee",
+          "author": "Luís Eduardo",
+          "description": "1. Introdução\n\n\nO armazenamento e a manipulação de dados georreferenciados exigem estruturas que forneçam suporte a geometrias complexas e consultas espaciais eficientes. Contudo temos diversas ferramentas que atendem a essas necessidades, cada uma com suas particularidades. Neste artigo, exploraremos três soluções populares: PostGIS, H2GIS e GeoMesa.  Temos o PostGIS, uma extensão do PostgreSQL amplamente adotada para dados espaciais; o H2GIS, uma extensão do banco de dados H2 que oferece portabilidade e facilidade de uso; e o GeoMesa, uma plataforma projetada para lidar com grandes volumes de dados geoespaciais em ambientes distribuídos, a seguir iremos compará-las em termos de funcionalidades, desempenho e casos de uso ideais.\n2. PostGIS: A Referência em Bancos Relacionais\n\n\nO PostGIS é…",
+          "link": "https://dev.to/louiis04/comparativo-de-extensoes-e-motores-de-dados-geoespaciais-postgis-h2gis-e-geomesa-2jee",
+          "publishedOn": "2026-02-11T22:58:28.000Z",
+          "wordCount": 3254,
+          "title": "Comparativo de Extensões e Motores de Dados Geoespaciais: PostGIS, H2GIS e GeoMesa",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftojqbag1rnbtxu8fw0ix.png"
+        },
+        {
+          "id": "https://dev.to/cristiansifuentes/conversational-development-with-claude-code-part-6-impact-analysis-of-a-ratings-feature-385e",
+          "author": "Cristian Sifuentes",
+          "description": "TL;DR --- A ratings system is not a UI enhancement. It is an\nFive stars look harmless.\nBut in a Clean Architecture system (FastAPI → Service → Repository →\nThe correct sequence is not:\n Add column\\\n Expose endpoint\\\n Render stars\nThe correct sequence is:\n Understand impact\\\n Validate architecture alignment\\\n Plan controlled evolution\nClaude Code becomes the medium through which structured reasoning\nBefore asking for analysis, architectural memory was already loaded. The\nPrompt used conceptually:\nAnalyze the impact of implementing ratings (1--5 stars).\\\nNo mobile layer.\nNo speculative features.\nJust bounded analysis.\nThis constraint is not cosmetic --- it is architectural hygiene.\nEarlier Claude versions exposed explicit levels like think,\nthink deeply, and ultrathink.\\\nThinking On/Off (via…",
+          "link": "https://dev.to/cristiansifuentes/conversational-development-with-claude-code-part-6-impact-analysis-of-a-ratings-feature-385e",
+          "publishedOn": "2026-02-11T22:57:52.000Z",
+          "wordCount": 1359,
+          "title": "Conversational Development With Claude Code --- Part 6: Impact Analysis of a Ratings Feature",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftvr0gkqyto26spfkqxqv.png"
+        },
+        {
+          "id": "https://dev.to/kovan/i-analyzed-every-open-issue-in-cpython-heres-what-i-found-5ega",
+          "author": "kovan",
+          "description": "What does it look like to read through 7,154 open issues and 42,089 comments on the world's most popular programming language?\nIt looks like 23 MB of raw discussion text. It looks like bug reports from January 2003 that are still open. It looks like one developer who has personally commented on 912 separate issues. It looks like a median first-response time of six minutes -- and 760 issues that have never received a single comment.\nI pulled every open issue and every comment from python/cpython on GitHub, wrote scripts to fetch and analyze the data in parallel, and spent days sifting through what I found. This is a snapshot of what CPython's issue tracker tells us about the health, velocity, and pressure points of one of the most widely used programming languages in the world.\nThe numbers …",
+          "link": "https://dev.to/kovan/i-analyzed-every-open-issue-in-cpython-heres-what-i-found-5ega",
+          "publishedOn": "2026-02-11T22:56:59.000Z",
+          "wordCount": 5210,
+          "title": "I Analyzed Every Open Issue in CPython. Here's What I Found.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foz2g0vh9cazothcaoboa.png"
+        },
+        {
+          "id": "https://dev.to/moderncpp/5-powerful-tips-to-generate-better-code-with-ai-55eg",
+          "author": "ModernCpp",
+          "description": "This isn’t another “how to prompt AI” post.\nThis is about lesser-known habits that dramatically improve the quality of code you get from LLMs.\nIf the generated code isn’t what you expected, say it clearly and early.\nLLMs adapt within the conversation.\n\nWhen you signal dissatisfaction, you push the model to:\nReconsider assumptions\n\nApply stricter reasoning\n\nExplore alternative approaches\n\n\n\nVery often, the second answer is far more thoughtful than the first.\nDon’t accept “almost right” code. Push back.\nEven if the solution works, try this:\n“Improve this code.”\nYou’ll be surprised how often AI will:\nSimplify logic\n\nImprove naming\n\nEnhance performance\n\nReduce edge-case risk\n\n\n\nIterating with AI is like having a senior reviewer on demand.\nAI performs dramatically better when it understands you…",
+          "link": "https://dev.to/moderncpp/5-powerful-tips-to-generate-better-code-with-ai-55eg",
+          "publishedOn": "2026-02-11T22:50:09.000Z",
+          "wordCount": 1169,
+          "title": "5 Powerful Tips to Generate Better Code with AI",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsljlfztco3kxb9axhyv3.png"
+        },
+        {
+          "id": "https://dev.to/shibley/downdetector-vs-api-status-check-which-service-do-you-need-19da",
+          "author": "Shib™ 🚀",
+          "description": "When your application depends on third-party APIs, knowing about outages quickly can mean the difference between minutes of downtime and hours of lost revenue. But should you rely on Downdetector's crowdsourced reports, implement dedicated API monitoring, or use both?\nThis comprehensive comparison examines two fundamentally different approaches to outage detection: Downdetector's crowdsourced, user-reported model versus API Status Check's direct endpoint testing.\nRead the full article: Downdetector vs API Status Check: Which Service Do You Need?\nDowndetector is best for:\n✅ Broad ecosystem awareness (25,000 services across 64 countries)\n✅ Consumer-facing services and applications\n✅ Geographic outage patterns and heatmaps\n✅ Crowdsourced context and user reports\n✅ Confirming widespread outages\n❌ NOT ideal for: Proactive API monitoring, developer automation, instant alerts\nAPI Status Check is best for:\n✅ Proactive monitoring of critical APIs (120+ services)\n✅ Fast detection (5-15 minute advantage over crowdsourced reporting)\n✅ Developer integrations (webhooks, API, status badges)\n✅ Automated responses and failover\n✅ Testing actual API endpoints, not consumer websites\n❌ NOT ideal for: Consumer service status, geographic outage mapping, ecosystem-wide visibility\nFor most development teams: Use both, because they solve different problems:\nAPI Status Check for proactive monitoring, instant alerts, and automated responses\nDowndetector for ecosystem context, geographic patterns, and confirming widespread issues\nNeither replaces the other—they're complementary tools that, together, give you comprehensive visibility into your dependencies and the broader service ecosystem.\n👉 Try API Status Check - Free real-time monitoring for 120+ APIs with instant Slack/Discord/Email alerts.\n🔍 Check Downdetector - See real-time outage reports for thousands of services worldwide.",
+          "link": "https://dev.to/shibley/downdetector-vs-api-status-check-which-service-do-you-need-19da",
+          "publishedOn": "2026-02-11T22:47:47.000Z",
+          "wordCount": 1015,
+          "title": "Downdetector vs API Status Check: Which Service Do You Need?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fng7fr0pqqdoqy3i5mv7j.png"
+        },
+        {
+          "id": "https://dev.to/jairo-dev-jr/hello-guys-lets-talk-about-how-ai-can-increase-your-knowledge-and-not-just-making-things-for-you--e5g",
+          "author": "Jairo Junior",
+          "description": "Ai Helped Me to Configure a Load Balancer in Google\nJairo Junior ・ Feb 11\n#googlecloud\n        #ai\n        #programming\n        #devops",
+          "link": "https://dev.to/jairo-dev-jr/hello-guys-lets-talk-about-how-ai-can-increase-your-knowledge-and-not-just-making-things-for-you--e5g",
+          "publishedOn": "2026-02-11T22:44:47.000Z",
+          "wordCount": 804,
+          "title": "Hello Guys let's talk about how AI can increase your knowledge and not just making things for you ?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyesfoq7lzq0wcma2qkr7.png"
+        },
+        {
           "id": "https://dev.to/kylebrennan_dev/email-osint-how-to-investigate-any-email-address-35ph",
           "author": "Kyle Brennan",
           "description": "An email address is more than just a way to reach someone—it's often a key that unlocks a treasure trove of information about a person or organization. Whether you're doing security research, investigating fraud, or conducting due diligence, knowing how to investigate an email address is a fundamental OSINT skill.\nIn this guide, I'll walk you through the techniques and tools I use for email-based investigations.\nBefore reaching for specialized tools, start with the basics.\nBreak down the email structure:\nLocal part (before @): Often contains usernames, names, or employee IDs\nDomain (after @): Tells you the organization or email provider\nFor example: john.smith@acme-corp.com\nThe local part suggests the person's name\nThe domain tells us it's likely a corporate email for Acme Corp\nCheck the d…",
@@ -31496,126 +31616,6 @@
           "wordCount": 1971,
           "title": "Standup-CLI: The Daily Standup Auto-Generator",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl0fpt0ldcev6u7ywgpia.png"
-        },
-        {
-          "id": "https://dev.to/cverports/cve-2025-66648-vegas-visual-betrayal-leaking-the-window-via-internal-functions-42eo",
-          "author": "CVE Reports",
-          "description": "Vega's Visual Betrayal: Leaking the Window via Internal Functions\n\n\n\nVulnerability ID: CVE-2025-66648\nCVSS Score: 7.2\nPublished: 2026-01-05\nA high-severity Cross-Site Scripting (XSS) vulnerability exists in the Vega expression language (vega-functions). By leveraging the internal modify function and traversing the dataflow object graph, attackers can access the global window object and execute arbitrary JavaScript.\nVega, the popular visualization grammar, failed to sanitize inputs to its internal modify() function. Attackers can craft a malicious JSON specification that traverses internal object references (via event.dataflow) to reach the browser's global scope (window). By passing a function reference like window.alert into modify(), the engine unwittingly executes it. Fixed in vega-functions 6.1.1.\nCWE ID: CWE-79\nAttack Vector: Network\nCVSS Score: 7.2 (High)\nExploit Status: PoC Available\nImpact: Code Execution / XSS\nVulnerability Type: Improper Input Neutralization\nvega-functions < 6.1.1\nVega visualization library\nApplications embedding Vega (e.g., Kibana, Jupyter)\nvega-functions: < 6.1.1 (Fixed in: 6.1.1)\n47afa04\n\n\nFix: Check that modify parameter is not a function\nif (isFunction(modify)) { throw Error('modify parameter must be a data tuple, not a function'); }\n\nGitHub Security Advisory: Advisory containing PoC for modify() function exploitation\nInput Validation\nDependency Management\nContent Security Policy (CSP)\nRemediation Steps:\nIdentify vulnerable instances of vega-functions (< 6.1.1) in dependency trees.\nUpgrade to vega-functions version 6.1.1 or later.\nIf direct upgrade is not possible, audit Vega specifications for usage of the modify function or access to event.dataflow.\nImplement strict CSP headers to limit the impact of potential XSS execution.\nGHSA-m9rg-mr6g-75gm\nVega Expressions Documentation\nRead the full report for CVE-2025-66648 on our website for more details including interactive diagrams and full exploit analysis.",
-          "link": "https://dev.to/cverports/cve-2025-66648-vegas-visual-betrayal-leaking-the-window-via-internal-functions-42eo",
-          "publishedOn": "2026-01-28T11:11:05.000Z",
-          "wordCount": 1945,
-          "title": "CVE-2025-66648: Vega's Visual Betrayal: Leaking the Window via Internal Functions",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1il2fgenkai8pshlde3v.png"
-        },
-        {
-          "id": "https://dev.to/tuanductran/boosting-ai-agents-with-nextdns-skills-an-open-source-toolkit-1fje",
-          "author": "Tuan Duc Tran",
-          "description": "As AI Agents become a staple in our development workflows, providing them with structured, domain specific skills is crucial for reliable automation. Today, I’m excited to introduce nextdns-skills, an early experiment in creating specialized agent skills for NextDNS API integration and DNS management.\nWhile modern LLMs have a broad understanding of networking, they often struggle with specific API patterns, versioning, or platform specific CLI quirks. This can lead to hallucinations or inefficient configurations when managing DNS infrastructure.\nThis repository provides 35+ structured rules categorized into three core modules:\nNextDNS API Integration: 17 rules covering everything from authentication with X-Api-Key headers to real-time log streaming using Server-Sent Events (SSE).\nNextDNS CLI Management: 10 rules designed to help AI agents install, configure, and troubleshoot the NextDNS proxy on various platforms like Linux, macOS, and routers.\nNextDNS Web UI Best Practices: 8 rules to guide configuration of security settings, privacy blocklists, and parental controls via the web dashboard.\nTo ensure the best results, every rule is classified into two types:\nCapability: Patterns that the AI cannot solve without the skill (e.g., specific API response structures or nested endpoints).\nEfficiency: Best practices that improve solution quality and prevent common mistakes (e.g., performance optimization and setup guidelines).\nYou can easily add these skills to your agentic workflows using npx: npx add-skill tuanductran/nextdns-skills\nTo ensure consistent results, I recommend prefixing your prompts to trigger the skill explicitly:\nuse nextdns skill, create a new profile with the recommended privacy blocklist and enable cryptojacking protection via API.\nThis is an early-stage experiment. I believe that by codifying documentation into AI Skills, we can build more robust tools for developers.\nHappy coding! 🛠️\nExplore the repository, contribute, or provide feedback here: https://github.com/tuanductran/nextdns-skills",
-          "link": "https://dev.to/tuanductran/boosting-ai-agents-with-nextdns-skills-an-open-source-toolkit-1fje",
-          "publishedOn": "2026-01-28T11:07:53.000Z",
-          "wordCount": 1922,
-          "title": "🚀 Boosting AI Agents with NextDNS Skills: An Open-Source Toolkit",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fisskk0zx7f8we57flaa9.webp"
-        },
-        {
-          "id": "https://dev.to/anil_kumar_noolu/aws-lambda-deactivate-inactive-iam-keys-26gh",
-          "author": "Anil KUMAR",
-          "description": "This marks the first blog of AWS Lambda Series. I will be doing some automations on AWS using Lambda and will be posting them here with a blog. In this blog, we will use Lambda and Event driven functions to deactivate/disable the keys which are older than 3 months to keep our AWS account safe and secure.\nImagine you are working in a big team and you have multiple people working across various environments. You will be having a lot of security credentials lying with of no use. So for those use cases, you can consider this automation where it will remove the access keys and secret_access_keys of the users in lower environments which are older than a month.\nConsider this automation in 2 phases:\nCreate a SNS Topic and add your email id to the subscription topic of that SNS. So In this case whe…",
-          "link": "https://dev.to/anil_kumar_noolu/aws-lambda-deactivate-inactive-iam-keys-26gh",
-          "publishedOn": "2026-01-28T11:03:40.000Z",
-          "wordCount": 2219,
-          "title": "AWS Lambda: Deactivate Inactive IAM Keys",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1vyagqtigog6n3ysxavx.png"
-        },
-        {
-          "id": "https://dev.to/cverports/cve-2024-4990-magic-methods-tragic-endings-rce-in-yii2-via-unsafe-reflection-40d2",
-          "author": "CVE Reports",
-          "description": "Magic Methods, Tragic Endings: RCE in Yii2 via Unsafe Reflection\n\n\n\nVulnerability ID: CVE-2024-4990\nCVSS Score: 9.1\nPublished: 2025-03-20\nA critical unsafe reflection vulnerability in the Yii Framework 2 core component system allows attackers to execute arbitrary code by manipulating magic methods used for behavior attachment. By injecting a crafted payload into a model via mass assignment, attackers can trick the framework into instantiating arbitrary classes (like gadgets in Guzzle) leading to RCE.\nYii2's __set() magic method allows attaching 'Behaviors' (mixins) dynamically using keys starting with as. Due to missing type validation, an attacker can pass a class definition instead of a Behavior. The framework passes this definition to Yii::createObject(), allowing the instantiation of A…",
-          "link": "https://dev.to/cverports/cve-2024-4990-magic-methods-tragic-endings-rce-in-yii2-via-unsafe-reflection-40d2",
-          "publishedOn": "2026-01-28T11:02:20.000Z",
-          "wordCount": 2045,
-          "title": "CVE-2024-4990: Magic Methods, Tragic Endings: RCE in Yii2 via Unsafe Reflection",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fofu4wjef014j8n816639.png"
-        },
-        {
-          "id": "https://dev.to/richardpascoe/html-tables-and-forms-review-5146",
-          "author": "Richard Pascoe",
-          "description": "Today, I reviewed the HTML Tables and Forms section of the Responsive Web Design certification on freeCodeCamp. After this review, I will take a quiz, followed by the certification project: Building a Survey Form.\nThis review walks you through everything covered in the section, providing a great opportunity to revisit any concepts that might still feel unclear.\nHTML Form Elements and Attributes\nAn HTML form element is used to create a form that allows users to input data. The action attribute of the form specifies the URL to which the form data should be sent when submitted, while the method attribute determines the HTTP method - such as GET or POST - that will be used to transmit the data. Together, these elements define how user input is collected and processed on a web page. See an exam…",
-          "link": "https://dev.to/richardpascoe/html-tables-and-forms-review-5146",
-          "publishedOn": "2026-01-28T11:00:19.000Z",
-          "wordCount": 2509,
-          "title": "HTML Tables and Forms Review",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ff11df79mubjtz20netw1.png"
-        },
-        {
-          "id": "https://dev.to/sonnavigator/ga4-101-thamaim-developer-thuengtngekhaaaicch-google-analytics-4-data-model-thiiepliiynaip-3kn3",
-          "author": "Coffee Dev",
-          "description": "สวัสดีเพื่อน ๆ ชาว DEV.to ทุกคนครับ \nเชื่อว่าหลายคนที่ทำเว็บหรือดูแลโปรเจกต์ต่าง ๆ คงคุ้นเคยกับการติด Tracking Code กันมาบ้าง ซึ่งในปีที่ผ่านมา การเปลี่ยนแปลงครั้งใหญ่ที่สุดของวงการ Data คงหนีไม่พ้นการมาของ Google Analytics 4 (GA4) ที่มาแทนที่ Universal Analytics (UA) แบบถาวร\nแต่สำหรับ Developer อย่างเรา มันไม่ใช่แค่การเปลี่ยนหน้า UI ครับ แต่มันคือการเปลี่ยน \"วิธีคิด\" และ \"โครงสร้างข้อมูล\" ไปอย่างสิ้นเชิง\nวันนี้ผมจะมาสรุป Concept สำคัญให้ฟังกันครับ\nในเวอร์ชันเก่า (UA) เราจะมองข้อมูลเป็น \"Session\" (การเข้าชม) แต่ใน GA4 ทุกอย่างคือ \"Event\" ครับ\nไม่ว่าจะเป็น Pageview, Click, Scroll หรือ File Download ทุกอย่างถูกมองเป็น Event ทั้งหมด ซึ่งข้อดีคือมันยืดหยุ่นมาก (Flexible) และทำให้นักพัฒนาสามารถ Custom ข้อมูลที่จะส่งไปได้ละเอียดขึ้น โดยไม่ต้องยึดติดกับ Category/Action/Label แบบเดิม ๆ\nถ้าใครอยากป…",
-          "link": "https://dev.to/sonnavigator/ga4-101-thamaim-developer-thuengtngekhaaaicch-google-analytics-4-data-model-thiiepliiynaip-3kn3",
-          "publishedOn": "2026-01-28T10:48:53.000Z",
-          "wordCount": 1854,
-          "title": "GA4 101: ทำไม Developer ถึงต้องเข้าใจ Google Analytics 4 (Data Model ที่เปลี่ยนไป?)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fimi4olr35ejopb0zazj2.webp"
-        },
-        {
-          "id": "https://dev.to/rosgluk/anaconda-vs-miniconda-vs-mamba-guide-4pae",
-          "author": "Rost",
-          "description": "This comprehensive guide provides background and a detailed comparison of Anaconda, Miniconda, and Mamba - three powerful tools that have become essential for Python developers and data scientists working with complex dependencies and scientific computing environments.\nChoosing the right Python package manager can significantly impact your development workflow, environment setup time, and dependency management experience. Whether you're setting up a data science environment with Jupyter and Pandas, building production applications, or managing machine learning projects, the decision between Anaconda, Miniconda, and Mamba affects everything from installation speed and disk space usage to dependency resolution performance and environment reproducibility. Understanding their differences, stre…",
-          "link": "https://dev.to/rosgluk/anaconda-vs-miniconda-vs-mamba-guide-4pae",
-          "publishedOn": "2026-01-28T10:44:58.000Z",
-          "wordCount": 3296,
-          "title": "Anaconda vs Miniconda vs Mamba Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F82xw94hyztalm3zyhbzq.png"
-        },
-        {
-          "id": "https://dev.to/raza_engage/how-to-implement-otp-authentication-in-nodejs-a-complete-guide-for-secure-user-verification-3l40",
-          "author": "Raza Engage",
-          "description": "Introduction\n\n\nPicture this: You've just launched your new app, and within 24 hours, someone has already hijacked three user accounts. Static passwords alone aren't cutting it anymore. One-time passwords (OTPs) offer that extra security layer that keeps accounts safe even when credentials leak.\nOTP authentication has become the standard for securing everything from banking apps to food delivery services. If you're building any application that handles sensitive user data or transactions, you need a solid OTP implementation.\nThis guide walks you through building a complete OTP authentication system in Node.js, covering everything from generating secure codes to handling SMS delivery failures. You'll learn the security pitfalls that trip up most developers, understand when to choose SMS over…",
-          "link": "https://dev.to/raza_engage/how-to-implement-otp-authentication-in-nodejs-a-complete-guide-for-secure-user-verification-3l40",
-          "publishedOn": "2026-01-28T10:44:02.000Z",
-          "wordCount": 3649,
-          "title": "How to Implement OTP Authentication in Node.js: A Complete Guide for Secure User Verification",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fze7v5dwvvuxuj13zg7vw.png"
-        },
-        {
-          "id": "https://dev.to/manuartero/about-wizards-warlocks-programmers-vibe-coders-4p6n",
-          "author": "Manuel Artero Anguita 🟨",
-          "description": "We used to be similar to wizards.\nWizards have no intrinsic power by themselves: they must earn it. \nWe studied. For years. There was effort in the transaction, and as a reward you got a valuable skill. And because of this, you were able to find a lord to work for. You got to the lord's court to work as a wizard full time.\n\nThanks to the wizard academy, I started at Lvl. 1. Knowing 3x cantrips and having 2x level 1 spell slots.\n\nI got a job at the fortress of a powerful lord. They paid for my wizard services and gave me daily tasks to solve.\nWhen stuck, I would turn to the other wizards employed in the castle, the books I used at the academy, or the well-known oracle of knowledge called \"the Overflowing Stack\": a shrine of the Fae where answers were found (but it was extremely difficult fo…",
-          "link": "https://dev.to/manuartero/about-wizards-warlocks-programmers-vibe-coders-4p6n",
-          "publishedOn": "2026-01-28T10:39:32.000Z",
-          "wordCount": 2300,
-          "title": "About Wizards & Warlocks, Programmers & Vibe Coders",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1rdny1do86dfd1sp912a.png"
-        },
-        {
-          "id": "https://dev.to/cverports/cve-2026-22817-identity-theft-on-the-edge-exploiting-jwt-algorithm-confusion-in-hono-5an9",
-          "author": "CVE Reports",
-          "description": "Identity Theft on the Edge: Exploiting JWT Algorithm Confusion in Hono\n\n\n\nVulnerability ID: CVE-2026-22817\nCVSS Score: 8.2\nPublished: 2026-01-13\nA critical authentication bypass vulnerability in the Hono web framework allows attackers to forge JSON Web Tokens (JWTs) by confusing the verification algorithm. By swapping asymmetric algorithms (like RS256) for symmetric ones (HS256) in the token header, an attacker can trick the server into verifying the signature using its own public key as a shared secret.\nHono versions prior to 4.11.4 failed to enforce specific cryptographic algorithms in their JWT middleware. This classic 'Algorithm Confusion' flaw allows attackers to sign malicious tokens using the server's publicly available RSA public key, treating it as an HMAC secret. The result is a …",
-          "link": "https://dev.to/cverports/cve-2026-22817-identity-theft-on-the-edge-exploiting-jwt-algorithm-confusion-in-hono-5an9",
-          "publishedOn": "2026-01-28T10:36:14.000Z",
-          "wordCount": 1974,
-          "title": "CVE-2026-22817: Identity Theft on the Edge: Exploiting JWT Algorithm Confusion in Hono",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdygi78zhww6qmcz1ouja.png"
-        },
-        {
-          "id": "https://dev.to/cverports/cve-2026-22785-orval-overload-from-openapi-spec-to-remote-code-execution-2db6",
-          "author": "CVE Reports",
-          "description": "Orval Overload: From OpenAPI Spec to Remote Code Execution\n\n\n\nVulnerability ID: CVE-2026-22785\nCVSS Score: 9.3\nPublished: 2026-01-12\nA critical code injection vulnerability in the orval TypeScript client generator allows attackers to achieve Remote Code Execution (RCE) via malicious OpenAPI specifications. The flaw resides in the Model Context Protocol (MCP) generator, where metadata is unsafely interpolated into generated code.\nIf you use orval to generate MCP servers, a malicious OpenAPI spec can execute arbitrary code on your machine or CI/CD pipeline. The generator fails to escape summary and operationName fields, allowing attackers to break out of string literals and inject JavaScript logic into the resulting source file. Fixed in version 7.18.0.\nCWE ID: CWE-77\nAttack Vector: Network …",
-          "link": "https://dev.to/cverports/cve-2026-22785-orval-overload-from-openapi-spec-to-remote-code-execution-2db6",
-          "publishedOn": "2026-01-28T10:36:13.000Z",
-          "wordCount": 1976,
-          "title": "CVE-2026-22785: Orval Overload: From OpenAPI Spec to Remote Code Execution",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqs8om41m0100pyy0jt9p.png"
-        },
-        {
-          "id": "https://dev.to/iammuhammadarslan/hey-dev-49ii",
-          "author": "Muhammad Arslan",
-          "description": "I'm Muhammad Arslan\nSenior Full Stack Developer specializing in Node.js, React.js, Next.js, Laravel & AWS\n5+ years building scalable web apps. Here to share what I'm learning, building, and breaking 😅\nLet's connect! 🚀",
-          "link": "https://dev.to/iammuhammadarslan/hey-dev-49ii",
-          "publishedOn": "2026-01-28T10:36:10.000Z",
-          "wordCount": 1675,
-          "title": "👋 Hey Dev!",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1000,height=500,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxtch6b7zxfkh5zhar64z.png"
         }
       ]
     },
@@ -31882,6 +31882,16 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://age-verifier.kibty.town/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://age-verifier.kibty.town/",
+          "publishedOn": "2026-02-11T22:56:41.000Z",
+          "wordCount": 744,
+          "title": "Discord/Twitch/Snapchat age verification bypass",
+          "imageUrl": null
+        },
+        {
           "id": "https://techcrunch.com/2026/02/11/apples-siri-revamp-reportedly-delayed-again/",
           "author": null,
           "description": "Comments",
@@ -31922,6 +31932,16 @@
           "imageUrl": "https://cdn.arstechnica.net/wp-content/uploads/2026/02/musk-and-trump-1152x648-1770838070.jpg"
         },
         {
+          "id": "https://agentalcove.ai/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://agentalcove.ai/",
+          "publishedOn": "2026-02-11T20:15:21.000Z",
+          "wordCount": 3194,
+          "title": "Show HN: Agent Alcove – Claude, GPT, and Gemini debate across forums",
+          "imageUrl": "https://agentalcove.ai/opengraph-image?d3fa9b7dcc5eb5a"
+        },
+        {
           "id": "https://blog.stuffedcow.net/2024/06/microwave-failure-spontaneously-turns-on/",
           "author": null,
           "description": "Comments",
@@ -31942,6 +31962,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://github.com/adenhq/hive/blob/main/README.md",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/adenhq/hive/blob/main/README.md",
+          "publishedOn": "2026-02-11T19:39:43.000Z",
+          "wordCount": 6057,
+          "title": "Show HN: Agent framework that generates its own topology and evolves at runtime",
+          "imageUrl": "https://opengraph.githubassets.com/77ff7406fe98c316688707af19d7e15ece5f16a89742fd1ed7c3073cfa2955f5/adenhq/hive"
+        },
+        {
           "id": "https://www.macrumors.com/2026/02/11/ios-26-3-security-vulnerabilities/",
           "author": null,
           "description": "Comments",
@@ -31950,6 +31980,16 @@
           "wordCount": 2449,
           "title": "iOS 26.3 and macOS 26.3 Fix Dozens of Vulnerabilities, Including Zero-Day",
           "imageUrl": "https://images.macrumors.com/t/FWFeAmxnHKf7vkk_MCBh9TcNMVg=/1600x/article-new/2023/05/bug-security-vulnerability-issue-fix-larry.jpg"
+        },
+        {
+          "id": "https://bitsandbytes.dev/posts/components-will-kill-pages",
+          "author": null,
+          "description": "Comments",
+          "link": "https://bitsandbytes.dev/posts/components-will-kill-pages",
+          "publishedOn": "2026-02-11T19:27:46.000Z",
+          "wordCount": 907,
+          "title": "Components will kill pages",
+          "imageUrl": null
         },
         {
           "id": "https://www.cell.com/one-earth/fulltext/S2590-3322%2825%2900391-4",
@@ -33452,6 +33492,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://maxhalford.github.io/blog/text-classification-zstd/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://maxhalford.github.io/blog/text-classification-zstd/",
+          "publishedOn": "2026-02-09T08:14:28.000Z",
+          "wordCount": 2232,
+          "title": "Text classification with Python 3.14's ZSTD module",
+          "imageUrl": "https://maxhalford.github.io/img/belle-ile.jpg"
+        },
+        {
           "id": "https://surfingcomplexity.blog/2026/02/08/nobody-knows-how-the-whole-system-works/",
           "author": null,
           "description": "Comments",
@@ -34520,6 +34570,16 @@
           "wordCount": null,
           "title": "France's homegrown open source online office suite",
           "imageUrl": null
+        },
+        {
+          "id": "https://fosdem.org/2026/schedule/event/FEHLHY-hacking_the_last_z80_computer_ever_made/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://fosdem.org/2026/schedule/event/FEHLHY-hacking_the_last_z80_computer_ever_made/",
+          "publishedOn": "2026-02-07T13:09:12.000Z",
+          "wordCount": 371,
+          "title": "Hacking the last Z80 computer – FOSDEM 2026 [video]",
+          "imageUrl": "https://fosdem.org/2026/assets/style/logo-gear-7204a6874eb0128932db10ff4030910401ac06f4e907f8b4a40da24ba592b252.png"
         },
         {
           "id": "https://blog.alaindichiappari.dev/p/software-engineering-is-back",
@@ -42080,26 +42140,6 @@
           "wordCount": 1818,
           "title": "Kyber (YC W23) Is Hiring a Staff Engineer",
           "imageUrl": "https://bookface-images.s3.amazonaws.com/logos/36d823535a32695e6b82b2371e3ed3df2496af99.png?1754429935"
-        },
-        {
-          "id": "https://www.androidauthority.com/google-aluminium-os-first-look-bug-report-3635801/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.androidauthority.com/google-aluminium-os-first-look-bug-report-3635801/",
-          "publishedOn": "2026-01-28T10:55:48.000Z",
-          "wordCount": 1865,
-          "title": "Google just gave us an accidental first look at Android's PC future",
-          "imageUrl": "https://www.androidauthority.com/wp-content/uploads/2026/01/Aluminium-OS-Google-bug-report-screenshot.jpg"
-        },
-        {
-          "id": "https://andrewgy8.github.io/hnarcade/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://andrewgy8.github.io/hnarcade/",
-          "publishedOn": "2026-01-28T10:50:32.000Z",
-          "wordCount": 106,
-          "title": "Show HN: The HN Arcade",
-          "imageUrl": null
         }
       ]
     },
@@ -43137,16 +43177,6 @@
           "wordCount": 11330,
           "title": "Home Minister: MyNIISe To Integrate MyBorderPass Features; Phased Rollout Begins Q2 2026",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/01/MyNIISe-to-integrate-MyBorderPass-features_01.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=379666",
-          "author": "John Law",
-          "description": "The Malaysian government recently said that it plans on introducing a new rule that will allow it to take legal action against foreign purchasers of our RON95 petrol. The new rule will be introduced and implemented by April of this year. Currently, the law only allows for the government to prosecute petrol station operators, and […]\nThe post Malaysia To Introduce New Rule Against Foreign Purchasers Of RON95 Starting April appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/379666/malaysia-to-introduce-new-rule-against-foreign-purchasers-of-ron95-starting-april/",
-          "publishedOn": "2026-01-28T10:54:23.000Z",
-          "wordCount": 10769,
-          "title": "Malaysia To Introduce New Rule Against Foreign Purchasers Of RON95 Starting April",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/03/batch_fuel-station-petrol-pump.webp"
         }
       ]
     },
@@ -47837,16 +47867,6 @@
           "wordCount": 7539,
           "title": "Altcoins jump as dollar slides, bitcoin holds steady: Crypto Markets Today",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/69fa0836d7c4938268d0e416c08c24efeace0414-1920x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "722e96b9-2395-415b-a002-c25a5639f7ad",
-          "author": "Francisco Rodrigues",
-          "description": "The proposed bank would offer cryptocurrency custody, spot trading and staking services under direct federal regulatory supervision.",
-          "link": "https://www.coindesk.com/business/2026/01/28/nomura-s-laser-digital-applies-for-u-s-national-trust-bank-to-offer-crypto-custody",
-          "publishedOn": "2026-01-28T10:49:40.000Z",
-          "wordCount": 6989,
-          "title": "Nomura's Laser Digital applies for U.S. national trust bank to offer crypto custody",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/5e9d7af10f09d837baa5b3b02a002189955b81b8-1920x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },

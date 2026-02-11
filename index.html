@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-02-11 datetime="2026-02-11T22:10:26.000Z">2026-02-11</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-02-11 datetime="2026-02-11T22:10:26.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-02-11 datetime="2026-02-11T23:10:05.000Z">2026-02-11</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-02-11 datetime="2026-02-11T23:10:05.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,412 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/cverports/cve-2026-25935-vikunja-xss-when-just-looking-gets-you-pwned-afj"
+                        open
+                      >
+                        <summary class="article-expander__title">CVE-2026-25935: Vikunja XSS: When &#x27;Just Looking&#x27; Gets You Pwned</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cverports/cve-2026-25935-vikunja-xss-when-just-looking-gets-you-pwned-afj">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyhulfce4osyt1jdr8wi2.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Vikunja XSS: When &#x27;Just Looking&#x27; Gets You Pwned
+
+
+
+Vulnerability ID: CVE-2026-25935
+CVSS Score: 8.6
+Published: 2026-02-11
+A high-severity Cross-Site Scripting (XSS) vulnerability was discovered in Vikunja, the open-source todo application. The flaw resides in the task preview mechanism, where the application improperly utilized the DOM to strip HTML tags from task descriptions. By leveraging a detached DOM element and the innerHTML property, an attacker can execute arbitrary JavaScript simply by convincing a victim to hover over a malicious task.
+Hovering over a task in Vikunja &lt; 1.1.0 triggers a stored XSS via the &#x27;glance&#x27; tooltip. The app tried to strip HTML tags using innerHTML on a detached div, effectively executing the payload it meant to sanitize.
+CWE ID: CWE-80
+CVSS 4.0: 8.6 (High)
+Attack Vector: Network
+User Interaction: Passive (Hover)
+Exploit Status: PoC Available
+KEV Status: Not Listed
+Vikunja Frontend &lt; 1.1.0
+Vikunja: &lt; 1.1.0 (Fixed in: 1.1.0)
+dd0b82f
+
+
+fix: use domparser instead of innerhtml to strip html tags
+- const tempDiv &#x3D; document.createElement(&#x27;div&#x27;)
+- tempDiv.innerHTML &#x3D; props.task.description
+- return tempDiv.textContent || tempDiv.innerText || &#x27;&#x27;
++ const doc &#x3D; new DOMParser().parseFromString(props.task.description, &#x27;text/html&#x27;)
++ return doc.body.textContent || &#x27;&#x27;
+
+GitHub Advisory: Official advisory containing the vulnerability description and fix
+Upgrade to Vikunja v1.1.0 or later immediately.
+Implement Content Security Policy (CSP) to restrict where scripts can be loaded from and where data can be sent.
+Use DOMPurify for any HTML rendering or manipulation in frontend code.
+Remediation Steps:
+Pull the latest docker image: docker pull vikunja/vikunja
+
+Restart the Vikunja container.
+Verify the version in the frontend settings.
+GHSA-m4g2-2q66-vc9v
+Vikunja v1.1.0 Release Notes
+Read the full report for CVE-2026-25935 on our website for more details including interactive diagrams and full exploit analysis.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/reeddev42/how-to-build-a-telegram-bot-that-feels-like-a-real-friend-not-a-chatbot-33k8"
+                        open
+                      >
+                        <summary class="article-expander__title">How to Build a Telegram Bot That Feels Like a Real Friend (Not a Chatbot)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/reeddev42/how-to-build-a-telegram-bot-that-feels-like-a-real-friend-not-a-chatbot-33k8">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwvrm39kyx1tqftcz87fa.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Most Telegram bots feel robotic. They respond to commands, spit out formatted text, and forget you exist between messages. Here is how to build one that feels different.
+The single biggest difference between a chatbot and a companion is memory. Your bot needs to remember what the user told it yesterday.
+The simplest approach: a markdown file per user that the AI reads and writes.
+/data/users/{userId}/workspace/MEMORY.md
+
+The AI reads this file at the start of every conversation and updates it when it learns something new. No vector database needed.
+Real friends text you first sometimes. Set up a heartbeat system:
+Every 60 minutes:
+  For each active user:
+    Ask the AI: &quot;Should you check in on this person?&quot;
+    If yes: send a contextual message
+    If no: do nothing
+
+The AI decides based o…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/fern_d3v/burnout-rust-and-the-feruchemy-problem-52f4"
+                        open
+                      >
+                        <summary class="article-expander__title">Burnout, Rust, and the Feruchemy Problem</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/fern_d3v/burnout-rust-and-the-feruchemy-problem-52f4">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fufpsmioqzp1jzzn60ow0.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Burnout is weird. You know you need rest, but rest feels impossible when your brain won&#x27;t stop running.
+This week, I stopped pretending productivity was the cure. I let myself just exist. Morning coffee with my cat watching birds, bonding with a borrowed cat, falling down a TUI rabbit hole (shoutout to bookokrat and noctavox).
+The thing that clicked: I&#x27;ve been thinking about Mistborn, and Feruchemy a lot lately. You can only tap what you&#x27;ve actually stored. You can&#x27;t pull the rest you never gave yourself. Burnout isn&#x27;t a motivation problem; it&#x27;s an empty metalmind.
+So I&#x27;m making changes. Going all-in on Rust. Swapping GUIs for CLI&#x27;s. Being intentional instead of just busy. And I&#x27;m trying to remember; Sometimes the real win is just making space to exist.
+What does rest actually look like for you
+check out the full podcast here 
+cover image by Laura Samiento</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/james_miller_8dc58a89cb9e/deepseek-r1-on-localhost-building-a-private-coding-assistant-for-0-ch4"
+                        open
+                      >
+                        <summary class="article-expander__title">DeepSeek R1 on Localhost: Building a Private Coding Assistant for $0</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/james_miller_8dc58a89cb9e/deepseek-r1-on-localhost-building-a-private-coding-assistant-for-0-ch4">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fb9zq05oyvs72gmg5irpp.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The release of DeepSeek R1 has sent shockwaves through the AI community. It’s not just because it benchmarks competitively against OpenAI&#x27;s o1; it’s because it’s open-weights and incredibly efficient.
+
+For developers, this marks a turning point. We no longer need to pay the &quot;API Tax&quot; or worry about sending proprietary code to the cloud to get reasoning-level assistance.
+In this guide, I will show you how to build a fully private, $0 cost coding assistant using DeepSeek R1, Ollama, and VS Code, running entirely on your local machine.
+Before we install anything, let’s address the elephant in the room: Why bother burning your own CPU/GPU cycles?
+ Zero Data Leakage: Your code never leaves your machine. This is non-negotiable for enterprise projects or NDA-bound work.
+ Zero Latency: No network …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/cristiansifuentes/conversational-development-with-claude-code-part-7-designing-sub-agents-for-planning-meet-1nlk"
+                        open
+                      >
+                        <summary class="article-expander__title">Conversational Development With Claude Code — Part 7: Designing Sub‑Agents for Planning (Meet **@architect**)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cristiansifuentes/conversational-development-with-claude-code-part-7-designing-sub-agents-for-planning-meet-1nlk">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fplbrzzuhzmqq4ismo23b.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>@architect)
+
+
+TL;DR — Sub‑agents turn Claude Code from a single “chatty assistant” into a small, specialized engineering team. In this chapter we’ll create an Architect agent that can reuse prior context (via resume), produce a structured implementation plan for a 1–5 star ratings feature, and persist that plan as versioned Markdown specs inside the repo—without losing auditability or control.
+This part is about planning as an artifact, not planning as a vibe.
+A mature codebase is a city.
+Even with a large context window, a single conversation tends to drift:
+analysis gets mixed with implementation details,
+decisions fade as new outputs arrive,
+and your “mental map” becomes a pile of chat scroll.
+Sub‑agents are the counter‑measure: bounded roles with explicit responsibilities.
+Instead of a…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;9
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/wspluta/agent-memory-storage-a-practical-guide-98j"
+                        open
+                      >
+                        <summary class="article-expander__title">Agent Memory Storage: A Practical Guide</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/wspluta/agent-memory-storage-a-practical-guide-98j">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgby1j8vrcovcawq4005y.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Why this matters
+
+
+Agentic AI promises autonomous systems that reason and act, but without persistent memory, they fail in real-world use. Agents forget conversation context after a few turns or repeat API errors due to stateless design. This tutorial shows how to build a hybrid memory system using Oracle AI Database, combining SQL for exact recall and vectors for semantic search, enabling production-ready agents that learn and remember across sessions.
+We&#x27;ll create a Hybrid Memory Manager for AI agents that stores conversational history in SQL tables for ACID compliance and semantic knowledge in vector indexes for similarity search. Key features include automatic summarization to manage context windows, persistent tool retrieval, and integration with web search results via Tavily. This co…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/louiis04/comparativo-de-extensoes-e-motores-de-dados-geoespaciais-postgis-h2gis-e-geomesa-2jee"
+                        open
+                      >
+                        <summary class="article-expander__title">Comparativo de Extensões e Motores de Dados Geoespaciais: PostGIS, H2GIS e GeoMesa</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/louiis04/comparativo-de-extensoes-e-motores-de-dados-geoespaciais-postgis-h2gis-e-geomesa-2jee">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftojqbag1rnbtxu8fw0ix.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>1. Introdução
+
+
+O armazenamento e a manipulação de dados georreferenciados exigem estruturas que forneçam suporte a geometrias complexas e consultas espaciais eficientes. Contudo temos diversas ferramentas que atendem a essas necessidades, cada uma com suas particularidades. Neste artigo, exploraremos três soluções populares: PostGIS, H2GIS e GeoMesa.  Temos o PostGIS, uma extensão do PostgreSQL amplamente adotada para dados espaciais; o H2GIS, uma extensão do banco de dados H2 que oferece portabilidade e facilidade de uso; e o GeoMesa, uma plataforma projetada para lidar com grandes volumes de dados geoespaciais em ambientes distribuídos, a seguir iremos compará-las em termos de funcionalidades, desempenho e casos de uso ideais.
+2. PostGIS: A Referência em Bancos Relacionais
+
+
+O PostGIS é…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/cristiansifuentes/conversational-development-with-claude-code-part-6-impact-analysis-of-a-ratings-feature-385e"
+                        open
+                      >
+                        <summary class="article-expander__title">Conversational Development With Claude Code --- Part 6: Impact Analysis of a Ratings Feature</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cristiansifuentes/conversational-development-with-claude-code-part-6-impact-analysis-of-a-ratings-feature-385e">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftvr0gkqyto26spfkqxqv.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>TL;DR --- A ratings system is not a UI enhancement. It is an
+Five stars look harmless.
+But in a Clean Architecture system (FastAPI → Service → Repository →
+The correct sequence is not:
+ Add column\
+ Expose endpoint\
+ Render stars
+The correct sequence is:
+ Understand impact\
+ Validate architecture alignment\
+ Plan controlled evolution
+Claude Code becomes the medium through which structured reasoning
+Before asking for analysis, architectural memory was already loaded. The
+Prompt used conceptually:
+Analyze the impact of implementing ratings (1--5 stars).\
+No mobile layer.
+No speculative features.
+Just bounded analysis.
+This constraint is not cosmetic --- it is architectural hygiene.
+Earlier Claude versions exposed explicit levels like think,
+think deeply, and ultrathink.\
+Thinking On/Off (via…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/kovan/i-analyzed-every-open-issue-in-cpython-heres-what-i-found-5ega"
+                        open
+                      >
+                        <summary class="article-expander__title">I Analyzed Every Open Issue in CPython. Here&#x27;s What I Found.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/kovan/i-analyzed-every-open-issue-in-cpython-heres-what-i-found-5ega">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foz2g0vh9cazothcaoboa.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>What does it look like to read through 7,154 open issues and 42,089 comments on the world&#x27;s most popular programming language?
+It looks like 23 MB of raw discussion text. It looks like bug reports from January 2003 that are still open. It looks like one developer who has personally commented on 912 separate issues. It looks like a median first-response time of six minutes -- and 760 issues that have never received a single comment.
+I pulled every open issue and every comment from python/cpython on GitHub, wrote scripts to fetch and analyze the data in parallel, and spent days sifting through what I found. This is a snapshot of what CPython&#x27;s issue tracker tells us about the health, velocity, and pressure points of one of the most widely used programming languages in the world.
+The numbers …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;17
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/moderncpp/5-powerful-tips-to-generate-better-code-with-ai-55eg"
+                        open
+                      >
+                        <summary class="article-expander__title">5 Powerful Tips to Generate Better Code with AI</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/moderncpp/5-powerful-tips-to-generate-better-code-with-ai-55eg">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsljlfztco3kxb9axhyv3.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>This isn’t another “how to prompt AI” post.
+This is about lesser-known habits that dramatically improve the quality of code you get from LLMs.
+If the generated code isn’t what you expected, say it clearly and early.
+LLMs adapt within the conversation.
+
+When you signal dissatisfaction, you push the model to:
+Reconsider assumptions
+
+Apply stricter reasoning
+
+Explore alternative approaches
+
+
+
+Very often, the second answer is far more thoughtful than the first.
+Don’t accept “almost right” code. Push back.
+Even if the solution works, try this:
+“Improve this code.”
+You’ll be surprised how often AI will:
+Simplify logic
+
+Improve naming
+
+Enhance performance
+
+Reduce edge-case risk
+
+
+
+Iterating with AI is like having a senior reviewer on demand.
+AI performs dramatically better when it understands you…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/shibley/downdetector-vs-api-status-check-which-service-do-you-need-19da"
+                        open
+                      >
+                        <summary class="article-expander__title">Downdetector vs API Status Check: Which Service Do You Need?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/shibley/downdetector-vs-api-status-check-which-service-do-you-need-19da">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fng7fr0pqqdoqy3i5mv7j.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>When your application depends on third-party APIs, knowing about outages quickly can mean the difference between minutes of downtime and hours of lost revenue. But should you rely on Downdetector&#x27;s crowdsourced reports, implement dedicated API monitoring, or use both?
+This comprehensive comparison examines two fundamentally different approaches to outage detection: Downdetector&#x27;s crowdsourced, user-reported model versus API Status Check&#x27;s direct endpoint testing.
+Read the full article: Downdetector vs API Status Check: Which Service Do You Need?
+Downdetector is best for:
+✅ Broad ecosystem awareness (25,000 services across 64 countries)
+✅ Consumer-facing services and applications
+✅ Geographic outage patterns and heatmaps
+✅ Crowdsourced context and user reports
+✅ Confirming widespread outages
+❌ NOT ideal for: Proactive API monitoring, developer automation, instant alerts
+API Status Check is best for:
+✅ Proactive monitoring of critical APIs (120+ services)
+✅ Fast detection (5-15 minute advantage over crowdsourced reporting)
+✅ Developer integrations (webhooks, API, status badges)
+✅ Automated responses and failover
+✅ Testing actual API endpoints, not consumer websites
+❌ NOT ideal for: Consumer service status, geographic outage mapping, ecosystem-wide visibility
+For most development teams: Use both, because they solve different problems:
+API Status Check for proactive monitoring, instant alerts, and automated responses
+Downdetector for ecosystem context, geographic patterns, and confirming widespread issues
+Neither replaces the other—they&#x27;re complementary tools that, together, give you comprehensive visibility into your dependencies and the broader service ecosystem.
+👉 Try API Status Check - Free real-time monitoring for 120+ APIs with instant Slack/Discord/Email alerts.
+🔍 Check Downdetector - See real-time outage reports for thousands of services worldwide.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/jairo-dev-jr/hello-guys-lets-talk-about-how-ai-can-increase-your-knowledge-and-not-just-making-things-for-you--e5g"
+                        open
+                      >
+                        <summary class="article-expander__title">Hello Guys let&#x27;s talk about how AI can increase your knowledge and not just making things for you ?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/jairo-dev-jr/hello-guys-lets-talk-about-how-ai-can-increase-your-knowledge-and-not-just-making-things-for-you--e5g">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyesfoq7lzq0wcma2qkr7.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Ai Helped Me to Configure a Load Balancer in Google
+Jairo Junior ・ Feb 11
+#googlecloud
+        #ai
+        #programming
+        #devops</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -5628,6 +6034,25 @@ Russell Jones ・ Feb 10
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://age-verifier.kibty.town/"
+                        open
+                      >
+                        <summary class="article-expander__title">Discord/Twitch/Snapchat age verification bypass</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://age-verifier.kibty.town/">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;2
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://techcrunch.com/2026/02/11/apples-siri-revamp-reportedly-delayed-again/"
                         open
                       >
@@ -5708,6 +6133,26 @@ Russell Jones ・ Feb 10
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://agentalcove.ai/"
+                        open
+                      >
+                        <summary class="article-expander__title">Show HN: Agent Alcove – Claude, GPT, and Gemini debate across forums</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://agentalcove.ai/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://agentalcove.ai/opengraph-image?d3fa9b7dcc5eb5a" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://blog.stuffedcow.net/2024/06/microwave-failure-spontaneously-turns-on/"
                         open
                       >
@@ -5746,6 +6191,26 @@ Russell Jones ・ Feb 10
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://github.com/adenhq/hive/blob/main/README.md"
+                        open
+                      >
+                        <summary class="article-expander__title">Show HN: Agent framework that generates its own topology and evolves at runtime</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/adenhq/hive/blob/main/README.md">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://opengraph.githubassets.com/77ff7406fe98c316688707af19d7e15ece5f16a89742fd1ed7c3073cfa2955f5/adenhq/hive" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;20
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://www.macrumors.com/2026/02/11/ios-26-3-security-vulnerabilities/"
                         open
                       >
@@ -5756,6 +6221,25 @@ Russell Jones ・ Feb 10
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://bitsandbytes.dev/posts/components-will-kill-pages"
+                        open
+                      >
+                        <summary class="article-expander__title">Components will kill pages</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://bitsandbytes.dev/posts/components-will-kill-pages">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -22323,6 +22807,26 @@ Computes a line-by-line diff from base to the…</span>
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;1
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://maxhalford.github.io/blog/text-classification-zstd/"
+                        open
+                      >
+                        <summary class="article-expander__title">Text classification with Python 3.14&#x27;s ZSTD module</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://maxhalford.github.io/blog/text-classification-zstd/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://maxhalford.github.io/img/belle-ile.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -41166,6 +41670,26 @@ By the end of this post, you&#x27;ll understand how to bridge the gap between we
                           <div class="article-summary-box-inner media-object">
                             <span class="media-object__text">
                               <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://fosdem.org/2026/schedule/event/FEHLHY-hacking_the_last_z80_computer_ever_made/"
+                        open
+                      >
+                        <summary class="article-expander__title">Hacking the last Z80 computer – FOSDEM 2026 [video]</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://fosdem.org/2026/schedule/event/FEHLHY-hacking_the_last_z80_computer_ever_made/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://fosdem.org/2026/assets/style/logo-gear-7204a6874eb0128932db10ff4030910401ac06f4e907f8b4a40da24ba592b252.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;1
+                                  min&hairsp;)</span>
                             </span>
                           </div>
                         </a>
@@ -129849,43 +130373,6 @@ The post Toyota Vios Hybrid Launches In Malaysia; Starts From RM103,900 appeared
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.androidauthority.com/google-aluminium-os-first-look-bug-report-3635801/"
-                        open
-                      >
-                        <summary class="article-expander__title">Google just gave us an accidental first look at Android&#x27;s PC future</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.androidauthority.com/google-aluminium-os-first-look-bug-report-3635801/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.androidauthority.com/wp-content/uploads/2026/01/Aluminium-OS-Google-bug-report-screenshot.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://andrewgy8.github.io/hnarcade/"
-                        open
-                      >
-                        <summary class="article-expander__title">Show HN: The HN Arcade</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://andrewgy8.github.io/hnarcade/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -130496,26 +130983,6 @@ Strategy</span>
                             <span class="media-object__text">
                               <span>The Dollar Index hit a four-year low, while altcoins surged led by HYPE, JTO and Solana memecoin PIPPIN.</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;25
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="722e96b9-2395-415b-a002-c25a5639f7ad"
-                        open
-                      >
-                        <summary class="article-expander__title">Nomura&#x27;s Laser Digital applies for U.S. national trust bank to offer crypto custody</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/01/28/nomura-s-laser-digital-applies-for-u-s-national-trust-bank-to-offer-crypto-custody">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5e9d7af10f09d837baa5b3b02a002189955b81b8-1920x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The proposed bank would offer cryptocurrency custody, spot trading and staking services under direct federal regulatory supervision.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;23
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -134729,350 +135196,6 @@ standup-cli --repo &lt;path_or_url…</span>
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/cverports/cve-2025-66648-vegas-visual-betrayal-leaking-the-window-via-internal-functions-42eo"
-                        open
-                      >
-                        <summary class="article-expander__title">CVE-2025-66648: Vega&#x27;s Visual Betrayal: Leaking the Window via Internal Functions</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cverports/cve-2025-66648-vegas-visual-betrayal-leaking-the-window-via-internal-functions-42eo">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1il2fgenkai8pshlde3v.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Vega&#x27;s Visual Betrayal: Leaking the Window via Internal Functions
-
-
-
-Vulnerability ID: CVE-2025-66648
-CVSS Score: 7.2
-Published: 2026-01-05
-A high-severity Cross-Site Scripting (XSS) vulnerability exists in the Vega expression language (vega-functions). By leveraging the internal modify function and traversing the dataflow object graph, attackers can access the global window object and execute arbitrary JavaScript.
-Vega, the popular visualization grammar, failed to sanitize inputs to its internal modify() function. Attackers can craft a malicious JSON specification that traverses internal object references (via event.dataflow) to reach the browser&#x27;s global scope (window). By passing a function reference like window.alert into modify(), the engine unwittingly executes it. Fixed in vega-functions 6.1.1.
-CWE ID: CWE-79
-Attack Vector: Network
-CVSS Score: 7.2 (High)
-Exploit Status: PoC Available
-Impact: Code Execution / XSS
-Vulnerability Type: Improper Input Neutralization
-vega-functions &lt; 6.1.1
-Vega visualization library
-Applications embedding Vega (e.g., Kibana, Jupyter)
-vega-functions: &lt; 6.1.1 (Fixed in: 6.1.1)
-47afa04
-
-
-Fix: Check that modify parameter is not a function
-if (isFunction(modify)) { throw Error(&#x27;modify parameter must be a data tuple, not a function&#x27;); }
-
-GitHub Security Advisory: Advisory containing PoC for modify() function exploitation
-Input Validation
-Dependency Management
-Content Security Policy (CSP)
-Remediation Steps:
-Identify vulnerable instances of vega-functions (&lt; 6.1.1) in dependency trees.
-Upgrade to vega-functions version 6.1.1 or later.
-If direct upgrade is not possible, audit Vega specifications for usage of the modify function or access to event.dataflow.
-Implement strict CSP headers to limit the impact of potential XSS execution.
-GHSA-m9rg-mr6g-75gm
-Vega Expressions Documentation
-Read the full report for CVE-2025-66648 on our website for more details including interactive diagrams and full exploit analysis.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/tuanductran/boosting-ai-agents-with-nextdns-skills-an-open-source-toolkit-1fje"
-                        open
-                      >
-                        <summary class="article-expander__title">🚀 Boosting AI Agents with NextDNS Skills: An Open-Source Toolkit</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/tuanductran/boosting-ai-agents-with-nextdns-skills-an-open-source-toolkit-1fje">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fisskk0zx7f8we57flaa9.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>As AI Agents become a staple in our development workflows, providing them with structured, domain specific skills is crucial for reliable automation. Today, I’m excited to introduce nextdns-skills, an early experiment in creating specialized agent skills for NextDNS API integration and DNS management.
-While modern LLMs have a broad understanding of networking, they often struggle with specific API patterns, versioning, or platform specific CLI quirks. This can lead to hallucinations or inefficient configurations when managing DNS infrastructure.
-This repository provides 35+ structured rules categorized into three core modules:
-NextDNS API Integration: 17 rules covering everything from authentication with X-Api-Key headers to real-time log streaming using Server-Sent Events (SSE).
-NextDNS CLI Management: 10 rules designed to help AI agents install, configure, and troubleshoot the NextDNS proxy on various platforms like Linux, macOS, and routers.
-NextDNS Web UI Best Practices: 8 rules to guide configuration of security settings, privacy blocklists, and parental controls via the web dashboard.
-To ensure the best results, every rule is classified into two types:
-Capability: Patterns that the AI cannot solve without the skill (e.g., specific API response structures or nested endpoints).
-Efficiency: Best practices that improve solution quality and prevent common mistakes (e.g., performance optimization and setup guidelines).
-You can easily add these skills to your agentic workflows using npx: npx add-skill tuanductran/nextdns-skills
-To ensure consistent results, I recommend prefixing your prompts to trigger the skill explicitly:
-use nextdns skill, create a new profile with the recommended privacy blocklist and enable cryptojacking protection via API.
-This is an early-stage experiment. I believe that by codifying documentation into AI Skills, we can build more robust tools for developers.
-Happy coding! 🛠️
-Explore the repository, contribute, or provide feedback here: https://github.com/tuanductran/nextdns-skills</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/anil_kumar_noolu/aws-lambda-deactivate-inactive-iam-keys-26gh"
-                        open
-                      >
-                        <summary class="article-expander__title">AWS Lambda: Deactivate Inactive IAM Keys</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/anil_kumar_noolu/aws-lambda-deactivate-inactive-iam-keys-26gh">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1vyagqtigog6n3ysxavx.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>This marks the first blog of AWS Lambda Series. I will be doing some automations on AWS using Lambda and will be posting them here with a blog. In this blog, we will use Lambda and Event driven functions to deactivate/disable the keys which are older than 3 months to keep our AWS account safe and secure.
-Imagine you are working in a big team and you have multiple people working across various environments. You will be having a lot of security credentials lying with of no use. So for those use cases, you can consider this automation where it will remove the access keys and secret_access_keys of the users in lower environments which are older than a month.
-Consider this automation in 2 phases:
-Create a SNS Topic and add your email id to the subscription topic of that SNS. So In this case whe…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/cverports/cve-2024-4990-magic-methods-tragic-endings-rce-in-yii2-via-unsafe-reflection-40d2"
-                        open
-                      >
-                        <summary class="article-expander__title">CVE-2024-4990: Magic Methods, Tragic Endings: RCE in Yii2 via Unsafe Reflection</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cverports/cve-2024-4990-magic-methods-tragic-endings-rce-in-yii2-via-unsafe-reflection-40d2">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fofu4wjef014j8n816639.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Magic Methods, Tragic Endings: RCE in Yii2 via Unsafe Reflection
-
-
-
-Vulnerability ID: CVE-2024-4990
-CVSS Score: 9.1
-Published: 2025-03-20
-A critical unsafe reflection vulnerability in the Yii Framework 2 core component system allows attackers to execute arbitrary code by manipulating magic methods used for behavior attachment. By injecting a crafted payload into a model via mass assignment, attackers can trick the framework into instantiating arbitrary classes (like gadgets in Guzzle) leading to RCE.
-Yii2&#x27;s __set() magic method allows attaching &#x27;Behaviors&#x27; (mixins) dynamically using keys starting with as. Due to missing type validation, an attacker can pass a class definition instead of a Behavior. The framework passes this definition to Yii::createObject(), allowing the instantiation of A…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/richardpascoe/html-tables-and-forms-review-5146"
-                        open
-                      >
-                        <summary class="article-expander__title">HTML Tables and Forms Review</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/richardpascoe/html-tables-and-forms-review-5146">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ff11df79mubjtz20netw1.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Today, I reviewed the HTML Tables and Forms section of the Responsive Web Design certification on freeCodeCamp. After this review, I will take a quiz, followed by the certification project: Building a Survey Form.
-This review walks you through everything covered in the section, providing a great opportunity to revisit any concepts that might still feel unclear.
-HTML Form Elements and Attributes
-An HTML form element is used to create a form that allows users to input data. The action attribute of the form specifies the URL to which the form data should be sent when submitted, while the method attribute determines the HTTP method - such as GET or POST - that will be used to transmit the data. Together, these elements define how user input is collected and processed on a web page. See an exam…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/sonnavigator/ga4-101-thamaim-developer-thuengtngekhaaaicch-google-analytics-4-data-model-thiiepliiynaip-3kn3"
-                        open
-                      >
-                        <summary class="article-expander__title">GA4 101: ทำไม Developer ถึงต้องเข้าใจ Google Analytics 4 (Data Model ที่เปลี่ยนไป?)</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sonnavigator/ga4-101-thamaim-developer-thuengtngekhaaaicch-google-analytics-4-data-model-thiiepliiynaip-3kn3">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fimi4olr35ejopb0zazj2.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>สวัสดีเพื่อน ๆ ชาว DEV.to ทุกคนครับ 
-เชื่อว่าหลายคนที่ทำเว็บหรือดูแลโปรเจกต์ต่าง ๆ คงคุ้นเคยกับการติด Tracking Code กันมาบ้าง ซึ่งในปีที่ผ่านมา การเปลี่ยนแปลงครั้งใหญ่ที่สุดของวงการ Data คงหนีไม่พ้นการมาของ Google Analytics 4 (GA4) ที่มาแทนที่ Universal Analytics (UA) แบบถาวร
-แต่สำหรับ Developer อย่างเรา มันไม่ใช่แค่การเปลี่ยนหน้า UI ครับ แต่มันคือการเปลี่ยน &quot;วิธีคิด&quot; และ &quot;โครงสร้างข้อมูล&quot; ไปอย่างสิ้นเชิง
-วันนี้ผมจะมาสรุป Concept สำคัญให้ฟังกันครับ
-ในเวอร์ชันเก่า (UA) เราจะมองข้อมูลเป็น &quot;Session&quot; (การเข้าชม) แต่ใน GA4 ทุกอย่างคือ &quot;Event&quot; ครับ
-ไม่ว่าจะเป็น Pageview, Click, Scroll หรือ File Download ทุกอย่างถูกมองเป็น Event ทั้งหมด ซึ่งข้อดีคือมันยืดหยุ่นมาก (Flexible) และทำให้นักพัฒนาสามารถ Custom ข้อมูลที่จะส่งไปได้ละเอียดขึ้น โดยไม่ต้องยึดติดกับ Category/Action/Label แบบเดิม ๆ
-ถ้าใครอยากป…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/rosgluk/anaconda-vs-miniconda-vs-mamba-guide-4pae"
-                        open
-                      >
-                        <summary class="article-expander__title">Anaconda vs Miniconda vs Mamba Guide</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/rosgluk/anaconda-vs-miniconda-vs-mamba-guide-4pae">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F82xw94hyztalm3zyhbzq.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>This comprehensive guide provides background and a detailed comparison of Anaconda, Miniconda, and Mamba - three powerful tools that have become essential for Python developers and data scientists working with complex dependencies and scientific computing environments.
-Choosing the right Python package manager can significantly impact your development workflow, environment setup time, and dependency management experience. Whether you&#x27;re setting up a data science environment with Jupyter and Pandas, building production applications, or managing machine learning projects, the decision between Anaconda, Miniconda, and Mamba affects everything from installation speed and disk space usage to dependency resolution performance and environment reproducibility. Understanding their differences, stre…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;11
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/raza_engage/how-to-implement-otp-authentication-in-nodejs-a-complete-guide-for-secure-user-verification-3l40"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Implement OTP Authentication in Node.js: A Complete Guide for Secure User Verification</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/raza_engage/how-to-implement-otp-authentication-in-nodejs-a-complete-guide-for-secure-user-verification-3l40">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fze7v5dwvvuxuj13zg7vw.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Introduction
-
-
-Picture this: You&#x27;ve just launched your new app, and within 24 hours, someone has already hijacked three user accounts. Static passwords alone aren&#x27;t cutting it anymore. One-time passwords (OTPs) offer that extra security layer that keeps accounts safe even when credentials leak.
-OTP authentication has become the standard for securing everything from banking apps to food delivery services. If you&#x27;re building any application that handles sensitive user data or transactions, you need a solid OTP implementation.
-This guide walks you through building a complete OTP authentication system in Node.js, covering everything from generating secure codes to handling SMS delivery failures. You&#x27;ll learn the security pitfalls that trip up most developers, understand when to choose SMS over…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;12
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/manuartero/about-wizards-warlocks-programmers-vibe-coders-4p6n"
-                        open
-                      >
-                        <summary class="article-expander__title">About Wizards &amp; Warlocks, Programmers &amp; Vibe Coders</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/manuartero/about-wizards-warlocks-programmers-vibe-coders-4p6n">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1rdny1do86dfd1sp912a.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>We used to be similar to wizards.
-Wizards have no intrinsic power by themselves: they must earn it. 
-We studied. For years. There was effort in the transaction, and as a reward you got a valuable skill. And because of this, you were able to find a lord to work for. You got to the lord&#x27;s court to work as a wizard full time.
-
-Thanks to the wizard academy, I started at Lvl. 1. Knowing 3x cantrips and having 2x level 1 spell slots.
-
-I got a job at the fortress of a powerful lord. They paid for my wizard services and gave me daily tasks to solve.
-When stuck, I would turn to the other wizards employed in the castle, the books I used at the academy, or the well-known oracle of knowledge called &quot;the Overflowing Stack&quot;: a shrine of the Fae where answers were found (but it was extremely difficult fo…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/cverports/cve-2026-22817-identity-theft-on-the-edge-exploiting-jwt-algorithm-confusion-in-hono-5an9"
-                        open
-                      >
-                        <summary class="article-expander__title">CVE-2026-22817: Identity Theft on the Edge: Exploiting JWT Algorithm Confusion in Hono</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cverports/cve-2026-22817-identity-theft-on-the-edge-exploiting-jwt-algorithm-confusion-in-hono-5an9">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdygi78zhww6qmcz1ouja.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Identity Theft on the Edge: Exploiting JWT Algorithm Confusion in Hono
-
-
-
-Vulnerability ID: CVE-2026-22817
-CVSS Score: 8.2
-Published: 2026-01-13
-A critical authentication bypass vulnerability in the Hono web framework allows attackers to forge JSON Web Tokens (JWTs) by confusing the verification algorithm. By swapping asymmetric algorithms (like RS256) for symmetric ones (HS256) in the token header, an attacker can trick the server into verifying the signature using its own public key as a shared secret.
-Hono versions prior to 4.11.4 failed to enforce specific cryptographic algorithms in their JWT middleware. This classic &#x27;Algorithm Confusion&#x27; flaw allows attackers to sign malicious tokens using the server&#x27;s publicly available RSA public key, treating it as an HMAC secret. The result is a …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/cverports/cve-2026-22785-orval-overload-from-openapi-spec-to-remote-code-execution-2db6"
-                        open
-                      >
-                        <summary class="article-expander__title">CVE-2026-22785: Orval Overload: From OpenAPI Spec to Remote Code Execution</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cverports/cve-2026-22785-orval-overload-from-openapi-spec-to-remote-code-execution-2db6">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqs8om41m0100pyy0jt9p.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Orval Overload: From OpenAPI Spec to Remote Code Execution
-
-
-
-Vulnerability ID: CVE-2026-22785
-CVSS Score: 9.3
-Published: 2026-01-12
-A critical code injection vulnerability in the orval TypeScript client generator allows attackers to achieve Remote Code Execution (RCE) via malicious OpenAPI specifications. The flaw resides in the Model Context Protocol (MCP) generator, where metadata is unsafely interpolated into generated code.
-If you use orval to generate MCP servers, a malicious OpenAPI spec can execute arbitrary code on your machine or CI/CD pipeline. The generator fails to escape summary and operationName fields, allowing attackers to break out of string literals and inject JavaScript logic into the resulting source file. Fixed in version 7.18.0.
-CWE ID: CWE-77
-Attack Vector: Network …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/iammuhammadarslan/hey-dev-49ii"
-                        open
-                      >
-                        <summary class="article-expander__title">👋 Hey Dev!</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/iammuhammadarslan/hey-dev-49ii">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1000,height&#x3D;500,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxtch6b7zxfkh5zhar64z.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>I&#x27;m Muhammad Arslan
-Senior Full Stack Developer specializing in Node.js, React.js, Next.js, Laravel &amp; AWS
-5+ years building scalable web apps. Here to share what I&#x27;m learning, building, and breaking 😅
-Let&#x27;s connect! 🚀</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -135257,27 +135380,6 @@ The post Home Minister: MyNIISe To Integrate MyBorderPass Features; Phased Rollo
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;379666"
-                        open
-                      >
-                        <summary class="article-expander__title">Malaysia To Introduce New Rule Against Foreign Purchasers Of RON95 Starting April</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/379666/malaysia-to-introduce-new-rule-against-foreign-purchasers-of-ron95-starting-april/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2025/03/batch_fuel-station-petrol-pump.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The Malaysian government recently said that it plans on introducing a new rule that will allow it to take legal action against foreign purchasers of our RON95 petrol. The new rule will be introduced and implemented by April of this year. Currently, the law only allows for the government to prosecute petrol station operators, and […]
-The post Malaysia To Introduce New Rule Against Foreign Purchasers Of RON95 Starting April appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;36
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -135285,8 +135387,8 @@ The post Malaysia To Introduce New Rule Against Foreign Purchasers Of RON95 Star
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/21925557626">
-        <time id="build-timestamp" datetime="2026-02-11T22:28:31.875Z">2026-02-11T22:28:31.875Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/21927231174">
+        <time id="build-timestamp" datetime="2026-02-11T23:30:34.341Z">2026-02-11T23:30:34.341Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>
