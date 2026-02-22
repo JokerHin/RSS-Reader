@@ -2,10 +2,276 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-02-22T20:25:46.731Z</updated>
+    <updated>2026-02-22T21:23:07.886Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Apex B. OpenClaw, Local Embeddings.]]></title>
+        <id>https://dev.to/victoraguilarc/apex-b-openclaw-local-embeddings-2mo4</id>
+        <link href="https://dev.to/victoraguilarc/apex-b-openclaw-local-embeddings-2mo4"/>
+        <updated>2026-02-22T21:09:30.000Z</updated>
+        <summary type="html"><![CDATA[Local Embeddings para Private Memory Search
+
+
+Por default, el memory search de OpenClaw envía texto a un embedding API externo (típicamente Anthropic u OpenAI) para generar vector embeddings para semantic search. Esto funciona bien, pero tiene dos downsides: cuesta dinero por query, y tu memory content sale de tu máquina.
+Si quieres memory search completamente local, gratis y privado, puedes configurar OpenClaw para usar local embeddings vía node-llama-cpp con un embedding model GGUF pequeño. Esto corre totalmente en tu Mac Mini — sin API calls, sin data saliendo de la máquina.
+# Enable memory search
+openclaw config set memory.search.enable true
+
+# Set the embedding provider to local
+openclaw config set memory.search.provider local
+
+# Restart the gateway to apply
+openclaw gateway restart
+
+OpenClaw descargará automáticamente un lightweight GGUF embedding model y empezará a indexar tus memory files. Con 16GB de RAM en la Mac Mini base, esto corre cómodamente — los embedding models son tiny comparados con full LLMs.
+El first-time indexing de 1,000+ files toma unos minutos. Después, los nuevos files se indexan incrementalmente.
+La search quality es muy buena para keyword y topic matching. No va a igualar la calidad de frontier embedding APIs para queries semánticas sutiles, pero para búsquedas tipo “what did I decide about X”, es más que suficiente.
+Zero ongoing cost. Zero data leaving your machine.
+Cuándo usar Local vs. API Embeddings
+Local (recomendado para la mayoría): Gratis, privado, suficientemente rápido. Ideal si estás air-gapping tu setup o manteniendo costos al mínimo.
+API-based (Anthropic, OpenAI o Gemini): Mejor calidad semántica para memory stores grandes. Úsalo si tienes miles de files y necesitas recall preciso en queries matizadas, y no te molesta el costo o que la data salga de tu máquina.
+Gemini free tier: Un punto medio — si ya tienes una Gemini API key configurada, es el fallback API-based más barato con calidad decente.]]></summary>
+        <author>
+            <name>Victor Aguilar C.</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Fixed 110 Failing E2E Tests in 2 Hours Without Writing a Single Line of Test Code]]></title>
+        <id>https://dev.to/nikolarss0n/i-fixed-110-failing-e2e-tests-in-2-hours-without-writing-a-single-line-of-test-code-2mfd</id>
+        <link href="https://dev.to/nikolarss0n/i-fixed-110-failing-e2e-tests-in-2-hours-without-writing-a-single-line-of-test-code-2mfd"/>
+        <updated>2026-02-22T21:09:18.000Z</updated>
+        <summary type="html"><![CDATA[110 failing Playwright tests. Login flows, multi-step form wizards, search filters, file uploads, complex user workflows. Some failures were missing UI steps. Some were dirty state from previous runs. Some were stale selectors. I fixed all of them in 2 hours. I didn't write a single line of test code.
+I built a https://github.com/kaizen-yutani/playwright-autopilot that does it.
+How the debugging workflow actually works
+When you run a test through the plugin, a lightweight capture hook injects into Playwright's worker process. It monkey-patches BrowserContext._initialize to add an instrumentation listener — no modifications to Playwright's source code, works with any existing installation.
+From that point, every browser action is recorded:
+DOM snapshots — full ARIA tree of the page captured…]]></summary>
+        <author>
+            <name>nklars0</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apex 1. OpenClaw, Historial de Providers.]]></title>
+        <id>https://dev.to/victoraguilarc/apex-1-openclaw-historial-de-providers-2kp4</id>
+        <link href="https://dev.to/victoraguilarc/apex-1-openclaw-historial-de-providers-2kp4"/>
+        <updated>2026-02-22T21:04:56.000Z</updated>
+        <summary type="html"><![CDATA[Importar historial de chat desde ChatGPT, Anthropic y Google Gemini
+
+
+Una de las cosas más poderosas que puedes hacer con OpenClaw es bootstrap la memoria de tu agent con años de conversation history de otras plataformas de IA. En vez de empezar desde cero, tu agent hereda contexto sobre tus proyectos, decisiones, preferencias y patrones de pensamiento de miles de conversaciones previas. Ray Fernando demostró esto en su livestream, importando 3 años de historial de ChatGPT (4,000+ conversaciones) y su export completo de Anthropic dentro de su instancia de OpenClaw.
+Tu ChatGPT data export (Settings > Data Controls > Export Data — OpenAI te manda un download link por email)
+Tu Anthropic/Claude data export (Settings > Export Data — mismo proceso)
+Tu Google Gemini data export (Ve a https://tak…]]></summary>
+        <author>
+            <name>Victor Aguilar C.</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built the Open Source “Microsoft Edge Drop” Replacement Using Cloudflare R2 + Turso]]></title>
+        <id>https://dev.to/_russell/i-built-a-self-hosted-microsoft-edge-drop-replacement-using-cloudflare-r2-turso-2gg0</id>
+        <link href="https://dev.to/_russell/i-built-a-self-hosted-microsoft-edge-drop-replacement-using-cloudflare-r2-turso-2gg0"/>
+        <updated>2026-02-22T20:58:18.000Z</updated>
+        <summary type="html"><![CDATA[I recently built Cliff Drop, a self-hosted, cross-device text and file sharing app inspired by Microsoft Edge Drop.
+But the interesting part isn’t the UI.
+It’s the storage architecture.
+Instead of going traditional:
+❌ Monolithic server
+❌ Local disk storage
+❌ Single-instance SQLite
+I split concerns properly.
+For structured data (messages, metadata, auth):
+I used Turso (libSQL).
+Why?
+• Edge-hosted SQLite
+It gives you SQLite simplicity with distributed database characteristics.
+No managing Postgres clusters.
+Just SQL at the edge.
+For file uploads and images:
+I used Cloudflare R2.
+Why R2?
+• S3-compatible API
+That means I can:
+Store large file uploads
+Generate thumbnails
+Serve files globally
+Avoid bandwidth surprises
+All without vendor lock-in, since it’s S3-compatible.
+On top of that:
+• Native WebSockets for real-time sync
+Built with:
+SvelteKit (adapter-node)
+Tailwind CSS
+Node.js
+Drizzle ORM
+Turso
+Cloudflare R2
+This isn’t just a side project.
+It demonstrates:
+• Cloud-native storage design
+Modern full-stack engineering isn’t just React + API.
+It’s choosing the right storage layer for the right responsibility.
+Database for data integrity.
+Cliff Drop is small - but architected like a real system.
+If you’re building side projects, stop defaulting to “everything in one server.”
+Split storage properly.
+That’s how you level up.
+Github Repo: https://github.com/RussellJapheth/cliff-drop]]></summary>
+        <author>
+            <name>Russell 👨🏾‍💻</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Goroutines vs. Java Virtual Threads: um guia de sobrevivência]]></title>
+        <id>https://dev.to/cvilanova76/goroutines-vs-java-virtual-threads-um-guia-de-sobrevivencia-40pe</id>
+        <link href="https://dev.to/cvilanova76/goroutines-vs-java-virtual-threads-um-guia-de-sobrevivencia-40pe"/>
+        <updated>2026-02-22T20:57:51.000Z</updated>
+        <summary type="html"><![CDATA[A evolução da concorrência em sistemas modernos atingiu um ponto de convergência muito interessante para nós, desenvolvedores de software. 
+De um lado, temos Go, que nasceu com uma filosofia de processos simples e leves e colocou a concorrência no centro da linguagem.
+Do outro, temos Java, que com o Project Loom somado ao Spring Boot 3.2+, reinventou a infraestrutura de execução da concorrência, permitindo que o modelo imperativo pudesse ser escalável ao rodar sobre threads virtuais leves.
+Antes, uma Platform Thread em Java era mapeada 1:1 para uma Thread do Sistema Operacional, a um custo altíssimo: cada thread consumia cerca de 1MB ou mais de memória apenas para existir. Ou seja, se você precisasse de 100.000 threads simultâneas, seu servidor travaria por falta de memória (OOM).
+Java pas…]]></summary>
+        <author>
+            <name>Carolina Vila-Nova</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[6. OpenClaw en MacMini, Mantenimiento.]]></title>
+        <id>https://dev.to/victoraguilarc/6-openclaw-en-macmini-mantenimiento-2089</id>
+        <link href="https://dev.to/victoraguilarc/6-openclaw-en-macmini-mantenimiento-2089"/>
+        <updated>2026-02-22T20:51:43.000Z</updated>
+        <summary type="html"><![CDATA[Mantenimiento y Monitoreo
+
+
+
+  
+  
+  Optimizar costos con Multi-Model Routing
+
+
+Ahora que tu agent ya está corriendo y te sientes cómodo con cómo funciona, es momento de dejar de pagar precios premium por tareas que no necesitan modelos premium. OpenClaw te permite asignar distintos AI models a distintas tareas. El heartbeat fix del Step 13b fue tu primer “taste” de esto — aquí va el panorama completo.
+El concepto: Piensa en tu agent como si tuviera un “brain” (con el que chateas) y “muscles” (tareas especializadas que el brain delega). Quieres un brain smart y personable, pero no todos los muscles necesitan ser el modelo más caro disponible.
+Best model for each task (will be updated periodically):
+Source: Alex Finn’s cost optimization guide for OpenClaw. See Helpful Resources al final de …]]></summary>
+        <author>
+            <name>Victor Aguilar C.</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Unbounded Data Fetching: A Silent Performance Anti-Pattern in API and Database Layers]]></title>
+        <id>https://dev.to/sanmish4/unbounded-data-fetching-a-silent-performance-anti-pattern-in-api-and-database-layers-1dnk</id>
+        <link href="https://dev.to/sanmish4/unbounded-data-fetching-a-silent-performance-anti-pattern-in-api-and-database-layers-1dnk"/>
+        <updated>2026-02-22T20:50:40.000Z</updated>
+        <summary type="html"><![CDATA[Overview
+
+
+One of the most pervasive and costly performance anti-patterns in backend development is unbounded data fetching — querying the database for an entire result set when only a fraction of that data is needed by the caller. This pattern is deceptively simple to introduce, difficult to detect in development environments with limited data, and expensive in production systems operating at scale.
+This article examines where unbounded fetching occurs, why it degrades performance across the full request lifecycle, and how to eliminate it at each layer of the stack — from SQL queries to ORM abstractions to API contract design.
+Unbounded fetching occurs when an application retrieves more data from a data source than it intends to use or return. The most common manifestation is a query with…]]></summary>
+        <author>
+            <name>Sanjay Mishra</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Did some actual coding today - found a blind spot example for coding agents]]></title>
+        <id>https://dev.to/scott_raisbeck_24ea5fbc1e/did-some-actual-coding-today--27in</id>
+        <link href="https://dev.to/scott_raisbeck_24ea5fbc1e/did-some-actual-coding-today--27in"/>
+        <updated>2026-02-22T20:42:56.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR - Wrote some code for a new feature, had to refactor existing code to ensure we didn't have a double spend on sorting, tested to see if coding agents would spot the same issue - they didn't. 
+So for the past few weeks I have been busy as hell, my GitHub activity bar, like many of us now, is lit up like a Christmas tree.
+I am now more or less 100% utilising coding agents, with the exception of producing 'Walking Skeletons' on anything new that I haven't tackled before (usually still with the help of AI - more so to get an understanding of it than anything else). Most of this kind of activity is taking place in Go projects, as that is something I've been learning over the past few months.
+I realised the other day, that while I had been reviewing a lot of Python and C# (my more native l…]]></summary>
+        <author>
+            <name>Scott Raisbeck</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Receive Stripe Webhooks on Localhost (Without the Headache)]]></title>
+        <id>https://dev.to/tpaksu/how-to-receive-stripe-webhooks-on-localhost-without-the-headache-4mi1</id>
+        <link href="https://dev.to/tpaksu/how-to-receive-stripe-webhooks-on-localhost-without-the-headache-4mi1"/>
+        <updated>2026-02-22T20:41:15.000Z</updated>
+        <summary type="html"><![CDATA[If you've ever integrated Stripe payments, you know the drill: Stripe sends webhook events to a public URL, but your development server is running on localhost:3000. You need those events to reach your machine in real time so you can test payment flows, handle subscription changes, and debug edge cases with real payloads.
+In this post, I'll walk through how to bridge that gap using Hooklink, a webhook-to-localhost tool that gives you a permanent subdomain, signature verification, event filtering, and replay capabilities out of the box.
+Stripe needs a publicly accessible HTTPS endpoint to deliver webhook events. During development, your server is behind NAT, a firewall, or simply running on localhost. The typical workarounds each have drawbacks:
+Stripe CLI: Works, but only for Stripe. If yo…]]></summary>
+        <author>
+            <name>Taha Paksu</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Concurrency patterns on Golang: Fan-out / Fan-in]]></title>
+        <id>https://dev.to/silver_dev/concurrency-patterns-on-golang-fan-out-fan-in-goj</id>
+        <link href="https://dev.to/silver_dev/concurrency-patterns-on-golang-fan-out-fan-in-goj"/>
+        <updated>2026-02-22T20:40:08.000Z</updated>
+        <summary type="html"><![CDATA[Problems this pattern can solve:
+
+
+
+You have 8 cores, but your data processing stage runs sequentially in a single goroutine. The CPU sits idle while the task queue grows. We create N workers (one per core) that pull tasks from a shared channel in parallel, utilizing all available cores.
+Suppose your Pipeline has a stage that calls an external API or resizes images. This is slow. If left in a single thread, the entire pipeline will bottleneck at this stage.
+You've launched 100 goroutines for web scraping. How do you collect all results in one place for final database writing, without using global variables and mutexes.
+Creating a new goroutine for each incoming request is dangerous. Under peak load, this can crash the service (panic due to memory exhaustion).
+Essence: A pattern consisting …]]></summary>
+        <author>
+            <name>Silver_dev</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The evolution of AI prompting: how 4 years of research inspired my new Claude Code Skill]]></title>
+        <id>https://dev.to/isspicycode/the-evolution-of-ai-prompting-how-4-years-of-research-inspired-my-new-claude-code-skill-nfh</id>
+        <link href="https://dev.to/isspicycode/the-evolution-of-ai-prompting-how-4-years-of-research-inspired-my-new-claude-code-skill-nfh"/>
+        <updated>2026-02-22T20:35:47.000Z</updated>
+        <summary type="html"><![CDATA[We use Large Language Models every day to write code across different languages and frameworks. But how does an AI actually reason about our code?
+I recently read six major research papers published between 2022 and 2026.
+Rather than merely taking notes, I decided to turn this academic research into a practical tool.
+cot-skill-claude-code.
+In 2022, researchers discovered a technique called Chain-of-Thought (CoT).
+By 2023, a new strategy emerged: Least-to-Most Prompting.
+Then came Progressive-Hint Prompting in 2024.
+The honeymoon phase ended with a 2025 paper called the CoT Mirage.
+To solve this trust issue, a 2026 paper introduced the Thinker-Executor model.
+I realized that developers need a way to control how much "reasoning" an AI applies to a problem.
+When you run my plugin, it asks you what kind of reasoning mode you need:
+Flash Mode: A direct, fast answer for simple syntax checks.
+Normal Mode: Full structured reasoning using the Least-to-Most decomposition strategy.
+Deep Mode: A multi-step validation process inspired by the Thinker-Executor model, used for complex architectures.
+The skill forces Claude to break down problems, analyze constraints, and verify its own logic before generating any code.
+If you want to try it out, you can find the plugin on my GitHub:
+isSpicyCode/cot-skill-claude-code.
+The six source references, in recommended reading order:
+arXiv:2201.11903 — Chain-of-Thought Prompting, Wei et al., 2022
+arXiv:2203.11171 — Self-Consistency, Wang et al., 2022
+arXiv:2205.10625 — Least-to-Most Prompting, Zhou et al., 2022
+arXiv:2304.09797 — Progressive-Hint Prompting, Zheng et al., 2023
+arXiv:2508.01191 — Is CoT a Mirage, Zhao et al., 2025
+arXiv:2602.17544 — Reusability and Verifiability of CoT, Aggarwal et al., 2026]]></summary>
+        <author>
+            <name>SpicyCode</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[drift: an open source CLI that detects silent technical debt in AI-generated TypeScript code]]></title>
+        <id>https://dev.to/eduardbar/drift-an-open-source-cli-that-detects-silent-technical-debt-in-ai-generated-typescript-code-4ll7</id>
+        <link href="https://dev.to/eduardbar/drift-an-open-source-cli-that-detects-silent-technical-debt-in-ai-generated-typescript-code-4ll7"/>
+        <updated>2026-02-22T20:34:27.000Z</updated>
+        <summary type="html"><![CDATA[I've been vibe coding for months. Fast shipping, AI pair programming, features done in hours.
+At some point I sat down and actually read the code the AI had written.
+It worked. But it had left a consistent pattern of silent debt — the kind CI doesn't catch, linters don't flag, but makes the codebase progressively harder to work with.
+Things like:
+catch(e) {} — errors swallowed silently with no logging, no rethrow
+Unused imports from refactors the AI did and never cleaned up
+Functions with no explicit return types breaking IDE inference
+console.log buried 3 layers deep in business logic
+50-line functions doing 5 unrelated things
+TODO/FIXME comments the AI added as placeholders and never resolved
+None of it broke anything. All of it made the codebase worse.
+So I built drift.
+drift is a CLI t…]]></summary>
+        <author>
+            <name>Eduard Barrera</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[The Loom Does Not Care Who Owns It]]></title>
         <id>https://dev.to/choutos/the-loom-does-not-care-who-owns-it-2965</id>
@@ -30,6 +296,16 @@ Path versioning (/v1/users, /v2/users) is the most common and usually the right 
 Header versioning (Accept: application/vnd.api+json;version=2) keeps URLs clean but makes versioning invisible in browser address bars and API documentation. Good for…]]></summary>
         <author>
             <name>ProRecruit</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Spain has blocked access to freedom.gov]]></title>
+        <id>https://twitter.com/Pirat_Nation/status/2025643188321714642</id>
+        <link href="https://twitter.com/Pirat_Nation/status/2025643188321714642"/>
+        <updated>2026-02-22T20:17:12.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -209,10 +485,30 @@ IOProof is a Node.js/Express proxy. You point your API calls through it instead 
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Six Math Essentials]]></title>
+        <id>https://terrytao.wordpress.com/2026/02/16/six-math-essentials/</id>
+        <link href="https://terrytao.wordpress.com/2026/02/16/six-math-essentials/"/>
+        <updated>2026-02-22T19:21:21.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Symplex, an open-source protocol semantic negotiation between distributed agents]]></title>
         <id>https://github.com/olserra/symplex</id>
         <link href="https://github.com/olserra/symplex"/>
         <updated>2026-02-22T19:20:59.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Black-White Array: fast, ordered and based on with O(log N) memory allocations]]></title>
+        <id>https://github.com/dronnix/bwarr</id>
+        <link href="https://github.com/dronnix/bwarr"/>
+        <updated>2026-02-22T19:19:31.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -297,6 +593,16 @@ The domain entities are mapped into REST response DT…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Building a (Bad) Local AI Coding Agent Harness from Scratch]]></title>
+        <id>https://www.appsoftware.com/blog/building-a-bad-local-ai-coding-agent-harness-from-scratch</id>
+        <link href="https://www.appsoftware.com/blog/building-a-bad-local-ai-coding-agent-harness-from-scratch"/>
+        <updated>2026-02-22T19:09:31.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[I built a CLI to see my real GitHub language stats – does something like this already exist?]]></title>
         <id>https://dev.to/maxfriedmann/i-built-a-cli-to-see-my-real-github-language-stats-does-something-like-this-already-exist-1n18</id>
         <link href="https://dev.to/maxfriedmann/i-built-a-cli-to-see-my-real-github-language-stats-does-something-like-this-already-exist-1n18"/>
@@ -334,6 +640,16 @@ Delegating: "I need a rate limiter for our auth endpoints. We're using Redis, th
 The first one gets you a generic cod…]]></summary>
         <author>
             <name>Matthew Hou</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Loops is a federated, open-source TikTok]]></title>
+        <id>https://joinloops.org/</id>
+        <link href="https://joinloops.org/"/>
+        <updated>2026-02-22T18:56:40.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -34423,6 +34739,16 @@ print…]]></summary>
         <id>https://zknill.io/posts/chatbots-worst-enemy-is-page-refresh/</id>
         <link href="https://zknill.io/posts/chatbots-worst-enemy-is-page-refresh/"/>
         <updated>2026-02-17T11:47:52.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Write-Only Code]]></title>
+        <id>https://www.heavybit.com/library/article/write-only-code</id>
+        <link href="https://www.heavybit.com/library/article/write-only-code"/>
+        <updated>2026-02-17T11:40:14.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -88608,335 +88934,6 @@ Context Switching: J…]]></summary>
         <id>https://dottedmag.net/blog/cheap-design/</id>
         <link href="https://dottedmag.net/blog/cheap-design/"/>
         <updated>2026-02-08T09:35:20.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Deep Learning Without Backpropagation]]></title>
-        <id>https://dev.to/cheetah100/deep-learning-without-backpropagation-21n6</id>
-        <link href="https://dev.to/cheetah100/deep-learning-without-backpropagation-21n6"/>
-        <updated>2026-02-08T09:17:39.000Z</updated>
-        <summary type="html"><![CDATA[Most modern neural networks learn using backpropagation. It works well, but it has a strange property: learning depends on a global error signal flowing backward through the entire network. Every weight update depends on information that may be many layers away.
-Brains don’t work like that.
-Neurons only see local information, what they receive through synapses, what they fire. There is no global gradient descending through the cortex. Yet biological systems learn deep, layered representations of the world with remarkable efficiency.
-This raises a simple question:
-Can deep neural networks learn using only local learning rules?
-Until recently, the answer appeared to be “not really.”
-Local learning rules, often called Hebbian learning (“neurons that fire together wire together”) have been kno…]]></summary>
-        <author>
-            <name>Peter Harrison</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Give Claude Code Full Project Context]]></title>
-        <id>https://dev.to/glue_admin_3465093919ac6b/how-to-give-claude-code-full-project-context-1m34</id>
-        <link href="https://dev.to/glue_admin_3465093919ac6b/how-to-give-claude-code-full-project-context-1m34"/>
-        <updated>2026-02-08T09:13:59.000Z</updated>
-        <summary type="html"><![CDATA[Claude Code is the most capable reasoning tool in any developer's stack. It handles ambiguous, multi-step problems better than Copilot or Cursor. But it shares the same fundamental limitation: it only knows what you show it.
-On a complex ticket — one that spans 5 services, 20 files, and years of accumulated decisions — Claude Code is working with maybe 10% of the context it needs. The other 90% is scattered across your codebase, git history, and your team's collective memory.
-When you ask Claude Code "how should I implement this ticket?", it needs to know:
-Which files are relevant (not just the ones you've opened)
-How those files connect (dependency graph, call paths)
-What was tried before (past PRs, reverted changes)
-Who knows this area (expertise for follow-up questions)
-What might break…]]></summary>
-        <author>
-            <name>Sahil Singh</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Concurrency Design Patterns: From Fundamental Theory to Architecture]]></title>
-        <id>https://dev.to/kanywst/concurrency-design-patterns-from-fundamental-theory-to-architecture-35j7</id>
-        <link href="https://dev.to/kanywst/concurrency-design-patterns-from-fundamental-theory-to-architecture-35j7"/>
-        <updated>2026-02-08T09:13:58.000Z</updated>
-        <summary type="html"><![CDATA[Introduction
-
-
-It is 2026. If you ask an AI agent to "speed up this process," it will return parallelized code in seconds.
-why that code becomes faster, or why it doesn't become as fast as expected?
-AI solves the "How" of implementation, but the "Why" and "Structure" that ensure the integrity and scalability of the entire system remain the responsibility of the engineer.
-In this article, we will systematically explain everything from the timeless "First Principles" of concurrency theory to the mental models for combining them, and finally, concrete implementation patterns.
-Before learning design patterns, we must eliminate ambiguity in definitions. Concurrency and Parallelism are distinctly different.
-
-
-
-Concept
-Definition
-Hardware Requirement
-Purpose
-
-
-
-
-Concurrency
-Multiple tasks are in …]]></summary>
-        <author>
-            <name>kt</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[x402 V2 Security Deep Dive: New Attack Vectors in AI Agent Payments]]></title>
-        <id>https://dev.to/mkmkkkkk/x402-v2-security-deep-dive-new-attack-vectors-in-ai-agent-payments-2cp2</id>
-        <link href="https://dev.to/mkmkkkkk/x402-v2-security-deep-dive-new-attack-vectors-in-ai-agent-payments-2cp2"/>
-        <updated>2026-02-08T09:12:14.000Z</updated>
-        <summary type="html"><![CDATA[x402 V2 shipped with three major protocol upgrades: dynamic payTo routing, wallet-based session identity, and a fully modular SDK architecture. Each change unlocks powerful new capabilities for AI agent payments. Each also introduces attack vectors that didn't exist in V1.
-I spent the last two weeks stress-testing the V2 migration path for PaySentry, our payment control plane for autonomous agents. Here's what you need to know about V2's security model — and how to enforce spending policies at the middleware layer before your agent loses money.
-Quick context: x402 is the HTTP-native payment protocol built on the 402 Payment Required status code. AI agents use it to pay for API calls directly inside HTTP flows — no accounts, no OAuth, no subscription management. Coinbase launched it in 2025…]]></summary>
-        <author>
-            <name>mkmkkkkk</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[15.Attach IAM Policy for DynamoDB Access Using Terraform]]></title>
-        <id>https://dev.to/thukhakyawe_cloud/15attach-iam-policy-for-dynamodb-access-using-terraform-2aek</id>
-        <link href="https://dev.to/thukhakyawe_cloud/15attach-iam-policy-for-dynamodb-access-using-terraform-2aek"/>
-        <updated>2026-02-08T09:11:39.000Z</updated>
-        <summary type="html"><![CDATA[Lab Information
-
-
-The DevOps team has been tasked with creating a secure DynamoDB table and enforcing fine-grained access control using IAM. This setup will allow secure and restricted access to the table from trusted AWS services only.
-As a member of the Nautilus DevOps Team, your task is to perform the following using Terraform:
-Create a DynamoDB Table: Create a table named datacenter-table with minimal configuration.
-
-Create an IAM Role: Create an IAM role named datacenter-role that will be allowed to access the table.
-
-Create an IAM Policy: Create a policy named datacenter-readonly-policy that should grant read-only access (GetItem, Scan, Query) to the specific DynamoDB table and attach it to the role.
-
-Create the main.tf file (do not create a separate .tf file) to provision the table,…]]></summary>
-        <author>
-            <name>Thu Kha Kyawe</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Reverse Engineering Raiders of the Lost Ark for the Atari 2600]]></title>
-        <id>https://github.com/joshuanwalker/Raiders2600</id>
-        <link href="https://github.com/joshuanwalker/Raiders2600"/>
-        <updated>2026-02-08T09:10:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[14.Provision IAM User with Terraform]]></title>
-        <id>https://dev.to/thukhakyawe_cloud/14provision-iam-user-with-terraform-3ghj</id>
-        <link href="https://dev.to/thukhakyawe_cloud/14provision-iam-user-with-terraform-3ghj"/>
-        <updated>2026-02-08T09:09:16.000Z</updated>
-        <summary type="html"><![CDATA[Lab Information
-
-
-The Nautilus DevOps team is experimenting with Terraform provisioners. Your task is to create an IAM user and use a local-exec provisioner to log a confirmation message.
-Create an IAM user named iamuser_siva.
-
-Use a local-exec provisioner with the IAM user resource to log the message KKE iamuser_siva has been created successfully! to a file called KKE_user_created.log under home/bob/terraform.
-
-Create the main.tf file (do not create a separate .tf file) to provision an IAM user.
-
-Use variables.tf file with the following:
-    KKE_USER_NAME: name of the IAM user.
-
-Use terraform.tfvars to input the name of the IAM user.
-
-Use outputs.tf file with the following:
-    kke_iam_user_name: name of the IAM user.
-
-1️⃣ variables.tf
-variable "KKE_USER_NAME" {
-  type = string
-}
-
-2️⃣ ter…]]></summary>
-        <author>
-            <name>Thu Kha Kyawe</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop Writing Your Own Python Parsers! Use This Free API Instead 🛑]]></title>
-        <id>https://dev.to/ryan6872/stop-writing-your-own-python-parsers-use-this-free-api-instead-1g0p</id>
-        <link href="https://dev.to/ryan6872/stop-writing-your-own-python-parsers-use-this-free-api-instead-1g0p"/>
-        <updated>2026-02-08T09:08:16.000Z</updated>
-        <summary type="html"><![CDATA[TL;DR: Stop wasting time writing complex ast logic. Use the Prometheus Text & Code Toolkit API to analyze Python code complexity and structure in milliseconds. It's free for developers.
-As Python developers, we often build tools that need to analyze code. Maybe you're building:
-  A student grading system 🎓
-  A code quality checker ✅
-  A customized linter 🧹
-The standard way involves importing the ast module, visiting nodes, handling recursion, and dealing with edge cases. It's painful and time-consuming.
-Today, I'm sharing a tool I built to solve this: Prometheus Text & Code Toolkit.
-It's a serverless API that does the heavy lifting for you.
- Code Analysis: Instantly get cyclomatic complexity, function counts, classes, and imports from raw Python code.
- Text Tools: Extract keywords, calcu…]]></summary>
-        <author>
-            <name>Ryan6872</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Sliding Window in Arrays — A Beginner’s Mental Model]]></title>
-        <id>https://dev.to/nithya_dharshiniofficial/sliding-window-in-arrays-a-beginners-mental-model-4b37</id>
-        <link href="https://dev.to/nithya_dharshiniofficial/sliding-window-in-arrays-a-beginners-mental-model-4b37"/>
-        <updated>2026-02-08T09:04:29.000Z</updated>
-        <summary type="html"><![CDATA[When I first heard Sliding Window, my confusion was:
-Why not recalculate every time?
-Which element leaves? Which enters?
-How do pointers actually move?
-This article explains sliding window only at the thinking level, not fancy tricks.
-Sliding Window is a technique where:
-You look at a continuous part of an array
-You reuse previous calculations
-You slide the window forward by removing one element and adding one new element
-Instead of recalculating everything again.
-Use sliding window when you see:
-Subarray / substring
-If the problem says:
-“subarray of size K”
-👉 Sliding window is the first thing to try.
-For every subarray:
-Loop again
-Add everything again
-Waste time
-Calculate once
-Remove what leaves
-Add what enters
-That’s it.
-Array:
-[5, 2, 7, 1]
-K = 3
-
-
-First window
-[5, 2, 7]
-Sum = 14
-
-Slide…]]></summary>
-        <author>
-            <name>Nithya Dharshini official</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Willow – Protocols for an uncertain future [video]]]></title>
-        <id>https://fosdem.org/2026/schedule/event/CVGZAV-willow/</id>
-        <link href="https://fosdem.org/2026/schedule/event/CVGZAV-willow/"/>
-        <updated>2026-02-08T08:52:50.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop Writing Boilerplate: How I Built a Code Generator to Automate NestJS Development]]></title>
-        <id>https://dev.to/inno0317/stop-writing-boilerplate-how-i-built-a-code-generator-to-automate-nestjs-development-1jk2</id>
-        <link href="https://dev.to/inno0317/stop-writing-boilerplate-how-i-built-a-code-generator-to-automate-nestjs-development-1jk2"/>
-        <updated>2026-02-08T08:46:07.000Z</updated>
-        <summary type="html"><![CDATA[Summary
-
-
-
- Identified repetitive coding patterns and built a Code Generator to automate them.
- Achieved code consistency, easier maintenance, and significantly faster development cycles.
- Leveraged AI to assist in maintaining the generator itself, reducing the overhead of tool maintenance.
-As a backend engineer, I found myself constantly battling with repetitive boilerplate code. Every time I created a new feature, I was typing the same structures over and over again. I asked myself: "Wouldn't development be much faster if I could just focus on the business logic and implementation?"
-The "Aha!" moment came while working with gRPC. I saw how basic code was automatically generated based on .proto files. Since the Node.js ecosystem (NestJS, React, Next.js) already embraces code generation to…]]></summary>
-        <author>
-            <name>Jaesang Lee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[DevFlow [ A CLI Tool to End Your Repetitive Project Setup ]]]></title>
-        <id>https://dev.to/itsmeangeloo/devflow-a-cli-tool-to-end-your-repetitive-project-setup--4543</id>
-        <link href="https://dev.to/itsmeangeloo/devflow-a-cli-tool-to-end-your-repetitive-project-setup--4543"/>
-        <updated>2026-02-08T08:45:34.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for the GitHub Copilot CLI Challenge
-I built DevFlow, a Node.js command-line (CLI) tool designed to help developers quickly start and manage their development sessions with a single command.
-Navigating to the project directory
-Opening the editor
-Installing dependencies
-Running dev servers
-Switching Git branches
-Setting environment variables
-When this happens across multiple projects in a day, the repetition becomes frustrating and time-consuming.
-DevFlow was inspired by that pain point.
-DevFlow
-After setting up DevFlow once, starting your projects is really simple. Just save a session and you’re good to go.
-Create a new session for a project called crm-integration:
- $ devflow init crm-integration 
-
-
-Now that the session exists, start it:
- $ devflow start crm-integratio…]]></summary>
-        <author>
-            <name>Angelo G.</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Clay Christensen's Milkshake Marketing (2011)]]></title>
-        <id>https://www.library.hbs.edu/working-knowledge/clay-christensens-milkshake-marketing</id>
-        <link href="https://www.library.hbs.edu/working-knowledge/clay-christensens-milkshake-marketing"/>
-        <updated>2026-02-08T08:42:08.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI Agents for Code: Build vs Buy in 2026]]></title>
-        <id>https://dev.to/glue_admin_3465093919ac6b/ai-agents-for-code-build-vs-buy-in-2026-21j4</id>
-        <link href="https://dev.to/glue_admin_3465093919ac6b/ai-agents-for-code-build-vs-buy-in-2026-21j4"/>
-        <updated>2026-02-08T08:34:22.000Z</updated>
-        <summary type="html"><![CDATA[Building custom AI agents is easier than ever. OpenAI's API, Claude's tool use, LangChain, CrewAI — the building blocks are available. So every engineering team asks: should we build our own code intelligence agent?
-The answer depends on what you actually need.
-Build your own when:
-You need domain-specific reasoning that no commercial tool covers (medical device firmware, classified systems)
-Your security requirements prohibit any commercial tool (air-gapped environments)
-The scope is narrow (one specific workflow, not general intelligence)
-You have ML/AI engineering expertise on the team
-Buy when:
-You need codebase-level intelligence (feature discovery, dependency graphs, knowledge extraction). Building this takes 6-12 months of dedicated engineering.
-You need cross-language support (pars…]]></summary>
-        <author>
-            <name>Sahil Singh</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[# Why a legacy project might be the best thing for your career]]></title>
-        <id>https://dev.to/alejandroq12/-why-a-legacy-project-might-be-the-best-thing-for-your-career-4d0e</id>
-        <link href="https://dev.to/alejandroq12/-why-a-legacy-project-might-be-the-best-thing-for-your-career-4d0e"/>
-        <updated>2026-02-08T08:33:22.000Z</updated>
-        <summary type="html"><![CDATA[Up until recently, I thought working on a legacy project would slow down my career. Especially nowadays, with people posting about AI and shiny new tech every single second, it felt like being left behind.
-But after living through it firsthand, I've learned huge lessons that completely changed my perspective. A legacy codebase isn't a dead end, it's a hidden accelerator if you know how to use it.
-Here's what working on a legacy project actually taught me.
-Legacy projects are full of ambiguity. Requirements are unclear, documentation is outdated or nonexistent, and tribal knowledge lives in people's heads.
-This is exactly where you learn to communicate like a professional. You learn to ask the right questions, to say "I don't understand this yet" without fear, to double check assumptions be…]]></summary>
-        <author>
-            <name>Julio Quezada</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Arcan Explained – A browser for different webs]]></title>
-        <id>https://arcan-fe.com/2026/01/26/arcan-explained-a-browser-for-different-webs/</id>
-        <link href="https://arcan-fe.com/2026/01/26/arcan-explained-a-browser-for-different-webs/"/>
-        <updated>2026-02-08T08:30:24.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Govt: 50% Toll Discount On 14, 15 February For Chinese New Year]]></title>
-        <id>https://www.lowyat.net/?p=381058</id>
-        <link href="https://www.lowyat.net/2026/381058/govt-50-toll-discount-14-15-february-chinese-new-year/"/>
-        <updated>2026-02-08T08:26:55.000Z</updated>
-        <summary type="html"><![CDATA[The government has once again announced a 50% toll discount for the upcoming festive season. This time around, these discounts take effect on 14 and 15 February. Which fall on the weekend just before Chinese New Year. Works Minister Alexander Nanta Linggi said “the discount is expected to help ease travel costs for the public […]
-The post Govt: 50% Toll Discount On 14, 15 February For Chinese New Year appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Quartz Crystals]]></title>
-        <id>https://www.pa3fwm.nl/technotes/tn13a.html</id>
-        <link href="https://www.pa3fwm.nl/technotes/tn13a.html"/>
-        <updated>2026-02-08T08:26:36.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
