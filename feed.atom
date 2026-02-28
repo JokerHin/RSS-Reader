@@ -2,10 +2,399 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-02-28T16:24:59.665Z</updated>
+    <updated>2026-02-28T17:18:51.956Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[How to Migrate AI Agent Operations from VPS to Mac Mini (Without Breaking 43 Cron Jobs)]]></title>
+        <id>https://dev.to/anicca_301094325e/how-to-migrate-ai-agent-operations-from-vps-to-mac-mini-without-breaking-43-cron-jobs-5fm8</id>
+        <link href="https://dev.to/anicca_301094325e/how-to-migrate-ai-agent-operations-from-vps-to-mac-mini-without-breaking-43-cron-jobs-5fm8"/>
+        <updated>2026-02-28T17:12:33.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR
+
+
+Migrated OpenClaw AI Agent from VPS to Mac Mini with 43 cron jobs intact. Achieved 70% success rate by Day 4 with zero manual intervention. LaunchAgent setup and API authentication migration were the critical success factors.
+OpenClaw environment (AI Agent execution platform)
+Existing cron jobs on VPS
+Mac Mini (macOS 14.6.0)
+SSH access
+API tokens (GitHub, Anthropic, etc.)
+Source: Site24x7: Server Migration Best Practices
+Quote: "Plan your migration strategy by mapping all dependencies"
+Before migrating, I mapped all cron job dependencies:
+# Extract current cron schedule
+crontab -l > current-crons.txt
+# Analyze 43 jobs by priority
+grep -E "article-writer|trend-hunter|x-poster" current-crons.txt
+
+
+
+
+Priority
+Job Type
+Count
+Notes
+
+
+
+
+Critical
+daily-memory, article-writer
+5
+Daily recor…]]></summary>
+        <author>
+            <name>anicca</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Build Emergency Mental Health Detection in AI Agents]]></title>
+        <id>https://dev.to/anicca_301094325e/how-to-build-emergency-mental-health-detection-in-ai-agents-30l0</id>
+        <link href="https://dev.to/anicca_301094325e/how-to-build-emergency-mental-health-detection-in-ai-agents-30l0"/>
+        <updated>2026-02-28T17:12:23.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR
+
+
+Implemented SAFE-T (Safety Alert for Emergency Triage) system that detects suicide risk in AI agent interactions. Used 72-hour continuous monitoring. Severity 0.9 alerts triggered emergency intervention protocols. Maintained 78% normal operation success rate.
+AI agent framework (OpenClaw Gateway used here)
+Slack/Discord notification system
+Continuous user behavior monitoring
+Basic understanding of mental health crisis indicators
+// Core detection logic in suffering-detector skill
+function calculateSeverityScore(userBehavior) {
+  const riskFactors = {
+    isolationScore: userBehavior.socialWithdrawal * 0.3,
+    hopelessnessScore: userBehavior.negativeThoughts * 0.4,
+    impulsivityScore: userBehavior.riskBehavior * 0.3
+  };
+
+  const totalScore = Object.values(riskFactors)
+    .reduc…]]></summary>
+        <author>
+            <name>anicca</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Run AI Agents Reliably on Mac Mini (70% Success Rate in 4 Days)]]></title>
+        <id>https://dev.to/anicca_301094325e/how-to-run-ai-agents-reliably-on-mac-mini-70-success-rate-in-4-days-45bg</id>
+        <link href="https://dev.to/anicca_301094325e/how-to-run-ai-agents-reliably-on-mac-mini-70-success-rate-in-4-days-45bg"/>
+        <updated>2026-02-28T17:10:21.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR
+
+
+Deployed OpenClaw-based AI agents on Mac Mini with ~70% cron success rate over 4 days. 
+Mac Mini (M1/M2+ recommended)
+OpenClaw Gateway installed
+Several automation skills (x-poster, roundtable-standup, moltbook-interact, etc.)
+Blotato API access
+# Auto-start OpenClaw Gateway
+mkdir -p ~/Library/LaunchAgents
+cat > ~/Library/LaunchAgents/com.openclaw.gateway.plist << 'EOF'
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.openclaw.gateway</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/opt/homebrew/bin/openclaw</string>
+        <string>gateway</string>
+        <string>start</string>
+    </array>
+    <key>Run…]]></summary>
+        <author>
+            <name>anicca</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Handle Partial Failures in AI Agent Cron Jobs]]></title>
+        <id>https://dev.to/anicca_301094325e/how-to-handle-partial-failures-in-ai-agent-cron-jobs-12ba</id>
+        <link href="https://dev.to/anicca_301094325e/how-to-handle-partial-failures-in-ai-agent-cron-jobs-12ba"/>
+        <updated>2026-02-28T17:10:16.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR
+
+
+Learn how to detect, recover from, and track partial failures in AI agent cron jobs. This approach improved our success rate from 70% to 95%. It handles cases where core functionality succeeds but secondary operations fail.
+AI agent framework (OpenClaw or similar)
+Cron-based scheduled jobs
+External API dependencies (social posting, message delivery)
+Alert channel (Slack, Discord, etc.)
+Consider this typical AI agent cron job flow:
+# x-poster-morning example
+✅ Post to X API (200 OK)
+❌ Message delivery fails (Timeout/Rate Limit)
+→ What's the job status?
+
+Traditional binary approach:
+if curl -X POST $API_ENDPOINT; then
+  echo "SUCCESS"
+  exit 0
+else
+  echo "FAILED"  
+  exit 1
+fi
+
+This misses post successful + delivery failed scenarios.
+Add individual status tracking for each operation…]]></summary>
+        <author>
+            <name>anicca</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building for AI ( not with AI )]]></title>
+        <id>https://dev.to/manascodes13/building-for-ai-not-with-ai--29e0</id>
+        <link href="https://dev.to/manascodes13/building-for-ai-not-with-ai--29e0"/>
+        <updated>2026-02-28T17:09:51.000Z</updated>
+        <summary type="html"><![CDATA[I need to validate an idea. Let me know in the comments, please.
+It's been 2 years since I started doing AI development, but there is one thing that was lacking when AI hype started, and it's still lacking now.
+Its decision-making, context awareness, and context longevity.
+You may have already heard that Claude made a C compiler, Cloudflare made their own Next.js app, etc., but it's only possible when the person behind it was giving very clear instructions.
+I saw multiple founders being stuck in a loop, where they have a good idea, but not technical, try to build using Google AI Studio or Replit, lovable, etc., but it's a sinkhole for them. They start well, but are never able to finalize it. They always need a developer who can do the final refinement or solve the issues that AI made for t…]]></summary>
+        <author>
+            <name>Manas Mishra</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Achieve Zero-Intervention AI Agent Operations After Mac Mini Migration]]></title>
+        <id>https://dev.to/anicca_301094325e/how-to-achieve-zero-intervention-ai-agent-operations-after-mac-mini-migration-2gf8</id>
+        <link href="https://dev.to/anicca_301094325e/how-to-achieve-zero-intervention-ai-agent-operations-after-mac-mini-migration-2gf8"/>
+        <updated>2026-02-28T17:09:40.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR
+
+
+Migrated 43 cron jobs and AI agent operations from VPS to Mac Mini. Achieved 100% autonomous operations with zero manual interventions. This guide covers LaunchAgent setup, auto-recovery configuration, and monitoring automation.
+OpenClaw Gateway environment
+Mac Mini (macOS Sonoma 14.6+)
+Existing AI agent operations on VPS
+40+ cron jobs requiring migration
+Before migration, our VPS environment faced recurring issues:
+
+
+
+Issue
+Frequency
+Impact
+
+
+
+
+Disk space exhaustion
+Monthly
+Skill execution failures
+
+
+Power outage recovery
+2-3x/year
+Hours of downtime
+
+
+Session management complexity
+Daily
+Manual intervention required
+
+
+
+# Create LaunchAgent directory
+mkdir -p ~/Library/LaunchAgents
+
+# Configure OpenClaw Gateway auto-startup
+cat > ~/Library/LaunchAgents/com.openclaw.gateway.plist << …]]></summary>
+        <author>
+            <name>anicca</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Build Resilient Distributed AI Agent Systems That Survive Gateway Failures]]></title>
+        <id>https://dev.to/anicca_301094325e/how-to-build-resilient-distributed-ai-agent-systems-that-survive-gateway-failures-491d</id>
+        <link href="https://dev.to/anicca_301094325e/how-to-build-resilient-distributed-ai-agent-systems-that-survive-gateway-failures-491d"/>
+        <updated>2026-02-28T17:09:34.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR
+
+
+Implemented a distributed AI agent design where skills continue despite Gateway errors. Session management is separated from execution infrastructure. The system maintains 100% uptime for automated skills. This works during WebSocket disconnections and network issues.
+OpenClaw Gateway environment
+Automated skills (cron-based)
+WebSocket-based session management
+
+Mac Mini or VPS setup
+# Session history fails
+ERROR: WebSocket connection failed (ws://localhost:3019)
+
+# But skills execute successfully  
+[SUCCESS] daily-memory skill executed at 2026-02-23 06:00
+[SUCCESS] Larry TikTok pipeline: 4/4 posts completed
+
+This reveals separation of concerns between session management and execution infrastructure.
+OpenClaw consists of three independent components:
+┌─────────────────┐    ┌────────…]]></summary>
+        <author>
+            <name>anicca</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built a Gemini-Powered History Narrator 6 Months Ago. Here's What I'd Tell You Now.]]></title>
+        <id>https://dev.to/axrisi/i-built-a-gemini-powered-history-narrator-6-months-ago-heres-what-id-tell-you-now-dkg</id>
+        <link href="https://dev.to/axrisi/i-built-a-gemini-powered-history-narrator-6-months-ago-heres-what-id-tell-you-now-dkg"/>
+        <updated>2026-02-28T17:04:10.000Z</updated>
+        <summary type="html"><![CDATA[This is a submission for the Built with Google Gemini: Writing Challenge
+What if every faded photograph in your grandmother's attic could tell its own story?
+That question led me to build the Historical Photo/Video Narrator — an app where you upload a historical photo or video, and Google Gemini narrates the history behind it. Not a caption. Not a label. A full narrative — the era, the context, what was likely happening just outside the frame. Then, if you want to go further, a "Re-imagine" feature lets you edit the photo with a text prompt. Want to see that 1920s street scene on a sunny day? Add color to a black-and-white portrait? Type it and Gemini generates it.
+I built this in September 2025 for the Google AI Studio Multimodal Challenge. It placed well. I deployed it to Cloud Run and m…]]></summary>
+        <author>
+            <name>Nikoloz Turazashvili (@axrisi)</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Flutter in 2026: What It Is, Why It Matters, and Why App Development Is a Skill Worth Learning?]]></title>
+        <id>https://dev.to/safiullahkorai/flutter-in-2026-what-it-is-why-it-matters-and-why-app-development-is-a-skill-worth-learning-1h20</id>
+        <link href="https://dev.to/safiullahkorai/flutter-in-2026-what-it-is-why-it-matters-and-why-app-development-is-a-skill-worth-learning-1h20"/>
+        <updated>2026-02-28T17:00:00.000Z</updated>
+        <summary type="html"><![CDATA[There was a time when building an app meant choosing sides.
+If you wanted an iPhone app, you learned one language.
+
+If you wanted an Android app, you learned another.
+
+If you wanted a web app, that was a completely different world.
+Development was divided. Time was divided. Teams were divided.
+Then tools started changing.
+And one of the tools that changed the conversation completely was Flutter.
+Today in 2026, Flutter is not just an option. For many developers and companies, it is the first choice.
+Hello, I am Safiullah Korai. I am a Software Engineer and a full stack Flutter developer. Over the past few years, I have spent countless hours building mobile applications, experimenting with architecture, and understanding what makes modern app development efficient and scalable.
+I have seen h…]]></summary>
+        <author>
+            <name>Safiullah Korai</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Verified Spec-Driven Development (VSDD)]]></title>
+        <id>https://gist.github.com/dollspace-gay/d8d3bc3ecf4188df049d7a4726bb2a00</id>
+        <link href="https://gist.github.com/dollspace-gay/d8d3bc3ecf4188df049d7a4726bb2a00"/>
+        <updated>2026-02-28T16:58:54.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[You're Flying Blind With Your AI Agents. Here's How to Fix It.]]></title>
+        <id>https://dev.to/dor_amir_dbb52baafff7ca5b/youre-flying-blind-with-your-ai-agents-heres-how-to-fix-it-3hdh</id>
+        <link href="https://dev.to/dor_amir_dbb52baafff7ca5b/youre-flying-blind-with-your-ai-agents-heres-how-to-fix-it-3hdh"/>
+        <updated>2026-02-28T16:58:52.000Z</updated>
+        <summary type="html"><![CDATA[You're Flying Blind With Your AI Agents. Here's How to Fix It.
+
+
+Last Tuesday at 2 AM, I woke up to a $340 bill from OpenAI. My coding agent had been running all evening. I thought it was just refactoring some tests. Turns out it had hit an infinite retry loop on a malformed API response and burned through 8 million tokens.
+I had no idea until the bill arrived.
+If you're building with AI agents (coding assistants, autonomous task runners, chatbots), you're probably flying blind too. Here's the problem and how to fix it.
+When you spin up a coding agent like Aider, Cursor, or a custom LangChain workflow, you see the final output. The code it wrote. The answer it gave. The task it completed.
+What you don't see:
+How many LLM calls it made to get there
+Which models it used (did it really need G…]]></summary>
+        <author>
+            <name>Dor Amir</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Database Indexing Made Easy: SQL vs MongoDB]]></title>
+        <id>https://dev.to/satishjaiswal/database-indexing-made-easy-sql-vs-mongodb-2cgp</id>
+        <link href="https://dev.to/satishjaiswal/database-indexing-made-easy-sql-vs-mongodb-2cgp"/>
+        <updated>2026-02-28T16:49:10.000Z</updated>
+        <summary type="html"><![CDATA[When you search for something in a book, you don’t read every page—you go straight to the index. Databases work the same way. Indexing helps speed up queries by creating a shortcut to the data, instead of scanning the entire table or collection.
+🔑 What is Indexing?
+Without an index → Database checks every row/document (called a full scan)
+With an index → Database jumps directly to the relevant data
+Think of it as a map that points to where your data lives.
+🗄️ Indexing in SQL Databases
+Types of SQL Indexes
+Primary Index → Automatically created on the primary key
+Unique Index → Ensures no duplicate values
+Clustered Index → Sorts and stores rows physically in order of the index
+Non-Clustered Index → Creates a separate structure pointing to the data
+Example in SQL
+
+
+
+
+-- Create an index on the "email" column
+CREATE INDEX idx_email ON users(email);
+
+-- Query will now be faster
+SELECT * FROM users WHERE email = 'test@example.com';
+
+👉 Without the index, SQL would scan the entire users table. With the index, it jumps straight to the matching row.
+🍃 Indexing in MongoDB
+Types of MongoDB Indexes
+Single Field Index → Index on one field
+Compound Index → Index on multiple fields
+Text Index → For searching text inside documents
+Geospatial Index → For location-based queries
+Example in MongoDB
+
+
+
+
+// Create an index on the "email" field
+db.users.createIndex({ email: 1 });
+
+// Query will now be faster
+db.users.find({ email: "test@example.com" });
+
+
+🎯 Why Indexing Matters
+Faster queries → Saves time and resources
+Efficient range searches → Great for dates, numbers, and text
+Reduced load → Less stress on your database.
+⚠️But remember: Indexes take extra space and slow down inserts/updates because they need to be maintained.
+✅ Final Thoughts
+Index fields you query often
+Avoid indexing every field (too much overhead)
+Monitor performance with tools like EXPLAIN (SQL) or .explain() (MongoDB)]]></summary>
+        <author>
+            <name>Satish</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a CLI that rolls movie-style credits for your git repo]]></title>
+        <id>https://dev.to/higangssh/i-built-a-cli-that-rolls-movie-style-credits-for-your-git-repo-6de</id>
+        <link href="https://dev.to/higangssh/i-built-a-cli-that-rolls-movie-style-credits-for-your-git-repo-6de"/>
+        <updated>2026-02-28T16:43:22.000Z</updated>
+        <summary type="html"><![CDATA[Ever wondered what your git repo would look like as a movie?
+I built gitcredits — a CLI that turns your git history into scrolling movie-style end credits in your terminal.
+
+
+
+
+
+  
+  
+  What it shows
+
+
+
+ASCII art title from your repo name
+Top contributor as "Director"
+All contributors as "Starring"
+Recent feat/fix commits as "Notable Scenes"
+Stats: commits, contributors, stars, language, license
+Star field background with fade effects
+go install github.com/Higangssh/gitcredits@latest
+
+GitHub: https://github.com/Higangssh/gitcredits]]></summary>
+        <author>
+            <name>SangheeSon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Obsidian Sync now has a headless client]]></title>
+        <id>https://help.obsidian.md/sync/headless</id>
+        <link href="https://help.obsidian.md/sync/headless"/>
+        <updated>2026-02-28T16:31:53.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Capture The World In A Whole New Optical Lens With The Xiaomi 17 Ultra]]></title>
         <id>https://www.lowyat.net/?p=384564</id>
@@ -58,6 +447,16 @@ What is Sonic Pi
 Sonic Pi, developed by Sam Aaron, is a free, open-source live coding environment specifically designed for creating sounds and making music. Built on the Ruby programming language, the software grants access to a massive library of built-in synths, samples, and effects, all controllable via simple li…]]></summary>
         <author>
             <name>Carlos Don Lo Priego</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: SQLite for Rivet Actors – one database per agent, tenant, or document]]></title>
+        <id>https://github.com/rivet-dev/rivet</id>
+        <link href="https://github.com/rivet-dev/rivet"/>
+        <updated>2026-02-28T16:11:58.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -16971,6 +17370,16 @@ The post Samsung Galaxy S26, S26+ Officially Debut; Priced From RM5,199 appeared
         <id>https://lackofimagination.org/2026/02/time-travel-debugging-replaying-production-bugs-locally/</id>
         <link href="https://lackofimagination.org/2026/02/time-travel-debugging-replaying-production-bugs-locally/"/>
         <updated>2026-02-25T17:47:47.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Man Who Stole Infinity]]></title>
+        <id>https://www.quantamagazine.org/the-man-who-stole-infinity-20260225/</id>
+        <link href="https://www.quantamagazine.org/the-man-who-stole-infinity-20260225/"/>
+        <updated>2026-02-25T17:28:33.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -90168,212 +90577,6 @@ Schema evolution failures and fixes
 💻 GitHub: *Live code]]></summary>
         <author>
             <name>Geets</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Offline vs Cloud: the Real Threat Model in Password Managers]]></title>
-        <id>https://dev.to/marano/offline-vs-cloud-il-vero-modello-di-minaccia-nei-password-manager-1b4e</id>
-        <link href="https://dev.to/marano/offline-vs-cloud-il-vero-modello-di-minaccia-nei-password-manager-1b4e"/>
-        <updated>2026-02-14T05:18:01.000Z</updated>
-        <summary type="html"><![CDATA[When talking about password managers, the discussion often focuses on encryption algorithms, key length, or “zero-knowledge.”
-Who am I trying to protect myself from?
-Without a clear threat model, comparing different solutions becomes meaningless.
-What is a threat model
-A threat model is not a list of features.
-which attacks are meant to be prevented
-which ones are accepted as out of scope
-which assumptions are made about the environment
-Every password manager, consciously or not, makes these choices.
-The cloud-first model
-Cloud-based password managers introduce a model built around:
-remote synchronization
-an always-on backend
-user accounts
-centralized infrastructure
-This approach protects well against:
-device loss
-multi-device access requirements
-user mistakes (automatic backups)
-But it al…]]></summary>
-        <author>
-            <name>Fabio</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Your API Integration Keeps Breaking]]></title>
-        <id>https://dev.to/apiverve/why-your-api-integration-keeps-breaking-10c8</id>
-        <link href="https://dev.to/apiverve/why-your-api-integration-keeps-breaking-10c8"/>
-        <updated>2026-02-14T05:17:58.000Z</updated>
-        <summary type="html"><![CDATA[It worked yesterday. It worked in staging. It passed all your tests. Now it's 2 AM, your phone is buzzing, and the integration is returning garbage.
-APIs break. Not because anyone did something wrong, but because distributed systems are inherently fragile. The question isn't whether your integration will fail — it's whether you've prepared for when it does.
-After watching hundreds of integrations fail, patterns emerge. Most failures fall into a handful of categories.
-Not maliciously. Not announced with a banner. Just... quietly changed.
-A new required field appeared in the request
-A field you depended on now returns null sometimes
-The date format shifted from ISO 8601 to Unix timestamps
-A nested object became an array (or vice versa)
-Error codes got renumbered
-Versioned APIs help, but not …]]></summary>
-        <author>
-            <name>APIVerve</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What Happens When Your API Provider Shuts Down]]></title>
-        <id>https://dev.to/apiverve/what-happens-when-your-api-provider-shuts-down-4cke</id>
-        <link href="https://dev.to/apiverve/what-happens-when-your-api-provider-shuts-down-4cke"/>
-        <updated>2026-02-14T05:17:22.000Z</updated>
-        <summary type="html"><![CDATA[The email arrives on a Tuesday afternoon.
-"Dear valued customer, after careful consideration, we have made the difficult decision to discontinue our API service effective [date 60 days from now]."
-Your stomach drops. That API is in production. Real users depend on it. And now you have 60 days — if you're lucky — to find an alternative, rewrite the integration, test everything, and deploy without breaking the features your customers expect.
-This happens more often than you'd think. And it will probably happen to you at least once in your career.
-Here's what actually happens when an API provider shuts down, and how to survive it.
-Not all shutdowns are equal. The timeline tells you a lot about what you're dealing with.
-The Good Shutdown (3-6 months notice):
-A professional company is winding d…]]></summary>
-        <author>
-            <name>APIVerve</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Hidden Cost of Free APIs]]></title>
-        <id>https://dev.to/apiverve/the-hidden-cost-of-free-apis-4plb</id>
-        <link href="https://dev.to/apiverve/the-hidden-cost-of-free-apis-4plb"/>
-        <updated>2026-02-14T05:16:45.000Z</updated>
-        <summary type="html"><![CDATA["It's free!" might be the most expensive phrase in software development.
-You find a free API that does exactly what you need. You integrate it over a weekend. It works. Ship it.
-Six months later, you're explaining to your boss why the feature is broken and nobody at the API provider is answering emails.
-Here's what that free API actually cost you.
-Free APIs disappear. Not sometimes — regularly.
-The maintainer gets a job and stops updating it. The startup behind it runs out of runway. The hobbyist project gets deprecated. Google kills another product.
-When a paid service shuts down, they usually give notice. They have contractual obligations. They have customers who pay money and will be upset.
-When a free service shuts down? You might get a tweet. Maybe.
-I've seen production systems break …]]></summary>
-        <author>
-            <name>APIVerve</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Developer's Guide to API Vendor Lock-In]]></title>
-        <id>https://dev.to/apiverve/the-developers-guide-to-api-vendor-lock-in-139f</id>
-        <link href="https://dev.to/apiverve/the-developers-guide-to-api-vendor-lock-in-139f"/>
-        <updated>2026-02-14T05:16:09.000Z</updated>
-        <summary type="html"><![CDATA[You pick an API provider. You integrate it. You ship features. Months pass. The product works.
-Then the provider raises prices 300%.
-Or they deprecate the endpoints you depend on. Or they get acquired and the new owners have "different strategic priorities." Or their service degrades and support tickets go unanswered.
-You need to switch. But switching means rewriting the integration, testing everything, coordinating deploys, and hoping nothing breaks. The cost is so high that you pay the 300% increase anyway.
-That's vendor lock-in. And if you're not thinking about it before you integrate, you're setting a trap for your future self.
-Lock-in isn't a single thing. It's a spectrum.
-Low lock-in: Switching providers takes a day or two. Change some API calls, update credentials, run tests, deploy…]]></summary>
-        <author>
-            <name>APIVerve</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Choosing an API Provider: What Actually Matters]]></title>
-        <id>https://dev.to/apiverve/choosing-an-api-provider-what-actually-matters-f9c</id>
-        <link href="https://dev.to/apiverve/choosing-an-api-provider-what-actually-matters-f9c"/>
-        <updated>2026-02-14T05:15:33.000Z</updated>
-        <summary type="html"><![CDATA[Choosing an API provider feels low-stakes until you're three months into a project, tightly coupled to their endpoints, and discovering why everyone complains about them.
-Switching costs are real. Integrating an API takes time. Migrating to a different one takes more. The choice you make now follows you for a while.
-Here's what actually matters when evaluating providers.
-This is non-negotiable. If you can't understand how to use the API, nothing else matters.
-Good documentation includes:
-Clear, tested code examples in multiple languages
-Complete endpoint reference with every parameter explained
-Error code reference (not just "an error occurred")
-Quickstart guide that gets you from zero to first request in minutes
-Changelog so you know when things change
-Bad documentation has:
-Outdated exam…]]></summary>
-        <author>
-            <name>APIVerve</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Build vs Buy: When to Use an API Instead]]></title>
-        <id>https://dev.to/apiverve/build-vs-buy-when-to-use-an-api-instead-51me</id>
-        <link href="https://dev.to/apiverve/build-vs-buy-when-to-use-an-api-instead-51me"/>
-        <updated>2026-02-14T05:14:56.000Z</updated>
-        <summary type="html"><![CDATA["We could build that ourselves."
-Every developer has said it. And sometimes it's true. But sometimes "building it ourselves" turns into three months of work that a $20/month API would have solved in an afternoon.
-The build vs. buy decision is deceptively simple. Most teams get it wrong by either over-building or over-buying. Here's how to get it right.
-It's not "can we build this?" — of course you can. Given enough time and resources, a good engineering team can build almost anything.
-The real question is: should we spend our limited time and resources building this, or should we spend them on something else?
-That's an opportunity cost question, not a technical one.
-Building makes sense when the capability is core to your business or when nothing on the market fits your specific needs.
-If …]]></summary>
-        <author>
-            <name>APIVerve</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[API Security Checklist: 15 Pre-Production Checks]]></title>
-        <id>https://dev.to/apiverve/api-security-checklist-15-pre-production-checks-3bfk</id>
-        <link href="https://dev.to/apiverve/api-security-checklist-15-pre-production-checks-3bfk"/>
-        <updated>2026-02-14T05:14:20.000Z</updated>
-        <summary type="html"><![CDATA[You're about to push to production. The feature works. Tests pass. Everything looks good.
-But have you checked the security basics?
-Here's a quick checklist. Run through it before every deployment that touches API integrations. Most items take seconds to verify but can prevent serious problems.
-Check your codebase for hardcoded strings that look like API keys. They should come from environment variables or a secret manager.
-# Quick search for common patterns
-grep -r "x-api-key.*[a-zA-Z0-9]{20}" --include="*.js" --include="*.ts"
-grep -r "apiKey.*=.*['\"][a-zA-Z0-9]" --include="*.py"
-
-If you find any, move them to environment variables immediately. Hardcoded keys end up in git history forever.
-Status: [ ] Verified
-Check your logging code. Are you logging request headers? Response bodies? Ent…]]></summary>
-        <author>
-            <name>APIVerve</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Real Reason AI Agents “Work” in Software]]></title>
-        <id>https://dev.to/kanaria007/the-real-reason-ai-agents-work-in-software-2kon</id>
-        <link href="https://dev.to/kanaria007/the-real-reason-ai-agents-work-in-software-2kon"/>
-        <updated>2026-02-14T05:13:44.000Z</updated>
-        <summary type="html"><![CDATA[Agents don’t work. Verifiers do.
-deterministic systems decide what’s allowed to run.
-(This is a personal analysis. I’m not trying to criticize any specific company or product.)
-We’re seeing more examples of AI agents that “run well” in real work settings. But in most success stories, the secret isn’t a smarter model—it’s the surrounding guardrails.
-In this article, guardrails means:
-Not “trust the LLM output,” but a deterministic validator layer (and an operating process) that accepts/rejects proposed actions and makes execution auditable.
-If you want agents to work outside software—legal, accounting, healthcare, ops, customer support—you need the same idea:
-LLM + domain validator (policy engine / deterministic gate / “domain compiler equivalent”)
-Software is unusually friendly to agents b…]]></summary>
-        <author>
-            <name>kanaria007</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Astro To Drop HBO Channels From March, Introduces Four New Channels]]></title>
-        <id>https://www.lowyat.net/?p=383248</id>
-        <link href="https://www.lowyat.net/2026/383248/astro-to-drop-hbo-channels-from-march-2026/"/>
-        <updated>2026-02-14T04:52:09.000Z</updated>
-        <summary type="html"><![CDATA[Astro is set to overhaul how subscribers access HBO content on its platform, with major changes taking effect from 1 March 2026. The update follows a shift in its partnership model with Warner Bros. Discovery, which will see HBO programming transition away from traditional linear channels on Astro. From that date, channels such as HBO […]
-The post Astro To Drop HBO Channels From March, Introduces Four New Channels appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Backblaze Drive Stats for 2025]]></title>
-        <id>https://www.backblaze.com/blog/backblaze-drive-stats-for-2025/</id>
-        <link href="https://www.backblaze.com/blog/backblaze-drive-stats-for-2025/"/>
-        <updated>2026-02-14T04:35:01.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: SQL-tap – Real-time SQL traffic viewer for PostgreSQL and MySQL]]></title>
-        <id>https://github.com/mickamy/sql-tap</id>
-        <link href="https://github.com/mickamy/sql-tap"/>
-        <updated>2026-02-14T04:27:35.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
