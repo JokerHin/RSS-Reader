@@ -2,10 +2,329 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-03-02T11:30:58.478Z</updated>
+    <updated>2026-03-02T12:56:04.132Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Vim commands that handle the detail work without friction]]></title>
+        <id>https://dev.to/vimtrickswiki/vim-commands-that-handle-the-detail-work-without-friction-4b75</id>
+        <link href="https://dev.to/vimtrickswiki/vim-commands-that-handle-the-detail-work-without-friction-4b75"/>
+        <updated>2026-03-02T12:45:35.000Z</updated>
+        <summary type="html"><![CDATA[Most of the time Vim does what you expect. But there is a category of editing tasks where the obvious approach quietly fails you: numeric data that sorts wrong, a diff window you can only scroll through, a macro that breaks because of your own mappings, or a regex that swallows half the file instead of a small piece of it. None of these are exotic edge cases — they come up in ordinary work.
+These five commands are the ones I reach for when that category of problem shows up.
+When you open two files side by side with vimdiff or :diffsplit, the changed sections are highlighted — but you still have to find them. Scrolling through a large file looking for the next colored block is slow and easy to miss. ]c and [c are motions that jump directly to diff hunks, skipping unchanged content entirely.…]]></summary>
+        <author>
+            <name>Vimtricks.wiki</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Kubernetes'te TimescaleDB Retention Testleri]]></title>
+        <id>https://dev.to/tarikanafarta/kuberneteste-timescaledb-retention-testleri-3i8m</id>
+        <link href="https://dev.to/tarikanafarta/kuberneteste-timescaledb-retention-testleri-3i8m"/>
+        <updated>2026-03-02T12:43:34.000Z</updated>
+        <summary type="html"><![CDATA[Önceki yazımızda Kubernetes üzerinde iki ayrı kurulum (vanilla PostgreSQL ve TimescaleDB) yapıp az veriyle tablo + index boyutlarını kıyaslamıştık. Bu yazıda aynı environment üzerinde TimescaleDB'nin data retention (eski veriyi silme) yaklaşımını pratikte test ediyoruz.
+Namespace: database
+TimescaleDB pod: timescaledb-single chart (master pod)
+StorageClass: local-path (tek node)
+Komutlarda iki değişken kullanacağız: NS ve TSPOD.
+NS=database
+TSPOD="$(kubectl get pod -n $NS -l release=timescaledb,role=master -o jsonpath='{.items[0].metadata.name}')"
+echo "TSPOD=$TSPOD"
+
+Bu blok sonraki komutlarda kullanacağımız değişkenleri hazırlar.
+Bu deneyde 48 saatlik veri bastık (5 dakikada bir), sonra 24 saatten eski chunk'ları manuel olarak dropladık.
+kubectl exec -n $NS -i $TSPOD -- psql -U postgres …]]></summary>
+        <author>
+            <name>Tarık Anafarta</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Made a Product Demo Video Entirely with AI]]></title>
+        <id>https://dev.to/javieraguilarai/i-made-a-product-demo-video-entirely-with-ai-e6h</id>
+        <link href="https://dev.to/javieraguilarai/i-made-a-product-demo-video-entirely-with-ai-e6h"/>
+        <updated>2026-03-02T12:41:31.000Z</updated>
+        <summary type="html"><![CDATA[I needed a demo video for an RFP automation platform I'm building. The typical approach: record your screen, stumble through clicks, re-record when something breaks, then spend an hour in a video editor syncing voiceover. I've done it before. It's painful.
+So I tried a different approach: let AI do the whole thing.
+Claude Code wrote the entire recording pipeline — Playwright scripts, ffmpeg assembly, speed control, subtitle generation
+edge-tts generated the narration with Microsoft's neural voices
+Gemini 3.1 Pro reviewed the final video for audio/video sync issues
+The result: a 3-minute narrated demo with 14 scenes, variable speed segments, and subtitles. No video editor. No screen recording app. No manual voiceover.
+🎥 Watch the video demo on Loom
+Note: Interactive video player available …]]></summary>
+        <author>
+            <name>JaviMaligno</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Scoring HN discussions by practitioner depth, not popularity]]></title>
+        <id>https://dev.to/vnykmshr/scoring-hn-discussions-by-practitioner-depth-not-popularity-41nd</id>
+        <link href="https://dev.to/vnykmshr/scoring-hn-discussions-by-practitioner-depth-not-popularity-41nd"/>
+        <updated>2026-03-02T12:39:43.000Z</updated>
+        <summary type="html"><![CDATA[HN gets 500+ stories a day. The front page is ranked by votes - which surfaces popular content, not necessarily the best discussions. A post about a Google outage will outrank a thread where infrastructure engineers are quietly sharing how they handle failover.
+sift tries to find the second kind.
+The scoring algorithm looks at five signals in the comment tree:
+Depth breadth (30% weight) - Not max depth. The fraction of comments at 3+ levels of conversation. A thread where 20% of comments are three replies deep means real back-and-forth happened.
+Practitioner markers (25%) - Comments containing experience phrases ("I built," "we used," "in production"), code blocks, specific tool names, or hedging language like "FWIW" and "YMMV" that correlates with practitioners.
+Score velocity (15%) - Points per hour. Sustained interest over time, not a spike.
+Author diversity (15%) - Unique authors relative to comment count, weighted by thread size. High diversity at depth 3+ means different people are engaging with each other's thinking.
+Reference density (15%) - Comments with external links. Citation culture.
+Before these signals run, threads pass through quality filters: flame detection (hostile short comments at depth), comment length IQR (catches pile-ons), temporal spread (catches flash-in-the-pan), and a discussion density band-pass.
+10-12 discussions per day. 6 above the fold, rest behind a tap. Each with a context paragraph explaining why it was picked. Updated 4x/day. Yesterday's picks are gone.
+Astro static site. Zero client JS. Self-hosted fonts (Newsreader + JetBrains Mono). Cloudflare Pages. GitHub Actions for the pipeline (fetch from Algolia, score, build, deploy). Cloudflare KV for cross-run state so repeated threads get decayed.
+Total cost: $0/month on free tiers. Total page weight: ~18KB HTML, ~7KB CSS, ~320KB fonts.
+https://sift.1mb.dev]]></summary>
+        <author>
+            <name>vmx</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Enhancing devlog-ist/landing Page Layout and Responsiveness]]></title>
+        <id>https://dev.to/geanruca/enhancing-devlog-istlanding-page-layout-and-responsiveness-5apn</id>
+        <link href="https://dev.to/geanruca/enhancing-devlog-istlanding-page-layout-and-responsiveness-5apn"/>
+        <updated>2026-03-02T12:36:05.000Z</updated>
+        <summary type="html"><![CDATA[Improving Layout Consistency in devlog-ist/landing
+
+
+The devlog-ist/landing project aims to provide a platform for developers to share their experiences and insights. Recent work focuses on refining the visual presentation and responsiveness of the landing page.
+The initial layout of the stats page sections within devlog-ist/landing exhibited inconsistencies in height, particularly when displaying education, experience, technologies, and notable projects side-by-side in a grid. This resulted in an uneven appearance, detracting from the overall user experience. Additionally, the profile card text in the retro theme did not fully utilize the available width on desktop screens.
+To address these issues, the layout was modified to stack the education, experience, technologies, and notable proje…]]></summary>
+        <author>
+            <name>Gerardo Andrés Ruiz Castillo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[This CLI Launches Parallel AI Agents. It Didn't Launch on Linux.]]></title>
+        <id>https://dev.to/ticktockbent/this-cli-launches-parallel-ai-agents-it-didnt-launch-on-linux-3pdc</id>
+        <link href="https://dev.to/ticktockbent/this-cli-launches-parallel-ai-agents-it-didnt-launch-on-linux-3pdc"/>
+        <updated>2026-03-02T12:35:19.000Z</updated>
+        <summary type="html"><![CDATA[All I wanted was to point a swarm of Claude Code agents at a set of GitHub issues and let them work in parallel. iloom does exactly that: spin up isolated git worktrees, assign an agent to each issue, let them run concurrently, come back to a set of PRs. I ran il start on my Linux dev server and hit three errors in a row.
+First, it couldn't find the code CLI command (I use Code Server, which doesn't ship one). Passed --no-code. Second, it detected a non-interactive environment (I was in a Claude Code terminal session). Passed --epic explicitly. Third:
+Terminal window launching not yet supported on linux.
+
+No flag. No fallback. No workaround. The core workflow, the entire reason the tool exists, was hardcoded for macOS. Every invocation mode failed: single issue, epic, one-shot. The worktre…]]></summary>
+        <author>
+            <name>Wes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Add an Audit Trail to Your API in Minutes with HazelJS]]></title>
+        <id>https://dev.to/arslan_mecom/add-an-audit-trail-to-your-api-in-minutes-with-hazeljs-3akn</id>
+        <link href="https://dev.to/arslan_mecom/add-an-audit-trail-to-your-api-in-minutes-with-hazeljs-3akn"/>
+        <updated>2026-03-02T12:32:45.000Z</updated>
+        <summary type="html"><![CDATA[Who did what, when, and with what outcome? If your API needs to answer that for compliance, security, or debugging, you need a structured audit trail. This post shows how to get one quickly using the HazelJS Audit Starter: a small Orders API that logs every HTTP request and every business event to console, file, and optionally Kafka — with actors, resources, and redaction built in.
+Compliance — Regulators and policies often require a record of who accessed or changed what.
+Security — After an incident, you need a timeline of actions and actors.
+Debugging — “Why did this order change?” is easier when every create/update/delete is logged.
+Doing this from scratch means instrumenting every endpoint, normalizing event shape, and piping events to logs or a SIEM. The HazelJS Audit Starter and @ha…]]></summary>
+        <author>
+            <name>Muhammad Arslan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[.NET: CopyToAsync vs WriteAsync: The Benchmark You Didn’t Know You Needed]]></title>
+        <id>https://dev.to/gramli/net-copytoasync-vs-writeasync-the-benchmark-you-didnt-know-you-needed-1g39</id>
+        <link href="https://dev.to/gramli/net-copytoasync-vs-writeasync-the-benchmark-you-didnt-know-you-needed-1g39"/>
+        <updated>2026-03-02T12:31:27.000Z</updated>
+        <summary type="html"><![CDATA[I had a task where one small part involved writing a byte array to a MemoryStream.
+Since this was a trivial task, I let Copilot generate the code. But Copilot used CopyToAsync instead of WriteAsync.
+That raised a question, so I asked why.
+It kept trying to convince me that CopyToAsync was a better fit for this scenario (a 1 MB file), and I quote:
+CopyToAsync might offer better performance due to its internal optimizations for copying data between streams. The performance difference between these two approaches can be minimal for small to moderately sized data.
+According to Copilot:
+Small to medium data: 12 KB – 32 KB
+Large data: 5 MB – 10 MB
+But here’s the important detail:
+I wasn’t copying between two independent streams.
+In that case, wrapping it in a MemoryStream just to call CopyToAsyn…]]></summary>
+        <author>
+            <name>Daniel Balcarek</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What It Takes to Build a High-Performing Team]]></title>
+        <id>https://dev.to/icetique/what-it-takes-to-build-a-high-performing-team-3n4h</id>
+        <link href="https://dev.to/icetique/what-it-takes-to-build-a-high-performing-team-3n4h"/>
+        <updated>2026-03-02T12:29:16.000Z</updated>
+        <summary type="html"><![CDATA[Trust, perfectionism, vision, partnership, autonomy, and purpose - what it takes to move from boss to leader and build a team that performs.
+Usually, the relationship between employer and employee starts like this:
+"I pay you, so you do what I want."
+While it works for small teams, there is a point of no return - when you are no longer able to oversee every team member personally, nor give enough attention to each individual.
+Money is no longer the only contract between you and your employee.
+This is when your internal self reveals itself - whether your ego is satisfied, or whether it needs constant validation. Whether you are a leader or just a boss.
+If you do not trust your team, chances are you will be very miserable.
+Since you cannot watch everyone all the time, you will subconsciously…]]></summary>
+        <author>
+            <name>Tomasz Klapsia</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Solved: Fresher self-studying Linux/DevOps, feeling stuck even after lots of effort need guidance]]></title>
+        <id>https://dev.to/techresolve/solved-fresher-self-studying-linuxdevops-feeling-stuck-even-after-lots-of-effort-need-guidance-282j</id>
+        <link href="https://dev.to/techresolve/solved-fresher-self-studying-linuxdevops-feeling-stuck-even-after-lots-of-effort-need-guidance-282j"/>
+        <updated>2026-03-02T12:26:36.000Z</updated>
+        <summary type="html"><![CDATA[🚀 Executive Summary
+
+
+TL;DR: Many freshers studying Linux/DevOps get stuck in ‘tutorial hell,’ memorizing commands without the ability to apply them to real-world problems. To overcome this, focus on building complete, end-to-end projects, adopt a problem-first learning approach, and escape isolation by engaging with communities and documenting your journey.
+Break ‘tutorial hell’ by building a single, small, but complete end-to-end project, forcing connection between learned tools.
+Adopt a ‘problem-first’ mindset by starting with a realistic business problem and then finding the right tool to solve it, rather than learning a tool in a vacuum.
+Escape isolation by joining DevOps communities, documenting your learning journey (including errors), and contributing to open-source projects to ga…]]></summary>
+        <author>
+            <name>Darian Vance</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[->> Provisioning an AWS S3 Bucket using HCP Terraform]]></title>
+        <id>https://dev.to/amit_kumar_7db8e36a64dd45/-provisioning-an-aws-s3-bucket-using-hcp-terraform-1mjc</id>
+        <link href="https://dev.to/amit_kumar_7db8e36a64dd45/-provisioning-an-aws-s3-bucket-using-hcp-terraform-1mjc"/>
+        <updated>2026-03-02T12:26:02.000Z</updated>
+        <summary type="html"><![CDATA[In this blog, I implemented a cloud-based Terraform workflow using HCP Terraform integrated with Github to provision an AWS S3 in a prodcution style setup.
+The goal was to:
+Define AWS infrastructure using Terraform
+Store and version control the code in Github
+Execute Terraform runs a remotely using HCP Terraform
+Implement a VCS- driven automated workflow
+Manage state securely in the cloud
+Isolate environments using Projects and Workspaces
+The deployment workflow follows this structure:
+
+Developer -> Github -> HCP -> Terraform -> AWS -> S3 Bucket
+
+Execution Flow
+Write Terraform configuration for S3 bucket.
+Push the code to GitHub.
+HCP Terraform detects the change.
+Automatically runs terraform init and terraform plan.
+Review the plan in the UI.
+Confirm and apply the changes.
+AWS provisions t…]]></summary>
+        <author>
+            <name>Amit Kushwaha</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SQL JOINS AND WINDOW FUNCTIONS]]></title>
+        <id>https://dev.to/tonny-o/sql-joins-and-window-functions-334h</id>
+        <link href="https://dev.to/tonny-o/sql-joins-and-window-functions-334h"/>
+        <updated>2026-03-02T12:19:25.000Z</updated>
+        <summary type="html"><![CDATA[SQL Joins and Window Functions
+
+
+SQL joins allows you to collate/add two or more tables together using a common identifier e.g. a foreign key. Due to normalization, one may not get all the required columns in a single table in order to reduce data redundancies. 
+
+
+
+student_id
+name
+course_id
+
+
+
+
+1
+Willis Kip
+001
+
+
+2
+Edwin Sifuna
+002
+
+
+3
+Tonny Oti
+NULL
+
+
+
+
+
+
+course_id
+course_name
+
+
+
+
+001
+Botany
+
+
+002
+Political_sci
+
+
+004
+English
+
+
+
+Returns only the rows that exist in both tables.
+
+SELECT name, course_name
+FROM Student
+INNER JOIN Course
+ON Student.course_id = Course.course_id;
+
+
+
+
+Name
+Course_name
+
+
+
+
+Willis Kip
+Botany
+
+
+Edwin Sifuna
+Political_sci
+
+
+
+Returns all rows from the left table and matching rows from the right table.
+
+SELECT name, course_name
+FROM Student
+LEFT JOIN Course
+ON Student.c…]]></summary>
+        <author>
+            <name>tonny otieno</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Battered bitcoin could find solace in war-led 'debasement' trade]]></title>
+        <id>63b40bdb-0bc4-4f11-be80-fbc96f842a66</id>
+        <link href="https://www.coindesk.com/daybook-us/2026/03/02/battered-bitcoin-could-find-solace-in-war-led-debasement-trade"/>
+        <updated>2026-03-02T12:13:59.000Z</updated>
+        <summary type="html"><![CDATA[Your day-ahead look for March 2, 2026]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Web Audio Studio – A Visual Debugger for Web Audio API Graphs]]></title>
+        <id>https://webaudio.studio/</id>
+        <link href="https://webaudio.studio/"/>
+        <updated>2026-03-02T11:47:44.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Claude Code LSP]]></title>
+        <id>https://karanbansal.in/blog/claude-code-lsp/</id>
+        <link href="https://karanbansal.in/blog/claude-code-lsp/"/>
+        <updated>2026-03-02T11:47:16.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Intel Arrow Lake Refresh Rumoured To Be Announced On 11 March]]></title>
         <id>https://www.lowyat.net/?p=384885</id>
@@ -19193,6 +19512,16 @@ The post Amazfit Quietly Launches Active 3 Premium In Malaysia; Priced At RM749 
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Pluralism and the Modern Poet]]></title>
+        <id>https://www.lrb.co.uk/the-paper/v48/n03/seamus-perry/pluralism-and-the-modern-poet</id>
+        <link href="https://www.lrb.co.uk/the-paper/v48/n03/seamus-perry/pluralism-and-the-modern-poet"/>
+        <updated>2026-02-27T08:31:57.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Werner Herzog Between Fact and Fiction]]></title>
         <id>https://www.thenation.com/article/culture/werner-herzog-future-truth/</id>
         <link href="https://www.thenation.com/article/culture/werner-herzog-future-truth/"/>
@@ -26974,6 +27303,16 @@ The post Samsung Galaxy S26 Series: The New Software And Galaxy AI Features appe
         <id>https://www.eff.org/deeplinks/2026/02/tech-companies-shouldnt-be-bullied-doing-surveillance</id>
         <link href="https://www.eff.org/deeplinks/2026/02/tech-companies-shouldnt-be-bullied-doing-surveillance"/>
         <updated>2026-02-26T00:37:32.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Go-Native Durable Execution]]></title>
+        <id>https://www.dbos.dev/blog/how-we-built-golang-native-durable-execution</id>
+        <link href="https://www.dbos.dev/blog/how-we-built-golang-native-durable-execution"/>
+        <updated>2026-02-26T00:17:52.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -89223,134 +89562,6 @@ Week 3
 Mon-Fri, Sun…]]></summary>
         <author>
             <name>Jackson Studio</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build and Test iOS Apps on a Physical Phone: Expo EAS and Apple TestFlight (Part 2/3)]]></title>
-        <id>https://dev.to/cathylai/how-to-build-and-test-ios-apps-on-a-physical-phone-expo-eas-and-apple-testflight-part-23-4ff8</id>
-        <link href="https://dev.to/cathylai/how-to-build-and-test-ios-apps-on-a-physical-phone-expo-eas-and-apple-testflight-part-23-4ff8"/>
-        <updated>2026-02-16T00:52:45.000Z</updated>
-        <summary type="html"><![CDATA[In Part 1, we've checked in the React Native code on the GitHub. Now we will build the binary with Expo EAS (Expo Application Service) service.
-Production (store-signed) binary
-eas build --platform ios --profile production
-
-When prompted, let EAS manage:
-certificates
-provisioning profiles
-signing
-This produces an App Store–signed IPA.
-Resolved "production" environment for the build. Learn more: https://docs.expo.dev/eas/environment-variables/#setting-the-environment-for-your-builds
-....
-
-✔ Incremented buildNumber from 3 to 4.
-
-✔ Using remote iOS credentials (Expo server)
-
-If you provide your Apple account credentials we will be able to generate all necessary build credentials and fully validate them.
-...
-✔ Do you want to log in to your Apple account? … yes
-
-› Log in to your Apple Developer…]]></summary>
-        <author>
-            <name>Cathy Lai</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Super Simple Web Scraping in Java (Jsoup)]]></title>
-        <id>https://dev.to/deividas-strole/super-simple-web-scraping-in-java-jsoup-5cmn</id>
-        <link href="https://dev.to/deividas-strole/super-simple-web-scraping-in-java-jsoup-5cmn"/>
-        <updated>2026-02-16T00:51:43.000Z</updated>
-        <summary type="html"><![CDATA[Lets create a super-duper simple web scrapper with Java! For that we will need Java, Jsoup, 5 minutes and a good mood!
-Add Jsoup
-<dependency> 
-    <groupId>org.jsoup</groupId> 
-    <artifactId>jsoup</artifactId> 
-    <version>1.17.2</version> 
-</dependency>
-
-Create super-duper minimal scraper
-In this our example we will print all links (text and URL) from a page:
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-public class SimpleScraper {
-    public static void main(String[] args) throws Exception {
-        String url = "https://example.com"; // change this 
-
-        Document doc = Jsoup.connect(url).get(); 
-
-        for (Element link : doc.select("a[href]")) {            
-            System.out .println(link.text() + " -> " + link.absUrl("href")); 
-        }
-    }
-}
-
-Thats it!!!! You are done! No models, No JSON, and no extra libraries!
-Extra credit: If you want something spacific - change the selector.
-Examples:
-Article titles: h1, h2, h3
-Product cards: .product
-Price: .price
-Any element by id: #price
-Example: print all <h2> titles:
-for (Element h : doc.select("h2")) {
-  System.out.println(h.text());
-}
-
-Happy Coding!!!
-Deividas Strole is a Full-Stack Developer based in California, specializing in Java, Spring Boot, React, and AI-driven development. He writes about software engineering, modern full-stack development, and digital marketing strategies.
-Connect with me:
-Personal Website
-LinkedIn
-GitHub
-YouTube
-Academia
-X (Twitter)
-Stack Overflow
-Reddit]]></summary>
-        <author>
-            <name>Deividas Strole</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Pink noise reduces REM sleep and may harm sleep quality]]></title>
-        <id>https://www.pennmedicine.org/news/pink-noise-reduces-rem-sleep-and-may-harm-sleep-quality</id>
-        <link href="https://www.pennmedicine.org/news/pink-noise-reduces-rem-sleep-and-may-harm-sleep-quality"/>
-        <updated>2026-02-16T00:35:12.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Beginner's Guide to Split Keyboards]]></title>
-        <id>https://www.justinmklam.com/posts/2026/02/beginners-guide-split-keyboards/</id>
-        <link href="https://www.justinmklam.com/posts/2026/02/beginners-guide-split-keyboards/"/>
-        <updated>2026-02-16T00:31:01.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaScript-heavy approaches are not compatible with long-term performance goals]]></title>
-        <id>https://sgom.es/posts/2026-02-13-js-heavy-approaches-are-not-compatible-with-long-term-performance-goals/</id>
-        <link href="https://sgom.es/posts/2026-02-13-js-heavy-approaches-are-not-compatible-with-long-term-performance-goals/"/>
-        <updated>2026-02-16T00:26:23.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why I don't think AGI is imminent]]></title>
-        <id>https://dlants.me/agi-not-imminent.html</id>
-        <link href="https://dlants.me/agi-not-imminent.html"/>
-        <updated>2026-02-15T23:34:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
