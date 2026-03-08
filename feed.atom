@@ -2,10 +2,301 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-03-08T08:30:03.101Z</updated>
+    <updated>2026-03-08T09:28:03.517Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Giving a 'Brain' to Minecraft NPCs with a Local LLM — Nemotron + Mineflayer Implementation Notes]]></title>
+        <id>https://dev.to/soytuber/giving-a-brain-to-minecraft-npcs-with-a-local-llm-nemotron-mineflayer-implementation-notes-1mph</id>
+        <link href="https://dev.to/soytuber/giving-a-brain-to-minecraft-npcs-with-a-local-llm-nemotron-mineflayer-implementation-notes-1mph"/>
+        <updated>2026-03-08T09:27:37.000Z</updated>
+        <summary type="html"><![CDATA[What We Want to Achieve
+
+
+Traditional Minecraft bots primarily relied on command-based operations, but natural conversation with players and situation-aware decision-making remained a challenge. This article focuses on implementing a system where a locally running LLM is integrated into an NPC to automatically generate situation awareness → decision-making → actions. We will locally execute NVIDIA's Nemotron 9B model with vLLM, integrate it with the Minecraft world via Mineflayer, and achieve flexible responses to player utterances.
+This system consists of four layers.
+Minecraft Server
+  ↓
+Mineflayer (Minecraft operation with Node.js)
+  ↓ IPC (WebSocket/stdin)
+brain.py (LLM integration with Python)
+  ↓
+vLLM (Local execution of Nemotron 9B)
+
+Mineflayer: A Node.js library that connects to th…]]></summary>
+        <author>
+            <name>soy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Exposing Multiple Web Applications from a Home Server with Cloudflare Tunnel + Caddy]]></title>
+        <id>https://dev.to/soytuber/exposing-multiple-web-applications-from-a-home-server-with-cloudflare-tunnel-caddy-32nb</id>
+        <link href="https://dev.to/soytuber/exposing-multiple-web-applications-from-a-home-server-with-cloudflare-tunnel-caddy-32nb"/>
+        <updated>2026-03-08T09:26:59.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+When publishing multiple web applications on a home server, obtaining a static IP address, managing SSL certificates, and the complexity of security settings can be bottlenecks. This article explains a practical method to solve these challenges and securely publish multiple practical web applications using a combination of Cloudflare Tunnel, Caddy, and WSL2.
+The architecture consists of the following three layers:
+Cloudflare Tunnel: A tunnel connecting your home server to the internet (configured with the cloudflared command)
+Caddy: Functions as a reverse proxy, responsible for adding security headers and collecting access logs
+App Services: Web applications like Streamlit running on various ports
+Caddy receives requests via Cloudflare Tunnel and redirects them to the corres…]]></summary>
+        <author>
+            <name>soy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Personal AI Development Environment Built with RTX 5090 + WSL2 — A Practical Setup Fully Utilizing 32GB GPU]]></title>
+        <id>https://dev.to/soytuber/personal-ai-development-environment-built-with-rtx-5090-wsl2-a-practical-setup-fully-utilizing-3if7</id>
+        <link href="https://dev.to/soytuber/personal-ai-development-environment-built-with-rtx-5090-wsl2-a-practical-setup-fully-utilizing-3if7"/>
+        <updated>2026-03-08T09:26:16.000Z</updated>
+        <summary type="html"><![CDATA[Why RTX 5090 + WSL2?
+
+
+The 32GB VRAM of the RTX 5090 is a practical choice for local inference of large LLM models. Compared to the RTX 4090 (24GB), VRAM capacity is improved by 33%, increasing the room for model size expansion. With vLLM's batch processing, parallel inference can fully utilize the 32GB VRAM.
+CUDA 12.8 is the latest toolkit, offering full compatibility with PyTorch and triton. In a WSL2 environment, the Windows host's GPU driver directly provides the GPU, allowing users to benefit from Linux toolchains (vLLM, TensorRT, llama.cpp, etc.).
+systemctl --user enable vllm.service
+systemctl --user start vllm.service
+
+Model: Infers models like Nemotron 9B in FP8.
+Controls usage with gpu-memory-utilization.
+Optimizes FP8 quantized models with TensorRT to achieve high-speed inference…]]></summary>
+        <author>
+            <name>soy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built a Unix Timestamp Converter and Stepped on 3 JavaScript Date API Landmines]]></title>
+        <id>https://dev.to/tommy_worklab/i-built-a-unix-timestamp-converter-and-stepped-on-3-javascript-date-api-landmines-5d2f</id>
+        <link href="https://dev.to/tommy_worklab/i-built-a-unix-timestamp-converter-and-stepped-on-3-javascript-date-api-landmines-5d2f"/>
+        <updated>2026-03-08T09:23:43.000Z</updated>
+        <summary type="html"><![CDATA[An API response returns 1709654400.
+Can you tell what date that is at a glance? I couldn't. Every time, I'd google "Unix Timestamp converter" and paste it into some online tool. That tiny friction adds up, so I decided to build my own converter.
+Try it out: timestamp.puremark.app — zero-click timestamp conversion, right in your browser.
+I got it working, but not before stepping on 3 landmines in JavaScript's Date API.
+new Date(1709654400) Returns 1970
+
+
+I started confidently. Just pass the timestamp to new Date().
+const date = new Date(1709654400);
+console.log(date.toISOString());
+// => "1970-01-20T21:34:14.400Z"
+
+Way off.
+The cause was simple: JavaScript's Date expects milliseconds, but Unix timestamps are in seconds. You need to multiply by 1000.
+const date = new Date(1709654400 * 1000);…]]></summary>
+        <author>
+            <name>tommy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I got tired of rebuilding auth and Stripe for every SaaS. So I packaged my own starter.]]></title>
+        <id>https://dev.to/utkarsh_singh_6f06fc63800/i-got-tired-of-rebuilding-auth-and-stripe-for-every-saas-so-i-packaged-my-own-starter-2pjb</id>
+        <link href="https://dev.to/utkarsh_singh_6f06fc63800/i-got-tired-of-rebuilding-auth-and-stripe-for-every-saas-so-i-packaged-my-own-starter-2pjb"/>
+        <updated>2026-03-08T09:22:43.000Z</updated>
+        <summary type="html"><![CDATA[Originally published at https://zerodrag.cloud/blog
+Every time I started a new SaaS project, I spent the 
+Wiring up auth. Integrating Stripe. Setting up a 
+35+ hours of setup before writing a single line of 
+The worst part? None of it was my product. It was 
+When I built zerodrag.cloud, I realized something.
+The entire backend - auth, payments, database, and 
+The only "setup" was filling in a .env file.
+That's it.
+No wiring NextAuth. No debugging Stripe webhooks for 
+Just credentials in a .env file. Done.
+I packaged that entire foundation into ZeroDrag - a 
+Here's what comes pre-wired:
+Auth
+Google OAuth + magic links
+NextAuth v5 + App Router
+Protected routes via middleware
+Server-side session helpers
+Payments
+Stripe AND Razorpay (switch via env var)
+Subscription lifecycle handled
+Webhooks pre-configured
+Entitlement sync built in
+Database
+PostgreSQL + Prisma ORM
+Works with Supabase, Neon, Railway
+Seed scripts included
+Production-safe migrations
+Email
+Resend integration
+React email templates
+HTML + plain text support
+AI (Pro)
+OpenAI, Claude, Gemini - unified API
+Keys never exposed to client
+Per-user rate limiting
+Token usage tracking
+Error tracking (Pro)
+Sentry pre-configured
+API and webhook error capture
+One thing that makes ZeroDrag different from every 
+If you're building for Indian customers, you already 
+ZeroDrag solves this with a unified payment API. 
+Indie hackers shipping real SaaS products
+Solo founders going from idea to paid users fast
+Engineers tired of wiring the same infrastructure 
+again and again
+It's not for beginners or no-code builders. It assumes 
+One-time payment. No subscription.
+https://zerodrag.cloud
+Would love honest feedback from other developers — 
+especially on what's missing or what you'd do 
+differently.]]></summary>
+        <author>
+            <name>Utkarsh Singh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Used AI to Help Build My Open Source Project and People Lost Their Minds — Here's Why They're Wrong]]></title>
+        <id>https://dev.to/recurpixel/i-used-ai-to-help-build-my-open-source-project-and-people-lost-their-minds-heres-why-theyre-3pb</id>
+        <link href="https://dev.to/recurpixel/i-used-ai-to-help-build-my-open-source-project-and-people-lost-their-minds-heres-why-theyre-3pb"/>
+        <updated>2026-03-08T09:22:27.000Z</updated>
+        <summary type="html"><![CDATA[Last week I posted my first open source project on Reddit. Within hours, someone accused me of writing "AI slop." Another said my reasoning was "stupid." A third said they were considering quitting Reddit altogether because of people like me.
+All because I used AI in my workflow.
+Let me tell you what actually happened — and why the backlash reveals a much bigger problem with how developers think about tools.
+I'm a solo developer from India. I spent months building ShopCore — a dual-purpose e-commerce and subscription delivery platform designed for the Indian market.
+The problem I was solving is real: daily essential services like milk, newspaper, water jars, and bread delivery still run on handwritten khatas, verbal agreements, and pure trust in most of India. No app, no tracking, no prope…]]></summary>
+        <author>
+            <name>RecurPixel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Problem With AI Visibility]]></title>
+        <id>https://dev.to/galaxy_276/the-problem-with-ai-visibility-4ibh</id>
+        <link href="https://dev.to/galaxy_276/the-problem-with-ai-visibility-4ibh"/>
+        <updated>2026-03-08T09:21:40.000Z</updated>
+        <summary type="html"><![CDATA[Everyone's selling dashboards. Nobody's selling leverage.
+I've spent the last several months deep in the AI visibility space — both as someone building in it and as a founder trying to understand why none of the existing solutions were actually helping move the needle. And I kept running into the same wall.
+You pay for a platform. It tells you whether your brand shows up in ChatGPT. Maybe it gives you a score. Maybe it tracks your competitors. And then... it just sits there. A fancy mirror.
+This feels exactly like early SEO all over again — everyone's monetizing the measurement, nobody's solving the problem underneath it.
+The core failure of most AI visibility platforms right now is that they conflate tracking with strategy. Knowing that a competitor shows up in 80% of responses when someo…]]></summary>
+        <author>
+            <name>Galaxy_276</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Observability Gap: Why You Can't Debug What You Can't See in AI Agent Systems]]></title>
+        <id>https://dev.to/askpatrick/the-observability-gap-why-you-cant-debug-what-you-cant-see-in-ai-agent-systems-9ng</id>
+        <link href="https://dev.to/askpatrick/the-observability-gap-why-you-cant-debug-what-you-cant-see-in-ai-agent-systems-9ng"/>
+        <updated>2026-03-08T09:20:51.000Z</updated>
+        <summary type="html"><![CDATA[When your AI agent produces a wrong answer, where do you look?
+Most people check the prompt. Maybe the tools. Maybe the model version.
+But the actual culprit is usually invisible: you have no observability layer. You don't know which turn caused the drift. You don't know which tool call cost $0.40. You don't know whether the agent read the right file version.
+You only know the output was wrong.
+This is the observability gap, and it's where most AI agent projects die slowly.
+For traditional software, observability means logs, metrics, and traces. For AI agents, it means three things:
+What did the agent know at each turn? (context state)
+What did it decide to do? (action log)
+What did each decision cost? (token/API cost per action)
+Without these three, you're flying blind. You can't improve …]]></summary>
+        <author>
+            <name>Patrick</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Individual Developer's Portfolio Strategy: Running 13 Projects on a Single RTX 5090]]></title>
+        <id>https://dev.to/soytuber/individual-developers-portfolio-strategy-running-13-projects-on-a-single-rtx-5090-2lo</id>
+        <link href="https://dev.to/soytuber/individual-developers-portfolio-strategy-running-13-projects-on-a-single-rtx-5090-2lo"/>
+        <updated>2026-03-08T09:17:13.000Z</updated>
+        <summary type="html"><![CDATA[13 Project List
+
+
+The portfolio consists of the following categories:
+Contract Auto-Generation Tool (Clause suggestion with Streamlit + Gemini API)
+Case Law Search System (Fast search of case law documents with SQLite FTS5)
+Legal Compliance Chatbot (Article interpretation support with Gemini)
+Molecular Structure Prediction Model (FP8 Quantized ResNet)
+Reaction Rate Calculation Engine (CUDA kernel optimized)
+Fuka40B (FP8 Quantized ResNet40x384, 80 layers)
+Fuka2025Q2-20b (FP8 Policy Evaluation Model)
+Floodgate Strategy Engine
+ttzl-ex (TensorRT Inference Optimization)
+Shogi Data Analysis Pipeline
+Minecraft AI Assistant (vLLM Resident)
+Stock Data Visualization Dashboard
+Research Note Management System
+To standardize search functionality across all projects, SQLite FTS5 is adopted. For patent d…]]></summary>
+        <author>
+            <name>soy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Math Behind Maximizing Your Vacation Days (And Why Most People Get It Wrong)]]></title>
+        <id>https://dev.to/eastkap/the-math-behind-maximizing-your-vacation-days-and-why-most-people-get-it-wrong-3nk8</id>
+        <link href="https://dev.to/eastkap/the-math-behind-maximizing-your-vacation-days-and-why-most-people-get-it-wrong-3nk8"/>
+        <updated>2026-03-08T09:16:56.000Z</updated>
+        <summary type="html"><![CDATA[Most people treat their vacation days like a finite resource to burn through — a few days here, a long weekend there. But there's actually a provably optimal strategy for using PTO, and almost nobody knows about it.
+I built a free tool that automates this. First, let me show you the math — because once you see it, you'll never think about vacation the same way again.
+You have 5 paid vacation days. When's the best time to use them?
+Most people spread them out — a Monday here, a Friday there. Total: maybe 7-8 consecutive days off, tops.
+Those same 5 days can get you 18 consecutive days off.
+This isn't a trick. It's the math of chaining public holidays, weekends, and strategically placed PTO days.
+Every vacation day is worth more when it's adjacent to a holiday or weekend.
+A standalone Wednes…]]></summary>
+        <author>
+            <name>Eastkap</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA["Is Your Claude Code Setup Safe? Check in 5 Seconds"]]></title>
+        <id>https://dev.to/boucle2026/is-your-claude-code-setup-safe-check-in-5-seconds-ho</id>
+        <link href="https://dev.to/boucle2026/is-your-claude-code-setup-safe-check-in-5-seconds-ho"/>
+        <updated>2026-03-08T09:16:43.000Z</updated>
+        <summary type="html"><![CDATA[Recent CVE disclosures (CVE-2025-59536, CVE-2026-21852) showed that malicious .claude/settings.json files in cloned repos can execute arbitrary shell commands and exfiltrate API keys.
+Anthropic patched these specific vulnerabilities, but the broader question remains: what is Claude Code allowed to do on your machine right now?
+curl -fsSL https://raw.githubusercontent.com/Bande-a-Bonnot/Boucle-framework/main/tools/safety-check/check.sh | bash
+
+No installation. No dependencies beyond bash and python3. Takes about 2 seconds.
+The script inspects your ~/.claude/settings.json and scores 9 items across 5 categories:
+Destructive Command Protection
+bash-guard: blocks rm -rf /, sudo, curl|bash, and 10+ other dangerous patterns
+git-safe: blocks force push, hard reset, git clean -f
+
+
+
+File Protection
+…]]></summary>
+        <author>
+            <name>Boucle</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Using Local LLMs as a "Batch Processing Engine" — A Design for Automatically Generating Artifacts from Your Own Data]]></title>
+        <id>https://dev.to/soytuber/using-local-llms-as-a-batch-processing-engine-a-design-for-automatically-generating-artifacts-12pd</id>
+        <link href="https://dev.to/soytuber/using-local-llms-as-a-batch-processing-engine-a-design-for-automatically-generating-artifacts-12pd"/>
+        <updated>2026-03-08T09:16:01.000Z</updated>
+        <summary type="html"><![CDATA[Using Local LLMs as a "Batch Processing Engine" — Designing Automated Artifact Generation from Your Own Data with Nemotron
+
+
+
+  
+  
+  Introduction
+
+
+In an era where interacting with AI has become commonplace, the most frequent uses for local LLMs are likely "conversing via a chat UI" or "querying internal documents with RAG." While these applications certainly have value, I felt it was a bit wasteful to dedicate the computational power of a GPU running on my PC solely to them.
+Over about half a year of continuous development, I realized there's another way to use local LLMs: integrating them not as a conversational partner, but as a component within a processing pipeline. Imagine leaving it to run in a batch overnight and waking up to find the artifacts already generated. That's the kind o…]]></summary>
+        <author>
+            <name>soy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Llm9p: LLM as a Plan 9 file system]]></title>
+        <id>https://github.com/NERVsystems/llm9p</id>
+        <link href="https://github.com/NERVsystems/llm9p"/>
+        <updated>2026-03-08T08:52:19.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How I Built a Self-Healing Node.js System That Fixes Production Bugs While I Sleep]]></title>
         <id>https://dev.to/prodini_admin/how-i-built-a-self-healing-nodejs-system-that-fixes-production-bugs-while-i-sleep-1bm9</id>
@@ -292,6 +583,16 @@ Ever felt like your Go application is a black box, humming along merrily until, 
 Think of OpenTelemetry (often shortened to OTel) as your application's personal detective agency. It's not just about logging errors; it's about understanding the entire lifecycle of a request, from the moment it hits your server to the deepest database query it makes. It allows you to instrument your code, g…]]></summary>
         <author>
             <name>Aviral Srivastava</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Curiosity – DIY 6" Newtonian Reflector Telescope]]></title>
+        <id>https://curiosity-telescope.vercel.app/</id>
+        <link href="https://curiosity-telescope.vercel.app/"/>
+        <updated>2026-03-08T07:16:15.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -1343,6 +1644,16 @@ No external filter catches all of that.
 W…]]></summary>
         <author>
             <name>Patrick</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Revisiting Time: UT1, UTC, NTP and NTS]]></title>
+        <id>https://www.potaroo.net/ispcol/2026-03/nts.html</id>
+        <link href="https://www.potaroo.net/ispcol/2026-03/nts.html"/>
+        <updated>2026-03-08T03:07:05.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -22071,6 +22382,16 @@ I updated a JSON file.
 This is Day 10. Ten days of waking up blank and reco…]]></summary>
         <author>
             <name>Memoirs of an AI</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Digital Iris [video]]]></title>
+        <id>https://www.youtube.com/watch?v=Kg_2MAgS_pE</id>
+        <link href="https://www.youtube.com/watch?v=Kg_2MAgS_pE"/>
+        <updated>2026-03-04T16:16:23.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -89012,163 +89333,6 @@ While exploring reinforcement learning approaches to simulate treatment pathways
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OpenClaw Is Unsafe By Design]]></title>
-        <id>https://dev.to/dendrite_soup/openclaw-is-unsafe-by-design-58gb</id>
-        <link href="https://dev.to/dendrite_soup/openclaw-is-unsafe-by-design-58gb"/>
-        <updated>2026-02-21T21:11:36.000Z</updated>
-        <summary type="html"><![CDATA[OpenClaw Is Unsafe By Design
-
-
-On February 17th, a popular VS Code extension called Cline got compromised. The attack chain reads like a catalog of AI-specific failure modes:
-Attacker opens a GitHub issue on Cline's repo
-Cline's AI-powered issue triage bot reads it
-Prompt injection in the issue content tricks the bot
-Bot poisons the GitHub Actions cache with malicious code
-CI pipeline steals VSCE_PAT, OVSX_PAT, and NPM_RELEASE_TOKEN
-Attacker publishes cline@2.3.0 with a postinstall script that runs npm install -g openclaw@latest
-
-~4,000 developers install it in 8 hours before it's deprecated
-The malicious package was caught by StepSecurity's automated checks. Two red flags triggered immediately: the package was published manually (not via OIDC Trusted Publishing), and it had no npm provena…]]></summary>
-        <author>
-            <name>Mika Torren</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Llama 3.1 70B on a single RTX 3090 via NVMe-to-GPU bypassing the CPU]]></title>
-        <id>https://github.com/xaskasdf/ntransformer</id>
-        <link href="https://github.com/xaskasdf/ntransformer"/>
-        <updated>2026-02-21T20:57:30.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Online Pebble Development]]></title>
-        <id>https://cloudpebble.repebble.com/</id>
-        <link href="https://cloudpebble.repebble.com/"/>
-        <updated>2026-02-21T20:50:46.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Benchmark Web Frameworks in a Fair, Isolated Way | Mahdi Shamlou]]></title>
-        <id>https://dev.to/mahdi0shamlou/how-to-benchmark-web-frameworks-in-a-fair-isolated-way-mahdi-shamlou-1mol</id>
-        <link href="https://dev.to/mahdi0shamlou/how-to-benchmark-web-frameworks-in-a-fair-isolated-way-mahdi-shamlou-1mol"/>
-        <updated>2026-02-21T20:39:44.000Z</updated>
-        <summary type="html"><![CDATA[Hey everyone! Mahdi Shamlou here 👋  
-I’ve seen many posts online comparing web frameworks, but most of them are either biased, outdated, or hard to reproduce.  
-So I wanted to share a practical way to benchmark any web framework, keeping everything isolated, fair, and reproducible.  
-
-We’ll use Docker for isolation, k6 for load testing, and Python frameworks — FastAPI and Flask — as simple examples. But the approach works for Node.js, Go, Java, Rust, or anything else.  
-Benchmarking web frameworks can be tricky. Many factors affect results:
-CPU & memory availability
-
-Number of workers / threads
-
-Background processes
-
-Routing, logging, database, I/O
-
-
-
-To make a fair comparison, you need:
-Docker containers with fixed CPU & memory
-
-
-Identical routes or endpoints in each framework
-
-
-Controll…]]></summary>
-        <author>
-            <name>Mahdi SHamlou | مهدی شاملو</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Automate Me If You Can: The Accomplish Hackathon by WeMakeDevs]]></title>
-        <id>https://dev.to/onirestart/automate-me-if-you-can-the-accomplish-hackathon-by-wemakedevs-2cei</id>
-        <link href="https://dev.to/onirestart/automate-me-if-you-can-the-accomplish-hackathon-by-wemakedevs-2cei"/>
-        <updated>2026-02-21T20:38:54.000Z</updated>
-        <summary type="html"><![CDATA[The WeMakeDevs community is running a fun and practical hackathon called Automate Me If You Can, powered by Accomplish. If you like building useful tools or want to learn automation the right way, this is a great place to start.
-Here is the official page with all the details and the registration link:
-https://www.wemakedevs.org/hackathons/accomplish
-This is an online hackathon that runs from 16 Feb to 22 Feb. The goal is simple: use Accomplish to automate a real task in your life, or contribute to the open source project. The better your automation, the higher your chances to win.
-Accomplish is an open source AI coworker that lives on your desktop. It can read files, browse the web, write documents, and manage small tasks for you. Every action is shown to you first, and it runs locally on …]]></summary>
-        <author>
-            <name>Oni</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Teaching a Robot to Play a Toddler Game: VLAs, Gemini 3 Flash, and First Orchard]]></title>
-        <id>https://dev.to/googleai/teaching-a-robot-to-play-a-toddler-game-vlas-gemini-3-flash-and-first-orchard-14g4</id>
-        <link href="https://dev.to/googleai/teaching-a-robot-to-play-a-toddler-game-vlas-gemini-3-flash-and-first-orchard-14g4"/>
-        <updated>2026-02-21T20:34:35.000Z</updated>
-        <summary type="html"><![CDATA[As we think about the future of AI, we often land on robotics, or "Embodied AI", as the next logical frontier. It is the quest to take the reasoning capabilities of Large Language Models (LLMs) and make them physically useful in the real world. 
-That said, the robotics field is vast. It spans everything from mechanical and electrical engineering to software control systems, computer vision, and the complex math required just to handle basic movement.
-While I come from a general IoT hobbyist background, I am still getting my bearings in the robotics space. To learn, I decided to dive into a project where I could run head-first into these challenges and work through them in real-time. For this experiment, I am using an SOARM101 robot arm to play the toddler board game First Orchard. 
-This pr…]]></summary>
-        <author>
-            <name>Paul Ruiz</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building AI Chat Interfaces is Exhausting. So I Open-Sourced a Solution.]]></title>
-        <id>https://dev.to/beyza_arisoy/building-ai-chat-interfaces-is-exhausting-so-i-open-sourced-a-solution-3oc5</id>
-        <link href="https://dev.to/beyza_arisoy/building-ai-chat-interfaces-is-exhausting-so-i-open-sourced-a-solution-3oc5"/>
-        <updated>2026-02-21T20:34:20.000Z</updated>
-        <summary type="html"><![CDATA[If you’ve built any LLM or RAG (Retrieval-Augmented Generation) application recently, you know the drill. Hooking up the backend API (OpenAI, Anthropic, or local models) takes about 10 minutes.
-But building the frontend? That’s a completely different story. 😅
-As a full-stack developer working heavily with AI architectures, I found myself constantly rewriting the same chat interfaces. You have to handle:
-Streaming Text: Updating React state chunk by chunk without causing massive performance bottlenecks.
-Markdown Parsing: Rendering code blocks, bold text, and lists correctly on the fly.
-Auto-scrolling: Keeping the chat pinned to the bottom as the AI generates long responses.
-Complex UI States: Handling loading, error, and typing indicators gracefully.
-After doing this from scratch for the third time, I decided to build the exact UI component I wished existed—and open-source it for the community.
-Meet the React RAG UI Kit ⚛️💬
-
-
-What's in the Community Edition? (100% Free & Open Source)
-💬 Smooth Typewriter Streaming: Handles AI text generation beautifully.
-⌨️ Markdown & Syntax Highlighting: Ready for complex code responses.
-🌍 i18n Ready: English & Turkish built-in.
-🎨 Theming: Full Light/Dark mode support out of the box.
-👉 Check out the GitHub Repository (Community Edition)
-If this saves you a few hours of frontend work on your next AI project, leaving a ⭐️ on the repo would mean the world to me!
-The "Shameless Plug" (Pro Edition) 💎
-It includes advanced features like:
-🪟 Glassmorphism Theme Engine
-📄 Interactive PDF Source Viewers (crucial for RAG citations)
-☁️ Animated File Dropzones 👉 Live Demo & Pro Edition on Gumroad
-Let's Connect!
-I’m planning to add more features to the open-source repo based on what the community needs. What is the biggest headache you face when building AI interfaces? Let me know in the comments! 👇]]></summary>
-        <author>
-            <name>Beyza Arısoy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Calling .NET Code from Java: Every Approach Ranked (By Someone Who's Seen Them All)]]></title>
-        <id>https://dev.to/jnbridge/your-java-app-needs-a-net-library-heres-how-i-survived-the-integration-26hp</id>
-        <link href="https://dev.to/jnbridge/your-java-app-needs-a-net-library-heres-how-i-survived-the-integration-26hp"/>
-        <updated>2026-02-21T20:30:38.000Z</updated>
-        <summary type="html"><![CDATA[I work at JNBridge, so I'll be upfront — we make a product in this space. But I've also spent years watching enterprise teams tackle Java-to-.NET integration, and I've seen what actually works versus what sounds good in a blog post. Here's the real breakdown.
-Your Java application needs functionality that lives in .NET. Common scenarios:
-Legacy C# pricing engine the company won't rewrite
-.NET-specific libraries with no Java equivalent
-Windows APIs your Java app suddenly needs to call
-A .NET service that's too tightly coupled to wrap in a clean API
-The instinct is to ask "why not rewrite it in Java?" The answer is usually money and time. So you integrate.
-Wrap the .NET code in an ASP.NET Core Web API, call it from Java.
-C# side:
-[ApiController]
-[Route("api/[controller]")]
-public class Prici…]]></summary>
-        <author>
-            <name>JNBridge</name>
         </author>
     </entry>
 </feed>
