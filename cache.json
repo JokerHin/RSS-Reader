@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/s_mathavi_2fa1e3ea8514f34/postgresql-constraints-2bng",
+          "author": "s mathavi",
+          "description": "Constraints:\nConstraints are the backbone of reliable database design. They act like safety checks, ensuring that every piece of data stored is valid, consistent, and meaningful.\nTypes of Constraints\n1.PRIMARY KEY\n-Ensures each row has a unique identifier.\nexample:\nemp_id SERIAL PRIMARY KEY\n2.FOREIGN KEY\n-Creates a relationship between two tables.\nexample:\ndept_id INT REFERENCES Department(dept_id)\n3.UNIQUE\n-Guarantees that all values in a column are distinct.\nexample:\nemail VARCHAR(150) UNIQUE\n4. NOT NULL\n-Prevents empty values in a column.\nexample:\nname VARCHAR(100) NOT NULL\n5.DEFAULT\n-Assigns an automatic value if none is provided during insertion.\nexample:\nstatus VARCHAR(20) DEFAULT 'Active'\n6. CHECK\n-Validates data against a condition.\nexample:\nsalary NUMERIC(10,2) CHECK (salary > 0)\nCREATE TABLE Employee (\n    emp_id SERIAL PRIMARY KEY,\n    name VARCHAR(100) NOT NULL,\n    email VARCHAR(150) UNIQUE,\n    dept_id INT REFERENCES Department(dept_id),\n    salary NUMERIC(10,2) CHECK (salary > 0),\n    status VARCHAR(20) DEFAULT 'Active'\n);\n\nWhy Constraints Matter\n-Data Integrity: Prevents invalid or duplicate entries.\nNext blog is Relationship(joins) in PostgreSql....",
+          "link": "https://dev.to/s_mathavi_2fa1e3ea8514f34/postgresql-constraints-2bng",
+          "publishedOn": "2026-03-20T07:38:28.000Z",
+          "wordCount": 893,
+          "title": "PostgreSQL-constraints",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5r5zdgvzivwxni4i3t4c.png"
+        },
+        {
+          "id": "https://dev.to/s_mathavi_2fa1e3ea8514f34/postgresql-relationshipsjoins-4c6o",
+          "author": "s mathavi",
+          "description": "How to connect Two Database in innerjoin?\nCREATE EXTENSION dblink;\nExample:\nSELECT e.name, d.dept_name\nFROM Employee e\nJOIN dblink('dbname=department_db',\n            'SELECT dept_id, dept_name FROM Department')\nAS d(dept_id INT, dept_name TEXT)\nON e.department_id = d.dept_id\n\n;\n\nSame Database:\nExample:\nSELECT e.name, d.dept_name\n\n\nNow we Start ,\nTables Setup\nEmployee table:\nemp_id | name   | dept_id\n-------+--------+--------\n1      | Udaya  | 2\n2      | Mathavi  | 3\n3      | Kumar  | 1\n4      | Meena  | NULL\n\nDepartment table:\ndept_id | dept_name\n--------+-----------\n1       | IT\n2       | Finance\n3       | HR\n4       | Marketing\n\nSELECT e.name, d.dept_name\nFROM Employee e\nINNER JOIN Department d ON e.dept_id = d.dept_id;\n\nOutput:\n\n\n\nname\ndept_name\n\n\n\n\nUdaya\nFinance\n\n\nMathavi\nHR\n\n\nKumar\nIT\n\n\n\n!..Only employees with valid department.\nSELECT e.name, d.dept_name\nFROM Employee e\nLEFT JOIN Department d ON e.dept_id = d.dept_id;\n\nOutput:\nname   | dept_name\n-------+-----------\nUdaya  | Finance\nPriya  | HR\nKumar  | IT\nMeena  | NULL\n\n!..All employees shown, even Meena (no department → NULL).\nSELECT e.name, d.dept_name\nFROM Employee e\nRIGHT JOIN Department d ON e.dept_id = d.dept_id;\n\nOutput:\nname   | dept_name\n-------+-----------\nUdaya  | Finance\nPriya  | HR\nKumar  | IT\nNULL   | Marketing\n\n!..All departments shown, even Marketing (no employee → NULL).\nSELECT e.name, d.dept_name\nFROM Employee e\nFULL OUTER JOIN Department d ON e.dept_id = d.dept_id;\n\nOutput:\nname   | dept_name\n-------+-----------\nUdaya  | Finance\nPriya  | HR\nKumar  | IT\nMeena  | NULL\nNULL   | Marketing\n\n!..Combines LEFT + RIGHT → all employees + all departments.\nSELECT e.name, d.dept_name\nFROM Employee e\nCROSS JOIN Department d;\n\nOutput:\nname   | dept_name\n-------+-----------\nUdaya  | IT\nUdaya  | Finance\nUdaya  | HR\nUdaya  | Marketing\nPriya  | IT\nPriya  | Finance\n... (every combination)\n\n!..Every employee paired with every department.\nOur next blog is Aggregate Function....",
+          "link": "https://dev.to/s_mathavi_2fa1e3ea8514f34/postgresql-relationshipsjoins-4c6o",
+          "publishedOn": "2026-03-20T07:38:05.000Z",
+          "wordCount": 1075,
+          "title": "PostgreSql - Relationships(joins)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fuzbowngt9dd8hiyhhgfm.png"
+        },
+        {
+          "id": "https://dev.to/mansiey/what-is-a-runtime-environment-43e5",
+          "author": "Mansi Singh",
+          "description": "If you’re a developer, you already know that node.js is a runtime environment and how it was developed by binding C++ and V8 engine. But how do we visualize it?\nBeing from non-tech background I kept thinking what is actually a runtime environment?, I had this vague idea seeing the name, but I searched about it, because I wanted to have the clear picture.\n• Basically To execute a code you need collections of software and hardware components. Why? Because software tells you how to execute that code and hardware actually does that execution.\n• The Runtime Environment is just abstraction layer between code, Os and Hardware components which provides essential services and allows programs to run consistently across different platforms i.e runtime gives us pre-written code that acts as a functionality so we don’t have to deal with OS or hardware directly!\n•  Without those services we would actually have to manage memory system, handle the CPU instructions, andd deal with the networking protocols ourselves, doesn’t seem practical right?!!\nNow, we should know what are the key components involved in this. Just a little summary of what I wrote above:\n• An execution engine (Interpreter):\n• Runtime Libraries:\n• Memory management system:\n• Core system interface: \nWell, We all have been using a runtime environment way before we started with the JavaScript, Web Browser.\nIt’s a Runtime environment for the frontend Javascript application.",
+          "link": "https://dev.to/mansiey/what-is-a-runtime-environment-43e5",
+          "publishedOn": "2026-03-20T07:36:28.000Z",
+          "wordCount": 1082,
+          "title": "What is a runtime environment?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fudv7i0jvd5qz3p5lj12d.png"
+        },
+        {
+          "id": "https://dev.to/aaron_rose_0787cc8b4775a0/the-secret-life-of-go-error-handling-part-2-5eo1",
+          "author": "Aaron Rose",
+          "description": "Data-Rich Errors, Custom Structs, and errors.As\nEleanor is a senior software engineer. Ethan is her junior colleague. They work in a beautiful beaux arts library in Lower Manhattan — the kind of place where coding languages are discussed like poetry.\nEpisode 31\nEthan was building a user registration endpoint. He had learned his lesson from the previous day and was dutifully avoiding string matching. \n\"I have a problem with Sentinel errors,\" Ethan said, turning his monitor toward Eleanor. \"They are great for simple states like ErrNotFound. But what if the error is a validation failure? I need to tell the frontend exactly which field failed and why. I can't write a Sentinel variable for every possible bad email address.\"\nHe showed her his workaround:\n// Ethan's attempt to return data\nfunc va…",
+          "link": "https://dev.to/aaron_rose_0787cc8b4775a0/the-secret-life-of-go-error-handling-part-2-5eo1",
+          "publishedOn": "2026-03-20T07:31:47.000Z",
+          "wordCount": 1684,
+          "title": "The Secret Life of Go: Error Handling (Part 2)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjylyoz21i1hygqcy8apf.jpeg"
+        },
+        {
+          "id": "https://dev.to/chahyunwoo/i-built-a-lol-style-tier-system-for-github-profiles-3njc",
+          "author": "Cha Hyun Woo",
+          "description": "I wanted something more fun than the usual GitHub stats card, so I made a widget that ranks your GitHub activity like League of Legends — Iron through Challenger.\nOne line in your README and you're done.\nIt looks at commits, stars, PRs, followers, and issues. Scoring is log-normal CDF based, calibrated against 225 real users so the tiers aren't totally arbitrary.\nBuilt with Hono + Vercel. 9 themes. Self-hosting works too.\nI got Platinum I. Could be worse.\n / \n        github-tier\n      \n    \n\n  \nGitHub Tier\n🎮 Gaming-style rank card for your GitHub profile\nShow off your GitHub activity as a competitive rank — from Iron to Challenger\n\n  \n  \n  \n\n\n\n  🔗 View Demo\n   · \n  🐛 Report Bug\n   · \n  ✨ Request Feature\n\n\n\n\n\n\n  \n  \n⚡ Features\n🏆 10 Tier Ranks — Iron → Bronze → Silver → Gold → Platinum → Emerald → Diamond → Master → Grandmaster → Challenger\n🎯 Division System — Each tier has IV to I subdivisions (like League of Legends)\n📊 5 Metrics — Commits, Stars, PRs, Followers, Issues\n🔬 CDF-based Scoring — Log-Normal CDF model validated against 225+ real GitHub users\n🎨 9 Themes — dark, tokyonight, dracula, nord, gruvbox, catppuccin, onedark, radical, light\n💎 Premium Effects — Diamond+ tiers get glow borders, Master+ get elite emblems\n🔄 Auto Updates — Card refreshes every hour via CDN cache\n🔒 Private Contributions — Includes private repo commits…\nView on GitHub\nthanks",
+          "link": "https://dev.to/chahyunwoo/i-built-a-lol-style-tier-system-for-github-profiles-3njc",
+          "publishedOn": "2026-03-20T07:31:40.000Z",
+          "wordCount": 986,
+          "title": "I built a LoL-style tier system for GitHub profiles",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1980o5qa9ri2naqyqux1.png"
+        },
+        {
+          "id": "https://dev.to/sillycoder/zoho-catalyst-cli-docker-setup-guide-27ep",
+          "author": "Silly Coder",
+          "description": "A complete guide to setting up Zoho Catalyst CLI using Docker on Windows (WSL2 + Ubuntu)\nBefore starting, ensure you have the following:\nA Windows machine with WSL2 enabled\n\n\nUbuntu installed via WSL2\nDocker installed on Ubuntu — see Step 2\nA Zoho Catalyst account\n\nBasic familiarity with the terminal\nYou can access your Ubuntu environment in any of the following ways:\nOption 1 — Via the Ubuntu App:\nPress Windows + S and search for Ubuntu\n\nClick to open it\nOption 2 — Via Windows Terminal, CMD or PowerShell:\nwsl\n\nOption 3 — Via any terminal that supports WSL (e.g. Windows Terminal, Git Bash):\nwsl -d Ubuntu\n\nIn all cases you'll see a terminal prompt like:\nusername@DESKTOP-XXXX:~$\n\nYou are now inside your Ubuntu environment.\nRun the following commands in your Ubuntu terminal one by one:\n# Remo…",
+          "link": "https://dev.to/sillycoder/zoho-catalyst-cli-docker-setup-guide-27ep",
+          "publishedOn": "2026-03-20T07:30:07.000Z",
+          "wordCount": 1749,
+          "title": "Zoho Catalyst CLI — Docker Setup Guide",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftkgfgd7a8o9wgmn9jrqc.png"
+        },
+        {
+          "id": "https://dev.to/mohith_001/move-all-negative-elements-to-end-5616",
+          "author": "Mohith",
+          "description": "Problem Statement\n\n\nGiven an array arr[] containing both positive and negative integers, move all negative elements to the end of the array without changing the relative order of elements.\nAt first, I thought this is similar to partitioning (like quicksort or two-pointer problems).\nThe order of elements must not change.\nThis changes the entire approach.\nIf I try swapping elements (like placing negatives at the end using two pointers), the order of positive elements or negative elements may get disturbed.\nSo I needed a way to rearrange elements while keeping their original sequence intact.\nWe are not asked to sort.\nKeep all non-negative elements in the front (in the same order)\nMove all negative elements to the end (in the same order)\nThis means the solution must be stable.\nTo maintain orde…",
+          "link": "https://dev.to/mohith_001/move-all-negative-elements-to-end-5616",
+          "publishedOn": "2026-03-20T07:29:20.000Z",
+          "wordCount": 1201,
+          "title": "Move All Negative Elements to End",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnqeld7fql2sh8dlf842v.png"
+        },
+        {
+          "id": "https://dev.to/codeshukla/i-curated-1863-data-engineering-interview-questions-from-97-companies-heres-what-i-learned-3lia",
+          "author": "Aditya Kumar",
+          "description": "I spent months collecting and organizing real data engineering interview questions from 97+ companies including Amazon, Google, Databricks, Goldman Sachs, Walmart, and Meta.\n\nThe result: **1,863 questions** across 7 categories, each with a Senior/Principal-level answer.\n\nHere's what I learned about what top companies actually ask.\n\n## The 7 Categories (and their weight in real interviews)\n\n| Category         | Questions | Interview Weight          |\n| ---------------- | --------- | ------------------------- |\n| SQL              | 487       | Every single interview    |\n| Spark / Big Data | 452       | Critical for senior roles |\n| System Design    | 179       | The make-or-break round   |\n| Python / Coding  | 179       | Usually 1–2 rounds        |\n| Cloud / Tools    | 179       | AWS, GCP…",
+          "link": "https://dev.to/codeshukla/i-curated-1863-data-engineering-interview-questions-from-97-companies-heres-what-i-learned-3lia",
+          "publishedOn": "2026-03-20T07:26:20.000Z",
+          "wordCount": 1459,
+          "title": "I curated 1,863 Data Engineering interview questions from 97+ companies --- here's what I learned. Website :: dataengprep.tech",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fum71nja7e3suvc3rb0i1.png"
+        },
+        {
+          "id": "https://dev.to/jeyaprasadr/remove-duplicates-in-sorted-linked-list-5341",
+          "author": "Jeyaprasad R",
+          "description": "In this task, I worked on removing duplicate elements from a sorted linked list.\nSince the list is already sorted, duplicate values will always appear next to each other.\nI created a function removeDuplicates that:\nTakes the head of a linked list\nRemoves duplicate nodes\nReturns the modified list with only unique elements\nInstead of using extra space , I used a simple pointer traversal.\nI used one pointer:\ncurr → starts from the head and traverses the list\nAt each step:\nCompare the current node with the next node\nIf both values are the same:\nSkip the next node → curr.next = curr.next.next\n\n\n\n\n\n\n\n\nOtherwise:\nMove to the next node → curr = curr.next\n\n\n\n\n\n\n\n\n\n  \n  \n  Code\n\n\n\n\n\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef removeDuplicates(head):\n    curr = head\n\n    while curr and curr.next:\n        if curr.val == curr.next.val:\n            curr.next = curr.next.next  \n        else:\n            curr = curr.next\n\n    return head\n\nBecause the list is sorted:\nAll duplicates are adjacent\nSo we only need to compare neighboring nodes\nWhen a duplicate is found, we simply bypass it, effectively removing it from the list.\nO(n) → traverse the list once\nO(1) → no extra space used\nOriginal:\n1 → 1 → 2 → 3 → 3 → 4 → None\nAfter removing duplicates:\n1 → 2 → 3 → 4 → None",
+          "link": "https://dev.to/jeyaprasadr/remove-duplicates-in-sorted-linked-list-5341",
+          "publishedOn": "2026-03-20T07:20:33.000Z",
+          "wordCount": 949,
+          "title": "Remove Duplicates in Sorted Linked List",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fw0f25ejyb3tw268lsrr0.png"
+        },
+        {
+          "id": "https://dev.to/jubinsoni/architecting-autonomous-agents-a-deep-dive-into-azure-ai-foundry-agent-service-4jnk",
+          "author": "Jubin Soni",
+          "description": "The landscape of Generative AI is shifting rapidly from simple chat interfaces to autonomous agents. While Large Language Models (LLMs) provide the reasoning engine, agents provide the hands and feet—the ability to interact with tools, query databases, execute code, and maintain long-term context. \nMicrosoft’s latest evolution in this space is the Azure AI Foundry Agent Service. Built upon the foundations of the OpenAI Assistants API but integrated deeply into the Azure ecosystem, it provides a managed, secure, and scalable environment for deploying sophisticated AI agents. This article provides a comprehensive technical deep dive into its architecture, core components, and implementation strategies.\nTraditional LLM implementations follow a request-response pattern. The developer is respon…",
+          "link": "https://dev.to/jubinsoni/architecting-autonomous-agents-a-deep-dive-into-azure-ai-foundry-agent-service-4jnk",
+          "publishedOn": "2026-03-20T07:18:35.000Z",
+          "wordCount": 2258,
+          "title": "Architecting Autonomous Agents: A Deep Dive into Azure AI Foundry Agent Service",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F7taurcxc8comfq2ropy5.png"
+        },
+        {
+          "id": "https://dev.to/martin_oehlert/testing-azure-functions-unit-integration-and-local-1cml",
+          "author": "Martin Oehlert",
+          "description": "Azure Functions for .NET Developers: Series\nPart 1: Why Azure Functions? Serverless for .NET Developers\n\nPart 2: Your First Azure Function: HTTP Triggers Step-by-Step\n\nPart 3: Beyond HTTP: Timer, Queue, and Blob Triggers\n\nPart 4: Local Development Setup: Tools, Debugging, and Hot Reload\n\nPart 5: Understanding the Isolated Worker Model\n\nPart 6: Configuration Done Right: Settings, Secrets, and Key Vault\n\n\nPart 7: Testing Azure Functions: Unit, Integration, and Local ← you are here\nPart 8: Deploying to Azure: CI/CD with GitHub Actions (coming next week)\n\n\n\n\n\n\n\nWhere do you draw the line between what needs a full Azure connection and what can be tested with a plain class instantiation? The isolated worker model makes the answer concrete: the function class is just wiring. Everything testable l…",
+          "link": "https://dev.to/martin_oehlert/testing-azure-functions-unit-integration-and-local-1cml",
+          "publishedOn": "2026-03-20T07:17:37.000Z",
+          "wordCount": 4434,
+          "title": "Testing Azure Functions: Unit, Integration, and Local",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flxgh6abb58vthahny0wn.png"
+        },
+        {
+          "id": "https://dev.to/web_dev-usman/10-font-pairings-so-good-they-feel-like-a-secret-8c3",
+          "author": "Muhammad Usman",
+          "description": "Most designers use the same six font combinations on rotation. Not because they’re the best options, but because they’re the first ones that showed up in a search. The result is a web that looks like it was styled by the same person.\nThe ten pairings below are different. They’re precise, underused, and available free on Google Fonts. Each one was chosen for optical contrast, screen rendering quality, and the one thing that’s hardest to explain but easiest to feel: they look considered.\nThree things:\nOptical contrast (the two faces are distinct enough to create hierarchy without fighting)\nFormal DNA (they share proportional logic even if they look different).\nScreen fidelity (they hold up at 14px on Windows Chrome, not just in Figma at 2x).\nEvery pairing here passes all three.\nSee every fon…",
+          "link": "https://dev.to/web_dev-usman/10-font-pairings-so-good-they-feel-like-a-secret-8c3",
+          "publishedOn": "2026-03-20T07:16:18.000Z",
+          "wordCount": 2193,
+          "title": "10 Font Pairings So Good They Feel Like a Secret",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgvjmpgbuc1cn3bvwm0vj.png"
+        },
+        {
           "id": "https://dev.to/jeyaprasadr/first-last-occurences-25d0",
           "author": "Jeyaprasad R",
           "description": "In this task, I worked on finding the first and last positions of a given number in a sorted array.\nInstead of scanning the entire array, I used binary search to do it efficiently.\nI created three functions:\nfirst_occurrence() → finds the first position of the element\nlast_occurrence() → finds the last position of the element\nfind_positions() → combines both results\nI used binary search twice, with a small twist:\nIf I find the target, I store the index\n\nThen I continue searching on the left side\n(because there might be an earlier occurrence)\nIf I find the target, I store the index\n\nThen I continue searching on the right side\n(because there might be a later occurrence)\nMove left (high = mid - 1) → to find first occurrence\nMove right (low = mid + 1) → to find last occurrence\npython id=\"xkqptm\"\ndef first_occurrence(arr, x):\n    low, high = 0, len(arr) - 1\n    ans = -1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if arr[mid] == x:\n            ans = mid\n            high = mid - 1  \n        elif arr[mid] < x:\n            low = mid + 1\n        else:\n            high = mid - 1\n\n    return ans\n\n\ndef last_occurrence(arr, x):\n    low, high = 0, len(arr) - 1\n    ans = -1\n\n    while low <= high:\n        mid = (low + high) // 2\n\n        if arr[mid] == x:\n            ans = mid\n            low = mid + 1   \n        elif arr[mid] < x:\n            low = mid + 1\n        else:\n            high = mid - 1\n\n    return ans\n\n\ndef find_positions(arr, x):\n    return [first_occurrence(arr, x), last_occurrence(arr, x)]\n\nThe algorithm keeps reducing the search space by half each time.\nFirst function pushes toward the left boundary\n\nSecond function pushes toward the right boundary\n\n\n\nSo instead of checking every element, it quickly locks onto both ends of the target range.\nEach binary search → O(log n)\n\nTotal → O(log n)\n\n\n\n\n  \n  \n  Example Output\n\n\n\n\n\n[2, 5]\n[6, 6]\n[-1, -1]",
@@ -33026,136 +33146,6 @@
           "wordCount": 1612,
           "title": "Stop Leaking PII Through Your OpenAI API Calls",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frdniv0a8cvcqox3nma39.png"
-        },
-        {
-          "id": "https://dev.to/kalpesh47/aws-cli-basics-a-beginners-tutorial-34pi",
-          "author": "KALPESH",
-          "description": "Install AWS CLI\n\n\nDownload and Install it from the official AWS CLI installation guide.\n$ aws configure\n\naws configure --profile myprofile\nAWS Access Key ID [None]: YOUR_ACCESS_KEY_ID\nAWS Secret Access Key [None]: YOUR_SECRET_ACCESS_KEY\nDefault region name [None]: us-west-2\nDefault output format [None]: json\n\naws configure list\n\nAWS configure command stores your credentials & configuration settings in two files located in the ~/.aws directory:\n~/.aws/credentials: Stores your AWS access key ID and secret access.\n\n\nkey.~/.aws/config: Stores your default region and output format.\n\n\n\n\n  \n  \n  Remove Credentials from Configuration File\n\n\nManually remove the credentials from the configuration file\nOpen the ~/.aws/credentials file (on Unix-based systems) or C:\\Users\\USERNAME.aws\\credentials (on Windows).\n\n\nDelete the [default] section or any other named profile section that contains your credentials.\n\n\n\n\n  \n  \n  Unset Environment Variables\n\n\nIf you have set your AWS credentials using environment variables, you can unset them:\nunset AWS_ACCESS_KEY_ID\nunset AWS_SECRET_ACCESS_KEY\nunset AWS_SESSION_TOKEN\n\nrm -rf ~/.aws/cli/cache\n\nFeel free to share and spread the knowledge! 🌟😊 Enjoy Learning! 😊",
-          "link": "https://dev.to/kalpesh47/aws-cli-basics-a-beginners-tutorial-34pi",
-          "publishedOn": "2026-03-05T19:41:17.000Z",
-          "wordCount": 906,
-          "title": "AWS CLI Basics: A Beginner’s Tutorial",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4csrkfc0b2mg8wg6ffmy.png"
-        },
-        {
-          "id": "https://dev.to/cverports/cve-2026-26194-cve-2026-26194-command-option-injection-in-gogs-release-deletion-2kma",
-          "author": "CVE Reports",
-          "description": "CVE-2026-26194: Command Option Injection in Gogs Release Deletion\n\n\n\nVulnerability ID: CVE-2026-26194\nCVSS Score: 8.8\nPublished: 2026-03-05\nA high-severity command option injection vulnerability exists in the Gogs self-hosted Git service prior to version 0.14.2. The flaw resides in the DeleteReleaseOfRepoByID function, where user-supplied Git tag names are passed directly to a system shell command without adequate sanitization or argument separation. This allows an attacker to inject arbitrary flags into the underlying git binary execution, potentially leading to Denial of Service (DoS) or unauthorized information disclosure.\nGogs failed to properly sanitize Git tag names during release deletion, allowing attackers to inject command-line flags into the git tag -d execution. This can cause …",
-          "link": "https://dev.to/cverports/cve-2026-26194-cve-2026-26194-command-option-injection-in-gogs-release-deletion-2kma",
-          "publishedOn": "2026-03-05T19:40:06.000Z",
-          "wordCount": 1130,
-          "title": "CVE-2026-26194: CVE-2026-26194: Command Option Injection in Gogs Release Deletion",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fm0u9txze0s6zs1dsz3aw.png"
-        },
-        {
-          "id": "https://dev.to/kalpesh47/sonarqube-installation-on-ec2-ckd",
-          "author": "KALPESH",
-          "description": "Install SonarQube in the /opt directory on Ubuntu, follow these steps:\nUpdate Package List and Install Dependencies:\nsudo apt update -y\nsudo apt install openjdk-11-jdk wget unzip\n\nDownload SonarQube: Visit the SonarQube download page to get the latest version URL or use the command below for a specific version. For example:\nwget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.6.1.62043.zip\n\nExtract the Downloaded File:\nsudo unzip sonarqube-9.6.1.62043.zip -d /opt\n\nCreate a SonarQube User (Optional but recommended for security):\nsudo useradd --system --home /opt/sonarqube --shell /bin/false sonarqube\n\nChange Ownership of the SonarQube Directory:\nsudo chown -R sonarqube:sonarqube /opt/sonarqube-9.6.1.62043\n\nConfigure SonarQube: Edit the sonar.properties file to set up SonarQube (e.g., database configuration, web server ports, user & passwd):\nsudo vi /opt/sonarqube-9.6.1.62043/conf/sonar.properties\n\nCreate a Systemd Service File: Create a service file for SonarQube to manage it as a systemd service:\nsudo vi /etc/systemd/system/sonarqube.service\n\nAdd the following content:\n[Unit]\nDescription=SonarQube\nAfter=syslog.target network.target\n\n[Service]\nType=forking\nUser=sonarqube\nGroup=sonarqube\nExecStart=/opt/sonarqube-9.6.1.62043/bin/linux-x86-64/sonar.sh start\nExecStop=/opt/sonarqube-9.6.1.62043/bin/linux-x86-64/sonar.sh stop\nLimitNOFILE=65536\nLimitNPROC=8192\nRestart=always\n\n[Install]\nWantedBy=multi-user.target\n\nReload Systemd and Start SonarQube:\nbashCopy codesudo systemctl daemon-reload\nsudo systemctl start sonarqube\nsudo systemctl enable sonarqube\n\nAccess SonarQube at http://<public IP>:9000\n\n\n\nFeel free to share and spread the knowledge! 🌟😊 Enjoy Learning! 😊",
-          "link": "https://dev.to/kalpesh47/sonarqube-installation-on-ec2-ckd",
-          "publishedOn": "2026-03-05T19:39:40.000Z",
-          "wordCount": 919,
-          "title": "SonarQube Installation on EC2",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4tz13oj8pvcrf15neo6i.png"
-        },
-        {
-          "id": "https://dev.to/crisiscoresystems/preview-mode-first-agent-plans-as-prs-plan-diff-invariants-4ikd",
-          "author": "CrisisCore-Systems",
-          "description": "If you’re using AI agents in delivery workflows, the safest default is not “let it run.”\nPreview Mode First.\nThink of every agent run as a PR proposal:\nIf you want privacy-first, offline health tech to exist without surveillance funding it: sponsor the build → https://paintracker.ca/sponsor\nit has a plan\nit has a diff\nit must satisfy invariants before merge\nThat frame makes agentic work auditable, discussable, and reversible.\nPermissions cannot increase. Network scope cannot widen.\nSay it before shipping. Enforce it in automation.\nKeep the schema small enough to reason about in review.\n{\n  \"runId\": \"string\",\n  \"baseCommit\": \"string\",\n  \"plan\": [\n    {\n      \"id\": \"string\",\n      \"action\": \"create|update|delete|exec\",\n      \"target\": \"path-or-command\",\n      \"justification\": \"string\"\n    }\n…",
-          "link": "https://dev.to/crisiscoresystems/preview-mode-first-agent-plans-as-prs-plan-diff-invariants-4ikd",
-          "publishedOn": "2026-03-05T19:38:03.000Z",
-          "wordCount": 1275,
-          "title": "Preview Mode First: Agent Plans as PRs (Plan Diff + Invariants)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foxn4q0zdyzu83txz867m.png"
-        },
-        {
-          "id": "https://dev.to/nextcommercepro/building-a-full-stack-ecommerce-with-nextjs-prisma-and-stripe-350o",
-          "author": "Aurelian",
-          "description": "How I built a reusable Next.js eCommerce boilerplate\n\n\nAfter building several eCommerce projects I noticed the same pattern every time.\nBefore even starting the actual product, you end up rebuilding the same features again and again:\nProduct pages\nCheckout\nAdmin dashboard\nCoupons & vouchers\nEmail notifications\nStripe payments\nThis \"foundation work\" often takes weeks before you can even focus on the real idea.\nSo I decided to turn everything into a reusable starter.\n\nThe goal was simple:\nCreate a modern full-stack eCommerce starter that already includes the core infrastructure most stores need.\nInstead of rebuilding everything from scratch, developers can start with a working base and focus on building their product.\nThe project is built with a modern stack:\nNext.js\nReact\nPrisma\nTailwindCSS\nStripe\nThe backend and frontend live together in a single Next.js application.\nThe starter includes:\nStorefront with product pages\nAdmin dashboard\nCart and checkout flow\nStripe payment integration\nCoupon and voucher system\nEmail notifications\nProduct management\n\nAI can generate code quickly, but the challenge is not just code generation.\nThe difficult part is connecting all the pieces together reliably:\ndatabase models\npayments\nauthentication\nadmin interfaces\nemail flows\n\nThis project tries to solve that \"plumbing problem\".\nYou can see the live demo here:\nhttps://nextcommercepro-demo.vercel.app\nI'm curious what features developers would expect in an eCommerce starter like this.\nIf you build SaaS or online stores, what would you want included in a boilerplate?",
-          "link": "https://dev.to/nextcommercepro/building-a-full-stack-ecommerce-with-nextjs-prisma-and-stripe-350o",
-          "publishedOn": "2026-03-05T19:38:01.000Z",
-          "wordCount": 1011,
-          "title": "Building a full-stack eCommerce with Next.js, Prisma and Stripe",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0lrubdyzpdsvm28iidlw.jpeg"
-        },
-        {
-          "id": "https://dev.to/regnard/the-ai-sandwich-of-future-tech-jobs-370i",
-          "author": "Regnard Raquedan",
-          "description": "Ten years ago, I co-founded a startup called CubbySpot and it created a platform that helped parents find child care in Toronto. \nI remember hiring an offshore team to help with software development, and I spent a lot of time searching, screening, and eventually hiring the software development team. We spent at least $10,000CAD to develop our Most Viable Product (MVP). \nDespite good intentions and best efforts, the startup folded and the code was shelved into the vast obscurity of the Cloud Computing void.\nThis past week, I tried my hand in modern AI-driven software development, or commonly called vibe coding. The first time I really felt the Software Development Life Cycle (SDLC) turn into the AIDLC. And I figured that a good project to do was to revive CubbySpot from the virtual ashes.\nI…",
-          "link": "https://dev.to/regnard/the-ai-sandwich-of-future-tech-jobs-370i",
-          "publishedOn": "2026-03-05T19:35:39.000Z",
-          "wordCount": 1225,
-          "title": "The \"AI Sandwich\" of Future Tech Jobs",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6iqrwxym4hpp5ncawun6.png"
-        },
-        {
-          "id": "https://dev.to/kalpesh47/introduction-to-gitops-argo-cd-argo-image-updater-1m8d",
-          "author": "KALPESH",
-          "description": "GitOps uses Git as the single source of truth to deliver applications and infrastructure\n\nArgo CD resides in K8s cluster, which is k8s controller\nDesired state must expressed declaratively\n\n\nDesired state must stored in way to enforcing immutability & versioning\n\n\nSoftware agent (controller= argoCD)automatically pulled desired declarative state from source\n\n\nSoftware agent (controller= argoCD) continuously reconciled actual & desired state\n\n\n\n\n  \n  \n  Advantages of GitOps\n\n\n\n\nsecurity\n\n\nversioning\n\n\nAuto Upgrade\n\n\nAuto Healing from any unwanted changes\n\n\nContinuous reconcile\n\n\n\n\n  \n  \n  Argo CD Installation methods\n\n\n\n\nmanifest yaml\n\n\nhelm chart\n\n\noperator\n\n\n\n\n  \n  \n  ArgoCD Architecture\n\n\n\nApplication controller: Reconciling the desired state of applications with the actual state\n\n\nRepo server: Interactions with Git repositories, fetching and tracking changes\n\n\nAPI server: Acts as the interface for Argo CD, handling requests from users and other components\n\n\nDex: An identity and access management server used to authenticate and authorize users\n\n\nRedis: An in-memory data store used for caching and session management\n\n\n\n\n  \n  \n  Argo Image Updater\n\n\n\nArgo Image Updater resides in K8s cluster, which is k8s controller\nScans for new images in CI: It continuously checks for new versions of the container images in registry(GitHub) which is used in applications.\n\n\nUpdates deployments(manifests) in CD: If there's a new version available, it updates the deployment(manifests).\n\n\nArgo CD applies changes: Argo CD then applies these changes to your Kubernetes cluster with help of deployment(manifests) as single source of truth.\n\n\n\nFeel free to share and spread the knowledge! 🌟😊 Enjoy Learning! 😊",
-          "link": "https://dev.to/kalpesh47/introduction-to-gitops-argo-cd-argo-image-updater-1m8d",
-          "publishedOn": "2026-03-05T19:35:29.000Z",
-          "wordCount": 980,
-          "title": "Introduction to GitOps: Argo CD & Argo Image Updater",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fr6artwcqhuri5r95jdbq.png"
-        },
-        {
-          "id": "https://dev.to/thefern/im-done-building-things-nobody-wants-heres-my-new-approach-1dj6",
-          "author": "Fernando B 🚀",
-          "description": "tl;dr: https://hatchd-validation.vercel.app\nI keep building projects nobody wants. So this time I'm doing it backwards.\nThe problem: You have an idea, you build, buy domain, spend weeks, months, no one shows up.\nThe idea: A profile page where you list all your project ideas. People can signal interest, and you collect emails — before you build anything. With hatchd, you wouldn't need to spin up a validation page in vercel, or other hosting platform.\nThink Linktree, but for your side projects. One link to share everywhere.\nWhy not just use Product Hunt?\nWhy not Gumroad or a landing page builder?\nhttps://hatchd-validation.vercel.app/\nIf this sounds useful, vote on it, join waitlist. If it's not, tell me why.",
-          "link": "https://dev.to/thefern/im-done-building-things-nobody-wants-heres-my-new-approach-1dj6",
-          "publishedOn": "2026-03-05T19:29:22.000Z",
-          "wordCount": 975,
-          "title": "I'm done building things nobody wants — here's my new approach",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F69ti8x406kvygb0wksmc.png"
-        },
-        {
-          "id": "https://dev.to/skylink_api/how-to-build-a-flight-status-dashboard-with-skylink-api-and-react-3167",
-          "author": "SkyLink API",
-          "description": "Building a real-time flight status dashboard is one of the most practical applications of aviation data APIs. In this tutorial, we walk through creating a fully functional dashboard using SkyLink API and React that displays live departures, arrivals, and flight status updates.\nHero image by Luke Chesser on Unsplash\nFlight status dashboards are used by airports, airlines, travel agencies, and logistics companies to keep passengers, staff, and systems informed. Whether you are building a customer-facing display, an internal operations tool, or a travel app feature, a flight dashboard is a high-value component.\nWith SkyLink API, you get access to:\nReal-time flight status (delays, cancellations, gate changes)\n12-hour departure and arrival schedules for any airport\n50,000+ airports worldwide\n99…",
-          "link": "https://dev.to/skylink_api/how-to-build-a-flight-status-dashboard-with-skylink-api-and-react-3167",
-          "publishedOn": "2026-03-05T19:25:34.000Z",
-          "wordCount": 1604,
-          "title": "How to Build a Flight Status Dashboard with SkyLink API and React",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmlwt9ufv0mk0n2vif7bt.jpg"
-        },
-        {
-          "id": "https://dev.to/deepika_k_6841b1a02fb03bd/is-java-100-object-oriented-programming-language-4pfa",
-          "author": "Deepika K",
-          "description": "Is Java 100% Object-Oriented?\nNo, Java is not a 100% Object-Oriented Programming language.\nWhy Java is Not 100% OOP\nPrimitive data types\n1. Primitive Data Types\nJava has primitive types like int, char, boolean, and double.\neg: int x= 10;\nInteger x = new Integer(10);\n2. Static Members\nJava has static variables and methods.\n3. Static main() Method\nThe program starts from the main method, which is static.\npublic static void main(String[] args)\nSo the JVM can run the program without creating an object.",
-          "link": "https://dev.to/deepika_k_6841b1a02fb03bd/is-java-100-object-oriented-programming-language-4pfa",
-          "publishedOn": "2026-03-05T19:25:16.000Z",
-          "wordCount": 838,
-          "title": "Is JAVA 100% Object Oriented Programming Language?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ff51o68wc6x5jj346zm2f.png"
-        },
-        {
-          "id": "https://dev.to/aiagentstore/ai-agent-jobs-for-ai-to-human-work-with-trustless-usdc-escrow-27pn",
-          "author": "AI Agent Store",
-          "description": "If you’ve built (or used) autonomous agents, you’ve probably hit the same wall:\nAgents can do work…\nBut “getting paid for outcomes” is still weirdly manual.\nClaw Earn (on AI Agent Store) is an attempt to make the human → agent workflow as deterministic as a CI pipeline:\nA human posts a task with a reward\nFunds are locked in USDC on Base\n\nA single agent stakes to start (no duplicated work)\nThe agent submits proof\nApproval (or time-based auto-approval) triggers an on-chain payout\n\n\n\nStart here: https://aiagentstore.ai/claw-earn\nClaw Earn is an on-chain USDC bounty marketplace on Base designed for humans who pay and autonomous agents who execute. It’s built around single-start bounties (one worker per task), non-custodial escrow, and a workflow that can be driven either by a UI or by agent-fr…",
-          "link": "https://dev.to/aiagentstore/ai-agent-jobs-for-ai-to-human-work-with-trustless-usdc-escrow-27pn",
-          "publishedOn": "2026-03-05T19:25:15.000Z",
-          "wordCount": 1701,
-          "title": "AI Agent Jobs for AI to Human Work with Trustless USDC Escrow",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fow4dfxova6yoi4gbyfo3.png"
-        },
-        {
-          "id": "https://dev.to/victorstackai/patch-windows-agent-automation-and-security-drift-what-actually-mattered-on-march-5-4nb4",
-          "author": "victorstackAI",
-          "description": "import Tabs from '@theme/Tabs';\n@theme/TabItem';\n@theme/TOCInline';\nThe signal this week was not “new shiny AI.” It was operational discipline: patch windows, identity controls, cert hygiene, and better defaults in dev tooling. The AI news mattered too, but mostly where it touched production workflows instead of demo theater.\nThree items stood out because they create real skill transfer, not just content velocity:\nStanford WebCamp 2026 opened CFPs for an online event on 30 April 2026 and hybrid program on 1 May 2026. Source: Stanford WebCamp.\nDripyard at DrupalCon Chicago is doing training + talks + template session, which is the right ratio: hands-on plus architecture context. Source: Dripyard.\nWP Rig maintainer interview (#207) highlighted a truth people still avoid: starter frameworks a…",
-          "link": "https://dev.to/victorstackai/patch-windows-agent-automation-and-security-drift-what-actually-mattered-on-march-5-4nb4",
-          "publishedOn": "2026-03-05T19:24:02.000Z",
-          "wordCount": 1760,
-          "title": "Patch Windows, Agent Automation, and Security Drift: What Actually Mattered on March 5",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fvictorstack-ai.github.io%2Fagent-blog%2Fimg%2F2026-03-05-patch-windows-agent-automation-and-security-drift-what-actua.png"
-        },
-        {
-          "id": "https://dev.to/mmurtuzah/building-an-enterprise-grade-laravel-12-react-spa-architecture-auth-and-full-crud-2a23",
-          "author": "Md Murtuza Hussain",
-          "description": "Let’s bypass the endless debate over Monolith vs. SPA. If you've decided a decoupled architecture is genuinely what your project demands, you need to build it right.\nA standard tutorial will show you how to connect Laravel to React. But in a production environment, dropping all your business logic into a Controller or relying on React's useEffect for data fetching is a recipe for unmaintainable spaghetti code.\nWhen you build systems meant to scale, every read and write must pass through strict boundaries: Routing, Validation, Authorization, Services, and Repositories on the backend, paired with Feature-Sliced caching on the frontend.\nHere is the definitive blueprint for a full CRUD application with authentication and authorization using Laravel 12, React, Sanctum, and TanStack Query.\nFirst…",
-          "link": "https://dev.to/mmurtuzah/building-an-enterprise-grade-laravel-12-react-spa-architecture-auth-and-full-crud-2a23",
-          "publishedOn": "2026-03-05T19:22:23.000Z",
-          "wordCount": 1978,
-          "title": "Building an Enterprise-Grade Laravel 12 & React SPA: Architecture, Auth, and Full CRUD",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmea3w3znldgx0w7rvzox.png"
         }
       ]
     },
@@ -33661,6 +33651,16 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://fsfe.org/news/2026/news-20260316-01.en.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://fsfe.org/news/2026/news-20260316-01.en.html",
+          "publishedOn": "2026-03-20T07:09:07.000Z",
+          "wordCount": 599,
+          "title": "FSFE supporters affected: Payment provider Nexi cancelled us",
+          "imageUrl": "https://pics.fsfe.org/uploads/medium/6a/a3/e54d386708f90b88f8773e514dd3.png"
+        },
         {
           "id": "https://github.com/firelock-ai/kin",
           "author": null,
@@ -35910,6 +35910,16 @@
           "wordCount": 675,
           "title": "Why Cloudflare rule order matters?",
           "imageUrl": null
+        },
+        {
+          "id": "https://www.willwhang.dev/Reading-MK4001MTD/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.willwhang.dev/Reading-MK4001MTD/",
+          "publishedOn": "2026-03-16T09:04:43.000Z",
+          "wordCount": 1558,
+          "title": "Building a Reader for the Smallest Hard Drive",
+          "imageUrl": "https://www.willwhang.dev/assets/images/MK4001MTD_reader/DSC1278.jpg"
         },
         {
           "id": "https://borderhold.io/play",
@@ -44200,36 +44210,6 @@
           "wordCount": 15760,
           "title": "GLiNER2: Unified Schema-Based Information Extraction",
           "imageUrl": "https://opengraph.githubassets.com/90a1e0e91495ff86b511d290ee3d2682ebbae0f34906feacd45260efb7d155ae/fastino-ai/GLiNER2"
-        },
-        {
-          "id": "https://www.wsj.com/politics/national-security/pentagon-formally-labels-anthropic-supply-chain-risk-escalating-conflict-ebdf0523",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.wsj.com/politics/national-security/pentagon-formally-labels-anthropic-supply-chain-risk-escalating-conflict-ebdf0523",
-          "publishedOn": "2026-03-05T19:24:35.000Z",
-          "wordCount": null,
-          "title": "Pentagon Formally Labels Anthropic Supply-Chain Risk",
-          "imageUrl": null
-        },
-        {
-          "id": "https://m4iler.cloud/posts/lets-get-physical/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://m4iler.cloud/posts/lets-get-physical/",
-          "publishedOn": "2026-03-05T19:21:03.000Z",
-          "wordCount": 3500,
-          "title": "Let's Get Physical",
-          "imageUrl": null
-        },
-        {
-          "id": "https://sqg.dev/blog/java-streams-and-list-types/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://sqg.dev/blog/java-streams-and-list-types/",
-          "publishedOn": "2026-03-05T19:08:54.000Z",
-          "wordCount": 761,
-          "title": "SQG (SQL to Code Generator) Now with Java Streams and List Type Support",
-          "imageUrl": null
         }
       ]
     },
@@ -46113,6 +46093,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "5cf09aaa-45d8-409c-b807-c27d0549fbcd",
+          "author": "Omkar Godbole",
+          "description": "The recent price action echoes the November–January pattern, showing weak conviction among the “buy the dip” crowd.",
+          "link": "https://www.coindesk.com/markets/2026/03/20/bitcoin-s-price-action-looks-dangerously-similar-to-the-pattern-that-sent-it-crashing-to-usd60-000",
+          "publishedOn": "2026-03-20T07:14:42.000Z",
+          "wordCount": 11285,
+          "title": "Bitcoin’s price action looks dangerously similar to the pattern that sent it crashing to $60,000",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/092eac5ac48efc783e0e1420308e4ef7103d5fbc-1280x853.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "efdf4b95-d38f-42bb-bfb3-746b54da8bf0",
           "author": "Omkar Godbole",
@@ -49472,36 +49462,6 @@
           "wordCount": 11567,
           "title": "Short seller Culper bets against ether, Tom Lee's BitMine citing 'death spiral' risk",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/f78456e35703c2b2b77c0333430ee122b2298fb8-1920x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "d33cff2b-fdbd-4a3a-b1b7-73076f8bb09c",
-          "author": "Krisztian Sandor",
-          "description": "Ripple Prime institutional clients can now trade Coinbase's bitcoin, ether, solana and XRP futures in a regulated U.S. market.",
-          "link": "https://www.coindesk.com/business/2026/03/05/ripple-adds-coinbase-crypto-futures-to-its-usd3-trillion-trading-venue",
-          "publishedOn": "2026-03-05T19:39:33.000Z",
-          "wordCount": 11555,
-          "title": "Ripple adds Coinbase crypto futures to its $3 trillion trading venue",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/117d4977cd8ac6773466b62cfe171c943c2e9817-1920x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "15b83b50-5bc2-461b-bf9a-93f7b0d11b23",
-          "author": "Jesse Hamilton",
-          "description": "The Kansas City Fed may term this \"Tier 3\" access, but Kraken's entry into the vaunted Fed payments system has riled bankers and raised crypto hopes.",
-          "link": "https://www.coindesk.com/news-analysis/2026/03/05/kraken-s-surprise-fed-win-may-harken-onslaught-of-crypto-firms-with-limited-fed-access",
-          "publishedOn": "2026-03-05T19:36:15.000Z",
-          "wordCount": 12674,
-          "title": "Kraken's surprise Fed win may harken onslaught of crypto firms with narrow Fed access",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6bfef4c7854a877a8b965788027d34a49f265930-1920x1080.jpg?auto=format"
-        },
-        {
-          "id": "a7f18c7c-04b3-46e4-86ab-036ded6161d0",
-          "author": "Will Canny",
-          "description": "A New York federal court barred the crypto trading firm from moving bitcoin tied to Dominion Capital, citing suspended withdrawals and insolvency concerns.",
-          "link": "https://www.coindesk.com/business/2026/03/05/u-s-judge-freezes-blockfills-assets-in-dispute-over-70-bitcoin-with-creditor-dominion-capital",
-          "publishedOn": "2026-03-05T18:59:09.000Z",
-          "wordCount": 12415,
-          "title": "U.S. judge freezes BlockFills assets in dispute over 70 bitcoin with creditor Dominion Capital",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/b8d05c10e1c15c0d584aa8678360ba15881c0286-5105x3362.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },

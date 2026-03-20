@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-03-20 datetime="2026-03-20T06:51:26.000Z">2026-03-20</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-03-20 datetime="2026-03-20T06:51:26.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-03-20 datetime="2026-03-20T07:38:28.000Z">2026-03-20</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-03-20 datetime="2026-03-20T07:38:28.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,615 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/s_mathavi_2fa1e3ea8514f34/postgresql-constraints-2bng"
+                        open
+                      >
+                        <summary class="article-expander__title">PostgreSQL-constraints</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/s_mathavi_2fa1e3ea8514f34/postgresql-constraints-2bng">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5r5zdgvzivwxni4i3t4c.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Constraints:
+Constraints are the backbone of reliable database design. They act like safety checks, ensuring that every piece of data stored is valid, consistent, and meaningful.
+Types of Constraints
+1.PRIMARY KEY
+-Ensures each row has a unique identifier.
+example:
+emp_id SERIAL PRIMARY KEY
+2.FOREIGN KEY
+-Creates a relationship between two tables.
+example:
+dept_id INT REFERENCES Department(dept_id)
+3.UNIQUE
+-Guarantees that all values in a column are distinct.
+example:
+email VARCHAR(150) UNIQUE
+4. NOT NULL
+-Prevents empty values in a column.
+example:
+name VARCHAR(100) NOT NULL
+5.DEFAULT
+-Assigns an automatic value if none is provided during insertion.
+example:
+status VARCHAR(20) DEFAULT &#x27;Active&#x27;
+6. CHECK
+-Validates data against a condition.
+example:
+salary NUMERIC(10,2) CHECK (salary &gt; 0)
+CREATE TABLE Employee (
+    emp_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(150) UNIQUE,
+    dept_id INT REFERENCES Department(dept_id),
+    salary NUMERIC(10,2) CHECK (salary &gt; 0),
+    status VARCHAR(20) DEFAULT &#x27;Active&#x27;
+);
+
+Why Constraints Matter
+-Data Integrity: Prevents invalid or duplicate entries.
+Next blog is Relationship(joins) in PostgreSql....</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/s_mathavi_2fa1e3ea8514f34/postgresql-relationshipsjoins-4c6o"
+                        open
+                      >
+                        <summary class="article-expander__title">PostgreSql - Relationships(joins)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/s_mathavi_2fa1e3ea8514f34/postgresql-relationshipsjoins-4c6o">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fuzbowngt9dd8hiyhhgfm.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>How to connect Two Database in innerjoin?
+CREATE EXTENSION dblink;
+Example:
+SELECT e.name, d.dept_name
+FROM Employee e
+JOIN dblink(&#x27;dbname&#x3D;department_db&#x27;,
+            &#x27;SELECT dept_id, dept_name FROM Department&#x27;)
+AS d(dept_id INT, dept_name TEXT)
+ON e.department_id &#x3D; d.dept_id
+
+;
+
+Same Database:
+Example:
+SELECT e.name, d.dept_name
+
+
+Now we Start ,
+Tables Setup
+Employee table:
+emp_id | name   | dept_id
+-------+--------+--------
+1      | Udaya  | 2
+2      | Mathavi  | 3
+3      | Kumar  | 1
+4      | Meena  | NULL
+
+Department table:
+dept_id | dept_name
+--------+-----------
+1       | IT
+2       | Finance
+3       | HR
+4       | Marketing
+
+SELECT e.name, d.dept_name
+FROM Employee e
+INNER JOIN Department d ON e.dept_id &#x3D; d.dept_id;
+
+Output:
+
+
+
+name
+dept_name
+
+
+
+
+Udaya
+Finance
+
+
+Mathavi
+HR
+
+
+Kumar
+IT
+
+
+
+!..Only employees with valid department.
+SELECT e.name, d.dept_name
+FROM Employee e
+LEFT JOIN Department d ON e.dept_id &#x3D; d.dept_id;
+
+Output:
+name   | dept_name
+-------+-----------
+Udaya  | Finance
+Priya  | HR
+Kumar  | IT
+Meena  | NULL
+
+!..All employees shown, even Meena (no department → NULL).
+SELECT e.name, d.dept_name
+FROM Employee e
+RIGHT JOIN Department d ON e.dept_id &#x3D; d.dept_id;
+
+Output:
+name   | dept_name
+-------+-----------
+Udaya  | Finance
+Priya  | HR
+Kumar  | IT
+NULL   | Marketing
+
+!..All departments shown, even Marketing (no employee → NULL).
+SELECT e.name, d.dept_name
+FROM Employee e
+FULL OUTER JOIN Department d ON e.dept_id &#x3D; d.dept_id;
+
+Output:
+name   | dept_name
+-------+-----------
+Udaya  | Finance
+Priya  | HR
+Kumar  | IT
+Meena  | NULL
+NULL   | Marketing
+
+!..Combines LEFT + RIGHT → all employees + all departments.
+SELECT e.name, d.dept_name
+FROM Employee e
+CROSS JOIN Department d;
+
+Output:
+name   | dept_name
+-------+-----------
+Udaya  | IT
+Udaya  | Finance
+Udaya  | HR
+Udaya  | Marketing
+Priya  | IT
+Priya  | Finance
+... (every combination)
+
+!..Every employee paired with every department.
+Our next blog is Aggregate Function....</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/mansiey/what-is-a-runtime-environment-43e5"
+                        open
+                      >
+                        <summary class="article-expander__title">What is a runtime environment?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mansiey/what-is-a-runtime-environment-43e5">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fudv7i0jvd5qz3p5lj12d.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>If you’re a developer, you already know that node.js is a runtime environment and how it was developed by binding C++ and V8 engine. But how do we visualize it?
+Being from non-tech background I kept thinking what is actually a runtime environment?, I had this vague idea seeing the name, but I searched about it, because I wanted to have the clear picture.
+• Basically To execute a code you need collections of software and hardware components. Why? Because software tells you how to execute that code and hardware actually does that execution.
+• The Runtime Environment is just abstraction layer between code, Os and Hardware components which provides essential services and allows programs to run consistently across different platforms i.e runtime gives us pre-written code that acts as a functionality so we don’t have to deal with OS or hardware directly!
+•  Without those services we would actually have to manage memory system, handle the CPU instructions, andd deal with the networking protocols ourselves, doesn’t seem practical right?!!
+Now, we should know what are the key components involved in this. Just a little summary of what I wrote above:
+• An execution engine (Interpreter):
+• Runtime Libraries:
+• Memory management system:
+• Core system interface: 
+Well, We all have been using a runtime environment way before we started with the JavaScript, Web Browser.
+It’s a Runtime environment for the frontend Javascript application.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/aaron_rose_0787cc8b4775a0/the-secret-life-of-go-error-handling-part-2-5eo1"
+                        open
+                      >
+                        <summary class="article-expander__title">The Secret Life of Go: Error Handling (Part 2)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/aaron_rose_0787cc8b4775a0/the-secret-life-of-go-error-handling-part-2-5eo1">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjylyoz21i1hygqcy8apf.jpeg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Data-Rich Errors, Custom Structs, and errors.As
+Eleanor is a senior software engineer. Ethan is her junior colleague. They work in a beautiful beaux arts library in Lower Manhattan — the kind of place where coding languages are discussed like poetry.
+Episode 31
+Ethan was building a user registration endpoint. He had learned his lesson from the previous day and was dutifully avoiding string matching. 
+&quot;I have a problem with Sentinel errors,&quot; Ethan said, turning his monitor toward Eleanor. &quot;They are great for simple states like ErrNotFound. But what if the error is a validation failure? I need to tell the frontend exactly which field failed and why. I can&#x27;t write a Sentinel variable for every possible bad email address.&quot;
+He showed her his workaround:
+// Ethan&#x27;s attempt to return data
+func va…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/chahyunwoo/i-built-a-lol-style-tier-system-for-github-profiles-3njc"
+                        open
+                      >
+                        <summary class="article-expander__title">I built a LoL-style tier system for GitHub profiles</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/chahyunwoo/i-built-a-lol-style-tier-system-for-github-profiles-3njc">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1980o5qa9ri2naqyqux1.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I wanted something more fun than the usual GitHub stats card, so I made a widget that ranks your GitHub activity like League of Legends — Iron through Challenger.
+One line in your README and you&#x27;re done.
+It looks at commits, stars, PRs, followers, and issues. Scoring is log-normal CDF based, calibrated against 225 real users so the tiers aren&#x27;t totally arbitrary.
+Built with Hono + Vercel. 9 themes. Self-hosting works too.
+I got Platinum I. Could be worse.
+ / 
+        github-tier
+      
+    
+
+  
+GitHub Tier
+🎮 Gaming-style rank card for your GitHub profile
+Show off your GitHub activity as a competitive rank — from Iron to Challenger
+
+  
+  
+  
+
+
+
+  🔗 View Demo
+   · 
+  🐛 Report Bug
+   · 
+  ✨ Request Feature
+
+
+
+
+
+
+  
+  
+⚡ Features
+🏆 10 Tier Ranks — Iron → Bronze → Silver → Gold → Platinum → Emerald → Diamond → Master → Grandmaster → Challenger
+🎯 Division System — Each tier has IV to I subdivisions (like League of Legends)
+📊 5 Metrics — Commits, Stars, PRs, Followers, Issues
+🔬 CDF-based Scoring — Log-Normal CDF model validated against 225+ real GitHub users
+🎨 9 Themes — dark, tokyonight, dracula, nord, gruvbox, catppuccin, onedark, radical, light
+💎 Premium Effects — Diamond+ tiers get glow borders, Master+ get elite emblems
+🔄 Auto Updates — Card refreshes every hour via CDN cache
+🔒 Private Contributions — Includes private repo commits…
+View on GitHub
+thanks</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/sillycoder/zoho-catalyst-cli-docker-setup-guide-27ep"
+                        open
+                      >
+                        <summary class="article-expander__title">Zoho Catalyst CLI — Docker Setup Guide</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sillycoder/zoho-catalyst-cli-docker-setup-guide-27ep">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftkgfgd7a8o9wgmn9jrqc.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>A complete guide to setting up Zoho Catalyst CLI using Docker on Windows (WSL2 + Ubuntu)
+Before starting, ensure you have the following:
+A Windows machine with WSL2 enabled
+
+
+Ubuntu installed via WSL2
+Docker installed on Ubuntu — see Step 2
+A Zoho Catalyst account
+
+Basic familiarity with the terminal
+You can access your Ubuntu environment in any of the following ways:
+Option 1 — Via the Ubuntu App:
+Press Windows + S and search for Ubuntu
+
+Click to open it
+Option 2 — Via Windows Terminal, CMD or PowerShell:
+wsl
+
+Option 3 — Via any terminal that supports WSL (e.g. Windows Terminal, Git Bash):
+wsl -d Ubuntu
+
+In all cases you&#x27;ll see a terminal prompt like:
+username@DESKTOP-XXXX:~$
+
+You are now inside your Ubuntu environment.
+Run the following commands in your Ubuntu terminal one by one:
+# Remo…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/mohith_001/move-all-negative-elements-to-end-5616"
+                        open
+                      >
+                        <summary class="article-expander__title">Move All Negative Elements to End</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mohith_001/move-all-negative-elements-to-end-5616">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnqeld7fql2sh8dlf842v.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Problem Statement
+
+
+Given an array arr[] containing both positive and negative integers, move all negative elements to the end of the array without changing the relative order of elements.
+At first, I thought this is similar to partitioning (like quicksort or two-pointer problems).
+The order of elements must not change.
+This changes the entire approach.
+If I try swapping elements (like placing negatives at the end using two pointers), the order of positive elements or negative elements may get disturbed.
+So I needed a way to rearrange elements while keeping their original sequence intact.
+We are not asked to sort.
+Keep all non-negative elements in the front (in the same order)
+Move all negative elements to the end (in the same order)
+This means the solution must be stable.
+To maintain orde…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/codeshukla/i-curated-1863-data-engineering-interview-questions-from-97-companies-heres-what-i-learned-3lia"
+                        open
+                      >
+                        <summary class="article-expander__title">I curated 1,863 Data Engineering interview questions from 97+ companies --- here&#x27;s what I learned. Website :: dataengprep.tech</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/codeshukla/i-curated-1863-data-engineering-interview-questions-from-97-companies-heres-what-i-learned-3lia">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fum71nja7e3suvc3rb0i1.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I spent months collecting and organizing real data engineering interview questions from 97+ companies including Amazon, Google, Databricks, Goldman Sachs, Walmart, and Meta.
+
+The result: **1,863 questions** across 7 categories, each with a Senior/Principal-level answer.
+
+Here&#x27;s what I learned about what top companies actually ask.
+
+## The 7 Categories (and their weight in real interviews)
+
+| Category         | Questions | Interview Weight          |
+| ---------------- | --------- | ------------------------- |
+| SQL              | 487       | Every single interview    |
+| Spark / Big Data | 452       | Critical for senior roles |
+| System Design    | 179       | The make-or-break round   |
+| Python / Coding  | 179       | Usually 1–2 rounds        |
+| Cloud / Tools    | 179       | AWS, GCP…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/jeyaprasadr/remove-duplicates-in-sorted-linked-list-5341"
+                        open
+                      >
+                        <summary class="article-expander__title">Remove Duplicates in Sorted Linked List</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/jeyaprasadr/remove-duplicates-in-sorted-linked-list-5341">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fw0f25ejyb3tw268lsrr0.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>In this task, I worked on removing duplicate elements from a sorted linked list.
+Since the list is already sorted, duplicate values will always appear next to each other.
+I created a function removeDuplicates that:
+Takes the head of a linked list
+Removes duplicate nodes
+Returns the modified list with only unique elements
+Instead of using extra space , I used a simple pointer traversal.
+I used one pointer:
+curr → starts from the head and traverses the list
+At each step:
+Compare the current node with the next node
+If both values are the same:
+Skip the next node → curr.next &#x3D; curr.next.next
+
+
+
+
+
+
+
+
+Otherwise:
+Move to the next node → curr &#x3D; curr.next
+
+
+
+
+
+
+
+
+
+  
+  
+  Code
+
+
+
+
+
+class ListNode:
+    def __init__(self, val&#x3D;0, next&#x3D;None):
+        self.val &#x3D; val
+        self.next &#x3D; next
+
+def removeDuplicates(head):
+    curr &#x3D; head
+
+    while curr and curr.next:
+        if curr.val &#x3D;&#x3D; curr.next.val:
+            curr.next &#x3D; curr.next.next  
+        else:
+            curr &#x3D; curr.next
+
+    return head
+
+Because the list is sorted:
+All duplicates are adjacent
+So we only need to compare neighboring nodes
+When a duplicate is found, we simply bypass it, effectively removing it from the list.
+O(n) → traverse the list once
+O(1) → no extra space used
+Original:
+1 → 1 → 2 → 3 → 3 → 4 → None
+After removing duplicates:
+1 → 2 → 3 → 4 → None</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/jubinsoni/architecting-autonomous-agents-a-deep-dive-into-azure-ai-foundry-agent-service-4jnk"
+                        open
+                      >
+                        <summary class="article-expander__title">Architecting Autonomous Agents: A Deep Dive into Azure AI Foundry Agent Service</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/jubinsoni/architecting-autonomous-agents-a-deep-dive-into-azure-ai-foundry-agent-service-4jnk">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F7taurcxc8comfq2ropy5.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The landscape of Generative AI is shifting rapidly from simple chat interfaces to autonomous agents. While Large Language Models (LLMs) provide the reasoning engine, agents provide the hands and feet—the ability to interact with tools, query databases, execute code, and maintain long-term context. 
+Microsoft’s latest evolution in this space is the Azure AI Foundry Agent Service. Built upon the foundations of the OpenAI Assistants API but integrated deeply into the Azure ecosystem, it provides a managed, secure, and scalable environment for deploying sophisticated AI agents. This article provides a comprehensive technical deep dive into its architecture, core components, and implementation strategies.
+Traditional LLM implementations follow a request-response pattern. The developer is respon…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/martin_oehlert/testing-azure-functions-unit-integration-and-local-1cml"
+                        open
+                      >
+                        <summary class="article-expander__title">Testing Azure Functions: Unit, Integration, and Local</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/martin_oehlert/testing-azure-functions-unit-integration-and-local-1cml">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flxgh6abb58vthahny0wn.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Azure Functions for .NET Developers: Series
+Part 1: Why Azure Functions? Serverless for .NET Developers
+
+Part 2: Your First Azure Function: HTTP Triggers Step-by-Step
+
+Part 3: Beyond HTTP: Timer, Queue, and Blob Triggers
+
+Part 4: Local Development Setup: Tools, Debugging, and Hot Reload
+
+Part 5: Understanding the Isolated Worker Model
+
+Part 6: Configuration Done Right: Settings, Secrets, and Key Vault
+
+
+Part 7: Testing Azure Functions: Unit, Integration, and Local ← you are here
+Part 8: Deploying to Azure: CI/CD with GitHub Actions (coming next week)
+
+
+
+
+
+
+
+Where do you draw the line between what needs a full Azure connection and what can be tested with a plain class instantiation? The isolated worker model makes the answer concrete: the function class is just wiring. Everything testable l…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;15
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/web_dev-usman/10-font-pairings-so-good-they-feel-like-a-secret-8c3"
+                        open
+                      >
+                        <summary class="article-expander__title">10 Font Pairings So Good They Feel Like a Secret</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/web_dev-usman/10-font-pairings-so-good-they-feel-like-a-secret-8c3">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgvjmpgbuc1cn3bvwm0vj.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Most designers use the same six font combinations on rotation. Not because they’re the best options, but because they’re the first ones that showed up in a search. The result is a web that looks like it was styled by the same person.
+The ten pairings below are different. They’re precise, underused, and available free on Google Fonts. Each one was chosen for optical contrast, screen rendering quality, and the one thing that’s hardest to explain but easiest to feel: they look considered.
+Three things:
+Optical contrast (the two faces are distinct enough to create hierarchy without fighting)
+Formal DNA (they share proportional logic even if they look different).
+Screen fidelity (they hold up at 14px on Windows Chrome, not just in Figma at 2x).
+Every pairing here passes all three.
+See every fon…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -1610,66 +2219,30 @@ The budget layer took longer than everything else combined. Database locks, Redi
                     class="source-heading__name"
                     data-action="toggle-accordions"
                     title="Click to toggle the source, Ctrl + click to toggle all."
-                  >Lowyat.NET</button>
-                  <a class="source-heading__link" href="https://www.lowyat.net/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;387304"
-                        open
-                      >
-                        <summary class="article-expander__title">Ubisoft To Cease Development At Red Storm Entertainment, Layoff More Than 100 Staff</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/387304/ubisoft-to-cease-development-at-red-storm-entertainment-layoff-more-than-100-staff/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2024/05/Assassins-Creed-Shadows.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Ubisoft is pulling the blinds down on Red Storm Entertainment, the US-based studio that it acquired back in 2000. The news is surprising, given that the studio is one of the earliest and oldest acquisition by the French studio and developer. Additionally, Ubisoft will be laying off 105 jobs from Red Storm as part of […]
-The post Ubisoft To Cease Development At Red Storm Entertainment, Layoff More Than 100 Staff appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;41
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;387297"
-                        open
-                      >
-                        <summary class="article-expander__title">OPPO Find X9s, Find X9 Ultra Secure SIRIM Certification; Local Launch At Hand</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/387297/oppo-find-x9s-find-x9-ultra-sirim/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2025/10/Oppo-Find-X9-Series-Launch-Pro-1.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>OPPO just unveiled its newest book-style foldable earlier this month, but the brand is already moving on to other products. It seems that the next devices to launch are additions to the Find X9 flagship lineup, namely the compact Find X9s models and Find X9 Ultra. In the past, these variants have remained in China, […]
-The post OPPO Find X9s, Find X9 Ultra Secure SIRIM Certification; Local Launch At Hand appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;43
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
                   >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
                   <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="5cf09aaa-45d8-409c-b807-c27d0549fbcd"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin’s price action looks dangerously similar to the pattern that sent it crashing to $60,000</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/03/20/bitcoin-s-price-action-looks-dangerously-similar-to-the-pattern-that-sent-it-crashing-to-usd60-000">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/092eac5ac48efc783e0e1420308e4ef7103d5fbc-1280x853.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The recent price action echoes the November–January pattern, showing weak conviction among the “buy the dip” crowd.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;38
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -1724,6 +2297,26 @@ The post OPPO Find X9s, Find X9 Ultra Secure SIRIM Certification; Local Launch A
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://fsfe.org/news/2026/news-20260316-01.en.html"
+                        open
+                      >
+                        <summary class="article-expander__title">FSFE supporters affected: Payment provider Nexi cancelled us</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://fsfe.org/news/2026/news-20260316-01.en.html">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://pics.fsfe.org/uploads/medium/6a/a3/e54d386708f90b88f8773e514dd3.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;2
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -1852,6 +2445,62 @@ The post OPPO Find X9s, Find X9 Ultra Secure SIRIM Certification; Local Launch A
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >Lowyat.NET</button>
+                  <a class="source-heading__link" href="https://www.lowyat.net/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;387304"
+                        open
+                      >
+                        <summary class="article-expander__title">Ubisoft To Cease Development At Red Storm Entertainment, Layoff More Than 100 Staff</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/387304/ubisoft-to-cease-development-at-red-storm-entertainment-layoff-more-than-100-staff/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2024/05/Assassins-Creed-Shadows.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Ubisoft is pulling the blinds down on Red Storm Entertainment, the US-based studio that it acquired back in 2000. The news is surprising, given that the studio is one of the earliest and oldest acquisition by the French studio and developer. Additionally, Ubisoft will be laying off 105 jobs from Red Storm as part of […]
+The post Ubisoft To Cease Development At Red Storm Entertainment, Layoff More Than 100 Staff appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;41
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;387297"
+                        open
+                      >
+                        <summary class="article-expander__title">OPPO Find X9s, Find X9 Ultra Secure SIRIM Certification; Local Launch At Hand</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/387297/oppo-find-x9s-find-x9-ultra-sirim/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2025/10/Oppo-Find-X9-Series-Launch-Pro-1.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>OPPO just unveiled its newest book-style foldable earlier this month, but the brand is already moving on to other products. It seems that the next devices to launch are additions to the Find X9 flagship lineup, namely the compact Find X9s models and Find X9 Ultra. In the past, these variants have remained in China, […]
+The post OPPO Find X9s, Find X9 Ultra Secure SIRIM Certification; Local Launch At Hand appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;43
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -30213,6 +30862,26 @@ The post Apple AirPods Max 2 Coming To Malaysia Next Month; Priced At RM2,299 ap
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;2
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.willwhang.dev/Reading-MK4001MTD/"
+                        open
+                      >
+                        <summary class="article-expander__title">Building a Reader for the Smallest Hard Drive</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.willwhang.dev/Reading-MK4001MTD/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.willwhang.dev/assets/images/MK4001MTD_reader/DSC1278.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -135583,61 +136252,6 @@ The post WhatsApp May Introduce Paid “Plus” Plan With More Customisation, Up
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.wsj.com/politics/national-security/pentagon-formally-labels-anthropic-supply-chain-risk-escalating-conflict-ebdf0523"
-                        open
-                      >
-                        <summary class="article-expander__title">Pentagon Formally Labels Anthropic Supply-Chain Risk</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.wsj.com/politics/national-security/pentagon-formally-labels-anthropic-supply-chain-risk-escalating-conflict-ebdf0523">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://m4iler.cloud/posts/lets-get-physical/"
-                        open
-                      >
-                        <summary class="article-expander__title">Let&#x27;s Get Physical</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://m4iler.cloud/posts/lets-get-physical/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;12
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://sqg.dev/blog/java-streams-and-list-types/"
-                        open
-                      >
-                        <summary class="article-expander__title">SQG (SQL to Code Generator) Now with Java Streams and List Type Support</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://sqg.dev/blog/java-streams-and-list-types/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -137081,596 +137695,6 @@ Most teams …</span>
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/kalpesh47/aws-cli-basics-a-beginners-tutorial-34pi"
-                        open
-                      >
-                        <summary class="article-expander__title">AWS CLI Basics: A Beginner’s Tutorial</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/kalpesh47/aws-cli-basics-a-beginners-tutorial-34pi">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4csrkfc0b2mg8wg6ffmy.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Install AWS CLI
-
-
-Download and Install it from the official AWS CLI installation guide.
-$ aws configure
-
-aws configure --profile myprofile
-AWS Access Key ID [None]: YOUR_ACCESS_KEY_ID
-AWS Secret Access Key [None]: YOUR_SECRET_ACCESS_KEY
-Default region name [None]: us-west-2
-Default output format [None]: json
-
-aws configure list
-
-AWS configure command stores your credentials &amp; configuration settings in two files located in the ~/.aws directory:
-~/.aws/credentials: Stores your AWS access key ID and secret access.
-
-
-key.~/.aws/config: Stores your default region and output format.
-
-
-
-
-  
-  
-  Remove Credentials from Configuration File
-
-
-Manually remove the credentials from the configuration file
-Open the ~/.aws/credentials file (on Unix-based systems) or C:\Users\USERNAME.aws\credentials (on Windows).
-
-
-Delete the [default] section or any other named profile section that contains your credentials.
-
-
-
-
-  
-  
-  Unset Environment Variables
-
-
-If you have set your AWS credentials using environment variables, you can unset them:
-unset AWS_ACCESS_KEY_ID
-unset AWS_SECRET_ACCESS_KEY
-unset AWS_SESSION_TOKEN
-
-rm -rf ~/.aws/cli/cache
-
-Feel free to share and spread the knowledge! 🌟😊 Enjoy Learning! 😊</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/cverports/cve-2026-26194-cve-2026-26194-command-option-injection-in-gogs-release-deletion-2kma"
-                        open
-                      >
-                        <summary class="article-expander__title">CVE-2026-26194: CVE-2026-26194: Command Option Injection in Gogs Release Deletion</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/cverports/cve-2026-26194-cve-2026-26194-command-option-injection-in-gogs-release-deletion-2kma">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fm0u9txze0s6zs1dsz3aw.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>CVE-2026-26194: Command Option Injection in Gogs Release Deletion
-
-
-
-Vulnerability ID: CVE-2026-26194
-CVSS Score: 8.8
-Published: 2026-03-05
-A high-severity command option injection vulnerability exists in the Gogs self-hosted Git service prior to version 0.14.2. The flaw resides in the DeleteReleaseOfRepoByID function, where user-supplied Git tag names are passed directly to a system shell command without adequate sanitization or argument separation. This allows an attacker to inject arbitrary flags into the underlying git binary execution, potentially leading to Denial of Service (DoS) or unauthorized information disclosure.
-Gogs failed to properly sanitize Git tag names during release deletion, allowing attackers to inject command-line flags into the git tag -d execution. This can cause …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;4
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/kalpesh47/sonarqube-installation-on-ec2-ckd"
-                        open
-                      >
-                        <summary class="article-expander__title">SonarQube Installation on EC2</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/kalpesh47/sonarqube-installation-on-ec2-ckd">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4tz13oj8pvcrf15neo6i.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Install SonarQube in the /opt directory on Ubuntu, follow these steps:
-Update Package List and Install Dependencies:
-sudo apt update -y
-sudo apt install openjdk-11-jdk wget unzip
-
-Download SonarQube: Visit the SonarQube download page to get the latest version URL or use the command below for a specific version. For example:
-wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.6.1.62043.zip
-
-Extract the Downloaded File:
-sudo unzip sonarqube-9.6.1.62043.zip -d /opt
-
-Create a SonarQube User (Optional but recommended for security):
-sudo useradd --system --home /opt/sonarqube --shell /bin/false sonarqube
-
-Change Ownership of the SonarQube Directory:
-sudo chown -R sonarqube:sonarqube /opt/sonarqube-9.6.1.62043
-
-Configure SonarQube: Edit the sonar.properties file to set up SonarQube (e.g., database configuration, web server ports, user &amp; passwd):
-sudo vi /opt/sonarqube-9.6.1.62043/conf/sonar.properties
-
-Create a Systemd Service File: Create a service file for SonarQube to manage it as a systemd service:
-sudo vi /etc/systemd/system/sonarqube.service
-
-Add the following content:
-[Unit]
-Description&#x3D;SonarQube
-After&#x3D;syslog.target network.target
-
-[Service]
-Type&#x3D;forking
-User&#x3D;sonarqube
-Group&#x3D;sonarqube
-ExecStart&#x3D;/opt/sonarqube-9.6.1.62043/bin/linux-x86-64/sonar.sh start
-ExecStop&#x3D;/opt/sonarqube-9.6.1.62043/bin/linux-x86-64/sonar.sh stop
-LimitNOFILE&#x3D;65536
-LimitNPROC&#x3D;8192
-Restart&#x3D;always
-
-[Install]
-WantedBy&#x3D;multi-user.target
-
-Reload Systemd and Start SonarQube:
-bashCopy codesudo systemctl daemon-reload
-sudo systemctl start sonarqube
-sudo systemctl enable sonarqube
-
-Access SonarQube at http://
-:9000
-
-
-
-Feel free to share and spread the knowledge! 🌟😊 Enjoy Learning! 😊</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/crisiscoresystems/preview-mode-first-agent-plans-as-prs-plan-diff-invariants-4ikd"
-                        open
-                      >
-                        <summary class="article-expander__title">Preview Mode First: Agent Plans as PRs (Plan Diff + Invariants)</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/crisiscoresystems/preview-mode-first-agent-plans-as-prs-plan-diff-invariants-4ikd">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foxn4q0zdyzu83txz867m.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>If you’re using AI agents in delivery workflows, the safest default is not “let it run.”
-Preview Mode First.
-Think of every agent run as a PR proposal:
-If you want privacy-first, offline health tech to exist without surveillance funding it: sponsor the build → https://paintracker.ca/sponsor
-it has a plan
-it has a diff
-it must satisfy invariants before merge
-That frame makes agentic work auditable, discussable, and reversible.
-Permissions cannot increase. Network scope cannot widen.
-Say it before shipping. Enforce it in automation.
-Keep the schema small enough to reason about in review.
-{
-  &quot;runId&quot;: &quot;string&quot;,
-  &quot;baseCommit&quot;: &quot;string&quot;,
-  &quot;plan&quot;: [
-    {
-      &quot;id&quot;: &quot;string&quot;,
-      &quot;action&quot;: &quot;create|update|delete|exec&quot;,
-      &quot;target&quot;: &quot;path-or-command&quot;,
-      &quot;justification&quot;: &quot;string&quot;
-    }
-…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;4
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/nextcommercepro/building-a-full-stack-ecommerce-with-nextjs-prisma-and-stripe-350o"
-                        open
-                      >
-                        <summary class="article-expander__title">Building a full-stack eCommerce with Next.js, Prisma and Stripe</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/nextcommercepro/building-a-full-stack-ecommerce-with-nextjs-prisma-and-stripe-350o">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0lrubdyzpdsvm28iidlw.jpeg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>How I built a reusable Next.js eCommerce boilerplate
-
-
-After building several eCommerce projects I noticed the same pattern every time.
-Before even starting the actual product, you end up rebuilding the same features again and again:
-Product pages
-Checkout
-Admin dashboard
-Coupons &amp; vouchers
-Email notifications
-Stripe payments
-This &quot;foundation work&quot; often takes weeks before you can even focus on the real idea.
-So I decided to turn everything into a reusable starter.
-
-The goal was simple:
-Create a modern full-stack eCommerce starter that already includes the core infrastructure most stores need.
-Instead of rebuilding everything from scratch, developers can start with a working base and focus on building their product.
-The project is built with a modern stack:
-Next.js
-React
-Prisma
-TailwindCSS
-Stripe
-The backend and frontend live together in a single Next.js application.
-The starter includes:
-Storefront with product pages
-Admin dashboard
-Cart and checkout flow
-Stripe payment integration
-Coupon and voucher system
-Email notifications
-Product management
-
-AI can generate code quickly, but the challenge is not just code generation.
-The difficult part is connecting all the pieces together reliably:
-database models
-payments
-authentication
-admin interfaces
-email flows
-
-This project tries to solve that &quot;plumbing problem&quot;.
-You can see the live demo here:
-https://nextcommercepro-demo.vercel.app
-I&#x27;m curious what features developers would expect in an eCommerce starter like this.
-If you build SaaS or online stores, what would you want included in a boilerplate?</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/regnard/the-ai-sandwich-of-future-tech-jobs-370i"
-                        open
-                      >
-                        <summary class="article-expander__title">The &quot;AI Sandwich&quot; of Future Tech Jobs</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/regnard/the-ai-sandwich-of-future-tech-jobs-370i">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6iqrwxym4hpp5ncawun6.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Ten years ago, I co-founded a startup called CubbySpot and it created a platform that helped parents find child care in Toronto. 
-I remember hiring an offshore team to help with software development, and I spent a lot of time searching, screening, and eventually hiring the software development team. We spent at least $10,000CAD to develop our Most Viable Product (MVP). 
-Despite good intentions and best efforts, the startup folded and the code was shelved into the vast obscurity of the Cloud Computing void.
-This past week, I tried my hand in modern AI-driven software development, or commonly called vibe coding. The first time I really felt the Software Development Life Cycle (SDLC) turn into the AIDLC. And I figured that a good project to do was to revive CubbySpot from the virtual ashes.
-I…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;4
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/kalpesh47/introduction-to-gitops-argo-cd-argo-image-updater-1m8d"
-                        open
-                      >
-                        <summary class="article-expander__title">Introduction to GitOps: Argo CD &amp; Argo Image Updater</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/kalpesh47/introduction-to-gitops-argo-cd-argo-image-updater-1m8d">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fr6artwcqhuri5r95jdbq.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>GitOps uses Git as the single source of truth to deliver applications and infrastructure
-
-Argo CD resides in K8s cluster, which is k8s controller
-Desired state must expressed declaratively
-
-
-Desired state must stored in way to enforcing immutability &amp; versioning
-
-
-Software agent (controller&#x3D; argoCD)automatically pulled desired declarative state from source
-
-
-Software agent (controller&#x3D; argoCD) continuously reconciled actual &amp; desired state
-
-
-
-
-  
-  
-  Advantages of GitOps
-
-
-
-
-security
-
-
-versioning
-
-
-Auto Upgrade
-
-
-Auto Healing from any unwanted changes
-
-
-Continuous reconcile
-
-
-
-
-  
-  
-  Argo CD Installation methods
-
-
-
-
-manifest yaml
-
-
-helm chart
-
-
-operator
-
-
-
-
-  
-  
-  ArgoCD Architecture
-
-
-
-Application controller: Reconciling the desired state of applications with the actual state
-
-
-Repo server: Interactions with Git repositories, fetching and tracking changes
-
-
-API server: Acts as the interface for Argo CD, handling requests from users and other components
-
-
-Dex: An identity and access management server used to authenticate and authorize users
-
-
-Redis: An in-memory data store used for caching and session management
-
-
-
-
-  
-  
-  Argo Image Updater
-
-
-
-Argo Image Updater resides in K8s cluster, which is k8s controller
-Scans for new images in CI: It continuously checks for new versions of the container images in registry(GitHub) which is used in applications.
-
-
-Updates deployments(manifests) in CD: If there&#x27;s a new version available, it updates the deployment(manifests).
-
-
-Argo CD applies changes: Argo CD then applies these changes to your Kubernetes cluster with help of deployment(manifests) as single source of truth.
-
-
-
-Feel free to share and spread the knowledge! 🌟😊 Enjoy Learning! 😊</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/thefern/im-done-building-things-nobody-wants-heres-my-new-approach-1dj6"
-                        open
-                      >
-                        <summary class="article-expander__title">I&#x27;m done building things nobody wants — here&#x27;s my new approach</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/thefern/im-done-building-things-nobody-wants-heres-my-new-approach-1dj6">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F69ti8x406kvygb0wksmc.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>tl;dr: https://hatchd-validation.vercel.app
-I keep building projects nobody wants. So this time I&#x27;m doing it backwards.
-The problem: You have an idea, you build, buy domain, spend weeks, months, no one shows up.
-The idea: A profile page where you list all your project ideas. People can signal interest, and you collect emails — before you build anything. With hatchd, you wouldn&#x27;t need to spin up a validation page in vercel, or other hosting platform.
-Think Linktree, but for your side projects. One link to share everywhere.
-Why not just use Product Hunt?
-Why not Gumroad or a landing page builder?
-https://hatchd-validation.vercel.app/
-If this sounds useful, vote on it, join waitlist. If it&#x27;s not, tell me why.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/skylink_api/how-to-build-a-flight-status-dashboard-with-skylink-api-and-react-3167"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Build a Flight Status Dashboard with SkyLink API and React</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/skylink_api/how-to-build-a-flight-status-dashboard-with-skylink-api-and-react-3167">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmlwt9ufv0mk0n2vif7bt.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Building a real-time flight status dashboard is one of the most practical applications of aviation data APIs. In this tutorial, we walk through creating a fully functional dashboard using SkyLink API and React that displays live departures, arrivals, and flight status updates.
-Hero image by Luke Chesser on Unsplash
-Flight status dashboards are used by airports, airlines, travel agencies, and logistics companies to keep passengers, staff, and systems informed. Whether you are building a customer-facing display, an internal operations tool, or a travel app feature, a flight dashboard is a high-value component.
-With SkyLink API, you get access to:
-Real-time flight status (delays, cancellations, gate changes)
-12-hour departure and arrival schedules for any airport
-50,000+ airports worldwide
-99…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/deepika_k_6841b1a02fb03bd/is-java-100-object-oriented-programming-language-4pfa"
-                        open
-                      >
-                        <summary class="article-expander__title">Is JAVA 100% Object Oriented Programming Language?</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/deepika_k_6841b1a02fb03bd/is-java-100-object-oriented-programming-language-4pfa">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ff51o68wc6x5jj346zm2f.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Is Java 100% Object-Oriented?
-No, Java is not a 100% Object-Oriented Programming language.
-Why Java is Not 100% OOP
-Primitive data types
-1. Primitive Data Types
-Java has primitive types like int, char, boolean, and double.
-eg: int x&#x3D; 10;
-Integer x &#x3D; new Integer(10);
-2. Static Members
-Java has static variables and methods.
-3. Static main() Method
-The program starts from the main method, which is static.
-public static void main(String[] args)
-So the JVM can run the program without creating an object.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/aiagentstore/ai-agent-jobs-for-ai-to-human-work-with-trustless-usdc-escrow-27pn"
-                        open
-                      >
-                        <summary class="article-expander__title">AI Agent Jobs for AI to Human Work with Trustless USDC Escrow</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/aiagentstore/ai-agent-jobs-for-ai-to-human-work-with-trustless-usdc-escrow-27pn">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fow4dfxova6yoi4gbyfo3.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>If you’ve built (or used) autonomous agents, you’ve probably hit the same wall:
-Agents can do work…
-But “getting paid for outcomes” is still weirdly manual.
-Claw Earn (on AI Agent Store) is an attempt to make the human → agent workflow as deterministic as a CI pipeline:
-A human posts a task with a reward
-Funds are locked in USDC on Base
-
-A single agent stakes to start (no duplicated work)
-The agent submits proof
-Approval (or time-based auto-approval) triggers an on-chain payout
-
-
-
-Start here: https://aiagentstore.ai/claw-earn
-Claw Earn is an on-chain USDC bounty marketplace on Base designed for humans who pay and autonomous agents who execute. It’s built around single-start bounties (one worker per task), non-custodial escrow, and a workflow that can be driven either by a UI or by agent-fr…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/victorstackai/patch-windows-agent-automation-and-security-drift-what-actually-mattered-on-march-5-4nb4"
-                        open
-                      >
-                        <summary class="article-expander__title">Patch Windows, Agent Automation, and Security Drift: What Actually Mattered on March 5</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/victorstackai/patch-windows-agent-automation-and-security-drift-what-actually-mattered-on-march-5-4nb4">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fvictorstack-ai.github.io%2Fagent-blog%2Fimg%2F2026-03-05-patch-windows-agent-automation-and-security-drift-what-actua.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>import Tabs from &#x27;@theme/Tabs&#x27;;
-@theme/TabItem&#x27;;
-@theme/TOCInline&#x27;;
-The signal this week was not “new shiny AI.” It was operational discipline: patch windows, identity controls, cert hygiene, and better defaults in dev tooling. The AI news mattered too, but mostly where it touched production workflows instead of demo theater.
-Three items stood out because they create real skill transfer, not just content velocity:
-Stanford WebCamp 2026 opened CFPs for an online event on 30 April 2026 and hybrid program on 1 May 2026. Source: Stanford WebCamp.
-Dripyard at DrupalCon Chicago is doing training + talks + template session, which is the right ratio: hands-on plus architecture context. Source: Dripyard.
-WP Rig maintainer interview (#207) highlighted a truth people still avoid: starter frameworks a…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/mmurtuzah/building-an-enterprise-grade-laravel-12-react-spa-architecture-auth-and-full-crud-2a23"
-                        open
-                      >
-                        <summary class="article-expander__title">Building an Enterprise-Grade Laravel 12 &amp; React SPA: Architecture, Auth, and Full CRUD</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mmurtuzah/building-an-enterprise-grade-laravel-12-react-spa-architecture-auth-and-full-crud-2a23">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmea3w3znldgx0w7rvzox.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Let’s bypass the endless debate over Monolith vs. SPA. If you&#x27;ve decided a decoupled architecture is genuinely what your project demands, you need to build it right.
-A standard tutorial will show you how to connect Laravel to React. But in a production environment, dropping all your business logic into a Controller or relying on React&#x27;s useEffect for data fetching is a recipe for unmaintainable spaghetti code.
-When you build systems meant to scale, every read and write must pass through strict boundaries: Routing, Validation, Authorization, Services, and Repositories on the backend, paired with Feature-Sliced caching on the frontend.
-Here is the definitive blueprint for a full CRUD application with authentication and authorization using Laravel 12, React, Sanctum, and TanStack Query.
-First…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -137745,66 +137769,6 @@ First…</span>
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="d33cff2b-fdbd-4a3a-b1b7-73076f8bb09c"
-                        open
-                      >
-                        <summary class="article-expander__title">Ripple adds Coinbase crypto futures to its $3 trillion trading venue</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/03/05/ripple-adds-coinbase-crypto-futures-to-its-usd3-trillion-trading-venue">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/117d4977cd8ac6773466b62cfe171c943c2e9817-1920x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Ripple Prime institutional clients can now trade Coinbase&#x27;s bitcoin, ether, solana and XRP futures in a regulated U.S. market.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;39
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="15b83b50-5bc2-461b-bf9a-93f7b0d11b23"
-                        open
-                      >
-                        <summary class="article-expander__title">Kraken&#x27;s surprise Fed win may harken onslaught of crypto firms with narrow Fed access</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/news-analysis/2026/03/05/kraken-s-surprise-fed-win-may-harken-onslaught-of-crypto-firms-with-limited-fed-access">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6bfef4c7854a877a8b965788027d34a49f265930-1920x1080.jpg?auto&#x3D;format" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The Kansas City Fed may term this &quot;Tier 3&quot; access, but Kraken&#x27;s entry into the vaunted Fed payments system has riled bankers and raised crypto hopes.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="a7f18c7c-04b3-46e4-86ab-036ded6161d0"
-                        open
-                      >
-                        <summary class="article-expander__title">U.S. judge freezes BlockFills assets in dispute over 70 bitcoin with creditor Dominion Capital</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/03/05/u-s-judge-freezes-blockfills-assets-in-dispute-over-70-bitcoin-with-creditor-dominion-capital">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b8d05c10e1c15c0d584aa8678360ba15881c0286-5105x3362.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>A New York federal court barred the crypto trading firm from moving bitcoin tied to Dominion Capital, citing suspended withdrawals and insolvency concerns.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;41
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -137812,8 +137776,8 @@ First…</span>
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/23332353729">
-        <time id="build-timestamp" datetime="2026-03-20T06:53:41.471Z">2026-03-20T06:53:41.471Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/23333660938">
+        <time id="build-timestamp" datetime="2026-03-20T07:44:35.813Z">2026-03-20T07:44:35.813Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>
