@@ -2,10 +2,437 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-03-20T05:51:05.418Z</updated>
+    <updated>2026-03-20T06:53:41.625Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[First & Last Occurences]]></title>
+        <id>https://dev.to/jeyaprasadr/first-last-occurences-25d0</id>
+        <link href="https://dev.to/jeyaprasadr/first-last-occurences-25d0"/>
+        <updated>2026-03-20T06:51:26.000Z</updated>
+        <summary type="html"><![CDATA[In this task, I worked on finding the first and last positions of a given number in a sorted array.
+Instead of scanning the entire array, I used binary search to do it efficiently.
+I created three functions:
+first_occurrence() → finds the first position of the element
+last_occurrence() → finds the last position of the element
+find_positions() → combines both results
+I used binary search twice, with a small twist:
+If I find the target, I store the index
+
+Then I continue searching on the left side
+(because there might be an earlier occurrence)
+If I find the target, I store the index
+
+Then I continue searching on the right side
+(because there might be a later occurrence)
+Move left (high = mid - 1) → to find first occurrence
+Move right (low = mid + 1) → to find last occurrence
+python id="xkqptm"
+def first_occurrence(arr, x):
+    low, high = 0, len(arr) - 1
+    ans = -1
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        if arr[mid] == x:
+            ans = mid
+            high = mid - 1  
+        elif arr[mid] < x:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return ans
+
+
+def last_occurrence(arr, x):
+    low, high = 0, len(arr) - 1
+    ans = -1
+
+    while low <= high:
+        mid = (low + high) // 2
+
+        if arr[mid] == x:
+            ans = mid
+            low = mid + 1   
+        elif arr[mid] < x:
+            low = mid + 1
+        else:
+            high = mid - 1
+
+    return ans
+
+
+def find_positions(arr, x):
+    return [first_occurrence(arr, x), last_occurrence(arr, x)]
+
+The algorithm keeps reducing the search space by half each time.
+First function pushes toward the left boundary
+
+Second function pushes toward the right boundary
+
+
+
+So instead of checking every element, it quickly locks onto both ends of the target range.
+Each binary search → O(log n)
+
+Total → O(log n)
+
+
+
+
+  
+  
+  Example Output
+
+
+
+
+
+[2, 5]
+[6, 6]
+[-1, -1]]]></summary>
+        <author>
+            <name>Jeyaprasad R</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Use AI to Build a 55-Crate Rust Project (Honestly)]]></title>
+        <id>https://dev.to/david_viejo_4d48fdfa7cfff/how-i-use-ai-to-build-a-55-crate-rust-project-honestly-2if6</id>
+        <link href="https://dev.to/david_viejo_4d48fdfa7cfff/how-i-use-ai-to-build-a-55-crate-rust-project-honestly-2if6"/>
+        <updated>2026-03-20T06:50:57.000Z</updated>
+        <summary type="html"><![CDATA[I build Temps alone. The codebase is 55 Rust crates. That's a lot of surface area for one person. So yes, I use AI assistance heavily. Claude, mostly.
+I want to be specific about how I use it, because the honest answer is more nuanced than "AI writes my code" or "I write everything myself."
+Boilerplate. Rust has a lot of it. Implementing a trait for a new type means writing the same three methods with the same signature patterns I've written fifty times. I'll describe what I need and let Claude draft the implementation. I read every line before it goes in, but the drafting is fast.
+Tests. Writing unit tests is often more tedious than writing the code being tested. AI drafts test cases quickly. I review them for completeness, add the edge cases it missed (there are always edge cases it miss…]]></summary>
+        <author>
+            <name>DAVID VIEJO</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why We Chose Rust for a Deployment Platform]]></title>
+        <id>https://dev.to/david_viejo_4d48fdfa7cfff/why-we-chose-rust-for-a-deployment-platform-4gmf</id>
+        <link href="https://dev.to/david_viejo_4d48fdfa7cfff/why-we-chose-rust-for-a-deployment-platform-4gmf"/>
+        <updated>2026-03-20T06:50:54.000Z</updated>
+        <summary type="html"><![CDATA[Every Rust project eventually publishes a post about memory safety. This isn't going to be that post. Memory safety is real, and it matters, but it's not why we chose Rust for a deployment platform. There are better reasons, and they're more concrete.
+Deployment tools have a distribution problem. Install a typical self-hosted PaaS and you're pulling Docker images, Node.js runtimes, PHP scripts, and a handful of dependencies that need to stay in sync. Something breaks in an update, and you're debugging which layer of the stack caused it.
+Temps ships as one binary. No runtime, no interpreter, no package manager to satisfy. Download a ~30MB file and you're done. That binary contains the proxy, the deployment engine, the analytics pipeline, the error tracking backend, the uptime monitor, and t…]]></summary>
+        <author>
+            <name>DAVID VIEJO</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Session Replay: What It Is, How It Works, and When You Need It]]></title>
+        <id>https://dev.to/david_viejo_4d48fdfa7cfff/session-replay-what-it-is-how-it-works-and-when-you-need-it-3a1f</id>
+        <link href="https://dev.to/david_viejo_4d48fdfa7cfff/session-replay-what-it-is-how-it-works-and-when-you-need-it-3a1f"/>
+        <updated>2026-03-20T06:50:51.000Z</updated>
+        <summary type="html"><![CDATA[Session replay records what users actually do on your site: mouse movements, clicks, scrolls, keypresses, and every DOM mutation. Play it back and you're watching a user's experience as they lived it.
+It sounds invasive. It kind of is. That tension is worth understanding before you pick a tool.
+Almost every session replay tool in existence — FullStory, Hotjar, LogRocket, PostHog Replay, Microsoft Clarity, and most self-hosted options — is built on the same foundation: rrweb.
+rrweb (record and replay the web) is an open-source library that works in two steps. First, it takes a full snapshot of the DOM at the start of a session. Then it records every subsequent mutation as a compact, serialized diff. Scroll positions, CSS changes, added or removed elements — every change gets timestamped and…]]></summary>
+        <author>
+            <name>DAVID VIEJO</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Git-Push Deployments Work Under the Hood]]></title>
+        <id>https://dev.to/david_viejo_4d48fdfa7cfff/how-git-push-deployments-work-under-the-hood-156i</id>
+        <link href="https://dev.to/david_viejo_4d48fdfa7cfff/how-git-push-deployments-work-under-the-hood-156i"/>
+        <updated>2026-03-20T06:50:49.000Z</updated>
+        <summary type="html"><![CDATA[git push deploys to production. It's the workflow that Heroku popularized, Vercel polished, and dozens of tools since have copied. But most developers who use it every day don't know what's happening between the push and the live URL. Understanding the pipeline helps you debug it when it breaks and make smarter decisions about your deployment setup.
+Here's what happens at each step.
+When you push to a repository on GitHub, GitLab, or Gitea, the platform sends an HTTP POST to any webhooks registered for that repo. The payload includes the commit SHA, the branch name, the repository URL, and the pusher's identity.
+Your deployment platform registers one of these webhooks when you connect a repository. On Vercel, it happens automatically when you import a project. On Coolify, Dokploy, or a sel…]]></summary>
+        <author>
+            <name>DAVID VIEJO</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Deploy a Next.js App to a VPS (The Manual Way)]]></title>
+        <id>https://dev.to/david_viejo_4d48fdfa7cfff/how-to-deploy-a-nextjs-app-to-a-vps-the-manual-way-2bjb</id>
+        <link href="https://dev.to/david_viejo_4d48fdfa7cfff/how-to-deploy-a-nextjs-app-to-a-vps-the-manual-way-2bjb"/>
+        <updated>2026-03-20T06:50:46.000Z</updated>
+        <summary type="html"><![CDATA[Most Next.js tutorials end at npm run dev. The deployment section says "push to Vercel" and moves on.
+That's fine until you need to own your infrastructure, keep costs under control, or just understand what's actually happening when your app goes live. This post walks through deploying a Next.js app to a bare VPS, step by step. No platform, no abstraction layer. Just you, a server, and the commands.
+By the end, you'll understand every piece of the deployment pipeline. And you'll be able to decide whether you want to keep doing it manually or hand it off to a tool.
+A VPS from any provider (Hetzner, DigitalOcean, Linode, Vultr, whatever). 2GB RAM minimum for a Next.js app with a build step. 4GB if you're running a database on the same box.
+A domain name pointed at your server's IP address.
+S…]]></summary>
+        <author>
+            <name>DAVID VIEJO</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Genesis of Intelligence: A Developer’s Guide to the AI Revolution]]></title>
+        <id>https://dev.to/ridsys/the-genesis-of-intelligence-a-developers-guide-to-the-ai-revolution-19f8</id>
+        <link href="https://dev.to/ridsys/the-genesis-of-intelligence-a-developers-guide-to-the-ai-revolution-19f8"/>
+        <updated>2026-03-20T06:49:39.000Z</updated>
+        <summary type="html"><![CDATA[The Genesis of Intelligence: From the First AI to a Futurescape Shaped by Artificial Minds
+
+
+The rapid descent of artificial intelligence from a fantastical notion into a cornerstone of contemporary life is nothing short of breathtaking. To grasp the enormity of its current impact and future trajectory, we must journey back to its origins—to the first moment a machine exhibited what could be termed 'thinking.'
+The conceptual roots of artificial intelligence run deep, intertwined with the history of logic and computation. Long before "AI" was a buzzword, the dream of a "thinking machine" captured imaginations.
+The True "Firsts": A Nuanced Perspective
+
+
+Pinpointing the absolute "first" is tough because the definition has evolved. However, the industry generally agrees on these milestones:
+Th…]]></summary>
+        <author>
+            <name>MRRIDSYS Technologies Pvt Ltd</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Reverse an Array-java]]></title>
+        <id>https://dev.to/mohith_001/reverse-an-array-java-2af3</id>
+        <link href="https://dev.to/mohith_001/reverse-an-array-java-2af3"/>
+        <updated>2026-03-20T06:39:09.000Z</updated>
+        <summary type="html"><![CDATA[My Thought Process (Java DSA)
+
+
+When I first looked at this problem on GeeksforGeeks, it seemed very simple. But instead of jumping directly into code, I tried to understand what is actually happening when we "reverse" an array.
+We are given an array of integers arr[].
+in-place, meaning we should not use any extra space.
+If I take an example:
+arr = [1, 4, 3, 2, 6, 5]
+
+The reversed array should be:
+[5, 6, 2, 3, 4, 1]
+
+At first, I thought about creating a new array and filling it from the end. But then I noticed the constraint: modify the array in-place.
+So using extra space is not a good approach here.
+Reversing an array means:
+First element goes to last
+Second element goes to second last
+And so on...
+So instead of moving everything, I can just swap elements from both ends.
+I used two pointers:
+left starting from index 0
+
+
+right starting from index n - 1
+
+
+
+Then I keep swapping:
+arr[left] with arr[right]
+
+Move left++
+
+Move right--
+
+
+
+Stop when left >= right
+arr = [1, 4, 3, 2, 6, 5]
+
+Step 1:
+swap(1, 5) → [5, 4, 3, 2, 6, 1]
+
+Step 2:
+swap(4, 6) → [5, 6, 3, 2, 4, 1]
+
+Step 3:
+swap(3, 2) → [5, 6, 2, 3, 4, 1]
+
+Done
+
+class Solution {
+    public void reverseArray(int arr[]) {
+        int left = 0;
+        int right = arr.length - 1;
+
+        while (left < right) {
+            int temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+
+            left++;
+            right--;
+        }
+    }
+}
+
+We are not shifting elements
+We are just swapping pairs
+Each swap puts two elements in correct position
+We only need to go till the middle of the array
+Time Complexity: O(n)
+Space Complexity: O(1)
+This is optimal because:
+We traverse the array only once
+No extra memory is used
+This problem is a basic example of the two-pointer technique.
+Palindrome checking
+Two sum (sorted arrays)
+String reversal
+Instead of thinking complex, sometimes the best solution is just swapping from both ends.]]></summary>
+        <author>
+            <name>Mohith</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Map & Set: The Underrated Heroes of JavaScript]]></title>
+        <id>https://dev.to/kunal_dev/map-set-the-underrated-heroes-of-javascript-4ad7</id>
+        <link href="https://dev.to/kunal_dev/map-set-the-underrated-heroes-of-javascript-4ad7"/>
+        <updated>2026-03-20T06:38:34.000Z</updated>
+        <summary type="html"><![CDATA[While writing the blog on Array method, I have came across some topics that are new to me and Map and Set are one of them.
+If you’d like to explore them too 👇
+If You Don’t Know These Array Methods, We Need to Talk.
+Kunal  ・ Mar 3
+#javascript
+        #discuss
+        #node
+        #computerscience
+      
+So in this blog we will cover : 
+Topics to Cover
+Before Map & Set (The Old Way)
+What Map is
+Difference between Map and Object
+What Set is
+Difference between Set and Array
+When to use Map and Set
+Before learning Set and Map , I tried doing things in the old ways using array and objects. 
+For Map we do
+
+
+
+
+const data = {};
+
+data["name"] = "Kunal";
+data["age"] = 21;
+
+console.log(data["name"]); // Kunal
+
+For Set we do
+
+
+
+
+const arr = [1,2,2,3,3,5]
+const unique = []
+
+for (let i = 0; i < arr.len…]]></summary>
+        <author>
+            <name>Kunal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ubisoft To Cease Development At Red Storm Entertainment, Layoff More Than 100 Staff]]></title>
+        <id>https://www.lowyat.net/?p=387304</id>
+        <link href="https://www.lowyat.net/2026/387304/ubisoft-to-cease-development-at-red-storm-entertainment-layoff-more-than-100-staff/"/>
+        <updated>2026-03-20T06:36:02.000Z</updated>
+        <summary type="html"><![CDATA[Ubisoft is pulling the blinds down on Red Storm Entertainment, the US-based studio that it acquired back in 2000. The news is surprising, given that the studio is one of the earliest and oldest acquisition by the French studio and developer. Additionally, Ubisoft will be laying off 105 jobs from Red Storm as part of […]
+The post Ubisoft To Cease Development At Red Storm Entertainment, Layoff More Than 100 Staff appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>John Law</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Harden OpenClaw in 5 Minutes — Before and After a Real Prompt Injection Attack]]></title>
+        <id>https://dev.to/onoz1169/how-to-harden-openclaw-in-5-minutes-before-and-after-a-real-prompt-injection-attack-2d66</id>
+        <link href="https://dev.to/onoz1169/how-to-harden-openclaw-in-5-minutes-before-and-after-a-real-prompt-injection-attack-2d66"/>
+        <updated>2026-03-20T06:35:26.000Z</updated>
+        <summary type="html"><![CDATA[How to Secure OpenClaw in 5 Minutes — Before and After a Real Prompt Injection Attack
+
+
+In my previous post, I showed how a single text file with hidden instructions made an OpenClaw agent attempt to read its own credentials file. The agent explicitly said: "Following the instructions, I will read the contents of ~/.openclaw/openclaw.json."
+This post shows how to fix it, and proves the fix works by running the exact same attack again.
+OpenClaw's default configuration has four settings that, combined, create a complete attack chain:
+
+
+
+Default Setting
+What It Means
+
+
+
+
+sandbox.mode = off
+Agent runs with your full user permissions
+
+
+workspaceOnly = false
+Agent can read any file on your machine
+
+
+
+tools.deny = empty
+All 26 tools available, including shell execution
+
+
+
+tools.profile = unset
+No…]]></summary>
+        <author>
+            <name>onoz1169</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Squares of a Sorted Array]]></title>
+        <id>https://dev.to/jeyaprasadr/squares-of-a-sorted-array-2bom</id>
+        <link href="https://dev.to/jeyaprasadr/squares-of-a-sorted-array-2bom"/>
+        <updated>2026-03-20T06:32:55.000Z</updated>
+        <summary type="html"><![CDATA[In this task, I worked on converting a sorted array into another sorted array of their squares.
+The tricky part is that even though the input array is sorted, squaring negative numbers can mess up the order. For example, -4² = 16 which is bigger than 3² = 9.
+I created a function sortedSquares that takes a sorted array nums and returns a new sorted array of squared values.
+Instead of squaring everything and sorting again, I used a two-pointer approach.
+I used three variables:
+left starting from the beginning (index 0)
+right starting from the end (index n-1)
+pos to fill the result array from the back
+At each step:
+I compare the absolute values of nums[left] and nums[right]
+
+The larger absolute value will give the larger square
+I place that square at the current pos in the result array
+Then move the corresponding pointer (left or right)
+Decrease pos to fill the next position
+This way, I build the sorted squared array from the back.
+class Solution:
+    def sortedSquares(self, nums):
+        n = len(nums)
+        result = [0] * n
+
+        left = 0
+        right = n - 1
+        pos = n - 1
+
+        while left <= right:
+            if abs(nums[left]) > abs(nums[right]):
+                result[pos] = nums[left] ** 2
+                left += 1
+            else:
+                result[pos] = nums[right] ** 2
+                right -= 1
+            pos -= 1
+
+        return result
+
+
+The function avoids re-sorting by intelligently comparing values from both ends. Since the largest square will always come from either the most negative or most positive number, we place it at the end and move inward.
+This reduces time complexity to O(n) instead of O(n log n).]]></summary>
+        <author>
+            <name>Jeyaprasad R</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Plan a Website Before Writing Code ( VISUAL SITEMAPS)]]></title>
+        <id>https://dev.to/raajvir_rinku_86fbc293e7a/how-to-plan-a-website-before-writing-code-visual-sitemaps-4cd8</id>
+        <link href="https://dev.to/raajvir_rinku_86fbc293e7a/how-to-plan-a-website-before-writing-code-visual-sitemaps-4cd8"/>
+        <updated>2026-03-20T06:32:14.000Z</updated>
+        <summary type="html"><![CDATA[USE EPIC-VISUAL SITEMAP BUILDER for PLANNING VISUAL SITEMAPS FOR YOUR WEBSITES AND SAAS, AND GET YOUR UX SCORE.
+Why Planning Before Coding Matters
+The biggest mistake developers and founders make is jumping straight into code. Without a plan, you'll build features nobody uses, create navigation that confuses visitors, and spend weeks refactoring instead of launching.
+Studies show that changes made during the planning phase cost 10x less than changes made after development. A weekend of planning can save weeks of rework. This isn't about creating exhaustive documentation — it's about answering fundamental questions before you commit to code.
+What pages does your website need? How do users navigate between them? What's the conversion path from visitor to customer? These questions have answer…]]></summary>
+        <author>
+            <name>Raajvir Rinku</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[[Boost]]]></title>
         <id>https://dev.to/nawab_kumar_sarraf/-2iga</id>
@@ -273,6 +700,16 @@ We'll use a Count-Min Sketch implementation as our example - a probabilistic dat
 Multit…]]></summary>
         <author>
             <name>Isaac FEI</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Kin: Semantic version control that tracks code as entities, not files]]></title>
+        <id>https://github.com/firelock-ai/kin</id>
+        <link href="https://github.com/firelock-ai/kin"/>
+        <updated>2026-03-20T04:31:01.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -19273,6 +19710,16 @@ For those who read Managing the Pro…]]></summary>
         <id>https://nvidianews.nvidia.com/news/nvidia-launches-vera-cpu-purpose-built-for-agentic-ai</id>
         <link href="https://nvidianews.nvidia.com/news/nvidia-launches-vera-cpu-purpose-built-for-agentic-ai"/>
         <updated>2026-03-16T20:01:02.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[FSF Threatens Anthropic over Infringed Copyright: Share Your LLMs Freel]]></title>
+        <id>https://www.fsf.org/blogs/licensing/2026-anthropic-settlement</id>
+        <link href="https://www.fsf.org/blogs/licensing/2026-anthropic-settlement"/>
+        <updated>2026-03-16T19:49:20.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -87445,135 +87892,6 @@ First…]]></summary>
         <summary type="html"><![CDATA[A New York federal court barred the crypto trading firm from moving bitcoin tied to Dominion Capital, citing suspended withdrawals and insolvency concerns.]]></summary>
         <author>
             <name>Will Canny</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OpenTitan Shipping in Production]]></title>
-        <id>https://opensource.googleblog.com/2026/03/opentitan-shipping-in-production.html</id>
-        <link href="https://opensource.googleblog.com/2026/03/opentitan-shipping-in-production.html"/>
-        <updated>2026-03-05T18:50:33.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Modernizing swapping: virtual swap spaces]]></title>
-        <id>https://lwn.net/Articles/1059201/</id>
-        <link href="https://lwn.net/Articles/1059201/"/>
-        <updated>2026-03-05T18:47:57.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Remotely unlocking an encrypted hard disk]]></title>
-        <id>https://jyn.dev/remotely-unlocking-an-encrypted-hard-disk/</id>
-        <link href="https://jyn.dev/remotely-unlocking-an-encrypted-hard-disk/"/>
-        <updated>2026-03-05T18:43:59.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[US asked Ukraine for help fighting Iranian drones, Zelensky says]]></title>
-        <id>https://www.bbc.com/news/articles/cr5llg0e9g9o</id>
-        <link href="https://www.bbc.com/news/articles/cr5llg0e9g9o"/>
-        <updated>2026-03-05T18:27:33.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GPT 5.4 Thinking and Pro]]></title>
-        <id>https://twitter.com/OpenAI/status/2029620619743219811</id>
-        <link href="https://twitter.com/OpenAI/status/2029620619743219811"/>
-        <updated>2026-03-05T18:16:07.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GPT-5.4 Thinking and GPT-5.4 Pro]]></title>
-        <id>https://twitter.com/i/status/2029620619743219811</id>
-        <link href="https://twitter.com/i/status/2029620619743219811"/>
-        <updated>2026-03-05T18:11:28.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GPT-5.4]]></title>
-        <id>https://openai.com/index/introducing-gpt-5-4/</id>
-        <link href="https://openai.com/index/introducing-gpt-5-4/"/>
-        <updated>2026-03-05T18:08:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GPT-5.4 Thinking System Card]]></title>
-        <id>https://openai.com/index/gpt-5-4-thinking-system-card/</id>
-        <link href="https://openai.com/index/gpt-5-4-thinking-system-card/"/>
-        <updated>2026-03-05T18:08:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hellooo devs 👋]]></title>
-        <id>https://dev.to/gavincettolo/hellooo-devs-3o2p</id>
-        <link href="https://dev.to/gavincettolo/hellooo-devs-3o2p"/>
-        <updated>2026-03-05T17:55:22.000Z</updated>
-        <summary type="html"><![CDATA[TL;DR
-
-I'm Gavin Cettolo, a developer since 2017, builder and problem solver. I mainly work with React and Next.js, have experience coordinating projects and dev teams, and recently completed an MBA with honors to better understand the business dynamics behind every line of code.  
-I’ve decided to start publishing on Dev.to to talk about React, Clean Code, AI in development, OOP patterns, system design interviews, and project organization. My goal is to share what I learn and, most importantly, to learn better by explaining things clearly. Ideally, you’ll read something here and think, “Ah, that’s interesting.”
-Questo articolo è anche disponibile in Italiano
-Hi everyone,
-
-I’m Gavin, and this is my way of politely knocking on Dev.to’s door before diving into technical articles.
-I consider m…]]></summary>
-        <author>
-            <name>Gavin Cettolo</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Buuuongiorno devs 👋]]></title>
-        <id>https://dev.to/gavincettolo/buuuongiorno-devs-nn9</id>
-        <link href="https://dev.to/gavincettolo/buuuongiorno-devs-nn9"/>
-        <updated>2026-03-05T17:55:09.000Z</updated>
-        <summary type="html"><![CDATA[TL;DR
-
-Sono Gavin Cettolo, sviluppatore dal 2017, builder e problem solver. Lavoro principalmente con React e Next.js, ho esperienza nel coordinamento di progetti e ho appena concluso un MBA con il massimo dei voti per comprendere meglio le dinamiche aziendali dietro ogni riga di codice.  
-Ho deciso di iniziare a pubblicare su Dev.To per parlare di React, Clean Code, AI nello sviluppo, OOP patterns, system design interview e organizzazione del lavoro. Il mio obiettivo è condividere e, soprattutto, imparare meglio spiegando agli altri, magari strappandovi un "ah, interessante!"
-This article is also available in English
-Ciao a tutti!
-Mi definisco un builder e un problem solver: mi piace costruire soluzioni utili, ragionate e manutenibili. Scrivere codice è diventato un lavoro nel lontano mar…]]></summary>
-        <author>
-            <name>Gavin Cettolo</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building Custom UIs with Shadcn and PropelAuth's Integration MCP Server]]></title>
-        <id>https://dev.to/propelauth/building-custom-uis-with-shadcn-and-propelauths-integration-mcp-server-596n</id>
-        <link href="https://dev.to/propelauth/building-custom-uis-with-shadcn-and-propelauths-integration-mcp-server-596n"/>
-        <updated>2026-03-05T17:51:28.000Z</updated>
-        <summary type="html"><![CDATA[With our recent release of the PropelAuth Integration MCP server, we wanted to put it plus our shadcn component registry to the test by building some of the most unique and …interesting components to replace PropelAuth’s hosted pages.
-The Integration MCP server not only helps you get up and running with PropelAuth as quickly as possible, it can also help you build custom versions of your login and signup pages, such as this one:
-
-Or maybe you’re building an app aimed at GenZ and, like me, you’re an out of touch Millennial. Our MCP server plus your favorite AI agent can assist you in building out whatever this is?
-
-I know what you’re thinking - you would never trust a website that asks for your “Vibe Identifier” and “Secret Sauce” to authenticate. But since we know PropelAuth is doing all t…]]></summary>
-        <author>
-            <name>Victoria</name>
         </author>
     </entry>
 </feed>
