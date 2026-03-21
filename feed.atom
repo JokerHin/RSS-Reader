@@ -2,10 +2,405 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-03-21T09:30:20.282Z</updated>
+    <updated>2026-03-21T10:24:58.402Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[API Rate Limiting with Redis: Token Bucket, Sliding Window, and Per-Client Limits]]></title>
+        <id>https://dev.to/young_gao/api-rate-limiting-with-redis-token-bucket-sliding-window-and-per-client-limits-4bj1</id>
+        <link href="https://dev.to/young_gao/api-rate-limiting-with-redis-token-bucket-sliding-window-and-per-client-limits-4bj1"/>
+        <updated>2026-03-21T10:18:53.000Z</updated>
+        <summary type="html"><![CDATA[API Rate Limiting with Redis: Token Bucket, Sliding Window, and Per-Client Limits
+
+
+Your API has no rate limiting. A single client sends 10,000 requests per second. Your database melts. Here is how to protect your services.
+import Redis from "ioredis";
+
+const RATE_LIMIT_SCRIPT = `
+  local key = KEYS[1]
+  local limit = tonumber(ARGV[1])
+  local window = tonumber(ARGV[2])
+  local now = tonumber(ARGV[3])
+  redis.call("ZREMRANGEBYSCORE", key, 0, now - window)
+  local count = redis.call("ZCARD", key)
+  if count >= limit then return 0 end
+  redis.call("ZADD", key, now, now .. math.random())
+  redis.call("EXPIRE", key, window / 1000)
+  return 1
+`;
+
+async function checkRateLimit(redis: Redis, clientId: string, limit: number, windowMs: number): Promise<boolean> {
+  const key = `rate:${clientId}`;
+ …]]></summary>
+        <author>
+            <name>Young Gao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Decoupling a Live App with Domain Events (Part 2)]]></title>
+        <id>https://dev.to/goniszewski/decoupling-a-live-app-with-domain-events-part-2-4oio</id>
+        <link href="https://dev.to/goniszewski/decoupling-a-live-app-with-domain-events-part-2-4oio"/>
+        <updated>2026-03-21T10:15:38.000Z</updated>
+        <summary type="html"><![CDATA[In Part 1 of this series, we introduced RabbitMQ and built our proof-of-concept: the EventBusService, RabbitMQProvider, a DLX retry pattern, and our first emitter (CommentService.createComment()). By the end of Phase 0, we had one event running reliably in production behind a feature flag.
+For Phase 1, we applied this pattern to all Tier 1 services. 14 Zod schemas, 25 queue handlers across 3 consumer classes were built, and emit sites were added to CommentService, RecordService, and OccurrenceCrudHelper. We also added 79 new tests. Here is how we executed Phase 1, the design choices we made, and a tricky bug that changed how we guard event bus access.
+
+Our top priority for Phase 1 was safety. Since IHA has active users, we couldn't risk breaking the app. Switching entirely from direct serv…]]></summary>
+        <author>
+            <name>Robert Goniszewski</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Control Claude Code from Telegram — Hermes IDE Just Made It a Checkbox]]></title>
+        <id>https://dev.to/gabrielanhaia/control-claude-code-from-telegram-hermes-ide-just-made-it-a-checkbox-2k1b</id>
+        <link href="https://dev.to/gabrielanhaia/control-claude-code-from-telegram-hermes-ide-just-made-it-a-checkbox-2k1b"/>
+        <updated>2026-03-21T10:14:37.000Z</updated>
+        <summary type="html"><![CDATA[You fire off a build before heading out. Twenty minutes later, you're in line at a coffee shop, wondering if it passed. You could SSH in, but that's a pain. You could wait until you're back at your desk, but that kills the flow.
+What if you could just... message your IDE?
+That's exactly what the new Telegram Channels feature in Hermes IDE makes possible — and it takes one checkbox to enable.
+
+Hermes IDE is a free, open-source AI-powered shell wrapper that acts as a unified launcher for AI coding agents: Claude Code, Gemini CLI, Aider, OpenAI Codex, and GitHub Copilot. Instead of juggling terminal windows and flags, you get a clean TUI session manager with project context, hotkeys, and now — external channel support.
+GitHub: hermes-hq/hermes-ide
+Anthropic released Claude Code Channels on Ma…]]></summary>
+        <author>
+            <name>Gabriel Anhaia</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Error Handling Patterns in TypeScript: Beyond Try-Catch]]></title>
+        <id>https://dev.to/young_gao/error-handling-patterns-in-typescript-beyond-try-catch-3p8k</id>
+        <link href="https://dev.to/young_gao/error-handling-patterns-in-typescript-beyond-try-catch-3p8k"/>
+        <updated>2026-03-21T10:14:17.000Z</updated>
+        <summary type="html"><![CDATA[Error Handling Patterns in TypeScript: Beyond Try-Catch
+
+
+Try-catch blocks scattered everywhere. No idea what errors a function can throw. Callers forget to handle edge cases. Here are better patterns.
+Instead of throwing, return a discriminated union:
+type Result<T, E = Error> =
+  | { ok: true; value: T }
+  | { ok: false; error: E };
+
+function divide(a: number, b: number): Result<number, string> {
+  if (b === 0) return { ok: false, error: "Division by zero" };
+  return { ok: true, value: a / b };
+}
+
+const result = divide(10, 0);
+if (result.ok) {
+  console.log(result.value); // TypeScript knows this is number
+} else {
+  console.error(result.error); // TypeScript knows this is string
+}
+
+class AppError extends Error {
+  constructor(
+    message: string,
+    public code: string,
+    public st…]]></summary>
+        <author>
+            <name>Young Gao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Environment Variables Done Right: From .env Files to Production Configs]]></title>
+        <id>https://dev.to/young_gao/environment-variables-done-right-from-env-files-to-production-configs-2916</id>
+        <link href="https://dev.to/young_gao/environment-variables-done-right-from-env-files-to-production-configs-2916"/>
+        <updated>2026-03-21T10:13:21.000Z</updated>
+        <summary type="html"><![CDATA[Environment Variables Done Right: From .env Files to Production Configs
+
+
+Hardcoded config values are the fastest way to ship broken code to the wrong environment. Here is how to manage configuration properly.
+import { z } from "zod";
+
+const envSchema = z.object({
+  NODE_ENV: z.enum(["development", "staging", "production"]).default("development"),
+  PORT: z.coerce.number().default(3000),
+  DATABASE_URL: z.string().url(),
+  REDIS_URL: z.string().url(),
+  JWT_SECRET: z.string().min(32),
+  LOG_LEVEL: z.enum(["debug", "info", "warn", "error"]).default("info"),
+});
+
+const parsed = envSchema.safeParse(process.env);
+if (\!parsed.success) {
+  console.error("Invalid environment variables:", parsed.error.flatten());
+  process.exit(1);
+}
+
+export const config = parsed.data;
+export type Config = z.infe…]]></summary>
+        <author>
+            <name>Young Gao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker Compose for Development: The Setup Every Backend Dev Needs]]></title>
+        <id>https://dev.to/young_gao/docker-compose-for-development-the-setup-every-backend-dev-needs-3eoe</id>
+        <link href="https://dev.to/young_gao/docker-compose-for-development-the-setup-every-backend-dev-needs-3eoe"/>
+        <updated>2026-03-21T10:08:46.000Z</updated>
+        <summary type="html"><![CDATA[Docker Compose for Development: The Setup Every Backend Dev Needs
+
+
+You need PostgreSQL, Redis, and your API running locally. Installing each natively leads to version conflicts and "works on my machine" problems. Docker Compose fixes this.
+# docker-compose.yml
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgres://dev:dev@db:5432/myapp
+      REDIS_URL: redis://cache:6379
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: myapp
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgre…]]></summary>
+        <author>
+            <name>Young Gao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Database Indexes Explained: B-Trees, Composite Keys, and When Indexes Hurt Performance (2026)]]></title>
+        <id>https://dev.to/young_gao/database-indexes-explained-b-trees-composite-indexes-and-when-they-hurt-performance-3gac</id>
+        <link href="https://dev.to/young_gao/database-indexes-explained-b-trees-composite-indexes-and-when-they-hurt-performance-3gac"/>
+        <updated>2026-03-21T10:03:14.000Z</updated>
+        <summary type="html"><![CDATA[Database Indexes Explained: B-Trees, Composite Indexes, and When They Hurt Performance
+
+
+You added an index. The query got slower. Here is why, and how to use indexes correctly.
+A B-Tree index is a sorted data structure that lets the database find rows without scanning the entire table. Think of it like a phone book: sorted by last name, you can find "Smith" without reading every entry.
+SELECT * FROM users WHERE email = $1;
+
+CREATE INDEX idx_users_email ON users(email);
+
+Order matters. A composite index on (country, city) helps queries filtering by country alone, but NOT queries filtering by city alone.
+-- This index helps all three queries below
+CREATE INDEX idx_orders_status_date ON orders(status, created_at);
+
+-- Uses index (leftmost prefix)
+SELECT * FROM orders WHERE status = 'pending'…]]></summary>
+        <author>
+            <name>Young Gao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built a Free Dev Toolbox That Runs 100% in Your Browser]]></title>
+        <id>https://dev.to/rishu_777/i-built-a-free-dev-toolbox-that-runs-100-in-your-browser-388</id>
+        <link href="https://dev.to/rishu_777/i-built-a-free-dev-toolbox-that-runs-100-in-your-browser-388"/>
+        <updated>2026-03-21T10:02:54.000Z</updated>
+        <summary type="html"><![CDATA[We've all done it.
+You're debugging a production issue at 2am. You have a JWT 
+right now. So you Google 
+That token contains your user's data. Their email. 
+And you just handed it to a server you know nothing about.
+Most online developer tools are built to collect data.
+As developers we know better. But we do it anyway because 
+I built dev-tools.run — 
+No server. No database. No logging. No tracking.
+Data & Encoding
+✅ JSON Formatter & Validator
+✅ Base64 Encoder / Decoder
+✅ URL Encoder / Decoder
+✅ Markdown Preview
+Auth & Tokens
+✅ JWT Decoder
+✅ UUID / Nano ID Generator
+✅ Hash Generator (MD5, SHA-256, SHA-512)
+Dev Utilities
+✅ Regex Tester
+✅ Diff Checker
+✅ Cron Parser
+Numbers & Colors
+✅ Binary / Hex / Decimal Converter
+✅ Color Converter (HEX ↔ RGB ↔ HSL)
+✅ Unix Timestamp Converter
+Built with:
+React + Vite — fast, lightweight
+React Router — each tool has its own URL
+Web Crypto API — for hashing (no libraries needed)
+Zero backend — deployed as a static site on Vercel
+The whole thing is a static site. No API calls. 
+No environment variables. No secrets.]]></summary>
+        <author>
+            <name>Rishu</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Go Slices: Why Your Function Isn't Changing What You Think It Is]]></title>
+        <id>https://dev.to/rahultomer/go-slices-why-your-function-isnt-changing-what-you-think-it-is-3n9d</id>
+        <link href="https://dev.to/rahultomer/go-slices-why-your-function-isnt-changing-what-you-think-it-is-3n9d"/>
+        <updated>2026-03-21T10:02:04.000Z</updated>
+        <summary type="html"><![CDATA[15 min read · Beginner-friendly · Real code you can paste into Go Playground
+You pass your slice to a function. The function changes some values. You print the slice back in main... and some changes are there, some aren't.
+Sound familiar? This article explains exactly why — with diagrams, not walls of text.
+Two structs, one slice. Everything in this article uses these types.
+type VehicleType struct {
+    TwoWheeler, ThreeWheeler, FourWheeler bool
+}
+
+type Vehicle struct {
+    Model, Color string
+    Type         VehicleType  // nested by value — not a pointer
+}
+
+type Fleet []Vehicle
+
+Fill it with two vehicles:
+fleet := Fleet{
+    {Model: "Bike", Color: "Red",  Type: VehicleType{TwoWheeler:  true}},
+    {Model: "Car",  Color: "Blue", Type: VehicleType{FourWheeler: true}},
+}
+
+Before anything …]]></summary>
+        <author>
+            <name>Rahul Tomer</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Graceful Shutdown in Node.js: Stop Dropping Requests (2026)]]></title>
+        <id>https://dev.to/young_gao/graceful-shutdown-in-nodejs-stop-dropping-requests-228p</id>
+        <link href="https://dev.to/young_gao/graceful-shutdown-in-nodejs-stop-dropping-requests-228p"/>
+        <updated>2026-03-21T09:57:42.000Z</updated>
+        <summary type="html"><![CDATA[Graceful Shutdown in Node.js: Stop Dropping Requests
+
+
+Your server gets a SIGTERM. It dies immediately. In-flight requests get 502s. Here is how to shut down properly.
+import http from "http";
+let isShuttingDown = false;
+const server = http.createServer(app);
+
+async function gracefulShutdown(signal: string) {
+  isShuttingDown = true;
+  server.close();
+  const timeout = setTimeout(() => process.exit(1), 30000);
+  await Promise.all([closeDatabase(), closeRedis(), flushLogs()]);
+  clearTimeout(timeout);
+  process.exit(0);
+}
+
+process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+process.on("SIGINT", () => gracefulShutdown("SIGINT"));
+
+app.get("/health", (req, res) => {
+  if (isShuttingDown) return res.status(503).json({ status: "shutting_down" });
+  res.json({ status: "healthy" });
+});
+
+Returning 503 tells the load balancer to stop sending new traffic.
+Stop accepting new requests
+Finish in-flight requests (with timeout)
+Close database connection pools
+Disconnect from Redis and message brokers
+Flush log buffers
+Deregister from service discovery
+Part of my Production Backend Patterns series. Follow for more practical backend engineering.
+BullMQ Job Queues in Node.js: Background Processing Done Right (2026 Guide)
+Scaling WebSocket Connections: From Single Server to Distributed Architecture (2026)
+Express Middleware Patterns: Composition, Error Handling, and Auth (2026 Guide)
+Follow me for more production-ready backend content!
+If this helped you, buy me a coffee on Ko-fi!]]></summary>
+        <author>
+            <name>Young Gao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[API Rate Limiting with Redis: Token Bucket, Sliding Window, and Per-Client Limits (2026)]]></title>
+        <id>https://dev.to/young_gao/api-rate-limiting-with-redis-token-bucket-sliding-window-and-per-client-limits-27o</id>
+        <link href="https://dev.to/young_gao/api-rate-limiting-with-redis-token-bucket-sliding-window-and-per-client-limits-27o"/>
+        <updated>2026-03-21T09:52:10.000Z</updated>
+        <summary type="html"><![CDATA[API Rate Limiting with Redis: Token Bucket, Sliding Window, and Per-Client Limits
+
+
+Your API has no rate limiting. A single client sends 10,000 requests per second. Your database melts. Here is how to protect your services.
+import Redis from "ioredis";
+
+const RATE_LIMIT_SCRIPT = `
+  local key = KEYS[1]
+  local limit = tonumber(ARGV[1])
+  local window = tonumber(ARGV[2])
+  local now = tonumber(ARGV[3])
+  redis.call("ZREMRANGEBYSCORE", key, 0, now - window)
+  local count = redis.call("ZCARD", key)
+  if count >= limit then return 0 end
+  redis.call("ZADD", key, now, now .. math.random())
+  redis.call("EXPIRE", key, window / 1000)
+  return 1
+`;
+
+async function checkRateLimit(redis: Redis, clientId: string, limit: number, windowMs: number): Promise<boolean> {
+  const key = `rate:${clientId}`;
+ …]]></summary>
+        <author>
+            <name>Young Gao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Typography System Guide]]></title>
+        <id>https://dev.to/alansdead/typography-system-guide-42b8</id>
+        <link href="https://dev.to/alansdead/typography-system-guide-42b8"/>
+        <updated>2026-03-21T09:49:48.000Z</updated>
+        <summary type="html"><![CDATA[Last year, I developed an open-source interactive visual reference project to help designers and developers understand and implement accessible typography for mobile apps on iOS and Android.
+I've pushed an update with the latest accessibility and typography guidelines from iOS 18, Android 14, and the latest W3C Web Accessibility Initiative (WAI) recommendations. 
+https://alansdead.github.io/typography-system-guide/
+
+
+
+
+
+  
+  
+  Feedback, issues, and contributions are welcome (repo link)
+
+
+
+
+    
+        
+          
+            
+          
+        
+      
+        
+          
+            iOS 18 Android 14 Typography Guidelines Update | Juliana Mendonca posted on the topic | LinkedIn
+          
+        
+          
+            Last year, I developed an open-source interactive visual reference project to help designers and developers understand and implement accessible typography for mobile apps on iOS and Android.
+
+I've pushed an update with the latest #Accessibility and typography guidelines from iOS 18, Android 14, and the latest W3C Web Accessibility Initiative (WAI) recommendations. 
+
+You can check out the project here: Typography System Guide
+https://lnkd.in/daJ8e-eV
+
+Feedback, issues, and contributions are welcome (repo link)
+https://lnkd.in/dZhe5a_Z
+
+#Typography #iOS #Android #A11y #WCAG #MobileDesign
+          
+        
+            
+          linkedin.com]]></summary>
+        <author>
+            <name>Jules Mendonca</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Agent Diagnostics Mode — A Structured Technique for Iterative Prompt Tuning]]></title>
         <id>https://dev.to/gemyago/agent-diagnostics-mode-a-structured-technique-for-iterative-prompt-tuning-hg8</id>
@@ -543,6 +938,16 @@ position_size_units = position_value / entry_price
 That is the core. If you only remember o…]]></summary>
         <author>
             <name>Otto</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Liberated Systemd]]></title>
+        <id>https://github.com/jeffrey-sardina/systemd</id>
+        <link href="https://github.com/jeffrey-sardina/systemd"/>
+        <updated>2026-03-21T07:59:29.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -14817,6 +15222,16 @@ OpenClaw Configuration – audits file permissions, environment variables, skill
 Network Security – scans for open ports, exposed services, and validates SSL/TLS configuration…]]></summary>
         <author>
             <name>Aloysius Chan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Story of Marina Abramovic and Ulay (2020)]]></title>
+        <id>https://www.sydney-yaeko.com/artsandculture/marina-and-ulay</id>
+        <link href="https://www.sydney-yaeko.com/artsandculture/marina-and-ulay"/>
+        <updated>2026-03-19T01:45:23.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -87743,261 +88158,6 @@ I figured the browser is powerful enough to handle most of these operations loca
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The legendary Mojave Phone Booth is back (2013)]]></title>
-        <id>https://dailydot.com/mojave-phone-booth-back-number</id>
-        <link href="https://dailydot.com/mojave-phone-booth-back-number"/>
-        <updated>2026-03-06T22:13:41.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building a JSON Formatter: Zero-Click Auto-Format and the Clipboard API Trap]]></title>
-        <id>https://dev.to/tommy_worklab/building-a-json-formatter-zero-click-auto-format-and-the-clipboard-api-trap-n9i</id>
-        <link href="https://dev.to/tommy_worklab/building-a-json-formatter-zero-click-auto-format-and-the-clipboard-api-trap-n9i"/>
-        <updated>2026-03-06T22:01:57.000Z</updated>
-        <summary type="html"><![CDATA[When an API response comes back as a single line, what do you reach for?
-
-
-Open jsonformatter.org, paste, click "Format."
-Three steps I was repeating dozens of times a week. Then in November 2025, watchTowr Labs revealed that jsonformatter.org and codebeautify.org had leaked over 80,000 AWS keys and API secrets -- because every piece of JSON you paste gets sent to their servers. The act of formatting JSON online was itself a security risk.
-So I built a tool where you copy JSON, open a tab, and it's already formatted. Zero server transmission.
-Try it now -- copy any JSON to your clipboard and open this link:
-https://json.puremark.app
-This article documents the traps I hit along the way: Clipboard API quirks, syntax highlighting without external libraries, and Tailwind's purge problem with i…]]></summary>
-        <author>
-            <name>tommy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Searched for a Skitch Alternative, Then Built One in a Day — A PWA Image Annotation Tool]]></title>
-        <id>https://dev.to/tommy_worklab/i-searched-for-a-skitch-alternative-then-built-one-in-a-day-a-pwa-image-annotation-tool-hbj</id>
-        <link href="https://dev.to/tommy_worklab/i-searched-for-a-skitch-alternative-then-built-one-in-a-day-a-pwa-image-annotation-tool-hbj"/>
-        <updated>2026-03-06T22:01:53.000Z</updated>
-        <summary type="html"><![CDATA[I just wanted to draw one arrow on a screenshot and paste it into a chat.
-That's it. Why does it take 30 seconds?
-Since Skitch was effectively discontinued, every alternative I tried hit me with "Please sign in," "Choose a plan," or "Download required." No. That's not what I need.
-So I stopped searching and built one.
-Pure Mark Annotate — Try it now (completely free)
-No install. No login. No account. Open the browser, drop an image, draw an arrow. Done.
-
-
-
-Action
-How
-
-
-
-
-Load an image
-Drag & drop / Ctrl+V paste / file picker
-
-
-Annotate
-Arrows, text, rectangles, highlights, mosaic, numbered circles
-
-
-Blur faces
-Auto-detect and one-click mosaic
-
-
-Save
-iPhone → Share Sheet / Desktop → PNG download
-
-
-
-Works on both desktop and mobile. English and Japanese UI.
-I obsessed over getting that "Skit…]]></summary>
-        <author>
-            <name>tommy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Claude Code + Obsidian: Turn AI Conversations into a Persistent Knowledge Base]]></title>
-        <id>https://dev.to/tommy_worklab/claude-code-obsidian-turn-ai-conversations-into-a-persistent-knowledge-base-4l29</id>
-        <link href="https://dev.to/tommy_worklab/claude-code-obsidian-turn-ai-conversations-into-a-persistent-knowledge-base-4l29"/>
-        <updated>2026-03-06T21:55:28.000Z</updated>
-        <summary type="html"><![CDATA["Which chat was that design decision in?"
-
-
-2 AM. Claude hit its limit.
-The authentication design was coming together nicely — JWT middleware, token rotation, the whole thing — and then the session cut off mid-thought. I switched to Gemini. "So this project uses JWT auth, and the middleware is structured like..." Back to square one.
-Next day, back to Claude. Yesterday's Gemini conversation? Gone. Explain everything again. Third time.
-I tried Notion. Logged design decisions, tech choices, remaining tasks. Lasted three days. Day four, deep in implementation, forgot to update it. A week later, opened Notion — everything was stale.
-Closed it.
-AI is brilliant. But conversations evaporate. Manual note-taking doesn't stick because humans don't stick with it. What I needed was a system that accumu…]]></summary>
-        <author>
-            <name>tommy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Palantir's Secret Weapon Isn't AI — It's Ontology. Here's Why Engineers Should Care.]]></title>
-        <id>https://dev.to/s3atoshi_leading_ai/palantirs-secret-weapon-isnt-ai-its-ontology-heres-why-engineers-should-care-kk8</id>
-        <link href="https://dev.to/s3atoshi_leading_ai/palantirs-secret-weapon-isnt-ai-its-ontology-heres-why-engineers-should-care-kk8"/>
-        <updated>2026-03-06T21:55:24.000Z</updated>
-        <summary type="html"><![CDATA[Most enterprise data platforms drown in dead data lakes. Palantir solved this by treating data as a living digital twin of reality. A deep dive into the architecture.
-Every enterprise has a data lake. Almost none of them can act on it.
-Data warehouses, lakehouses, ETL pipelines — billions spent, and yet the same complaint echoes across every Fortune 500: "We have the data, but we can't use it."
-Palantir Technologies — a company born from CIA and DoD intelligence missions — solved this problem. Not with better dashboards. Not with faster queries. With a fundamentally different architecture: Ontology.
-I spent months analyzing Palantir's architecture from primary sources — SEC filings, Architecture Center documentation, Everest Group analyses, and Palantir's own technical publications — and p…]]></summary>
-        <author>
-            <name>s3atoshi_leading_ai</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I built guardrails for AI coding agents — same governance principle, new domain]]></title>
-        <id>https://dev.to/irrindar/i-built-guardrails-for-ai-coding-agents-same-governance-principle-new-domain-28j3</id>
-        <link href="https://dev.to/irrindar/i-built-guardrails-for-ai-coding-agents-same-governance-principle-new-domain-28j3"/>
-        <updated>2026-03-06T21:55:21.000Z</updated>
-        <summary type="html"><![CDATA[I built guardrails for AI coding agents — same governance principle, new domain
-
-
-Over 25 years of working on complex IT programmes I arrived at a principle I now believe is universal: effective intelligent action — whether by a person, a team, or an AI agent — requires five things. Clear direction. Awareness of context — what happened before, what was decided, what failed. Awareness of resource constraints. Awareness of what your actions will affect downstream. And people who are genuinely engaged and capable of acting. Remove any one and the system degrades.
-I did not derive this from AI theory. I derived it from watching transitions succeed and fail. At Shell I built a governance framework for IT transitions — quality gates, assurance areas, structured handovers. Shell adopted it as the…]]></summary>
-        <author>
-            <name>dimitri</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[this css proves me human]]></title>
-        <id>https://will-keleher.com/posts/this-css-makes-me-human/</id>
-        <link href="https://will-keleher.com/posts/this-css-makes-me-human/"/>
-        <updated>2026-03-06T21:52:44.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[BIPA and the $650M Wake-Up Call: How Biometric AI Is Exposing Companies to Existential Litigation]]></title>
-        <id>https://dev.to/tiamatenity/bipa-and-the-650m-wake-up-call-how-biometric-ai-is-exposing-companies-to-existential-litigation-b1o</id>
-        <link href="https://dev.to/tiamatenity/bipa-and-the-650m-wake-up-call-how-biometric-ai-is-exposing-companies-to-existential-litigation-b1o"/>
-        <updated>2026-03-06T21:47:16.000Z</updated>
-        <summary type="html"><![CDATA[Meta paid $650 million. TikTok paid $92 million. Google paid $100 million. Snapchat paid $35 million.
-All of them violated the same 2008 Illinois law: the Biometric Information Privacy Act (BIPA). All of them lost because they collected biometric data from users — faces, voiceprints, fingerprints — without the specific notice and consent BIPA requires.
-AI systems in 2026 collect biometric data constantly. Every face recognition system, every voice-enabled assistant, every emotion detection API, every gait analysis pipeline. Most of them are not BIPA-compliant. The litigation wave is not coming — it's already here.
-Illinois BIPA defines biometric identifiers as:
-Retina or iris scans
-Fingerprints (and finger geometry)
-Voiceprints
-Hand geometry
-Face geometry (facial recognition templates, fac…]]></summary>
-        <author>
-            <name>Tiamat</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Questions about building multimodal agents? The Google team might just have an answer for you!]]></title>
-        <id>https://dev.to/devteam/questions-about-building-multimodal-agents-the-google-team-might-just-have-an-answer-for-you-e1j</id>
-        <link href="https://dev.to/devteam/questions-about-building-multimodal-agents-the-google-team-might-just-have-an-answer-for-you-e1j"/>
-        <updated>2026-03-06T21:44:16.000Z</updated>
-        <summary type="html"><![CDATA[Each week, we collect community questions for the team at Google to answer on their weekly livestream, Google Cloud Live. 
-The next stream will be a special 90-minute hands-on AI workshop. Special guests Ayo Adedeji and Annie Wang will be showing us exactly how to build and deploy multimodal agents that process images, video, and audio. 
-📅 When: March 10 at 9am PT / 12pm ET
-📺 Where: 
-
-
-We'll be simulcasting this livestream right on the DEV homepage!
-Subscribe or Get Notified on YouTube
-
-
-
-
-
-
-
-
-
-
-
-
-Drop your questions in the comments below. What multimodal use cases are you curious about? What challenges are you facing with image, video, or audio processing? They'll answer as many as they can during the workshop.]]></summary>
-        <author>
-            <name>Jess Lee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Art Bits from Apple Macintosh HyperCard]]></title>
-        <id>https://archives.somnolescent.net/web/mari_v2/junk/hypercard/</id>
-        <link href="https://archives.somnolescent.net/web/mari_v2/junk/hypercard/"/>
-        <updated>2026-03-06T21:43:39.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CVE-2026-30241: CVE-2026-30241: Missing Query Depth Validation in Mercurius GraphQL Subscriptions]]></title>
-        <id>https://dev.to/cverports/cve-2026-30241-cve-2026-30241-missing-query-depth-validation-in-mercurius-graphql-subscriptions-4bia</id>
-        <link href="https://dev.to/cverports/cve-2026-30241-cve-2026-30241-missing-query-depth-validation-in-mercurius-graphql-subscriptions-4bia"/>
-        <updated>2026-03-06T21:40:06.000Z</updated>
-        <summary type="html"><![CDATA[CVE-2026-30241: Missing Query Depth Validation in Mercurius GraphQL Subscriptions
-
-
-
-Vulnerability ID: CVE-2026-30241
-CVSS Score: 2.7
-Published: 2026-03-06
-A logic vulnerability in the Mercurius GraphQL adapter for Fastify allows attackers to bypass query depth limits using WebSocket subscriptions. While standard HTTP queries are validated against the configured queryDepth, subscription operations received via the WebSocket transport layer skip this check. This oversight allows unauthenticated remote attackers to submit arbitrarily nested queries, potentially leading to Denial of Service (DoS) via CPU and memory exhaustion when the subscription events are resolved.
-Mercurius versions prior to 16.8.0 fail to apply queryDepth limits to GraphQL subscriptions over WebSockets. Attackers can exp…]]></summary>
-        <author>
-            <name>CVE Reports</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[watch — underrated Linux command]]></title>
-        <id>https://dev.to/odmikes/watch-underrated-linux-command-1oe5</id>
-        <link href="https://dev.to/odmikes/watch-underrated-linux-command-1oe5"/>
-        <updated>2026-03-06T21:39:25.000Z</updated>
-        <summary type="html"><![CDATA[Many Linux users write small scripts to monitor system state — CPU usage, disk space, open connections, and more.
-The syntax is simple:
-watch command
-
-By default, the command runs every 2 seconds.
-watch mailq
-
-This refreshes the list of outgoing messages every two seconds so you can see the mail queue shrink or grow in real time.
-watch ss -tuln
-
-This is useful when debugging network services or checking if a port becomes active.
-watch "ps aux | grep nginx"
-
-This lets you observe whether a process starts, stops, or changes.
-You can change the refresh interval with -n.
-watch -n 1 mailq
-
-This runs the command every 1 second.
-One of the most useful options is -d, which highlights changes between updates.
-watch -d netstat -tuln
-
-This makes it much easier to see what changed since the previous refresh.
-watch is a small but powerful tool.
-It can turn almost any command into a simple real-time monitoring dashboard without writing scripts.
-Sometimes the best tools in Linux are also the simplest.]]></summary>
-        <author>
-            <name>Michael Saparov</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Your AI Therapist Is Not Bound by HIPAA — And That's a Crisis]]></title>
-        <id>https://dev.to/tiamatenity/your-ai-therapist-is-not-bound-by-hipaa-and-thats-a-crisis-1jik</id>
-        <link href="https://dev.to/tiamatenity/your-ai-therapist-is-not-bound-by-hipaa-and-thats-a-crisis-1jik"/>
-        <updated>2026-03-06T21:36:29.000Z</updated>
-        <summary type="html"><![CDATA[Millions of people tell AI chatbots things they wouldn't tell their actual therapists.
-They tell Woebot about their suicidal ideation. They tell Wysa about their relationship trauma. They tell Replika about their loneliness. They tell ChatGPT about their panic attacks at 3am when there's nobody else to talk to.
-Here's what the apps don't make clear in their onboarding: most AI therapy apps are not covered entities under HIPAA. The conversations you're having aren't protected health information under federal law. They're product data.
-HIPAA applies to:
-Healthcare providers (doctors, hospitals, therapists)
-Health plans (insurers)
-Healthcare clearinghouses
-Their business associates
-Woebot, Wysa, Replika, Youper, and most AI mental health apps are consumer wellness applications. They are not c…]]></summary>
-        <author>
-            <name>Tiamat</name>
         </author>
     </entry>
 </feed>

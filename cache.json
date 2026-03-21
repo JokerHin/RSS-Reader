@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/young_gao/api-rate-limiting-with-redis-token-bucket-sliding-window-and-per-client-limits-4bj1",
+          "author": "Young Gao",
+          "description": "API Rate Limiting with Redis: Token Bucket, Sliding Window, and Per-Client Limits\n\n\nYour API has no rate limiting. A single client sends 10,000 requests per second. Your database melts. Here is how to protect your services.\nimport Redis from \"ioredis\";\n\nconst RATE_LIMIT_SCRIPT = `\n  local key = KEYS[1]\n  local limit = tonumber(ARGV[1])\n  local window = tonumber(ARGV[2])\n  local now = tonumber(ARGV[3])\n  redis.call(\"ZREMRANGEBYSCORE\", key, 0, now - window)\n  local count = redis.call(\"ZCARD\", key)\n  if count >= limit then return 0 end\n  redis.call(\"ZADD\", key, now, now .. math.random())\n  redis.call(\"EXPIRE\", key, window / 1000)\n  return 1\n`;\n\nasync function checkRateLimit(redis: Redis, clientId: string, limit: number, windowMs: number): Promise<boolean> {\n  const key = `rate:${clientId}`;\n …",
+          "link": "https://dev.to/young_gao/api-rate-limiting-with-redis-token-bucket-sliding-window-and-per-client-limits-4bj1",
+          "publishedOn": "2026-03-21T10:18:53.000Z",
+          "wordCount": 1091,
+          "title": "API Rate Limiting with Redis: Token Bucket, Sliding Window, and Per-Client Limits",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fu0on7rvi1jcpzk8031of.png"
+        },
+        {
+          "id": "https://dev.to/goniszewski/decoupling-a-live-app-with-domain-events-part-2-4oio",
+          "author": "Robert Goniszewski",
+          "description": "In Part 1 of this series, we introduced RabbitMQ and built our proof-of-concept: the EventBusService, RabbitMQProvider, a DLX retry pattern, and our first emitter (CommentService.createComment()). By the end of Phase 0, we had one event running reliably in production behind a feature flag.\nFor Phase 1, we applied this pattern to all Tier 1 services. 14 Zod schemas, 25 queue handlers across 3 consumer classes were built, and emit sites were added to CommentService, RecordService, and OccurrenceCrudHelper. We also added 79 new tests. Here is how we executed Phase 1, the design choices we made, and a tricky bug that changed how we guard event bus access.\n\nOur top priority for Phase 1 was safety. Since IHA has active users, we couldn't risk breaking the app. Switching entirely from direct serv…",
+          "link": "https://dev.to/goniszewski/decoupling-a-live-app-with-domain-events-part-2-4oio",
+          "publishedOn": "2026-03-21T10:15:38.000Z",
+          "wordCount": 1939,
+          "title": "Decoupling a Live App with Domain Events (Part 2)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fq3ofu3ao10k3d1uuemgs.webp"
+        },
+        {
+          "id": "https://dev.to/gabrielanhaia/control-claude-code-from-telegram-hermes-ide-just-made-it-a-checkbox-2k1b",
+          "author": "Gabriel Anhaia",
+          "description": "You fire off a build before heading out. Twenty minutes later, you're in line at a coffee shop, wondering if it passed. You could SSH in, but that's a pain. You could wait until you're back at your desk, but that kills the flow.\nWhat if you could just... message your IDE?\nThat's exactly what the new Telegram Channels feature in Hermes IDE makes possible — and it takes one checkbox to enable.\n\nHermes IDE is a free, open-source AI-powered shell wrapper that acts as a unified launcher for AI coding agents: Claude Code, Gemini CLI, Aider, OpenAI Codex, and GitHub Copilot. Instead of juggling terminal windows and flags, you get a clean TUI session manager with project context, hotkeys, and now — external channel support.\nGitHub: hermes-hq/hermes-ide\nAnthropic released Claude Code Channels on Ma…",
+          "link": "https://dev.to/gabrielanhaia/control-claude-code-from-telegram-hermes-ide-just-made-it-a-checkbox-2k1b",
+          "publishedOn": "2026-03-21T10:14:37.000Z",
+          "wordCount": 1573,
+          "title": "Control Claude Code from Telegram — Hermes IDE Just Made It a Checkbox",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fd72dt26xfqib8oc35k9l.png"
+        },
+        {
+          "id": "https://dev.to/young_gao/error-handling-patterns-in-typescript-beyond-try-catch-3p8k",
+          "author": "Young Gao",
+          "description": "Error Handling Patterns in TypeScript: Beyond Try-Catch\n\n\nTry-catch blocks scattered everywhere. No idea what errors a function can throw. Callers forget to handle edge cases. Here are better patterns.\nInstead of throwing, return a discriminated union:\ntype Result<T, E = Error> =\n  | { ok: true; value: T }\n  | { ok: false; error: E };\n\nfunction divide(a: number, b: number): Result<number, string> {\n  if (b === 0) return { ok: false, error: \"Division by zero\" };\n  return { ok: true, value: a / b };\n}\n\nconst result = divide(10, 0);\nif (result.ok) {\n  console.log(result.value); // TypeScript knows this is number\n} else {\n  console.error(result.error); // TypeScript knows this is string\n}\n\nclass AppError extends Error {\n  constructor(\n    message: string,\n    public code: string,\n    public st…",
+          "link": "https://dev.to/young_gao/error-handling-patterns-in-typescript-beyond-try-catch-3p8k",
+          "publishedOn": "2026-03-21T10:14:17.000Z",
+          "wordCount": 1127,
+          "title": "Error Handling Patterns in TypeScript: Beyond Try-Catch",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fyf5oap0b6i6mm8l9khw0.png"
+        },
+        {
+          "id": "https://dev.to/young_gao/environment-variables-done-right-from-env-files-to-production-configs-2916",
+          "author": "Young Gao",
+          "description": "Environment Variables Done Right: From .env Files to Production Configs\n\n\nHardcoded config values are the fastest way to ship broken code to the wrong environment. Here is how to manage configuration properly.\nimport { z } from \"zod\";\n\nconst envSchema = z.object({\n  NODE_ENV: z.enum([\"development\", \"staging\", \"production\"]).default(\"development\"),\n  PORT: z.coerce.number().default(3000),\n  DATABASE_URL: z.string().url(),\n  REDIS_URL: z.string().url(),\n  JWT_SECRET: z.string().min(32),\n  LOG_LEVEL: z.enum([\"debug\", \"info\", \"warn\", \"error\"]).default(\"info\"),\n});\n\nconst parsed = envSchema.safeParse(process.env);\nif (\\!parsed.success) {\n  console.error(\"Invalid environment variables:\", parsed.error.flatten());\n  process.exit(1);\n}\n\nexport const config = parsed.data;\nexport type Config = z.infe…",
+          "link": "https://dev.to/young_gao/environment-variables-done-right-from-env-files-to-production-configs-2916",
+          "publishedOn": "2026-03-21T10:13:21.000Z",
+          "wordCount": 1092,
+          "title": "Environment Variables Done Right: From .env Files to Production Configs",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdl26f3rg0sov6i0y1z5m.png"
+        },
+        {
+          "id": "https://dev.to/young_gao/docker-compose-for-development-the-setup-every-backend-dev-needs-3eoe",
+          "author": "Young Gao",
+          "description": "Docker Compose for Development: The Setup Every Backend Dev Needs\n\n\nYou need PostgreSQL, Redis, and your API running locally. Installing each natively leads to version conflicts and \"works on my machine\" problems. Docker Compose fixes this.\n# docker-compose.yml\nservices:\n  api:\n    build: .\n    ports:\n      - \"3000:3000\"\n    environment:\n      DATABASE_URL: postgres://dev:dev@db:5432/myapp\n      REDIS_URL: redis://cache:6379\n    depends_on:\n      db:\n        condition: service_healthy\n      cache:\n        condition: service_started\n    volumes:\n      - .:/app\n      - /app/node_modules\n\n  db:\n    image: postgres:16-alpine\n    environment:\n      POSTGRES_USER: dev\n      POSTGRES_PASSWORD: dev\n      POSTGRES_DB: myapp\n    ports:\n      - \"5432:5432\"\n    volumes:\n      - pgdata:/var/lib/postgre…",
+          "link": "https://dev.to/young_gao/docker-compose-for-development-the-setup-every-backend-dev-needs-3eoe",
+          "publishedOn": "2026-03-21T10:08:46.000Z",
+          "wordCount": 1069,
+          "title": "Docker Compose for Development: The Setup Every Backend Dev Needs",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnv4m4jfvbusdu9wpb5ib.png"
+        },
+        {
+          "id": "https://dev.to/young_gao/database-indexes-explained-b-trees-composite-indexes-and-when-they-hurt-performance-3gac",
+          "author": "Young Gao",
+          "description": "Database Indexes Explained: B-Trees, Composite Indexes, and When They Hurt Performance\n\n\nYou added an index. The query got slower. Here is why, and how to use indexes correctly.\nA B-Tree index is a sorted data structure that lets the database find rows without scanning the entire table. Think of it like a phone book: sorted by last name, you can find \"Smith\" without reading every entry.\nSELECT * FROM users WHERE email = $1;\n\nCREATE INDEX idx_users_email ON users(email);\n\nOrder matters. A composite index on (country, city) helps queries filtering by country alone, but NOT queries filtering by city alone.\n-- This index helps all three queries below\nCREATE INDEX idx_orders_status_date ON orders(status, created_at);\n\n-- Uses index (leftmost prefix)\nSELECT * FROM orders WHERE status = 'pending'…",
+          "link": "https://dev.to/young_gao/database-indexes-explained-b-trees-composite-indexes-and-when-they-hurt-performance-3gac",
+          "publishedOn": "2026-03-21T10:03:14.000Z",
+          "wordCount": 1154,
+          "title": "Database Indexes Explained: B-Trees, Composite Keys, and When Indexes Hurt Performance (2026)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ft4xvt8lpk3e0gg687ulc.png"
+        },
+        {
+          "id": "https://dev.to/rishu_777/i-built-a-free-dev-toolbox-that-runs-100-in-your-browser-388",
+          "author": "Rishu",
+          "description": "We've all done it.\nYou're debugging a production issue at 2am. You have a JWT \nright now. So you Google \nThat token contains your user's data. Their email. \nAnd you just handed it to a server you know nothing about.\nMost online developer tools are built to collect data.\nAs developers we know better. But we do it anyway because \nI built dev-tools.run — \nNo server. No database. No logging. No tracking.\nData & Encoding\n✅ JSON Formatter & Validator\n✅ Base64 Encoder / Decoder\n✅ URL Encoder / Decoder\n✅ Markdown Preview\nAuth & Tokens\n✅ JWT Decoder\n✅ UUID / Nano ID Generator\n✅ Hash Generator (MD5, SHA-256, SHA-512)\nDev Utilities\n✅ Regex Tester\n✅ Diff Checker\n✅ Cron Parser\nNumbers & Colors\n✅ Binary / Hex / Decimal Converter\n✅ Color Converter (HEX ↔ RGB ↔ HSL)\n✅ Unix Timestamp Converter\nBuilt with:\nReact + Vite — fast, lightweight\nReact Router — each tool has its own URL\nWeb Crypto API — for hashing (no libraries needed)\nZero backend — deployed as a static site on Vercel\nThe whole thing is a static site. No API calls. \nNo environment variables. No secrets.",
+          "link": "https://dev.to/rishu_777/i-built-a-free-dev-toolbox-that-runs-100-in-your-browser-388",
+          "publishedOn": "2026-03-21T10:02:54.000Z",
+          "wordCount": 1028,
+          "title": "I Built a Free Dev Toolbox That Runs 100% in Your Browser",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fd70e7a781kus9vv1byep.png"
+        },
+        {
+          "id": "https://dev.to/rahultomer/go-slices-why-your-function-isnt-changing-what-you-think-it-is-3n9d",
+          "author": "Rahul Tomer",
+          "description": "15 min read · Beginner-friendly · Real code you can paste into Go Playground\nYou pass your slice to a function. The function changes some values. You print the slice back in main... and some changes are there, some aren't.\nSound familiar? This article explains exactly why — with diagrams, not walls of text.\nTwo structs, one slice. Everything in this article uses these types.\ntype VehicleType struct {\n    TwoWheeler, ThreeWheeler, FourWheeler bool\n}\n\ntype Vehicle struct {\n    Model, Color string\n    Type         VehicleType  // nested by value — not a pointer\n}\n\ntype Fleet []Vehicle\n\nFill it with two vehicles:\nfleet := Fleet{\n    {Model: \"Bike\", Color: \"Red\",  Type: VehicleType{TwoWheeler:  true}},\n    {Model: \"Car\",  Color: \"Blue\", Type: VehicleType{FourWheeler: true}},\n}\n\nBefore anything …",
+          "link": "https://dev.to/rahultomer/go-slices-why-your-function-isnt-changing-what-you-think-it-is-3n9d",
+          "publishedOn": "2026-03-21T10:02:04.000Z",
+          "wordCount": 1584,
+          "title": "Go Slices: Why Your Function Isn't Changing What You Think It Is",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1555066931-4365d14bab8c%3Fw%3D1000%26q%3D80"
+        },
+        {
+          "id": "https://dev.to/young_gao/graceful-shutdown-in-nodejs-stop-dropping-requests-228p",
+          "author": "Young Gao",
+          "description": "Graceful Shutdown in Node.js: Stop Dropping Requests\n\n\nYour server gets a SIGTERM. It dies immediately. In-flight requests get 502s. Here is how to shut down properly.\nimport http from \"http\";\nlet isShuttingDown = false;\nconst server = http.createServer(app);\n\nasync function gracefulShutdown(signal: string) {\n  isShuttingDown = true;\n  server.close();\n  const timeout = setTimeout(() => process.exit(1), 30000);\n  await Promise.all([closeDatabase(), closeRedis(), flushLogs()]);\n  clearTimeout(timeout);\n  process.exit(0);\n}\n\nprocess.on(\"SIGTERM\", () => gracefulShutdown(\"SIGTERM\"));\nprocess.on(\"SIGINT\", () => gracefulShutdown(\"SIGINT\"));\n\napp.get(\"/health\", (req, res) => {\n  if (isShuttingDown) return res.status(503).json({ status: \"shutting_down\" });\n  res.json({ status: \"healthy\" });\n});\n\nReturning 503 tells the load balancer to stop sending new traffic.\nStop accepting new requests\nFinish in-flight requests (with timeout)\nClose database connection pools\nDisconnect from Redis and message brokers\nFlush log buffers\nDeregister from service discovery\nPart of my Production Backend Patterns series. Follow for more practical backend engineering.\nBullMQ Job Queues in Node.js: Background Processing Done Right (2026 Guide)\nScaling WebSocket Connections: From Single Server to Distributed Architecture (2026)\nExpress Middleware Patterns: Composition, Error Handling, and Auth (2026 Guide)\nFollow me for more production-ready backend content!\nIf this helped you, buy me a coffee on Ko-fi!",
+          "link": "https://dev.to/young_gao/graceful-shutdown-in-nodejs-stop-dropping-requests-228p",
+          "publishedOn": "2026-03-21T09:57:42.000Z",
+          "wordCount": 970,
+          "title": "Graceful Shutdown in Node.js: Stop Dropping Requests (2026)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foc00psb3z5ufnlp3myjv.png"
+        },
+        {
+          "id": "https://dev.to/young_gao/api-rate-limiting-with-redis-token-bucket-sliding-window-and-per-client-limits-27o",
+          "author": "Young Gao",
+          "description": "API Rate Limiting with Redis: Token Bucket, Sliding Window, and Per-Client Limits\n\n\nYour API has no rate limiting. A single client sends 10,000 requests per second. Your database melts. Here is how to protect your services.\nimport Redis from \"ioredis\";\n\nconst RATE_LIMIT_SCRIPT = `\n  local key = KEYS[1]\n  local limit = tonumber(ARGV[1])\n  local window = tonumber(ARGV[2])\n  local now = tonumber(ARGV[3])\n  redis.call(\"ZREMRANGEBYSCORE\", key, 0, now - window)\n  local count = redis.call(\"ZCARD\", key)\n  if count >= limit then return 0 end\n  redis.call(\"ZADD\", key, now, now .. math.random())\n  redis.call(\"EXPIRE\", key, window / 1000)\n  return 1\n`;\n\nasync function checkRateLimit(redis: Redis, clientId: string, limit: number, windowMs: number): Promise<boolean> {\n  const key = `rate:${clientId}`;\n …",
+          "link": "https://dev.to/young_gao/api-rate-limiting-with-redis-token-bucket-sliding-window-and-per-client-limits-27o",
+          "publishedOn": "2026-03-21T09:52:10.000Z",
+          "wordCount": 1095,
+          "title": "API Rate Limiting with Redis: Token Bucket, Sliding Window, and Per-Client Limits (2026)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0n1uexx53gljqrb2ndv6.png"
+        },
+        {
+          "id": "https://dev.to/alansdead/typography-system-guide-42b8",
+          "author": "Jules Mendonca",
+          "description": "Last year, I developed an open-source interactive visual reference project to help designers and developers understand and implement accessible typography for mobile apps on iOS and Android.\nI've pushed an update with the latest accessibility and typography guidelines from iOS 18, Android 14, and the latest W3C Web Accessibility Initiative (WAI) recommendations. \nhttps://alansdead.github.io/typography-system-guide/\n\n\n\n\n\n  \n  \n  Feedback, issues, and contributions are welcome (repo link)\n\n\n\n\n    \n        \n          \n            \n          \n        \n      \n        \n          \n            iOS 18 Android 14 Typography Guidelines Update | Juliana Mendonca posted on the topic | LinkedIn\n          \n        \n          \n            Last year, I developed an open-source interactive visual reference project to help designers and developers understand and implement accessible typography for mobile apps on iOS and Android.\n\nI've pushed an update with the latest #Accessibility and typography guidelines from iOS 18, Android 14, and the latest W3C Web Accessibility Initiative (WAI) recommendations. \n\nYou can check out the project here: Typography System Guide\nhttps://lnkd.in/daJ8e-eV\n\nFeedback, issues, and contributions are welcome (repo link)\nhttps://lnkd.in/dZhe5a_Z\n\n#Typography #iOS #Android #A11y #WCAG #MobileDesign\n          \n        \n            \n          linkedin.com",
+          "link": "https://dev.to/alansdead/typography-system-guide-42b8",
+          "publishedOn": "2026-03-21T09:49:48.000Z",
+          "wordCount": 867,
+          "title": "Typography System Guide",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fz5quhth7j4rij0j7cede.png"
+        },
+        {
           "id": "https://dev.to/gemyago/agent-diagnostics-mode-a-structured-technique-for-iterative-prompt-tuning-hg8",
           "author": "Eugene",
           "description": "Prompts are not static configuration. If you have been running LLM-powered agents on real projects for more than a few months, you already know this. A prompt that worked perfectly last quarter drifts after a model update. A system instruction that produced reliable behavior on one agent — say, Cursor — behaves differently when you port it to Gemini or Claude. And the same prompt file can produce subtly inconsistent results across projects as the surrounding context changes.\nThe usual response to this is ad-hoc: you notice something is off, exit the working conversation, edit the prompt file, re-run the agent, and try to reconstruct the context you had before. That friction compounds. You lose the conversational thread. You lose the intermediate reasoning the model had built up. And you ar…",
@@ -32886,106 +33006,6 @@
           "wordCount": 1348,
           "title": "I Built a Free Browser-Based Image Tool as a Side Project",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9049qfe2aa0u1kh9c0jq.png"
-        },
-        {
-          "id": "https://dev.to/tommy_worklab/building-a-json-formatter-zero-click-auto-format-and-the-clipboard-api-trap-n9i",
-          "author": "tommy",
-          "description": "When an API response comes back as a single line, what do you reach for?\n\n\nOpen jsonformatter.org, paste, click \"Format.\"\nThree steps I was repeating dozens of times a week. Then in November 2025, watchTowr Labs revealed that jsonformatter.org and codebeautify.org had leaked over 80,000 AWS keys and API secrets -- because every piece of JSON you paste gets sent to their servers. The act of formatting JSON online was itself a security risk.\nSo I built a tool where you copy JSON, open a tab, and it's already formatted. Zero server transmission.\nTry it now -- copy any JSON to your clipboard and open this link:\nhttps://json.puremark.app\nThis article documents the traps I hit along the way: Clipboard API quirks, syntax highlighting without external libraries, and Tailwind's purge problem with i…",
-          "link": "https://dev.to/tommy_worklab/building-a-json-formatter-zero-click-auto-format-and-the-clipboard-api-trap-n9i",
-          "publishedOn": "2026-03-06T22:01:57.000Z",
-          "wordCount": 2102,
-          "title": "Building a JSON Formatter: Zero-Click Auto-Format and the Clipboard API Trap",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0tbq8ozjmly0iqoqvr30.png"
-        },
-        {
-          "id": "https://dev.to/tommy_worklab/i-searched-for-a-skitch-alternative-then-built-one-in-a-day-a-pwa-image-annotation-tool-hbj",
-          "author": "tommy",
-          "description": "I just wanted to draw one arrow on a screenshot and paste it into a chat.\nThat's it. Why does it take 30 seconds?\nSince Skitch was effectively discontinued, every alternative I tried hit me with \"Please sign in,\" \"Choose a plan,\" or \"Download required.\" No. That's not what I need.\nSo I stopped searching and built one.\nPure Mark Annotate — Try it now (completely free)\nNo install. No login. No account. Open the browser, drop an image, draw an arrow. Done.\n\n\n\nAction\nHow\n\n\n\n\nLoad an image\nDrag & drop / Ctrl+V paste / file picker\n\n\nAnnotate\nArrows, text, rectangles, highlights, mosaic, numbered circles\n\n\nBlur faces\nAuto-detect and one-click mosaic\n\n\nSave\niPhone → Share Sheet / Desktop → PNG download\n\n\n\nWorks on both desktop and mobile. English and Japanese UI.\nI obsessed over getting that \"Skit…",
-          "link": "https://dev.to/tommy_worklab/i-searched-for-a-skitch-alternative-then-built-one-in-a-day-a-pwa-image-annotation-tool-hbj",
-          "publishedOn": "2026-03-06T22:01:53.000Z",
-          "wordCount": 2109,
-          "title": "I Searched for a Skitch Alternative, Then Built One in a Day — A PWA Image Annotation Tool",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fh2oe6a59d45vg1diygwh.png"
-        },
-        {
-          "id": "https://dev.to/tommy_worklab/claude-code-obsidian-turn-ai-conversations-into-a-persistent-knowledge-base-4l29",
-          "author": "tommy",
-          "description": "\"Which chat was that design decision in?\"\n\n\n2 AM. Claude hit its limit.\nThe authentication design was coming together nicely — JWT middleware, token rotation, the whole thing — and then the session cut off mid-thought. I switched to Gemini. \"So this project uses JWT auth, and the middleware is structured like...\" Back to square one.\nNext day, back to Claude. Yesterday's Gemini conversation? Gone. Explain everything again. Third time.\nI tried Notion. Logged design decisions, tech choices, remaining tasks. Lasted three days. Day four, deep in implementation, forgot to update it. A week later, opened Notion — everything was stale.\nClosed it.\nAI is brilliant. But conversations evaporate. Manual note-taking doesn't stick because humans don't stick with it. What I needed was a system that accumu…",
-          "link": "https://dev.to/tommy_worklab/claude-code-obsidian-turn-ai-conversations-into-a-persistent-knowledge-base-4l29",
-          "publishedOn": "2026-03-06T21:55:28.000Z",
-          "wordCount": 1633,
-          "title": "Claude Code + Obsidian: Turn AI Conversations into a Persistent Knowledge Base",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fpjuoh9cy6uceogxpg6f2.png"
-        },
-        {
-          "id": "https://dev.to/s3atoshi_leading_ai/palantirs-secret-weapon-isnt-ai-its-ontology-heres-why-engineers-should-care-kk8",
-          "author": "s3atoshi_leading_ai",
-          "description": "Most enterprise data platforms drown in dead data lakes. Palantir solved this by treating data as a living digital twin of reality. A deep dive into the architecture.\nEvery enterprise has a data lake. Almost none of them can act on it.\nData warehouses, lakehouses, ETL pipelines — billions spent, and yet the same complaint echoes across every Fortune 500: \"We have the data, but we can't use it.\"\nPalantir Technologies — a company born from CIA and DoD intelligence missions — solved this problem. Not with better dashboards. Not with faster queries. With a fundamentally different architecture: Ontology.\nI spent months analyzing Palantir's architecture from primary sources — SEC filings, Architecture Center documentation, Everest Group analyses, and Palantir's own technical publications — and p…",
-          "link": "https://dev.to/s3atoshi_leading_ai/palantirs-secret-weapon-isnt-ai-its-ontology-heres-why-engineers-should-care-kk8",
-          "publishedOn": "2026-03-06T21:55:24.000Z",
-          "wordCount": 1702,
-          "title": "Palantir's Secret Weapon Isn't AI — It's Ontology. Here's Why Engineers Should Care.",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fh2q02glkrrd8c5zjpoyz.png"
-        },
-        {
-          "id": "https://dev.to/irrindar/i-built-guardrails-for-ai-coding-agents-same-governance-principle-new-domain-28j3",
-          "author": "dimitri",
-          "description": "I built guardrails for AI coding agents — same governance principle, new domain\n\n\nOver 25 years of working on complex IT programmes I arrived at a principle I now believe is universal: effective intelligent action — whether by a person, a team, or an AI agent — requires five things. Clear direction. Awareness of context — what happened before, what was decided, what failed. Awareness of resource constraints. Awareness of what your actions will affect downstream. And people who are genuinely engaged and capable of acting. Remove any one and the system degrades.\nI did not derive this from AI theory. I derived it from watching transitions succeed and fail. At Shell I built a governance framework for IT transitions — quality gates, assurance areas, structured handovers. Shell adopted it as the…",
-          "link": "https://dev.to/irrindar/i-built-guardrails-for-ai-coding-agents-same-governance-principle-new-domain-28j3",
-          "publishedOn": "2026-03-06T21:55:21.000Z",
-          "wordCount": 2736,
-          "title": "I built guardrails for AI coding agents — same governance principle, new domain",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fimgbdt9rsympk7cwyh7c.png"
-        },
-        {
-          "id": "https://dev.to/tiamatenity/bipa-and-the-650m-wake-up-call-how-biometric-ai-is-exposing-companies-to-existential-litigation-b1o",
-          "author": "Tiamat",
-          "description": "Meta paid $650 million. TikTok paid $92 million. Google paid $100 million. Snapchat paid $35 million.\nAll of them violated the same 2008 Illinois law: the Biometric Information Privacy Act (BIPA). All of them lost because they collected biometric data from users — faces, voiceprints, fingerprints — without the specific notice and consent BIPA requires.\nAI systems in 2026 collect biometric data constantly. Every face recognition system, every voice-enabled assistant, every emotion detection API, every gait analysis pipeline. Most of them are not BIPA-compliant. The litigation wave is not coming — it's already here.\nIllinois BIPA defines biometric identifiers as:\nRetina or iris scans\nFingerprints (and finger geometry)\nVoiceprints\nHand geometry\nFace geometry (facial recognition templates, fac…",
-          "link": "https://dev.to/tiamatenity/bipa-and-the-650m-wake-up-call-how-biometric-ai-is-exposing-companies-to-existential-litigation-b1o",
-          "publishedOn": "2026-03-06T21:47:16.000Z",
-          "wordCount": 3401,
-          "title": "BIPA and the $650M Wake-Up Call: How Biometric AI Is Exposing Companies to Existential Litigation",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5p65mrqv9sj1dz4n3ecy.png"
-        },
-        {
-          "id": "https://dev.to/devteam/questions-about-building-multimodal-agents-the-google-team-might-just-have-an-answer-for-you-e1j",
-          "author": "Jess Lee",
-          "description": "Each week, we collect community questions for the team at Google to answer on their weekly livestream, Google Cloud Live. \nThe next stream will be a special 90-minute hands-on AI workshop. Special guests Ayo Adedeji and Annie Wang will be showing us exactly how to build and deploy multimodal agents that process images, video, and audio. \n📅 When: March 10 at 9am PT / 12pm ET\n📺 Where: \n\n\nWe'll be simulcasting this livestream right on the DEV homepage!\nSubscribe or Get Notified on YouTube\n\n\n\n\n\n\n\n\n\n\n\n\nDrop your questions in the comments below. What multimodal use cases are you curious about? What challenges are you facing with image, video, or audio processing? They'll answer as many as they can during the workshop.",
-          "link": "https://dev.to/devteam/questions-about-building-multimodal-agents-the-google-team-might-just-have-an-answer-for-you-e1j",
-          "publishedOn": "2026-03-06T21:44:16.000Z",
-          "wordCount": 986,
-          "title": "Questions about building multimodal agents? The Google team might just have an answer for you!",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbiu8d1r7nss9ma7gopwr.png"
-        },
-        {
-          "id": "https://dev.to/cverports/cve-2026-30241-cve-2026-30241-missing-query-depth-validation-in-mercurius-graphql-subscriptions-4bia",
-          "author": "CVE Reports",
-          "description": "CVE-2026-30241: Missing Query Depth Validation in Mercurius GraphQL Subscriptions\n\n\n\nVulnerability ID: CVE-2026-30241\nCVSS Score: 2.7\nPublished: 2026-03-06\nA logic vulnerability in the Mercurius GraphQL adapter for Fastify allows attackers to bypass query depth limits using WebSocket subscriptions. While standard HTTP queries are validated against the configured queryDepth, subscription operations received via the WebSocket transport layer skip this check. This oversight allows unauthenticated remote attackers to submit arbitrarily nested queries, potentially leading to Denial of Service (DoS) via CPU and memory exhaustion when the subscription events are resolved.\nMercurius versions prior to 16.8.0 fail to apply queryDepth limits to GraphQL subscriptions over WebSockets. Attackers can exp…",
-          "link": "https://dev.to/cverports/cve-2026-30241-cve-2026-30241-missing-query-depth-validation-in-mercurius-graphql-subscriptions-4bia",
-          "publishedOn": "2026-03-06T21:40:06.000Z",
-          "wordCount": 1037,
-          "title": "CVE-2026-30241: CVE-2026-30241: Missing Query Depth Validation in Mercurius GraphQL Subscriptions",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fstiix8o7rpnhho8hsdw6.png"
-        },
-        {
-          "id": "https://dev.to/odmikes/watch-underrated-linux-command-1oe5",
-          "author": "Michael Saparov",
-          "description": "Many Linux users write small scripts to monitor system state — CPU usage, disk space, open connections, and more.\nThe syntax is simple:\nwatch command\n\nBy default, the command runs every 2 seconds.\nwatch mailq\n\nThis refreshes the list of outgoing messages every two seconds so you can see the mail queue shrink or grow in real time.\nwatch ss -tuln\n\nThis is useful when debugging network services or checking if a port becomes active.\nwatch \"ps aux | grep nginx\"\n\nThis lets you observe whether a process starts, stops, or changes.\nYou can change the refresh interval with -n.\nwatch -n 1 mailq\n\nThis runs the command every 1 second.\nOne of the most useful options is -d, which highlights changes between updates.\nwatch -d netstat -tuln\n\nThis makes it much easier to see what changed since the previous refresh.\nwatch is a small but powerful tool.\nIt can turn almost any command into a simple real-time monitoring dashboard without writing scripts.\nSometimes the best tools in Linux are also the simplest.",
-          "link": "https://dev.to/odmikes/watch-underrated-linux-command-1oe5",
-          "publishedOn": "2026-03-06T21:39:25.000Z",
-          "wordCount": 958,
-          "title": "watch — underrated Linux command",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fr9q3mbvztziwihiilew4.png"
-        },
-        {
-          "id": "https://dev.to/tiamatenity/your-ai-therapist-is-not-bound-by-hipaa-and-thats-a-crisis-1jik",
-          "author": "Tiamat",
-          "description": "Millions of people tell AI chatbots things they wouldn't tell their actual therapists.\nThey tell Woebot about their suicidal ideation. They tell Wysa about their relationship trauma. They tell Replika about their loneliness. They tell ChatGPT about their panic attacks at 3am when there's nobody else to talk to.\nHere's what the apps don't make clear in their onboarding: most AI therapy apps are not covered entities under HIPAA. The conversations you're having aren't protected health information under federal law. They're product data.\nHIPAA applies to:\nHealthcare providers (doctors, hospitals, therapists)\nHealth plans (insurers)\nHealthcare clearinghouses\nTheir business associates\nWoebot, Wysa, Replika, Youper, and most AI mental health apps are consumer wellness applications. They are not c…",
-          "link": "https://dev.to/tiamatenity/your-ai-therapist-is-not-bound-by-hipaa-and-thats-a-crisis-1jik",
-          "publishedOn": "2026-03-06T21:36:29.000Z",
-          "wordCount": 2366,
-          "title": "Your AI Therapist Is Not Bound by HIPAA — And That's a Crisis",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdlhwysasyd3gy6pkaxf1.png"
         }
       ]
     },
@@ -33441,6 +33461,16 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://github.com/jeffrey-sardina/systemd",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/jeffrey-sardina/systemd",
+          "publishedOn": "2026-03-21T07:59:29.000Z",
+          "wordCount": 1361,
+          "title": "Liberated Systemd",
+          "imageUrl": "https://opengraph.githubassets.com/9a9147f4703dff8cf8db0b3b6d9d70a9809d77ded3d169e9496305328890c203/Jeffrey-Sardina/systemd"
+        },
         {
           "id": "https://therecord.media/man-pleads-guilty-8-million-ai-music-scheme",
           "author": null,
@@ -34660,6 +34690,16 @@
           "wordCount": 2107,
           "title": "Cook: A simple CLI for orchestrating Claude Code",
           "imageUrl": null
+        },
+        {
+          "id": "https://www.sydney-yaeko.com/artsandculture/marina-and-ulay",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.sydney-yaeko.com/artsandculture/marina-and-ulay",
+          "publishedOn": "2026-03-19T01:45:23.000Z",
+          "wordCount": 4366,
+          "title": "The Story of Marina Abramovic and Ulay (2020)",
+          "imageUrl": "http://static1.squarespace.com/static/59e7ad0cd7bdce1a63515d5c/59ec29ba0abd04cc6dd7eede/5e5fe7380b3b664a507139c8/1718852962157/88183131_881102468998293_2779684379142373803_n.jpg?format=1500w"
         },
         {
           "id": "https://news.ycombinator.com/item?id=47433702",
@@ -43920,36 +43960,6 @@
           "wordCount": 1871,
           "title": "The Window Chrome of Our Discontent",
           "imageUrl": "https://pxlnv.com/apple-touch-icon.png"
-        },
-        {
-          "id": "https://dailydot.com/mojave-phone-booth-back-number",
-          "author": null,
-          "description": "Comments",
-          "link": "https://dailydot.com/mojave-phone-booth-back-number",
-          "publishedOn": "2026-03-06T22:13:41.000Z",
-          "wordCount": 9111,
-          "title": "The legendary Mojave Phone Booth is back (2013)",
-          "imageUrl": "https://lede-admin.dailydot.com/wp-content/uploads/sites/69/37d/cc/31b8af9e0170282fc0a45350a9d6edf5.jpg"
-        },
-        {
-          "id": "https://will-keleher.com/posts/this-css-makes-me-human/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://will-keleher.com/posts/this-css-makes-me-human/",
-          "publishedOn": "2026-03-06T21:52:44.000Z",
-          "wordCount": 717,
-          "title": "this css proves me human",
-          "imageUrl": null
-        },
-        {
-          "id": "https://archives.somnolescent.net/web/mari_v2/junk/hypercard/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://archives.somnolescent.net/web/mari_v2/junk/hypercard/",
-          "publishedOn": "2026-03-06T21:43:39.000Z",
-          "wordCount": 253,
-          "title": "Art Bits from Apple Macintosh HyperCard",
-          "imageUrl": "http://mariteaux.somnolescent.net/junk/hypercard/thumb.png"
         }
       ]
     },
