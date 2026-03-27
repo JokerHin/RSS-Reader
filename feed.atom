@@ -2,10 +2,389 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-03-27T14:48:40.116Z</updated>
+    <updated>2026-03-27T15:51:29.043Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Why we replaced Node.js with Bun for 5x throughput]]></title>
+        <id>https://dev.to/triggerdotdev/why-we-replaced-nodejs-with-bun-for-5x-throughput-3ca1</id>
+        <link href="https://dev.to/triggerdotdev/why-we-replaced-nodejs-with-bun-for-5x-throughput-3ca1"/>
+        <updated>2026-03-27T15:48:00.000Z</updated>
+        <summary type="html"><![CDATA[We replaced Node.js with Bun in one of our most latency-sensitive services and got a 5x throughput increase. We also found a memory leak that only exists in Bun's HTTP model.
+The service is called Firestarter. It's our warm start connection broker: it holds thousands of long-poll HTTP connections from idle run controllers, each waiting for work. When a task run arrives, Firestarter matches it to a waiting controller and sends the payload through the held connection. No cold start, no container spin-up. It's in the critical path of every task execution on Trigger.dev.
+The problem: Firestarter was using too much CPU. It was running on Node.js, spending 31% of its time inside a SQLite query, parsing every request with Zod, and converting headers with Object.fromEntries() on every GET. It work…]]></summary>
+        <author>
+            <name>Nick</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Tried Building a Netflix-Style System on AWS — Here’s What Actually Matters]]></title>
+        <id>https://dev.to/zeed_xo/i-tried-building-a-netflix-style-system-on-aws-heres-what-actually-matters-jf0</id>
+        <link href="https://dev.to/zeed_xo/i-tried-building-a-netflix-style-system-on-aws-heres-what-actually-matters-jf0"/>
+        <updated>2026-03-27T15:40:47.000Z</updated>
+        <summary type="html"><![CDATA[A lot of system design content looks impressive… until you actually try to build it.
+I’ve seen architectures that look clean on paper but fall apart the moment real traffic hits.
+So instead of theory, I decided to break things down from a builder’s perspective:
+What does it actually take to build a scalable, Netflix-style system on AWS?
+Let’s get into it—no fluff.
+🧱 1. The Real Architecture (Not Just Diagrams)
+At a high level, your system should look like this:
+Users → CloudFront → API Gateway → Load Balancer → Microservices (EKS/ECS)
+When I first started designing systems like this, I underestimated how important each layer is. Skip one, and everything downstream suffers.
+🌐 2. CDN + API Gateway: Your First Line of Defense
+Before your backend even sees traffic:
+CloudFront handles global …]]></summary>
+        <author>
+            <name>Ogunleye Itunu Michael</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built an n8n Workflow That Auto-Triages Every GitHub Issue with AI]]></title>
+        <id>https://dev.to/automatewithai/i-built-an-n8n-workflow-that-auto-triages-every-github-issue-with-ai-49bh</id>
+        <link href="https://dev.to/automatewithai/i-built-an-n8n-workflow-that-auto-triages-every-github-issue-with-ai-49bh"/>
+        <updated>2026-03-27T15:40:06.000Z</updated>
+        <summary type="html"><![CDATA[If you run a GitHub repo with more than a handful of contributors, you know the pain: issues pile up, PRs go unreviewed, and critical bugs sit next to typo fixes with no way to tell them apart.
+I got tired of spending 30+ minutes every morning just reading notifications, so I built DevOps Inbox Zero — an n8n workflow that does the triage for me.
+Every time a GitHub issue or PR is created, the workflow:
+Catches the event via GitHub webhook
+Sends it to GPT-4o-mini with a structured prompt
+Gets back a JSON classification: priority (critical/high/medium/low), category (bug/feature/security/docs/infra/test), suggested owner, and recommended action
+Routes to the right Slack channel based on priority
+Creates a ticket in Linear or Jira (optional) with all the context
+The whole thing runs in under …]]></summary>
+        <author>
+            <name>fabrizio de luca</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ClickHouse Has a Free Column-Oriented Database — Query Billions of Rows in Milliseconds]]></title>
+        <id>https://dev.to/0012303/clickhouse-has-a-free-column-oriented-database-query-billions-of-rows-in-milliseconds-61e</id>
+        <link href="https://dev.to/0012303/clickhouse-has-a-free-column-oriented-database-query-billions-of-rows-in-milliseconds-61e"/>
+        <updated>2026-03-27T15:39:57.000Z</updated>
+        <summary type="html"><![CDATA[ClickHouse Queries Billions of Rows in Milliseconds
+
+
+PostgreSQL chokes on analytical queries over 100M rows. ClickHouse handles billions — and returns results in milliseconds. Thats not a typo.
+ClickHouse is a column-oriented OLAP database:
+Columnar storage — reads only the columns you query
+Vectorized execution — processes data in batches using SIMD
+Compression — 10-40x compression ratios on real data
+Parallel processing — uses all CPU cores for every query
+Materialized views — pre-aggregate data on insert
+SQL compatible — standard SQL with extensions
+# Docker
+docker run -d --name clickhouse \
+  -p 8123:8123 -p 9000:9000 \
+  clickhouse/clickhouse-server
+
+# Connect
+docker exec -it clickhouse clickhouse-client
+
+# Create table
+CREATE TABLE events (
+  timestamp DateTime,
+  user_id UInt64,
+  event_type LowCardinality(String),
+  properties String
+) ENGINE = MergeTree()
+ORDER BY (event_type, timestamp);
+
+# Insert 1M rows in seconds
+INSERT INTO events SELECT
+  now() - randUniform(0, 86400*30),
+  rand64() % 100000,
+  arrayElement(['click,\view\,\\purchase\,\signup], rand() % 4 + 1),
+  {}\
+FROM numbers(1000000);
+
+# Query — milliseconds on 1M rows
+SELECT event_type, count(), uniq(user_id)
+FROM events
+WHERE timestamp > now() - INTERVAL 7 DAY
+GROUP BY event_type;
+
+
+
+
+Metric
+ClickHouse
+PostgreSQL
+
+
+
+
+1B row aggregation
+~1 second
+Minutes/timeout
+
+
+Storage (1TB data)
+~100GB
+~800GB
+
+
+Insert speed
+1M+ rows/sec
+~50K rows/sec
+
+
+Concurrent analytics
+✅
+Locks tables
+
+
+OLTP (transactions)
+❌
+✅
+
+
+
+Self-hosted: completely free, unlimited
+ClickHouse Cloud: free tier with 10GB storage
+chDB: embedded ClickHouse in Python (pip install chdb)
+✅ Analytics dashboards, log analysis, time-series data
+Need fast analytics? I help teams set up ClickHouse for real-time dashboards and log analysis.
+📧 spinov001@gmail.com — Analytics infrastructure consulting
+Follow for more database deep dives.]]></summary>
+        <author>
+            <name>Alex Spinov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Elevate Your Web UI: High-Performance CSS 3D Transforms (No WebGL Required)]]></title>
+        <id>https://dev.to/csslive/elevate-your-web-ui-high-performance-css-3d-transforms-no-webgl-required-4e93</id>
+        <link href="https://dev.to/csslive/elevate-your-web-ui-high-performance-css-3d-transforms-no-webgl-required-4e93"/>
+        <updated>2026-03-27T15:36:30.000Z</updated>
+        <summary type="html"><![CDATA[Flat design is functional, but depth makes an interface truly memorable. This updated collection aggregates high-performance solutions designed to add spatial interaction to your web projects.
+Unlike standard flat styling, CSS 3D transforms allow developers to bridge the gap between basic layouts and highly immersive experiences. The best part? You can achieve this without the massive performance overhead of WebGL libraries. By using these curated snippets, you guarantee efficient, lightweight code rather than spending hours building complex physics engines from scratch.
+
+
+
+
+Interactive 3D Flip Book Gallery. This is an Interactive 3D Flip Book Gallery. It simulates a physical book structure where each element acts as a double-sided page. Its function is to showcase images through spatial d…]]></summary>
+        <author>
+            <name>FreeFrontend</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a whiteboard, accidentally]]></title>
+        <id>https://dev.to/mit_demir_d07c130b3366d3/i-built-a-whiteboard-accidentally-32lo</id>
+        <link href="https://dev.to/mit_demir_d07c130b3366d3/i-built-a-whiteboard-accidentally-32lo"/>
+        <updated>2026-03-27T15:36:29.000Z</updated>
+        <summary type="html"><![CDATA[I’ve been trying to build a whiteboard app for almost a year. I did it because of a couple of reasons: I wanted to try out skia. I wanted to try all the trendy react libraries like Zustand and TanStack Query. And, I wanted to get better at backend development with Go.
+Okay, to be fair, last one doesn’t sound like what you’d expect for a frontend-heavy project. But that is exactly what started all of this!
+I didn’t want to build a basic CRUD backend app. I wanted to build something real, something challenging. A backend for a collaborative whiteboard seemed like a great idea. So, I got to work. I implemented basic auth, classic CRUD endpoints, messaging with NATS JetStream, observability, and finally, WebSocket messaging.
+Eventually, Postman just didn’t feel like enough to test my app. And …]]></summary>
+        <author>
+            <name>ümit demir</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Who We Are — FlagoDNA]]></title>
+        <id>https://dev.to/flagodna/who-we-are-flagodna-2940</id>
+        <link href="https://dev.to/flagodna/who-we-are-flagodna-2940"/>
+        <updated>2026-03-27T15:34:28.000Z</updated>
+        <summary type="html"><![CDATA[We are FlagoDNA.
+Not a "Muslim version" of Google.
+It started in 2020.
+One developer. One mission.
+Quran readers. Hadith collections. Prayer trackers.
+Then something happened.
+60,000 downloads.
+And one uncomfortable truth became clear:
+A single app is not enough.
+Our phones are not just tools anymore.
+And right now, those environments are built
+We decided to change that.
+FlagoDNA is now building the foundation:
+→ Muslim Launcher — a faith-first home screen
+Not add-ons.
+We build with four values:
+Innovation. Push the boundary of what faith-tech can be.
+Quality. Privacy-first. Performance-first. Always.
+Collaboration. Open source where it matters.
+Mlampah Ing Tresno. Walk with love. ❤️
+This is our first post as FlagoDNA on DEV.
+More coming — behind the builds, the decisions, the stack, the failures.
+If you are a builder who cares about what technology does to people,
+→ flagodna.com]]></summary>
+        <author>
+            <name>Cahyanudien Aziz Saputra</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[K501 - Evolution Is Not Progress — It Is Stabilization Under Increasing Complexity]]></title>
+        <id>https://dev.to/k501is/evolution-is-not-progress-it-is-stabilization-under-increasing-complexity-26mh</id>
+        <link href="https://dev.to/k501is/evolution-is-not-progress-it-is-stabilization-under-increasing-complexity-26mh"/>
+        <updated>2026-03-27T15:34:06.000Z</updated>
+        <summary type="html"><![CDATA[K501 — Structured Systems Series (2/4)
+
+A structural exploration of cognition, evolution, and non-executive information systems.
+This series explores:
+Parts:
+Title:
+Evolution Is Not Progress — It Is Stabilization Under Increasing Complexity
+⸻
+
+Intro (Hook)
+We often think of evolution as progress.
+From simple → to complex
+But this view is misleading.
+Evolution does not aim upward.
+It does something else:
+it stabilizes systems under increasing degrees of freedom
+⸻
+
+
+Rethinking Evolution
+Across all domains:
+we observe the same pattern:
+Systems form structures that remain stable under constraints.
+Atoms stabilize.
+Each step introduces more possibilities — and more instability.
+⸻
+
+
+Complexity and Instability
+As complexity increases:
+This leads to a fundamental principle:
+more capability → more …]]></summary>
+        <author>
+            <name>Iinkognit0</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LCM,Factorial,Sum of Numbers Program in three languages]]></title>
+        <id>https://dev.to/vidya_cdd37fca763a53a10e2/lcmfactorialsum-of-numbers-program-in-three-languages-b36</id>
+        <link href="https://dev.to/vidya_cdd37fca763a53a10e2/lcmfactorialsum-of-numbers-program-in-three-languages-b36"/>
+        <updated>2026-03-27T15:31:34.000Z</updated>
+        <summary type="html"><![CDATA[LCM(Least Common Multiple)
+Example:
+  Find LCM of 4 and 6:
+      Multiples of 4 → 4, 8, 12, 16, 20...
+      Multiples of 6 → 6, 12, 18, 24...
+    --> The smallest common multiple is 12
+    --> So, LCM(4, 6) = 12
+
+Flowchart
+
+Java
+public class Lcm {
+
+    public static void main(String[] args) {
+        int no1=3;
+        int no2=10;
+        int big=(no1<no2)?no1:no2;
+        int big2=big;
+        while(true) {
+            if(big%no1==0 && big%no2==0) {
+                System.out.println("LCM is " + big);
+                break;
+            }
+            big+=big2;
+        }
+
+    }
+
+}
+
+Python
+                no1=3
+            no2=10
+            big=no1 if no1>no2 else no2
+            big2=big
+        while True:
+            if big%no1==0 and  big%no2==0:
+              print("LCM is " , big)
+  …]]></summary>
+        <author>
+            <name>Vidya</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Special desk for people who work at home with a cat]]></title>
+        <id>https://soranews24.com/2026/03/27/japan-now-has-a-special-desk-for-people-who-work-at-home-with-a-pet-catphotos/</id>
+        <link href="https://soranews24.com/2026/03/27/japan-now-has-a-special-desk-for-people-who-work-at-home-with-a-pet-catphotos/"/>
+        <updated>2026-03-27T15:31:20.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Prevent Stuck Loading Spinners with Polling Timeouts in React]]></title>
+        <id>https://dev.to/nareshipme/how-to-prevent-stuck-loading-spinners-with-polling-timeouts-in-react-5eke</id>
+        <link href="https://dev.to/nareshipme/how-to-prevent-stuck-loading-spinners-with-polling-timeouts-in-react-5eke"/>
+        <updated>2026-03-27T15:30:57.000Z</updated>
+        <summary type="html"><![CDATA[You've seen it: the user kicks off an async job, the loading spinner appears, and then… nothing. The spinner just spins forever. The job may have completed, crashed, or timed out on the server — but the client has no idea.
+This is a common failure mode when you're polling a status endpoint. Here's how to fix it with a simple timeout guard.
+Polling usually looks something like this:
+const [status, setStatus] = useState<'pending' | 'processing' | 'done' | 'error'>('pending');
+
+useEffect(() => {
+  if (status === 'done' || status === 'error') return;
+
+  const interval = setInterval(async () => {
+    const res = await fetch(`/api/projects/${id}/status`);
+    const data = await res.json();
+    setStatus(data.status);
+  }, 2000);
+
+  return () => clearInterval(interval);
+}, [status, id]);
+
+The bug…]]></summary>
+        <author>
+            <name>nareshipme</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Managing LLM context in a real application]]></title>
+        <id>https://dev.to/jonesrussell/managing-llm-context-in-a-real-application-1kf4</id>
+        <link href="https://dev.to/jonesrussell/managing-llm-context-in-a-real-application-1kf4"/>
+        <updated>2026-03-27T15:30:33.000Z</updated>
+        <summary type="html"><![CDATA[Ahnii!
+This post covers how Claudriel, a Waaseyaa-based AI assistant SaaS, handles LLM context in production: conversation trimming, per-task turn budgets, model degradation on rate limits, prompt caching, and per-turn token telemetry.
+Every message you send to an LLM API costs tokens. Long-running chat sessions accumulate history fast. Left unchecked, a single active session can push input token counts into the tens of thousands per turn, even before the model generates a word.
+Claudriel runs multiple agent turns per user request — reading email, checking calendars, querying entities. Each turn sends the full conversation history plus tool definitions. Without guardrails, costs compound and rate limits trigger unpredictably.
+The first line of defense is ChatStreamController::trimConversat…]]></summary>
+        <author>
+            <name>Russell Jones</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I chose the wrong architecture… on purpose]]></title>
+        <id>https://dev.to/gaston_herrlein_3baa4d62e/i-chose-the-wrong-architecture-on-purpose-3pk5</id>
+        <link href="https://dev.to/gaston_herrlein_3baa4d62e/i-chose-the-wrong-architecture-on-purpose-3pk5"/>
+        <updated>2026-03-27T15:30:00.000Z</updated>
+        <summary type="html"><![CDATA[It was 2014. Paraná, Argentina. A free period at school, the World Cup just around the corner, and a group of friends who — with not much else to do — started talking about football.
+At some point someone threw out the idea: what if we compete to see who actually knows more? The rules were simple. Everyone made their predictions before each match — exact score, winner, points. Three points if you nailed the exact result. One if you only got the winner right. Zero if you missed entirely.
+What wasn't simple was what it created. Suddenly you found yourself watching matches you normally wouldn't care about — but now they mattered, because your prediction depended on them. There were laughs, arguments, jokes, small symbolic bets. And that hard-to-describe feeling of desperately wanting the game…]]></summary>
+        <author>
+            <name>Gaston Herrlein</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rising Air-Conditioning Use Intensifies Global Warming]]></title>
+        <id>https://www.nature.com/articles/s41467-026-69393-1</id>
+        <link href="https://www.nature.com/articles/s41467-026-69393-1"/>
+        <updated>2026-03-27T14:53:43.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rank the 50 best Apple products]]></title>
+        <id>https://www.theverge.com/cs/tech/900477/apple-50-anniversary-rank-products</id>
+        <link href="https://www.theverge.com/cs/tech/900477/apple-50-anniversary-rank-products"/>
+        <updated>2026-03-27T14:44:42.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Beyond the Panic: Hardening the Rust SDK]]></title>
         <id>https://dev.to/yashksaini/beyond-the-panic-hardening-the-rust-sdk-53oj</id>
@@ -19,6 +398,16 @@ The bulk of the week's momentum was concentrated in the Python ecosystem, specif
 In p2pCalc (32 commits), we focused on the computational integrity of our peer-to-peer logic. While the additions and deletions were kept internal to the commit …]]></summary>
         <author>
             <name>Yash Kumar Saini</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Anthropic's Claude loses its >99% uptime in Q1 2026]]></title>
+        <id>https://bsky.app/profile/teropa.bsky.social/post/3mi2dbt27m226</id>
+        <link href="https://bsky.app/profile/teropa.bsky.social/post/3mi2dbt27m226"/>
+        <updated>2026-03-27T14:40:06.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -52,6 +441,16 @@ Would love to hear your thoughts!]]></summary>
         <id>https://www.reuters.com/world/us/iran-linked-hackers-claim-breach-of-fbi-directors-personal-email-doj-official-2026-03-27/</id>
         <link href="https://www.reuters.com/world/us/iran-linked-hackers-claim-breach-of-fbi-directors-personal-email-doj-official-2026-03-27/"/>
         <updated>2026-03-27T14:38:28.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Anatomy of the .claude/ Folder]]></title>
+        <id>https://blog.dailydoseofds.com/p/anatomy-of-the-claude-folder</id>
+        <link href="https://blog.dailydoseofds.com/p/anatomy-of-the-claude-folder"/>
+        <updated>2026-03-27T14:35:45.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -265,6 +664,16 @@ We built a third option: a PII-aware routing layer that classifies every piece o
         <summary type="html"><![CDATA[The model could significantly heighten cybersecurity risks by rapidly finding and exploiting software vulnerabilities, potentially accelerating a cyber arms race.]]></summary>
         <author>
             <name>Helene Braun</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[People inside Microsoft are fighting to drop mandatory Microsoft Account]]></title>
+        <id>https://www.windowscentral.com/microsoft/windows-11/people-inside-microsoft-are-fighting-to-drop-windows-11s-mandatory-microsoft-account-requirements-during-setup</id>
+        <link href="https://www.windowscentral.com/microsoft/windows-11/people-inside-microsoft-are-fighting-to-drop-windows-11s-mandatory-microsoft-account-requirements-during-setup"/>
+        <updated>2026-03-27T13:54:35.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -15476,6 +15885,16 @@ Input
         <id>https://www.theguardian.com/us-news/2026/mar/24/laguardia-airplane-pilots-safety-concerns-crash</id>
         <link href="https://www.theguardian.com/us-news/2026/mar/24/laguardia-airplane-pilots-safety-concerns-crash"/>
         <updated>2026-03-24T15:19:19.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[EMachines never obsolete PCs: More than a meme]]></title>
+        <id>https://dfarq.homeip.net/emachines-never-obsolete-pcs-more-than-a-meme/</id>
+        <link href="https://dfarq.homeip.net/emachines-never-obsolete-pcs-more-than-a-meme/"/>
+        <updated>2026-03-24T15:12:16.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -86641,100 +87060,6 @@ Bugs happen silently. Someone changes a limit without realizing three other feat
 Onboarding is slow. New devs spend days asking "why does this work…]]></summary>
         <author>
             <name>Farouk Mekkaoui</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why AI-Generated Code is a Security Minefield (And What To Do About It)]]></title>
-        <id>https://dev.to/ayame0328/why-ai-generated-code-is-a-security-minefield-and-what-to-do-about-it-129h</id>
-        <link href="https://dev.to/ayame0328/why-ai-generated-code-is-a-security-minefield-and-what-to-do-about-it-129h"/>
-        <updated>2026-03-13T03:48:15.000Z</updated>
-        <summary type="html"><![CDATA[AI code assistants generate functional code fast. But they also ship vulnerabilities fast — and most developers don't catch them.
-I've spent the last month building a security scanner specifically for AI-generated code. After analyzing hundreds of code snippets from ChatGPT, Copilot, and Claude, I found patterns that traditional scanners completely miss.
-Here's what I learned.
-Every major AI assistant — ChatGPT, GitHub Copilot, Claude, Gemini — can produce working code in seconds. Developers copy-paste it into production without a second thought.
-The problem? AI models optimize for "does it work?" not "is it safe?"
-When I first started scanning AI-generated code samples, I expected occasional issues. What I found was systematic:
-Hardcoded secrets in almost every config example
-Shell comman…]]></summary>
-        <author>
-            <name>ayame0328</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Claude Code Security: 500+ Zero-Days Found, Security Stocks Crash 9.4% - What Individual Developers Can Do]]></title>
-        <id>https://dev.to/ayame0328/claude-code-security-500-zero-days-found-security-stocks-crash-94-what-individual-developers-3odo</id>
-        <link href="https://dev.to/ayame0328/claude-code-security-500-zero-days-found-security-stocks-crash-94-what-individual-developers-3odo"/>
-        <updated>2026-03-13T03:48:11.000Z</updated>
-        <summary type="html"><![CDATA[On February 20, 2026, Anthropic released Claude Code Security. Security stocks dropped as much as 9.4%. Internal testing revealed over 500 previously unknown high-severity vulnerabilities, sending shockwaves through the industry.
-This article breaks down the technical architecture of Claude Code Security, its impact on the security industry, and the options available to individual developers right now.
-Traditional SAST (Static Application Security Testing) tools work by matching code against known vulnerability patterns - a pattern-matching approach.
-Claude Code Security is different. Built on Claude Opus 4.6, it reads and reasons about code like a human security researcher.
-
-
-
-Aspect
-Traditional Tools (Snyk, SonarQube, etc.)
-Claude Code Security
-
-
-
-
-Approach
-Rule-based pattern matching
-AI…]]></summary>
-        <author>
-            <name>ayame0328</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hyperlinks in Terminal Emulators]]></title>
-        <id>https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda</id>
-        <link href="https://gist.github.com/egmontkob/eb114294efbcd5adb1944c9f3cb5feda"/>
-        <updated>2026-03-13T03:32:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Heart, Head, Life, Fate]]></title>
-        <id>https://www.lrb.co.uk/the-paper/v48/n05/steven-shapin/heart-head-life-fate</id>
-        <link href="https://www.lrb.co.uk/the-paper/v48/n05/steven-shapin/heart-head-life-fate"/>
-        <updated>2026-03-13T03:29:52.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Gitana 18: the new flying Ultim trimaran]]></title>
-        <id>https://www.boatnews.com/story/50717/gitana-18-radical-technical-choices-for-the-new-flying-ultim-trimaran</id>
-        <link href="https://www.boatnews.com/story/50717/gitana-18-radical-technical-choices-for-the-new-flying-ultim-trimaran"/>
-        <updated>2026-03-13T03:16:08.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Can You Instruct a Robot to Make a PBJ Sandwich?]]></title>
-        <id>https://pbj.deliberateinc.com/</id>
-        <link href="https://pbj.deliberateinc.com/"/>
-        <updated>2026-03-13T03:06:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Google Maps Gets Ask Maps And Immersive Navigation With Gemini]]></title>
-        <id>https://www.lowyat.net/?p=386438</id>
-        <link href="https://www.lowyat.net/2026/386438/google-ask-maps-immersive-navigation/"/>
-        <updated>2026-03-13T02:57:11.000Z</updated>
-        <summary type="html"><![CDATA[Google has announced that it is bringing two new AI-driven features to Google Maps. Powered by the tech giant’s most capable Gemini models, the update promises to make driving more intuitive with Ask Maps and Immersive Navigation. Starting with the former, the feature is pretty much what it says on the tin. Described as a […]
-The post Google Maps Gets Ask Maps And Immersive Navigation With Gemini appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
         </author>
     </entry>
 </feed>
