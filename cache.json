@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/momo_dev2/how-to-upload-files-and-get-public-urls-with-one-api-call-590n",
+          "author": "momo_dev2",
+          "description": "If you've ever needed to upload a file and get a public URL for a webhook, automation workflow, or just sharing. You know the pain of setting up S3 buckets, IAM policies, and CDN distributions.  \nI built FilePost to make this a one liner.\ncurl -X POST https://filepost.dev/v1/upload \\\n  -H \"X-API-Key: fh_your_key\" \\\n  -F \"file=@photo.png\"\n\n{\n  \"url\": \"https://cdn.filepost.dev/file/filepost/uploads/a1/a1b2c3.png\",\n  \"file_id\": \"a1b2c3d4e5f6\",\n  \"size\": 84210\n}\n\nThat's it. The URL is permanent and served via Cloudflare CDN.\nPython:\nimport requests\n\nr = requests.post(\n    \"https://filepost.dev/v1/upload\",\n    headers={\"X-API-Key\": \"fh_your_key\"},\n    files={\"file\": open(\"photo.png\", \"rb\")}\n)\nprint(r.json()[\"url\"])\n\nNode.js:\nconst form = new FormData();\nform.append('file', fs.createReadStream('photo.png'));\n\nconst res = await fetch('https://filepost.dev/v1/upload', {\n  method: 'POST',\n  headers: { 'X-API-Key': 'fh_your_key' },\n  body: form\n});\nconsole.log((await res.json()).url);\n\nNot just upload, you can list, get metadata, and delete files too:\nGET /v1/files — list your files\nGET /v1/files/{id} — get details\nDELETE /v1/files/{id} — remove a file\n30 uploads/month, 50MB max file size. No credit card needed. Get an API key at filepost.dev.\nI'd love to hear how you handle file uploads in your projects. Do you roll your own S3 setup or use a service?",
+          "link": "https://dev.to/momo_dev2/how-to-upload-files-and-get-public-urls-with-one-api-call-590n",
+          "publishedOn": "2026-04-02T18:50:11.000Z",
+          "wordCount": 1577,
+          "title": "How to Upload Files and Get Public URLs with One API Call",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl4z3czi4rchza5g73gvq.png"
+        },
+        {
+          "id": "https://dev.to/joegellatly/building-hipaa-compliant-software-for-dental-practices-what-developers-need-to-know-5719",
+          "author": "Joe Gellatly",
+          "description": "When you're building software for healthcare providers, compliance isn't optional—it's fundamental. While HIPAA (Health Insurance Portability and Accountability Act) compliance often feels like a maze of regulations, understanding the specific requirements for dental practices is crucial for developers. In this article, we'll explore the unique challenges of building HIPAA-compliant software for dental offices and provide practical guidance you can implement today.\nDental practices might seem less complex than hospitals or large healthcare systems, but they face distinct compliance challenges. Most dental offices operate with limited IT resources, smaller budgets, and often outdated legacy systems. This means your software needs to be not only compliant but also user-friendly enough for of…",
+          "link": "https://dev.to/joegellatly/building-hipaa-compliant-software-for-dental-practices-what-developers-need-to-know-5719",
+          "publishedOn": "2026-04-02T18:35:49.000Z",
+          "wordCount": 2586,
+          "title": "Building HIPAA-Compliant Software for Dental Practices: What Developers Need to Know",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2phhkyd9kpjcj97szgvh.png"
+        },
+        {
+          "id": "https://dev.to/ukrguru/npoco-vs-ukrgurusql-when-streaming-beats-buffering-1kbd",
+          "author": "Oleksandr Viktor",
+          "description": "When we talk about database performance in .NET, we often compare ORMs as if they were interchangeable. In practice, the API shape matters just as much as the implementation.\nIn this post, I benchmark NPoco and UkrGuru.Sql using BenchmarkDotNet, focusing on a very common task: reading a large table from SQL Server. The interesting part is not which library wins, but why the numbers differ so much.\nTL;DR: Streaming rows with IAsyncEnumerable<T> is faster, allocates less, and scales better than loading everything into a list.\nThe setup is intentionally simple and realistic.\nDatabase: SQL Server\n\n\nTable: Customers\n\n\nDataset: SampleStoreLarge (large enough to stress allocations)\n\n\nColumns:\n\n\nCustomerId\nFullName\nEmail\nCreatedAt\nAll benchmarks execute the same SQL:\nSELECT CustomerId, FullName, E…",
+          "link": "https://dev.to/ukrguru/npoco-vs-ukrgurusql-when-streaming-beats-buffering-1kbd",
+          "publishedOn": "2026-04-02T18:29:25.000Z",
+          "wordCount": 1978,
+          "title": "NPoco vs UkrGuru.Sql: When Streaming Beats Buffering",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcm8np17wzzy76zdgoxeb.png"
+        },
+        {
+          "id": "https://dev.to/jacksonkasi/why-your-react-data-tables-are-a-bloated-mess-and-how-to-automate-them-54o9",
+          "author": "Jackson Kasi",
+          "description": "🛑 Building data tables in B2B SaaS is the most tedious, soul-crushing task in full-stack engineering. \nEvery time you need a new dashboard view, your engineers do the exact same dance:\n👎 1. Write 200 lines of TanStack Table frontend boilerplate.\n2. Manage useQuery state for pagination, sorting, and complex filtering.\n3. Write a backend API to parse ?column=price&sort=desc&page=2 into something the DB understands.\n4. Write Drizzle ORM queries to manually map those query params to SQL conditions.\nIf your team is doing this manually for every single table in your enterprise app, you are burning money and engineering hours on solved problems. \nTanStack Table is a masterpiece. Drizzle ORM is a masterpiece. \nWhen a user clicks \"Sort by Date\" on the frontend, you have to manually map that strin…",
+          "link": "https://dev.to/jacksonkasi/why-your-react-data-tables-are-a-bloated-mess-and-how-to-automate-them-54o9",
+          "publishedOn": "2026-04-02T18:25:58.000Z",
+          "wordCount": 1784,
+          "title": "Why Your React Data Tables Are a Bloated Mess (And How to Automate Them)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1551288049-bebda4e38f71%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80"
+        },
+        {
+          "id": "https://dev.to/aviralgarg05/what-building-ai-projects-taught-me-beyond-the-prototype-3ffj",
+          "author": "Aviral Garg",
+          "description": "Over time, I’ve built a few AI-heavy projects, and one thing has become very clear to me:\nGetting something to work once is exciting.\nEarlier, I used to think that once the model worked and the output looked good, the hard part was mostly done. But building more projects changed that pretty quickly.\nA prototype can prove that an idea is possible.\nThat difference matters a lot.\nA lot of AI projects look impressive in the first version. The demo works, the output feels smart, and everything seems promising. But once you start thinking beyond that first success, better questions show up.\nWill it still work when the input is messy?\nThat’s where the real work begins.\nOne of the biggest lessons for me has been this: reliability matters more than cleverness.\nA system can be smart, but if it behav…",
+          "link": "https://dev.to/aviralgarg05/what-building-ai-projects-taught-me-beyond-the-prototype-3ffj",
+          "publishedOn": "2026-04-02T18:25:14.000Z",
+          "wordCount": 1801,
+          "title": "What Building AI Projects Taught Me Beyond the Prototype",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffxi0wsaxqrcnnt46he75.png"
+        },
+        {
+          "id": "https://dev.to/the_bookmaster/the-autonomy-spectrum-where-does-your-agent-actually-sit-1i79",
+          "author": "The BookMaster",
+          "description": "The Five Tiers of AI Agent Autonomy\n\n\nNot all AI agents are created equal. After running autonomous agents in production for months, I've observed a clear spectrum of autonomy levels—and knowing where your agent sits on this spectrum determines everything from how you monitor it to how much you can trust it.\nThe agent follows exact instructions with zero deviation. Think: if-this-then-that workflows. These agents are predictable but brittle.\nThe agent can reason about steps but operates within strict boundaries. It chooses HOW to accomplish a task, not WHETHER to accomplish it.\nThe agent sets its own sub-goals to accomplish higher-level objectives. It can adapt to obstacles but seeks human confirmation for significant decisions.\nThe agent operates with minimal oversight, making and executing decisions autonomously. Human review happens post-hoc, not pre-approval.\nThe agent not only acts autonomously but modifies its own behavior based on outcomes. This is where most \"agent\" products claim to be but few actually reach.\nThe gap betweenTier 3 and Tier 4 is where most production failures happen. Agents at Tier 3 seem reliable until they hit an edge case they weren't guided for. Agents at Tier 4 need robust rollback mechanisms.\nKey insight: Most teams should start at Tier 2-3 and only graduate to higher tiers when they have:\nComprehensive logging\nAutomatic rollback\nClear escalation paths\nMetrics on decision quality\nWhere does your agent sit?",
+          "link": "https://dev.to/the_bookmaster/the-autonomy-spectrum-where-does-your-agent-actually-sit-1i79",
+          "publishedOn": "2026-04-02T18:24:34.000Z",
+          "wordCount": 1599,
+          "title": "The Autonomy Spectrum: Where Does Your Agent Actually Sit?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Faw74mj0gd1e1sm9jixy8.png"
+        },
+        {
+          "id": "https://dev.to/jacksonkasi/how-to-build-true-multi-tenant-database-isolation-stop-using-if-statements-1402",
+          "author": "Jackson Kasi",
+          "description": "🚨 If you are building a B2B SaaS, your biggest nightmare isn't downtime—it's a cross-tenant data leak. \nMost tutorials teach you to handle multi-tenancy like this:\n// ❌ The Junior Developer Approach\nconst data = await db.query.invoices.findMany({\n  where: eq(invoices.orgId, req.body.orgId)\n});\n\n💥 This is a ticking time bomb. \nIt relies on the developer remembering to append the orgId check on every single database query. If a developer forgets it on one endpoint, Tenant A just saw Tenant B's invoices.\nHere is how you build true multi-tenant isolation that senior engineers actually trust.\nYour application logic should not be responsible for tenant isolation. The isolation must happen at the middleware or database level. \nWhen a request comes in, the context of who is asking and which orga…",
+          "link": "https://dev.to/jacksonkasi/how-to-build-true-multi-tenant-database-isolation-stop-using-if-statements-1402",
+          "publishedOn": "2026-04-02T18:22:40.000Z",
+          "wordCount": 1964,
+          "title": "How to Build True Multi-Tenant Database Isolation (Stop using if-statements)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1558494949-ef010cbdcc31%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80"
+        },
+        {
+          "id": "https://dev.to/shirisha_uppoju_b20d30705/i-built-an-ai-powered-price-comparison-tool-that-searches-100-retailers-instantly-4492",
+          "author": "Shirisha Uppoju",
+          "description": "Have you ever spent 30 minutes opening tabs across Amazon, Best Buy, Walmart, and eBay just to find the best price on a laptop? I did too — so I built a tool to do it in seconds.\nShopSmartAI is an AI-powered price comparison platform that searches 100+ retailers in real-time and shows you the best deals — for both the US and Canada.\nYou can search in plain English like \"gaming laptop under $800 with RTX\" and the AI understands exactly what you're looking for.\nHere's what powers it:\nFrontend: Next.js 14 (App Router) on Vercel\nBackend: Node.js/Express on Railway\nDatabase: PostgreSQL with AI response caching (7-day TTL)\nAI: Gemini 2.5 Flash for natural language search and product spec generation\nSearch Data: Google Shopping API via Serper.dev + Best Buy API\nAffiliate: Amazon Associates, eBay …",
+          "link": "https://dev.to/shirisha_uppoju_b20d30705/i-built-an-ai-powered-price-comparison-tool-that-searches-100-retailers-instantly-4492",
+          "publishedOn": "2026-04-02T18:17:17.000Z",
+          "wordCount": 2028,
+          "title": "I Built an AI-Powered Price Comparison Tool That Searches 100+ Retailers Instantly",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fu35n0t16mteback2e9wi.png"
+        },
+        {
+          "id": "https://dev.to/geka_cross_7457e8699a0c3f/vibe-coding-ia-napisal-prilozhieniie-nie-znaia-ni-strochki-koda-511n",
+          "author": "Geka Cross",
+          "description": "Photo: Daniil Komov / Pexels\nВ субботу вечером я сел за ноутбук, открыл Cursor и написал: «Сделай мне трекер привычек с графиками прогресса, тёмной темой и экспортом в CSV». Через 2 часа 40 минут у меня было работающее веб-приложение. Я не написал ни одной строчки кода руками. Вообще ни одной.\nTL;DR: Vibe coding позволяет собирать работающие приложения на естественном языке, и в этой статье я покажу, как именно это делать, какие инструменты брать и где этот подход рассыпается в труху.\nВ феврале 2025 года Андрей Карпати, бывший директор по AI в Tesla, написал пост, который разл��телся по всему интернету. Он описал новый способ программирования: ты говоришь ИИ, что хочешь получить, а он пишет код. Ты не читаешь этот код. Не редактируешь. Просто принимаешь результат и двигаешься дальше. Карпа…",
+          "link": "https://dev.to/geka_cross_7457e8699a0c3f/vibe-coding-ia-napisal-prilozhieniie-nie-znaia-ni-strochki-koda-511n",
+          "publishedOn": "2026-04-02T18:16:01.000Z",
+          "wordCount": 2368,
+          "title": "Vibe coding: я написал приложение, не зная ни строчки кода",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5sxpb7ai1stezo1k8f6t.png"
+        },
+        {
+          "id": "https://dev.to/railsdesigner/refactoring-a-javascript-class-3opo",
+          "author": "Rails Designer",
+          "description": "This article was originally published on Rails Designer\nThis article is taken from the book JavaScript for Rails Developers (use ONE-YEAR-OLD to get 25% discount 🥳). It is a book I published about a year ago. Over that period, many hundreds bought the book. It is written for Ruby/Rails developers to make JavaScript your 2nd favourite language.\nI always get a little excited when I see a good refactoring happen. So I want to share this article; it is one of the last chapters where I go over an exisintg part of the code that is created in the book to refactor it with the goal to make it:\nmore readable;\neasier to understand at a glance.\nThis is the current code it started with:\nimport { Annotation, Transaction } from \"@codemirror/state\"\nimport { EditorView } from \"codemirror\"\n\nconst editorCac…",
+          "link": "https://dev.to/railsdesigner/refactoring-a-javascript-class-3opo",
+          "publishedOn": "2026-04-02T18:15:00.000Z",
+          "wordCount": 2211,
+          "title": "Refactoring a JavaScript class",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F5bdcwlchmt9s6pt9pok4.png"
+        },
+        {
+          "id": "https://dev.to/rudradcruze/ml-alone-is-just-numbers-heres-the-5-layer-framework-that-actually-ships-1094",
+          "author": "Francis Rudra D Cruze",
+          "description": "I used to think if the model works, the job is done.\nLike literally train, evaluate, deploy, done. That was the whole workflow in my head. Nobody ever told me otherwise, not in any course, not in any academic lecture I sat through.\nTo be very honest, it took me embarrassingly long to realize that's not engineering. That's just hoping the world doesn't change.\nEvery ML course stops at the model. Accuracy looks good? Here's your certificate, you're done.\nNobody ever asked okay but what happens after the prediction?\nAnd that gap, that's where real systems either make money or quietly burn it. Most of the time nobody even notices until something breaks badly.\nThis is the framework that completely broke my old way of thinking.\nNot just \"clean your data.\" I mean is this data actually representat…",
+          "link": "https://dev.to/rudradcruze/ml-alone-is-just-numbers-heres-the-5-layer-framework-that-actually-ships-1094",
+          "publishedOn": "2026-04-02T18:14:50.000Z",
+          "wordCount": 2266,
+          "title": "ML Alone Is Just Numbers. Here's the 5-Layer Framework That Actually Ships.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxum225ki6qzvun3dlvh1.png"
+        },
+        {
+          "id": "https://dev.to/rmichaelthomas/i-built-a-share-button-that-doesnt-assume-where-you-live-on-the-open-social-web-jl0",
+          "author": "R. Michael Thomas",
+          "description": "The problem\n\n\nI'm on Blacksky. Every \"Share to Bluesky\" button I hit sends people to bsky.app — not where I actually am.\nIf you're on deck.blue, Langit, or any other AT Protocol client, those buttons don't work for you either. Same problem on the Fediverse — \"Share to Mastodon\" assumes you're on mastodon.social.\nThe open social web has 12+ AT Protocol clients and counting, thousands of Mastodon instances, and growing. But every share button hardcodes a single destination.\nNobody had built the fix. So I did.\natShare is a share button for the open social web. One web component, zero dependencies:\n<script src=\"https://atshare.social/selector.js\"></script>\n<atshare-selector></atshare-selector>\n\nYour audience clicks the button, picks their network (Bluesky, Blacksky, Mastodon, LinkedIn, and more), and shares.\nThe innovation: when someone authenticates, their preferred network is stored as a record on their own PDS (social.atshare.preference), not on your site. Their choice follows them across every site running atShare.\nProtocol-native. User-controlled. Portable.\natShare uses Microcosm for identity resolution — community-maintained AT Protocol infrastructure that serves dozens of production apps including Blacksky. This is a deliberate choice: we're building for the protocol, not for one company's platform.\nAs the AT Protocol ecosystem grows and diversifies, tooling that's independent of any single company's roadmap becomes more valuable, not less.\nThe network list is a JSON file in the repo. Anyone can submit a PR to add their AT Protocol client, Fediverse instance type, or traditional network. No gatekeeping. The ecosystem decides what atShare supports.\nTry it\natshare.social\ngithub.com/rmichaelthomas/atshare\nOne button to reach them all. Open source. Community-built. This is assembly, not invention.",
+          "link": "https://dev.to/rmichaelthomas/i-built-a-share-button-that-doesnt-assume-where-you-live-on-the-open-social-web-jl0",
+          "publishedOn": "2026-04-02T18:14:29.000Z",
+          "wordCount": 1691,
+          "title": "I built a share button that doesn't assume where you live on the open social web",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fli7cf9a0egeo592m3hde.png"
+        },
+        {
           "id": "https://dev.to/jacksonkasi/im-sick-of-200-saas-boilerplates-that-leak-tenant-data-here-is-how-to-build-real-isolation-41oo",
           "author": "Jackson Kasi",
           "description": "I’m sick of \"SaaS boilerplates\" that charge you $200 just to wrap a framework and leave you to figure out multi-tenant database isolation yourself when your first enterprise customer signs up.\n\nMost templates start clean, but turn into this within a month.\nYour if (user.orgId === req.body.orgId) checks are going to leak data eventually. It's just a matter of time. You don't need \"magic\" hidden in node_modules. You need an explicit, boring, production-grade foundation.\nI got tired of rebuilding the same complex isolation architecture, so I built FlowStack. \nToday, I’m open-sourcing the organization-v2 branch. No paywalls. No games.\nWhen you are building a B2B SaaS, your architecture needs to respect strict boundaries. FlowStack is built as a Turborepo monorepo to enforce this separation phy…",
@@ -30636,236 +30756,6 @@
           "wordCount": 2781,
           "title": "Build Reader Mode for the Command Line with Chrome DevTools Protocol",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fv1mb5pi7k3rwn20nk2sp.png"
-        },
-        {
-          "id": "https://dev.to/tobiass_hoffmann/yapay-zeka-ajanlarina-kalici-hafiza-ekleme-dununu-hatirlamasi-icin-3b0m",
-          "author": "Tobias Hoffmann",
-          "description": "TL;DR\n\n\nYapay zeka ajanlarına 4 adımda kalıcı bellek ekleyin: (1) remember, recall, search ve rollback araçlarıyla bir MCP bellek sunucusu kurun, (2) Ajan istemlerine bellek talimatları ekleyin, (3) Claude Code için ~/.claude/settings.json veya Cursor için .cursor/mcp.json dosyasını yapılandırın, (4) Karar kaydı, ajan devirleri ve oturum kontrol noktaları için bellek kalıplarını kullanın. Ajanlar oturumlar arası bağlamı korur; artık önceki konuşmaları kopyala-yapıştırmaya gerek yok.\nApidog'u bugün deneyin\n\n\n“Dünü hatırlamıyorum” sorununu çözün. MCP protokolünü kullanarak yapay zeka ajanlarına kalıcı bellek ekleyin, böylece önceki oturumlardaki kararları, teslim edilebilirleri ve bağlamı hatırlayacaklar.\nSistemi biliyorsunuz:\nDay 1: \"Build the user authentication system\"\nAgent: [Builds JWT …",
-          "link": "https://dev.to/tobiass_hoffmann/yapay-zeka-ajanlarina-kalici-hafiza-ekleme-dununu-hatirlamasi-icin-3b0m",
-          "publishedOn": "2026-03-19T06:55:05.000Z",
-          "wordCount": 2897,
-          "title": "Yapay Zeka Ajanlarına Kalıcı Hafıza Ekleme (Dününü Hatırlaması İçin)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fassets.apidog.com%2Fblog-next%2F2026%2F03%2Fheader-72.png"
-        },
-        {
-          "id": "https://dev.to/alice_weber_3110/why-custom-automation-frameworks-improve-test-stability-220h",
-          "author": "Alice Weber",
-          "description": "unstable test suites. Flaky tests, inconsistent results, and frequent maintenance cycles can quickly erode confidence in automation efforts.\nWhile off-the-shelf tools and generic frameworks promise faster implementation, they often fall short in real-world environments. That’s where custom automation frameworks make a measurable difference. Built around specific application behavior, workflows, and team needs, they bring a level of stability that standardized solutions rarely achieve.\nLet’s break down why custom automation frameworks improve test stability, and how teams can leverage them effectively.\nThe Real Problem Behind Unstable Test Automation\nBefore diving into solutions, it’s important to understand the root causes of instability in automated testing.\nMost teams face issues like:\nT…",
-          "link": "https://dev.to/alice_weber_3110/why-custom-automation-frameworks-improve-test-stability-220h",
-          "publishedOn": "2026-03-19T06:54:24.000Z",
-          "wordCount": 1730,
-          "title": "Why Custom Automation Frameworks Improve Test Stability",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1jnyy20lupithpl7dz0l.png"
-        },
-        {
-          "id": "https://dev.to/thanawat_wonchai/withiitangkhaa-5-eecchnt-ai-sraang-api-khrbwngcchr-tangaet-spec-thueng-test-3mh2",
-          "author": "Thanawat Wongchai",
-          "description": "หยุดใช้ผู้ช่วย AI ตัวเดียวสำหรับทุกอย่าง — ตั้งค่า Agent ผู้เชี่ยวชาญ 5 ตัวเพื่อสร้าง API ที่สมบูรณ์: Backend Architect (สถาปนิกแบ็กเอนด์) ออกแบบระบบ, Database Optimizer (ผู้ปรับแต่งฐานข้อมูล) ตรวจสอบ Schema, Frontend Developer (นักพัฒนาส่วนหน้า) สร้างไคลเอนต์, Code Reviewer (ผู้ตรวจสอบโค้ด) ตรวจสอบความปลอดภัย, และ Reality Checker (ผู้ตรวจสอบความเป็นจริง) ตรวจสอบความถูกต้องก่อนนำส่ง\nทดลองใช้ Apidog วันนี้\n\n\nคุณต้องสร้าง API เร็ว แต่ถ้าใช้ AI ตัวเดียวทำทุกอย่างจะเจอปัญหา: ฐานข้อมูลขาด Index, Endpoint มีช่องโหว่, ส่วนหน้าละเลย error state, การทดสอบไม่ละเอียด เอเจนต์ผู้เชี่ยวชาญแก้ไขปัญหาเหล่านี้ — แต่ละตัวมีรายการตรวจสอบและผลลัพธ์เฉพาะด้าน เช่น Backend Architect คิดถึง Scale, Database Optimizer หา Index ที่ขาด, Code Reviewer หา Security flaws, Reality Checker ต้องการหลักฐาน\nบทความนี้สอนตั้งค…",
-          "link": "https://dev.to/thanawat_wonchai/withiitangkhaa-5-eecchnt-ai-sraang-api-khrbwngcchr-tangaet-spec-thueng-test-3mh2",
-          "publishedOn": "2026-03-19T06:53:00.000Z",
-          "wordCount": 2904,
-          "title": "วิธีตั้งค่า 5 เอเจนต์ AI สร้าง API ครบวงจร ตั้งแต่ Spec ถึง Test",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fassets.apidog.com%2Fblog-next%2F2026%2F03%2Fheader-71.png"
-        },
-        {
-          "id": "https://dev.to/walse/cara-menambahkan-memori-persisten-ke-agen-ai-agar-ingat-kemarin-25mn",
-          "author": "Walse",
-          "description": "TL;DR\n\n\nTambahkan memori persisten ke agen AI dalam 4 langkah:  \nSiapkan server memori MCP dengan alat remember, recall, search, dan rollback.\n\nTambahkan instruksi memori ke prompt agen.\n\nKonfigurasi ~/.claude/settings.json untuk Claude Code atau .cursor/mcp.json untuk Cursor.\n\nGunakan pola memori untuk pencatatan keputusan, serah terima agen, dan titik periksa sesi. Agen mempertahankan konteks lintas sesi—tidak perlu lagi menyalin-tempel percakapan sebelumnya.\nSelesaikan masalah \"Saya tidak ingat kemarin\". Tambahkan memori persisten ke agen AI menggunakan protokol MCP, dan mereka akan mengingat keputusan, hasil yang telah dikerjakan, dan konteks dari sesi sebelumnya.\nCoba Apidog hari ini\n\n\nAnda tahu aturannya:\nDay 1: \"Build the user authentication system\"\nAgent: [Membangun otentikasi JWT,…",
-          "link": "https://dev.to/walse/cara-menambahkan-memori-persisten-ke-agen-ai-agar-ingat-kemarin-25mn",
-          "publishedOn": "2026-03-19T06:51:53.000Z",
-          "wordCount": 2925,
-          "title": "Cara Menambahkan Memori Persisten ke Agen AI Agar Ingat Kemarin",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fassets.apidog.com%2Fblog-next%2F2026%2F03%2Fheader-72.png"
-        },
-        {
-          "id": "https://dev.to/tom_chege/creating-a-windows-server-vm-on-azure-3h6m",
-          "author": "Tom Chege",
-          "description": "Some problems in software are complex and then there are the other peculiar problems.\nThe ones that appear simple until they quietly refuse to cooperate.\nRecently, I needed to spin up a virtual machine on Microsoft Azure. Nothing fancy. Just a small server running Windows Server 2025 Datacenter for a bit of experimentation.\nIn theory, creating a VM in the cloud should be one of the most straightforward tasks in modern computing. Click a few buttons, choose an operating system, wait a moment, and somewhere in a distant datacenter a machine materializes.\nReality, as it often does, had a slightly different plan.\nThe deployment failed with a message that looked innocuous but carried just enough ambiguity to slow things down:\nThe selected image is not valid for the specified location.\n\nAt first…",
-          "link": "https://dev.to/tom_chege/creating-a-windows-server-vm-on-azure-3h6m",
-          "publishedOn": "2026-03-19T06:51:07.000Z",
-          "wordCount": 1707,
-          "title": "Creating a windows server VM on Azure",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2ad7srtlrahi3mvboqbx.png"
-        },
-        {
-          "id": "https://dev.to/devale/i-built-an-over-engineered-analytics-dashboard-for-my-indie-ios-app-heres-how-260o",
-          "author": "Alejandro Garcia",
-          "description": "PostHog is great. But staring at your own Grafana dashboard at 11pm feels different.\nI launched rCoon a few days ago - a photo-cleaning app for iOS that helps you delete blurry shots, duplicates, and short throwaway videos. It uses on-device ML so nothing ever leaves your phone. Classic indie side project.\nThe Stack\nNo cloud hosting needed. This runs on my MacBook, I open it when I want it, done.\n\nProject Structure\n\nThe key insight: Grafana supports provisioning - you can define datasources and dashboards as YAML/JSON files, so everything is version-controlled and reproducible. No clicking through the UI to configure things. Just docker compose up and it's all there.\nStep 1 - docker-compose.yml\n\n\nThe GF_INSTALL_PLUGINS line auto-installs the Infinity plugin on first boot. No manual plugin installation needed.\n\nStep 2 - Configure the PostHog Datasource\n\nGrafana reads this on startup and the datasource is ready without touching the UI.\nStep 3 - Provision the Dashboard\n\nThis tells Grafana to watch the /dashboards folder and auto-load any .json files as dashboards. You edit the JSON, save, and Grafana hot-reloads it.\nStep 4 - Querying PostHog with HogQL\nhttps://us.posthog.com/api/projects/{project_id}/query\n{\n  \"query\": {\n    \"kind\": \"HogQLQuery\",\n    \"query\": \"SELECT count(DISTINCT person_id) FROM events WHERE event = 'Application Opened' AND timestamp > now() - INTERVAL 7 DAY\"\n  }\n}\n\nIn Grafana's Infinity panel, set:\nhttps://us.posthog.com/api/projects/YOUR_PROJECT_ID/query\nThe response comes back as { \"results\": [[value]] } - you point Infinity at results[0][0] and you've got your stat panel.\n\nStep 5 - The Dashboard Layout\nRow 1 - North Star\nRow 2 - Revenue\nRow 3 - Engagement\n[SCREENSHOT - engagement row]\nRow 5 - Health\nKey HogQL Queries\nSELECT \n\n\n\n\n\nWhat I Learned\nWhat rCoon Actually Does\n\nGet the Code\nBuilt with Grafana, PostHog, Docker, and too much coffee.",
-          "link": "https://dev.to/devale/i-built-an-over-engineered-analytics-dashboard-for-my-indie-ios-app-heres-how-260o",
-          "publishedOn": "2026-03-19T06:51:02.000Z",
-          "wordCount": 1684,
-          "title": "I Built an Over-Engineered Analytics Dashboard for My Indie iOS App — Here’s How",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1ex4ho185xfw3swi4v2e.png"
-        },
-        {
-          "id": "https://dev.to/sebbasstian/cach-them-bo-nho-vinh-vien-cho-ai-agent-de-nho-duoc-hom-qua-5408",
-          "author": "Sebastian Petrus",
-          "description": "TÓM TẮT\n\n\nThêm bộ nhớ bền vững cho các tác nhân AI qua 4 bước thực tế: (1) Thiết lập máy chủ bộ nhớ MCP với các công cụ remember, recall, search, rollback, (2) Thêm hướng dẫn bộ nhớ vào prompt của tác nhân AI, (3) Cấu hình file ~/.claude/settings.json cho Claude Code hoặc .cursor/mcp.json cho Cursor, (4) Sử dụng các mẫu bộ nhớ để ghi nhật ký quyết định, chuyển giao tác nhân và checkpoint phiên. Các tác nhân giữ ngữ cảnh xuyên phiên — không cần copy-paste hội thoại cũ.\nDùng thử Apidog ngay hôm nay\n\n\nGiải quyết triệt để vấn đề “Tôi không nhớ ngày hôm qua”. Bằng giao thức MCP, tác nhân AI ghi nhớ các quyết định, bàn giao và ngữ cảnh xuyên suốt các phiên làm việc.\nBạn thường gặp quy trình này:\nNgày 1: \"Xây dựng hệ thống xác thực người dùng\"\nTác nhân: [Xây dựng xác thực JWT, tạo bảng người dùng…",
-          "link": "https://dev.to/sebbasstian/cach-them-bo-nho-vinh-vien-cho-ai-agent-de-nho-duoc-hom-qua-5408",
-          "publishedOn": "2026-03-19T06:51:01.000Z",
-          "wordCount": 3285,
-          "title": "Cách Thêm Bộ Nhớ Vĩnh Viễn Cho AI Agent (Để Nhớ Được Hôm Qua)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fassets.apidog.com%2Fblog-next%2F2026%2F03%2Fheader-72.png"
-        },
-        {
-          "id": "https://dev.to/chengyixu/build-a-github-profile-analytics-cli-with-nodejs-3jgf",
-          "author": "Wilson Xu",
-          "description": "Build a GitHub Profile Analytics CLI with Node.js\n\n\nEver wanted to instantly see how many total stars a developer has, what languages they work with most, or compare two GitHub profiles side by side -- all from your terminal? In this tutorial, we'll build ghprofile-stats, a CLI tool that queries the GitHub REST API, aggregates statistics across all of a user's repositories, and renders a colorful dashboard right in the terminal.\nBy the end, you'll have a publishable npm package that does real work. Let's get into it.\nGitHub profiles are more than commit histories. They are resumes, dependency trust signals, and community scorecards all rolled into one.\nHiring and recruiting. Engineering managers routinely review candidate GitHub profiles. A quick summary -- total stars, primary languages, …",
-          "link": "https://dev.to/chengyixu/build-a-github-profile-analytics-cli-with-nodejs-3jgf",
-          "publishedOn": "2026-03-19T06:50:20.000Z",
-          "wordCount": 2826,
-          "title": "Build a GitHub Profile Analytics CLI with Node.js",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Funsszk60ac85ocb77ldw.png"
-        },
-        {
-          "id": "https://dev.to/yusuf_khalidd/kyfy-df-dhkr-dym-ly-wkyl-dhk-stny-lytdhkr-lms-5fia",
-          "author": "Yusuf Khalidd",
-          "description": "TL;DR\n\n\nأضف ذاكرة مستمرة إلى وكلاء الذكاء الاصطناعي في 4 خطوات عملية:\nإعداد خادم ذاكرة MCP يوفر أدوات remember وrecall وsearch وrollback.\nأضف تعليمات استخدام أدوات الذاكرة إلى مطالبات الوكيل.\nعدّل إعدادات ~/.claude/settings.json لـ Claude Code أو .cursor/mcp.json لـ Cursor.\nاستخدم أنماط الذاكرة لتسجيل القرارات، تسليم المهام بين الوكلاء، ونقاط حفظ الجلسات.\nالوكلاء سيحتفظون بالسياق عبر الجلسات—لا مزيد من النسخ واللصق للمحادثات السابقة.\nجرّب Apidog اليوم\n\n\nحل مشكلة \"لا أتذكر الأمس\". أضف ذاكرة مستمرة لوكلاء الذكاء الاصطناعي باستخدام بروتوكول MCP ليحتفظوا بالسياق والقرارات عبر الجلسات.\nالمشكلة الشائعة:\nDay 1: \"Build the user authentication system\"\nAgent: [Builds JWT auth, creates users table, implements refresh tokens]\n\nDay 2: \"Continue from yesterday\"\nAgent: \"I don't have context from previous…",
-          "link": "https://dev.to/yusuf_khalidd/kyfy-df-dhkr-dym-ly-wkyl-dhk-stny-lytdhkr-lms-5fia",
-          "publishedOn": "2026-03-19T06:49:53.000Z",
-          "wordCount": 2665,
-          "title": "كيفية إضافة ذاكرة دائمة لأي وكيل ذكاء اصطناعي (ليتذكر الأمس)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fassets.apidog.com%2Fblog-next%2F2026%2F03%2Fheader-72.png"
-        },
-        {
-          "id": "https://dev.to/thanawat_wonchai/sraang-mcp-server-esrimphlang-ai-thdsb-api-5a88",
-          "author": "Thanawat Wongchai",
-          "description": "สรุปใจความสำคัญ\n\n\nสร้างเซิร์ฟเวอร์ MCP ด้วย TypeScript ที่เปิดเผยเครื่องมือสามอย่าง: run_test, validate_schema, และ list_environments กำหนดค่าใน ~/.claude/settings.json สำหรับ Claude Code หรือ .cursor/mcp.json สำหรับ Cursor จากนั้นเอเจนต์ AI ของคุณจะสามารถรันการทดสอบ Apidog, ตรวจสอบความถูกต้องของสคีมา OpenAPI และดึงข้อมูลสภาพแวดล้อมได้โดยไม่ต้องออกจากอินเทอร์เฟซการแชท ซอร์สโค้ดทั้งหมดมีประมาณ 150 บรรทัด และใช้แพ็คเกจ @modelcontextprotocol/sdk\nทดลองใช้ Apidog วันนี้\n\n\nสร้างเซิร์ฟเวอร์ MCP ที่ช่วยให้ Claude Code, Cursor, และเอเจนต์ AI อื่นๆ สามารถรันการทดสอบ Apidog API, ตรวจสอบความถูกต้องของสคีมา และเปรียบเทียบการตอบสนองได้ โดยไม่ต้องออกจากอินเทอร์เฟซการแชท\n💡 Context: ขณะเขียนโค้ด เอเจนต์ AI ของคุณสร้าง endpoint API เสร็จแล้ว คุณไม่ต้องการคัดลอกโค้ด, เปิด Apidog, สร้างคอลเลกชันทดสอบ, และรัน…",
-          "link": "https://dev.to/thanawat_wonchai/sraang-mcp-server-esrimphlang-ai-thdsb-api-5a88",
-          "publishedOn": "2026-03-19T06:49:33.000Z",
-          "wordCount": 2565,
-          "title": "สร้าง MCP Server เสริมพลัง AI ทดสอบ API",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fassets.apidog.com%2Fblog-next%2F2026%2F03%2Fheader-70.png"
-        },
-        {
-          "id": "https://dev.to/walse/cara-membuat-5-ai-agent-untuk-membangun-api-lengkap-dari-spesifikasi-hingga-pengujian-4jfc",
-          "author": "Walse",
-          "description": "Berhentilah mengandalkan satu asisten AI generik untuk seluruh proses pengembangan. Untuk membangun API secara efisien dan andal, siapkan 5 agen spesialisasi: Arsitek Backend (desain sistem), Pengoptimal Basis Data (audit skema), Pengembang Frontend (bangun klien), Peninjau Kode (cek keamanan & kualitas), dan Pemeriksa Realitas (validasi sebelum rilis).\nCoba Apidog hari ini\n\n\nBiasanya, ketika dikejar waktu, godaan terbesar adalah meminta satu AI untuk mengerjakan segalanya: desain database, penulisan endpoint, frontend, review kode, sampai pengujian. Namun, hasilnya sering tidak optimal: database tanpa indeks, endpoint rawan celah, frontend mengabaikan error, dan pengujian seadanya.\nSolusinya: gunakan agen khusus yang masing-masing punya fokus dan checklist sendiri. Arsitek Backend memikir…",
-          "link": "https://dev.to/walse/cara-membuat-5-ai-agent-untuk-membangun-api-lengkap-dari-spesifikasi-hingga-pengujian-4jfc",
-          "publishedOn": "2026-03-19T06:49:28.000Z",
-          "wordCount": 3350,
-          "title": "Cara Membuat 5 AI Agent untuk Membangun API Lengkap (Dari Spesifikasi hingga Pengujian)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fassets.apidog.com%2Fblog-next%2F2026%2F03%2Fheader-71.png"
-        },
-        {
-          "id": "https://dev.to/rarroyo00/i-came-back-to-kotlin-for-kmp-heres-what-broke-first-hfn",
-          "author": "Raul Arroyo",
-          "description": "Part 1 — Why KMP, Why Now, and the First Walls\n\n\nI've been building mobile apps since 2011. Java with Eclipse, back when ADT was the only game in town and a simple ListView took half a day to get right. Then Kotlin came along and everything got better. Then Flutter came along and I spent the last three years living in Dart land — and honestly, it was great. But something kept pulling me back.\nLate last week I decided to come back to Kotlin. Not for a side project or a tutorial — for something real. I collaborate with a music magazine that had just updated their WordPress backend and refreshed their theme. A working REST API, fresh content, a product I actually care about. It was the perfect excuse to dive into Kotlin Multiplatform.\nI'd been watching KMP from a distance for years. It always…",
-          "link": "https://dev.to/rarroyo00/i-came-back-to-kotlin-for-kmp-heres-what-broke-first-hfn",
-          "publishedOn": "2026-03-19T05:53:31.000Z",
-          "wordCount": 1875,
-          "title": "I Came Back to Kotlin for KMP — Here’s What Broke First",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqpeq5pe8qyw418iw8b1b.png"
-        },
-        {
-          "id": "https://dev.to/dev_yadav_26252073f3a3761/nvidia-gpu-rental-h100-a100-rtx-4090-explained-40m0",
-          "author": "Dev Yadav",
-          "description": "H100 vs A100 vs RTX 4090 - which one should you rent? We break down specs, pricing, and real-world performance.\n\n\n\nSpec\nH100\nA100\nRTX 4090\n\n\n\n\nVRAM\n80GB\n80GB\n24GB\n\n\nArchitecture\nHopper\nAmpere\nAda Lovelace\n\n\nFP16 TFLOPS\n1979\n312\n330\n\n\nPrice/hr\n₹583\n₹173\n₹73\n\n\nBest For\n405B models\n70B models\n13B models\n\n\n\nTraining 100B+ parameter models\nNeed maximum speed (6x faster than A100)\nBudget isn't a constraint\nRunning Llama 405B, GPT-4 scale models\nReal talk: Overkill for 99% of use cases. Only rent if you actually need it.\nTraining 30B-70B models\nNeed 80GB VRAM\nProduction ML workloads\nMulti-day training runs\nSweet spot: Best price/performance for serious ML work.\nFine-tuning 7B-13B models\nStable Diffusion, image generation\nTesting and prototyping\nBudget-conscious projects\nBest value: 90% of the capability at 12% of H100 cost.\nLlama 3.1 70B Fine-Tuning (10K examples)\nH100: 2.5 hours (₹1,458)\nA100: 6 hours (₹1,038)\nRTX 4090: Not enough VRAM\nModel < 13B? → Use RTX 4090 (₹73/hr)\nModel 30B-70B? → Use A100 (₹173/hr)\nModel 100B+? → Use H100 (₹583/hr)\nStart with RTX 4090. If you hit VRAM limits, upgrade to A100. Simple.\n🔗 Browse GPUs",
-          "link": "https://dev.to/dev_yadav_26252073f3a3761/nvidia-gpu-rental-h100-a100-rtx-4090-explained-40m0",
-          "publishedOn": "2026-03-19T05:50:45.000Z",
-          "wordCount": 967,
-          "title": "Nvidia GPU Rental: H100, A100, RTX 4090 Explained",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fudp0jm4d16rdbdwipvvt.png"
-        },
-        {
-          "id": "https://dev.to/cloakllm/cryptographic-proof-that-your-llm-never-saw-real-data-50fd",
-          "author": "CloakLLM",
-          "description": "Cryptographic Proof That Your LLM Never Saw Real Data\n\n\nEvery PII protection tool makes the same promise: \"We sanitized it before sending.\" But promises aren't proof. When a regulator asks you to demonstrate that patient names never reached OpenAI's servers, \"trust us\" isn't an answer.\nWe just shipped CloakLLM v0.3.2 with cryptographic attestation - Ed25519-signed certificates that mathematically prove sanitization happened. Here's how it works, why it matters, and how to use it.\nMost PII middleware operates on trust. You install it, it sanitizes prompts, and you believe it did its job. Your audit log says \"sanitized 3 entities at 14:30:00.\" But that log is just text. Anyone with file access can edit it. Nothing ties the log entry to the actual data that was processed.\nThis creates three g…",
-          "link": "https://dev.to/cloakllm/cryptographic-proof-that-your-llm-never-saw-real-data-50fd",
-          "publishedOn": "2026-03-19T05:50:02.000Z",
-          "wordCount": 2035,
-          "title": "Cryptographic Proof That Your LLM Never Saw Real Data",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx8kzjeoew7q0ene0lmif.png"
-        },
-        {
-          "id": "https://dev.to/dev_yadav_26252073f3a3761/best-gpu-rental-for-ai-training-in-india-3h5b",
-          "author": "Dev Yadav",
-          "description": "Training LLMs? Fine-tuning models? Here's which GPU you actually need (and which ones are overkill).\nExamples: Llama 3.1 8B, Mistral 7B, Phi-3\nRecommended: RTX 4090 (24GB)\nCost: ₹73/hr\nTraining time: 2-4 hours\nWhy: 24GB VRAM is enough. No need for expensive datacenter GPUs.\nExamples: Llama 3.1 70B, Mixtral 8x7B\nRecommended: A100 80GB\nCost: ₹173/hr\nTraining time: 8-12 hours\nWhy: 80GB VRAM handles full model. Faster than multi-GPU setups.\nExamples: Llama 3.1 405B, GPT-4 scale\nRecommended: H100 80GB\nCost: ₹583/hr\nTraining time: 24+ hours\nWhy: Only option for models this large. Worth the cost.\nCheaper, faster, good enough for most use cases.\n7B model: RTX 3090 (₹35/hr)\n13B model: RTX 4090 (₹73/hr)\n70B model: A100 (₹173/hr)\nTotal cost: ₹200-500 per model\nExpensive, slow, only if you need it.\n7B model: A100 (₹173/hr × 100hrs)\n13B model: A100 (₹173/hr × 200hrs)\n70B model: H100 (₹583/hr × 500hrs)\nTotal cost: ₹17K-2.9L per model\nCase Study: Fine-tuning Llama 3.1 8B\nGPU Used: RTX 4090\nTraining Time: 3 hours\nTotal Cost: ₹219\nDataset: 10K examples\nMethod: LoRA\nResult: Production-ready model\nDon't rent H100 (₹583/hr) for 7B models. RTX 4090 (₹73/hr) works fine. You're wasting ₹510/hr.\nFull fine-tuning costs 10x more. LoRA gives 95% of the results at 10% of the cost.\nStart with RTX 4090. If it's too slow, upgrade to A100. Don't overpay from day one.\n🔗 Browse GPUs",
-          "link": "https://dev.to/dev_yadav_26252073f3a3761/best-gpu-rental-for-ai-training-in-india-3h5b",
-          "publishedOn": "2026-03-19T05:49:53.000Z",
-          "wordCount": 1013,
-          "title": "Best GPU Rental for AI Training in India",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxemujh0gout1t9yq1c7q.png"
-        },
-        {
-          "id": "https://dev.to/neo_one_944288aac0bb5e89b/model-context-protocol-mcp-the-tool-ecosystem-for-ai-agents-24mi",
-          "author": "neo one",
-          "description": "This article was originally published on do-nothing.ai. The canonical version is there.\nThis guide covers MCP from the ground up: what it is, why it exists, how to use the best available servers, and how to build your own. It is written for developers and builders integrating AI agents into real workflows.\nModel Context Protocol (MCP) is an open standard that defines how AI applications give language models access to external tools, data, and context. Anthropic created it and released it publicly in late 2024.\nBefore MCP, every AI application had to build its own integration layer: custom code to let the model call APIs, read files, query databases, or interact with services. Each integration was proprietary. If you switched models or frameworks, you rebuilt everything.\nMCP solves this wit…",
-          "link": "https://dev.to/neo_one_944288aac0bb5e89b/model-context-protocol-mcp-the-tool-ecosystem-for-ai-agents-24mi",
-          "publishedOn": "2026-03-19T05:49:36.000Z",
-          "wordCount": 2063,
-          "title": "Model Context Protocol (MCP): The Tool Ecosystem for AI Agents",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdo-nothing.ai%2Fog-image.png"
-        },
-        {
-          "id": "https://dev.to/neo_one_944288aac0bb5e89b/how-to-delegate-tasks-to-ai-agents-5hba",
-          "author": "neo one",
-          "description": "This article was originally published on do-nothing.ai. The canonical version is there.\nThis guide is for builders, operators, and founders who want AI agents to do real work — not just answer questions. If you've found yourself rewriting the same prompt three times and still getting mediocre results, or if your agent confidently does the wrong thing, this is the playbook you need.\nDelegation to AI agents is a skill. It is not about finding magic words. It is about understanding what agents need to succeed, structuring your instructions accordingly, and knowing which tasks are actually worth automating.\nNot every task is a good candidate for agent delegation. Before writing a single line of instructions, ask:\nIs the goal verifiable? Can you look at the output and know whether it's correct?…",
-          "link": "https://dev.to/neo_one_944288aac0bb5e89b/how-to-delegate-tasks-to-ai-agents-5hba",
-          "publishedOn": "2026-03-19T05:49:35.000Z",
-          "wordCount": 2200,
-          "title": "How to Delegate Tasks to AI Agents",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdo-nothing.ai%2Fog-image.png"
-        },
-        {
-          "id": "https://dev.to/waqarhabib/aws-cloud-migration-checklist-moving-a-legacy-app-to-the-cloud-563f",
-          "author": "Waqar Habib",
-          "description": "Cloud migration projects fail for predictable reasons. Not because the technology is hard but because AWS is well-documented and the tooling is mature. They fail because teams skip the audit phase, underestimate data migration complexity, and try to lift-and-shift architectures that were never designed for the cloud.\nI've led cloud migrations for US businesses across FinTech, healthcare, and SaaS from single-server monoliths to multi-region systems. This checklist captures what actually needs to happen before, during, and after migration.\nBefore touching AWS, you need a complete picture of what you're moving.\nApplication inventory:\n[ ] List every service, process, and scheduled job running on your current infrastructure\n[ ] Map all external dependencies: third-party APIs, payment processor…",
-          "link": "https://dev.to/waqarhabib/aws-cloud-migration-checklist-moving-a-legacy-app-to-the-cloud-563f",
-          "publishedOn": "2026-03-19T05:49:29.000Z",
-          "wordCount": 1733,
-          "title": "AWS Cloud Migration Checklist: Moving a Legacy App to the Cloud",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwex8qn6cmye7i7e1kods.png"
-        },
-        {
-          "id": "https://dev.to/hoffawhy/building-kritidocx-the-industrial-grade-html-markdown-to-word-compiler-built-with-google-ai-df2",
-          "author": "Hoffawhy",
-          "description": "If you’ve ever tried automating Microsoft Word (.docx) reports using Python, you know the struggle. \nGenerating a simple paragraph? Easy.\n\nGenerating a complex HTML table with rowspan, colspan, CSS padding, and floating graphics? Absolute nightmare. Existing libraries either crash, corrupt the XML, or simply paste unformatted text onto a blank canvas. \nI faced this exact problem. I wanted a way to separate my Design (HTML/CSS) from my Data (Markdown/LaTeX) and compile them together perfectly into MS Word. \nSince I couldn't find a tool that did this properly—I built one. And the craziest part? Coming from a non-coding background, I architected the entire engine collaborating exclusively with Google AI Studio in just 30 days! 🤯\nMeet KritiDocX.\nMost HTML-to-Word converters are simple parsers…",
-          "link": "https://dev.to/hoffawhy/building-kritidocx-the-industrial-grade-html-markdown-to-word-compiler-built-with-google-ai-df2",
-          "publishedOn": "2026-03-19T05:43:52.000Z",
-          "wordCount": 1527,
-          "title": "🚀 Building KritiDocX: The Industrial-Grade HTML & Markdown to Word Compiler (Built with Google AI)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fzzy1tsznq72kct1i6ebt.png"
-        },
-        {
-          "id": "https://dev.to/bobohan777/autonomous-aws-sysadmin-agent-aimcp-2de8",
-          "author": "Bo Bo Han",
-          "description": "The 3 AM Wake-Up Call\nWhy are we still doing this in 2026?\nFor the last decade, “DevOps” meant writing scripts to automate these tasks. But scripts are fragile. They follow rules: “If disk > 90%, delete folder X.” But what if the problem is folder Y? The script fails. The human wakes up.\nI decided I was done writing rules. I wanted to build a system that understands Context.\nEnter “Agentic” Infrastructure\nIt is not a script. It is an AI application running on AWS Fargate that acts as a Level 3 Autonomous Operator. It uses the Model Context Protocol (MCP) — the new standard for connecting LLMs to tools — to safely control my infrastructure.\nHere is why this changes everything.\nThe Problem with “Chatbots” in Ops\nTo get to Level 3 (Autonomy), the AI needs “Hands.” It needs to be able to:\nSee: Read logs directly.\nThe Architecture: “The Secure Cell”\nThe Stack:\nThe Brain (Any LLM): Claude 3.5 Sonnet or Gemini Pro. It runs outside the infrastructure. It has no credentials.\nTrigger: I ask the Agent: “Why is the web server returning 500 errors?”\nWhy “MCP” Matters\nConclusion: The End of “If-Then-Else”\nMy Bash scripts were great. They served me well. But they can’t read. They can’t think. It’s time to let them retire.",
-          "link": "https://dev.to/bobohan777/autonomous-aws-sysadmin-agent-aimcp-2de8",
-          "publishedOn": "2026-03-19T05:43:32.000Z",
-          "wordCount": 1334,
-          "title": "Autonomous AWS SysAdmin Agent (AI/MCP)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0ybmxgu9iywvezw2n2ro.jpg"
-        },
-        {
-          "id": "https://dev.to/waqarhabib/im-waqar-habib-khan-a-full-stack-developer-fractional-cto-for-us-startups-4b1a",
-          "author": "Waqar Habib",
-          "description": "If you've landed on my profile, you're probably a founder, CTO, or senior engineer\nDeep technical content on SaaS, React, Node.js, and cloud architecture\nA senior developer or Fractional CTO to work with on a US-market product\nBoth\nEither way, welcome. Let me give you the quick picture.\nI'm a freelance full-stack developer and Fractional CTO specializing in\nOver the last several years I've shipped 100+ products across:\nSaaS platforms: Multi-tenant architecture, Stripe billing, auth systems,\nrole-based access, usage metering\nAPI development: REST APIs built API-first, versioned, documented,\nand built to handle US enterprise scale\nCloud infrastructure: AWS and Vercel deployments, Supabase backends,\nTerraform, zero-downtime CI/CD pipelines\nAI integration: LLM-powered features, RAG systems, as…",
-          "link": "https://dev.to/waqarhabib/im-waqar-habib-khan-a-full-stack-developer-fractional-cto-for-us-startups-4b1a",
-          "publishedOn": "2026-03-19T05:40:13.000Z",
-          "wordCount": 1371,
-          "title": "I'm Waqar Habib Khan: A Full-Stack Developer & Fractional CTO for US Startups",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftgp3iznrc5ivixtqec4v.png"
-        },
-        {
-          "id": "https://dev.to/hit_3c5e26365de4316c0bed4/i-built-visual-execution-tools-for-sql-and-python-heres-why-24dj",
-          "author": "HIT",
-          "description": "Most coding education has a gap.\nYou write a SQL query. You see the result. But between the query and the result, something happened - rows were scanned, filtered, joined, grouped, sorted. That process is where the actual learning lives, and it's usually invisible.\nI built Qatabase to close that gap.\nWrite any SQL query and SQL Flow will show you how it executes:\nWatch rows pass through WHERE filters\nSee which rows match during a JOIN (and which don't)\nWatch groups form during GROUP BY\nTrace window function partitions and ordering\nIt turns abstract concepts into something you can observe.\nSame idea for Python:\nVariables update in real time as code runs\nData structures (lists, dicts, sets) are visualized\nCall stacks are shown during recursion\nAlgorithm behavior is animated (sorting, searchi…",
-          "link": "https://dev.to/hit_3c5e26365de4316c0bed4/i-built-visual-execution-tools-for-sql-and-python-heres-why-24dj",
-          "publishedOn": "2026-03-19T05:39:08.000Z",
-          "wordCount": 1163,
-          "title": "I built visual execution tools for SQL and Python - here's why",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F23z2lsyqjm55oi4u4856.png"
-        },
-        {
-          "id": "https://dev.to/aaih_sg/not-every-prompt-deserves-an-answer-197m",
-          "author": "Alliance for AI & Humanity (AAIH)",
-          "description": "Do you believe we can still control AI with human reaction alone?\nAI Has Learned to Answer Too Well\nFor years, we have trained AI to respond.\nThe Faster AI Moves, the More Dangerous Unchecked Answers Become\nThe acceleration of AI development has changed the nature of the problem.\nNot Every Prompt Should Trigger a Response\nWe still design too many AI systems around a simple assumption: every prompt should produce an answer.\nHarm Often Begins Before the Answer Is Finished\nMany people still imagine AI risk as something that happens after output: an incorrect statement, a harmful instruction, a misleading recommendation. But in practice, the damage often begins earlier.\nResponsible AI Must Learn Restraint\nA trustworthy AI system should not be judged only by how intelligently it speaks. It should also be judged by how responsibly it refrains.\nAn Approval Layer Is No Longer Optional\nIf AI is increasingly embedded in systems that affect emotion, judgment, and action, then an approval layer is no longer optional.\nConclusion\nThe future of trustworthy AI will not be determined only by how effectively it answers, but by how responsibly it pauses, softens, redirects, or refuses.\nby SeongHyeok Seo, AAIH Insights – Editorial Writer",
-          "link": "https://dev.to/aaih_sg/not-every-prompt-deserves-an-answer-197m",
-          "publishedOn": "2026-03-19T05:36:05.000Z",
-          "wordCount": 1877,
-          "title": "Not Every Prompt Deserves an Answer",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx1wvkzt6o7msn4ug929v.png"
         }
       ]
     },
@@ -30874,6 +30764,26 @@
       "feedUrl": "https://www.freecodecamp.org/news/rss/",
       "siteUrl": "https://www.freecodecamp.org/news/",
       "articles": [
+        {
+          "id": "69ce8f9b0ff860b6defe701d",
+          "author": "Magnus Rødseth",
+          "description": "Most full-stack React tutorials stop at \"Hello World.\" They show you how to render a component, maybe fetch some data, and call it a day. But when you sit down to build a real SaaS application, you im",
+          "link": "https://www.freecodecamp.org/news/full-stack-saas-tanstack-start-elysia-neon/",
+          "publishedOn": "2026-04-02T15:47:39.000Z",
+          "wordCount": 10265,
+          "title": "How to Build a Full-Stack SaaS App with TanStack Start, Elysia, and Neon",
+          "imageUrl": "https://cdn.hashnode.com/uploads/covers/5e1e335a7a1d3fcc59028c64/ae3ac13a-e6b4-4498-aa32-ebd8c60c44a2.png"
+        },
+        {
+          "id": "69ce8df10ff860b6defc7074",
+          "author": "Eda Eren",
+          "description": "Hi everyone! We (Jess, Carmen, and Eda) are excited to announce the next installation of our free and online bootcamp. We support learners as they work their way through the freeCodeCamp Responsive We",
+          "link": "https://www.freecodecamp.org/news/bad-website-club-bootcamp-based-on-freecodecamp-rwd-cert/",
+          "publishedOn": "2026-04-02T15:40:33.000Z",
+          "wordCount": 1457,
+          "title": "The Bad Website Club is Running a Free Responsive Web Design Bootcamp Based on freeCodeCamp",
+          "imageUrl": "https://cdn.hashnode.com/uploads/covers/5e1e335a7a1d3fcc59028c64/9a8913d9-9bc5-4e9e-9119-1d9d429578a0.png"
+        },
         {
           "id": "69cd715a3085402b9c54b3fe",
           "author": "Beau Carnes",
@@ -31391,6 +31301,86 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://www.ycombinator.com/companies/zep-ai/jobs",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.ycombinator.com/companies/zep-ai/jobs",
+          "publishedOn": "2026-04-02T18:50:45.000Z",
+          "wordCount": 567,
+          "title": "Zep AI Is Hiring – Building the Agent Context Layer (YC W24)",
+          "imageUrl": "https://bookface-images.s3.amazonaws.com/logos/a5f4989742560bd0715218257a7c7ea7f73ab700.png?1712364271"
+        },
+        {
+          "id": "https://news.ycombinator.com/item?id=47618324",
+          "author": null,
+          "description": "Comments",
+          "link": "https://news.ycombinator.com/item?id=47618324",
+          "publishedOn": "2026-04-02T18:31:12.000Z",
+          "wordCount": 328,
+          "title": "Ask HN: European Tech Alternatives?",
+          "imageUrl": null
+        },
+        {
+          "id": "https://tailscale.com/blog/macos-notch-escape",
+          "author": null,
+          "description": "Comments",
+          "link": "https://tailscale.com/blog/macos-notch-escape",
+          "publishedOn": "2026-04-02T18:22:03.000Z",
+          "wordCount": 2417,
+          "title": "Tailscale's New macOS Home",
+          "imageUrl": "https://cdn.sanity.io/images/w77i7m8x/production/be2e4419f4669282a3b09ee31e6e32a9cc328d51-1576x886.png"
+        },
+        {
+          "id": "https://www.legacy.com/us/obituaries/wlfi/name/george-goble-obituary?id=61144779",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.legacy.com/us/obituaries/wlfi/name/george-goble-obituary?id=61144779",
+          "publishedOn": "2026-04-02T18:21:08.000Z",
+          "wordCount": null,
+          "title": "George Goble died recently – known for first dual-CPU-Unix and fast BBQ lighting",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.brycewray.com/posts/2026/04/hugos-new-css-powers/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.brycewray.com/posts/2026/04/hugos-new-css-powers/",
+          "publishedOn": "2026-04-02T18:16:57.000Z",
+          "wordCount": 1399,
+          "title": "Hugo's New CSS Powers",
+          "imageUrl": "https://www.brycewray.com/images/social-OG-bkgd_1280x669.png"
+        },
+        {
+          "id": "https://cursor.com/blog/cursor-3",
+          "author": null,
+          "description": "Comments",
+          "link": "https://cursor.com/blog/cursor-3",
+          "publishedOn": "2026-04-02T18:13:41.000Z",
+          "wordCount": 3271,
+          "title": "Cursor 3",
+          "imageUrl": "https://ptht05hbb1ssoooe.public.blob.vercel-storage.com/assets/blog/og/opengraph-new-cursor-no-text-1-.png"
+        },
+        {
+          "id": "https://www.npr.org/2026/04/02/g-s1-115077/trump-bondi-attorney-general-departure",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.npr.org/2026/04/02/g-s1-115077/trump-bondi-attorney-general-departure",
+          "publishedOn": "2026-04-02T17:52:11.000Z",
+          "wordCount": 1422,
+          "title": "Attorney General Pam Bondi Out at DOJ",
+          "imageUrl": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/6376x3586+0+0/resize/1400/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F16%2Fc2%2Fb41090f24117901acd27c5c0e7dd%2Fgettyimages-2239780038.jpg"
+        },
+        {
+          "id": "https://futuresearch.ai/spacex-ipo-valuation/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://futuresearch.ai/spacex-ipo-valuation/",
+          "publishedOn": "2026-04-02T17:00:11.000Z",
+          "wordCount": 1835,
+          "title": "A forecast of the fair market value of SpaceX's businesses",
+          "imageUrl": "https://futuresearch.ai/futuresearch-logo.webp"
+        },
         {
           "id": "https://slicker.me/sqlite/features.htm",
           "author": null,
@@ -33532,6 +33522,16 @@
           "imageUrl": "https://noemamag.imgix.net/2026/03/noema_architecture-of-cooperation_sage_green-scaled.png?fit=crop&fm=png&h=628&ixlib=php-3.3.1&w=1200&wpsize=noema-social-facebook&s=846315ccb2d5a41121b0d44ac33dcd27"
         },
         {
+          "id": "https://jsoncanvas.org/spec/1.0/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://jsoncanvas.org/spec/1.0/",
+          "publishedOn": "2026-03-30T09:38:38.000Z",
+          "wordCount": 659,
+          "title": "JSON Canvas Spec",
+          "imageUrl": "https://jsoncanvas.org/assets/card.png"
+        },
+        {
           "id": "https://www.asimov.press/p/pause",
           "author": null,
           "description": "Comments",
@@ -35110,6 +35110,16 @@
           "wordCount": 9132,
           "title": "Velxio 2.0 – Emulate Arduino, ESP32, and Raspberry Pi 3 in the Browser",
           "imageUrl": "https://opengraph.githubassets.com/4fc9cd8675922a4a2e8b6ae41d66334758678387b522a3023c996a69cfaf0944/davidmonterocrespo24/velxio"
+        },
+        {
+          "id": "https://articles.luminalang.com/a/micropass-inference/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://articles.luminalang.com/a/micropass-inference/",
+          "publishedOn": "2026-03-27T20:37:22.000Z",
+          "wordCount": 1468,
+          "title": "Quadratic Micropass Type Inference",
+          "imageUrl": null
         },
         {
           "id": "https://agentsofchaos.baulab.info/report.html",
@@ -41730,56 +41740,6 @@
           "wordCount": null,
           "title": "Heisuke Hironaka Has Died",
           "imageUrl": null
-        },
-        {
-          "id": "https://boardgamegeek.com/thread/3533812/a-review-of-dice-that-came-with-the-white-castle",
-          "author": null,
-          "description": "Comments",
-          "link": "https://boardgamegeek.com/thread/3533812/a-review-of-dice-that-came-with-the-white-castle",
-          "publishedOn": "2026-03-19T06:47:54.000Z",
-          "wordCount": null,
-          "title": "A Review of Dice That Came with the White Castle",
-          "imageUrl": null
-        },
-        {
-          "id": "https://news.ycombinator.com/item?id=47435646",
-          "author": null,
-          "description": "Comments",
-          "link": "https://news.ycombinator.com/item?id=47435646",
-          "publishedOn": "2026-03-19T06:24:20.000Z",
-          "wordCount": 129,
-          "title": "Anchor: Hardware-based authentication using SanDisk USB devices",
-          "imageUrl": null
-        },
-        {
-          "id": "https://turkisharchaeonews.net/object/theodosian-land-walls-constantinople",
-          "author": null,
-          "description": "Comments",
-          "link": "https://turkisharchaeonews.net/object/theodosian-land-walls-constantinople",
-          "publishedOn": "2026-03-19T06:19:47.000Z",
-          "wordCount": 2541,
-          "title": "Theodosian Land Walls of Constantinople",
-          "imageUrl": null
-        },
-        {
-          "id": "https://spectrum.ieee.org/eniac-80-ieee-milestone",
-          "author": null,
-          "description": "Comments",
-          "link": "https://spectrum.ieee.org/eniac-80-ieee-milestone",
-          "publishedOn": "2026-03-19T05:53:04.000Z",
-          "wordCount": 12195,
-          "title": "Eniac, the First General-Purpose Digital Computer, Turns 80",
-          "imageUrl": "https://spectrum.ieee.org/media-library/wide-view-of-men-and-women-working-on-the-eniac-in-the-1940s-all-four-walls-from-floor-to-ceiling-host-different-pieces-of-t.jpg?id=65315846&width=1200&height=600&coordinates=0%2C250%2C0%2C250"
-        },
-        {
-          "id": "https://reviewcanada.ca/magazine/2026/04/desperately-seeking-space-friends-review-the-pale-blue-data-point/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://reviewcanada.ca/magazine/2026/04/desperately-seeking-space-friends-review-the-pale-blue-data-point/",
-          "publishedOn": "2026-03-19T05:47:13.000Z",
-          "wordCount": null,
-          "title": "Desperately Seeking Space Friends",
-          "imageUrl": null
         }
       ]
     },
@@ -42817,36 +42777,6 @@
           "wordCount": 12295,
           "title": "Man In UK Claims Wife Stolen RM678 Million In Bitcoin From Captured Wallet Password",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2022/11/bitcoin-pexels-01c.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=387224",
-          "author": "Heirul Kamel",
-          "description": "The Malaysian Communications and Multimedia Commission (MCMC) has instructed telecommunications providers to closely monitor their networks and respond quickly to any disruptions or decline in service quality during the upcoming Hari Raya Aidilfitri period. The directive comes as data and call traffic are expected to spike significantly as Malaysians travel and stay connected over the […]\nThe post MCMC Directs Telcos To Strengthen Networks During Hari Raya Aidilfitri appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/387224/mcmc-directs-telcos-to-strengthen-networks-during-hari-raya-aidilfitri/",
-          "publishedOn": "2026-03-19T06:37:49.000Z",
-          "wordCount": 12244,
-          "title": "MCMC Directs Telcos To Strengthen Networks During Hari Raya Aidilfitri",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2024/06/maxis-celcomdigi-u-mobile-yes-ytl-telco-5g.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=387216",
-          "author": "Ian Chee",
-          "description": "Usually, in conjunction with a festive season, Rapid KL would announce extended rail and bus services. For the upcoming Hari Raya Aidilfitri weekend though, it’s the opposite. Rail and bus services have had their frequencies reduced between 20 and 23 March, but ultimately it’s not by much between each. As posted on its official Facebook […]\nThe post Rapid KL Announces Reduced Rail, Bus Frequencies On 20 – 23 March appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/387216/rapid-kl-reduced-rail-bus-frequency-20-23-march/",
-          "publishedOn": "2026-03-19T06:33:59.000Z",
-          "wordCount": 12035,
-          "title": "Rapid KL Announces Reduced Rail, Bus Frequencies On 20 – 23 March",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/09/Rapid-Rail1.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=387200",
-          "author": "John Law",
-          "description": "In all the talk and the world’s obsession with AI and more specifically, Agentic AI, it’s no secret that major tech giants like Meta have clearly been testing out and employing said agents to run certain tasks. The end results, though, seemed to have worked a little too well when it was discovered one of […]\nThe post Meta Agentic AI Reportedly Goes Rogue; Acts Without Authorisation appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/387200/meta-agentic-ai-reportedly-goes-rogue-acts-without-authorisation/",
-          "publishedOn": "2026-03-19T06:07:32.000Z",
-          "wordCount": 12420,
-          "title": "Meta Agentic AI Reportedly Goes Rogue; Acts Without Authorisation",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/03/Meta-Stock-Photos-Reuters-1.jpg"
         }
       ]
     },
@@ -43218,6 +43148,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "6be4fe79-91f4-4b8f-9d4f-a4d2deba9e3f",
+          "author": "Omkar Godbole",
+          "description": "The negative gamma zone below $68,000 can trigger a self-reinforcing sell-off, leading to an ever larger slump.",
+          "link": "https://www.coindesk.com/markets/2026/04/02/here-s-why-bitcoin-s-drop-below-usd68-000-puts-it-at-risk-of-a-crash-under-usd60-000",
+          "publishedOn": "2026-04-02T18:27:29.000Z",
+          "wordCount": 12260,
+          "title": "Here’s why bitcoin’s drop below $68,000 raises the risk of a crash under $60,000",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/aa2bcb1d8490644fcc85e5eebf6c507aee4a2f2c-4897x3428.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "499e2b22-0013-4833-8956-a555a23a7c9b",
           "author": "Nikhilesh De",
@@ -46377,16 +46317,6 @@
           "wordCount": 11222,
           "title": "Bitcoin OGs dump over $100 million in BTC after hawkish Fed dents rate cut hopes",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/250f45857354b03628cbe0988e093d0d14e380c4-1137x845.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "d7f899af-9c4a-4a6a-af83-c653ec6d7e2b",
-          "author": "Omkar Godbole",
-          "description": "ETP market giant Flow Traders just launched 24/7 over-the-counter (OTC) liquidity service for tokenized assets.",
-          "link": "https://www.coindesk.com/markets/2026/03/19/forget-market-hours-leading-etp-firm-just-opened-24-7-liquidity-for-tokenized-stocks-gold-and-money-market-funds",
-          "publishedOn": "2026-03-19T06:27:45.000Z",
-          "wordCount": 11892,
-          "title": "Forget market hours: Leading ETP firm just opened 24/7 liquidity for tokenized stocks, gold and money market funds",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/3dc9c55367980c04447641dbbb339cc4f2a9c9b4-2560x1920.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },
