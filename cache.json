@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/avinashvelu03/valicore-runtime-type-validation-for-typescript-schemas-guards-parsing-148h",
+          "author": "Avinash",
+          "description": "TypeScript is great for catching type errors at compile time — but what about runtime? External API responses, form data, env vars — they're all untyped at runtime. valicore fixes that.\nA zero-dependency TypeScript validation library with full schema inference, type guards, and safe parsing.\nnpm install valicore\nbun add valicore\n\nimport { v } from 'valicore';\n\nconst UserSchema = v.object({\n  id: v.number(),\n  name: v.string().min(1).max(100),\n  email: v.string().email(),\n  role: v.enum(['admin', 'user', 'guest']),\n  createdAt: v.date().optional()\n});\n\ntype User = v.infer<typeof UserSchema>;\n// Automatically inferred TypeScript type!\n\nconst result = UserSchema.safeParse(apiResponse);\n\nif (result.success) {\n  console.log(result.data.email); // Fully typed!\n} else {\n  console.error(result.errors); // Detailed error messages\n}\n\nif (UserSchema.is(data)) {\n  // data is narrowed to User type here\n  sendWelcomeEmail(data.email);\n}\n\nconst OrderSchema = v.object({\n  id: v.string().uuid(),\n  user: UserSchema,\n  items: v.array(v.object({\n    productId: v.string(),\n    quantity: v.number().int().positive()\n  })),\n  total: v.number().positive()\n});\n\nZero dependencies\nAutomatic TypeScript type inference\nDetailed, human-readable error messages\nComposable and reusable schemas\nWorks with Node.js, Bun, Deno, and browsers\nnpm install valicore\n\nGitHub: https://github.com/Avinashvelu03/valicore\nHow do you handle runtime validation in your TypeScript projects? Drop your approach in the comments!",
+          "link": "https://dev.to/avinashvelu03/valicore-runtime-type-validation-for-typescript-schemas-guards-parsing-148h",
+          "publishedOn": "2026-04-03T16:36:06.000Z",
+          "wordCount": 1565,
+          "title": "valicore: Runtime Type Validation for TypeScript (Schemas, Guards, Parsing)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F44vlt3bau9wqt2xaaf2z.png"
+        },
+        {
+          "id": "https://dev.to/defilan/google-released-gemma-4-yesterday-i-had-it-fixing-real-bugs-by-lunch-cp0",
+          "author": "Christopher Maher",
+          "description": "Google released Gemma 4 yesterday. By the time I went to bed, I had it deployed on my home lab, running real coding benchmarks at 96 tokens per second.\nThe catch: no official llama.cpp image supported the gemma4 architecture yet. The stock CUDA images crash with unknown model architecture: 'gemma4'. So I built it from source, on the same Kubernetes cluster that serves inference.\nThis post is about what it took to go from \"model dropped\" to \"running in production\" in about two hours on consumer hardware.\nMy home inference server (I call it ShadowStack):\n2x NVIDIA RTX 5060 Ti (16GB each, 32GB total VRAM)\nAMD Ryzen 9 7900X, 64GB DDR5\nUbuntu 24.04, MicroK8s\nNVIDIA driver 590.48.01 (CUDA 13.1)\nEverything is managed by LLMKube, a Kubernetes operator I built for running llama.cpp inference. One C…",
+          "link": "https://dev.to/defilan/google-released-gemma-4-yesterday-i-had-it-fixing-real-bugs-by-lunch-cp0",
+          "publishedOn": "2026-04-03T16:34:48.000Z",
+          "wordCount": 2431,
+          "title": "Google Released Gemma 4 Yesterday. I Had It Fixing Real Bugs by Lunch.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxt6a4nqtctqq8c4kpxy4.png"
+        },
+        {
+          "id": "https://dev.to/shaishav_patel_271fdcd61a/building-a-browser-based-image-rotate-flip-tool-with-canvas-api-24e",
+          "author": "Shaishav Patel",
+          "description": "Rotating an image sounds trivial — until you need the output canvas to fit the rotated image exactly, handle arbitrary angles, and combine rotation with horizontal/vertical flipping in any order. Here's how we built the Image Rotate tool at Ultimate Tools using Canvas API, with CSS preview transforms for instant feedback and a separate canvas export path for the actual download.\nThe component uses two separate rendering strategies:\nPreview — CSS transform on an <img> tag. Instant, no canvas involved:\nconst previewTransform = [\n    `rotate(${normalizedDeg}deg)`,\n    flipH ? \"scaleX(-1)\" : \"\",\n    flipV ? \"scaleY(-1)\" : \"\",\n].filter(Boolean).join(\" \");\n\n<img style={{ transform: previewTransform }} />\n\nExport — Canvas API, runs only on download. This is where the real math happens.\nWhy split …",
+          "link": "https://dev.to/shaishav_patel_271fdcd61a/building-a-browser-based-image-rotate-flip-tool-with-canvas-api-24e",
+          "publishedOn": "2026-04-03T16:34:47.000Z",
+          "wordCount": 2325,
+          "title": "Building a Browser-Based Image Rotate & Flip Tool with Canvas API",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F78rcwiww4ljb0ipp3a0x.png"
+        },
+        {
+          "id": "https://dev.to/jumptotech/lab-terraform-ec2-with-userdata-8cd",
+          "author": "Aisalkyn Aidarova",
+          "description": "🎯 Goal\n\n\nProvision an EC2 instance that:\nInstalls Nginx automatically\nStarts the service\nServes a custom web page\n👉 All using user_data (bootstrapping)\nterraform-userdata-lab/\n├── main.tf\n├── variables.tf\n├── terraform.tfvars\n├── providers.tf\n├── versions.tf\n├── outputs.tf\n└── user_data.sh.tpl\n\nterraform {\n  required_version = \">= 1.5.0\"\n\n  required_providers {\n    aws = {\n      source  = \"hashicorp/aws\"\n      version = \"~> 5.0\"\n    }\n  }\n}\n\nprovider \"aws\" {\n  region = var.aws_region\n}\n\nvariable \"aws_region\" {\n  type        = string\n  description = \"AWS region\"\n}\n\nvariable \"instance_type\" {\n  type        = string\n  description = \"EC2 type\"\n}\n\nvariable \"instance_name\" {\n  type        = string\n  description = \"Name of instance\"\n}\n\nvariable \"web_message\" {\n  type        = string\n  descripti…",
+          "link": "https://dev.to/jumptotech/lab-terraform-ec2-with-userdata-8cd",
+          "publishedOn": "2026-04-03T16:34:27.000Z",
+          "wordCount": 1880,
+          "title": "LAB: Terraform EC2 with `user_data`",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx6wegp8h85uj9t3hq7hk.png"
+        },
+        {
+          "id": "https://dev.to/_95a3e57463e6442feacd0/i-convinced-dsers-to-add-oauth-21-dropshipping-mcp-server-v140-1jm8",
+          "author": "lofder.issac",
+          "description": "TL;DR: DSers MCP Product v1.4.0 — convinced DSers to add official OAuth 2.1, replaced 600 lines of browser hacking with 200 lines of clean auth. Added 3 new tools (browse imports, search suppliers, view store products). Shipped a hosted remote server at ai.silentrillmcp.com. 12 tools, 298 tests, open source. GitHub\nIf you're doing dropshipping with DSers and Shopify, you know the routine — find a product on AliExpress, open DSers, click import, manually edit the title, set the markup, push to store, repeat fifty times. It's not hard, it's just slow.\nI built this MCP server so I could tell my AI agent \"import these 10 products, mark them up 2.5x, clean up the titles, push to my store\" and go do something else. It handles AliExpress, Alibaba, and Accio.com product links. Supports Shopify and…",
+          "link": "https://dev.to/_95a3e57463e6442feacd0/i-convinced-dsers-to-add-oauth-21-dropshipping-mcp-server-v140-1jm8",
+          "publishedOn": "2026-04-03T16:34:14.000Z",
+          "wordCount": 2415,
+          "title": "I Convinced DSers to Add OAuth 2.1 — Dropshipping MCP Server v1.4.0",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F40qvhe6j9754k07anw78.png"
+        },
+        {
+          "id": "https://dev.to/avinashvelu03/flowx-control-typescript-flow-control-debounce-throttle-ratelimit-for-modern-apps-2kpl",
+          "author": "Avinash",
+          "description": "Ever struggled with UI freezing on every keystroke or APIs getting hammered with duplicate calls? flowx-control solves exactly that.\nA zero-dependency TypeScript library that gives you precise control over function execution timing. Debounce, throttle, rate-limit, and more — all type-safe and tree-shakeable.\nnpm install flowx-control\nbun add flowx-control\n\nDelay execution until after calls stop:\nimport { debounce } from 'flowx-control';\n\nconst search = debounce(async (query: string) => {\n  const results = await api.search(query);\n  updateUI(results);\n}, 300);\n\n// Only fires 300ms after user stops typing\ninput.addEventListener('input', (e) => search(e.target.value));\n\nLimit execution to once per interval:\nimport { throttle } from 'flowx-control';\n\nconst onScroll = throttle(() => {\n  updateScrollPosition();\n}, 100);\n\nwindow.addEventListener('scroll', onScroll);\n\nControl how many calls per time window:\nimport { rateLimit } from 'flowx-control';\n\nconst apiCall = rateLimit(fetchData, {\n  maxCalls: 10,\n  windowMs: 1000 // 10 calls per second\n});\n\nExecute only on first call:\nimport { once } from 'flowx-control';\n\nconst init = once(() => {\n  setupDatabase();\n  loadConfig();\n});\n\ninit(); // runs\ninit(); // skipped\n\nZero dependencies\nFull TypeScript support with generics\nWorks in Node.js, Bun, Deno, browsers, and edge runtimes\nTiny bundle size\nCancellable and flushable debounces\nTree-shakeable, dual ESM/CJS output. Drop it into any modern stack.\nGitHub: https://github.com/Avinashvelu03/flowx-control\nWhat flow control patterns do you use in your TypeScript projects?",
+          "link": "https://dev.to/avinashvelu03/flowx-control-typescript-flow-control-debounce-throttle-ratelimit-for-modern-apps-2kpl",
+          "publishedOn": "2026-04-03T16:34:14.000Z",
+          "wordCount": 1593,
+          "title": "flowx-control: TypeScript Flow Control (Debounce, Throttle, RateLimit) for Modern Apps",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fku0wavdsrwiwkzyhj5ow.png"
+        },
+        {
+          "id": "https://dev.to/ryan_komodo/i-built-managed-openclaw-hosting-heres-how-6o3",
+          "author": "Ryan Oberoi",
+          "description": "I'm a solo founder and I just launched https://komodoagents.ai — managed OpenClaw hosting in the cloud.\nThe problem: Running OpenClaw on a Mac Mini works, but it sleeps, needs maintenance, and you're tied to your home network. I wanted my AI agent always available, from anywhere.\nWhat I built: You sign up, and in 60 seconds you get a fully-configured OpenClaw instance on premium hardware (4 CPUs, 4GB RAM) with Gemini AI included. No setup, no Docker, no maintenance.\nThe stack:\nCloudflare Workers + Pages (API, dashboard, vault)\nFly.io (agent hosting — one machine per customer)\nStripe (billing)\nClerk (auth)\nPre-warmed agent pool for instant provisioning\nHow it works:\nSign up at the dashboard\nPick Free or a paid plan\nYour agent is ready instantly (we pre-provision them)\nOpen it in your browser — Gemini works out of the box\nAdd your own API keys for Claude, GPT, or any model\nPricing: Free tier available (same hardware, no card required). Paid plans from $29/mo.\nLooking for feedback — especially from people already using OpenClaw. What would make this worth paying for?\nTry it: https://dashboard.komodoagents.ai",
+          "link": "https://dev.to/ryan_komodo/i-built-managed-openclaw-hosting-heres-how-6o3",
+          "publishedOn": "2026-04-03T16:33:37.000Z",
+          "wordCount": 1541,
+          "title": "I built managed OpenClaw hosting — here's how",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1jfyaili1x0au2pvebf7.png"
+        },
+        {
+          "id": "https://dev.to/fruitriin/anthropic-may-have-forgotten-to-read-their-github-issues-for-two-months-1iim",
+          "author": "果物リン",
+          "description": "TL;DR — four prompts, four answers\n\n\nThis entire investigation was four prompts I gave Claude (claude.ai, Sonnet 4.6) in Japanese. Here's the short version:\n🇯🇵 Anthropic の claude code のリポジトリの Issue を巡回する公式 bot について質問させてください。Duplicated の検出や自動 Close について、いつからか止まっていませんか？\n\"Has the duplicate detection bot in the Claude Code repo stopped working at some point?\"\n→ Yes. It went silent around January 27, 2026 and stayed down until ~April 1.\n🇯🇵 その前後の Claude Code のバージョンと、大きな構造的な変化はありますか？\n\"Were there any major structural changes around that time?\"\n→ v2.1.0 shipped on Jan 27 — 1,096 commits, npm deprecated, native binary. The bot broke the same day.\n🇯🇵 このことを指摘している Issue はありますか？\n\"Are there any Issues pointing this out?\"\n→ No. Nobody noticed publicly for two months.\n🇯🇵 では、Github Issue 上ではなくブログポスト…",
+          "link": "https://dev.to/fruitriin/anthropic-may-have-forgotten-to-read-their-github-issues-for-two-months-1iim",
+          "publishedOn": "2026-04-03T16:30:29.000Z",
+          "wordCount": 2960,
+          "title": "Anthropic may have forgotten to read their GitHub issues for two months",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxifoa4pl13idl5d5n5q7.png"
+        },
+        {
+          "id": "https://dev.to/avinashvelu03/flowshield-typescript-resilience-library-circuit-breaker-retry-timeout-for-edge-runtimes-4k8f",
+          "author": "Avinash",
+          "description": "Why Resilience Matters in Production\n\n\nEvery distributed system fails eventually. APIs time out, databases get overloaded, third-party services go down. Without resilience patterns, one failing dependency can cascade into a full system outage.\nflowshield is a zero-dependency TypeScript-first resilience library that gives you composable fault-tolerance policies for any async operation.\nGitHub: https://github.com/Avinashvelu03/flowshield\n\nnpm: npm install flowshield\n\n\n\n\n  \n  \n  What's Inside\n\n\n\n  \n  \n  Retry with Exponential Backoff\n\n\n\n\n\nimport { retry } from 'flowshield';\n\nconst result = await retry(\n  () => fetchFromAPI(),\n  { attempts: 3, backoff: 'exponential', baseDelay: 100 }\n);\n\nAutomatically stops calling a failing service and recovers when it's healthy:\nimport { circuitBreaker } from 'flowshield';\n\nconst breaker = circuitBreaker({\n  threshold: 5,        // open after 5 failures\n  timeout: 30_000,     // try again after 30s\n  halfOpenRequests: 2  // test with 2 requests\n});\n\nconst result = await breaker.execute(() => callExternalService());\n\nimport { timeout } from 'flowshield';\n\nconst result = await timeout(\n  () => slowOperation(),\n  { ms: 3000 } // cancel if takes more than 3s\n);\n\nimport { wrap, retry, circuitBreaker, timeout, fallback } from 'flowshield';\n\nconst resilientFetch = wrap(\n  retry({ attempts: 3 }),\n  circuitBreaker({ threshold: 5 }),\n  timeout({ ms: 3000 }),\n  fallback({ value: cachedData })\n);\n\nconst data = await resilientFetch(() => fetchData());\n\nHedge — race multiple attempts, take the fastest response\nCache — built-in memoization with TTL\nBulkhead — limit concurrency to protect downstream\nTree-shakeable, dual ESM/CJS, zero dependencies. Runs on Node.js, Bun, Deno, and Cloudflare Workers.\nnpm install flowshield\nbun add flowshield\n\nGitHub: https://github.com/Avinashvelu03/flowshield\nWhat resilience patterns do you use in production? Would love to hear your thoughts!",
+          "link": "https://dev.to/avinashvelu03/flowshield-typescript-resilience-library-circuit-breaker-retry-timeout-for-edge-runtimes-4k8f",
+          "publishedOn": "2026-04-03T16:29:52.000Z",
+          "wordCount": 1635,
+          "title": "flowshield: TypeScript Resilience Library (Circuit Breaker, Retry, Timeout) for Edge Runtimes",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frx57j4kqh8y1wwr1asq6.png"
+        },
+        {
+          "id": "https://dev.to/avinashvelu03/guarden-zero-dependency-typescript-runtime-safety-type-guards-resultoption-monads-mhf",
+          "author": "Avinash",
+          "description": "The Problem with TypeScript Runtime Safety\n\n\nTypeScript gives you compile-time type checking, but at runtime you have zero protection. API responses come back as unknown, JSON.parse() returns any, and one wrong assumption crashes production.\nconst data = JSON.parse(rawInput); // any - no safety\nconst user = data.user; // could be anything\nuser.name.toUpperCase(); // TypeError: Cannot read property 'toUpperCase' of undefined\n\nguarden is a zero-dependency TypeScript-first runtime safety toolkit that closes the gap between compile-time and runtime type safety.\nGitHub: https://github.com/Avinashvelu03/guarden\n\nnpm: npm install guarden\n\n\n\n\n  \n  \n  Key Features\n\n\n\n  \n  \n  1. 60+ Type Guards with Auto-Narrowing\n\n\n\n\n\nimport { isString, isValidEmail, isUUID, isNonEmptyArray, isISO8601Date } from 'guarden';\n\nif (isString(value)) {\n  // TypeScript narrows: value is string here\n  console.log(value.toUpperCase()); // safe!\n}\n\nconst emails = data.filter(isValidEmail);\n// TypeScript infers: emails is string[]\n\nNo more try/catch spaghetti. Handle errors as values:\nimport { Result, Option } from 'guarden';\n\nconst result = Result.try(() => JSON.parse(rawInput));\n\nresult\n  .map(data => data.users)\n  .filter(isNonEmptyArray)\n  .match({\n    ok: (users) => renderUsers(users),\n    err: (error) => showError(error.message),\n  });\n\nimport { pipe } from 'guarden';\n\nconst processUser = pipe(\n  (input: unknown) => Result.try(() => JSON.parse(input as string)),\n  (r) => r.map(d => d.user),\n  (r) => r.flatMap(u => isString(u.name) ? Result.ok(u) : Result.err('Invalid user'))\n);\n\nimport { assert, invariant } from 'guarden';\n\nassert(isString(name), 'Name must be a string');\ninvariant(age >= 0 && age <= 150, `Invalid age: ${age}`);\n\n313 tests, 100% coverage\nZero dependencies\nTree-shakeable (only import what you use)\nDual ESM/CJS build\nNode.js, Bun, Deno, Cloudflare Workers\nnpm install guarden\nbun add guarden\n\nCheck out the full docs on GitHub: https://github.com/Avinashvelu03/guarden\nWould love your feedback especially on the monad API design!",
+          "link": "https://dev.to/avinashvelu03/guarden-zero-dependency-typescript-runtime-safety-type-guards-resultoption-monads-mhf",
+          "publishedOn": "2026-04-03T16:27:50.000Z",
+          "wordCount": 1622,
+          "title": "guarden: Zero-Dependency TypeScript Runtime Safety (Type Guards, Result/Option Monads)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvoeqwsm8jjge3rkn593a.png"
+        },
+        {
+          "id": "https://dev.to/metadevdigital/solana-frontend-development-building-functional-web3-uis-from-scratch-4kfo",
+          "author": "metadevdigital",
+          "description": "Solana Frontend Development: Building Functional Web3 UIs from Scratch\n\n\nI've spent the last year shipping Solana dApps, and I'm gonna be real with you—the frontend side is where most developers struggle. Not because Solana's hard, but because the ecosystem moves fast and most tutorials are either outdated or don't show you how to actually build something people want to use.\nThis guide covers the practical stuff: setting up a Solana wallet integration, reading on-chain data, and handling transactions on the frontend. No fluff, just what you actually need.\nWhen you're building on Solana, you're not just throwing data on a blockchain and hoping it sticks. You need to:\nHandle keypair signing locally (not with MetaMask magic)\nInteract with the Solana JSON RPC directly for most operations\nDeal …",
+          "link": "https://dev.to/metadevdigital/solana-frontend-development-building-functional-web3-uis-from-scratch-4kfo",
+          "publishedOn": "2026-04-03T16:26:16.000Z",
+          "wordCount": 2274,
+          "title": "Solana Frontend Development: Building Functional Web3 UIs from Scratch",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fy9zdti71fne77wptqyqf.png"
+        },
+        {
+          "id": "https://dev.to/lowcodeagency/how-to-choose-your-mvp-tech-stack-1b92",
+          "author": "LowCode Agency",
+          "description": "Choosing a tech stack for an MVP is not a technical decision. It is a product decision with technical constraints. Getting it wrong costs more time than getting it right costs thought.\nMost engineers default to what they know best. That is a reasonable starting point and often the wrong answer for the product stage you are actually in.\nStage determines stack: a validation-stage MVP needs a different stack than a scale-stage product, and treating them the same way is expensive.\nLow-code is a legitimate production option in 2026: Bubble, FlutterFlow, and Glide support real production workloads; dismissing them on principle without evaluating them is bias, not engineering.\nCustom code has a real cost at the MVP stage: developer time spent on infrastructure, auth, and payments is time not spen…",
+          "link": "https://dev.to/lowcodeagency/how-to-choose-your-mvp-tech-stack-1b92",
+          "publishedOn": "2026-04-03T16:24:57.000Z",
+          "wordCount": 3212,
+          "title": "How to Choose Your MVP Tech Stack",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbzw4bspuxri6p7zfho13.png"
+        },
+        {
           "id": "https://dev.to/jonoherrington/the-mandate-had-no-return-address-16fo",
           "author": "Jono Herrington",
           "description": "The first time I opened Cursor, I used it for ten minutes and shut it down. It felt foreign. The suggestions arrived faster than I could evaluate them. The workflow I'd built over fifteen years wanted no part of it. I closed the laptop, told myself I'd come back when things were less busy, and didn't think much more about it.\nI recognized the feeling later. Fear of change, dressed up as productivity skepticism. I'd seen it in junior engineers resisting new frameworks. I'd seen it in tech leads protecting workflows that had stopped scaling. I hadn't expected to see it in myself.\nThat moment stayed with me when I started thinking about how to introduce AI to my team at Converse. Because I knew something the people who send mandate emails don't know about themselves: the resistance engineers …",
@@ -30466,126 +30586,6 @@
           "wordCount": 2899,
           "title": "Understanding App Architecture - Why It Matters",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl36cl14oq5y9w93bp4uf.png"
-        },
-        {
-          "id": "https://dev.to/isaac-fei/building-python-packages-with-c-extensions-a-complete-guide-3e0i",
-          "author": "Isaac FEI",
-          "description": "URL: https://isaacfei.com/posts/cmsketch-py-cpp\n\n\nDate: 2025-09-13\nTags: Python, C++, pybind11, CMake, Data Structures\nDescription: Learn how to develop Python packages with C++ extensions using pybind11, CMake, and modern build tools. Complete project structure and setup guide.\nThe complete project repository is available here.\nBuilding Python packages with C++ extensions is a powerful way to combine Python's ease of use with C++'s performance. This guide walks through creating a complete Python package with C++ backend, covering everything from project structure to PyPI publishing.\nWe'll use a Count-Min Sketch implementation as our example - a probabilistic data structure perfect for streaming data analysis. But the techniques apply to any C++ library you want to expose to Python.\nMultit…",
-          "link": "https://dev.to/isaac-fei/building-python-packages-with-c-extensions-a-complete-guide-3e0i",
-          "publishedOn": "2026-03-20T04:31:25.000Z",
-          "wordCount": 4439,
-          "title": "Building Python Packages with C++ Extensions: A Complete Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fajz6uhqxa2cgx8o01wah.png"
-        },
-        {
-          "id": "https://dev.to/_d7eb1c1703182e3ce1782/understanding-oauth-20-flow-complete-diagram-and-implementation-guide-486m",
-          "author": "楊東霖",
-          "description": "What Is OAuth 2.0?\n\n\nOAuth 2.0 is the industry-standard authorization framework that enables third-party applications to obtain limited access to a user's resources without exposing their credentials. Instead of sharing passwords, OAuth 2.0 uses access tokens—short-lived, scoped strings that grant specific permissions to specific resources.\nIf you've ever clicked \"Sign in with Google\" or authorized a GitHub app to access your repositories, you've used OAuth 2.0. The protocol was formalized in RFC 6749 and has become the backbone of modern API authorization across the web.\nOAuth 2.0 is not an authentication protocol by itself—it is an authorization framework. Authentication (proving who you are) is handled by extensions like OpenID Connect (OIDC), which layers identity on top of OAuth 2.0. …",
-          "link": "https://dev.to/_d7eb1c1703182e3ce1782/understanding-oauth-20-flow-complete-diagram-and-implementation-guide-486m",
-          "publishedOn": "2026-03-20T04:30:48.000Z",
-          "wordCount": 3799,
-          "title": "Understanding OAuth 2.0 Flow: Complete Diagram and Implementation Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftby1uuoju102ocktqi1l.png"
-        },
-        {
-          "id": "https://dev.to/_d7eb1c1703182e3ce1782/typescript-vs-javascript-should-you-switch-complete-2026-guide-klj",
-          "author": "楊東霖",
-          "description": "Overview\n\n\nThe TypeScript vs JavaScript debate has evolved significantly since TypeScript first appeared in 2012. In 2026, TypeScript has become the default choice for many teams, yet JavaScript remains the most widely deployed programming language on the planet. Whether you are starting a greenfield project or maintaining a massive codebase, the question is no longer \"Is TypeScript good?\" but rather \"Is TypeScript right for my project?\"\nThis guide provides an in-depth, practical comparison across every dimension that matters: type safety, developer experience, tooling, performance, learning curve, migration strategies, framework support, and enterprise adoption. By the end, you will have a clear decision framework to determine whether switching to TypeScript is worth the investment for yo…",
-          "link": "https://dev.to/_d7eb1c1703182e3ce1782/typescript-vs-javascript-should-you-switch-complete-2026-guide-klj",
-          "publishedOn": "2026-03-20T04:30:16.000Z",
-          "wordCount": 3699,
-          "title": "TypeScript vs JavaScript: Should You Switch? (Complete 2026 Guide)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fr68b7o3mfqgbc10azf8r.png"
-        },
-        {
-          "id": "https://dev.to/jaipalsingh/7-private-openrouter-alternatives-for-teams-that-need-data-control-2026-3l54",
-          "author": "Jaipal Singh",
-          "description": "69% of enterprise leaders now cite AI data privacy as a top concern, according to KPMG's Q2 2025 report. Six months earlier, that number was 43%. The jump reflects what security teams have been warning about: 40% of files uploaded to GenAI tools contain PII or payment card data. Roughly 15% of employees have pasted sensitive code, credentials, or financials into public LLMs.\nOpenRouter gives you a single API to access hundreds of models. For prototypes, that works. For production systems handling customer data, medical records, or financial information, it creates a compliance question mark. Your prompts pass through OpenRouter's infrastructure before reaching whichever provider they route to. Even with Zero Data Retention enabled, you are trusting multiple third parties with data that reg…",
-          "link": "https://dev.to/jaipalsingh/7-private-openrouter-alternatives-for-teams-that-need-data-control-2026-3l54",
-          "publishedOn": "2026-03-20T04:30:00.000Z",
-          "wordCount": 2787,
-          "title": "7 Private OpenRouter Alternatives for Teams That Need Data Control (2026)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Ffiles.catbox.moe%2Fajgwsa.png"
-        },
-        {
-          "id": "https://dev.to/_d7eb1c1703182e3ce1782/tailwind-css-vs-bootstrap-in-2026-which-css-framework-should-you-choose-3ii",
-          "author": "楊東霖",
-          "description": "The CSS framework you choose shapes every aspect of your development workflow — from how fast you prototype to how maintainable your codebase is two years from now. In 2026, the two dominant players remain Tailwind CSS (now at v4.x) and Bootstrap (v5.3+), but they've both evolved significantly. This comprehensive comparison will help you make an informed decision based on your project requirements, team experience, and long-term goals.\nWe'll examine both frameworks across every dimension that matters: philosophy, performance, customization, ecosystem, and real-world developer experience. By the end, you'll have a clear decision matrix to guide your choice.\nTailwind CSS, created by Adam Wathan, is a utility-first CSS framework that provides low-level utility classes like flex, pt-4, text-ce…",
-          "link": "https://dev.to/_d7eb1c1703182e3ce1782/tailwind-css-vs-bootstrap-in-2026-which-css-framework-should-you-choose-3ii",
-          "publishedOn": "2026-03-20T04:25:10.000Z",
-          "wordCount": 3913,
-          "title": "Tailwind CSS vs Bootstrap in 2026: Which CSS Framework Should You Choose?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fntx3avedxknsr6nhqq9g.png"
-        },
-        {
-          "id": "https://dev.to/_d7eb1c1703182e3ce1782/postgresql-vs-mysql-database-selection-guide-for-developers-2026-4nn3",
-          "author": "楊東霖",
-          "description": "Choosing between PostgreSQL and MySQL is one of the most consequential decisions you will make early in a project. Both are mature, open-source relational databases with massive communities, excellent tooling, and decades of production use. Yet they differ in philosophy, feature depth, performance characteristics, and ecosystem strengths. Pick the wrong one and you face painful migrations later. Pick the right one and your data layer becomes a quiet, reliable foundation that scales with your business.\nThis guide is a thorough, developer-focused comparison of PostgreSQL and MySQL as they stand in 2026. We will cover architecture, data types, JSON handling, performance, full-text search, replication, cloud hosting, ORM compatibility, and concrete decision criteria. Every section includes SQL…",
-          "link": "https://dev.to/_d7eb1c1703182e3ce1782/postgresql-vs-mysql-database-selection-guide-for-developers-2026-4nn3",
-          "publishedOn": "2026-03-20T04:24:38.000Z",
-          "wordCount": 4300,
-          "title": "PostgreSQL vs MySQL: Database Selection Guide for Developers (2026)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjvwhuubmn9hshsd7qvdd.png"
-        },
-        {
-          "id": "https://dev.to/hins_chow_feb4fa2015caa6a/the-complete-beginners-guide-to-texas-holdem-strategy-a-developers-approach-4iha",
-          "author": "hins chow",
-          "description": "If you're a developer who's never played poker, you're about to discover that Texas Hold'em is essentially a game of incomplete information, probability, and pattern recognition—skills you already use daily. This guide will teach you the fundamental strategic framework, show you how to apply computational thinking to poker decisions, and provide you with actual Python code to calculate key probabilities. You'll learn to approach poker not as gambling, but as a decision-making optimization problem.\nAs developers, we're trained to think in systems, probabilities, and edge cases. Poker leverages these exact skills. Every hand presents a decision tree where you must weigh probabilities, expected value, and opponent modeling. Before we dive into strategy, let's understand the basic flow:\nPre-fl…",
-          "link": "https://dev.to/hins_chow_feb4fa2015caa6a/the-complete-beginners-guide-to-texas-holdem-strategy-a-developers-approach-4iha",
-          "publishedOn": "2026-03-20T04:23:55.000Z",
-          "wordCount": 2110,
-          "title": "The Complete Beginner's Guide to Texas Hold'em Strategy: A Developer's Approach",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsy18r7xxp6nxz5r152l1.png"
-        },
-        {
-          "id": "https://dev.to/diven_rastdus_c5af27d68f3/the-real-cost-of-ai-agent-hallucination-in-production-54pj",
-          "author": "Diven Rastdus",
-          "description": "You deployed your AI agent. The API calls are cheap. Token costs are logged. You're watching costs in a spreadsheet.\nThe number that doesn't show up in the spreadsheet: the downstream cost of a hallucinated output.\nAn LLM generating wrong text in a chatbot is annoying. An LLM fabricating a payment amount in a dunning email, inventing a ticket status in a dev briefing, or confidently filling in company funding data it doesn't have, those are different problems. The damage isn't the API call. It's what happens after the output leaves your system.\nHere are three categories I've hit in production across real agents, with the patterns I now use to handle them.\nStructured output hallucination happens when a model fills in fields it has no data for. Instead of returning null, it invents something…",
-          "link": "https://dev.to/diven_rastdus_c5af27d68f3/the-real-cost-of-ai-agent-hallucination-in-production-54pj",
-          "publishedOn": "2026-03-20T04:23:52.000Z",
-          "wordCount": 2473,
-          "title": "The Real Cost of AI Agent Hallucination in Production",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F87yd7ynocoxs70ofdlk8.png"
-        },
-        {
-          "id": "https://dev.to/kuyacarlo/sage-type-your-program-year-and-sem-notion-builds-itself-36kd",
-          "author": "John Carlo Santos",
-          "description": "This is a submission for the Notion MCP Challenge\nnotes in Google Keep. also in GDocs. also in Obsidian. also in Notion. tasks in Teams. also Google Classroom. also Canvas. also the blackboard in the room that gets erased before you can photo it — and if you did take a pic, you'd forget about it til it's too late anyway. rip bozo.\nsix, seven different apps(⁶🤷⁷), each going their own way, far from what I actually need. advanced studying? researching ahead? a completely different beast on top of all that chaos.\nI'm a 2nd year BS CpE student at BulSU. my academic life was a mess. still kind of is. but I built SAGE anyway.\n(college is shit. life is also shit. but at least the workspace builds itself now. probably.)\n\nyour program, year, and semester. that's it. SAGE hooks into Notion via MCP, …",
-          "link": "https://dev.to/kuyacarlo/sage-type-your-program-year-and-sem-notion-builds-itself-36kd",
-          "publishedOn": "2026-03-20T04:22:15.000Z",
-          "wordCount": 1671,
-          "title": "SAGE: type your program, year, and sem — notion builds itself",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Far3sdrrjarujcfcz2jhi.png"
-        },
-        {
-          "id": "https://dev.to/anush09/--2bep",
-          "author": "Anushka Perera",
-          "description": "Following up on our \"Digital Handshake,\" it’s time to look under the hood at how we move from a simple connection to a high-performance, scalable architecture. In this guide, we dive into the integration between the Web Server, Execution Engine, and Database.\n𝗧𝗵𝗲 𝗘𝘅𝗲𝗰𝘂𝘁𝗶𝗼𝗻 𝗘𝗻𝗴𝗶𝗻𝗲: 𝗪𝗵𝘆 𝗣𝗛𝗣-𝗙𝗣𝗠 𝗪𝗶𝗻𝘀\nAdaptive Scaling: Better performance under high load and efficient opcode caching.\nEfficiency: It only processes what is needed, leaving static content to the web server.\n𝗣𝗼𝘀𝘁𝗴𝗿𝗲𝗦𝗤𝗟 𝗔𝗿𝗰𝗵𝗶𝘁𝗲𝗰𝘁𝘂𝗿𝗲 & 𝗦𝗰𝗮𝗹𝗮𝗯𝗶𝗹𝗶𝘁𝘆\n𝗧𝗵𝗲 𝗖𝗼𝗻𝗳𝗶𝗴𝘂𝗿𝗮𝘁𝗶𝗼𝗻 𝗗𝘂𝗼\n𝗜𝗺𝗽𝗹𝗲𝗺𝗲𝗻𝘁𝗮𝘁𝗶𝗼𝗻 𝗘𝘅𝗮𝗺𝗽𝗹𝗲\nWhether you are building a Learning Management System or a Sales Order app, understanding these architectural layers ensures your platform stays fast as your user base grows.\nhashtag#PostgreSQL hashtag#PHP hashtag#Apache hashtag#WebArchitecture hashtag#Scalability hashtag#BackendDevelopment hashtag#DatabaseScaling hashtag#TechGuide",
-          "link": "https://dev.to/anush09/--2bep",
-          "publishedOn": "2026-03-20T04:20:51.000Z",
-          "wordCount": 1014,
-          "title": "𝗚𝘂𝗶𝗱𝗲 #𝟬𝟰: 𝗦𝗰𝗮𝗹𝗶𝗻𝗴 𝘁𝗵𝗲 𝗦𝘁𝗮𝗰𝗸 (𝗔𝗽𝗮𝗰𝗵𝗲, 𝗣𝗛𝗣, 𝗮𝗻𝗱 𝗣𝗼𝘀𝘁𝗴𝗿𝗲𝗦𝗤𝗟)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Favvt2szrrx2izcvr6f2z.png"
-        },
-        {
-          "id": "https://dev.to/_d7eb1c1703182e3ce1782/rest-vs-graphql-complete-comparison-for-backend-developers-2026-34cc",
-          "author": "楊東霖",
-          "description": "Choosing between REST and GraphQL is one of the most consequential architectural decisions a backend team will make. Both paradigms have matured significantly, each with distinct strengths, trade-offs, and ecosystems. Yet the conversation is often reduced to hype-driven sound bites rather than engineering analysis.\nThis guide goes deep. We'll compare architecture, performance characteristics, caching strategies, developer experience, tooling, and real-world scenarios — then give you a concrete decision framework so you can choose with confidence. Whether you're building a new microservice, a public API, or a data-heavy dashboard, you'll walk away knowing exactly which paradigm fits your situation.\nAt the highest level, REST and GraphQL differ in how clients communicate what data they need …",
-          "link": "https://dev.to/_d7eb1c1703182e3ce1782/rest-vs-graphql-complete-comparison-for-backend-developers-2026-34cc",
-          "publishedOn": "2026-03-20T04:19:24.000Z",
-          "wordCount": 3832,
-          "title": "REST vs GraphQL: Complete Comparison for Backend Developers (2026)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Facbbm8l28c9ivptjrpea.png"
-        },
-        {
-          "id": "https://dev.to/_d7eb1c1703182e3ce1782/python-vs-go-for-backend-development-in-2026-an-honest-comparison-3pno",
-          "author": "楊東霖",
-          "description": "Choosing a backend language is one of the most consequential technical decisions a team makes. It shapes hiring, velocity, operational cost, and long-term maintainability. In 2026, Python and Go remain two of the most popular choices for new backend services — yet they occupy very different positions on the design spectrum. Python optimizes for developer speed and ecosystem breadth; Go optimizes for runtime speed and operational simplicity.\nThis guide provides a thorough, balanced comparison across every dimension that matters in practice: raw performance, concurrency primitives, type safety, web frameworks, database tooling, deployment, and developer experience. By the end, you will have a concrete decision framework for choosing between the two.\nPython was created by Guido van Rossum in …",
-          "link": "https://dev.to/_d7eb1c1703182e3ce1782/python-vs-go-for-backend-development-in-2026-an-honest-comparison-3pno",
-          "publishedOn": "2026-03-20T04:18:51.000Z",
-          "wordCount": 3904,
-          "title": "Python vs Go for Backend Development in 2026: An Honest Comparison",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fb9yh191e8spl2m75xw1m.png"
         }
       ]
     },
@@ -31091,6 +31091,16 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://www.theguardian.com/world/2026/apr/03/us-fighter-jet-confirmed-shot-down-over-iran",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.theguardian.com/world/2026/apr/03/us-fighter-jet-confirmed-shot-down-over-iran",
+          "publishedOn": "2026-04-03T16:00:44.000Z",
+          "wordCount": 4978,
+          "title": "US F-15E jet confirmed shot down over Iran as Tehran releases wreckage images",
+          "imageUrl": "https://i.guim.co.uk/img/media/482982697628386efabd0a787d9590da0690e8a1/0_0_5000_4000/master/5000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=71aa55243556fe4276e3975782e4c1c6"
+        },
         {
           "id": "https://news.ycombinator.com/item?id=47627255",
           "author": null,
@@ -34550,6 +34560,16 @@
           "wordCount": 3806,
           "title": "Free stuff makes us irrational",
           "imageUrl": "https://20627419.fs1.hubspotusercontent-na1.net/hubfs/20627419/The%20Hustle/Assets/GIFs/183100859-header.webp"
+        },
+        {
+          "id": "https://github.com/RyanCodrai/py-turboquant",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/RyanCodrai/py-turboquant",
+          "publishedOn": "2026-03-29T11:10:44.000Z",
+          "wordCount": 4807,
+          "title": "Show HN: TurboQuant for vector search – 2-4 bit compression",
+          "imageUrl": "https://opengraph.githubassets.com/0b98f5670bfa573fc3fbb3ea34291e930e1374f052d0c526b4570cb900cc1124/RyanCodrai/turbovec"
         },
         {
           "id": "https://johncarlosbaez.wordpress.com/2026/03/29/vector-meson-dominance/",
@@ -41300,26 +41320,6 @@
           "wordCount": 599,
           "title": "FSFE supporters affected: Payment provider Nexi cancelled us",
           "imageUrl": "https://pics.fsfe.org/uploads/medium/6a/a3/e54d386708f90b88f8773e514dd3.png"
-        },
-        {
-          "id": "https://github.com/firelock-ai/kin",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/firelock-ai/kin",
-          "publishedOn": "2026-03-20T04:31:01.000Z",
-          "wordCount": 5483,
-          "title": "Kin: Semantic version control that tracks code as entities, not files",
-          "imageUrl": "https://opengraph.githubassets.com/1e00b5997f0a10d17bc121e9fc3d09f9c45468883ad772132148660e49fbbef1/firelock-ai/kin"
-        },
-        {
-          "id": "https://www.science.org/content/article/arxiv-pioneering-preprint-server-declares-independence-cornell",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.science.org/content/article/arxiv-pioneering-preprint-server-declares-independence-cornell",
-          "publishedOn": "2026-03-20T04:24:11.000Z",
-          "wordCount": null,
-          "title": "ArXiv Declares Independence from Cornell",
-          "imageUrl": null
         }
       ]
     },
@@ -42738,6 +42738,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "5b89628b-3fce-4023-b325-353a4c625d9e",
+          "author": "Shaurya Malwa",
+          "description": "Price tracks broader crypto flows, with range-bound structure intact until $1.35 breaks.",
+          "link": "https://www.coindesk.com/markets/2026/04/03/what-next-as-xrp-rises-to-usd1-33-but-fails-to-break-out",
+          "publishedOn": "2026-04-03T16:32:33.000Z",
+          "wordCount": 11446,
+          "title": "What next as XRP rises to $1.33 but fails to break out",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/0d9c35f2280e1798604b91b7d96b5383f078300e-1192x736.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "f7fd7454-b1ff-4ae0-918c-bf32fa38a368",
           "author": "CoinDesk Indices",
