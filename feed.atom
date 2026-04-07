@@ -2,10 +2,363 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-04-07T07:14:50.038Z</updated>
+    <updated>2026-04-07T09:00:32.459Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Framer Motion Animations That Don't Kill Performance: Patterns and Pitfalls]]></title>
+        <id>https://dev.to/whoffagents/framer-motion-animations-that-dont-kill-performance-patterns-and-pitfalls-5cki</id>
+        <link href="https://dev.to/whoffagents/framer-motion-animations-that-dont-kill-performance-patterns-and-pitfalls-5cki"/>
+        <updated>2026-04-07T08:55:51.000Z</updated>
+        <summary type="html"><![CDATA[Framer Motion Animations That Don't Kill Performance: Patterns and Pitfalls
+
+
+Framer Motion makes animations easy. It also makes performance problems easy.
+// Bad — triggers layout recalculation (expensive)
+<motion.div animate={{ width: '200px', height: '100px', left: '50px' }} />
+
+// Good — GPU-composited, no layout (cheap)
+<motion.div animate={{ x: 50, scale: 1.1, opacity: 0.8 }} />
+
+Properties that trigger layout: width, height, top, left, padding, margin.
+x, y, scale, rotate, opacity, skew.
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: 'easeOut' },
+  },
+}
+
+function Card({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      whileInVie…]]></summary>
+        <author>
+            <name>Atlas Whoff</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Prisma Migrations in Production: Zero-Downtime Strategies and Rollback Patterns]]></title>
+        <id>https://dev.to/whoffagents/prisma-migrations-in-production-zero-downtime-strategies-and-rollback-patterns-3nf1</id>
+        <link href="https://dev.to/whoffagents/prisma-migrations-in-production-zero-downtime-strategies-and-rollback-patterns-3nf1"/>
+        <updated>2026-04-07T08:53:59.000Z</updated>
+        <summary type="html"><![CDATA[Prisma Migrations in Production: Zero-Downtime Strategies and Rollback Patterns
+
+
+Running prisma migrate deploy in production without a plan is how you cause outages.
+Most migration guides show you the happy path. Production is messier:
+Live traffic during the migration window
+Old app version still running until deployment completes
+Failed migrations that need rollback
+Long-running migrations that lock tables
+The safest approach: expand, then contract.
+Step 1 — Expand (backward-compatible change):
+-- Add new column as nullable (safe while old code runs)
+ALTER TABLE users ADD COLUMN display_name TEXT;
+
+Step 2 — Backfill (background job):
+// scripts/backfill-display-name.ts
+const batchSize = 1000
+let cursor: string | undefined
+
+while (true) {
+  const users = await prisma.user.findMany({
+    …]]></summary>
+        <author>
+            <name>Atlas Whoff</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Docker Multi-Stage Builds: Shrink Your Production Images by 80%]]></title>
+        <id>https://dev.to/whoffagents/docker-multi-stage-builds-shrink-your-production-images-by-80-2b7k</id>
+        <link href="https://dev.to/whoffagents/docker-multi-stage-builds-shrink-your-production-images-by-80-2b7k"/>
+        <updated>2026-04-07T08:53:00.000Z</updated>
+        <summary type="html"><![CDATA[Docker Multi-Stage Builds: Shrink Your Production Images by 80%
+
+
+A naive Dockerfile for a Next.js app produces a 1.2GB image.
+# Bad — everything ends up in production
+FROM node:20
+WORKDIR /app
+COPY package*.json ./
+RUN npm install          # includes devDependencies
+COPY . .
+RUN npm run build
+CMD ["npm", "start"]
+# Result: ~1.2GB image with dev tools, build tools, source files
+
+# Stage 1: Install dependencies
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Stage 2: Build the app
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 3: Production image (only what's needed)
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+
+# Copy only production deps and build output
+C…]]></summary>
+        <author>
+            <name>Atlas Whoff</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Production-Ready Error Boundaries in React: Patterns for Graceful Failures]]></title>
+        <id>https://dev.to/whoffagents/production-ready-error-boundaries-in-react-patterns-for-graceful-failures-2dan</id>
+        <link href="https://dev.to/whoffagents/production-ready-error-boundaries-in-react-patterns-for-graceful-failures-2dan"/>
+        <updated>2026-04-07T08:52:01.000Z</updated>
+        <summary type="html"><![CDATA[Production-Ready Error Boundaries in React: Patterns for Graceful Failures
+
+
+Unhandled render errors crash your entire React tree. Error boundaries contain the damage.
+// If UserCard throws, the entire page goes blank
+function Dashboard() {
+  return (
+    <div>
+      <Header />
+      <UserCard />  {/* if this throws, everything dies */}
+      <Analytics />
+    </div>
+  )
+}
+
+Error boundaries must be class components (for now):
+import React, { Component, ReactNode } from 'react'
+
+interface Props {
+  children: ReactNode
+  fallback?: ReactNode
+}
+
+interface State {
+  hasError: boolean
+  error: Error | null
+}
+
+class ErrorBoundary extends Component<Props, State> {
+  state: State = { hasError: false, error: null }
+
+  static getDerivedStateFromError(error: Error): State {
+    return { hasError: tru…]]></summary>
+        <author>
+            <name>Atlas Whoff</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TypeScript Generics Deep Dive: Constraints, Inference, and Real-World Patterns]]></title>
+        <id>https://dev.to/whoffagents/typescript-generics-deep-dive-constraints-inference-and-real-world-patterns-3iki</id>
+        <link href="https://dev.to/whoffagents/typescript-generics-deep-dive-constraints-inference-and-real-world-patterns-3iki"/>
+        <updated>2026-04-07T08:51:02.000Z</updated>
+        <summary type="html"><![CDATA[TypeScript Generics Deep Dive: Constraints, Inference, and Real-World Patterns
+
+
+Generics are the most powerful feature in TypeScript that most developers underuse.
+<T> to production-grade patterns.
+Without generics, you have two bad options:
+// Option 1: specific types (not reusable)
+function firstNumber(arr: number[]): number { return arr[0] }
+function firstString(arr: string[]): string { return arr[0] }
+
+// Option 2: any (loses type safety)
+function first(arr: any[]): any { return arr[0] }
+
+Generics give you option 3 — reusable AND type-safe:
+function first<T>(arr: T[]): T {
+  return arr[0]
+}
+
+const num = first([1, 2, 3])       // type: number
+const str = first(['a', 'b', 'c']) // type: string
+
+extends
+
+
+Constrain what types T can be:
+// T must have a .length property
+function getLength…]]></summary>
+        <author>
+            <name>Atlas Whoff</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[HTML Lists for Beginners: 5 Mistakes Killing Your UX]]></title>
+        <id>https://dev.to/drivecoding/html-lists-for-beginners-5-mistakes-killing-your-ux-2m2c</id>
+        <link href="https://dev.to/drivecoding/html-lists-for-beginners-5-mistakes-killing-your-ux-2m2c"/>
+        <updated>2026-04-07T08:46:05.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR
+
+
+Most beginners use <ul> and <ol> interchangeably and wonder why their pages feel broken. There is one nesting mistake in particular that silently destroys screen reader accessibility — and almost nobody talks about it. This post covers the five biggest HTML list errors and how to fix them fast.
+You learned HTML lists in about 20 minutes. Slap some <li> tags inside a <ul>, done. Job finished. Ship it.
+Except users are bouncing. Your content feels cluttered. And a screen reader is announcing your navigation menu like it is reading a legal disclaimer at 1.5x speed.
+Sound familiar? You are not alone. HTML lists for beginners look deceptively simple on the surface. Underneath, there are five specific mistakes that quietly strangle your user experience before anyone even reads your conte…]]></summary>
+        <author>
+            <name>Drive Coding</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[When Distribution Becomes a Substitute for Design — and Fails]]></title>
+        <id>https://dev.to/leonpennings/when-distribution-becomes-a-substitute-for-design-and-fails-5gec</id>
+        <link href="https://dev.to/leonpennings/when-distribution-becomes-a-substitute-for-design-and-fails-5gec"/>
+        <updated>2026-04-07T08:41:51.000Z</updated>
+        <summary type="html"><![CDATA[A lot of modern software architecture—microservices, event-driven systems, CQRS—is not born from deeply understanding the domain. It is what teams reach for when the existing application has become a mess: nobody really knows what’s happening where anymore, behavior is unpredictable, and making changes feels risky and expensive. Instead of asking “What does this concept actually mean and where does it truly belong?”, they ask “How do we split this?”
+That is where a lot of modern architecture begins.
+
+Not in necessity.
+
+Not in insight.
+
+But in the growing discomfort of trying to manage software that was never modeled well in the first place.
+And because the resulting system still runs in production, the cost of that move often remains invisible for years.
+That is one of the most expensive t…]]></summary>
+        <author>
+            <name>Leon Pennings</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Every GPU That Mattered]]></title>
+        <id>https://sheets.works/data-viz/every-gpu</id>
+        <link href="https://sheets.works/data-viz/every-gpu"/>
+        <updated>2026-04-07T08:38:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Forms Accessibility: The 8 Trusted Tester Test IDs You Need to Know]]></title>
+        <id>https://dev.to/laura-wissiak/forms-accessibility-the-8-trusted-tester-test-ids-you-need-to-know-2fa</id>
+        <link href="https://dev.to/laura-wissiak/forms-accessibility-the-8-trusted-tester-test-ids-you-need-to-know-2fa"/>
+        <updated>2026-04-07T08:35:55.000Z</updated>
+        <summary type="html"><![CDATA[A developer’s guide to labels, context changes, error handling, and prevention based on the DHS Section 508 Trusted Tester conformance process.
+  
+  
+
+
+
+  
+  
+  You thought Keyboard Access and Focus was a big topic? Well, so was our 4th session of the DHS Section 508 Trusted Tester Study Group: Forms cover 8 Test IDs in total. Forms are where users give us their data, and where failures can block entire user journeys.
+
+
+
+  
+  
+  Your Forms Cheat Sheet
+
+
+
+
+Labels are layered: Visual presence (5.A.), descriptive quality (5.B.), and programmatic association (5.C.)
+
+
+Context changes require warning: Unexpected behavior disorients users, but warnings make changes acceptable.
+
+
+Errors need both, a means of identification as well as remediation: Knowing something is wrong is only the first step, …]]></summary>
+        <author>
+            <name>Laura Wissiak, CPACC</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Stop Building Isolated Apps: The MCP and Swarm Orchestration Ecosystem is Here (And How to Find the Right Stacks)]]></title>
+        <id>https://dev.to/daniel_moore_f218ff7ae78a/stop-building-isolated-apps-the-mcp-and-swarm-orchestration-ecosystem-is-here-and-how-to-find-the-5hgk</id>
+        <link href="https://dev.to/daniel_moore_f218ff7ae78a/stop-building-isolated-apps-the-mcp-and-swarm-orchestration-ecosystem-is-here-and-how-to-find-the-5hgk"/>
+        <updated>2026-04-07T08:35:45.000Z</updated>
+        <summary type="html"><![CDATA[We need to talk about the absolute junk flooding our feeds. If I see one more "text-in-text-out wrapper" masquerading as a technical breakthrough, I'm going to lose it. 
+The landscape has shifted entirely in 2026. We are no longer querying standalone endpoints. If your stack isn't utilizing Model Context Protocol (MCP) to fetch real-time datastore context, or leveraging Swarm Orchestration to run parallel execution threads, you're building legacy software. 
+
+Most of you are wasting hours testing tools that operate in total isolation. You drop a PDF in, you get a summary out. That was cool in 2023. Today, we need integrated systems. The problem is finding these components. GitHub Trending is a mess of abandoned repos, and Twitter/X is mostly hype for closed ecosystems. How do you actually f…]]></summary>
+        <author>
+            <name>Daniel Moore</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Web Accessibility in React: Semantic HTML, ARIA, Focus Management, and axe Testing]]></title>
+        <id>https://dev.to/whoffagents/web-accessibility-in-react-semantic-html-aria-focus-management-and-axe-testing-fnd</id>
+        <link href="https://dev.to/whoffagents/web-accessibility-in-react-semantic-html-aria-focus-management-and-axe-testing-fnd"/>
+        <updated>2026-04-07T08:34:07.000Z</updated>
+        <summary type="html"><![CDATA[Accessibility isn't a feature you add at the end — it's a quality signal that correlates with better code overall. Well-structured, accessible apps tend to have better semantics, better keyboard behavior, and better performance. Here's the practical implementation.
+Every accessibility problem that seems hard is often just a semantic HTML problem:
+// Bad -- div soup, no semantics
+<div className='header'>
+  <div className='nav'>
+    <div onClick={handleClick}>Home</div>
+    <div onClick={handleClick}>About</div>
+  </div>
+</div>
+
+// Good -- semantic HTML, keyboard accessible automatically
+<header>
+  <nav aria-label='Main navigation'>
+    <ul>
+      <li><a href='/'>Home</a></li>
+      <li><a href='/about'>About</a></li>
+    </ul>
+  </nav>
+</header>
+
+Landmark elements (<header>, <nav>, <main>, …]]></summary>
+        <author>
+            <name>Atlas Whoff</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Agents Don’t Need Bigger Context Windows. They Need Real Memory]]></title>
+        <id>https://dev.to/memorylake_ai/ai-agents-dont-need-bigger-context-windows-they-need-real-memory-bkl</id>
+        <link href="https://dev.to/memorylake_ai/ai-agents-dont-need-bigger-context-windows-they-need-real-memory-bkl"/>
+        <updated>2026-04-07T08:33:46.000Z</updated>
+        <summary type="html"><![CDATA[Most AI agents today are brilliant but amnesiac. While they can reason through complex tasks in a single session, they fail the moment they need to remember a user’s specific preference from last week or a project constraint mentioned three conversations ago.
+As engineers, we often try to solve this by increasing context windows or stuffing more tokens into the prompt. This is a mistake. A larger context window is just a bigger whiteboard; it isn’t a functioning memory system. To build truly useful agents, we need to stop scaling "working RAM" and start building persistent state.
+From a system architecture perspective, the "forgetting" problem stems from how we manage state. Most agent frameworks treat memory as a side effect of a session rather than a core infrastructure layer.
+The root c…]]></summary>
+        <author>
+            <name>Memorylake AI</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[VRAM Is the New RAM — A Practical Guide to Running Large Language Models on Consumer GPUs]]></title>
+        <id>https://dev.to/purpledoubled/vram-is-the-new-ram-a-practical-guide-to-running-large-language-models-on-consumer-gpus-4cif</id>
+        <link href="https://dev.to/purpledoubled/vram-is-the-new-ram-a-practical-guide-to-running-large-language-models-on-consumer-gpus-4cif"/>
+        <updated>2026-04-07T08:33:46.000Z</updated>
+        <summary type="html"><![CDATA[Your GPU has 8 GB of VRAM. The model you want to run needs 14 GB. What now?
+This is the most common wall people hit when running LLMs locally. Cloud APIs don't care about your hardware — local inference does. Understanding VRAM is the difference between smooth 40 tok/s responses and your system grinding to a halt.
+I've spent months optimizing local AI setups and building tools around Ollama. Here's everything I've learned about making large models fit on consumer hardware.
+When you load a model into your GPU, every single parameter needs to live in VRAM during inference. A 7B parameter model in full FP16 precision needs roughly:
+7 billion × 2 bytes = ~14 GB VRAM
+
+That's already more than most consumer GPUs. An RTX 4060 has 8 GB. An RTX 4070 has 12 GB. Even an RTX 4090 tops out at 24 GB.
+So…]]></summary>
+        <author>
+            <name>David</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Huawei To Launch MatePad Mini In Malaysia Soon]]></title>
+        <id>https://www.lowyat.net/?p=388684</id>
+        <link href="https://www.lowyat.net/2026/388684/huawei-to-launch-matepad-mini-in-malaysia-soon/"/>
+        <updated>2026-04-07T07:43:29.000Z</updated>
+        <summary type="html"><![CDATA[Huawei is preparing to release another addition to its tablet lineup on our shores. Following the debut of the MatePad 11.5 S 2026 last week, the brand began teasing the launch of the MatePad Mini. In a Facebook post, the company shared an image of the upcoming device with the tagline “Mini but Mighty”. While […]
+The post Huawei To Launch MatePad Mini In Malaysia Soon appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Nurul Kamil</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Microsoft Agent Framework for ASP.NET - Build Your First AI Agent (Step-by-Step)]]></title>
         <id>https://dev.to/igor_sh_dev/microsoft-agent-framework-for-aspnet-build-your-first-ai-agent-step-by-step-16a2</id>
@@ -258,6 +611,16 @@ The post Acer Refreshes Aspire S AIO PCs; Available From RM4,399 appeared first 
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Some iPhone Apps Receive Mysterious Update 'From Apple']]></title>
+        <id>https://www.macrumors.com/2026/04/06/iphone-apps-from-apple-update/</id>
+        <link href="https://www.macrumors.com/2026/04/06/iphone-apps-from-apple-update/"/>
+        <updated>2026-04-07T06:45:08.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Acer Swift Go 16 AI Debuts In Malaysia For RM5,999]]></title>
         <id>https://www.lowyat.net/?p=388657</id>
         <link href="https://www.lowyat.net/2026/388657/acer-swift-go-16-ai/"/>
@@ -297,6 +660,16 @@ The post CIMB Announces Scheduled Maintenance For Debit Card Services appeared f
         <summary type="html"><![CDATA[Rejection at $1.35 and collapsing depth raise risk of sharper moves as positioning builds.]]></summary>
         <author>
             <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Three hundred synths, 3 hardware projects, and one app]]></title>
+        <id>https://midi.guide/blog/three-hunded-synths-one-app/</id>
+        <link href="https://midi.guide/blog/three-hunded-synths-one-app/"/>
+        <updated>2026-04-07T05:12:25.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -10728,6 +11101,16 @@ Published production hit rates range from 20-45%, not 90-95%. The 95% number ref
 Even a 20% hit rate saves real money —…]]></summary>
         <author>
             <name>gauravdagde</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Build web apps for smart glasses]]></title>
+        <id>https://hub.evenrealities.com/docs/getting-started/overview</id>
+        <link href="https://hub.evenrealities.com/docs/getting-started/overview"/>
+        <updated>2026-04-05T08:43:18.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -21173,6 +21556,16 @@ My Portfolio: https://yogeshchavan.dev/]]></summary>
         <summary type="html"><![CDATA[NEAR Protocol (NEAR) gained 5.8% and Avalanche (AVAX) climbed 3.6%.]]></summary>
         <author>
             <name>CoinDesk Indices</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Second Revision of 6502 Laptop]]></title>
+        <id>https://codeberg.org/TechPaula/LT6502b</id>
+        <link href="https://codeberg.org/TechPaula/LT6502b"/>
+        <updated>2026-04-03T13:06:27.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -79953,796 +80346,6 @@ def search_notes(query: str) -> list[dict]:
         if query.lower() in name.lower() or query.…]]></summary>
         <author>
             <name>Nebula</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built 7 MCP Servers for Security Tools. The Protocol Was the Easy Part.]]></title>
-        <id>https://dev.to/solomonneas/i-built-7-mcp-servers-for-security-tools-the-protocol-was-the-easy-part-4137</id>
-        <link href="https://dev.to/solomonneas/i-built-7-mcp-servers-for-security-tools-the-protocol-was-the-easy-part-4137"/>
-        <updated>2026-03-23T20:59:54.000Z</updated>
-        <summary type="html"><![CDATA[I wanted my AI agent to talk directly to my security stack. Not through copy-pasted log snippets. Not through screenshots of dashboards. Actual tool calls against live data.
-So I built seven MCP servers. Wazuh. Suricata. Zeek. TheHive. Cortex. MISP. MITRE ATT&CK. All open source, all on my GitHub. Project page: https://solomonneas.dev/projects/security-mcp-servers.
-The protocol layer took a weekend. The context engineering took weeks. That ratio surprised me.
-API-based servers talk directly to running services. Wazuh MCP hits the manager's REST API on port 55000 for alerts, agent status, vulnerability scans, and file integrity events. TheHive and Cortex connect to their respective APIs for case management and observable analysis. MISP pulls threat intelligence feeds and IOC lookups.
-Log-ba…]]></summary>
-        <author>
-            <name>Solomon Neas</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I’m Stepping Away from FinOps Consulting]]></title>
-        <id>https://dev.to/barbara_gaspar/im-stepping-away-from-finops-consulting-3205</id>
-        <link href="https://dev.to/barbara_gaspar/im-stepping-away-from-finops-consulting-3205"/>
-        <updated>2026-03-23T20:59:00.000Z</updated>
-        <summary type="html"><![CDATA[A few months ago, I began supporting different clients in implementing resource and infrastructure optimization strategies. It was a complex decision, considering the diversity of clients, the challenges involved, and—at the same time—how exciting that can be when you’re passionate about what you do.
-Often, companies believe they need FinOps because they want to generate savings in their infrastructure. However—and this is the interesting part—successfully implementing this methodology requires many other elements, such as:
-Organizational processes, which need to be improved based on FinOps principles
-Policies and regulations that help expand and standardize control and optimization actions
-Technology value and business strategy, since the methodology should focus on generating value and a…]]></summary>
-        <author>
-            <name>Barbara Gaspar</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[bridge99]]></title>
-        <id>https://dev.to/query_filter_591122b53770/bridge99-4ego</id>
-        <link href="https://dev.to/query_filter_591122b53770/bridge99-4ego"/>
-        <updated>2026-03-23T20:58:09.000Z</updated>
-        <summary type="html"><![CDATA[private String extractValue(Object value) {
-    if (value == null) return "null";
-
-    // 1. Unmask Spring's TypedStringValue immediately
-    if (value instanceof TypedStringValue) {
-        String raw = ((TypedStringValue) value).getValue();
-        return xmlEscape(raw != null ? raw.trim() : "null");
-    }
-
-    // 2. Handle Bean References (@name)
-    if (value instanceof BeanReference) {
-        return "@" + ((BeanReference) value).getBeanName();
-    }
-
-    // 3. Handle Inner Bean Definitions (Short Class Name only)
-    if (value instanceof BeanDefinition) {
-        String className = ((BeanDefinition) value).getBeanClassName();
-        if (className != null) {
-            return "<i>" + className.substring(className.lastIndexOf('.') + 1).trim() + "</i>";
-        }
-        return "<i>InnerBean</i>";
-    }
-
-    // 4. Handle Collections (Lists/Sets) - Recursive clean
-    if (value instanceof Iterable) {
-        List<String> cleaned = new ArrayList<>();
-        int count = 0;
-        for (Object item : (Iterable<?>) value) {
-            if (count++ >= 15) { 
-                cleaned.add("..."); 
-                break; 
-            }
-            cleaned.add(extractValue(item)); // Recursion handles the TypedStrings inside the list
-        }
-        return String.join("<BR ALIGN=\"LEFT\"/>", cleaned);
-    }
-
-    // 5. Handle Maps
-    if (value instanceof Map) {
-        StringBuilder mapStr = new StringBuilder();
-        for (Map.Entry<?, ?> entry : ((Map<?, ?>) value).entrySet()) {
-            mapStr.append(extractValue(entry.getKey()))
-                  .append("=")
-                  .append(extractValue(entry.getValue()))
-                  .append("<BR ALIGN=\"LEFT\"/>");
-        }
-        return mapStr.toString();
-    }
-
-    // Default fallback with aggressive trimming
-    String result = value.toString().trim();
-    if (result.length() > 60) {
-        result = result.substring(0, 57).trim() + "...";
-    }
-    return xmlEscape(result);
-}]]></summary>
-        <author>
-            <name>Query Filter</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Catch Terraform Security Issues Before They Hit Production — With a Single API Call]]></title>
-        <id>https://dev.to/diffsense/catch-terraform-security-issues-before-they-hit-production-with-a-single-api-call-4ijd</id>
-        <link href="https://dev.to/diffsense/catch-terraform-security-issues-before-they-hit-production-with-a-single-api-call-4ijd"/>
-        <updated>2026-03-23T20:58:07.000Z</updated>
-        <summary type="html"><![CDATA[tags: terraform, devsecops, security, iac
-You've just pushed a Terraform change. The plan looks clean. The apply succeeds. Three weeks later, someone runs a routine audit and finds your EC2 instance has been exposed to the entire internet since day one — because a security group was accidentally left wide open.
-This is not a hypothetical. It's a pattern that shows up repeatedly in post-mortems, and it almost always comes down to the same root cause: nobody checked the HCL before it shipped.
-TerraGuard is a REST API that does exactly that check — static analysis of Terraform code for security misconfigurations and hardcoded secrets, with no tooling to install and no pipeline plugins to configure.
-TerraGuard exposes two analysis endpoints:
-POST /analyze — scans HCL for security misconfigurat…]]></summary>
-        <author>
-            <name>DiffSense</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Builder Test: 6 Questions to Evaluate a Fractional Head of AI]]></title>
-        <id>https://dev.to/systima/the-builder-test-6-questions-to-evaluate-a-fractional-head-of-ai-4pn3</id>
-        <link href="https://dev.to/systima/the-builder-test-6-questions-to-evaluate-a-fractional-head-of-ai-4pn3"/>
-        <updated>2026-03-23T20:57:34.000Z</updated>
-        <summary type="html"><![CDATA[The fractional Head of AI market has split into two models:
-brokers (firms that deploy generalists from a roster)
-
-
-practitioners (specific people who have built and shipped AI systems in production).
-
-
-
-Both have their place:
-Brokers work for companies starting their AI journey. Practitioners are what you need when the architectural decisions have real consequences.
-Six questions:
-Have they personally built and shipped AI features in production? Not managed a team that did. Not advised. Personally built. If no, everything else is secondary.
-
-
-Can they make architectural decisions, not just recommend them? "Implement RAG for customer support" is a roadmap. Choosing the embedding model, the chunking strategy, the retrieval evaluation framework; that is an architectural decision. A strategis…]]></summary>
-        <author>
-            <name>Systima</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Pet News Roundup: March 23, 2026]]></title>
-        <id>https://dev.to/krlz/pet-news-roundup-march-23-2026-4gll</id>
-        <link href="https://dev.to/krlz/pet-news-roundup-march-23-2026-4gll"/>
-        <updated>2026-03-23T20:57:29.000Z</updated>
-        <summary type="html"><![CDATA[This week's global pet news brings a mix of landmark legislation, community-driven rescue efforts, and the growing recognition that our animals deserve better care no matter where they live. From policy shifts in Moscow to mobile vet clinics in the Chilean countryside, the world is paying attention to our four-legged family members.
-PetSmart Charities announced $3 million in grants to local animal welfare organizations ahead of National Adoption Week (March 23–29, 2026), bringing adoptable pets into PetSmart stores across the country to boost shelter-to-home placements.
-California's cat declawing ban, which took effect January 1, continues to draw national attention as one of the strongest animal protection measures in the country. The state also enacted AB 516, allowing registered veterin…]]></summary>
-        <author>
-            <name>krlz</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Niche Museums]]></title>
-        <id>https://www.niche-museums.com/</id>
-        <link href="https://www.niche-museums.com/"/>
-        <updated>2026-03-23T20:57:19.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How I'm Productive with Claude Code]]></title>
-        <id>https://neilkakkar.com/productive-with-claude-code.html</id>
-        <link href="https://neilkakkar.com/productive-with-claude-code.html"/>
-        <updated>2026-03-23T20:49:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Treasury just declared the U.S. insolvent]]></title>
-        <id>https://fortune.com/2026/03/23/us-government-insolvent-fiscal-crisis-fix/</id>
-        <link href="https://fortune.com/2026/03/23/us-government-insolvent-fiscal-crisis-fix/"/>
-        <updated>2026-03-23T20:48:25.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A retro terminal music player inspired by Winamp]]></title>
-        <id>https://github.com/bjarneo/cliamp</id>
-        <link href="https://github.com/bjarneo/cliamp"/>
-        <updated>2026-03-23T20:42:22.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Next-generation electricity is almost here]]></title>
-        <id>https://www.gatesnotes.com/work/accelerate-energy-innovation/reader/the-next-generation-of-electricity-is-almost-here</id>
-        <link href="https://www.gatesnotes.com/work/accelerate-energy-innovation/reader/the-next-generation-of-electricity-is-almost-here"/>
-        <updated>2026-03-23T20:27:36.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bets on US-Iran ceasefire show signs of insider knowledge, say experts]]></title>
-        <id>https://www.theguardian.com/us-news/2026/mar/23/bets-us-iran-ceasefire-show-signs-of-insider-knowledge-say-experts-polymarket</id>
-        <link href="https://www.theguardian.com/us-news/2026/mar/23/bets-us-iran-ceasefire-show-signs-of-insider-knowledge-say-experts-polymarket"/>
-        <updated>2026-03-23T20:25:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A lot has happened in my life since I was here last time...]]></title>
-        <id>https://dev.to/stef4nutz/a-lot-has-happened-in-my-life-since-i-was-here-last-time-1o33</id>
-        <link href="https://dev.to/stef4nutz/a-lot-has-happened-in-my-life-since-i-was-here-last-time-1o33"/>
-        <updated>2026-03-23T20:21:05.000Z</updated>
-        <summary type="html"><![CDATA[I haven't really been into the DEV community openly but right now I am back after remembering my account. I want this account to be my work-in-progress of a hosting music streaming platform I am working.
-I did eventually get more into web developing and learning backend language, while I sometimes love it, sometimes I do hate it as well. This project eventually it's to put everything to the test & see if I can create my first stable project ever in my favorite domain: Music!
-While I will face difficult challenges later on, the thought of it won't keep me down into it, the journey will continue as long as my dream can live on.
-Currently late editing my post cause I forgot how to create one, really, but I wanna show to the entire world what I have been doing so in case you are interested, please let me know!]]></summary>
-        <author>
-            <name>stephen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Unit Testing in JavaScript: A Practical Guide with Jest]]></title>
-        <id>https://dev.to/thecoollearner/unit-test-in-javascript-2ka3</id>
-        <link href="https://dev.to/thecoollearner/unit-test-in-javascript-2ka3"/>
-        <updated>2026-03-23T20:19:33.000Z</updated>
-        <summary type="html"><![CDATA[Think of Unit Testing as a software development technique where you break your software up into small, isolated units and write automated tests that ensure each unit works as expected.
-In simpler terms, unit testing is about verifying that the smallest pieces of your application — usually functions — behave correctly under different conditions.
-A unit can be:
-A function
-A method
-A component
-A utility
-A hook
-A service
-The key idea is isolation.
-For example, instead of testing an entire application flow, you test a single function like:
-function calculateTotal(price, quantity) {
-  return price * quantity;
-}
-
-Unit testing is not just a best practice — it is a core part of professional software development, especially as applications grow in size and complexity.
-Without tests, every change int…]]></summary>
-        <author>
-            <name>Alok Kumar</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Product Insights Belong in Your IDE]]></title>
-        <id>https://dev.to/productsights/why-product-insights-belong-in-your-ide-119c</id>
-        <link href="https://dev.to/productsights/why-product-insights-belong-in-your-ide-119c"/>
-        <updated>2026-03-23T20:17:44.000Z</updated>
-        <summary type="html"><![CDATA[Why Product Insights Belong in Your IDE
-
-
-You are three hours into debugging a payment processing edge case. You have six tabs open: your editor, the Stripe dashboard, your APM tool, the relevant GitHub issue. Then your PM pings you on Slack: "Hey, before you ship that fix, can you check if users are also reporting the retry logic failing?" Now you need tab seven -- the product feedback dashboard you log into twice a quarter.
-You scan it, can't find the right filter, give up, and reply "I'll just fix what I can see in the logs." The fix ships. It addresses the symptom your monitoring caught, not the three other related issues that 40 customers reported last month.
-This is the context-switching tax. Not the five seconds it takes to open a new tab, but the information you never look up becau…]]></summary>
-        <author>
-            <name>productsights</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built a Webhook Relay on Cloudflare Workers — Here's Every Bug That Almost Killed It]]></title>
-        <id>https://dev.to/eventdock/i-built-a-webhook-relay-on-cloudflare-workers-here-is-every-bug-that-almost-killed-it-22dc</id>
-        <link href="https://dev.to/eventdock/i-built-a-webhook-relay-on-cloudflare-workers-here-is-every-bug-that-almost-killed-it-22dc"/>
-        <updated>2026-03-23T20:16:52.000Z</updated>
-        <summary type="html"><![CDATA[I built EventDock, a webhook reliability layer that sits between webhook providers (Stripe, GitHub, etc.) and your application. The idea is simple: accept the webhook instantly, store it durably, and deliver it to your endpoint with retries, logging, and a dead letter queue.
-I chose Cloudflare Workers as the platform. Edge compute seemed like the perfect fit — webhook providers have short timeouts (Stripe gives you ~20 seconds), so you want to ACK as fast as possible. A Worker can respond in under 50ms from the nearest edge node. No cold starts, no servers to manage, global by default.
-The architecture works beautifully on paper. Getting it to work reliably in production required finding and fixing bugs that were invisible in development and staging. Here are the four that almost killed th…]]></summary>
-        <author>
-            <name>EventDock</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The "Just Ask AI" Framework]]></title>
-        <id>https://dev.to/flinstonedev/the-just-ask-ai-framework-ndp</id>
-        <link href="https://dev.to/flinstonedev/the-just-ask-ai-framework-ndp"/>
-        <updated>2026-03-23T20:15:32.000Z</updated>
-        <summary type="html"><![CDATA[An Alternative Take on AI Native Software Development
-
-
-
-
-
-Want to build something?
-It didn't one-shot it?
-Still broken?
-Brownfield project? Legacy codebase written in ancient runes?
-"But how do I make it secure?"
-"But how can I trust it?"
-"But it doesn't scale!"
-"But it lacks domain knowledge!"
-"But it can't run autonomously!"
-"But what about my job?!"
-"But I don't understand what it generated!"
-"But what if it hallucinates?"
-"But I need to write tests!"
-"But the code is ugly!"
-"But I need a code review!"
-that review.
-"But my team won't adopt it!"
-"But what about compliance and regulations?"
-"But I need architecture decisions!"
-"But what if the context window runs out?"
-"But I need it to remember previous conversations!"
-"But I've been coding for 20 years. I know better."
-"But what if it takes over the world?"
-"But this whole framework sounds reckless!"
-Yes, this was written by an AI Agent.
-I asked it to do it.
-In case you didn't get it this is Satire. Yeah... AI can also do it.]]></summary>
-        <author>
-            <name>flinstonedev</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Windsurf’s New Update Is Frustrating Everyone | Here’s How to Fix Your Prompts and Stop Hitting Limits]]></title>
-        <id>https://dev.to/icornea/windsurfs-new-update-is-frustrating-everyone-heres-how-to-fix-your-prompts-and-stop-hitting-3aij</id>
-        <link href="https://dev.to/icornea/windsurfs-new-update-is-frustrating-everyone-heres-how-to-fix-your-prompts-and-stop-hitting-3aij"/>
-        <updated>2026-03-23T20:12:58.000Z</updated>
-        <summary type="html"><![CDATA[Let’s be real.
-Windsurf pushed a new update… and suddenly:
-your usage disappears faster
-your sessions feel “heavier”
-and you’re thinking: “Wasn’t this supposed to be simpler?”
-👉 The problem is that most people are still using old prompting habits in a new system.
-And that’s exactly why you’re hitting limits faster than before.
-Windsurf moved from credits → quotas.
-Which sounds better… until you realize:
-simple prompt → cheap
-complex prompt → expensive
-long conversation → VERY expensive
-So if your prompts are messy, long, or unclear:
-Bad prompts = high cost + bad results
-Good prompts = low cost + better output
-This is now a prompting game, not a usage game.
-Most people do this:
-That’s why you hit limits.
-Do this instead:
-cheap model → ideas, drafts, exploration
-mid model → building, debugg…]]></summary>
-        <author>
-            <name>Ionut Cornea</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Bug That Only Happened in Production (and Only on Tuesdays)]]></title>
-        <id>https://dev.to/mindmagic/the-bug-that-only-happened-in-production-and-only-on-tuesdays-2omp</id>
-        <link href="https://dev.to/mindmagic/the-bug-that-only-happened-in-production-and-only-on-tuesdays-2omp"/>
-        <updated>2026-03-23T20:12:16.000Z</updated>
-        <summary type="html"><![CDATA[A few months ago, I ran into one of those bugs that makes you question your sanity.
-Everything worked locally.
-But in production… some users couldn’t log in.
-Not all users. Not consistently. Just sometimes.
-We started getting vague reports:
-“Login fails randomly”
-No errors in logs. No obvious crash. Just silent failure.
-Which is always worse.
-After digging into logs more carefully, I noticed something odd:
-Failed requests had empty request bodies
-That didn’t make sense. The frontend was definitely sending data.
-Tried everything:
-Different browsers ✅
-Nothing.
-Then one teammate casually said:
-“I saw it once on mobile.”
-That changed everything.
-I tested on mobile + weak network.
-Boom. Reproduced.
-Now I could finally see what was happening:
-Request was sent
-We were using a middleware like this:
-app.use(express.json());
-Pretty standard.
-But here’s the catch:
-👉 Our server also had a reverse proxy in front (NGINX).
-And it was configured with a small client body buffer size.
-When the network was slow:
-Request body arrived in chunks
-No error. Just an empty body.
-We updated the proxy config:
-client_max_body_size 10M;
-And suddenly:
-No more empty requests
-Because:
-It only happened on slow networks
-Classic production-only bug.
-“Works locally” means nothing
-Production has:
-Proxies
-Your laptop has none of that.
-Silent failures are the worst
-If something can fail, log it.
-We added:
-if (!req.body || Object.keys(req.body).length === 0) {
-That alone would’ve saved hours.
-Always question the layers in between
-Frontend → Proxy → Backend → Database
-The bug wasn’t in our code.
-The trickiest bugs aren’t the ones that crash your app.
-They’re the ones that:
-almost work
-If you ever see something “random” in production…
-It’s probably not random at all.]]></summary>
-        <author>
-            <name>PixelNomad</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[American Aviation Is Near Collapse]]></title>
-        <id>https://www.theatlantic.com/newsletters/2026/03/aviation-failures-tsa-dhs-shutdown/686505/</id>
-        <link href="https://www.theatlantic.com/newsletters/2026/03/aviation-failures-tsa-dhs-shutdown/686505/"/>
-        <updated>2026-03-23T20:11:38.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The 35 Best ChatGPT Prompts for Writers and Content Creators]]></title>
-        <id>https://dev.to/navbuildz/the-35-best-chatgpt-prompts-for-writers-and-content-creators-4kah</id>
-        <link href="https://dev.to/navbuildz/the-35-best-chatgpt-prompts-for-writers-and-content-creators-4kah"/>
-        <updated>2026-03-23T20:09:59.000Z</updated>
-        <summary type="html"><![CDATA[I've spent the last year watching writers use AI in two completely different ways. The first group treats it like a vending machine — punch in "write me a blog post about X" and hope something usable comes out. The second group treats it like a writing partner — giving it specific context, a clear job, and constraints that actually produce something worth reading.
-The prompts below are from the second group. They're specific, they produce real output, and they're designed to improve your writing rather than replace it. I've organized them by task so you can jump straight to what you need.
-Before we get into it: if you use any of these regularly, save them. Retyping prompts every time kills your flow. I built Promptzy specifically for this — it's a Mac app that lets you Cmd+Shift+P from any…]]></summary>
-        <author>
-            <name>Nav</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I built 3 useful Windows tools in 14 DAYS using AI (Before going offline for 2 months)]]></title>
-        <id>https://dev.to/servalc4t/i-built-3-useful-windows-tools-in-14-days-using-ai-before-going-offline-for-2-months-4813</id>
-        <link href="https://dev.to/servalc4t/i-built-3-useful-windows-tools-in-14-days-using-ai-before-going-offline-for-2-months-4813"/>
-        <updated>2026-03-23T20:02:01.000Z</updated>
-        <summary type="html"><![CDATA[Since March 10th, I’ve been coding non-stop with AI as my "senior developer" partner. In just two weeks, I managed to release three practical tools for Windows.
-I'm sharing these today because in 6 days, I’ll be going offshore for 2 months without any internet access. I’d love for you to try these out while I'm away!
-1.DualMice (Mouse Hooking):"Control a browser with a 2nd mouse while gaming in full-screen."
-
-"Implemented complex Win32 Raw Input API handling in just a few days with AI assistance."
-2.ClipX (Video Processing):"High-speed video clipper for gamers with zero-config FFmpeg."
-
-"Developed an auto-setup engine for FFmpeg and GPU acceleration from scratch in just a few days."
-3.Right-Click to Share (Shell Extension):"One-click file sharing directly from the Windows context menu."
-
-"Simplified Windows Shell integration, a task that usually takes weeks, into just 3 days."
-Support & Feedback
-If you find these tools helpful, "Buying me a coffee" via PayPal would be a huge motivation for my return.
-Support via GITHUBPaypal]]></summary>
-        <author>
-            <name>ServalC4t</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI Agent Error Handling: 4 Resilience Patterns in Python]]></title>
-        <id>https://dev.to/nebulagg/ai-agent-error-handling-4-resilience-patterns-in-python-12of</id>
-        <link href="https://dev.to/nebulagg/ai-agent-error-handling-4-resilience-patterns-in-python-12of"/>
-        <updated>2026-03-23T20:01:16.000Z</updated>
-        <summary type="html"><![CDATA[Your AI agent works flawlessly in development. Then it hits production, OpenAI returns a 429, your fallback prompt throws a validation error, and the entire pipeline crashes at 2 AM with nobody watching.
-This is not a testing problem. It is an AI agent error handling problem. LLM APIs fail in ways traditional software never does -- rate limits, non-deterministic outputs, content policy rejections, and context window overflows are not edge cases. They are daily operational realities at any meaningful scale.
-This guide covers four battle-tested resilience patterns -- retry with backoff, model fallback chains, circuit breakers, and graceful degradation -- with pure Python implementations you can drop into any project. No framework lock-in, no heavy dependencies.
-Traditional APIs fail predicta…]]></summary>
-        <author>
-            <name>Nebula</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Solana Foundation targets institutions with new privacy framework]]></title>
-        <id>656b4e9d-f8fe-43e6-9e12-baa1e4767507</id>
-        <link href="https://www.coindesk.com/tech/2026/03/23/solana-foundation-targets-institutions-with-new-privacy-framework"/>
-        <updated>2026-03-23T20:00:42.000Z</updated>
-        <summary type="html"><![CDATA[The organization argued that the next phase of crypto adoption will depend less on transparency alone and more on giving companies control over what they reveal — and to whom.]]></summary>
-        <author>
-            <name>Margaux Nijkerk</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Rescued Pups, New Apps, and One Very Big Federal Crackdown]]></title>
-        <id>https://dev.to/krlz/rescued-pups-new-apps-and-one-very-big-federal-crackdown-1i0d</id>
-        <link href="https://dev.to/krlz/rescued-pups-new-apps-and-one-very-big-federal-crackdown-1i0d"/>
-        <updated>2026-03-23T19:55:02.000Z</updated>
-        <summary type="html"><![CDATA[When Rescues Need Rescuing
-
-
-Let's start with a story that's been all over the news this weekend. On Friday, officials from the Los Angeles County Department of Animal Care and Control served a warrant at a property in Lake Hughes, California, and what they found was staggering — over 300 dogs and cats (initial estimates ran as high as 700) living in overcrowded conditions at a facility run by a rescue organization called Rock N Pawz. The operation, prompted by neighbor complaints about strong odors and constant noise, may be one of the largest animal seizures in U.S. history. The property's operator, Christine De Anda, has pushed back on the characterization, telling ABC7 she was "documenting all the dogs as they were pulling them off so that I could have proof for the judge." The Distric…]]></summary>
-        <author>
-            <name>krlz</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CONNECTING POWER BI TO SQL DATABASE]]></title>
-        <id>https://dev.to/jedidah_ondiso_887753d76e/connecting-power-bi-to-sql-database-5083</id>
-        <link href="https://dev.to/jedidah_ondiso_887753d76e/connecting-power-bi-to-sql-database-5083"/>
-        <updated>2026-03-23T19:53:29.000Z</updated>
-        <summary type="html"><![CDATA[POWER BI
-Key reasons for connecting Power BI to databases include:
-Real-time Data Access: Enables monitoring of live business metrics, such as sales trends or customer behavior, directly from sources like SQL Server.
-
-
-Handling Large Data Volumes: Unlike Excel, databases efficiently store and manage massive datasets, which Power BI can query directly.
-
-
-Data Integrity and Security: Connecting directly to a SQL database ensures that reports are based on a trusted "single version of truth".
-
-
-Automated Reporting: Streamlines the data analysis process by enabling automated updates, reducing manual effort, and improving efficiency.
-
-
-Enhanced Visualization and AI: Allows complex data to be visualized through interactive dashboards, with embedded AI to identify trends and make predictions.
-
-
-Da…]]></summary>
-        <author>
-            <name>Jedidah Ondiso</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Andrew Ng's new open-source project, Context Hub, attempts to solve a problem every API provider has right now whether they know it or not. Coding agents are getting your API wrong.]]></title>
-        <id>https://dev.to/leslysandra/andrew-ngs-new-open-source-project-context-hub-attempts-to-solve-a-problem-every-api-provider-3kh7</id>
-        <link href="https://dev.to/leslysandra/andrew-ngs-new-open-source-project-context-hub-attempts-to-solve-a-problem-every-api-provider-3kh7"/>
-        <updated>2026-03-23T19:41:08.000Z</updated>
-        <summary type="html"><![CDATA[Context Hub Has 68 APIs. Add Yours.
-
-
-  
-Mike Chambers
-                    
-                  
-
-                
- for AWS
-            
-          
-Mar 10
-        
-#ai
-            #api
-            #productivity
-        
-20 reactions
-            
- comment
-            
-        
-        
-          
-            6 min read]]></summary>
-        <author>
-            <name>leslysandra</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Prediction market boom spurs new VC fund backed by Polymarket, Kalshi CEOs]]></title>
-        <id>4bcdaa4c-3e59-4210-836d-e2f30a85cf6c</id>
-        <link href="https://www.coindesk.com/markets/2026/03/23/prediction-market-boom-spurs-new-vc-fund-backed-by-polymarket-kalshi-ceos"/>
-        <updated>2026-03-23T19:39:34.000Z</updated>
-        <summary type="html"><![CDATA[The fund, called 5c(c) Capital, is aiming to raise $35 million to fund startups tied to the rapid growth of event-based trading markets.]]></summary>
-        <author>
-            <name>Helene Braun</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Update: How My Local AI Agent "Daemon" Learned Logical Discipline (Part 2)]]></title>
-        <id>https://dev.to/ramarondonuwu/update-how-my-local-ai-agent-daemon-learned-logical-discipline-part-2-8kp</id>
-        <link href="https://dev.to/ramarondonuwu/update-how-my-local-ai-agent-daemon-learned-logical-discipline-part-2-8kp"/>
-        <updated>2026-03-23T19:39:11.000Z</updated>
-        <summary type="html"><![CDATA[Yesterday, I shared my journey building Daemon, a local AI agent with "Stable Memory" using n8n + PostgreSQL. Today, I witnessed something that honestly made me shiver: my AI learned to stop hallucinating through pure conversation, without a single line of code update.
-In my first stress test, I hit a wall called Contextual Leakage. I gave Daemon two separate contexts in one session:
-Personal: "I'm researching Crows for a personal logo."
-Project: "Our new project is 'Black Vault'. What’s a good logo?"
-🔴 The Result (FAIL): Daemon im
-"A Crow logo for Black Vault would be perfect!" It was being a "Yes-Man," assuming connections where none existed. It lacked Logical Discipline.
-Instead of rushing to tweak the system prompt or adding more nodes, I treated Daemon like a Thinking Partner. I chal…]]></summary>
-        <author>
-            <name>Resmon Rama Rondonuwu</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How Anime Helped Me Through Depression — And Still Does]]></title>
-        <id>https://dev.to/iamirondev/how-anime-helped-me-through-depression-and-still-does-3jam</id>
-        <link href="https://dev.to/iamirondev/how-anime-helped-me-through-depression-and-still-does-3jam"/>
-        <updated>2026-03-23T19:35:54.000Z</updated>
-        <summary type="html"><![CDATA[There were days I couldn't get out of bed.
-Not "didn't feel like it" days. Days where the distance between lying down and standing up felt physically insurmountable. Where the weight of existing was just too much. I'm a Senior PHP Developer. I write technical articles about productivity, code quality, and developer workflows. And for a period of my life, I couldn't get out of bed.
-I want to talk about what helped. Not therapy alone, though therapy was essential. Not escitalopram alone, though medication gave me back a floor to stand on. Something that sounds trivial when you say it out loud:
-Anime.
-There's a version of this article where I say "anime was my escape." That framing is comfortable. It doesn't challenge anyone. It positions watching animation as a guilty pleasure — something yo…]]></summary>
-        <author>
-            <name>Kevin</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Understanding Teacher Forcing in Seq2Seq Models]]></title>
-        <id>https://dev.to/rijultp/understanding-teacher-forcing-in-seq2seq-models-a89</id>
-        <link href="https://dev.to/rijultp/understanding-teacher-forcing-in-seq2seq-models-a89"/>
-        <updated>2026-03-23T19:35:35.000Z</updated>
-        <summary type="html"><![CDATA[When we learn about seq2seq neural networks, there is a term we should know called Teacher Forcing.
-When we train a seq2seq model, the decoder generates one token at a time, building the output sequence step by step.
-At each step, it needs a previous token as input to predict the next one.
-So in this case, we should think about what to provide as the previous token, since this choice directly affects how well the model learns.
-Without teacher forcing, the model uses its own previous prediction as input.
-Suppose the target is "I am learning"
-Predict "I" ✅
-
-
-Uses "I" and predicts "Is" ❌
-
-
-Uses "is", and everything goes off track
-
-
-
-Here, one small mistake early causes all the following predictions to be wrong.
-So, if there is one mistake early, the mistakes keep compounding step by step.
-This makes training slow, unstable, and harder for the model to learn correct sequences.
-With teacher forcing, instead of using the model’s prediction, we feed the correct token from the dataset at every step.
-So even if the model makes a mistake at one step, we replace it with the correct token before moving forward.
-This ensures that the model always sees the right context while learning.
-Even if the model makes a mistake, we do not let that mistake affect future steps during training.
-This makes training faster, more stable, and easier for the model to converge.
-Looking for an easier way to install tools, libraries, or entire repositories?
-Installerpedia: a community-driven, structured installation platform that lets you install almost anything with minimal hassle and clear, reliable guidance.
-Just run:
-ipm install repo-name
-
-… and you’re done! 🚀
-
-🔗 Explore Installerpedia here]]></summary>
-        <author>
-            <name>Rijul Rajesh</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hardenize moved to $5K+/year enterprise. Here's the self-serve alternative.]]></title>
-        <id>https://dev.to/guardr/hardenize-moved-to-5kyear-enterprise-heres-the-self-serve-alternative-3dpn</id>
-        <link href="https://dev.to/guardr/hardenize-moved-to-5kyear-enterprise-heres-the-self-serve-alternative-3dpn"/>
-        <updated>2026-03-23T19:33:00.000Z</updated>
-        <summary type="html"><![CDATA[This post originally appeared on guardr.io/blog/vs-hardenize.
-Hardenize was one of the best tools for tracking security posture across a portfolio of websites. After Red Sift acquired it, the self-serve tier was removed and pricing moved to $5,000+/year — aimed at enterprise security teams, not agencies or freelancers.
-If you were on the self-serve tier, this post is for you.
-A replacement that covers the same monitoring surface as Hardenize:
-Security headers (CSP, HSTS, X-Frame-Options, Referrer-Policy, Permissions-Policy)
-TLS and SSL certificate expiry — alerts at 30 and 7 days before expiry
-DNS security (DNSSEC, CAA records)
-Cookie attribute checks (Secure, HttpOnly, SameSite)
-Exposure path detection (.git, .env, wp-login.php, phpinfo.php)
-Continuous monitoring with alerts — not manual spot checks
-...without a $5K/year contract.
-Guardr is a self-serve security posture monitor built for web agencies and developers managing multiple sites.
-It covers everything above plus uptime monitoring, and includes platform-specific fix instructions per finding — the exact Cloudflare, Nginx, or Apache config snippet, not just a description of the problem.
-
-
-
-Feature
-Hardenize
-Guardr
-
-
-
-
-Security header monitoring
-✅
-✅
-
-
-TLS / cert expiry alerts
-✅
-✅
-
-
-DNS security checks
-✅
-✅
-
-
-Cookie security
-✅
-✅
-
-
-Exposure path detection
-✅
-✅
-
-
-Uptime monitoring
-❌
-✅
-
-
-Fix instructions per platform
-❌
-✅
-
-
-Self-serve available
-⛔ Gone
-✅
-
-
-Starting price
-$5K+/year
-$7/month
-
-
-
-Every site gets an A–F grade based on its full security configuration — TLS, headers, DNS, cookies, and exposure paths. The grade is tracked over time so you can see when a deployment caused a regression, and alerts fire when it drops.
-You can scan any URL for free at guardr.io — no account required. You'll get a letter grade and full breakdown of every misconfiguration, with fix instructions included.
-From there you can set up continuous monitoring with one click.
-Full comparison at guardr.io/blog/vs-hardenize.]]></summary>
-        <author>
-            <name>Guardr</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Incident Management for Teams Without a Dedicated SRE: A Practical Guide]]></title>
-        <id>https://dev.to/newtorob/incident-management-for-teams-without-a-dedicated-sre-a-practical-guide-16cb</id>
-        <link href="https://dev.to/newtorob/incident-management-for-teams-without-a-dedicated-sre-a-practical-guide-16cb"/>
-        <updated>2026-03-23T19:32:10.000Z</updated>
-        <summary type="html"><![CDATA[Most incident management advice assumes you have a real SRE function already in place. Dedicated rotations, formal roles, long severity docs, postmortem templates with twelve sections. That advice is useful in the right environment. It just doesn't map especially well to a smaller team where the CTO, the senior backend engineer, and the person who shipped the last deploy are all effectively part of the incident process.
-If you're running with a lean engineering team and no dedicated SRE, the goal isn't sophistication. The goal is clarity. When something breaks, you want three things to be true: you notice quickly, the right person knows what to do next, and the team fixes the underlying issue often enough that the same incident doesn't keep resurfacing.
-That's the version of incident manag…]]></summary>
-        <author>
-            <name>Rob</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OSINT: Sua Empresa Está Nua na Internet e Você Nem Sabe]]></title>
-        <id>https://dev.to/rettecnologia/osint-sua-empresa-esta-nua-na-internet-e-voce-nem-sabe-1a2m</id>
-        <link href="https://dev.to/rettecnologia/osint-sua-empresa-esta-nua-na-internet-e-voce-nem-sabe-1a2m"/>
-        <updated>2026-03-23T19:30:59.000Z</updated>
-        <summary type="html"><![CDATA[Artigo originalmente publicado em RET Tecnologia.
-A maioria dos empresários acredita que "segurança" é ter um antivírus e um firewall. A realidade é outra. Usando apenas ferramentas gratuitas e públicas — sem invadir nada — um profissional de OSINT (Open Source Intelligence) consegue mapear toda a sua superfície de ataque.
-WHOIS e DNS Histórico: Registro de domínio revela nome completo do proprietário, e-mail pessoal, telefone e até endereço residencial (quando o WHOIS Privacy não está ativo).
-Subdomínios Esquecidos: Empresas frequentemente têm painéis administrativos expostos em admin.empresa.com, staging.empresa.com ou dev.empresa.com — sem autenticação.
-Credenciais em Bancos de Dados Vazados: Serviços como Have I Been Pwned revelam se e-mails corporativos foram comprometidos em breaches anteriores.
-Tecnologias Expostas em Headers HTTP: O Wappalyzer e similarmente uma simples análise de headers revelam versões de servidores (Apache, Nginx), frameworks (Laravel, WordPress) e até bancos de dados.
-Metadados de Documentos: PDFs, planilhas e documentos no site podem conter metadados com nomes de usuários internos, diretórios e versões de software.
-WHOIS Privacy obrigatório em todos os domínios.
-Auditoria de subdomínios trimestral (ferramentas: Amass, Subfinder).
-Monitoramento de vazamentos com serviços de Threat Intelligence.
-Remoção de metadados antes de publicar qualquer documento.
-Headers HTTP sanitizados: Nunca exponha versões de software em produção.
-A RET Tecnologia executa auditorias OSINT completas como primeira fase de todo projeto de segurança. Se você não sabe o que o mundo vê sobre sua empresa, você já está vulnerável.]]></summary>
-        <author>
-            <name>Gabriel Lima Ferreira</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why AI Agents in Google Colab Need Real Email Infrastructure]]></title>
-        <id>https://dev.to/francofuji/why-ai-agents-in-google-colab-need-real-email-infrastructure-hil</id>
-        <link href="https://dev.to/francofuji/why-ai-agents-in-google-colab-need-real-email-infrastructure-hil"/>
-        <updated>2026-03-23T19:30:36.000Z</updated>
-        <summary type="html"><![CDATA[Capable but Incomplete
-
-
-AI agents have made a remarkable leap in the past two years. They can write working code, call external APIs, browse the web, parse documents, orchestrate multi-step tasks, and operate in rich environments like Google Colab that give them access to real compute. By many measures, they look like fully capable automation systems.
-But there is a class of workflow they consistently fail to complete: anything that requires interacting with email.
-Not because the model is not smart enough. Not because the tooling is too complex. But because the infrastructure does not exist for them to use. Email — real email, with real SMTP, real delivery, real inboxes — has never been designed with agents in mind. And until it is, agents that seem capable of handling real-world tasks w…]]></summary>
-        <author>
-            <name>Francisco Perez</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ESP32 WhatsApp Alerts Made Simple (No GSM, No Hassle)]]></title>
-        <id>https://dev.to/david_thomas/esp32-whatsapp-alerts-made-simple-no-gsm-no-hassle-phi</id>
-        <link href="https://dev.to/david_thomas/esp32-whatsapp-alerts-made-simple-no-gsm-no-hassle-phi"/>
-        <updated>2026-03-23T19:23:24.000Z</updated>
-        <summary type="html"><![CDATA[If you’ve ever wanted your project to send alerts directly to your phone, this one hits the sweet spot. No GSM module, no SIM card, and no complicated setup.
-Just WiFi and a few lines of code.
-This project Send WhatsApp Messages using ESP32 shows how to send real-time WhatsApp alerts using an ESP32 and a simple sensor. And honestly, once you get this working, you’ll start thinking of a lot of use cases.
-At its core, the idea is simple.
-The ESP32 reads data from a sensor. If something crosses a limit, like temperature going too high, it instantly sends a WhatsApp message.
-That’s it.
-No direct connection to WhatsApp servers though. Instead, the ESP32 sends a secure API request, and the cloud platform handles formatting and delivery. :contentReference[oaicite:0]{index=0}
-This makes the whole …]]></summary>
-        <author>
-            <name>David Thomas</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Remote Work: Dream, Freedom, or Something Else?]]></title>
-        <id>https://dev.to/anna-freedom-in-tech/remote-work-dream-freedom-or-something-else-2af5</id>
-        <link href="https://dev.to/anna-freedom-in-tech/remote-work-dream-freedom-or-something-else-2af5"/>
-        <updated>2026-03-23T19:16:37.000Z</updated>
-        <summary type="html"><![CDATA[Remote work isn’t just a perk — it’s a bridge to the life you want, if you use it intentionally.
-I remember working remotely from Bulgaria for a few months — close to my parents-in-law, surrounded by mountains, fresh air, and quiet mornings. The pace of life, the nature, the simplicity of it all… it made me more productive than I’d ever been in London. Ideas flowed, energy levels were high, and I felt genuinely alive while still building my career in tech.
-A little earlier, I had a similar experience in Ukraine. Before the war, remote work allowed me to spend months with my family and friends — something that wouldn’t have been possible if I were tied to an office in the UK. Those everyday moments were priceless.
-Tech has been doing remote work long before COVID made it mainstream. Softwar…]]></summary>
-        <author>
-            <name>Anna | Freedom in Tech</name>
         </author>
     </entry>
 </feed>
