@@ -2,10 +2,476 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-04-07T11:52:47.321Z</updated>
+    <updated>2026-04-07T13:16:34.322Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[CoinDesk 20 performance update: index drops 2.4% as all constituents trade lower]]></title>
+        <id>66d004ee-ff63-43c2-9cb9-fc0d653bced5</id>
+        <link href="https://www.coindesk.com/coindesk-indices/2026/04/07/coindesk-20-performance-update-index-drops-2-4-as-all-constituents-trade-lower"/>
+        <updated>2026-04-07T13:14:36.000Z</updated>
+        <summary type="html"><![CDATA[Aave (AAVE) dropped 8.5% and Avalanche (AVAX) fell 7.6%, leading the index lower from Monday.]]></summary>
+        <author>
+            <name>CoinDesk Indices</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Compress your LLM's KV cache 33x with zero training]]></title>
+        <id>https://dev.to/jagmarques/compress-your-llms-kv-cache-33x-with-zero-training-1kho</id>
+        <link href="https://dev.to/jagmarques/compress-your-llms-kv-cache-33x-with-zero-training-1kho"/>
+        <updated>2026-04-07T13:08:32.000Z</updated>
+        <summary type="html"><![CDATA[Running out of GPU memory at long context lengths? The KV cache grows linearly with sequence length — at 128K tokens, a 7B model accumulates over 60 GB of KV state. That's more than a single A100.
+I built NexusQuant, a library that compresses the KV cache 10-33x at inference time. No training, no calibration data, no model changes.
+# OOM at 32K tokens on a 24GB GPU
+output = model.generate(input_ids, max_new_tokens=512)
+
+from nexusquant import nexusquant_evict
+
+with nexusquant_evict(model, quality="balanced"):
+    output = model.generate(input_ids, max_new_tokens=512)
+
+128K context now fits in the memory that used to hold 7.5K.
+Six stages, applied once after the prefill pass:
+Rank tokens by attention importance
+Drop the lowest-scoring tokens (token eviction)
+Undo rotary position embeddings on keys
+Apply Hadamard rotation to spread energy uniformly
+Quantize 8-float groups onto the E8 lattice (densest sphere packing in 8D)
+Delta-code consecutive indices and compress with zstd
+Eviction reduces token count. Quantization reduces precision. They're nearly orthogonal — 60% eviction (2.5x) combined with 2-bit E8 quantization (~7x) gives ~17x total.
+Measured on Mistral-7B, A100, FP16, all overhead included:
+
+
+
+Preset
+Compression
+PPL change
+
+
+
+
+high
+10x
++0.4%
+
+
+balanced
+17x
++1.3%
+
+
+max
+33x
++2.6%
+
+
+
+
+
+
+Method
+Ratio
+Quality
+Training needed
+
+
+
+
+NexusQuant
+10-33x
++0.4-2.6%
+No
+
+
+TurboQuant (Google)
+~5-6x
+~0%
+No
+
+
+KVTC (NVIDIA)
+up to 20x
+<1%
+Yes (calibration)
+
+
+CommVQ (Apple)
+~8x
+~0%
+Yes (training)
+
+
+
+NexusQuant is the highest-compression training-free method available. Only KVTC achieves comparable ratios, but it needs calibration data.
+pip install nexusquant
+pip install "nexusquant[hf]"  # with transformers
+
+GitHub repo | Paper (PDF)
+Best regards,
+João Marques]]></summary>
+        <author>
+            <name>João André Gomes Marques</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Integrating LLMs into a Go service without losing your mind (or adding 550ms latency)]]></title>
+        <id>https://dev.to/james_whitfield/integrating-llms-into-a-go-service-without-losing-your-mind-or-adding-550ms-latency-2955</id>
+        <link href="https://dev.to/james_whitfield/integrating-llms-into-a-go-service-without-losing-your-mind-or-adding-550ms-latency-2955"/>
+        <updated>2026-04-07T13:08:25.000Z</updated>
+        <summary type="html"><![CDATA[Right, so. This is a post I wish existed six months ago when we were first wiring LLMs into our Go backend at Huma.
+Most of the tutorials out there for LLM integration assume you're in Python. Which is fine — a lot of ML infrastructure is Python, and libraries like LangChain, LiteLLM, and friends are well-documented. But if you're running a Go service stack and you want to add LLM calls without bolting on a whole Python sidecar, the path is less obvious.
+Here's what we actually learned, including where we went wrong.
+We build remote patient monitoring software. Clinicians use dashboards to track patients with chronic conditions — vitals, medication adherence, care notes. We added an LLM-powered summarization layer: given a week's worth of patient data, produce a brief natural-language summ…]]></summary>
+        <author>
+            <name>James Whitfield</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[FinOps for AI: Balancing Innovation and Budget in AI Development]]></title>
+        <id>https://dev.to/datta_kharad_3fd1383b5036/finops-for-ai-balancing-innovation-and-budget-in-ai-development-1ba2</id>
+        <link href="https://dev.to/datta_kharad_3fd1383b5036/finops-for-ai-balancing-innovation-and-budget-in-ai-development-1ba2"/>
+        <updated>2026-04-07T13:08:19.000Z</updated>
+        <summary type="html"><![CDATA[Artificial Intelligence initiatives are accelerating across industries, but AI workloads—especially generative AI—can quickly become expensive. Training models, running inference, storing embeddings, and scaling infrastructure all introduce significant costs. FinOps for AI helps organizations balance innovation with financial accountability by optimizing AI spending without slowing down development.
+Cost Visibility
+Organizations must understand where AI spending occurs.
+Track:
+• Model API usage 
+• Token consumption 
+• GPU usage 
+• Storage costs 
+• Vector database usage 
+Tools:
+• Cloud cost dashboards 
+• Usage analytics 
+• Budget alerts 
+Right-Sizing AI Models
+Use the smallest model that meets requirements.
+Instead of:
+• Large model for every request 
+Use:
+• Small model for simple queries 
+• Large model only when required 
+This reduces inference costs significantly.
+Optimize Inference Costs
+Techniques:
+• Response caching 
+• Batch inference 
+• Prompt optimization 
+• Reduce output tokens 
+• Use streaming responses 
+These methods reduce token usage and API costs.
+Use Retrieval-Augmented Generation (RAG)
+RAG reduces reliance on large models.
+Instead of:
+Sending entire context to LLM
+Use:
+• Vector search 
+• Relevant document retrieval 
+• Short prompt context 
+Benefits:
+• Lower token usage 
+• Faster responses 
+• Lower cost 
+Training Cost Optimization
+Reduce training costs using:
+• Transfer learning 
+• Fine-tuning smaller models 
+• Spot instances 
+• Scheduled training jobs 
+• Early stopping 
+Avoid retraining models unnecessarily.]]></summary>
+        <author>
+            <name>Datta Kharad</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Track Claude Code Costs Across Multiple PCs]]></title>
+        <id>https://dev.to/ryantech00/how-i-track-claude-code-costs-across-multiple-pcs-13bl</id>
+        <link href="https://dev.to/ryantech00/how-i-track-claude-code-costs-across-multiple-pcs-13bl"/>
+        <updated>2026-04-07T13:07:50.000Z</updated>
+        <summary type="html"><![CDATA[The Problem
+
+
+Claude Code logs your usage locally in JSONL files. CLI tools like ccusage and ccost read these files beautifully — but only on one machine at a time.
+If you use Claude Code on multiple PCs (work laptop, home desktop, cloud VM), you have a problem: Anthropic's rate limits are per account, not per machine. Without aggregation, you're flying blind:
+No idea how close you are to your 5-hour block limit across machines
+No way to compare daily spending between workstations
+No centralized view of total cost
+No historical trends across your entire usage footprint
+I hit this wall myself. I use Claude Code on my work laptop and home desktop. Every time I ran ccusage it only showed me half the picture.
+So I built claude-telemetry.
+Claude-telemetry is the aggregation layer that sits on t…]]></summary>
+        <author>
+            <name>Ryan Barbosa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[5 Agent Skill Design Patterns from Google: Cut Token Waste, Trigger the Right Behavior]]></title>
+        <id>https://dev.to/wonderlab/5-agent-skill-design-patterns-from-google-cut-token-waste-trigger-the-right-behavior-52mo</id>
+        <link href="https://dev.to/wonderlab/5-agent-skill-design-patterns-from-google-cut-token-waste-trigger-the-right-behavior-52mo"/>
+        <updated>2026-04-07T13:07:20.000Z</updated>
+        <summary type="html"><![CDATA[This article is distilled from Lavi Nigam (Google ADK Agent Engineering expert) on Agent Skill design, summarizing 5 production-ready SKILL.md design patterns to help developers reduce token waste and improve skill quality.
+In AI Native product development, the root cause of massive token waste is twofold: forcing the model to repeatedly guess user intent that should be clearly specified, and expressing with complex instructions what could be expressed simply.
+With structured SKILL.md design patterns, we can:
+Reduce the model's "guessing" cost and trigger the right behavior precisely
+Standardize how skills are written, reducing friction in team collaboration
+Use progressive knowledge loading to dramatically cut token consumption
+Let the Agent activate the right skill at the right time
+
+Cor…]]></summary>
+        <author>
+            <name>WonderLab</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Gave My AI Agents a Dynamic MCP Marketplace]]></title>
+        <id>https://dev.to/keshrath/how-i-gave-my-ai-agents-a-dynamic-mcp-marketplace-d3a</id>
+        <link href="https://dev.to/keshrath/how-i-gave-my-ai-agents-a-dynamic-mcp-marketplace-d3a"/>
+        <updated>2026-04-07T13:05:16.000Z</updated>
+        <summary type="html"><![CDATA[I've written before about agent-comm, agent-tasks, and agent-knowledge — tools for giving AI coding agents coordination, task management, and persistent memory. But there was still one friction point I hadn't solved: getting the right MCP servers in front of the agent in the first place.
+The problem with static MCP configs is that everything is always on. Every server you've ever registered is running whether you need it or not. You want to add a new tool? Edit a JSON file, restart your agent. You want to try something from the official MCP registry? Good luck figuring out what's available and how to install it without leaving your coding session.
+I built agent-discover to fix this.
+When you configure MCP servers in Claude Code (or any MCP client), you write a static config file. That list…]]></summary>
+        <author>
+            <name>Mathias Markl</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Agent Factory Recap: Supercharging Agents on GKE with Agent Sandbox and Pod Snapshots]]></title>
+        <id>https://dev.to/googleai/agent-factory-recap-supercharging-agents-on-gke-with-agent-sandbox-and-pod-snapshots-3a5e</id>
+        <link href="https://dev.to/googleai/agent-factory-recap-supercharging-agents-on-gke-with-agent-sandbox-and-pod-snapshots-3a5e"/>
+        <updated>2026-04-07T13:04:00.000Z</updated>
+        <summary type="html"><![CDATA[In the latest episode of the Agent Factory, Mofi Rahman and I had the pleasure of hosting, Brandon Royal, the PM working on agentic workloads on GKE. We dove deep into the critical questions around the nuances of choosing the right agent runtime, the power of GKE for agents, and the essential security measures needed for intelligent agents to run code.
+This post guides you through the key ideas from our conversation. Use it to quickly recap topics or dive deeper into specific segments with links and timestamps.
+Timestamp: 01:49 
+We kicked off our discussion by tackling a fundamental question: why choose GKE as your agent runtime when serverless options like Cloud Run or fully managed solutions like Agent Engine exist?
+Brandon explained that the decision often boils down to control versus c…]]></summary>
+        <author>
+            <name>Shir Meir Lador</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Causal inference for credit risk: why prediction alone isn't enough]]></title>
+        <id>https://dev.to/claire_dubois/causal-inference-for-credit-risk-why-prediction-alone-isnt-enough-1j3e</id>
+        <link href="https://dev.to/claire_dubois/causal-inference-for-credit-risk-why-prediction-alone-isnt-enough-1j3e"/>
+        <updated>2026-04-07T13:03:23.000Z</updated>
+        <summary type="html"><![CDATA[There's a pattern I've seen repeatedly in financial ML: a model achieves excellent predictive performance — AUC above 0.80, stable on holdout — and the team ships it. Then, six months later, someone asks "but why is the model denying more applicants from this postal code?" and nobody has a good answer.
+Prediction and causation are different things, and conflating them is expensive in credit risk specifically.
+When you train a credit risk model, you're typically predicting P(default | features). This is a conditional probability — it tells you what tends to be true about people who look like this applicant. It doesn't tell you what caused their credit behavior, and it doesn't tell you what will happen if you lend to them.
+This distinction matters for two reasons.
+First, selection bias. Your…]]></summary>
+        <author>
+            <name>Claire Dubois</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why (and How) I Built a Go AI SDK]]></title>
+        <id>https://dev.to/vietanh/why-and-how-i-built-a-go-ai-sdk-26ob</id>
+        <link href="https://dev.to/vietanh/why-and-how-i-built-a-go-ai-sdk-26ob"/>
+        <updated>2026-04-07T13:02:49.000Z</updated>
+        <summary type="html"><![CDATA[GoAI, a Go (Golang) LLM library: 22+ providers, 2 dependencies, type-safe generics. v0.6.1, Go 1.25+. I built it to learn Go by adding AI to infrastructure that already runs on Go.
+Python has LangChain, LlamaIndex, LiteLLM. TypeScript has the Vercel AI SDK. Go has options, but none covered all the bases.
+
+
+
+Library
+Stars
+Created
+Providers
+What's missing
+
+
+
+
+go-openai
+~10.6k
+Aug 2020
+1
+Single provider only
+
+
+
+Eino (ByteDance)
+~10.5k
+Dec 2024
+10
+Graph framework, different scope
+
+
+LangChainGo
+~9k
+Feb 2023
+~14
+170+ deps, no MCP, no generics schema
+
+
+Google ADK Go
+~7.5k
+May 2025
+Gemini-first
+Agent framework, Gemini-optimized
+
+
+
+Genkit Go (Google)
+~5.7k*
+2024
+~6
+Google Cloud-heavy, 129 deps
+
+
+openai-go
+~3.1k
+Jul 2024
+1+Azure
+Single provider by design
+
+
+anthropic-sdk-go
+~960
+Jul 2024
+1+Bedrock
+Si…]]></summary>
+        <author>
+            <name>anh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Unpacking GitHub Personal Access Tokens: A Guide for Developer Productivity and Secure Integrations]]></title>
+        <id>https://dev.to/devactivity/unpacking-github-personal-access-tokens-a-guide-for-developer-productivity-and-secure-integrations-2p0e</id>
+        <link href="https://dev.to/devactivity/unpacking-github-personal-access-tokens-a-guide-for-developer-productivity-and-secure-integrations-2p0e"/>
+        <updated>2026-04-07T13:02:11.000Z</updated>
+        <summary type="html"><![CDATA[The email arrives: “Your personal access token (classic) is about to expire.” For many, this notification from GitHub is less a helpful reminder and more a source of confusion. “What even is a personal access token?” “Do I need one?” “What happens if it expires?” These are precisely the questions that sparked a recent, highly relatable discussion in the GitHub Community, highlighting a widespread need for clarity on these vital security tools.
+For dev teams, product managers, and CTOs, understanding GitHub Personal Access Tokens (PATs) isn't just about avoiding a security incident; it's about enabling seamless integrations that directly impact developer productivity, streamline delivery, and uphold robust technical leadership. Let's demystify PATs and ensure your team is equipped to manage…]]></summary>
+        <author>
+            <name>Oleg</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Urgent Security Alert: How a GitHub Exploit Impacts Engineering Performance and Trust]]></title>
+        <id>https://dev.to/devactivity/urgent-security-alert-how-a-github-exploit-impacts-engineering-performance-and-trust-3lnh</id>
+        <link href="https://dev.to/devactivity/urgent-security-alert-how-a-github-exploit-impacts-engineering-performance-and-trust-3lnh"/>
+        <updated>2026-04-07T13:02:00.000Z</updated>
+        <summary type="html"><![CDATA[In the fast-paced world of software development, security vulnerabilities aren't just technical glitches; they're direct threats to an organization's engineering performance. A recent discussion in the GitHub Community has brought to light a serious security vulnerability involving a Telegram bot offering fraudulent GitHub Student Verification. This exploit, if left unchecked, could have significant repercussions on individual developer accounts and the broader integrity of the GitHub Education program, indirectly impacting overall trust, security posture, and ultimately, your team's delivery capabilities.
+The discussion, initiated by user saxyhoney, detailed a Telegram bot named @ghs_verify_bot. This bot claimed to provide instant GitHub Student Verification by leveraging user cookies. Th…]]></summary>
+        <author>
+            <name>Oleg</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Debugging CI Failures: Boost Your Software Development Performance Metrics]]></title>
+        <id>https://dev.to/devactivity/debugging-ci-failures-boost-your-software-development-performance-metrics-4da0</id>
+        <link href="https://dev.to/devactivity/debugging-ci-failures-boost-your-software-development-performance-metrics-4da0"/>
+        <updated>2026-04-07T13:01:32.000Z</updated>
+        <summary type="html"><![CDATA[The dreaded CI failure. You've pushed your latest changes, confident that your local tests passed with flying colors. But then, your Continuous Integration (CI) pipeline lights up red, failing across a bewildering array of environments like Windows, macOS, and Ubuntu. This common scenario isn't just frustrating; it's a significant drain on developer productivity and directly impacts your team's software development performance metrics. When developers spend hours chasing phantom bugs, delivery slows, and morale dips.
+This isn't a sign of bad code, but rather a strong indicator of subtle environment differences between your local machine and the pristine, often headless, CI environment. Understanding and systematically addressing these discrepancies is key to maintaining a robust developmen…]]></summary>
+        <author>
+            <name>Oleg</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA['A whole civilization will die': Crypto markets under pressure as Trump ups rhetoric towards Iran]]></title>
+        <id>92d75f06-d326-428d-b148-83f6b67f6e3e</id>
+        <link href="https://www.coindesk.com/markets/2026/04/07/a-whole-civilization-will-die-crypto-markets-under-pressure-as-trump-ups-rhetoric-towards-iran"/>
+        <updated>2026-04-07T13:00:26.000Z</updated>
+        <summary type="html"><![CDATA[Weekend gains for bitcoin have been mostly erased ahead of the president's Tuesday night deadline for the reopening of the Strait of Hormuz]]></summary>
+        <author>
+            <name>Stephen Alpher</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Intel Confirms That Raptor Lake Will Still Remain In Production]]></title>
+        <id>https://www.lowyat.net/?p=388734</id>
+        <link href="https://www.lowyat.net/2026/388734/intel-confirms-that-raptor-lake-will-still-remain-in-production/"/>
+        <updated>2026-04-07T12:55:19.000Z</updated>
+        <summary type="html"><![CDATA[Intel recently confirmed that its Raptor Lake platform “is not going anywhere” and that it plans on releasing ore DDR4 and DDR5 hybrid motherboards in the foreseeable future. The confirmation was given in an interview with Club386, who was speaking with Robert Hallock, VP and GM of Intel’s Enthusiast Channel, on the subject of Raptor […]
+The post Intel Confirms That Raptor Lake Will Still Remain In Production appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>John Law</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin quantum threat is real and closer than it looks, says Nobel physicist]]></title>
+        <id>cb7adfb1-9542-4896-9ac1-70685c8f99c8</id>
+        <link href="https://www.coindesk.com/business/2026/04/07/bitcoin-quantum-threat-is-real-and-closer-than-it-looks-says-nobel-physicist"/>
+        <updated>2026-04-07T12:44:33.000Z</updated>
+        <summary type="html"><![CDATA[Former Google quantum hardware leader and winner of the 2025 Nobel Prize in Physics, John Martinis, warns that breaking encryption will be among the earliest uses of quantum computing]]></summary>
+        <author>
+            <name>Olivier Acuna</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How North Korea's 6-month long secret espionage program has crypto community rethinking security]]></title>
+        <id>8b8e1a40-1a82-4a9e-9a8a-9601e0241b4f</id>
+        <link href="https://www.coindesk.com/tech/2026/04/07/how-north-korea-s-6-month-long-secret-espionage-program-has-crypto-community-rethinking-security"/>
+        <updated>2026-04-07T12:30:00.000Z</updated>
+        <summary type="html"><![CDATA[For years, the DeFi industry has treated security as a technical problem: something that could be solved with better code. But the Drift incident suggests something far more complex: that the real vulnerabilities may lie outside the codebase altogether.]]></summary>
+        <author>
+            <name>Margaux Nijkerk</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA["The new Copilot app for Windows 11 is really just Microsoft Edge"]]></title>
+        <id>https://twitter.com/i/status/2041112541909205001</id>
+        <link href="https://twitter.com/i/status/2041112541909205001"/>
+        <updated>2026-04-07T12:27:59.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: A cartographer's attempt to realistically map Tolkien's world]]></title>
+        <id>https://www.intofarlands.com/atlasofarda</id>
+        <link href="https://www.intofarlands.com/atlasofarda"/>
+        <updated>2026-04-07T12:12:15.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Download: AI’s impact on jobs, and data centres in space]]></title>
+        <id>https://www.technologyreview.com/?p=1135208</id>
+        <link href="https://www.technologyreview.com/2026/04/07/1135208/the-download-ai-impact-jobs-data-centres-space/"/>
+        <updated>2026-04-07T12:10:00.000Z</updated>
+        <summary type="html"><![CDATA[This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. The one piece of data that could actually shed light on your job and AI  Within Silicon Valley’s orbit, an AI-fueled jobs apocalypse is spoken about as a given. Now even economists who have…]]></summary>
+        <author>
+            <name>Thomas Macaulay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI agents can communicate with each other, and can't be caught]]></title>
+        <id>https://arxiv.org/abs/2604.04757</id>
+        <link href="https://arxiv.org/abs/2604.04757"/>
+        <updated>2026-04-07T12:04:34.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Pion/handoff – Move WebRTC out of browser and into Go]]></title>
+        <id>https://github.com/pion/handoff</id>
+        <link href="https://github.com/pion/handoff"/>
+        <updated>2026-04-07T12:01:51.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[U Mobile Launches New ULTRA5G Plans With Priority Network Access And More]]></title>
+        <id>https://www.lowyat.net/?p=388721</id>
+        <link href="https://www.lowyat.net/2026/388721/u-mobile-launches-new-ultra5g-plans/"/>
+        <updated>2026-04-07T11:57:26.000Z</updated>
+        <summary type="html"><![CDATA[U Mobile has officially unveiled its refreshed ULTRA5G plans today, marking a significant update to its postpaid and prepaid offerings under the new “ULTRA” branding. The launch also comes with a network milestone, with the telco announcing that its ULTRA5G network has achieved 82.9% population coverage ahead of schedule, positioning it as Malaysia’s second 5G […]
+The post U Mobile Launches New ULTRA5G Plans With Priority Network Access And More appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Italian TV Channel Sends Copyright Strike To YouTube Against NVIDIA’s Own DLSS 5 Video]]></title>
         <id>https://www.lowyat.net/?p=388723</id>
@@ -380,6 +846,26 @@ For comparison: open-source memory projects with similar architectures and simil
         <summary type="html"><![CDATA[Your day-ahead look for April 7, 2026]]></summary>
         <author>
             <name>Francisco Rodrigues</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Stop paying for Dropbox/Google Drive, use your own S3 bucket instead]]></title>
+        <id>https://locker.dev/</id>
+        <link href="https://locker.dev/"/>
+        <updated>2026-04-07T11:12:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DeiMOS – A Superoptimizer for the MOS 6502]]></title>
+        <id>https://aransentin.github.io/deimos/</id>
+        <link href="https://aransentin.github.io/deimos/"/>
+        <updated>2026-04-07T11:10:22.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -26326,6 +26812,16 @@ One button to reach them all. Open source. Community-built. This is assembly, no
         <summary type="html"><![CDATA[For many software engineers and SaaS founders, writing code is the easy part. But the marketing and sales grind feels like an uphill battle. If you’d rather be building features than chasing leads you]]></summary>
         <author>
             <name>Beau Carnes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Wi-Fi That Can Withstand a Nuclear Reactor: This receiver chip can take it]]></title>
+        <id>https://spectrum.ieee.org/robotics-in-nuclear-industry</id>
+        <link href="https://spectrum.ieee.org/robotics-in-nuclear-industry"/>
+        <updated>2026-04-02T17:05:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -80348,37 +80844,6 @@ Main session = ALWAYS FREE for Deek.
 And fro…]]></summary>
         <author>
             <name>Deek Roumy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Tecno Camon 50 Ultra Review: A Fancy Facade]]></title>
-        <id>https://www.lowyat.net/?p=386829</id>
-        <link href="https://www.lowyat.net/2026/386829/tecno-camon-50-ultra-review/"/>
-        <updated>2026-03-24T01:04:21.000Z</updated>
-        <summary type="html"><![CDATA[The Tecno Camon 50 Ultra is the only model in the brand’s camera-focused Camon 50 series to land on our shores. It also happens to be the fanciest version in the lineup thus far, if the name doesn’t already make it obvious. “Ultra” is not a word to be thrown about lightly, and to wear […]
-The post Tecno Camon 50 Ultra Review: A Fancy Facade appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build a Complete Flutter CI/CD Pipeline with Codemagic: From PR Quality Gates to Automated Store Releases]]></title>
-        <id>69c1dcba30a9b81e3ac436d8</id>
-        <link href="https://www.freecodecamp.org/news/build-a-complete-flutter-ci-cd-pipeline-with-codemagic/"/>
-        <updated>2026-03-24T00:37:14.000Z</updated>
-        <summary type="html"><![CDATA[If you've spent any time shipping Flutter apps manually, you already know the drill. Someone on the team finishes a feature, builds the APK locally, signs it (hopefully with the right keystore), uploa]]></summary>
-        <author>
-            <name>Oluwaseyi Fatunmole</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Stop Letting AI Agents Guess Your Requirements]]></title>
-        <id>69c1dc5930a9b81e3ac400fc</id>
-        <link href="https://www.freecodecamp.org/news/how-to-stop-letting-ai-agents-guess-your-requirements/"/>
-        <updated>2026-03-24T00:35:37.000Z</updated>
-        <summary type="html"><![CDATA[I spent 64% of my weekly Claude budget before Wednesday building a tool designed to reduce Claude usage. That's the kind of irony that deserves its own specification. The tool is spec-writer: a Claude]]></summary>
-        <author>
-            <name>Daniel Nwaneri</name>
         </author>
     </entry>
 </feed>

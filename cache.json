@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/jagmarques/compress-your-llms-kv-cache-33x-with-zero-training-1kho",
+          "author": "João André Gomes Marques",
+          "description": "Running out of GPU memory at long context lengths? The KV cache grows linearly with sequence length — at 128K tokens, a 7B model accumulates over 60 GB of KV state. That's more than a single A100.\nI built NexusQuant, a library that compresses the KV cache 10-33x at inference time. No training, no calibration data, no model changes.\n# OOM at 32K tokens on a 24GB GPU\noutput = model.generate(input_ids, max_new_tokens=512)\n\nfrom nexusquant import nexusquant_evict\n\nwith nexusquant_evict(model, quality=\"balanced\"):\n    output = model.generate(input_ids, max_new_tokens=512)\n\n128K context now fits in the memory that used to hold 7.5K.\nSix stages, applied once after the prefill pass:\nRank tokens by attention importance\nDrop the lowest-scoring tokens (token eviction)\nUndo rotary position embeddings on keys\nApply Hadamard rotation to spread energy uniformly\nQuantize 8-float groups onto the E8 lattice (densest sphere packing in 8D)\nDelta-code consecutive indices and compress with zstd\nEviction reduces token count. Quantization reduces precision. They're nearly orthogonal — 60% eviction (2.5x) combined with 2-bit E8 quantization (~7x) gives ~17x total.\nMeasured on Mistral-7B, A100, FP16, all overhead included:\n\n\n\nPreset\nCompression\nPPL change\n\n\n\n\nhigh\n10x\n+0.4%\n\n\nbalanced\n17x\n+1.3%\n\n\nmax\n33x\n+2.6%\n\n\n\n\n\n\nMethod\nRatio\nQuality\nTraining needed\n\n\n\n\nNexusQuant\n10-33x\n+0.4-2.6%\nNo\n\n\nTurboQuant (Google)\n~5-6x\n~0%\nNo\n\n\nKVTC (NVIDIA)\nup to 20x\n<1%\nYes (calibration)\n\n\nCommVQ (Apple)\n~8x\n~0%\nYes (training)\n\n\n\nNexusQuant is the highest-compression training-free method available. Only KVTC achieves comparable ratios, but it needs calibration data.\npip install nexusquant\npip install \"nexusquant[hf]\"  # with transformers\n\nGitHub repo | Paper (PDF)\nBest regards,\nJoão Marques",
+          "link": "https://dev.to/jagmarques/compress-your-llms-kv-cache-33x-with-zero-training-1kho",
+          "publishedOn": "2026-04-07T13:08:32.000Z",
+          "wordCount": 1675,
+          "title": "Compress your LLM's KV cache 33x with zero training",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0i50mu283rlev30up9if.png"
+        },
+        {
+          "id": "https://dev.to/james_whitfield/integrating-llms-into-a-go-service-without-losing-your-mind-or-adding-550ms-latency-2955",
+          "author": "James Whitfield",
+          "description": "Right, so. This is a post I wish existed six months ago when we were first wiring LLMs into our Go backend at Huma.\nMost of the tutorials out there for LLM integration assume you're in Python. Which is fine — a lot of ML infrastructure is Python, and libraries like LangChain, LiteLLM, and friends are well-documented. But if you're running a Go service stack and you want to add LLM calls without bolting on a whole Python sidecar, the path is less obvious.\nHere's what we actually learned, including where we went wrong.\nWe build remote patient monitoring software. Clinicians use dashboards to track patients with chronic conditions — vitals, medication adherence, care notes. We added an LLM-powered summarization layer: given a week's worth of patient data, produce a brief natural-language summ…",
+          "link": "https://dev.to/james_whitfield/integrating-llms-into-a-go-service-without-losing-your-mind-or-adding-550ms-latency-2955",
+          "publishedOn": "2026-04-07T13:08:25.000Z",
+          "wordCount": 2680,
+          "title": "Integrating LLMs into a Go service without losing your mind (or adding 550ms latency)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fodtse31c60490wtu5pgi.png"
+        },
+        {
+          "id": "https://dev.to/datta_kharad_3fd1383b5036/finops-for-ai-balancing-innovation-and-budget-in-ai-development-1ba2",
+          "author": "Datta Kharad",
+          "description": "Artificial Intelligence initiatives are accelerating across industries, but AI workloads—especially generative AI—can quickly become expensive. Training models, running inference, storing embeddings, and scaling infrastructure all introduce significant costs. FinOps for AI helps organizations balance innovation with financial accountability by optimizing AI spending without slowing down development.\nCost Visibility\nOrganizations must understand where AI spending occurs.\nTrack:\n• Model API usage \n• Token consumption \n• GPU usage \n• Storage costs \n• Vector database usage \nTools:\n• Cloud cost dashboards \n• Usage analytics \n• Budget alerts \nRight-Sizing AI Models\nUse the smallest model that meets requirements.\nInstead of:\n• Large model for every request \nUse:\n• Small model for simple queries \n• Large model only when required \nThis reduces inference costs significantly.\nOptimize Inference Costs\nTechniques:\n• Response caching \n• Batch inference \n• Prompt optimization \n• Reduce output tokens \n• Use streaming responses \nThese methods reduce token usage and API costs.\nUse Retrieval-Augmented Generation (RAG)\nRAG reduces reliance on large models.\nInstead of:\nSending entire context to LLM\nUse:\n• Vector search \n• Relevant document retrieval \n• Short prompt context \nBenefits:\n• Lower token usage \n• Faster responses \n• Lower cost \nTraining Cost Optimization\nReduce training costs using:\n• Transfer learning \n• Fine-tuning smaller models \n• Spot instances \n• Scheduled training jobs \n• Early stopping \nAvoid retraining models unnecessarily.",
+          "link": "https://dev.to/datta_kharad_3fd1383b5036/finops-for-ai-balancing-innovation-and-budget-in-ai-development-1ba2",
+          "publishedOn": "2026-04-07T13:08:19.000Z",
+          "wordCount": 1767,
+          "title": "FinOps for AI: Balancing Innovation and Budget in AI Development",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsespie6fped1tljg0ekq.png"
+        },
+        {
+          "id": "https://dev.to/ryantech00/how-i-track-claude-code-costs-across-multiple-pcs-13bl",
+          "author": "Ryan Barbosa",
+          "description": "The Problem\n\n\nClaude Code logs your usage locally in JSONL files. CLI tools like ccusage and ccost read these files beautifully — but only on one machine at a time.\nIf you use Claude Code on multiple PCs (work laptop, home desktop, cloud VM), you have a problem: Anthropic's rate limits are per account, not per machine. Without aggregation, you're flying blind:\nNo idea how close you are to your 5-hour block limit across machines\nNo way to compare daily spending between workstations\nNo centralized view of total cost\nNo historical trends across your entire usage footprint\nI hit this wall myself. I use Claude Code on my work laptop and home desktop. Every time I ran ccusage it only showed me half the picture.\nSo I built claude-telemetry.\nClaude-telemetry is the aggregation layer that sits on t…",
+          "link": "https://dev.to/ryantech00/how-i-track-claude-code-costs-across-multiple-pcs-13bl",
+          "publishedOn": "2026-04-07T13:07:50.000Z",
+          "wordCount": 2027,
+          "title": "How I Track Claude Code Costs Across Multiple PCs",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ftgxjf455k6oi715dgtfr.png"
+        },
+        {
+          "id": "https://dev.to/wonderlab/5-agent-skill-design-patterns-from-google-cut-token-waste-trigger-the-right-behavior-52mo",
+          "author": "WonderLab",
+          "description": "This article is distilled from Lavi Nigam (Google ADK Agent Engineering expert) on Agent Skill design, summarizing 5 production-ready SKILL.md design patterns to help developers reduce token waste and improve skill quality.\nIn AI Native product development, the root cause of massive token waste is twofold: forcing the model to repeatedly guess user intent that should be clearly specified, and expressing with complex instructions what could be expressed simply.\nWith structured SKILL.md design patterns, we can:\nReduce the model's \"guessing\" cost and trigger the right behavior precisely\nStandardize how skills are written, reducing friction in team collaboration\nUse progressive knowledge loading to dramatically cut token consumption\nLet the Agent activate the right skill at the right time\n\nCor…",
+          "link": "https://dev.to/wonderlab/5-agent-skill-design-patterns-from-google-cut-token-waste-trigger-the-right-behavior-52mo",
+          "publishedOn": "2026-04-07T13:07:20.000Z",
+          "wordCount": 2855,
+          "title": "5 Agent Skill Design Patterns from Google: Cut Token Waste, Trigger the Right Behavior",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkju3itoyuggvcuh7119b.png"
+        },
+        {
+          "id": "https://dev.to/keshrath/how-i-gave-my-ai-agents-a-dynamic-mcp-marketplace-d3a",
+          "author": "Mathias Markl",
+          "description": "I've written before about agent-comm, agent-tasks, and agent-knowledge — tools for giving AI coding agents coordination, task management, and persistent memory. But there was still one friction point I hadn't solved: getting the right MCP servers in front of the agent in the first place.\nThe problem with static MCP configs is that everything is always on. Every server you've ever registered is running whether you need it or not. You want to add a new tool? Edit a JSON file, restart your agent. You want to try something from the official MCP registry? Good luck figuring out what's available and how to install it without leaving your coding session.\nI built agent-discover to fix this.\nWhen you configure MCP servers in Claude Code (or any MCP client), you write a static config file. That list…",
+          "link": "https://dev.to/keshrath/how-i-gave-my-ai-agents-a-dynamic-mcp-marketplace-d3a",
+          "publishedOn": "2026-04-07T13:05:16.000Z",
+          "wordCount": 2209,
+          "title": "How I Gave My AI Agents a Dynamic MCP Marketplace",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1pff3xub1sbvgxjuy02c.png"
+        },
+        {
+          "id": "https://dev.to/googleai/agent-factory-recap-supercharging-agents-on-gke-with-agent-sandbox-and-pod-snapshots-3a5e",
+          "author": "Shir Meir Lador",
+          "description": "In the latest episode of the Agent Factory, Mofi Rahman and I had the pleasure of hosting, Brandon Royal, the PM working on agentic workloads on GKE. We dove deep into the critical questions around the nuances of choosing the right agent runtime, the power of GKE for agents, and the essential security measures needed for intelligent agents to run code.\nThis post guides you through the key ideas from our conversation. Use it to quickly recap topics or dive deeper into specific segments with links and timestamps.\nTimestamp: 01:49 \nWe kicked off our discussion by tackling a fundamental question: why choose GKE as your agent runtime when serverless options like Cloud Run or fully managed solutions like Agent Engine exist?\nBrandon explained that the decision often boils down to control versus c…",
+          "link": "https://dev.to/googleai/agent-factory-recap-supercharging-agents-on-gke-with-agent-sandbox-and-pod-snapshots-3a5e",
+          "publishedOn": "2026-04-07T13:04:00.000Z",
+          "wordCount": 2080,
+          "title": "Agent Factory Recap: Supercharging Agents on GKE with Agent Sandbox and Pod Snapshots",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fajg9l6ljsooiaqqk81q6.png"
+        },
+        {
+          "id": "https://dev.to/claire_dubois/causal-inference-for-credit-risk-why-prediction-alone-isnt-enough-1j3e",
+          "author": "Claire Dubois",
+          "description": "There's a pattern I've seen repeatedly in financial ML: a model achieves excellent predictive performance — AUC above 0.80, stable on holdout — and the team ships it. Then, six months later, someone asks \"but why is the model denying more applicants from this postal code?\" and nobody has a good answer.\nPrediction and causation are different things, and conflating them is expensive in credit risk specifically.\nWhen you train a credit risk model, you're typically predicting P(default | features). This is a conditional probability — it tells you what tends to be true about people who look like this applicant. It doesn't tell you what caused their credit behavior, and it doesn't tell you what will happen if you lend to them.\nThis distinction matters for two reasons.\nFirst, selection bias. Your…",
+          "link": "https://dev.to/claire_dubois/causal-inference-for-credit-risk-why-prediction-alone-isnt-enough-1j3e",
+          "publishedOn": "2026-04-07T13:03:23.000Z",
+          "wordCount": 2531,
+          "title": "Causal inference for credit risk: why prediction alone isn't enough",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkcvb75vfk72jqo56p8ya.png"
+        },
+        {
+          "id": "https://dev.to/vietanh/why-and-how-i-built-a-go-ai-sdk-26ob",
+          "author": "anh",
+          "description": "GoAI, a Go (Golang) LLM library: 22+ providers, 2 dependencies, type-safe generics. v0.6.1, Go 1.25+. I built it to learn Go by adding AI to infrastructure that already runs on Go.\nPython has LangChain, LlamaIndex, LiteLLM. TypeScript has the Vercel AI SDK. Go has options, but none covered all the bases.\n\n\n\nLibrary\nStars\nCreated\nProviders\nWhat's missing\n\n\n\n\ngo-openai\n~10.6k\nAug 2020\n1\nSingle provider only\n\n\n\nEino (ByteDance)\n~10.5k\nDec 2024\n10\nGraph framework, different scope\n\n\nLangChainGo\n~9k\nFeb 2023\n~14\n170+ deps, no MCP, no generics schema\n\n\nGoogle ADK Go\n~7.5k\nMay 2025\nGemini-first\nAgent framework, Gemini-optimized\n\n\n\nGenkit Go (Google)\n~5.7k*\n2024\n~6\nGoogle Cloud-heavy, 129 deps\n\n\nopenai-go\n~3.1k\nJul 2024\n1+Azure\nSingle provider by design\n\n\nanthropic-sdk-go\n~960\nJul 2024\n1+Bedrock\nSi…",
+          "link": "https://dev.to/vietanh/why-and-how-i-built-a-go-ai-sdk-26ob",
+          "publishedOn": "2026-04-07T13:02:49.000Z",
+          "wordCount": 2897,
+          "title": "Why (and How) I Built a Go AI SDK",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fal8u7eygh93x7ck3azgh.png"
+        },
+        {
+          "id": "https://dev.to/devactivity/unpacking-github-personal-access-tokens-a-guide-for-developer-productivity-and-secure-integrations-2p0e",
+          "author": "Oleg",
+          "description": "The email arrives: “Your personal access token (classic) is about to expire.” For many, this notification from GitHub is less a helpful reminder and more a source of confusion. “What even is a personal access token?” “Do I need one?” “What happens if it expires?” These are precisely the questions that sparked a recent, highly relatable discussion in the GitHub Community, highlighting a widespread need for clarity on these vital security tools.\nFor dev teams, product managers, and CTOs, understanding GitHub Personal Access Tokens (PATs) isn't just about avoiding a security incident; it's about enabling seamless integrations that directly impact developer productivity, streamline delivery, and uphold robust technical leadership. Let's demystify PATs and ensure your team is equipped to manage…",
+          "link": "https://dev.to/devactivity/unpacking-github-personal-access-tokens-a-guide-for-developer-productivity-and-secure-integrations-2p0e",
+          "publishedOn": "2026-04-07T13:02:11.000Z",
+          "wordCount": 2479,
+          "title": "Unpacking GitHub Personal Access Tokens: A Guide for Developer Productivity and Secure Integrations",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fid%3D1WYaAdU6SAlkJrGsGUmXOa6IfZPL0cEzg%26sz%3Dw751"
+        },
+        {
+          "id": "https://dev.to/devactivity/urgent-security-alert-how-a-github-exploit-impacts-engineering-performance-and-trust-3lnh",
+          "author": "Oleg",
+          "description": "In the fast-paced world of software development, security vulnerabilities aren't just technical glitches; they're direct threats to an organization's engineering performance. A recent discussion in the GitHub Community has brought to light a serious security vulnerability involving a Telegram bot offering fraudulent GitHub Student Verification. This exploit, if left unchecked, could have significant repercussions on individual developer accounts and the broader integrity of the GitHub Education program, indirectly impacting overall trust, security posture, and ultimately, your team's delivery capabilities.\nThe discussion, initiated by user saxyhoney, detailed a Telegram bot named @ghs_verify_bot. This bot claimed to provide instant GitHub Student Verification by leveraging user cookies. Th…",
+          "link": "https://dev.to/devactivity/urgent-security-alert-how-a-github-exploit-impacts-engineering-performance-and-trust-3lnh",
+          "publishedOn": "2026-04-07T13:02:00.000Z",
+          "wordCount": 2555,
+          "title": "Urgent Security Alert: How a GitHub Exploit Impacts Engineering Performance and Trust",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fid%3D1gpX2BrwjjOglL3klWT_DjS7SCBaKK19E%26sz%3Dw751"
+        },
+        {
+          "id": "https://dev.to/devactivity/debugging-ci-failures-boost-your-software-development-performance-metrics-4da0",
+          "author": "Oleg",
+          "description": "The dreaded CI failure. You've pushed your latest changes, confident that your local tests passed with flying colors. But then, your Continuous Integration (CI) pipeline lights up red, failing across a bewildering array of environments like Windows, macOS, and Ubuntu. This common scenario isn't just frustrating; it's a significant drain on developer productivity and directly impacts your team's software development performance metrics. When developers spend hours chasing phantom bugs, delivery slows, and morale dips.\nThis isn't a sign of bad code, but rather a strong indicator of subtle environment differences between your local machine and the pristine, often headless, CI environment. Understanding and systematically addressing these discrepancies is key to maintaining a robust developmen…",
+          "link": "https://dev.to/devactivity/debugging-ci-failures-boost-your-software-development-performance-metrics-4da0",
+          "publishedOn": "2026-04-07T13:01:32.000Z",
+          "wordCount": 2243,
+          "title": "Debugging CI Failures: Boost Your Software Development Performance Metrics",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fid%3D1XckkNy5YoVoU72wc7syOLBPEGhalWX4e%26sz%3Dw751"
+        },
+        {
           "id": "https://dev.to/whoffagents/cicd-pipeline-design-from-push-to-production-in-under-10-minutes-8ok",
           "author": "Atlas Whoff",
           "description": "What a Good CI/CD Pipeline Actually Does\n\n\nNot just \"runs tests before deploy.\" A real pipeline:\nValidates code quality (lint, types, tests)\nBuilds artifacts\nDeploys to staging automatically\nGates production on approval or scheduled windows\nRolls back automatically on failure\nHere's how to build one with GitHub Actions.\n# .github/workflows/ci.yml\nname: CI\n\non:\n  push:\n    branches: [main, develop]\n  pull_request:\n    branches: [main]\n\njobs:\n  validate:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'npm'\n\n      - run: npm ci\n\n      - name: Type check\n        run: npx tsc --noEmit\n\n      - name: Lint\n        run: npm run lint\n\n      - name: Test\n        run: npm test -- …",
@@ -30323,26 +30443,6 @@
           "wordCount": 6502,
           "title": "How to Use the Model Context Protocol to Build a Personal Financial Assistant",
           "imageUrl": "https://cdn.hashnode.com/uploads/covers/5e1e335a7a1d3fcc59028c64/d0911eef-bfd9-49f7-92ce-8890d8222efd.png"
-        },
-        {
-          "id": "69c1dcba30a9b81e3ac436d8",
-          "author": "Oluwaseyi Fatunmole",
-          "description": "If you've spent any time shipping Flutter apps manually, you already know the drill. Someone on the team finishes a feature, builds the APK locally, signs it (hopefully with the right keystore), uploa",
-          "link": "https://www.freecodecamp.org/news/build-a-complete-flutter-ci-cd-pipeline-with-codemagic/",
-          "publishedOn": "2026-03-24T00:37:14.000Z",
-          "wordCount": 5235,
-          "title": "How to Build a Complete Flutter CI/CD Pipeline with Codemagic: From PR Quality Gates to Automated Store Releases",
-          "imageUrl": "https://cdn.hashnode.com/uploads/covers/5e1e335a7a1d3fcc59028c64/914de6f3-5b7f-48ff-a092-1f8d095202e5.png"
-        },
-        {
-          "id": "69c1dc5930a9b81e3ac400fc",
-          "author": "Daniel Nwaneri",
-          "description": "I spent 64% of my weekly Claude budget before Wednesday building a tool designed to reduce Claude usage. That's the kind of irony that deserves its own specification. The tool is spec-writer: a Claude",
-          "link": "https://www.freecodecamp.org/news/how-to-stop-letting-ai-agents-guess-your-requirements/",
-          "publishedOn": "2026-03-24T00:35:37.000Z",
-          "wordCount": 3343,
-          "title": "How to Stop Letting AI Agents Guess Your Requirements",
-          "imageUrl": "https://cdn.hashnode.com/uploads/covers/5e1e335a7a1d3fcc59028c64/06a3ff85-4d60-4e05-b494-8d2f3e6024ac.png"
         }
       ]
     },
@@ -30352,6 +30452,46 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://twitter.com/i/status/2041112541909205001",
+          "author": null,
+          "description": "Comments",
+          "link": "https://twitter.com/i/status/2041112541909205001",
+          "publishedOn": "2026-04-07T12:27:59.000Z",
+          "wordCount": 705,
+          "title": "\"The new Copilot app for Windows 11 is really just Microsoft Edge\"",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.intofarlands.com/atlasofarda",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.intofarlands.com/atlasofarda",
+          "publishedOn": "2026-04-07T12:12:15.000Z",
+          "wordCount": 13979,
+          "title": "Show HN: A cartographer's attempt to realistically map Tolkien's world",
+          "imageUrl": null
+        },
+        {
+          "id": "https://arxiv.org/abs/2604.04757",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arxiv.org/abs/2604.04757",
+          "publishedOn": "2026-04-07T12:04:34.000Z",
+          "wordCount": 803,
+          "title": "AI agents can communicate with each other, and can't be caught",
+          "imageUrl": "/static/browse/0.3.4/images/arxiv-logo-fb.png"
+        },
+        {
+          "id": "https://github.com/pion/handoff",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/pion/handoff",
+          "publishedOn": "2026-04-07T12:01:51.000Z",
+          "wordCount": 2224,
+          "title": "Show HN: Pion/handoff – Move WebRTC out of browser and into Go",
+          "imageUrl": "https://opengraph.githubassets.com/d4ea408f04f811b8532b84b2ad3e121529ffae09f2e3765eb77f12499c16f5df/pion/handoff"
+        },
+        {
           "id": "https://dornsife.usc.edu/news/stories/ai-may-be-making-us-think-and-write-more-alike/",
           "author": null,
           "description": "Comments",
@@ -30360,6 +30500,26 @@
           "wordCount": 3296,
           "title": "LLM may be standardizing human expression – and subtly influencing how we think",
           "imageUrl": "https://dornsife.usc.edu/news/wp-content/uploads/sites/7/2026/03/llm-homogenous-thought-top.jpg"
+        },
+        {
+          "id": "https://locker.dev/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://locker.dev/",
+          "publishedOn": "2026-04-07T11:12:17.000Z",
+          "wordCount": 1061,
+          "title": "Show HN: Stop paying for Dropbox/Google Drive, use your own S3 bucket instead",
+          "imageUrl": null
+        },
+        {
+          "id": "https://aransentin.github.io/deimos/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://aransentin.github.io/deimos/",
+          "publishedOn": "2026-04-07T11:10:22.000Z",
+          "wordCount": 3262,
+          "title": "DeiMOS – A Superoptimizer for the MOS 6502",
+          "imageUrl": null
         },
         {
           "id": "https://sam-burns.com/posts/concrete-laptop-stand/",
@@ -33330,6 +33490,16 @@
           "wordCount": 9518,
           "title": "The Enigma of Gertrude Stein",
           "imageUrl": "https://www.thenation.com/wp-content/uploads/2026/03/GettyImages-2183686667.jpeg"
+        },
+        {
+          "id": "https://spectrum.ieee.org/robotics-in-nuclear-industry",
+          "author": null,
+          "description": "Comments",
+          "link": "https://spectrum.ieee.org/robotics-in-nuclear-industry",
+          "publishedOn": "2026-04-02T17:05:36.000Z",
+          "wordCount": 11319,
+          "title": "Wi-Fi That Can Withstand a Nuclear Reactor: This receiver chip can take it",
+          "imageUrl": "https://spectrum.ieee.org/media-library/image.jpg?id=65428641&width=1200&height=600&coordinates=0%2C241%2C0%2C259"
         },
         {
           "id": "https://futuresearch.ai/spacex-ipo-valuation/",
@@ -40829,6 +40999,26 @@
       "siteUrl": "https://www.lowyat.net/",
       "articles": [
         {
+          "id": "https://www.lowyat.net/?p=388734",
+          "author": "John Law",
+          "description": "Intel recently confirmed that its Raptor Lake platform “is not going anywhere” and that it plans on releasing ore DDR4 and DDR5 hybrid motherboards in the foreseeable future. The confirmation was given in an interview with Club386, who was speaking with Robert Hallock, VP and GM of Intel’s Enthusiast Channel, on the subject of Raptor […]\nThe post Intel Confirms That Raptor Lake Will Still Remain In Production appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/388734/intel-confirms-that-raptor-lake-will-still-remain-in-production/",
+          "publishedOn": "2026-04-07T12:55:19.000Z",
+          "wordCount": 11001,
+          "title": "Intel Confirms That Raptor Lake Will Still Remain In Production",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2024/10/Intel-Core-i9-14900K-New-Shot-1.jpg"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=388721",
+          "author": "Heirul Kamel",
+          "description": "U Mobile has officially unveiled its refreshed ULTRA5G plans today, marking a significant update to its postpaid and prepaid offerings under the new “ULTRA” branding. The launch also comes with a network milestone, with the telco announcing that its ULTRA5G network has achieved 82.9% population coverage ahead of schedule, positioning it as Malaysia’s second 5G […]\nThe post U Mobile Launches New ULTRA5G Plans With Priority Network Access And More appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/388721/u-mobile-launches-new-ultra5g-plans/",
+          "publishedOn": "2026-04-07T11:57:26.000Z",
+          "wordCount": 11975,
+          "title": "U Mobile Launches New ULTRA5G Plans With Priority Network Access And More",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/04/u-mobile-new-ultra5g-postpaid-prepaid-plans-launch_07.webp"
+        },
+        {
           "id": "https://www.lowyat.net/?p=388723",
           "author": "John Law",
           "description": "NVIDIA announced DLSS 5 back in March, and it’s already raising conversations among fans and critics alike. However, if you do a quick search for the full official announcement video on YouTube, you won’t find it, because it’s been copyright-stripped by an Italian-based TV channel. Yes, you read that right. An Italian channel called La7 […]\nThe post Italian TV Channel Sends Copyright Strike To YouTube Against NVIDIA’s Own DLSS 5 Video appeared first on Lowyat.NET.",
@@ -42187,16 +42377,6 @@
           "wordCount": 12239,
           "title": "Apple To Host WWDC 2026 On 9 June; Teases “AI Advancements”",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/03/apple-wwdc-2026-1.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=386829",
-          "author": "Nurul Kamil",
-          "description": "The Tecno Camon 50 Ultra is the only model in the brand’s camera-focused Camon 50 series to land on our shores. It also happens to be the fanciest version in the lineup thus far, if the name doesn’t already make it obvious. “Ultra” is not a word to be thrown about lightly, and to wear […]\nThe post Tecno Camon 50 Ultra Review: A Fancy Facade appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/386829/tecno-camon-50-ultra-review/",
-          "publishedOn": "2026-03-24T01:04:21.000Z",
-          "wordCount": 14709,
-          "title": "Tecno Camon 50 Ultra Review: A Fancy Facade",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/03/tecno-camon-50-ultra-review-1.jpg"
         }
       ]
     },
@@ -42211,6 +42391,16 @@
       "feedUrl": "https://www.technologyreview.com/feed/",
       "siteUrl": "https://www.technologyreview.com",
       "articles": [
+        {
+          "id": "https://www.technologyreview.com/?p=1135208",
+          "author": "Thomas Macaulay",
+          "description": "This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. The one piece of data that could actually shed light on your job and AI  Within Silicon Valley’s orbit, an AI-fueled jobs apocalypse is spoken about as a given. Now even economists who have…",
+          "link": "https://www.technologyreview.com/2026/04/07/1135208/the-download-ai-impact-jobs-data-centres-space/",
+          "publishedOn": "2026-04-07T12:10:00.000Z",
+          "wordCount": 6367,
+          "title": "The Download: AI’s impact on jobs, and data centres in space",
+          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/04/help-wanted2a.jpg?resize=1200,600"
+        },
         {
           "id": "https://www.technologyreview.com/?p=1135187",
           "author": "James O'Donnell",
@@ -42508,6 +42698,46 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "66d004ee-ff63-43c2-9cb9-fc0d653bced5",
+          "author": "CoinDesk Indices",
+          "description": "Aave (AAVE) dropped 8.5% and Avalanche (AVAX) fell 7.6%, leading the index lower from Monday.",
+          "link": "https://www.coindesk.com/coindesk-indices/2026/04/07/coindesk-20-performance-update-index-drops-2-4-as-all-constituents-trade-lower",
+          "publishedOn": "2026-04-07T13:14:36.000Z",
+          "wordCount": 10528,
+          "title": "CoinDesk 20 performance update: index drops 2.4% as all constituents trade lower",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/9f3f32a698345205095ef3f4acbd5997ccd82fac-360x270.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "92d75f06-d326-428d-b148-83f6b67f6e3e",
+          "author": "Stephen Alpher",
+          "description": "Weekend gains for bitcoin have been mostly erased ahead of the president's Tuesday night deadline for the reopening of the Strait of Hormuz",
+          "link": "https://www.coindesk.com/markets/2026/04/07/a-whole-civilization-will-die-crypto-markets-under-pressure-as-trump-ups-rhetoric-towards-iran",
+          "publishedOn": "2026-04-07T13:00:26.000Z",
+          "wordCount": 11150,
+          "title": "'A whole civilization will die': Crypto markets under pressure as Trump ups rhetoric towards Iran",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/31879e58ffa45ad38acc60d809c6e5b7fe7fd125-1080x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "cb7adfb1-9542-4896-9ac1-70685c8f99c8",
+          "author": "Olivier Acuna",
+          "description": "Former Google quantum hardware leader and winner of the 2025 Nobel Prize in Physics, John Martinis, warns that breaking encryption will be among the earliest uses of quantum computing",
+          "link": "https://www.coindesk.com/business/2026/04/07/bitcoin-quantum-threat-is-real-and-closer-than-it-looks-says-nobel-physicist",
+          "publishedOn": "2026-04-07T12:44:33.000Z",
+          "wordCount": 12198,
+          "title": "Bitcoin quantum threat is real and closer than it looks, says Nobel physicist",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6329a8aa7443cfc32adf46e8c516239b1b0aa4b4-1919x1080.jpg?auto=format"
+        },
+        {
+          "id": "8b8e1a40-1a82-4a9e-9a8a-9601e0241b4f",
+          "author": "Margaux Nijkerk",
+          "description": "For years, the DeFi industry has treated security as a technical problem: something that could be solved with better code. But the Drift incident suggests something far more complex: that the real vulnerabilities may lie outside the codebase altogether.",
+          "link": "https://www.coindesk.com/tech/2026/04/07/how-north-korea-s-6-month-long-secret-espionage-program-has-crypto-community-rethinking-security",
+          "publishedOn": "2026-04-07T12:30:00.000Z",
+          "wordCount": 12874,
+          "title": "How North Korea's 6-month long secret espionage program has crypto community rethinking security",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/49d26266043c2276a5271a8a4085b94f29c5b7f8-1500x844.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "89b7af58-e6b3-4ef4-9f54-80f6b71aa642",
           "author": "James Van Straten",
