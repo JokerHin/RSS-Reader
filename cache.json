@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/whoffagents/cicd-pipeline-design-from-push-to-production-in-under-10-minutes-8ok",
+          "author": "Atlas Whoff",
+          "description": "What a Good CI/CD Pipeline Actually Does\n\n\nNot just \"runs tests before deploy.\" A real pipeline:\nValidates code quality (lint, types, tests)\nBuilds artifacts\nDeploys to staging automatically\nGates production on approval or scheduled windows\nRolls back automatically on failure\nHere's how to build one with GitHub Actions.\n# .github/workflows/ci.yml\nname: CI\n\non:\n  push:\n    branches: [main, develop]\n  pull_request:\n    branches: [main]\n\njobs:\n  validate:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n\n      - uses: actions/setup-node@v4\n        with:\n          node-version: '20'\n          cache: 'npm'\n\n      - run: npm ci\n\n      - name: Type check\n        run: npx tsc --noEmit\n\n      - name: Lint\n        run: npm run lint\n\n      - name: Test\n        run: npm test -- …",
+          "link": "https://dev.to/whoffagents/cicd-pipeline-design-from-push-to-production-in-under-10-minutes-8ok",
+          "publishedOn": "2026-04-07T11:43:52.000Z",
+          "wordCount": 1999,
+          "title": "CI/CD Pipeline Design: From Push to Production in Under 10 Minutes",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/jagmarques/5-open-source-tools-for-ai-agent-governance-in-2026-54le",
+          "author": "João André Gomes Marques",
+          "description": "AI agents are moving into production faster than governance tooling can keep up. Here are the 5 open source tools worth knowing about.\nThe 800-pound gorilla. Policy-as-code with Cedar, multi-language SDKs (Python, TypeScript, .NET, Rust, Go), 9,500+ tests. No cryptographic signing but the most mature policy engine.\ngithub.com/microsoft/agent-governance-toolkit\nQuantum-safe audit trails. Every agent action gets an ML-DSA-65 signature chained to the previous one. Works with LangChain, CrewAI, OpenAI Agents, Haystack, LiteLLM. The only tool with post-quantum signatures.\ngithub.com/jagmarques/asqav-sdk\n6.6K stars. Output validation and structural guarantees for LLM responses. Guardrails Hub has community validators. Different focus (output quality vs audit trails) but complementary.\ngithub.com/guardrails-ai/guardrails\nNVIDIA. Programmable conversation rails using Colang DSL. Topic control, safety rails, jailbreak prevention. Great for chatbot safety, less focused on agent audit trails.\ngithub.com/NVIDIA/NeMo-Guardrails\nEd25519 signed receipts with zero dependencies. The init command auto-discovers tool calls in your codebase. Best developer experience for quick setup. No SaaS, fully local.\ngithub.com/aniketh-maddipati/agentmint-python\nRegulated industry needing long-term proof: asqav (quantum-safe signatures hold up for 10+ years)\nEnterprise policy enforcement: Microsoft AGT (most mature, multi-language)\nLLM output quality: Guardrails AI\nConversation safety: NeMo Guardrails\nQuick local receipts: AgentMint\nFull comparison table: github.com/jagmarques/ai-agent-governance-landscape",
+          "link": "https://dev.to/jagmarques/5-open-source-tools-for-ai-agent-governance-in-2026-54le",
+          "publishedOn": "2026-04-07T11:43:48.000Z",
+          "wordCount": 1601,
+          "title": "5 open source tools for AI agent governance in 2026",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/whoffagents/error-monitoring-in-production-beyond-consolelog-21n2",
+          "author": "Atlas Whoff",
+          "description": "The Gap Between Dev and Prod\n\n\nIn development, errors are visible. In production, they're silent.\nA user hits a bug, refreshes, gives up. You never know. Until enough users give up that your retention numbers drop.\nError monitoring closes that gap.\nnpm install @sentry/nextjs\n# or\nnpm install @sentry/node\n\n// sentry.server.config.ts\nimport * as Sentry from '@sentry/nextjs';\n\nSentry.init({\n  dsn: process.env.SENTRY_DSN,\n  environment: process.env.NODE_ENV,\n  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1.0,\n\n  // Filter out noise\n  ignoreErrors: [\n    'ResizeObserver loop limit exceeded',\n    /^Network Error/,\n  ],\n\n  beforeSend(event, hint) {\n    // Don't send errors from bots\n    const ua = event.request?.headers?.['user-agent'] ?? '';\n    if (/bot|crawler|spider/i.test(…",
+          "link": "https://dev.to/whoffagents/error-monitoring-in-production-beyond-consolelog-21n2",
+          "publishedOn": "2026-04-07T11:43:17.000Z",
+          "wordCount": 2098,
+          "title": "Error Monitoring in Production: Beyond console.log",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/chilango74/okama-20-new-withdrawal-strategies-and-a-faster-efficient-frontier-4no6",
+          "author": "Sergey Kikevich",
+          "description": "We have released the “anniversary” version, okama 2.0. This release includes many important changes. The main themes are new advanced portfolio withdrawal strategies and a new portfolio optimization workflow for the Efficient Frontier.\nFirst article and howto for beginners is here.\nYou can install the library or upgrade to the new version right now:\npip install okama -U\n\nWith okama 2.0, we deliberately moved from educational and academic examples toward more practical and realistic use cases. On the one hand, the library now includes new tools that are well suited for building retirement strategies with regular withdrawals.\nOn the other hand, the logic behind the Efficient Frontier has changed: multi-period optimization with rebalancing is now the default behavior. This more advanced type …",
+          "link": "https://dev.to/chilango74/okama-20-new-withdrawal-strategies-and-a-faster-efficient-frontier-4no6",
+          "publishedOn": "2026-04-07T11:42:23.000Z",
+          "wordCount": 2833,
+          "title": "okama 2.0: New Withdrawal Strategies and a Faster Efficient Frontier",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/whoffagents/prisma-schema-design-relationships-enums-and-indexes-that-scale-9gm",
+          "author": "Atlas Whoff",
+          "description": "Schema Design Is Architecture\n\n\nYour Prisma schema isn't just ORM config—it's your data architecture. Bad decisions here compound as your app grows.\nmodel User {\n  id        String   @id @default(cuid())\n  email     String   @unique\n  posts     Post[]   // one user has many posts\n  createdAt DateTime @default(now())\n}\n\nmodel Post {\n  id        String   @id @default(cuid())\n  title     String\n  userId    String\n  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n\n  @@index([userId]) // always index foreign keys\n}\n\nmodel Post {\n  id   String @id @default(cuid())\n  tags Tag[]\n}\n\nmodel Tag {\n  id    String @id @default(cuid())\n  name  String @unique\n  posts Post[]\n}\n// Prisma creates a join table automatically\n\nmodel User {…",
+          "link": "https://dev.to/whoffagents/prisma-schema-design-relationships-enums-and-indexes-that-scale-9gm",
+          "publishedOn": "2026-04-07T11:42:15.000Z",
+          "wordCount": 2104,
+          "title": "Prisma Schema Design: Relationships, Enums, and Indexes That Scale",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/whoffagents/building-a-cli-tool-in-nodejs-that-people-actually-want-to-use-1o3j",
+          "author": "Atlas Whoff",
+          "description": "What Makes a Good CLI?\n\n\nMost developer tools are CLIs. git, docker, npm, gh—all of them. A well-built CLI is invisible: it does what you expect, fails clearly, and stays out of the way.\nHere's how to build one that meets that bar.\nmkdir my-cli && cd my-cli\nnpm init -y\nnpm install commander chalk ora execa\nnpm install -D typescript @types/node ts-node tsup\n\n// package.json additions\n{\n  \"bin\": {\n    \"mycli\": \"./dist/index.js\"\n  },\n  \"scripts\": {\n    \"build\": \"tsup src/index.ts --format cjs --dts\",\n    \"dev\": \"ts-node src/index.ts\"\n  }\n}\n\n#!/usr/bin/env node\nimport { Command } from 'commander';\nimport { deploy } from './commands/deploy';\nimport { init } from './commands/init';\n\nconst program = new Command();\n\nprogram\n  .name('mycli')\n  .description('Deploy and manage your applications')\n  .…",
+          "link": "https://dev.to/whoffagents/building-a-cli-tool-in-nodejs-that-people-actually-want-to-use-1o3j",
+          "publishedOn": "2026-04-07T11:41:39.000Z",
+          "wordCount": 2119,
+          "title": "Building a CLI Tool in Node.js That People Actually Want to Use",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/agonxgashi/the-part-of-the-job-ai-keeps-missing-2422",
+          "author": "Agon",
+          "description": "There was a moment, sometime in 2023, when I started to feel it. Not panic, but a kind of alertness. The articles were everywhere. AI replacing engineers, entire roles becoming obsolete overnight. And there I was, managing a team of them.\nI was never particularly worried. I've always believed that the human element in building software, the judgment, the relationships, the context that lives between people, isn't something that can be quietly absorbed by a model. But being confident isn't the same as being complacent. Something was shifting, and anyone not paying attention was going to be left behind.\nSo I paid attention.\nThe first thing I noticed wasn't that I had more time. It was that I had more headspace.\nWhen the routine information-gathering starts taking care of itself, you stop car…",
+          "link": "https://dev.to/agonxgashi/the-part-of-the-job-ai-keeps-missing-2422",
+          "publishedOn": "2026-04-07T11:41:34.000Z",
+          "wordCount": 1932,
+          "title": "The part of the job AI keeps missing",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkud6s55o5tr1g1jgvwhj.png"
+        },
+        {
+          "id": "https://dev.to/whoffagents/database-transactions-acid-properties-in-plain-english-1f1",
+          "author": "Atlas Whoff",
+          "description": "What Is a Transaction?\n\n\nA transaction is a group of database operations that either all succeed or all fail together.\nBEGIN;\n  UPDATE accounts SET balance = balance - 100 WHERE id = 1;\n  UPDATE accounts SET balance = balance + 100 WHERE id = 2;\nCOMMIT;\n\nIf the second update fails, the first one rolls back automatically. Money doesn't disappear into the void.\n\"All or nothing.\"\nBEGIN;\n  INSERT INTO orders (user_id, total) VALUES (42, 9900);\n  INSERT INTO order_items (order_id, product_id, qty) VALUES (LASTVAL(), 7, 2);\n  UPDATE inventory SET stock = stock - 2 WHERE product_id = 7;\nCOMMIT;\n-- If any statement fails, ALL are rolled back\n\nNo partial orders. No inventory decremented without an order. No order without items.\n\"Data must be valid before and after.\"\nConstraints prevent invalid stat…",
+          "link": "https://dev.to/whoffagents/database-transactions-acid-properties-in-plain-english-1f1",
+          "publishedOn": "2026-04-07T11:41:03.000Z",
+          "wordCount": 2201,
+          "title": "Database Transactions: ACID Properties in Plain English",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/younup/comment-bien-signer-ses-programmes-avec-openssl--3i2j",
+          "author": "Jean-Noël",
+          "description": "Pourquoi signer ?\n\n\nEn 2025, 72% des entreprises à l'échelle mondiale ont constaté une intensification des risques de cyberattaque et 91% des experts en cybersécurité s'attendent à une augmentation des menaces augmentées à l'IA1 😮. Et cela, notamment à partir de contenu falsifié.\nFace à cette menace, comment s'assurer que les données reçues à travers le réseau proviennent du bon expéditeur, et, surtout, contiennent des données authentiques plutôt qu'un programme malveillant ?\nUne des solutions à cela, évidemment, c'est la signature des fichiers !\nAujourd'hui nous allons donc voir comment signer et vérifier la signature de ces fichiers avec OpenSSL, un outil en ligne de commande gratuit, universel (Windows, Linux, Mac OS), et largement éprouvé.\nOn peut hésiter entre 4 techniques : signer, …",
+          "link": "https://dev.to/younup/comment-bien-signer-ses-programmes-avec-openssl--3i2j",
+          "publishedOn": "2026-04-07T11:40:54.000Z",
+          "wordCount": 2508,
+          "title": "Comment bien signer ses programmes avec OpenSSL ?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9t83buicby0sfxbmga6n.png"
+        },
+        {
+          "id": "https://dev.to/phc_y_55deee7323f8de7e/how-ai-scrapers-crashed-my-vercel-app-and-how-i-saved-it-with-digitalocean-cloudflare-1n0o",
+          "author": "I'm Phuc",
+          "description": "If you run a public-facing website today, you might have noticed some strange, massive spikes in your traffic. You get excited, thinking your app finally went viral—only to realize it's just AI bots hammering your servers.\nI recently experienced this exact scenario with my project, Viconic.dev, a platform for finding and sharing icons. Here's the story of how AI crawlers almost took down my site—and how I regained control without losing AI search visibility.\nInitially, I hosted Viconic on Vercel. It was fast, easy to deploy, and worked perfectly for my needs.\nHowever, as the site grew, I started getting hit by massive waves of automated requests.\nWeb crawlers from AI companies like Perplexity, OpenAI (ChatGPT), and others were aggressively scraping my site for training data and real-time s…",
+          "link": "https://dev.to/phc_y_55deee7323f8de7e/how-ai-scrapers-crashed-my-vercel-app-and-how-i-saved-it-with-digitalocean-cloudflare-1n0o",
+          "publishedOn": "2026-04-07T11:39:52.000Z",
+          "wordCount": 1820,
+          "title": "How AI Scrapers Crashed My Vercel App (And How I Saved It with DigitalOcean & Cloudflare)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgcunq2dyf0pfzsklzrzt.png"
+        },
+        {
+          "id": "https://dev.to/whoffagents/caching-strategies-that-actually-work-in-production-jj0",
+          "author": "Atlas Whoff",
+          "description": "The Cache Taxonomy\n\n\nNot all caches are the same. Choosing the wrong one is worse than no cache at all.\nFastest possible. Zero network hops. Lives in your Node.js process.\nimport NodeCache from 'node-cache';\n\nconst cache = new NodeCache({ \n  stdTTL: 300,      // 5 minutes default\n  checkperiod: 60,  // cleanup every 60s\n  maxKeys: 1000,    // prevent unbounded growth\n});\n\nasync function getUser(userId: string): Promise<User> {\n  const cacheKey = `user:${userId}`;\n  const cached = cache.get<User>(cacheKey);\n  if (cached) return cached;\n\n  const user = await db.users.findUnique({ where: { id: userId } });\n  cache.set(cacheKey, user);\n  return user;\n}\n\nGood for: Config data, reference data, per-instance computation.\nBad for: Multi-instance deployments (each instance has different state), larg…",
+          "link": "https://dev.to/whoffagents/caching-strategies-that-actually-work-in-production-jj0",
+          "publishedOn": "2026-04-07T11:39:26.000Z",
+          "wordCount": 2075,
+          "title": "Caching Strategies That Actually Work in Production",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/penfieldlabs/milla-jovovich-just-released-an-ai-memory-system-it-reached-over-15-million-people-and-5400-297l",
+          "author": "Penfield",
+          "description": "Problem: None of the benchmark scores are real.\n\n\nYesterday an X account belonging to a developer named Ben Sigman posted the launch of an open-source AI memory project called MemPalace. The post claimed \"100% on LoCoMo\" and \"the first perfect score ever recorded on LongMemEval. 500/500 questions, every category at 100%.\" It credited the actress Milla Jovovich as a co-author. The GitHub account hosting the repository is named milla-jovovich/mempalace. The first commit to the repository is dated April 5. As of this writing, less than 24 hours after the launch post, the repository has approximately 5,400 stars and over 1.5 million views on the launch tweet.\nFor comparison: open-source memory projects with similar architectures and similar honest baseline numbers typically receive just a hand…",
+          "link": "https://dev.to/penfieldlabs/milla-jovovich-just-released-an-ai-memory-system-it-reached-over-15-million-people-and-5400-297l",
+          "publishedOn": "2026-04-07T11:39:10.000Z",
+          "wordCount": 3464,
+          "title": "Milla Jovovich just released an AI memory system. It reached over 1.5 million people and 5,400 GitHub stars in less than 24 hours.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdcrkukamtfto2u41tzvg.png"
+        },
+        {
           "id": "https://dev.to/andrewrozumny/youre-probably-leaking-sensitive-data-every-time-you-use-online-dev-tools-47j8",
           "author": "Andrew Rozumny",
           "description": "Most developers don’t think twice before pasting data into online tools.\nJSON formatters, JWT decoders, base64 converters, regex testers…\nYou just open a site, paste your data, get the result, and move on.\nBut here’s the problem:\nYou’re often sending that data to someone else’s server.\nThat “quick utility” you’re using?\nIt might:\nlog your data\nstore it temporarily\nor even keep it longer than you expect\nAnd most of the time, you have no idea.\nNo clear guarantees.\nEven simple tools usually work like this:\nYou paste your data\nIt gets sent to a backend\nThe server processes it\nYou get a response\nThat means your data leaves your machine.\nSometimes it’s harmless.\nSometimes it’s not.\nThink about what developers actually paste into these tools:\nAPI keys\ntokens\ninternal JSON payloads\nlogs with user data\nconfig files\nStuff that was never meant to leave your environment.\nAt some point I realized I was doing exactly this.\nCopy → paste → convert → done.\nWithout even thinking about where that data goes.\nThat’s when it started to feel… wrong.\nI started looking for tools that:\nrun entirely in the browser\n\ndon’t send data anywhere\n\ndon’t require accounts\n\n\n\nJust open → use → close.\nFor small utilities, there’s no real reason to involve a server.\nFormatting, encoding, decoding — all of this can be done locally.\nFaster.\nI started putting together my own small set of browser-based tools.\nMostly for myself at first.\nJust to avoid jumping between random sites and wondering what happens to my data.\nFor small tools, local-first just makes more sense.\nDo you trust online tools with sensitive data?\nOr do you prefer local-first alternatives?",
@@ -29696,46 +29816,6 @@
           "wordCount": 1723,
           "title": "Stop Writing Rules for AI Agents. Build Enforcement Instead.",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fs0csow9sjgenzosqbps7.png"
-        },
-        {
-          "id": "https://dev.to/aditya_kushwah/your-nextjs-app-makes-the-same-database-query-5-times-per-page-load-3j24",
-          "author": "Aditya Kushwah",
-          "description": "Open your Next.js app. Navigate to any page with a few components. Now count how many times SELECT * FROM users WHERE id = ? runs.\nYou probably don't know. Nobody does. Because every request returns 200, every component renders correctly, and your app \"works.\"\nBut behind that working page, the same query might be running 5 times. Once for the navbar. Once for the sidebar. Once for the main content. Once for the settings panel. And once more because React Strict Mode ran your effect twice.\nThat's 5 identical round trips to your database for data that hasn't changed in the last 200 milliseconds.\nHere's a typical Next.js API route:\n// app/api/user/route.ts\nexport async function GET() {\n  const user = await prisma.user.findUnique({\n    where: { id: session.userId }\n  });\n  return NextResponse.…",
-          "link": "https://dev.to/aditya_kushwah/your-nextjs-app-makes-the-same-database-query-5-times-per-page-load-3j24",
-          "publishedOn": "2026-03-23T23:17:30.000Z",
-          "wordCount": 1861,
-          "title": "Your Next.js App Makes the Same Database Query 5 Times Per Page Load",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fbrakit.ai%2Fblog%2Fimages%2Fduplicate-queries-nextjs%2Fdb_queries.png"
-        },
-        {
-          "id": "https://dev.to/cverports/cve-2026-33167-cve-2026-33167-cross-site-scripting-xss-in-ruby-on-rails-action-pack-debug-4op6",
-          "author": "CVE Reports",
-          "description": "CVE-2026-33167: Cross-Site Scripting (XSS) in Ruby on Rails Action Pack Debug Exceptions\n\n\n\nVulnerability ID: CVE-2026-33167\nCVSS Score: 1.3\nPublished: 2026-03-23\nAction Pack is a Rubygem for building web applications on the Rails framework. In versions on the 8.1 branch prior to 8.1.2.1, the debug exceptions page does not properly escape exception messages. A carefully crafted exception message could inject arbitrary HTML and JavaScript into the page, leading to Cross-Site Scripting (XSS). This affects applications with detailed exception pages enabled, which is the default in development environments.\nRuby on Rails Action Pack versions 8.1.0 through 8.1.2 contain a Cross-Site Scripting vulnerability in the debug exceptions page. Attackers can execute arbitrary JavaScript by reflecting cr…",
-          "link": "https://dev.to/cverports/cve-2026-33167-cve-2026-33167-cross-site-scripting-xss-in-ruby-on-rails-action-pack-debug-4op6",
-          "publishedOn": "2026-03-23T23:10:06.000Z",
-          "wordCount": 1096,
-          "title": "CVE-2026-33167: CVE-2026-33167: Cross-Site Scripting (XSS) in Ruby on Rails Action Pack Debug Exceptions",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fazyfsqvjhpje7uq6v28v.png"
-        },
-        {
-          "id": "https://dev.to/caper_dev/top-10-free-apis-to-build-profitable-side-projects-2m1l",
-          "author": "Caper B",
-          "description": "Top 10 Free APIs to Build Profitable Side Projects\n\n\nAs a developer, you're likely no stranger to the concept of side projects. They're a great way to hone your skills, experiment with new technologies, and potentially generate some extra income. In this article, we'll explore the top 10 free APIs that you can use to build profitable side projects.\nBefore we dive into the list, let's quickly cover what APIs are and how they can be used to build profitable side projects. An API, or Application Programming Interface, is a set of defined rules that enable different applications to communicate with each other. They provide access to a vast array of data and functionality, from weather forecasts to social media platforms.\nHere are the top 10 free APIs that you can use to build profitable side p…",
-          "link": "https://dev.to/caper_dev/top-10-free-apis-to-build-profitable-side-projects-2m1l",
-          "publishedOn": "2026-03-23T23:09:59.000Z",
-          "wordCount": 1145,
-          "title": "Top 10 Free APIs to Build Profitable Side Projects",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdtjjq0cv7rd6cnfj113h.png"
-        },
-        {
-          "id": "https://dev.to/alprimak/cursor-is-a-tool-operum-is-a-team-introducing-pluggable-ai-engines-for-multi-agent-orchestration-bo0",
-          "author": "Aleksandr Primak",
-          "description": "Presented live at the spArk Labs Cursor meetup — here's what we showed.\nCursor is incredible. It turned every developer into a 10x engineer with AI-powered code completion, inline edits, and chat-driven development. But here's the thing — shipping software isn't just about writing code.\nBetween the moment someone files an issue and the moment that code reaches production, there are a dozen handoffs: triage, architecture review, implementation, testing, code review, documentation, deployment. Cursor handles one of those brilliantly. What handles the rest?\nThat's the problem we built Operum to solve.\nOperum is an AI-powered orchestration platform that coordinates 6 specialized agents to manage your entire software development lifecycle:\n\n\n\nAgent\nRole\nWhat It Does\n\n\n\n\nPM\nProject Manager\nTriag…",
-          "link": "https://dev.to/alprimak/cursor-is-a-tool-operum-is-a-team-introducing-pluggable-ai-engines-for-multi-agent-orchestration-bo0",
-          "publishedOn": "2026-03-23T23:02:40.000Z",
-          "wordCount": 1649,
-          "title": "Cursor Is a Tool. Operum Is a Team. — Introducing Pluggable AI Engines for Multi-Agent Orchestration",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F6aqxndz70c6vhqdx5pz6.png"
         }
       ]
     },
@@ -30271,6 +30351,56 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://dornsife.usc.edu/news/stories/ai-may-be-making-us-think-and-write-more-alike/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://dornsife.usc.edu/news/stories/ai-may-be-making-us-think-and-write-more-alike/",
+          "publishedOn": "2026-04-07T11:29:02.000Z",
+          "wordCount": 3296,
+          "title": "LLM may be standardizing human expression – and subtly influencing how we think",
+          "imageUrl": "https://dornsife.usc.edu/news/wp-content/uploads/sites/7/2026/03/llm-homogenous-thought-top.jpg"
+        },
+        {
+          "id": "https://sam-burns.com/posts/concrete-laptop-stand/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://sam-burns.com/posts/concrete-laptop-stand/",
+          "publishedOn": "2026-04-07T11:07:44.000Z",
+          "wordCount": 2059,
+          "title": "Show HN: Brutalist Concrete Laptop Stand (2024)",
+          "imageUrl": "https://sam-burns.com/posts/concrete-laptop-stand/images/main-concrete-laptop-stand-overview.jpg"
+        },
+        {
+          "id": "https://www.bloomberg.com/news/articles/2026-04-07/germany-power-prices-turn-deeply-negative-on-renewables-surge",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.bloomberg.com/news/articles/2026-04-07/germany-power-prices-turn-deeply-negative-on-renewables-surge",
+          "publishedOn": "2026-04-07T10:33:51.000Z",
+          "wordCount": null,
+          "title": "Germany Power Prices Turn Deeply Negative on Renewables Surge",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.juxt.pro/blog/a-bug-on-the-dark-side-of-the-moon/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.juxt.pro/blog/a-bug-on-the-dark-side-of-the-moon/",
+          "publishedOn": "2026-04-07T10:25:12.000Z",
+          "wordCount": 2686,
+          "title": "We found an undocumented bug in the Apollo 11 guidance computer code",
+          "imageUrl": "https://www.juxt.pro/_astro/a-bug-on-the-dark-side-of-the-moon.DySaROKX_ILgy.webp"
+        },
+        {
+          "id": "https://tubesoundquiz.com/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://tubesoundquiz.com/",
+          "publishedOn": "2026-04-07T10:08:25.000Z",
+          "wordCount": 2607,
+          "title": "Identify a London Underground Line just by listening to it",
+          "imageUrl": null
+        },
         {
           "id": "https://idiocracy.wtf/",
           "author": null,
@@ -32709,6 +32839,16 @@
           "publishedOn": "2026-04-03T14:45:31.000Z",
           "wordCount": 461,
           "title": "I prefer OG style websites – what are yours?",
+          "imageUrl": null
+        },
+        {
+          "id": "https://alt-romes.github.io/posts/2026-04-01-running-out-of-disk-space-on-launch.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://alt-romes.github.io/posts/2026-04-01-running-out-of-disk-space-on-launch.html",
+          "publishedOn": "2026-04-03T14:42:28.000Z",
+          "wordCount": 1426,
+          "title": "Running Out of Disk Space in Production",
           "imageUrl": null
         },
         {
@@ -40680,26 +40820,6 @@
           "wordCount": 1190,
           "title": "I Created My First AI-Assisted Pull Request and I Feel Like a Fraud",
           "imageUrl": "https://nelson.cloud/i-created-my-first-ai-assisted-pull-request-and-i-feel-like-a-fraud/og.png"
-        },
-        {
-          "id": "https://www.theguardian.com/technology/2026/mar/23/ai-boom-risks-widening-wealth-divide-blackrock-larry-fink",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.theguardian.com/technology/2026/mar/23/ai-boom-risks-widening-wealth-divide-blackrock-larry-fink",
-          "publishedOn": "2026-03-23T23:32:17.000Z",
-          "wordCount": 4848,
-          "title": "AI boom risks widening wealth divide, says BlackRock's Larry Fink",
-          "imageUrl": "https://i.guim.co.uk/img/media/a4fc80e643187b6b66f98b0e0f64193afdc28f1e/428_0_3331_2667/master/3331.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&precrop=40:21,offset-x50,offset-y0&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&enable=upscale&s=c26cfb00b5ae54e23f23868406a7d5d6"
-        },
-        {
-          "id": "https://www.nytimes.com/2026/03/23/business/media/pentagon-closes-journalists-work-area.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.nytimes.com/2026/03/23/business/media/pentagon-closes-journalists-work-area.html",
-          "publishedOn": "2026-03-23T23:02:01.000Z",
-          "wordCount": null,
-          "title": "Pentagon Adopts New Limits for Journalists After Court Loss",
-          "imageUrl": null
         }
       ]
     },
@@ -40708,6 +40828,26 @@
       "feedUrl": "https://www.lowyat.net/feed/",
       "siteUrl": "https://www.lowyat.net/",
       "articles": [
+        {
+          "id": "https://www.lowyat.net/?p=388723",
+          "author": "John Law",
+          "description": "NVIDIA announced DLSS 5 back in March, and it’s already raising conversations among fans and critics alike. However, if you do a quick search for the full official announcement video on YouTube, you won’t find it, because it’s been copyright-stripped by an Italian-based TV channel. Yes, you read that right. An Italian channel called La7 […]\nThe post Italian TV Channel Sends Copyright Strike To YouTube Against NVIDIA’s Own DLSS 5 Video appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/388723/italian-tv-channel-sends-copyright-strike-to-youtube-against-nvidias-own-dlss-5-video/",
+          "publishedOn": "2026-04-07T11:46:39.000Z",
+          "wordCount": 11046,
+          "title": "Italian TV Channel Sends Copyright Strike To YouTube Against NVIDIA’s Own DLSS 5 Video",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/03/NVIDIA-DLSS-5-GTC-2026-Announcement-1-scaled.jpg"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=388717",
+          "author": "Kiran Ganesan",
+          "description": "A little over a month since the Galaxy S26 series made it to store shelves, Samsung is already hard at work developing the Galaxy S27 series, according to a South Korean news outlet. Not only that, but the publication claims that the tech giant is planning to introduce a Pro model to the lineup. ETNews […]\nThe post Samsung Reportedly Adding A Pro Model To The Galaxy S27 Lineup appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/388717/samsung-reportedly-adding-pro-model-galaxy-s27-lineup/",
+          "publishedOn": "2026-04-07T10:58:53.000Z",
+          "wordCount": 11188,
+          "title": "Samsung Reportedly Adding A Pro Model To The Galaxy S27 Lineup",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/02/Samsung-Galaxy-S26-Family-1-scaled.jpg"
+        },
         {
           "id": "https://www.lowyat.net/?p=388697",
           "author": "John Law",
@@ -42369,6 +42509,26 @@
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
         {
+          "id": "89b7af58-e6b3-4ef4-9f54-80f6b71aa642",
+          "author": "James Van Straten",
+          "description": "Despite billions in purchases, MSTR demand is being outweighed by long term holder positioning and broader capital flows.",
+          "link": "https://www.coindesk.com/markets/2026/04/07/why-strategy-s-bitcoin-buying-isn-t-moving-the-market",
+          "publishedOn": "2026-04-07T11:34:32.000Z",
+          "wordCount": 11548,
+          "title": "Why Michael Saylor's bitcoin buys aren’t moving the needle anymore",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/fd145cc1ac47e41967dec066deed17a9e5d59fbd-1920x963.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "d5a205a8-6f73-4cb7-8258-3913e13302e3",
+          "author": "Francisco Rodrigues",
+          "description": "Your day-ahead look for April 7, 2026",
+          "link": "https://www.coindesk.com/daybook-us/2026/04/07/bitcoin-briefly-touches-usd70-000-as-etf-inflows-signal-institutional-interest",
+          "publishedOn": "2026-04-07T11:17:05.000Z",
+          "wordCount": 12442,
+          "title": "Bitcoin briefly touches $70,000 as ETF inflows signal institutional interest",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/2bce99616419507d65a4f7a0aa5e280da00c697f-1500x1153.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
           "id": "38ac6231-84d8-4985-9246-7d8d648f0026",
           "author": "Oliver Knight",
           "description": "BTC and ETH remain stuck in a two-month range as oil prices and Iran tensions weigh on sentiment, while AI and privacy tokens show surprising relative strength.",
@@ -42377,6 +42537,16 @@
           "wordCount": 12231,
           "title": "Bitcoin price-drop speculation spurred by familiar price pattern",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/2e3e9177b330cececd835b6feb3843b5d3c5a22f-2086x1112.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "cd8c976b-fd7b-4719-99fe-ea7b33efbc6f",
+          "author": "Shaurya Malwa",
+          "description": "The program includes 24/7 threat monitoring for protocols with more than $10 million in deposits and a dedicated incident response network of security firms.",
+          "link": "https://www.coindesk.com/tech/2026/04/07/solana-foundation-unveils-security-overhaul-days-after-usd270-million-drift-exploit",
+          "publishedOn": "2026-04-07T10:52:03.000Z",
+          "wordCount": 11979,
+          "title": "Solana Foundation unveils security overhaul days after $270 million Drift exploit",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/54c0f3b41e62df4cdf774aab4c7d68c64e5e976c-1920x1080.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         },
         {
           "id": "8006adf9-662c-4eea-bcc0-1186cf2d3ca0",
