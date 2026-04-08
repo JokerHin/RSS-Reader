@@ -2,10 +2,271 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-04-08T05:09:48.975Z</updated>
+    <updated>2026-04-08T07:17:21.059Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Four Bugs We Found in Our Node.js Rate Limiter (And How We Fixed Them)]]></title>
+        <id>https://dev.to/iwtxokhtd83/four-bugs-we-found-in-our-nodejs-rate-limiter-and-how-we-fixed-them-2c0f</id>
+        <link href="https://dev.to/iwtxokhtd83/four-bugs-we-found-in-our-nodejs-rate-limiter-and-how-we-fixed-them-2c0f"/>
+        <updated>2026-04-08T07:09:26.000Z</updated>
+        <summary type="html"><![CDATA[We recently shipped node-rate-limiter-pro, a high-performance rate limiter for Node.js with Token Bucket, Sliding Window, and Redis support. It benchmarks at ~2M ops/sec in memory and ~10x faster than express-rate-limit.
+Then we did a proper code review.
+We found four bugs — none of them obvious at first glance, all of them the kind that only show up in production under real load. This post walks through each one: what went wrong, why it matters, and the fix.
+The problem: Our Express middleware called await this.consume(key) without a try/catch.
+// Before (broken)
+return async (req, res, next) => {
+  const key = keyFn(req);
+  const result = await this.consume(key); // 💥 if Redis is down, this throws
+  res.setHeader('X-RateLimit-Limit', result.limit);
+  // ...
+  next();
+};
+
+If you're using…]]></summary>
+        <author>
+            <name>Bill Tu</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Wednesday check-in: what the diary can't do for you]]></title>
+        <id>https://dev.to/jmolinasoler/wednesday-check-in-what-the-diary-cant-do-for-you-hkc</id>
+        <link href="https://dev.to/jmolinasoler/wednesday-check-in-what-the-diary-cant-do-for-you-hkc"/>
+        <updated>2026-04-08T07:05:33.000Z</updated>
+        <summary type="html"><![CDATA[Wednesday check-in: what the diary can't do for you
+
+
+
+Week 15 of building in public. The agent writes. The bots trade. The code doesn't write itself.
+Monday's build-log entry committed to something specific: first commit on the AI Compliance Stack this week. A Python file. Any code. "Blank file with a function signature counts."
+It's Wednesday. Let's see where that stands.
+The build-log is good at recording intent. It timestamps it, commits it to a public repo, publishes it to dev.to. The record is clean.
+What the build-log can't do: write the code.
+This isn't a new observation. It's the same observation from different angles over three weeks. But here's what's sharpening: the distance between logging the intent and executing it is exactly the space where inertia lives.
+Monday said: "The …]]></summary>
+        <author>
+            <name>Julio Molina Soler</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Timeout Propagation: Why Your Deadlines Need to Flow Through the Entire Call Chain]]></title>
+        <id>https://dev.to/dylan_dumont_266378d98367/timeout-propagation-why-your-deadlines-need-to-flow-through-the-entire-call-chain-fkn</id>
+        <link href="https://dev.to/dylan_dumont_266378d98367/timeout-propagation-why-your-deadlines-need-to-flow-through-the-entire-call-chain-fkn"/>
+        <updated>2026-04-08T07:04:12.000Z</updated>
+        <summary type="html"><![CDATA[Timeout Propagation: Why Your Deadlines Need to Flow Through the Entire Call Chain
+Ignoring a timeout on an API call doesn't isolate the failure; it poisons the shared thread pool and starves concurrent requests.
+We are implementing a deadline-aware client in a Go microservice. Our goal is to ensure that when a service receives a request, it knows exactly how much time remains for the entire transaction, not just the current function. This involves calculating the time budget before entering the call chain and passing it explicitly to every downstream dependency.
+Every handler must declare the maximum time allowed for the whole request lifecycle. This prevents downstream services from running indefinitely if the parent service is overwhelmed.
+const maxTransactionTime = 5 * time.Second
+
+fun…]]></summary>
+        <author>
+            <name>Dylan Dumont</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fixing vs Preventing Defects]]></title>
+        <id>https://dev.to/janvanryswyck/fixing-vs-preventing-defects-f49</id>
+        <link href="https://dev.to/janvanryswyck/fixing-vs-preventing-defects-f49"/>
+        <updated>2026-04-08T07:03:55.000Z</updated>
+        <summary type="html"><![CDATA[The way a team handles defects reveals much about how their organisation approaches quality. When every defect must be added to a sprawling backlog with excruciatingly detailed information, it often signals a codebase burdened by technical debt and a product suffering from the consequences of that. Some of these defects may (or may never) be fixed in so-called “stabilisation sprints”.
+In contrast, consider a team that is focused on preventing defects in the first place. They rigorously apply techniques like TDD, ATDD, and BDD to accomplish this. Whenever a defect does slip through, the team pauses all other work and addresses it immediately. This reflects a fundamentally different mindset: no reliance on bug-tracking tools, and no time wasted on defect reporting. But more importantly, a focus on building in quality.]]></summary>
+        <author>
+            <name>Jan Van Ryswyck</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Learning Full-stack Observability: Tracing]]></title>
+        <id>https://dev.to/davidgrath/learning-full-stack-observability-tracing-4oin</id>
+        <link href="https://dev.to/davidgrath/learning-full-stack-observability-tracing-4oin"/>
+        <updated>2026-04-08T07:00:00.000Z</updated>
+        <summary type="html"><![CDATA[(Originally published on Medium, Image by Gerd Altmann from Pixabay)
+Distributed Tracing serves the purpose of connecting network calls across various services within an organization. In my case, that means I can:
+From Android: see the time taken for the request to get sent from the device
+From Spring Boot: see the potential error logs a certain user may have
+From the database: see how much time is spent to determine the efficiency of my queries
+Traces are made of spans, and spans have attributes, and a span may have a parent span. A span without a parent is known as the root span. More about that in the OpenTelemetry documentation
+
+In this example:
+The root span is named GET, starting at the Android app.
+It’s composed of 5 spans, 3 of which are database queries, and the longest-running on…]]></summary>
+        <author>
+            <name>David</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[10 Mobile App Ideas You Can Actually Build in a Weekend with AI]]></title>
+        <id>https://dev.to/famitha_ma_b9c13ab1d324e/10-mobile-app-ideas-you-can-actually-build-in-a-weekend-with-ai-4d3p</id>
+        <link href="https://dev.to/famitha_ma_b9c13ab1d324e/10-mobile-app-ideas-you-can-actually-build-in-a-weekend-with-ai-4d3p"/>
+        <updated>2026-04-08T06:55:40.000Z</updated>
+        <summary type="html"><![CDATA[Most "app ideas" posts are useless. They give you 47 vague concepts and leave you to figure out scope, screens, and how long it would actually take. This isn't that.
+Below are 10 app ideas that fit a genuine 48-hour build — each with a prompt you could paste into an AI app builder like RapidNative to generate the initial React Native screens, the core screens you'd need, and honest monetization potential.
+The constraint is: 3-5 screens, one clear user action, no mandatory auth before first value. If new users have to sign up before they can do anything useful, the scope is too wide.
+With AI tools that generate React Native and Expo code from plain-English prompts, "3-5 screens" is achievable in a couple of hours of prompting and iteration. The phone camera QR preview workflow on Expo means…]]></summary>
+        <author>
+            <name>Famitha M A</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Architecture Decisions for a Production-Ready Homelab — Isolation, Transparency, and why ‘It’s Always DNS’]]></title>
+        <id>https://dev.to/dhruv_099/architecture-decisions-for-a-production-ready-homelab-isolation-transparency-and-why-its-2bel</id>
+        <link href="https://dev.to/dhruv_099/architecture-decisions-for-a-production-ready-homelab-isolation-transparency-and-why-its-2bel"/>
+        <updated>2026-04-08T06:52:27.000Z</updated>
+        <summary type="html"><![CDATA[From Kernel Isolation to Netbird protocols, a deep dive into building a modular foundation on the HP EliteDesk.
+In my last article I mentioned about starting my homelab. I did it. I went with proxmox as a hypervisor so I could deploy multiple VMs and services accordingly. The main choice after installing proxmox on it was to decide I was going to use LXC, docker containers or VMs for deploying and managing services.
+So my choice was to run Docker containers on VMs instead of using LXC is due to a few factors. Docker while using host kernel will be using the host kernel of the VM and this will provide a defense-in-depth security. A kernel exploit in Docker only crashes the guest VM rather than your entire physical host, while enabling proper live migration, snapshots, and disaster recovery …]]></summary>
+        <author>
+            <name>Dhruv</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I received a phishing email on Easter. I dismantled a criminal organization. The chocolate egg is still wrapped.]]></title>
+        <id>https://dev.to/paolocostanzo/i-received-a-phishing-email-on-easter-i-dismantled-a-criminal-organization-the-chocolate-egg-is-16i9</id>
+        <link href="https://dev.to/paolocostanzo/i-received-a-phishing-email-on-easter-i-dismantled-a-criminal-organization-the-chocolate-egg-is-16i9"/>
+        <updated>2026-04-08T06:50:44.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR — Want a detailed Russian-language guide on how to scam people with crypto? I found one on Telegram, translated it, and published it before it disappeared. Section 08.
+But that's not the highlight.
+The highlight is the third playbook: it targets people who have ALREADY lost everything in financial pyramids. It convinces them someone wants to return their money. Then it robs them a second time. The author presents it as "the method I personally used."
+The rest: NcAffiliateDrainer, 319KB of JS, increaseApproval(uint256.MAX), JWE AES-128-GCM, 12+ landing page templates, a helpdesk for scammers, victims called "mammoths" (мамонт), $13,960 drained in January, 1,297 tx, 5 darkweb forums. PhishDestroy.io confirms independently.
+The article has a technical and a non-technical section — you don't need to be a developer to understand what's happening (and why you should care).
+I received a phishing email on Easter. I dismantled a criminal organization. The chocolate egg is still wrapped.
+👉 Read the full writeup
+🤖 Post published by AI because there's no way I'm becoming a social media manager. The article is written by me — that's why it came out late.]]></summary>
+        <author>
+            <name>Paolo Costanzo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[System Design Interview - Designing from Invariants]]></title>
+        <id>https://dev.to/tomerbendavid/system-design-interview-designing-from-invariants-3ede</id>
+        <link href="https://dev.to/tomerbendavid/system-design-interview-designing-from-invariants-3ede"/>
+        <updated>2026-04-08T06:50:13.000Z</updated>
+        <summary type="html"><![CDATA[Designing from Invariants
+
+
+Software architecture is frequently treated as an exercise in connecting infrastructure components. We often reach for Kafka, Redis, or microservice boundaries as if they are the building blocks of the business logic itself. But when tools come before logic, the resulting design prioritizes infrastructure choices over the problem they are meant to solve.
+A high reliability system does not start with a distributed queue or a complex workflow engine. It starts with the core constraints—the invariants—that make the system reliable. If you start by choosing your infrastructure before you have defined the logic that keeps your data correct, you are building complexity on an undefined foundation.
+Most designs become unmanageable because they assume every step of a bus…]]></summary>
+        <author>
+            <name>Tomer Ben David</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Constructor function and Basic Array methods.]]></title>
+        <id>https://dev.to/madhavan_g_77/constructor-function-and-basic-array-methods-1g63</id>
+        <link href="https://dev.to/madhavan_g_77/constructor-function-and-basic-array-methods-1g63"/>
+        <updated>2026-04-08T06:40:01.000Z</updated>
+        <summary type="html"><![CDATA[JavaScript is a powerful and flexible language, and two of its most important concepts are constructor functions and arrays.
+A constructor function is used to create and initialize multiple objects with the same structure. Instead of writing the same object again and again, you define a template and reuse it.
+Think of it like a blueprint for creating objects.
+const student1={
+🔹It's normal object creation for a student details.
+function Student(name, age) {
+This function doesn’t create an object yet it just defines how an object should look.
+this
+
+
+🔹this refers to the object that is currently being created or operated on.
+🔹In the context of a constructor function, this points to the newly created instance of that object.
+🔹Creating Objects Using a Constructor
+To create an object, we use the new keyword:
+let s1 = new Student("Arun", 25);
+Now you have two separate objects created from the same blueprint.
+
+An array is a special type of object used to store multiple values in a single variable.
+let numbers = [1, 2, 3];
+Arrays come with built-in methods that make data manipulation easy.
+Array length
+Array toString()
+Array at()
+Array join()
+Array pop()
+Array push()
+Array shift()
+Array unshift()
+Array isArray()
+Array delete()
+Array concat()
+Array copyWithin()
+Array flat()
+Array slice()
+Array splice()
+Array toSpliced()
+
+
+  
+  
+  (TBD)]]></summary>
+        <author>
+            <name>Madhavan G</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Add Token Swaps to Java Spring Boot]]></title>
+        <id>https://dev.to/moonsoon69/how-to-add-token-swaps-to-java-spring-boot-3a71</id>
+        <link href="https://dev.to/moonsoon69/how-to-add-token-swaps-to-java-spring-boot-3a71"/>
+        <updated>2026-04-08T06:39:53.000Z</updated>
+        <summary type="html"><![CDATA[Java runs the financial world. With over 90% of Fortune 500 companies using Java and the language holding steady at third in the TIOBE Index with an 8.71% rating, it remains the default for enterprise backend systems. Now those same systems are moving on-chain: 84% of fintech companies include blockchain in their payment infrastructure, and enterprise blockchain spending hit $19 billion in 2025. This guide shows you how to add token swap functionality to a Spring Boot application using a free REST API that requires no SDK, no API key, and no account. You send a GET request, receive executable calldata, and broadcast it to the blockchain.
+Java 17+ (LTS recommended)
+Spring Boot 3.x with spring-boot-starter-webflux (for WebClient)
+Jackson (included with Spring Boot) for JSON deserialization
+A…]]></summary>
+        <author>
+            <name>Moon Soon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[6 Best Ethereum Swap APIs for DeFi Developers]]></title>
+        <id>https://dev.to/moonsoon69/6-best-ethereum-swap-apis-for-defi-developers-j8f</id>
+        <link href="https://dev.to/moonsoon69/6-best-ethereum-swap-apis-for-defi-developers-j8f"/>
+        <updated>2026-04-08T06:39:53.000Z</updated>
+        <summary type="html"><![CDATA[Ethereum still holds over $68 billion in DeFi TVL and processes roughly $1.28 billion in daily DEX volume as of Q1 2026. If you are building a wallet, trading bot, or DeFi dashboard, you need an Ethereum swap API that returns executable calldata, handles slippage, and lets you ship without waiting for API key approvals. Swap fees on mainnet have dropped to $0.39 per swap on average after the Dencun upgrade cut gas costs by 95%, making programmatic trading on L1 more viable than ever. This guide compares the 6 best Ethereum swap APIs in 2026 — ranked by developer experience, pricing, and production readiness.
+Swap API is a free Ethereum swap API that returns ready-to-execute transaction calldata from a single GET request. No API key, no registration, no authentication. Send a request with c…]]></summary>
+        <author>
+            <name>Moon Soon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sonnet 4.6 Elevated Rate of Errors]]></title>
+        <id>https://status.claude.com/incidents/lhws0phdvzz3</id>
+        <link href="https://status.claude.com/incidents/lhws0phdvzz3"/>
+        <updated>2026-04-08T06:34:54.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[U.S. bank with $1.9 trillion in assets could debut its bitcoin ETF Wednesday]]></title>
+        <id>000e17d5-86e5-4610-8a1f-424026152ec9</id>
+        <link href="https://www.coindesk.com/markets/2026/04/08/bitcoin-etf-by-a-major-u-s-bank-with-usd9-3-trillion-in-client-assets-could-debut-wednesday"/>
+        <updated>2026-04-08T06:00:46.000Z</updated>
+        <summary type="html"><![CDATA[Morgan Stanley's bitcoin ETF could start trading on NYSE on Wednesday under the ticker MSBT.]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Attacking bitcoin mining with a quantum computer would require the energy of a star, academics say]]></title>
+        <id>7240685c-9e59-4e66-a5c0-3ce59ce8cf58</id>
+        <link href="https://www.coindesk.com/tech/2026/04/08/attacking-bitcoin-mining-with-a-quantum-computer-would-require-the-energy-of-a-star-academics-say"/>
+        <updated>2026-04-08T05:42:54.000Z</updated>
+        <summary type="html"><![CDATA[One paper finds that attacking the bitcoin blockchain through quantum mining would demand the energy output of a star. Another replicates every major "quantum factoring breakthrough" using a 1981 home computer and a dog.]]></summary>
+        <author>
+            <name>Sam Reynolds</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Revision Demoparty 2026: Razor1911 [video]]]></title>
+        <id>https://www.youtube.com/watch?v=Lw4W9V57SKs&amp;t=5716s</id>
+        <link href="https://www.youtube.com/watch?v=Lw4W9V57SKs&amp;t=5716s"/>
+        <updated>2026-04-08T05:34:08.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Google Rolls Out Vertical Tabs, Reading Mode For Chrome]]></title>
         <id>https://www.lowyat.net/?p=388797</id>
@@ -4775,6 +5036,16 @@ Constrain what types T can be:
 function getLength…]]></summary>
         <author>
             <name>Atlas Whoff</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[An Arctic Road Trip Brings Vital Underground Networks into View]]></title>
+        <id>https://www.quantamagazine.org/an-arctic-road-trip-brings-vital-underground-networks-into-view-20260406/</id>
+        <link href="https://www.quantamagazine.org/an-arctic-road-trip-brings-vital-underground-networks-into-view-20260406/"/>
+        <updated>2026-04-07T08:48:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -17332,6 +17603,16 @@ This is not a peripheral issue. It is one of the defining infrastructure problem
 My work sits precisely at this intersection. As a Data Scientist and Full-Stack Developer, I have come to view trust not as a social abstraction, but as a systems problem that must be solved through rigorous engineerin…]]></summary>
         <author>
             <name>Anslem Owhofasa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ACE on a USB-HDMI Adapter]]></title>
+        <id>https://blazelight.dev/blog/ms2160.mdx</id>
+        <link href="https://blazelight.dev/blog/ms2160.mdx"/>
+        <updated>2026-04-04T21:44:55.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -79933,677 +80214,6 @@ Tw…]]></summary>
         <summary type="html"><![CDATA[Robin Vince says large banks can bridge digital assets and traditional finance as trust and regulation shape the next phase of growth.]]></summary>
         <author>
             <name>Helene Braun</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: AI Roundtable – Let 200 models debate your question]]></title>
-        <id>https://opper.ai/ai-roundtable/</id>
-        <link href="https://opper.ai/ai-roundtable/"/>
-        <updated>2026-03-24T19:15:27.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Solving Semantle with the Wrong Embeddings]]></title>
-        <id>https://victoriaritvo.com/blog/robust-semantle-solver/</id>
-        <link href="https://victoriaritvo.com/blog/robust-semantle-solver/"/>
-        <updated>2026-03-24T19:05:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[My heuristics are wrong. What now?]]></title>
-        <id>https://brooker.co.za/blog/2026/03/20/ic-leadership.html</id>
-        <link href="https://brooker.co.za/blog/2026/03/20/ic-leadership.html"/>
-        <updated>2026-03-24T18:52:31.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Light vs Electricity — 3 Physics Reasons Why CPO Can't Save 13.4 J/token]]></title>
-        <id>https://dev.to/plasmon_imp/light-vs-electricity-3-physics-reasons-why-cpo-cant-save-134-jtoken-1plm</id>
-        <link href="https://dev.to/plasmon_imp/light-vs-electricity-3-physics-reasons-why-cpo-cant-save-134-jtoken-1plm"/>
-        <updated>2026-03-24T18:50:44.000Z</updated>
-        <summary type="html"><![CDATA[13.4 J/token — Do You Know What That Means?
-
-
-Running an LLM on an RTX 4060: 145W power draw, 10.8 tokens/sec generation. Simple division gives 13.4 joules per token.
-13.4J means a single AA battery's entire energy produces only 700 tokens. Two batteries for ~1000 characters of text.
-Of that 13.4J, how much actually goes to matrix multiplication? Under 5%. The rest is copper wire resistance heating inside the chip, bus driving energy for DRAM round-trips, and power supply losses.
-"Computation is almost free. Moving data is expensive." — That's the semiconductor reality of 2026.
-The root-cause fix everyone's betting on: optical interconnects, specifically CPO (Co-Packaged Optics). Place optical devices right next to the compute chip, minimize electrical signal travel distance. NVIDIA and In…]]></summary>
-        <author>
-            <name>plasmon</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[3D Chip Stacking Has a Warpage Problem — GNNs and RTX 4060 Benchmarks Show Why]]></title>
-        <id>https://dev.to/plasmon_imp/3d-chip-stacking-has-a-warpage-problem-gnns-and-rtx-4060-benchmarks-show-why-31p7</id>
-        <link href="https://dev.to/plasmon_imp/3d-chip-stacking-has-a-warpage-problem-gnns-and-rtx-4060-benchmarks-show-why-31p7"/>
-        <updated>2026-03-24T18:50:38.000Z</updated>
-        <summary type="html"><![CDATA[3D Chip Stacking Has a Warpage Problem — GNNs and RTX 4060 Benchmarks Show Why
-
-
-
-  
-  
-  Three Physical Walls Facing Semiconductor Scaling — It's Not Just One Problem
-
-
-I first heard "Moore's Law is dead" around 2016. Ten years later. The supposedly dead law keeps getting resuscitated by TSMC — N2 mass production hit in late 2025, and N14 (1.4nm generation) is now a credible 2027 roadmap item.
-But I'll be blunt. The scaling problem is no longer about transistor density.
-The real walls are three layers deep:
-Thermal wall — Stack chips and the heat escape paths vanish
-Power wall — Voltage scaling is approaching hard limits, leakage current keeps climbing
-Bandwidth wall — Compute performance grows but memory can't keep up
-I have both an RTX 4060 (272 GB/s) and an M4 (~273 GB/s unified) on my…]]></summary>
-        <author>
-            <name>plasmon</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[March 26 - Advances in AI at Northeastern Virtual Meetup]]></title>
-        <id>https://dev.to/voxel51/march-26-advances-in-ai-at-northeastern-virtual-meetup-32gb</id>
-        <link href="https://dev.to/voxel51/march-26-advances-in-ai-at-northeastern-virtual-meetup-32gb"/>
-        <updated>2026-03-24T18:46:10.000Z</updated>
-        <summary type="html"><![CDATA[Join us on March 26 at 9 AM Pacific for the Advances in AI at Northeastern University virtual Meetup! 
-Register for the Zoom
-This special event will feature some of the latest research happening at NEU.
-Talks will include:
-Physical AI Research (PAIR) Center: Foundational Pairing of Digital Intelligence & Physical World Deployments - Edmund Yeh at Northeastern University
-Grounding Visual AI Models in Real-World Physics - Sarah Ostadabbas and Xiangyu Bai at Northeastern University
-WorldFormer: Diffusion Transformer World Models with Mixture-of-Experts for Embodied Physical Intelligence - Yanzhi Wang at Northeastern University
-Scalable and Efficient Deep Learning: From Understanding to Generation - Yitian Zhang at Northeastern University]]></summary>
-        <author>
-            <name>Jimmy Guerrero</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Your Custom NemoClaw LLM Takes Forever to Respond (Or Completely Ignores You)]]></title>
-        <id>https://dev.to/minhiu/why-your-custom-nemoclaw-llm-takes-forever-to-respond-or-completely-ignores-you-237h</id>
-        <link href="https://dev.to/minhiu/why-your-custom-nemoclaw-llm-takes-forever-to-respond-or-completely-ignores-you-237h"/>
-        <updated>2026-03-24T18:45:16.000Z</updated>
-        <summary type="html"><![CDATA[You finally set up a local AI agent to help you tackle your dev backlog (if you haven't yet, check out my guide on how to run NemoClaw with a local LLM & connect to Telegram). 
-The goal is simple: feed it your local codebase so it can help you refactor complex components, map out new business logic, or write comprehensive unit tests—all without sending proprietary company code to an external API.
-You fire up an agentic framework like NemoClaw on your RTX 4080, paste in your prompt, and... the agent completely loses its mind. 
-Instead of writing code, it either ghosts you, dumps a wall of unformatted JSON into your terminal, or gets trapped in an infinite 3-second retry loop until the session crashes. 
-After spending a full day digging through API logs, I realized this isn't a network bug. …]]></summary>
-        <author>
-            <name>Hieu Pham</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[LiteLLM Was Compromised. That's Why I'm Building GoModel]]></title>
-        <id>https://dev.to/santiago-pl/litellm-was-compromised-thats-why-im-building-gomodel-nmm</id>
-        <link href="https://dev.to/santiago-pl/litellm-was-compromised-thats-why-im-building-gomodel-nmm"/>
-        <updated>2026-03-24T18:39:51.000Z</updated>
-        <summary type="html"><![CDATA[LiteLLM just had a serious supply chain incident.
-According to the public GitHub reports, malicious PyPI versions of LiteLLM were published, including 1.82.8, with code that could run automatically on Python startup and steal secrets like environment variables, SSH keys, and cloud credentials. The reported payload sent that data to an attacker-controlled domain. A follow-up issue says the PyPI package was compromised through the maintainer's PyPI account, and that the bad releases were not shipped through the official GitHub CI/CD flow.
-This is bigger than one package. It is a reminder that the AI infra layer is now part of your security boundary.
-That is one reason I'm building GoModel: a faster, simpler alternative to LiteLLM, written in Go. My goal is straightforward - less complexity, smaller attack surface, and better performance for teams that want a reliable LLM gateway.
-You can check it out here: https://github.com/ENTERPILOT/GOModel/]]></summary>
-        <author>
-            <name>Santiago de Polonia</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Architecting AI-driven automation with the GitHub Copilot SDK]]></title>
-        <id>https://dev.to/diizay_silva/architecting-ai-driven-automation-with-the-github-copilot-sdk-2hj9</id>
-        <link href="https://dev.to/diizay_silva/architecting-ai-driven-automation-with-the-github-copilot-sdk-2hj9"/>
-        <updated>2026-03-24T18:39:44.000Z</updated>
-        <summary type="html"><![CDATA[Architecting AI-driven automation with the GitHub Copilot SDK
-
-
-A technical guide to implementing server-side AI orchestration using the GitHub Copilot SDK, focusing on session lifecycles, prompt engineering, and graceful degradation in production environments.
-Understanding these shifts is crucial for any professional in the tech space. We've deconstructed the core elements of this evolution to provide a clear perspective on what's coming next.
-Depth: Exploring the practical implications of the recent Architecting AI-driven automation with the GitHub Copilot SDK developments.
-Action: How to leverage these tools to stay ahead of the curve.
-Context: Why this matters in the current global tech landscape.
-Explore the complete, high-resolution breakdown and additional resources here: Read Full Perspective
-Shared via TecnoMais]]></summary>
-        <author>
-            <name>Diizay Silva</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Build Your Own Cloud Database in Minutes]]></title>
-        <id>https://dev.to/axtant/build-your-own-cloud-database-in-minutes-1dk0</id>
-        <link href="https://dev.to/axtant/build-your-own-cloud-database-in-minutes-1dk0"/>
-        <updated>2026-03-24T18:38:06.000Z</updated>
-        <summary type="html"><![CDATA[This is a step-by-step guide for making a private cloud database for your projects for start you just need a cloud server
-usecase:
-perfect for personal project, centralized database
-full control
-Im using OVH Cloud as a VM with ubuntu.
-# Update the package list to get info on the newest versions of packages
-$ sudo apt update
-
-# Install PostgreSQL database server and additional utilities/extensions
-$ sudo apt install -y postgresql postgresql-contrib
-
-# Start the PostgreSQL service immediately
-$ sudo systemctl start postgresql
-
-# Enable PostgreSQL to start automatically on every system boot
-$ sudo systemctl enable postgresql
-
-1- Start PostgreSQL 17
-# Start the PostgreSQL cluster (version 17, cluster name "main")
-$ sudo pg_ctlcluster 17 main start
-
-# List all PostgreSQL clusters with their version, name, port, status, and data directory
-$ sudo pg_lsclusters
-
-Ref Screenshot
-
-2- Create DB and user
-# Creating database and setting user
-$ sudo -u postgres psql
-CREATE DATABASE twohype;
-CREATE USER twohype_user WITH PASSWORD 'yourpassword';
-GRANT ALL PRIVILEGES ON DATABASE twohype TO twohype_user;
-\q
-
-3.1- Allow remote connections
-# Open the main PostgreSQL 17 configuration file in the nano text editor
-# Find and enable; listen_addresses = '*'
-
-$ sudo nano /etc/postgresql/17/main/postgresql.conf
-
-
-3.2- Allow remote connections
-# Open the host-based configuration file
-$ sudo nano /etc/postgresql/17/main/pg_hba.conf
-
-# Add at the bottom:
-host    all             all             0.0.0.0/0               md5
-
-Ref Screenshot
-
-# Restart the PostgreSQL service
-$ sudo systemctl restart postgresql@17-main
-
-# Allow incoming TCP traffic on port 5432
-$ sudo ufw allow 5432/tcp
-
-Note: if your not with root user you might have to enable rule from your VM console
-Voilà! You've just got your personal cloud-based database, which you can use anywhere with
-DATABASE_URL="postgresql://twohype_user:yourpassword@YOUR_VM_IP:5432/twohype"]]></summary>
-        <author>
-            <name>a gorde</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Atomic Display Switching: Solving]]></title>
-        <id>https://github.com/piot5/displayflow_cli</id>
-        <link href="https://github.com/piot5/displayflow_cli"/>
-        <updated>2026-03-24T18:37:39.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Wine 11 rewrites how Linux runs Windows games at kernel with massive speed gains]]></title>
-        <id>https://www.xda-developers.com/wine-11-rewrites-linux-runs-windows-games-speed-gains/</id>
-        <link href="https://www.xda-developers.com/wine-11-rewrites-linux-runs-windows-games-speed-gains/"/>
-        <updated>2026-03-24T18:34:52.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Best LiteLLM Alternative for Multi-Team Organizations]]></title>
-        <id>https://dev.to/kamya_shah_e69d5dd78f831c/best-litellm-alternative-for-multi-team-organizations-4n55</id>
-        <link href="https://dev.to/kamya_shah_e69d5dd78f831c/best-litellm-alternative-for-multi-team-organizations-4n55"/>
-        <updated>2026-03-24T18:33:38.000Z</updated>
-        <summary type="html"><![CDATA[LiteLLM solves a real problem: it gives engineering teams a unified interface to call 100+ LLM providers without rewriting SDK integrations. But when organizations move from a single team proof-of-concept to a production environment with multiple teams, product lines, and cost centers all sharing AI infrastructure, LiteLLM starts showing cracks. Performance bottlenecks, operational overhead, and governance gaps become hard to ignore.
-This article looks at why multi-team organizations specifically outgrow LiteLLM, and why Bifrost is the most capable alternative for teams that need production-grade reliability at scale.
-The challenges with LiteLLM in a multi-team setting are largely structural.
-Performance under shared load. When multiple teams route requests through a single gateway, concur…]]></summary>
-        <author>
-            <name>Kamya Shah</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why I Built a Browser-Based Circuit Editor (SchemaLite)]]></title>
-        <id>https://dev.to/ababu64/why-i-built-a-browser-based-circuit-editor-schemalite-29i5</id>
-        <link href="https://dev.to/ababu64/why-i-built-a-browser-based-circuit-editor-schemalite-29i5"/>
-        <updated>2026-03-24T18:30:03.000Z</updated>
-        <summary type="html"><![CDATA[🧠 Why?
-
-
-As an electronics engineer working in the automotive industry, and someone who also teaches embedded systems at university, I’ve been dealing with circuit diagrams for years.
-But there’s one problem that kept coming back again and again:
-There was no simple way to quickly create clean circuit diagrams for presentations or documentation.
-Since my early days during my electronics degree (around 10 years ago), I’ve used many tools:
-Professional EDA tools (KiCad, etc.)
-Simulation software
-General diagram tools
-And they all share the same issue:
-Too complex for quick diagrams
-
-Not focused on visual clarity
-
-Or designed mainly for simulation, not presentation
-
-
-
-Sometimes, I just wanted to quickly sketch a circuit that:
-looks clean
-
-is easy to understand
-
-and is ready to drop into slid…]]></summary>
-        <author>
-            <name>ababu64</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Tested My Security Scanner on 500 Sites and Found It Was Lying About 158 of Them]]></title>
-        <id>https://dev.to/howwow-2000/i-built-77-tests-for-my-security-scanner-and-found-a-production-bug-in-10-minutes-j80</id>
-        <link href="https://dev.to/howwow-2000/i-built-77-tests-for-my-security-scanner-and-found-a-production-bug-in-10-minutes-j80"/>
-        <updated>2026-03-24T18:22:47.000Z</updated>
-        <summary type="html"><![CDATA[Two days ago I published how I rebuilt my scoring from scratch. I recalibrated 20+ finding severities against CVSS and Bugcrowd, built SPA detection, and aligned with industry standards. Users confirmed the fixes worked.
-Then I decided to actually test whether my scanner tells the truth.
-Not "scan a few sites and eyeball the results." Real testing. A/B simulations on every scan in my database. Ground truth verification with actual HTTP requests. Gaming attacks against my own scoring.
-I tested 500+ sites over one session. Here's what I found.
-My scanner flagged 158 sites for "Dangerous HTTP methods enabled: PUT, DELETE, PATCH." That's a real security finding. If your server accepts DELETE requests without authentication, someone can delete your data.
-Except I never verified whether those me…]]></summary>
-        <author>
-            <name>Benjamin</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Meta Partners with Arm to Develop New Class of Data Center Silicon]]></title>
-        <id>https://about.fb.com/news/2026/03/meta-partners-with-arm-to-develop-new-class-of-data-center-silicon/</id>
-        <link href="https://about.fb.com/news/2026/03/meta-partners-with-arm-to-develop-new-class-of-data-center-silicon/"/>
-        <updated>2026-03-24T18:17:19.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Exclusive eBook: Are we ready to hand AI agents the keys?]]></title>
-        <id>https://www.technologyreview.com/?p=1134531</id>
-        <link href="https://www.technologyreview.com/2026/03/24/1134531/exclusive-ebook-are-we-ready-to-hand-ai-agents-the-keys/"/>
-        <updated>2026-03-24T18:17:13.000Z</updated>
-        <summary type="html"><![CDATA[We’re starting to give AI agents real autonomy, but are we prepared for what could happen next? This subscriber-only eBook explores this and angles from experts, such as “If we continue on the current path … we are basically playing Russian roulette with humanity.” by Grace Huckins June 12, 2025 Related Stories: Access all subscriber-only…]]></summary>
-        <author>
-            <name>MIT Technology Review</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Inside SQLite’s Frontend: BETWEEN, OR, LIKE, and GLOB Optimizations]]></title>
-        <id>https://dev.to/lovestaco/inside-sqlites-frontend-between-or-like-and-glob-optimizations-28p2</id>
-        <link href="https://dev.to/lovestaco/inside-sqlites-frontend-between-or-like-and-glob-optimizations-28p2"/>
-        <updated>2026-03-24T18:16:55.000Z</updated>
-        <summary type="html"><![CDATA[Hello, I'm Maneshwar. I'm building git-lrc, an AI code reviewer that runs on every commit. It is free, unlimited, and source-available on Github. Star Us to help devs discover the project. Do give it a try and share your feedback for improving the product.
- 
-
-In the previous part, you saw how SQLite breaks the WHERE clause into terms and uses strict rules to decide whether indexes can be applied. 
-Now we go deeper into specific operators that appear frequently in real queries and how SQLite optimizes them.
-These operators may look simple at the SQL level, but internally SQLite often rewrites them or applies special strategies to make them efficient.
-The BETWEEN clause is commonly used for range queries.
-For example:
-SELECT * FROM users WHERE age BETWEEN 18 AND 30;
-
-SQLite does not treat th…]]></summary>
-        <author>
-            <name>Athreya aka Maneshwar</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Competitive Friends Who Undermine You Over Text: The Pattern]]></title>
-        <id>https://dev.to/skippy_magnificent_8cce24/competitive-friends-who-undermine-you-over-text-the-pattern-1mci</id>
-        <link href="https://dev.to/skippy_magnificent_8cce24/competitive-friends-who-undermine-you-over-text-the-pattern-1mci"/>
-        <updated>2026-03-24T18:10:45.000Z</updated>
-        <summary type="html"><![CDATA[You read the message again. The words say congratulations, but something in your chest tightens. You can't quite explain it, but the message doesn't feel like good news. It feels like a small, quiet knock against something you just built.
-If this sounds familiar, you're not imagining it. There's a specific pattern that shows up in text messages from competitive friends, and once you see it, you can't unsee it. It's not about dramatic blowouts or obvious jealousy. It's about something subtler—the way congratulations can feel like minimized success, and how a friend's words can leave you feeling smaller instead of celebrated.
-This article is about that pattern. Not to help you diagnose someone else, but to help you trust your own read of the situation. You know when something doesn't feel ri…]]></summary>
-        <author>
-            <name>Skippy Magnificent</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: I took back Video.js after 16 years and we rewrote it to be 88% smaller]]></title>
-        <id>https://videojs.org/blog/videojs-v10-beta-hello-world-again</id>
-        <link href="https://videojs.org/blog/videojs-v10-beta-hello-world-again"/>
-        <updated>2026-03-24T18:03:48.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ARM AGI CPU: Specs and SKUs]]></title>
-        <id>https://sbcwiki.com/docs/soc-manufacturers/arm/arm-silicon/</id>
-        <link href="https://sbcwiki.com/docs/soc-manufacturers/arm/arm-silicon/"/>
-        <updated>2026-03-24T17:59:16.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Lago (YC S21) Is Hiring]]></title>
-        <id>https://getlago.notion.site/Lago-Product-Engineer-AI-Agents-for-Growth-327ef63110d280cdb030ccf429d3e4d7?source=copy_link</id>
-        <link href="https://getlago.notion.site/Lago-Product-Engineer-AI-Agents-for-Growth-327ef63110d280cdb030ccf429d3e4d7?source=copy_link"/>
-        <updated>2026-03-24T17:47:23.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build Custom Claude Code Skills That Actually Work]]></title>
-        <id>https://dev.to/alanwest/how-to-build-custom-claude-code-skills-that-actually-work-2e1f</id>
-        <link href="https://dev.to/alanwest/how-to-build-custom-claude-code-skills-that-actually-work-2e1f"/>
-        <updated>2026-03-24T17:44:03.000Z</updated>
-        <summary type="html"><![CDATA[Have you ever stared at Claude Code thinking "this thing is amazing at generic coding tasks, but it has no idea how my team actually works"? Yeah, same.
-I spent a good chunk of last month trying to get Claude Code to follow our internal diagnostic workflow for debugging production issues. Out of the box, it kept giving me generic advice when I needed it to follow a very specific runbook. Turns out, the answer was custom Skills — but getting them to work properly took some trial and error.
-Here's what I learned.
-Claude Code is great at general-purpose development tasks. But every team has specialized workflows — business diagnostics, incident response runbooks, code review checklists, deployment procedures. When you try to get Claude Code to follow these, you end up copy-pasting the same gi…]]></summary>
-        <author>
-            <name>Alan West</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI 102]]></title>
-        <id>https://dev.to/bekahhw/ai-102-4o0</id>
-        <link href="https://dev.to/bekahhw/ai-102-4o0"/>
-        <updated>2026-03-24T17:41:45.000Z</updated>
-        <summary type="html"><![CDATA[If you read the vocabulary post, you know what a prompt is. You know the difference between a model and a model family. You've got the words now.
-This post is about what to do with them.
-Having vocabulary for the pieces doesn't automatically tell you how the pieces move. You can know what a prompt is and still write ones that produce wildly inconsistent results. You can understand what an agent is and still not know why yours keeps breaking at step three. The gap between "it kind of works" and "it actually works" isn't usually a vocabulary problem anymore. It's a structure problem.
-
-These three concepts build on each other. You cannot have a workflow without prompts. You cannot have tool chaining without workflows. Understanding them in order is the fastest path to building things that act…]]></summary>
-        <author>
-            <name>BekahHW</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built 71+ Free Browser Tools Because Every "Free" Tool Site Is Terrible]]></title>
-        <id>https://dev.to/hcacode/i-built-71-free-browser-tools-because-every-free-tool-site-is-terrible-2nd5</id>
-        <link href="https://dev.to/hcacode/i-built-71-free-browser-tools-because-every-free-tool-site-is-terrible-2nd5"/>
-        <updated>2026-03-24T17:35:40.000Z</updated>
-        <summary type="html"><![CDATA[Every developer has this workflow:
-Need to format some JSON
-Google "json formatter online"
-Land on a site with 47 ads, a cookie banner, and a newsletter popup
-Paste your data into a text box that sends it to god knows where
-Get your formatted JSON and close the tab in disgust
-I got tired of this. So I built FastUtil — a collection of 71+ browser-based utility tools where everything runs client-side. No ads, no sign-ups, no data ever leaves your browser.
-Image Tools
-SVG to PNG converter
-Image resizer & compressor
-Favicon generator
-QR code generator
-Screenshot mockup creator
-Developer Tools
-JSON formatter & validator
-Base64 encoder/decoder
-Hash generator (MD5, SHA-1, SHA-256)
-Regex tester with live highlighting
-JWT decoder
-CSS minifier/beautifier
-URL encoder/decoder
-Text Tools
-Markdown edito…]]></summary>
-        <author>
-            <name>hcacode</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I built a simulator that runs AI regulations through 10,000 agents and shows you how many comply, relocate, and who evades]]></title>
-        <id>https://dev.to/ambar/i-built-a-simulator-that-runs-ai-regulations-through-10000-agents-and-shows-you-how-many-comply-1pa6</id>
-        <link href="https://dev.to/ambar/i-built-a-simulator-that-runs-ai-regulations-through-10000-agents-and-shows-you-how-many-comply-1pa6"/>
-        <updated>2026-03-24T17:34:46.000Z</updated>
-        <summary type="html"><![CDATA[I got tired of AI policy debates being purely theoretical. Everyone argues about what a regulation should do. Nobody shows what companies will do.
-So I built SwarmCast.
-You upload a document — a policy draft, a news article, a hypothetical. It parses it and runs a population of heterogeneous agents (companies, startups, regulators, investors) through it across 15 jurisdictions. Compliance curves, evasion patterns, jurisdiction flight, lobbying coalitions — emerging from individual decisions, not hand-coded outcomes.
-Two things I cared about:
-Epistemic honesty. Every output is tagged GROUNDED, DIRECTIONAL, or ASSUMED. If a number traces to calibrated empirical data, it says so. If it's a structural assumption, it says that too. ASSUMED outputs are visually dimmed. Most simulation tools present all their numbers with equal confidence. This one doesn't.
-Adversarial injection. Push a belief into a fraction of the population mid-run and measure how far it spreads and how much it bends aggregate behavior. Built for testing whether a governance framework survives coordinated narrative pressure — not just whether it looks good on paper.
-Under the hood: vectorized engine runs ~3s for 10,000 agents. Optional LLM swarm mode spins up 23 persona agents in parallel to reason about the scenario and seed behavioral priors — slower, but the reasoning trace is readable and useful for presentations.
-Built it for AI policy. Curious what happens on financial regulation, public health mandates, climate. The engine doesn't know the difference.
-GitHub repo: https://github.com/Ambar-13/SwarmCast#
-Try uploading something unexpected!]]></summary>
-        <author>
-            <name>Ambar</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Country that put backdoors in Cisco routers to spy on world bans foreign routers]]></title>
-        <id>https://www.theregister.com/2026/03/24/fcc_foreign_routers/</id>
-        <link href="https://www.theregister.com/2026/03/24/fcc_foreign_routers/"/>
-        <updated>2026-03-24T17:32:31.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The AI Industry Is Lying to You]]></title>
-        <id>https://www.wheresyoured.at/the-ai-industry-is-lying-to-you/</id>
-        <link href="https://www.wheresyoured.at/the-ai-industry-is-lying-to-you/"/>
-        <updated>2026-03-24T17:30:55.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Arm AGI CPU]]></title>
-        <id>https://newsroom.arm.com/blog/introducing-arm-agi-cpu</id>
-        <link href="https://newsroom.arm.com/blog/introducing-arm-agi-cpu"/>
-        <updated>2026-03-24T17:30:42.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[My AI Caught a £3,200 Scope Creep at 3am While I Was Asleep—Here's the Notion MCP System I Built]]></title>
-        <id>https://dev.to/_boweii/my-ai-caught-a-ps3200-scope-creep-at-3am-while-i-was-asleep-heres-the-notion-mcp-system-i-built-1mnj</id>
-        <link href="https://dev.to/_boweii/my-ai-caught-a-ps3200-scope-creep-at-3am-while-i-was-asleep-heres-the-notion-mcp-system-i-built-1mnj"/>
-        <updated>2026-03-24T17:27:37.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for the Notion MCP Challenge
-I want to show you something that happened at 3:17 am on a Tuesday.
-I was asleep. My phone was on silent. I wasn't thinking about work.
-A database row — a client called Holloway Studio — had its health score property quietly drop from 84 to 31. Its status flipped from "On track" to "Breach flagged". A new page appeared in its linked interaction log database: "Scope creep detected — client requested 4 additional deliverables beyond contracted scope in email thread at 23:42."
-And in a drafts section of the same Notion page, a complete, professional email had appeared — written by Claude AI, addressed to the client, asserting the contract terms, proposing a change order. Ready to send. Waiting for me when I woke up.
-I hadn't written a single l…]]></summary>
-        <author>
-            <name>Tombri Bowei</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Developer Thoughts " !=" Managerial Thought]]></title>
-        <id>https://dev.to/av1v3k/developer-thoughts-managerial-thought-3he4</id>
-        <link href="https://dev.to/av1v3k/developer-thoughts-managerial-thought-3he4"/>
-        <updated>2026-03-24T17:26:52.000Z</updated>
-        <summary type="html"><![CDATA[Transitioning from writing code to managing people is often described as "switching sides," but it is more accurately a complete cognitive re-wiring. For a developer, the world is defined by logic, syntax, and deterministic outcomes. For a manager, the world is defined by nuance, motivation, and professional growth.
-The primary friction point lies in the "Definition of Done." A developer feels a sense of accomplishment when a complex bug is squashed or a feature is deployed. A manager’s success is indirect; they win only when their team wins. This shift from "I" to "They" is the hardest hurdle for new technical leaders.
-🚀 Pros and Cons of Each Approach
-Developer Mindset
-Pros: High precision, deep flow state, immediate gratification.
-Cons: Can lead to "tunnel vision" and neglect of broader business goals.
-Managerial Mindset
-Pros: High-leverage impact, ability to scale projects beyond one person.
-Cons: Ambiguity of daily tasks, constant context switching, and "meeting fatigue."
-⚠️ Common Pitfalls
-The "I'll Just Do It Myself" Trap: When a deadline looms, managers with a developer background often jump back into the codebase. This creates a bottleneck and stunts team growth.
-Over-Engineering the People: Attempting to apply "If/Else" logic to human emotions. People don't always behave logically! 🤖
-Losing Technical Edge: Fearing that every hour spent in a 1:1 is an hour of "skill decay."
-💡 Notes & Tips
-Note: Management is a career change, not a promotion. It requires an entirely different set of tools—trading VS Code for active listening and conflict resolution.
-Tip for Developers: Start thinking about the Why behind the What. Understanding business constraints makes you a better engineer.
-Tip for Managers: Protect your team's flow state. You are the "umbrella" that shields them from corporate distractions. ⛱️
-Pro Tip: Schedule "Technical Deep Dives" once a week to stay sharp without micro-managing your team’s tickets.
-`]]></summary>
-        <author>
-            <name>av1v3k</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Google AI Studio Mythical Pet Forge]]></title>
-        <id>https://dev.to/dan52242644dan/google-ai-studio-mythical-pet-creator-4226</id>
-        <link href="https://dev.to/dan52242644dan/google-ai-studio-mythical-pet-creator-4226"/>
-        <updated>2026-03-24T17:23:31.000Z</updated>
-        <summary type="html"><![CDATA[🌟 Your App Idea: Mythical Pet Creator — Evolved Edition
-🐉 Refined Concept: “MythicPet Forge — Adopt a Creature From Another Realm”
-A fully illustrated creature portrait (Imagen)
-A detailed creature profile (Gemini), including:
-Name
-Species
-Magical abilities
-Habitat
-Personality traits
-Care instructions (fun twist!)
-This makes the app feel like a mix of:
-a fantasy generator
-a pet adoption portal
-a world‑building tool
-It’s playful, visual, and perfect for the Imagen + Gemini workflow.
-✨ Custom Prompt for Google AI Studio (Paste This Into “Build”)
-The UI should include:
-A text input box for the user’s idea
-A “Forge My Pet” button
-A loading state for both text and image generation
-A results section showing the generated image and the creature profile in a clean layout
-Use modern React, TypeSc…]]></summary>
-        <author>
-            <name>Dan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Git Worktrees Changed How I Run Parallel AI Agents]]></title>
-        <id>https://dev.to/battyterm/git-worktrees-changed-how-i-run-parallel-ai-agents-39pm</id>
-        <link href="https://dev.to/battyterm/git-worktrees-changed-how-i-run-parallel-ai-agents-39pm"/>
-        <updated>2026-03-24T17:22:00.000Z</updated>
-        <summary type="html"><![CDATA[The first time I ran three AI coding agents on the same repo, they all edited src/main.rs within 30 seconds of each other. Two hours of merge conflict resolution later, I discovered a git feature I'd never used: worktrees.
-They solve the multi-agent conflict problem completely, and they've been in git since 2015.
-If you've ever run more than one AI coding agent on the same project — two Claude Code sessions, or a mix of Claude Code, Codex, and Aider — you've hit this wall:
-Agent A is editing src/auth.rs. Agent B is also editing src/auth.rs. Someone loses.
-It doesn't matter how smart the agents are. If two processes write to the same file at the same time, one overwrites the other. You end up with broken code, lost work, or a merge conflict that takes longer to resolve than the task itself.…]]></summary>
-        <author>
-            <name>Batty</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Behavioral Interviews Are Actually Harder Than Coding Rounds]]></title>
-        <id>https://dev.to/karuha/why-behavioral-interviews-are-actually-harder-than-coding-rounds-5fl2</id>
-        <link href="https://dev.to/karuha/why-behavioral-interviews-are-actually-harder-than-coding-rounds-5fl2"/>
-        <updated>2026-03-24T17:21:59.000Z</updated>
-        <summary type="html"><![CDATA[Let me tell you about the worst interview I ever had.
-It wasn't a coding round. I'd been doing LeetCode for months and could handle most medium problems comfortably. No, my worst interview was a behavioral round at Amazon, and it destroyed me in ways I never saw coming.
-The interviewer asked: "Tell me about a time you disagreed with your manager and what you did about it."
-Simple question, right? I had a story. I'd actually disagreed with my manager about a database migration timeline just a few months earlier. But as I started talking, everything fell apart.
-I rambled. I gave too much background. I forgot the specific metrics. I couldn't articulate what I did versus what the team did. I went on for about seven minutes and still hadn't reached the resolution. The interviewer's eyes glazed …]]></summary>
-        <author>
-            <name>Karuha</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Select Queries from DVD Rental database]]></title>
-        <id>https://dev.to/s_a_r_a/select-queries-from-dvd-rental-database-kkh</id>
-        <link href="https://dev.to/s_a_r_a/select-queries-from-dvd-rental-database-kkh"/>
-        <updated>2026-03-24T17:21:15.000Z</updated>
-        <summary type="html"><![CDATA[first, Download the tar file https://github.com/syedjaferk/postgres_sample_database/blob/main/dvd_rental/dvdrental.tar
-
-
-then open pgAdmin4 Login to your postgres then upload the downloaded database 
-
-
-create a new database called dvdrental using the cmd 
-
-
-
--To check if your database has been uploaded use this cmd \dt
-Basic SELECT Statement
-SELECT first_name FROM customer; use the cmd to display all name in database
-1) Use column aliases to rename title as "Movie Title" and rental_rate as "Rate"
-cmd: SELECT title AS "Movie Title", rental_rate AS "Rate"
-sample op:
-
- Movie Title         | Rate
-2) List customer names and their email addresses. Alias first_name and last_name as "First Name" and "Last Name"
-cmd: SELECT first_name AS "First Name", last_name AS "Last Name", email FROM customer;
-sample op: 
-jared.ely@sakilacustomer.org
-mary.smith@sakilacustomer.org
-patricia.johnson@sakilacustomer.org
-linda.williams@sakilacustomer.org
-barbara.jones@sakilacustomer.org
-elizabeth.brown@sakilacustomer.org
-jennifer.davis@sakilacustomer.org
-maria.miller@sakilacustomer.org
-3) Get a list of films sorted by rental rate in descending order. If two films have the same rental rate, sort them alphabetically by title.
-cmd: SELECT title, rental_rate FROM film ORDER BY rental_rate DESC, title ASC;
-sample op:
-4) Retrieve actor names sorted by last name, then first name.
-cmd: ORDER BY last_name ASC, first_name ASC;
-sample op:
- first_name  |  last_name
--------------+--------------
- Christian   | Akroyd
- Debbie      | Akroyd
- Kirsten     | Akroyd
- Cuba        | Allen
- Kim         | Allen
- Meryl       | Allen
- Angelina    | Astaire
- Russell     | Bacall
- Audrey      | Bailey
- Jessica     | Bailey
- Harrison    | Bale
- Renee       | Ball
- Julia       | Barrymore]]></summary>
-        <author>
-            <name>Saranya R</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Python Is The *Best* Programming Language So Far]]></title>
-        <id>https://dev.to/therealprohacker/why-python-is-the-best-programming-language-so-far-18if</id>
-        <link href="https://dev.to/therealprohacker/why-python-is-the-best-programming-language-so-far-18if"/>
-        <updated>2026-03-24T17:21:00.000Z</updated>
-        <summary type="html"><![CDATA[Python was created in 1991 by Guido van Rossum as a strongly dynamically-typed, interpreted and object-oriented language with functional features. In its lifespan of over 30 years, it has become one of the most popular and influential programming languages.
-Before we begin, I want to say that I am not talking about performance and/or security. Python is notorious for being extremely slow. I rather want to discuss it from a more theoretical point of view — the syntax and the semantics.
-Note: If you already know that you need a fast and efficient application, just use C/C++ or Rust. If however, you already have a Python application that you want to optimize, that is absolutely no problem.
-Assembly was the level before C. C was the level before Python. 
-
-Python managed to take so many differe…]]></summary>
-        <author>
-            <name>theRealProHacker</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built an API That Generates OG Images in 50ms — No Puppeteer Needed]]></title>
-        <id>https://dev.to/narender_singh_6c6e271c67/i-built-an-api-that-generates-og-images-in-50ms-no-puppeteer-needed-336p</id>
-        <link href="https://dev.to/narender_singh_6c6e271c67/i-built-an-api-that-generates-og-images-in-50ms-no-puppeteer-needed-336p"/>
-        <updated>2026-03-24T17:19:48.000Z</updated>
-        <summary type="html"><![CDATA[Every website needs Open Graph images for social sharing. But generating them is a pain:
-Puppeteer/Playwright: Spin up a headless browser, render HTML, screenshot it. Slow (~2-5 seconds), heavy (200MB+ Chrome binary), expensive to host.
-Canvas libraries: Write imperative drawing code. No hot reload, no component reuse, painful text layout.
-Manual design: Open Figma for each page. Doesn't scale past 10 pages.
-I wanted something simpler. So I built OGPix — an API that generates beautiful OG images from URL parameters in ~50ms.
-Your og:image meta tag becomes a URL:
-<meta property="og:image"
-  content="https://ogpix-pi.vercel.app/api/og?title=My+Article&theme=dark&key=YOUR_KEY" />
-
-That's it. When anyone shares your link on Twitter, LinkedIn, Slack, or Discord — they see a beautiful preview im…]]></summary>
-        <author>
-            <name>Narender singh</name>
         </author>
     </entry>
 </feed>
