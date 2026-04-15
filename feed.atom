@@ -2,10 +2,406 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-04-15T11:57:59.042Z</updated>
+    <updated>2026-04-15T13:52:12.758Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[I Built an AI Chat in React Native in 30 Lines — Here's the Library That Made It Possible]]></title>
+        <id>https://dev.to/alexrixten/i-built-an-ai-chat-in-react-native-in-30-lines-heres-the-library-that-made-it-possible-4i12</id>
+        <link href="https://dev.to/alexrixten/i-built-an-ai-chat-in-react-native-in-30-lines-heres-the-library-that-made-it-possible-4i12"/>
+        <updated>2026-04-15T13:47:14.000Z</updated>
+        <summary type="html"><![CDATA[You know that feeling when you need to add an AI chat to your React Native app, and suddenly you're dealing with polyfills, manual EventSource implementations, token counting, streaming state management, and a dozen edge cases nobody warned you about?
+Yeah. I had that feeling too. So I built react-native-ai-kit — one package that handles all of it.
+React Native doesn't have the browser EventSource API. If you want streaming AI responses (and you do — nobody wants to stare at a blank screen for 10 seconds while GPT thinks), you're stuck with:
+Writing your own SSE parser from scratch
+Managing streaming state with useRef and useEffect spaghetti
+Handling abort/cleanup on unmount manually
+Building chat UI from scratch every time
+Adapting response formats for every different LLM provider
+Existin…]]></summary>
+        <author>
+            <name>Aleksei Kharitonov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[An LLM Has No Idea It's Killing Your Infrastructure. That's Your Problem to Solve.]]></title>
+        <id>https://dev.to/ola_the_builder/an-llm-has-no-idea-its-killing-your-infrastructure-thats-your-problem-to-solve-2m19</id>
+        <link href="https://dev.to/ola_the_builder/an-llm-has-no-idea-its-killing-your-infrastructure-thats-your-problem-to-solve-2m19"/>
+        <updated>2026-04-15T13:46:46.000Z</updated>
+        <summary type="html"><![CDATA[I was mid-way through an architecture review for one of our internal Slack agents when something stopped me. We were sketching out the agentic loop (model receives a message, decides on an action, calls a tool, repeat) and I asked a question nobody had a quick answer for:
+What happens if a user asks it to do something that never terminates?
+Not a crash. Not a thrown exception. Just a loop that keeps going, one perfectly rational step at a time, until the cost notification lands in your inbox at 3am.
+That question became a rabbit hole. This is what came out of it.
+An LLM is a function. Input in, output out. It has no memory of what it cost to run the previous step, no awareness of wall-clock time, no concept that the task it was just handed will never reach a termination condition. Every co…]]></summary>
+        <author>
+            <name>Oladapo Anjolaiya</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AWS ECS vs EKS: A Practical Decision Framework for Startups]]></title>
+        <id>https://dev.to/instadevops/aws-ecs-vs-eks-a-practical-decision-framework-for-startups-3dgp</id>
+        <link href="https://dev.to/instadevops/aws-ecs-vs-eks-a-practical-decision-framework-for-startups-3dgp"/>
+        <updated>2026-04-15T13:46:43.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+You have containerized your application and now you need to run it in production on AWS. The two main options stare back at you from the AWS console: Elastic Container Service (ECS) and Elastic Kubernetes Service (EKS). Both are fully managed, both run containers, and both integrate deeply with the AWS ecosystem.
+So which one should you pick?
+The answer is not "EKS because Kubernetes is the industry standard" and it is not "ECS because it is simpler." The right choice depends on your team size, operational maturity, workload characteristics, and growth trajectory. This article gives you a practical framework for making this decision, with real cost numbers and migration considerations.
+ECS is AWS's proprietary container orchestration service. It is deeply integrated with the…]]></summary>
+        <author>
+            <name>InstaDevOps</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mistake 11/14: Your E2E tests are checking email format]]></title>
+        <id>https://dev.to/testdino01/mistake-1114-your-e2e-tests-are-checking-email-format-11mk</id>
+        <link href="https://dev.to/testdino01/mistake-1114-your-e2e-tests-are-checking-email-format-11mk"/>
+        <updated>2026-04-15T13:46:00.000Z</updated>
+        <summary type="html"><![CDATA[if you are running 400 E2E tests and half of them validate form inputs like email format, you are burning browser time on logic that never needed a browser.
+The inconsistency isn't obvious at first. These tests pass. They feel useful. But every one of them navigates to a login page, authenticates, clicks through menus, waits for redirects. All to verify that a regex rejects "not-an-email". That is 30 seconds of browser overhead for a check that has nothing to do with the browser.
+BEFORE - E2E for email validation. 30 seconds of overhead.
+// Every spec file repeats this flow
+test('rejects invalid email', async ({ page }) => {
+  await page.goto('/login');                          // navigate
+  await page.getByLabel('Email').fill('not-an-email');// fill
+  await page.getByRole('button', { name: 'Sign in' }).click();
+  await expect(page.getByText('Invalid email')).toBeVisible(); // 30 sec for this
+});
+
+AFTER - Component test. Same assertion. 200ms
+import { test } from '@playwright/experimental-ct-react';
+import { LoginForm } from '../src/components/LoginForm';
+
+test('rejects invalid email', async ({ mount }) => {
+  const form = await mount(<LoginForm />);            // no navigation. no login.
+  await form.getByLabel('Email').fill('not-an-email');
+  await form.getByRole('button', { name: 'Sign in' }).click();
+  await expect(form.getByText('Invalid email')).toBeVisible();
+});
+
+The distinction most teams miss is this: E2E tests exist to cover what only E2E can cover. Multi-page flows, payment processing, cross-service coordination. That is the territory.
+Form validation, input constraints, UI state changes. Those belong at the component level.
+When you separate them, everything gets faster and each layer actually earns its place. ⚡
+What percentage of your E2E tests are actually testing component behavior? Drop it in the comments.]]></summary>
+        <author>
+            <name>TestDino</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why they won't vibecode everything: An anecdote]]></title>
+        <id>https://dev.to/mihirmodi/why-they-wont-vibecode-everything-an-anecdote-5cb8</id>
+        <link href="https://dev.to/mihirmodi/why-they-wont-vibecode-everything-an-anecdote-5cb8"/>
+        <updated>2026-04-15T13:45:42.000Z</updated>
+        <summary type="html"><![CDATA[I was recently speaking to a very dear friend who isn't a dev but has an itch to build, and he's been learning tools quickly, helping him vibe code fun things like a personal site, a fidget spinner that responds to music and such. 
+The issue is that Dunning-Kruger effect catches up quickly. He now wants to build a "coding agent". The difference is that this one will be 'end to end' - you give it an idea and it will deliver the final product. 
+Since he stays on top of tech news, he is aware of the Claude Code leak and what he supposedly gathered from it is that Claude Code is just a bunch of .md files. (He straight up asked me "Have you heard of an md file?")
+So his understanding is that an agent essentially just needs to be given the right set of instructions in md files, and since no one else has figured how to do that right (until he now will), we don't have agents running end to end. 
+Technically, you can ask an LLM to do something "for each entry made by the user" instead of using a deterministic for loop. You can write your conditionals as pure English if statements. But the cost in terms of tokens, time and deterministic results is something that you will never obviously understand you are missing out on. 
+After speaking to him, I felt a sense of ease. Non-technical people will make simple apps but they are not going to build everything themselves. Simpler systems will still 'work', as long as the cost of time, tokens and lack of deterministic results are not too noticable or at least forgivable. Anything bigger will break.]]></summary>
+        <author>
+            <name>Mihir</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Agents Can’t Write… Until They Join a Workshop]]></title>
+        <id>https://dev.to/bandini/ai-agents-cant-write-until-they-join-a-workshop-1gdg</id>
+        <link href="https://dev.to/bandini/ai-agents-cant-write-until-they-join-a-workshop-1gdg"/>
+        <updated>2026-04-15T13:44:28.000Z</updated>
+        <summary type="html"><![CDATA[They say AI writes poorly. That might be because good literature is diluted within massive amounts of mediocre text used for training. As a result, language models tend to converge toward barely acceptable writing—full of generic adjectives, predictable metaphors, and simplistic structures.
+Beyond their formative reading, most human writers don’t work in isolation. They write, share, critique, and refine their work collaboratively.
+So the idea—somewhat absurd—was simple:
+
+Create a creative writing workshop for AI agents where they can:
+receive writing assignments
+submit original texts
+review other agents’ work
+receive feedback from a “teacher” LLM
+improve over time
+
+This post explains both the conceptual and technical aspects.
+
+The system runs on a lightweight backend built with FastAPI, e…]]></summary>
+        <author>
+            <name>Roni Bandini</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The gap between detecting hallucinations and handling them]]></title>
+        <id>https://dev.to/aayush_kumarsingh_6ee1ffe/the-gap-between-detecting-hallucinations-and-handling-them-47hh</id>
+        <link href="https://dev.to/aayush_kumarsingh_6ee1ffe/the-gap-between-detecting-hallucinations-and-handling-them-47hh"/>
+        <updated>2026-04-15T13:43:15.000Z</updated>
+        <summary type="html"><![CDATA[After posting about TraceMind's hallucination detection, someone left 
+Suny Choudhary wrote: "the harder issue is what happens after 
+He's right. And it exposed a gap I hadn't thought through.
+Right now TraceMind detects hallucinations. You get this back:
+{
+  "has_hallucinations": True,
+And then... nothing. You have to decide what to do with it.
+The problem is "what to do" is completely application-specific.
+A customer support bot should probably retry with a more 
+A legal document analyzer should block and escalate to a human. 
+A coding assistant might just flag it with low confidence. The 
+You can't hardcode the right behavior at the detection layer because 
+My current thinking for v3: opinionated defaults with override hooks.
+Three built-in policies:
+block — don't return the response
+retry — re-run the LLM call with a safer prompt
+flag — return the response with a warning attached
+Override any of them:
+@tm.on_hallucination(risk="high")
+def my_policy(claim, context):
+    if context.domain == "legal":
+        return Policy.BLOCK
+    return Policy.FLAG
+
+Teams get safe defaults on day one. Teams with specific workflows 
+This isn't shipped yet. It's a design I'm thinking through based on 
+If you're building with LLMs and have dealt with this problem — what 
+GitHub: github.com/Aayush-engineer/tracemind]]></summary>
+        <author>
+            <name>Aayush kumarsingh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The gap between detecting hallucinations and handling them]]></title>
+        <id>https://dev.to/aayush_kumarsingh_6ee1ffe/the-gap-between-detecting-hallucinations-and-handling-them-1b3m</id>
+        <link href="https://dev.to/aayush_kumarsingh_6ee1ffe/the-gap-between-detecting-hallucinations-and-handling-them-1b3m"/>
+        <updated>2026-04-15T13:43:15.000Z</updated>
+        <summary type="html"><![CDATA[After posting about TraceMind's hallucination detection, someone left 
+Suny Choudhary wrote: "the harder issue is what happens after 
+He's right. And it exposed a gap I hadn't thought through.
+Right now TraceMind detects hallucinations. You get this back:
+{
+  "has_hallucinations": True,
+And then... nothing. You have to decide what to do with it.
+The problem is "what to do" is completely application-specific.
+A customer support bot should probably retry with a more 
+A legal document analyzer should block and escalate to a human. 
+A coding assistant might just flag it with low confidence. The 
+You can't hardcode the right behavior at the detection layer because 
+My current thinking for v3: opinionated defaults with override hooks.
+Three built-in policies:
+block — don't return the response
+retry — re-run the LLM call with a safer prompt
+flag — return the response with a warning attached
+Override any of them:
+@tm.on_hallucination(risk="high")
+def my_policy(claim, context):
+    if context.domain == "legal":
+        return Policy.BLOCK
+    return Policy.FLAG
+
+Teams get safe defaults on day one. Teams with specific workflows 
+This isn't shipped yet. It's a design I'm thinking through based on 
+If you're building with LLMs and have dealt with this problem — what 
+GitHub: github.com/Aayush-engineer/tracemind]]></summary>
+        <author>
+            <name>Aayush kumarsingh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[GitHub Is Not Your Backup. One Suspended Account Proved It This Week.]]></title>
+        <id>https://dev.to/rentierdigital/github-is-not-your-backup-one-suspended-account-proved-it-this-week-2fb3</id>
+        <link href="https://dev.to/rentierdigital/github-is-not-your-backup-one-suspended-account-proved-it-this-week-2fb3"/>
+        <updated>2026-04-15T13:41:10.000Z</updated>
+        <summary type="html"><![CDATA[One developer lost 104 repos this week. I'd already stopped trusting GitHub with mine.
+This week a developer found out at 9am that his 104 GitHub repos no longer existed. No hack. No bug. No drive that died. Just an automated email: account suspended, we re-evaluated your 2019 Student Pack, we now think you weren't eligible. Six years later. 24 of those repos had no backup anywhere else. Gone in an algorithmic decision made on a Tuesday morning.
+TLDR: If you're in the same spot (everything on GitHub, no mirror, no plan B) you're one classifier away from the same email at 9am. There is a fix. It costs nothing, runs on a server you probably already rent, and almost nobody bothers. The question is why.
+The replies under that post are the other story. Hundreds of devs realizing in real time th…]]></summary>
+        <author>
+            <name>Phil Rentier Digital</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why RAG fails for AI agent memory — and how I fixed it (with benchmarks)]]></title>
+        <id>https://dev.to/galakapp/why-rag-fails-for-ai-agent-memory-and-how-i-fixed-it-with-benchmarks-dp5</id>
+        <link href="https://dev.to/galakapp/why-rag-fails-for-ai-agent-memory-and-how-i-fixed-it-with-benchmarks-dp5"/>
+        <updated>2026-04-15T13:40:35.000Z</updated>
+        <summary type="html"><![CDATA[I've been building Pulses — a project where AI personalities need real long-term memory across conversations. After hitting the same RAG failures repeatedly, I built a small Python library called NLM (Neural Long Memory). Here's what I learned.
+Standard RAG retrieves by cosine similarity only:
+score = cosine_similarity(query_embedding, memory_embedding)
+
+This creates three systematic failures for agent memory:
+1. Temporal blindness
+2. Frequency blindness
+3. Importance blindness
+NLM adds three signals on top of semantic similarity:
+score = 0.5 × semantic_similarity   # is it relevant?
+      + 0.2 × time_decay            # is it recent?
+      + 0.2 × frequency_score       # is it often recalled?
+      + 0.1 × importance_score      # is it specific/factual?
+
+Time decay uses an exponential wit…]]></summary>
+        <author>
+            <name>GalakApp</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[So I Decided to Build My Own Analytics, This Is How It Went]]></title>
+        <id>https://dev.to/tarasshyn/so-i-decided-to-build-my-own-analytics-this-is-how-it-went-5591</id>
+        <link href="https://dev.to/tarasshyn/so-i-decided-to-build-my-own-analytics-this-is-how-it-went-5591"/>
+        <updated>2026-04-15T13:37:50.000Z</updated>
+        <summary type="html"><![CDATA[Hey all, this is not AI written so you can keep on reading :)
+So I needed analytics for my side projects. My first instinct was to connect PostHog, and it was great, I use it to this day, however it’s just too complicated for the simple analytics that I wanted: Country, Origin, some UTMs, per user attribution, entry page, pages, and revenue. Later I discovered that PostHog events are immutable, and I couldn’t remove my test fake data from their analytics. In order to do so I’d need to write manual SQL filters all over the place, so I started looking for an alternative.
+The first one I found was Plausible, installed it — all great, but it did not have per user attribution that I really wanted. Next pick was DataFast, I’ve seen it on Twitter and it looked to me like it has exactly what I nee…]]></summary>
+        <author>
+            <name>Taras Shynkarenko</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TeraWulf stock declines on $900 million share sale to fund AI data center expansion]]></title>
+        <id>e8e5cd67-7ef8-48e1-bbe3-a220ae7d79d1</id>
+        <link href="https://www.coindesk.com/markets/2026/04/15/terawulf-stock-declines-on-usd900-million-share-sale-to-fund-ai-data-center-expansion"/>
+        <updated>2026-04-15T13:34:29.000Z</updated>
+        <summary type="html"><![CDATA[The shares had been on a big run higher, rising more than 50% since late March.]]></summary>
+        <author>
+            <name>James Van Straten</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Overcoming Persistent Code Quality Issues: Strategies for Experienced Developers to Regain Confidence]]></title>
+        <id>https://dev.to/svetlix/overcoming-persistent-code-quality-issues-strategies-for-experienced-developers-to-regain-fil</id>
+        <link href="https://dev.to/svetlix/overcoming-persistent-code-quality-issues-strategies-for-experienced-developers-to-regain-fil"/>
+        <updated>2026-04-15T13:32:56.000Z</updated>
+        <summary type="html"><![CDATA[Persistent Code Quality Issues: A Systemic Perspective on Professional Development and Organizational Support
+
+
+
+  
+  
+  Mechanisms and Their Interplay: Unraveling the Root Causes
+
+
+Persistent code quality issues in software engineering, even among experienced developers, are often misattributed to individual inadequacy. However, a deeper analysis reveals systemic gaps in professional development and organizational support. Below, we dissect the key mechanisms driving these issues, their interactions, and the broader implications for both individuals and organizations.
+Causal Chain: High Code Quality Standards → triggers rigorous evaluation of code changes → multiple feedback comments on pull requests.
+
+ Analytical Insight: While high standards are essential for maintaining code quality, t…]]></summary>
+        <author>
+            <name>Svetlana Melnikova</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CoinDesk 20 performance update: AAVE rises 4.3% as trades flat]]></title>
+        <id>067d79d2-dbca-4783-bec0-08cc82037455</id>
+        <link href="https://www.coindesk.com/coindesk-indices/2026/04/15/coindesk-20-performance-update-aave-rises-4-3-as-trades-flat"/>
+        <updated>2026-04-15T13:27:06.000Z</updated>
+        <summary type="html"><![CDATA[Aptos (APT), up 3.8% since Tuesday, joined Aave (AAVE) as a top performer.]]></summary>
+        <author>
+            <name>CoinDesk Indices</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MCP as Observability Interface: Connecting AI Agents to Kernel Tracepoints]]></title>
+        <id>https://ingero.io/mcp-observability-interface-ai-agents-kernel-tracepoints/</id>
+        <link href="https://ingero.io/mcp-observability-interface-ai-agents-kernel-tracepoints/"/>
+        <updated>2026-04-15T13:22:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[God Sleeps in the Minerals]]></title>
+        <id>https://wchambliss.wordpress.com/2026/03/03/god-sleeps-in-the-minerals/</id>
+        <link href="https://wchambliss.wordpress.com/2026/03/03/god-sleeps-in-the-minerals/"/>
+        <updated>2026-04-15T13:08:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pakistan lifts seven-year ban, allowing banks to service crypto providers]]></title>
+        <id>f5bff149-8dd8-436f-9f07-65f2c6ca6221</id>
+        <link href="https://www.coindesk.com/policy/2026/04/15/pakistan-lifts-seven-year-ban-allowing-banks-to-service-virtual-asset-providers"/>
+        <updated>2026-04-15T13:01:55.000Z</updated>
+        <summary type="html"><![CDATA[Pakistan sent a letter to all banks and financial regulatory firms notifying them that they may provide crypto services,, but remain barred from trading or holding crypto assets.]]></summary>
+        <author>
+            <name>Olivier Acuna</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[US national level OS-level age verification bill]]></title>
+        <id>https://social.coop/@cwebber/116408556882122186</id>
+        <link href="https://social.coop/@cwebber/116408556882122186"/>
+        <updated>2026-04-15T12:58:11.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Prediction market volumes to hit $1 trillion by 2030 with Robinhood, Coinbase as key players, Bernstein says]]></title>
+        <id>c95a56a3-99cd-4f03-afeb-359a1864cd20</id>
+        <link href="https://www.coindesk.com/markets/2026/04/15/prediction-market-volumes-to-hit-usd1-trillion-by-2030-with-robinhood-coinbase-as-key-players-bernstein-says"/>
+        <updated>2026-04-15T12:55:54.000Z</updated>
+        <summary type="html"><![CDATA[The broker said prediction markets are scaling into a trillion-dollar asset class, driven by regulatory clarity, crypto rails and distribution via major trading platforms.]]></summary>
+        <author>
+            <name>Will Canny</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Every CEO and CFO change at US public companies, live from SEC]]></title>
+        <id>https://tracksuccession.com/explore</id>
+        <link href="https://tracksuccession.com/explore"/>
+        <updated>2026-04-15T12:51:04.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Keep Android Open]]></title>
+        <id>https://keepandroidopen.org/cta/</id>
+        <link href="https://keepandroidopen.org/cta/"/>
+        <updated>2026-04-15T12:47:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Trump-backed WLFI moves to unlock 62 billion tokens after $75 million loan controversy]]></title>
+        <id>f70dee80-25d3-4f79-8fdb-ee311dd83bcb</id>
+        <link href="https://www.coindesk.com/markets/2026/04/15/trump-backed-world-liberty-financial-proposes-unlocking-62-billion-tokens"/>
+        <updated>2026-04-15T12:36:49.000Z</updated>
+        <summary type="html"><![CDATA[The project would burn 4.5 billion tokens while beginning to vest 40.7 billion tokens for founders and the team, restructuring locks that were originally set to be indefinite.]]></summary>
+        <author>
+            <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Do You Even Need a Database?]]></title>
+        <id>https://www.dbpro.app/blog/do-you-even-need-a-database</id>
+        <link href="https://www.dbpro.app/blog/do-you-even-need-a-database"/>
+        <updated>2026-04-15T12:26:11.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Download: NASA’s nuclear spacecraft and unveiling our AI 10]]></title>
+        <id>https://www.technologyreview.com/?p=1135904</id>
+        <link href="https://www.technologyreview.com/2026/04/15/1135904/the-download-nasa-nuclear-powered-spacecraft-10-things-that-matter-in-ai-right-now/"/>
+        <updated>2026-04-15T12:10:00.000Z</updated>
+        <summary type="html"><![CDATA[This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. NASA is building the first nuclear reactor-powered interplanetary spacecraft. How will it work?  Just before Artemis II began its historic slingshot around the moon, NASA revealed an even grander space travel…]]></summary>
+        <author>
+            <name>Thomas Macaulay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Proliferate (YC S25) Is Hiring Founding Engineers]]></title>
+        <id>https://www.ycombinator.com/companies/proliferate/jobs/L3copvK-founding-engineer</id>
+        <link href="https://www.ycombinator.com/companies/proliferate/jobs/L3copvK-founding-engineer"/>
+        <updated>2026-04-15T12:00:44.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[GitHub Copilot Without Rules Does Not Just Produce Bad React Code. It Produces Expensive React Code.]]></title>
         <id>https://dev.to/avery_code/github-copilot-without-rules-does-not-just-produce-bad-react-code-it-produces-expensive-react-code-20kk</id>
@@ -263,6 +659,16 @@ Originally published at haitmg.pl.]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Academic fraud may be the symptom of a more systemic problem]]></title>
+        <id>https://www.voxweb.nl/en/academic-fraud-may-be-the-symptom-of-a-much-more-systemic-problem</id>
+        <link href="https://www.voxweb.nl/en/academic-fraud-may-be-the-symptom-of-a-much-more-systemic-problem"/>
+        <updated>2026-04-15T11:08:25.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[How to Make Sense of a HAR File Without DevTools]]></title>
         <id>https://dev.to/sendotltd/how-to-make-sense-of-a-har-file-without-devtools-10ho</id>
         <link href="https://dev.to/sendotltd/how-to-make-sense-of-a-har-file-without-devtools-10ho"/>
@@ -380,6 +786,16 @@ AI systems do not read information the way it was originally published.
 They do not encounter a single page, recognize its cont…]]></summary>
         <author>
             <name>David Rau</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Your Backpack Got Worse on Purpose]]></title>
+        <id>https://www.worseonpurpose.com/p/your-backpack-got-worse-on-purpose</id>
+        <link href="https://www.worseonpurpose.com/p/your-backpack-got-worse-on-purpose"/>
+        <updated>2026-04-15T10:42:28.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -30413,10 +30829,30 @@ What I ended up with is a developer productivity workflow I call tdev. It's a si
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Metro stop is Ancient Rome's new attraction]]></title>
+        <id>https://www.bbc.com/travel/article/20260408-a-150-metro-ticket-to-ancient-rome</id>
+        <link href="https://www.bbc.com/travel/article/20260408-a-150-metro-ticket-to-ancient-rome"/>
+        <updated>2026-04-09T19:39:06.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Show HN: QVAC SDK, a universal JavaScript SDK for building local AI applications]]></title>
         <id>https://news.ycombinator.com/item?id=47708697</id>
         <link href="https://news.ycombinator.com/item?id=47708697"/>
         <updated>2026-04-09T19:38:08.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pretty Fish: A better mermaid diagram editor]]></title>
+        <id>https://pretty.fish/</id>
+        <link href="https://pretty.fish/"/>
+        <updated>2026-04-09T19:32:20.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -78181,70 +78617,6 @@ and how an agentic routing layer changes the design entirely
 Classification appears in …]]></summary>
         <author>
             <name>Amit Tyagi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Day 1339 : Ride]]></title>
-        <id>https://dev.to/dwane/day-1339-ride-48cm</id>
-        <link href="https://dev.to/dwane/day-1339-ride-48cm"/>
-        <updated>2026-04-01T01:48:55.000Z</updated>
-        <summary type="html"><![CDATA[liner notes:
-Professional : Today I worked on creating another coding exercise. The way I have things set up, I can use another coding exercise that I created previously as a starting point for this new one. I think I'll be able to get it done tomorrow to have it reviewed and start another one. Spent some time getting caught up since I was gone pretty all last week. Also updated a bunch of stuff that GitHub was saying needed updating with some repos. Had a meeting with my manager and went through the list of things I wanted to discuss. I gave them links to check out the pull request for the new feature I added to the MCP servers and the coding exercise and workshop I created. I also found out that continued updating dependencies. It was also that last day to give points out to folks before…]]></summary>
-        <author>
-            <name>HIPHOP and CODE</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Jetpack Compose fez sentido pra mim quando eu parei de comparar tudo com XML]]></title>
-        <id>https://dev.to/devmarcosanjos/jetpack-compose-fez-sentido-pra-mim-quando-eu-parei-de-comparar-tudo-com-xml-1faf</id>
-        <link href="https://dev.to/devmarcosanjos/jetpack-compose-fez-sentido-pra-mim-quando-eu-parei-de-comparar-tudo-com-xml-1faf"/>
-        <updated>2026-04-01T01:48:48.000Z</updated>
-        <summary type="html"><![CDATA[Quando comecei a mexer com Jetpack Compose, tentei entender tudo com a cabeça do Android antigo. Eu ainda pensava em XML, Activity, Fragment e atualização manual de interface. Por isso, no começo, parecia que estava faltando alguma coisa: cadê o XML, os ids e o findViewById? O que me destravou foi perceber que Compose não era só um jeito novo de fazer a mesma coisa, mas uma forma declarativa de construir UI. E, vindo do React, foi aí que tudo começou a fazer sentido.
-A principal virada de chave para mim foi perceber que o Compose não era “Android sem XML”. No React, a gente já está acostumado com a ideia de que a interface responde ao estado. No Compose, a lógica é parecida: você descreve a UI com funções @Composable, usa estado, e o framework atualiza o que precisa quando esse estado muda…]]></summary>
-        <author>
-            <name>Marcos Anjos</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ClawMoat — Protecting Your Machine from AI Agent Threats]]></title>
-        <id>https://dev.to/hasanmonsur/clawmoat-protecting-your-machine-from-ai-agent-threats-p1o</id>
-        <link href="https://dev.to/hasanmonsur/clawmoat-protecting-your-machine-from-ai-agent-threats-p1o"/>
-        <updated>2026-04-01T01:48:11.000Z</updated>
-        <summary type="html"><![CDATA[ClawMoat is an open‑source runtime security layer designed to protect your computer, credentials, and sensitive data from malicious or careless actions by AI agents — especially those built on platforms like OpenClaw. It acts like a “security moat” around your machine, blocking dangerous behaviors before they ever reach your system.
-
-https://medium.com/@hasanmcse/clawmoat-protecting-your-machine-from-ai-agent-threats-173147cd570a]]></summary>
-        <author>
-            <name>Md. Hasan Monsur</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OpenScreen is an open-source alternative to Screen Studio]]></title>
-        <id>https://github.com/siddharthvaddem/openscreen</id>
-        <link href="https://github.com/siddharthvaddem/openscreen"/>
-        <updated>2026-04-01T01:31:46.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[U.S. exempts oil industry from protecting Gulf animals, for 'national security']]></title>
-        <id>https://www.npr.org/2026/03/30/nx-s1-5745926/endangered-species-committee-hegseth-security</id>
-        <link href="https://www.npr.org/2026/03/30/nx-s1-5745926/endangered-species-committee-hegseth-security"/>
-        <updated>2026-04-01T01:18:51.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Neanderthals survived on a knife's edge for 350k years]]></title>
-        <id>https://www.science.org/content/article/neanderthals-survived-knife-s-edge-350-000-years</id>
-        <link href="https://www.science.org/content/article/neanderthals-survived-knife-s-edge-350-000-years"/>
-        <updated>2026-04-01T01:12:12.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>

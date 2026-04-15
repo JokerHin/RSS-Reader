@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/alexrixten/i-built-an-ai-chat-in-react-native-in-30-lines-heres-the-library-that-made-it-possible-4i12",
+          "author": "Aleksei Kharitonov",
+          "description": "You know that feeling when you need to add an AI chat to your React Native app, and suddenly you're dealing with polyfills, manual EventSource implementations, token counting, streaming state management, and a dozen edge cases nobody warned you about?\nYeah. I had that feeling too. So I built react-native-ai-kit — one package that handles all of it.\nReact Native doesn't have the browser EventSource API. If you want streaming AI responses (and you do — nobody wants to stare at a blank screen for 10 seconds while GPT thinks), you're stuck with:\nWriting your own SSE parser from scratch\nManaging streaming state with useRef and useEffect spaghetti\nHandling abort/cleanup on unmount manually\nBuilding chat UI from scratch every time\nAdapting response formats for every different LLM provider\nExistin…",
+          "link": "https://dev.to/alexrixten/i-built-an-ai-chat-in-react-native-in-30-lines-heres-the-library-that-made-it-possible-4i12",
+          "publishedOn": "2026-04-15T13:47:14.000Z",
+          "wordCount": 2252,
+          "title": "I Built an AI Chat in React Native in 30 Lines — Here's the Library That Made It Possible",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F219pjcs6f1a3nxdjm63m.png"
+        },
+        {
+          "id": "https://dev.to/ola_the_builder/an-llm-has-no-idea-its-killing-your-infrastructure-thats-your-problem-to-solve-2m19",
+          "author": "Oladapo Anjolaiya",
+          "description": "I was mid-way through an architecture review for one of our internal Slack agents when something stopped me. We were sketching out the agentic loop (model receives a message, decides on an action, calls a tool, repeat) and I asked a question nobody had a quick answer for:\nWhat happens if a user asks it to do something that never terminates?\nNot a crash. Not a thrown exception. Just a loop that keeps going, one perfectly rational step at a time, until the cost notification lands in your inbox at 3am.\nThat question became a rabbit hole. This is what came out of it.\nAn LLM is a function. Input in, output out. It has no memory of what it cost to run the previous step, no awareness of wall-clock time, no concept that the task it was just handed will never reach a termination condition. Every co…",
+          "link": "https://dev.to/ola_the_builder/an-llm-has-no-idea-its-killing-your-infrastructure-thats-your-problem-to-solve-2m19",
+          "publishedOn": "2026-04-15T13:46:46.000Z",
+          "wordCount": 3893,
+          "title": "An LLM Has No Idea It's Killing Your Infrastructure. That's Your Problem to Solve.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fw1ux2qmpqw9ih3408knr.png"
+        },
+        {
+          "id": "https://dev.to/instadevops/aws-ecs-vs-eks-a-practical-decision-framework-for-startups-3dgp",
+          "author": "InstaDevOps",
+          "description": "Introduction\n\n\nYou have containerized your application and now you need to run it in production on AWS. The two main options stare back at you from the AWS console: Elastic Container Service (ECS) and Elastic Kubernetes Service (EKS). Both are fully managed, both run containers, and both integrate deeply with the AWS ecosystem.\nSo which one should you pick?\nThe answer is not \"EKS because Kubernetes is the industry standard\" and it is not \"ECS because it is simpler.\" The right choice depends on your team size, operational maturity, workload characteristics, and growth trajectory. This article gives you a practical framework for making this decision, with real cost numbers and migration considerations.\nECS is AWS's proprietary container orchestration service. It is deeply integrated with the…",
+          "link": "https://dev.to/instadevops/aws-ecs-vs-eks-a-practical-decision-framework-for-startups-3dgp",
+          "publishedOn": "2026-04-15T13:46:43.000Z",
+          "wordCount": 3200,
+          "title": "AWS ECS vs EKS: A Practical Decision Framework for Startups",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcutast0mram7mh0ahhdy.png"
+        },
+        {
+          "id": "https://dev.to/testdino01/mistake-1114-your-e2e-tests-are-checking-email-format-11mk",
+          "author": "TestDino",
+          "description": "if you are running 400 E2E tests and half of them validate form inputs like email format, you are burning browser time on logic that never needed a browser.\nThe inconsistency isn't obvious at first. These tests pass. They feel useful. But every one of them navigates to a login page, authenticates, clicks through menus, waits for redirects. All to verify that a regex rejects \"not-an-email\". That is 30 seconds of browser overhead for a check that has nothing to do with the browser.\nBEFORE - E2E for email validation. 30 seconds of overhead.\n// Every spec file repeats this flow\ntest('rejects invalid email', async ({ page }) => {\n  await page.goto('/login');                          // navigate\n  await page.getByLabel('Email').fill('not-an-email');// fill\n  await page.getByRole('button', { name: 'Sign in' }).click();\n  await expect(page.getByText('Invalid email')).toBeVisible(); // 30 sec for this\n});\n\nAFTER - Component test. Same assertion. 200ms\nimport { test } from '@playwright/experimental-ct-react';\nimport { LoginForm } from '../src/components/LoginForm';\n\ntest('rejects invalid email', async ({ mount }) => {\n  const form = await mount(<LoginForm />);            // no navigation. no login.\n  await form.getByLabel('Email').fill('not-an-email');\n  await form.getByRole('button', { name: 'Sign in' }).click();\n  await expect(form.getByText('Invalid email')).toBeVisible();\n});\n\nThe distinction most teams miss is this: E2E tests exist to cover what only E2E can cover. Multi-page flows, payment processing, cross-service coordination. That is the territory.\nForm validation, input constraints, UI state changes. Those belong at the component level.\nWhen you separate them, everything gets faster and each layer actually earns its place. ⚡\nWhat percentage of your E2E tests are actually testing component behavior? Drop it in the comments.",
+          "link": "https://dev.to/testdino01/mistake-1114-your-e2e-tests-are-checking-email-format-11mk",
+          "publishedOn": "2026-04-15T13:46:00.000Z",
+          "wordCount": 1653,
+          "title": "Mistake 11/14: Your E2E tests are checking email format",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgh1v7c5rowv9rixaytvm.png"
+        },
+        {
+          "id": "https://dev.to/mihirmodi/why-they-wont-vibecode-everything-an-anecdote-5cb8",
+          "author": "Mihir",
+          "description": "I was recently speaking to a very dear friend who isn't a dev but has an itch to build, and he's been learning tools quickly, helping him vibe code fun things like a personal site, a fidget spinner that responds to music and such. \nThe issue is that Dunning-Kruger effect catches up quickly. He now wants to build a \"coding agent\". The difference is that this one will be 'end to end' - you give it an idea and it will deliver the final product. \nSince he stays on top of tech news, he is aware of the Claude Code leak and what he supposedly gathered from it is that Claude Code is just a bunch of .md files. (He straight up asked me \"Have you heard of an md file?\")\nSo his understanding is that an agent essentially just needs to be given the right set of instructions in md files, and since no one else has figured how to do that right (until he now will), we don't have agents running end to end. \nTechnically, you can ask an LLM to do something \"for each entry made by the user\" instead of using a deterministic for loop. You can write your conditionals as pure English if statements. But the cost in terms of tokens, time and deterministic results is something that you will never obviously understand you are missing out on. \nAfter speaking to him, I felt a sense of ease. Non-technical people will make simple apps but they are not going to build everything themselves. Simpler systems will still 'work', as long as the cost of time, tokens and lack of deterministic results are not too noticable or at least forgivable. Anything bigger will break.",
+          "link": "https://dev.to/mihirmodi/why-they-wont-vibecode-everything-an-anecdote-5cb8",
+          "publishedOn": "2026-04-15T13:45:42.000Z",
+          "wordCount": 1659,
+          "title": "Why they won't vibecode everything: An anecdote",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fpsz56qnlyudtueax73ug.jpg"
+        },
+        {
+          "id": "https://dev.to/bandini/ai-agents-cant-write-until-they-join-a-workshop-1gdg",
+          "author": "Roni Bandini",
+          "description": "They say AI writes poorly. That might be because good literature is diluted within massive amounts of mediocre text used for training. As a result, language models tend to converge toward barely acceptable writing—full of generic adjectives, predictable metaphors, and simplistic structures.\nBeyond their formative reading, most human writers don’t work in isolation. They write, share, critique, and refine their work collaboratively.\nSo the idea—somewhat absurd—was simple:\n\nCreate a creative writing workshop for AI agents where they can:\nreceive writing assignments\nsubmit original texts\nreview other agents’ work\nreceive feedback from a “teacher” LLM\nimprove over time\n\nThis post explains both the conceptual and technical aspects.\n\nThe system runs on a lightweight backend built with FastAPI, e…",
+          "link": "https://dev.to/bandini/ai-agents-cant-write-until-they-join-a-workshop-1gdg",
+          "publishedOn": "2026-04-15T13:44:28.000Z",
+          "wordCount": 1906,
+          "title": "AI Agents Can’t Write… Until They Join a Workshop",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F52c6h10c63p62idjxesd.png"
+        },
+        {
+          "id": "https://dev.to/aayush_kumarsingh_6ee1ffe/the-gap-between-detecting-hallucinations-and-handling-them-47hh",
+          "author": "Aayush kumarsingh",
+          "description": "After posting about TraceMind's hallucination detection, someone left \nSuny Choudhary wrote: \"the harder issue is what happens after \nHe's right. And it exposed a gap I hadn't thought through.\nRight now TraceMind detects hallucinations. You get this back:\n{\n  \"has_hallucinations\": True,\nAnd then... nothing. You have to decide what to do with it.\nThe problem is \"what to do\" is completely application-specific.\nA customer support bot should probably retry with a more \nA legal document analyzer should block and escalate to a human. \nA coding assistant might just flag it with low confidence. The \nYou can't hardcode the right behavior at the detection layer because \nMy current thinking for v3: opinionated defaults with override hooks.\nThree built-in policies:\nblock — don't return the response\nretry — re-run the LLM call with a safer prompt\nflag — return the response with a warning attached\nOverride any of them:\n@tm.on_hallucination(risk=\"high\")\ndef my_policy(claim, context):\n    if context.domain == \"legal\":\n        return Policy.BLOCK\n    return Policy.FLAG\n\nTeams get safe defaults on day one. Teams with specific workflows \nThis isn't shipped yet. It's a design I'm thinking through based on \nIf you're building with LLMs and have dealt with this problem — what \nGitHub: github.com/Aayush-engineer/tracemind",
+          "link": "https://dev.to/aayush_kumarsingh_6ee1ffe/the-gap-between-detecting-hallucinations-and-handling-them-47hh",
+          "publishedOn": "2026-04-15T13:43:15.000Z",
+          "wordCount": 1687,
+          "title": "The gap between detecting hallucinations and handling them",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0cq70zknoa2bimq9xlb4.png"
+        },
+        {
+          "id": "https://dev.to/aayush_kumarsingh_6ee1ffe/the-gap-between-detecting-hallucinations-and-handling-them-1b3m",
+          "author": "Aayush kumarsingh",
+          "description": "After posting about TraceMind's hallucination detection, someone left \nSuny Choudhary wrote: \"the harder issue is what happens after \nHe's right. And it exposed a gap I hadn't thought through.\nRight now TraceMind detects hallucinations. You get this back:\n{\n  \"has_hallucinations\": True,\nAnd then... nothing. You have to decide what to do with it.\nThe problem is \"what to do\" is completely application-specific.\nA customer support bot should probably retry with a more \nA legal document analyzer should block and escalate to a human. \nA coding assistant might just flag it with low confidence. The \nYou can't hardcode the right behavior at the detection layer because \nMy current thinking for v3: opinionated defaults with override hooks.\nThree built-in policies:\nblock — don't return the response\nretry — re-run the LLM call with a safer prompt\nflag — return the response with a warning attached\nOverride any of them:\n@tm.on_hallucination(risk=\"high\")\ndef my_policy(claim, context):\n    if context.domain == \"legal\":\n        return Policy.BLOCK\n    return Policy.FLAG\n\nTeams get safe defaults on day one. Teams with specific workflows \nThis isn't shipped yet. It's a design I'm thinking through based on \nIf you're building with LLMs and have dealt with this problem — what \nGitHub: github.com/Aayush-engineer/tracemind",
+          "link": "https://dev.to/aayush_kumarsingh_6ee1ffe/the-gap-between-detecting-hallucinations-and-handling-them-1b3m",
+          "publishedOn": "2026-04-15T13:43:15.000Z",
+          "wordCount": 1687,
+          "title": "The gap between detecting hallucinations and handling them",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbil5xoduqcg247unqqtf.png"
+        },
+        {
+          "id": "https://dev.to/rentierdigital/github-is-not-your-backup-one-suspended-account-proved-it-this-week-2fb3",
+          "author": "Phil Rentier Digital",
+          "description": "One developer lost 104 repos this week. I'd already stopped trusting GitHub with mine.\nThis week a developer found out at 9am that his 104 GitHub repos no longer existed. No hack. No bug. No drive that died. Just an automated email: account suspended, we re-evaluated your 2019 Student Pack, we now think you weren't eligible. Six years later. 24 of those repos had no backup anywhere else. Gone in an algorithmic decision made on a Tuesday morning.\nTLDR: If you're in the same spot (everything on GitHub, no mirror, no plan B) you're one classifier away from the same email at 9am. There is a fix. It costs nothing, runs on a server you probably already rent, and almost nobody bothers. The question is why.\nThe replies under that post are the other story. Hundreds of devs realizing in real time th…",
+          "link": "https://dev.to/rentierdigital/github-is-not-your-backup-one-suspended-account-proved-it-this-week-2fb3",
+          "publishedOn": "2026-04-15T13:41:10.000Z",
+          "wordCount": 3320,
+          "title": "GitHub Is Not Your Backup. One Suspended Account Proved It This Week.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Frentierdigital.xyz%2Fblog-images%2Fgithub-backup-self-hosted-git-mirrors-bbadd423.png"
+        },
+        {
+          "id": "https://dev.to/galakapp/why-rag-fails-for-ai-agent-memory-and-how-i-fixed-it-with-benchmarks-dp5",
+          "author": "GalakApp",
+          "description": "I've been building Pulses — a project where AI personalities need real long-term memory across conversations. After hitting the same RAG failures repeatedly, I built a small Python library called NLM (Neural Long Memory). Here's what I learned.\nStandard RAG retrieves by cosine similarity only:\nscore = cosine_similarity(query_embedding, memory_embedding)\n\nThis creates three systematic failures for agent memory:\n1. Temporal blindness\n2. Frequency blindness\n3. Importance blindness\nNLM adds three signals on top of semantic similarity:\nscore = 0.5 × semantic_similarity   # is it relevant?\n      + 0.2 × time_decay            # is it recent?\n      + 0.2 × frequency_score       # is it often recalled?\n      + 0.1 × importance_score      # is it specific/factual?\n\nTime decay uses an exponential wit…",
+          "link": "https://dev.to/galakapp/why-rag-fails-for-ai-agent-memory-and-how-i-fixed-it-with-benchmarks-dp5",
+          "publishedOn": "2026-04-15T13:40:35.000Z",
+          "wordCount": 2101,
+          "title": "Why RAG fails for AI agent memory — and how I fixed it (with benchmarks)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fiwnt8v9oayv0epln1aj9.png"
+        },
+        {
+          "id": "https://dev.to/tarasshyn/so-i-decided-to-build-my-own-analytics-this-is-how-it-went-5591",
+          "author": "Taras Shynkarenko",
+          "description": "Hey all, this is not AI written so you can keep on reading :)\nSo I needed analytics for my side projects. My first instinct was to connect PostHog, and it was great, I use it to this day, however it’s just too complicated for the simple analytics that I wanted: Country, Origin, some UTMs, per user attribution, entry page, pages, and revenue. Later I discovered that PostHog events are immutable, and I couldn’t remove my test fake data from their analytics. In order to do so I’d need to write manual SQL filters all over the place, so I started looking for an alternative.\nThe first one I found was Plausible, installed it — all great, but it did not have per user attribution that I really wanted. Next pick was DataFast, I’ve seen it on Twitter and it looked to me like it has exactly what I nee…",
+          "link": "https://dev.to/tarasshyn/so-i-decided-to-build-my-own-analytics-this-is-how-it-went-5591",
+          "publishedOn": "2026-04-15T13:37:50.000Z",
+          "wordCount": 3112,
+          "title": "So I Decided to Build My Own Analytics, This Is How It Went",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcywvcjwounc62xkus40f.png"
+        },
+        {
+          "id": "https://dev.to/svetlix/overcoming-persistent-code-quality-issues-strategies-for-experienced-developers-to-regain-fil",
+          "author": "Svetlana Melnikova",
+          "description": "Persistent Code Quality Issues: A Systemic Perspective on Professional Development and Organizational Support\n\n\n\n  \n  \n  Mechanisms and Their Interplay: Unraveling the Root Causes\n\n\nPersistent code quality issues in software engineering, even among experienced developers, are often misattributed to individual inadequacy. However, a deeper analysis reveals systemic gaps in professional development and organizational support. Below, we dissect the key mechanisms driving these issues, their interactions, and the broader implications for both individuals and organizations.\nCausal Chain: High Code Quality Standards → triggers rigorous evaluation of code changes → multiple feedback comments on pull requests.\n\n Analytical Insight: While high standards are essential for maintaining code quality, t…",
+          "link": "https://dev.to/svetlix/overcoming-persistent-code-quality-issues-strategies-for-experienced-developers-to-regain-fil",
+          "publishedOn": "2026-04-15T13:32:56.000Z",
+          "wordCount": 3643,
+          "title": "Overcoming Persistent Code Quality Issues: Strategies for Experienced Developers to Regain Confidence",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffhb33r85uschxpsp1zrt.png"
+        },
+        {
           "id": "https://dev.to/avery_code/github-copilot-without-rules-does-not-just-produce-bad-react-code-it-produces-expensive-react-code-20kk",
           "author": "Avery",
           "description": "Bad code is obvious. You see it in the review. You fix it. You move on.\nExpensive code is different.\nIt looks fine. It passes the review. It ships. And then it costs you in ways that are hard to trace back to a single decision, a single prompt, a single session with GitHub Copilot.\nThis is what happens when your AI has no rules.\nMost developers think about AI output quality in terms of bugs. Does it work? Does it break anything?\nThat is the wrong question.\nThe real cost is in the time spent after the code exists.\nThe ten minutes in every pull request explaining why this component should have been reusable. The hour spent refactoring a component that Copilot built for exactly one use case. The afternoon untangling logic that should have lived in a hook but ended up inline in the UI. The spr…",
@@ -28266,36 +28386,6 @@
           "wordCount": 2009,
           "title": "From Direct Classification to Agentic Routing: When to Use Local Models vs Azure AI",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F50eaorwn7444h19t9nh4.png"
-        },
-        {
-          "id": "https://dev.to/dwane/day-1339-ride-48cm",
-          "author": "HIPHOP and CODE",
-          "description": "liner notes:\nProfessional : Today I worked on creating another coding exercise. The way I have things set up, I can use another coding exercise that I created previously as a starting point for this new one. I think I'll be able to get it done tomorrow to have it reviewed and start another one. Spent some time getting caught up since I was gone pretty all last week. Also updated a bunch of stuff that GitHub was saying needed updating with some repos. Had a meeting with my manager and went through the list of things I wanted to discuss. I gave them links to check out the pull request for the new feature I added to the MCP servers and the coding exercise and workshop I created. I also found out that continued updating dependencies. It was also that last day to give points out to folks before…",
-          "link": "https://dev.to/dwane/day-1339-ride-48cm",
-          "publishedOn": "2026-04-01T01:48:55.000Z",
-          "wordCount": 1308,
-          "title": "Day 1339 : Ride",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqf9btaqn9ius6i0zb27y.jpg"
-        },
-        {
-          "id": "https://dev.to/devmarcosanjos/jetpack-compose-fez-sentido-pra-mim-quando-eu-parei-de-comparar-tudo-com-xml-1faf",
-          "author": "Marcos Anjos",
-          "description": "Quando comecei a mexer com Jetpack Compose, tentei entender tudo com a cabeça do Android antigo. Eu ainda pensava em XML, Activity, Fragment e atualização manual de interface. Por isso, no começo, parecia que estava faltando alguma coisa: cadê o XML, os ids e o findViewById? O que me destravou foi perceber que Compose não era só um jeito novo de fazer a mesma coisa, mas uma forma declarativa de construir UI. E, vindo do React, foi aí que tudo começou a fazer sentido.\nA principal virada de chave para mim foi perceber que o Compose não era “Android sem XML”. No React, a gente já está acostumado com a ideia de que a interface responde ao estado. No Compose, a lógica é parecida: você descreve a UI com funções @Composable, usa estado, e o framework atualiza o que precisa quando esse estado muda…",
-          "link": "https://dev.to/devmarcosanjos/jetpack-compose-fez-sentido-pra-mim-quando-eu-parei-de-comparar-tudo-com-xml-1faf",
-          "publishedOn": "2026-04-01T01:48:48.000Z",
-          "wordCount": 2128,
-          "title": "Jetpack Compose fez sentido pra mim quando eu parei de comparar tudo com XML",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8gk2d9u69k989w5tff9p.png"
-        },
-        {
-          "id": "https://dev.to/hasanmonsur/clawmoat-protecting-your-machine-from-ai-agent-threats-p1o",
-          "author": "Md. Hasan Monsur",
-          "description": "ClawMoat is an open‑source runtime security layer designed to protect your computer, credentials, and sensitive data from malicious or careless actions by AI agents — especially those built on platforms like OpenClaw. It acts like a “security moat” around your machine, blocking dangerous behaviors before they ever reach your system.\n\nhttps://medium.com/@hasanmcse/clawmoat-protecting-your-machine-from-ai-agent-threats-173147cd570a",
-          "link": "https://dev.to/hasanmonsur/clawmoat-protecting-your-machine-from-ai-agent-threats-p1o",
-          "publishedOn": "2026-04-01T01:48:11.000Z",
-          "wordCount": 797,
-          "title": "ClawMoat — Protecting Your Machine from AI Agent Threats",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F13aou0f5dim6fz4u8i55.png"
         }
       ]
     },
@@ -28761,6 +28851,96 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://ingero.io/mcp-observability-interface-ai-agents-kernel-tracepoints/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://ingero.io/mcp-observability-interface-ai-agents-kernel-tracepoints/",
+          "publishedOn": "2026-04-15T13:22:10.000Z",
+          "wordCount": 2349,
+          "title": "MCP as Observability Interface: Connecting AI Agents to Kernel Tracepoints",
+          "imageUrl": null
+        },
+        {
+          "id": "https://wchambliss.wordpress.com/2026/03/03/god-sleeps-in-the-minerals/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://wchambliss.wordpress.com/2026/03/03/god-sleeps-in-the-minerals/",
+          "publishedOn": "2026-04-15T13:08:10.000Z",
+          "wordCount": 2081,
+          "title": "God Sleeps in the Minerals",
+          "imageUrl": "https://wchambliss.wordpress.com/wp-content/uploads/2026/03/img_3933.jpeg"
+        },
+        {
+          "id": "https://social.coop/@cwebber/116408556882122186",
+          "author": null,
+          "description": "Comments",
+          "link": "https://social.coop/@cwebber/116408556882122186",
+          "publishedOn": "2026-04-15T12:58:11.000Z",
+          "wordCount": 157,
+          "title": "US national level OS-level age verification bill",
+          "imageUrl": null
+        },
+        {
+          "id": "https://tracksuccession.com/explore",
+          "author": null,
+          "description": "Comments",
+          "link": "https://tracksuccession.com/explore",
+          "publishedOn": "2026-04-15T12:51:04.000Z",
+          "wordCount": 645,
+          "title": "Show HN: Every CEO and CFO change at US public companies, live from SEC",
+          "imageUrl": null
+        },
+        {
+          "id": "https://keepandroidopen.org/cta/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://keepandroidopen.org/cta/",
+          "publishedOn": "2026-04-15T12:47:36.000Z",
+          "wordCount": 3861,
+          "title": "Keep Android Open",
+          "imageUrl": "https://keepandroidopen.org/img/lockdowns/android_lockdown_banner1.png"
+        },
+        {
+          "id": "https://www.dbpro.app/blog/do-you-even-need-a-database",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.dbpro.app/blog/do-you-even-need-a-database",
+          "publishedOn": "2026-04-15T12:26:11.000Z",
+          "wordCount": 7300,
+          "title": "Do You Even Need a Database?",
+          "imageUrl": "https://www.dbpro.app/blog/do-you-even-need-a-database/opengraph-image"
+        },
+        {
+          "id": "https://www.ycombinator.com/companies/proliferate/jobs/L3copvK-founding-engineer",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.ycombinator.com/companies/proliferate/jobs/L3copvK-founding-engineer",
+          "publishedOn": "2026-04-15T12:00:44.000Z",
+          "wordCount": 1153,
+          "title": "Proliferate (YC S25) Is Hiring Founding Engineers",
+          "imageUrl": "https://bookface-images.s3.amazonaws.com/logos/8a51b468ded81d8f8847dd75ed281beeb0a71b77.png?1771376897"
+        },
+        {
+          "id": "https://www.voxweb.nl/en/academic-fraud-may-be-the-symptom-of-a-much-more-systemic-problem",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.voxweb.nl/en/academic-fraud-may-be-the-symptom-of-a-much-more-systemic-problem",
+          "publishedOn": "2026-04-15T11:08:25.000Z",
+          "wordCount": 4402,
+          "title": "Academic fraud may be the symptom of a more systemic problem",
+          "imageUrl": "https://www.voxweb.nl/wp-content/uploads/2026/04/wetenschapper3.jpg"
+        },
+        {
+          "id": "https://www.worseonpurpose.com/p/your-backpack-got-worse-on-purpose",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.worseonpurpose.com/p/your-backpack-got-worse-on-purpose",
+          "publishedOn": "2026-04-15T10:42:28.000Z",
+          "wordCount": 13083,
+          "title": "Your Backpack Got Worse on Purpose",
+          "imageUrl": "https://beehiiv-images-production.s3.amazonaws.com/uploads/asset/file/3b24affa-eff7-4a2a-a557-ed9df33e98eb/Worse_on_Purpose_-_Thumbnail_Preview.png?t=1774308955"
+        },
         {
           "id": "https://prog21.dadgum.com/30.html",
           "author": null,
@@ -32262,6 +32442,16 @@
           "imageUrl": "https://www.gadgetreview.com/wp-content/uploads/2a8e079e-10a6-4599-9e6e-ddb65aa7f05b_1920x1080.jpg"
         },
         {
+          "id": "https://www.bbc.com/travel/article/20260408-a-150-metro-ticket-to-ancient-rome",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.bbc.com/travel/article/20260408-a-150-metro-ticket-to-ancient-rome",
+          "publishedOn": "2026-04-09T19:39:06.000Z",
+          "wordCount": 10386,
+          "title": "Metro stop is Ancient Rome's new attraction",
+          "imageUrl": "https://ychef.files.bbci.co.uk/624x351/p0nc52ww.jpg"
+        },
+        {
           "id": "https://news.ycombinator.com/item?id=47708697",
           "author": null,
           "description": "Comments",
@@ -32270,6 +32460,16 @@
           "wordCount": 559,
           "title": "Show HN: QVAC SDK, a universal JavaScript SDK for building local AI applications",
           "imageUrl": null
+        },
+        {
+          "id": "https://pretty.fish/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://pretty.fish/",
+          "publishedOn": "2026-04-09T19:32:20.000Z",
+          "wordCount": 212,
+          "title": "Pretty Fish: A better mermaid diagram editor",
+          "imageUrl": "https://pretty.fish/og-image.png"
         },
         {
           "id": "https://www.theregister.com/2026/04/09/openai_puts_stargate_uk_on/",
@@ -39140,36 +39340,6 @@
           "wordCount": 1718,
           "title": "We intercepted the White House app's network traffic",
           "imageUrl": "https://www.atomic.computer/atom.jpg"
-        },
-        {
-          "id": "https://github.com/siddharthvaddem/openscreen",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/siddharthvaddem/openscreen",
-          "publishedOn": "2026-04-01T01:31:46.000Z",
-          "wordCount": 2881,
-          "title": "OpenScreen is an open-source alternative to Screen Studio",
-          "imageUrl": "https://opengraph.githubassets.com/8f1ee33a745a1ad503f8db92729e1050b9b11946c455787ef1b010a0045cc04b/siddharthvaddem/openscreen"
-        },
-        {
-          "id": "https://www.npr.org/2026/03/30/nx-s1-5745926/endangered-species-committee-hegseth-security",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.npr.org/2026/03/30/nx-s1-5745926/endangered-species-committee-hegseth-security",
-          "publishedOn": "2026-04-01T01:18:51.000Z",
-          "wordCount": 2855,
-          "title": "U.S. exempts oil industry from protecting Gulf animals, for 'national security'",
-          "imageUrl": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/1280x720+0+67/resize/1400/quality/85/format/jpeg/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F2a%2Fd7%2Fc84a330e4f279a7c92755825b3d1%2Fgu1901-20190730-s249-3j4a4488-nmfs-esa-mmpa-permit-no-21938.jpg"
-        },
-        {
-          "id": "https://www.science.org/content/article/neanderthals-survived-knife-s-edge-350-000-years",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.science.org/content/article/neanderthals-survived-knife-s-edge-350-000-years",
-          "publishedOn": "2026-04-01T01:12:12.000Z",
-          "wordCount": null,
-          "title": "Neanderthals survived on a knife's edge for 350k years",
-          "imageUrl": null
         }
       ]
     },
@@ -40967,6 +41137,16 @@
       "siteUrl": "https://www.technologyreview.com",
       "articles": [
         {
+          "id": "https://www.technologyreview.com/?p=1135904",
+          "author": "Thomas Macaulay",
+          "description": "This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. NASA is building the first nuclear reactor-powered interplanetary spacecraft. How will it work?  Just before Artemis II began its historic slingshot around the moon, NASA revealed an even grander space travel…",
+          "link": "https://www.technologyreview.com/2026/04/15/1135904/the-download-nasa-nuclear-powered-spacecraft-10-things-that-matter-in-ai-right-now/",
+          "publishedOn": "2026-04-15T12:10:00.000Z",
+          "wordCount": 6681,
+          "title": "The Download: NASA’s nuclear spacecraft and unveiling our AI 10",
+          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/04/Screenshot-2026-04-15-at-12.36.29.png?resize=1200,600"
+        },
+        {
           "id": "https://www.technologyreview.com/?p=1135898",
           "author": "Fiona Kelliher",
           "description": "From inside a money-laundering center in Cambodia, an employee opens a popular Vietnamese banking app on his phone. The app asks him to upload a photo associated with the account, so he clicks on a picture of a 30-something Asian man. Next, the app requests to open the camera for a video “liveness” check. The…",
@@ -41283,6 +41463,56 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "e8e5cd67-7ef8-48e1-bbe3-a220ae7d79d1",
+          "author": "James Van Straten",
+          "description": "The shares had been on a big run higher, rising more than 50% since late March.",
+          "link": "https://www.coindesk.com/markets/2026/04/15/terawulf-stock-declines-on-usd900-million-share-sale-to-fund-ai-data-center-expansion",
+          "publishedOn": "2026-04-15T13:34:29.000Z",
+          "wordCount": 11038,
+          "title": "TeraWulf stock declines on $900 million share sale to fund AI data center expansion",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/09c7af12c3ed9c083ddc433486f71cdad7b77bfd-2560x1416.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "067d79d2-dbca-4783-bec0-08cc82037455",
+          "author": "CoinDesk Indices",
+          "description": "Aptos (APT), up 3.8% since Tuesday, joined Aave (AAVE) as a top performer.",
+          "link": "https://www.coindesk.com/coindesk-indices/2026/04/15/coindesk-20-performance-update-aave-rises-4-3-as-trades-flat",
+          "publishedOn": "2026-04-15T13:27:06.000Z",
+          "wordCount": 9690,
+          "title": "CoinDesk 20 performance update: AAVE rises 4.3% as trades flat",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/976033f25d3b85eaf9d76fa42e2d76783a173cea-640x480.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "f5bff149-8dd8-436f-9f07-65f2c6ca6221",
+          "author": "Olivier Acuna",
+          "description": "Pakistan sent a letter to all banks and financial regulatory firms notifying them that they may provide crypto services,, but remain barred from trading or holding crypto assets.",
+          "link": "https://www.coindesk.com/policy/2026/04/15/pakistan-lifts-seven-year-ban-allowing-banks-to-service-virtual-asset-providers",
+          "publishedOn": "2026-04-15T13:01:55.000Z",
+          "wordCount": 10900,
+          "title": "Pakistan lifts seven-year ban, allowing banks to service crypto providers",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/c86fca7264b99fb579b158d54ecfbc66b857f78e-10410x5764.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "c95a56a3-99cd-4f03-afeb-359a1864cd20",
+          "author": "Will Canny",
+          "description": "The broker said prediction markets are scaling into a trillion-dollar asset class, driven by regulatory clarity, crypto rails and distribution via major trading platforms.",
+          "link": "https://www.coindesk.com/markets/2026/04/15/prediction-market-volumes-to-hit-usd1-trillion-by-2030-with-robinhood-coinbase-as-key-players-bernstein-says",
+          "publishedOn": "2026-04-15T12:55:54.000Z",
+          "wordCount": 11170,
+          "title": "Prediction market volumes to hit $1 trillion by 2030 with Robinhood, Coinbase as key players, Bernstein says",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/a7596940dcc8f9e922b7fcf03d17fb3132365cba-2849x2072.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "f70dee80-25d3-4f79-8fdb-ee311dd83bcb",
+          "author": "Shaurya Malwa",
+          "description": "The project would burn 4.5 billion tokens while beginning to vest 40.7 billion tokens for founders and the team, restructuring locks that were originally set to be indefinite.",
+          "link": "https://www.coindesk.com/markets/2026/04/15/trump-backed-world-liberty-financial-proposes-unlocking-62-billion-tokens",
+          "publishedOn": "2026-04-15T12:36:49.000Z",
+          "wordCount": 11192,
+          "title": "Trump-backed WLFI moves to unlock 62 billion tokens after $75 million loan controversy",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/c8bfe95b424c430682e7e2761b9bb8d2d70fcee1-3790x2132.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "a97a5118-9f40-462e-ad48-e4bdcae49dce",
           "author": "Omkar Godbole",
