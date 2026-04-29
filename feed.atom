@@ -2,10 +2,387 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-04-29T03:32:01.626Z</updated>
+    <updated>2026-04-29T06:21:44.548Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Supabase RLS Deep Dive — Multi-tenant Access Control]]></title>
+        <id>https://dev.to/kanta13jp1/supabase-rls-deep-dive-multi-tenant-access-control-11ig</id>
+        <link href="https://dev.to/kanta13jp1/supabase-rls-deep-dive-multi-tenant-access-control-11ig"/>
+        <updated>2026-04-29T06:09:20.000Z</updated>
+        <summary type="html"><![CDATA[Supabase RLS Deep Dive — Multi-tenant Access Control
+
+
+Supabase Row Level Security (RLS) lets you enforce access rules at the database layer using SQL policies. Done right, your app code never needs explicit permission checks. Here are the patterns I use in a multi-tenant SaaS.
+-- Enable RLS on a table
+ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
+
+-- Only the owner can see their own rows
+CREATE POLICY "own_tasks_select"
+  ON tasks FOR SELECT
+  USING (user_id = auth.uid());
+
+-- INSERT must set user_id to the caller
+CREATE POLICY "own_tasks_insert"
+  ON tasks FOR INSERT
+  WITH CHECK (user_id = auth.uid());
+
+CREATE TABLE organizations (
+  id   UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL
+);
+
+CREATE TABLE organization_members (
+  org_id  UUID RE…]]></summary>
+        <author>
+            <name>kanta13jp1</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Can We Solve Fake GitHub Stars?]]></title>
+        <id>https://dev.to/dcsocialclick/can-we-solve-fake-github-stars-bbg</id>
+        <link href="https://dev.to/dcsocialclick/can-we-solve-fake-github-stars-bbg"/>
+        <updated>2026-04-29T06:07:59.000Z</updated>
+        <summary type="html"><![CDATA[GitHub stars were supposed to be a simple signal.
+A project with more stars should, in theory, be more visible, more trusted, and more likely to be useful. It is a clean mechanism: lightweight, social, and easy to understand.
+But like every visible reputation signal, it becomes valuable enough to game.
+And once a signal becomes valuable, people start manufacturing it.
+That is the core problem.
+Fake reviews were never just a marketplace problem. They were a reputation problem. GitHub stars are facing the same pressure now: when attention, credibility, and distribution all depend on a public signal, the signal itself becomes a target.
+The result is familiar.
+Projects buy stars.
+That is not just annoying. It is structurally dangerous.
+Because the moment trust signals become corrupted, every d…]]></summary>
+        <author>
+            <name>DCSocial.click</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How i built a Real-Time Anomaly Detection Engine for Cloud Storage]]></title>
+        <id>https://dev.to/chinonsoviv/how-i-built-a-real-time-anomaly-detection-engine-for-cloud-storage-2m1f</id>
+        <link href="https://dev.to/chinonsoviv/how-i-built-a-real-time-anomaly-detection-engine-for-cloud-storage-2m1f"/>
+        <updated>2026-04-29T06:00:56.000Z</updated>
+        <summary type="html"><![CDATA[As part of my HNG DevSecOps task, I built a real-time anomaly detection engine to protect a Nextcloud instance from unusual traffic spikes and potential DDoS attacks.
+The goal was simple: monitor incoming traffic in real time, detect suspicious behavior automatically, and respond immediately before the server becomes overwhelmed.
+Instead of relying only on static thresholds, I wanted the system to learn normal traffic behavior and react intelligently when something abnormal happens.
+This project combines Python, Linux networking, statistical analysis, and system-level security automation.
+The “Brain” — Sliding Window Detection
+The first major part of the system is the sliding window.
+I used Python’s deque from the collections module because it is fast and efficient for handling real-time request logs.
+The idea is to maintain a moving 60-second window of traffic activity.
+Every new request gets added to the queue with its timestamp, and old requests outside the 60-second range are automatically removed.
+This allows the system to always know the current request rate without scanning old logs repeatedly.
+Example Logic:
+request_window = deque()
+def track_request():
+while request_window and current_time - request_window[0] > 60:
+    request_window.popleft()
+
+return len(request_window)
+
+This creates the “brain” of the detection engine by constantly calculating live traffic speed.
+This project taught me how modern security systems combine software engineering with system administration.
+I learned that defense is not just about preventionit is about detection, response, and automation.
+Building this anomaly detection engine showed me how DevSecOps bridges development and infrastructure security.
+Most importantly, it proved that even simple tools like Python and Linux can be used to build strong real-time protection systems when combined with the right design.]]></summary>
+        <author>
+            <name>Chinonso Vivian Ojeri</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[For Manufacturing Systems, I Start With One Workflow Before I Touch the Full Suite]]></title>
+        <id>https://dev.to/shadow_dragon_e6019e67350/for-manufacturing-systems-i-start-with-one-workflow-before-i-touch-the-full-suite-4k65</id>
+        <link href="https://dev.to/shadow_dragon_e6019e67350/for-manufacturing-systems-i-start-with-one-workflow-before-i-touch-the-full-suite-4k65"/>
+        <updated>2026-04-29T06:00:12.000Z</updated>
+        <summary type="html"><![CDATA[For Manufacturing Systems, I Start With One Workflow Before I Touch the Full Suite
+A dashboard, an order system, and ERP integration can all be valid requirements, but they should not all become the phase-one center at the same time.
+When I join an early discussion for a manufacturing system, the first proposal often sounds very complete.
+Management wants a dashboard.
+None of these requests are wrong. In fact, they are usually all reasonable.
+The problem is that a reasonable list can still become an unstable first phase.
+If every module becomes equally important from day one, the project has no operational spine. The team may end up building many screens, many tables, and many reports, but no single workflow runs reliably enough for daily use.
+That is why I usually do not start by asking, …]]></summary>
+        <author>
+            <name>shadow dragon</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a read-only MCP server for Akamai]]></title>
+        <id>https://dev.to/desty2k/i-built-a-read-only-mcp-server-for-akamai-3398</id>
+        <link href="https://dev.to/desty2k/i-built-a-read-only-mcp-server-for-akamai-3398"/>
+        <updated>2026-04-29T06:00:00.000Z</updated>
+        <summary type="html"><![CDATA[I had 200+ CDN properties in Akamai and an agent that couldn't find any of them. Akamai's Property Manager API lists properties by group and contract, but there's no fuzzy search endpoint. If the agent doesn't know the exact property name or ID, it's stuck. The conversation dead-ends with "I couldn't find that property" and the user goes back to the Akamai control panel.
+So I built an MCP server that wraps Akamai's APIs. 16 tools for searching properties, browsing EdgeWorker code, querying DNS zones, inspecting network lists, and translating error codes. All read-only. I wrote about why I only build read-only MCP servers separately.
+Akamai organizes properties under groups and contracts. To search across all of them through the API, you'd iterate every group-contract pair and list properti…]]></summary>
+        <author>
+            <name>Wojciech Wentland</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[7 AI Gateway Platforms for Enterprise AI (And How They Compare)]]></title>
+        <id>https://dev.to/therealmrmumba/7-ai-gateway-platforms-for-enterprise-ai-and-how-they-compare-46fi</id>
+        <link href="https://dev.to/therealmrmumba/7-ai-gateway-platforms-for-enterprise-ai-and-how-they-compare-46fi"/>
+        <updated>2026-04-29T05:57:51.000Z</updated>
+        <summary type="html"><![CDATA[Building LLM-powered applications starts simple.
+You pick a model, connect an API, and ship a feature. Maybe it’s a chatbot, a summarizer, or an internal tool. At this stage, everything feels manageable.
+Then things grow.
+Another team wants to use a different model. Someone asks for cost tracking. Security wants to know where data is going. A provider has an outage, and suddenly your system depends on a single external service.
+What started as a straightforward integration turns into a scattered setup of API keys, inconsistent logging, and unclear ownership.
+This is where AI Gateways come in.
+They’re not just another layer of infrastructure  they’re what make LLM systems manageable once you move beyond a single team or use case.
+In this article, we’ll break down what to look for in an AI G…]]></summary>
+        <author>
+            <name>Emmanuel Mumba</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Claude Code with Local LLMs and ANTHROPIC_BASE_URL: Ollama, LM Studio, llama.cpp, vLLM]]></title>
+        <id>https://dev.to/reneza/claude-code-with-local-llms-and-anthropicbaseurl-ollama-lm-studio-llamacpp-vllm-1g6j</id>
+        <link href="https://dev.to/reneza/claude-code-with-local-llms-and-anthropicbaseurl-ollama-lm-studio-llamacpp-vllm-1g6j"/>
+        <updated>2026-04-29T05:53:48.000Z</updated>
+        <summary type="html"><![CDATA[Native Anthropic endpoints, tool-call compatibility, and context-window sizing for local Claude Code.
+Last tested: April 2026. See Changelog at the bottom.
+
+
+
+Goal
+Use
+
+
+
+
+MacBook Air
+Gemma 4 26B-A4B Q4, 32K context, LM Studio or Ollama
+
+
+MacBook Pro
+Gemma 4 26B-A4B Q4 / UD-Q4, 64K context, llama.cpp or LM Studio
+
+
+Claude Code minimum
+
+32K context (anything below is a chat demo)
+
+
+Best local backend
+LM Studio or Ollama first; llama.cpp for advanced; vLLM for servers
+
+
+Avoid
+8K / 16K context, dense 31B Gemma 4 on 32 GB machines, old llama.cpp builds
+
+
+
+Three things decide whether a local Claude Code session works:
+Model quality decides whether the answer is smart.
+Tool-call formatting decides whether Claude Code can act on the answer.
+Context length decides whether the session survives past…]]></summary>
+        <author>
+            <name>René Zander</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Moving Beyond Official MSAL: A Better Way to Handle Entra ID in Next.js]]></title>
+        <id>https://dev.to/chemmangat/moving-beyond-official-msal-a-better-way-to-handle-entra-id-in-nextjs-128c</id>
+        <link href="https://dev.to/chemmangat/moving-beyond-official-msal-a-better-way-to-handle-entra-id-in-nextjs-128c"/>
+        <updated>2026-04-29T05:53:18.000Z</updated>
+        <summary type="html"><![CDATA[Microsoft's official MSAL libraries are powerful, but they were not built with the Next.js App Router in mind. Developers attempting to integrate @azure/msal-react often face immediate hurdles: hydration mismatches, complex middleware logic, and the difficulty of sharing authentication state between Client and Server Components.
+The @chemmangat/msal-next library was designed specifically to bridge this gap. Currently sitting at 4,775 downloads, it has become a preferred choice for teams who need production-ready Microsoft authentication without the typical boilerplate.
+In a standard Next.js 13+ environment, the MSAL provider must be placed in the layout. Because MSAL relies heavily on browser APIs like localStorage and window.crypto, wrapping your root layout often forces your entire appli…]]></summary>
+        <author>
+            <name>Hari Manoj</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Secured WordPress Media Files by Building My Own Upload Restriction Plugin]]></title>
+        <id>https://dev.to/kushang_tailor/how-i-secured-wordpress-media-files-by-building-my-own-upload-restriction-plugin-389l</id>
+        <link href="https://dev.to/kushang_tailor/how-i-secured-wordpress-media-files-by-building-my-own-upload-restriction-plugin-389l"/>
+        <updated>2026-04-29T05:52:53.000Z</updated>
+        <summary type="html"><![CDATA[How I Secured WordPress Media Files by Building My Own
+
+
+Upload Restriction Plugin
+Security is one of those things you don't think about deeply 
+For me, that moment came while managing multiple high-traffic 
+The culprit? Unrestricted file uploads.
+WordPress is flexible by nature. And that flexibility, if left 
+On high-traffic sites, users interact with forms, media 
+Here are the real attacks that happen when file upload 
+An attacker uploads a file with a .php or .sh extension through 
+SVG files are XML-based and can contain embedded JavaScript. 
+Attackers disguise a web shell — a backdoor script — as an 
+Uploading malformed XML or HTML files can trigger parser errors, 
+Even without malicious intent, allowing every file type creates 
+On one of my high-traffic projects, the site was slowing …]]></summary>
+        <author>
+            <name>Kushang Tailor</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Start Your Google Cloud from the Right Foot]]></title>
+        <id>https://dev.to/boristep/how-to-start-your-google-cloud-from-the-right-foot-5f0p</id>
+        <link href="https://dev.to/boristep/how-to-start-your-google-cloud-from-the-right-foot-5f0p"/>
+        <updated>2026-04-29T05:51:58.000Z</updated>
+        <summary type="html"><![CDATA[Setting up a GCP landing zone from scratch — a step-by-step approach for DevOps engineers new to GCP.
+
+
+Let's consider a familiar situation: a company has decided to move part of its IT to Google Cloud. They assigned the job to a DevOps engineer — not a GCP expert, but someone with enough knowledge and experience to set up and deploy services on GCP. Sound familiar? Thousands of companies have been exactly in this position — and thousands more will be.
+Here we describe an approach to setting up Google Cloud for a small company — a startup, for example — or for a single system within a large company, using Merlin Studio (https://site.merlin-studio.cloud). We assume the company has no strict regulatory requirements (such as HIPAA or GDPR), but the company does care about following best pract…]]></summary>
+        <author>
+            <name>Boris Teplitsky</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MCP Connects Agents to Tools. A2A Connects Agents to Each Other. Here's Why That Distinction Changes Everything]]></title>
+        <id>https://dev.to/sanjeeva_kumarssk_03c040/mcp-connects-agents-to-tools-a2a-connects-agents-to-each-other-heres-why-that-distinction-599e</id>
+        <link href="https://dev.to/sanjeeva_kumarssk_03c040/mcp-connects-agents-to-tools-a2a-connects-agents-to-each-other-heres-why-that-distinction-599e"/>
+        <updated>2026-04-29T05:49:04.000Z</updated>
+        <summary type="html"><![CDATA[This is a submission for the Google Cloud NEXT Writing Challenge
+I've spent the past week digging into every major announcement from Google Cloud 
+But one thing kept nagging me: everyone is building multi-agent systems without 
+
+
+At NEXT '26, Google made two protocol-level announcements that most keynote 
+A2A v1.0 is now production-stable, running at 150 organizations, and 
+governed by the Linux Foundation
+MCP (Model Context Protocol) is now natively integrated across Google 
+Cloud services (BigQuery, Maps, GKE, Compute Engine)
+These are NOT the same thing. They are NOT competing. And if you're building 
+
+
+Let me explain the difference — and then show you exactly how to use them together.
+When Google announced MCP support in December 2025, and then doubled down on 
+"So which one do I use?"…]]></summary>
+        <author>
+            <name>SANJEEVA KUMAR SSK</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[18 Ways Your LLM App Can Be Hacked (And How to Fix Them)]]></title>
+        <id>https://dev.to/maruakshay/18-ways-your-llm-app-can-be-hacked-and-how-to-fix-them-11mc</id>
+        <link href="https://dev.to/maruakshay/18-ways-your-llm-app-can-be-hacked-and-how-to-fix-them-11mc"/>
+        <updated>2026-04-29T05:47:15.000Z</updated>
+        <summary type="html"><![CDATA[You spent weeks building your LLM-powered app. You tested the happy path. Users love it.
+But did you ask: what happens when someone tries to break it?
+Most teams don't. And that's a problem — because LLM apps have a completely new attack surface that traditional security tools don't cover.
+Here are 18 real ways attackers go after LLM systems right now.
+1. Direct Prompt Injection
+2. Indirect Prompt Injection
+3. Jailbreaking
+4. Prompt Leaking
+5. Few-Shot Injection
+6. Memory Poisoning
+7. Context Window Stuffing
+8. Session Hijacking
+9. Cross-Session Leakage
+10. RAG Poisoning
+11. Embedding Inversion
+12. Tool Abuse
+13. SQL / Command Injection via LLM
+14. Agent Hijacking
+15. Privilege Escalation
+16. Model Supply Chain Attack
+17. Plugin / MCP Poisoning
+18. Insecure Output Handling
+Security for LLM apps isn't one tool. It's a mindset applied at every layer — prompts, memory, RAG, tools, agents, and output.
+I built miii-security: a set of 18 SKILL.md packs that cover every category above. Each skill gives your AI system the context to review, audit, and harden LLM applications — mapped to OWASP and MITRE frameworks.
+No 50-page whitepapers. No expensive consultants. Just:
+npm i miii-security
+
+Fetch a skill → apply its checks → ship safer.
+👉 github.com/maruakshay/mii-ai-security
+npmjs.com/package/miii-security
+If you're building with LangChain, LlamaIndex, OpenAI APIs, or any agentic framework — this is for you. Star the repo, open issues, tell me what I missed.]]></summary>
+        <author>
+            <name>maruakshay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Economy Minister: Govt Mitigating Impact Of Electricity Cost Changes On Consumers]]></title>
+        <id>https://www.lowyat.net/?p=391344</id>
+        <link href="https://www.lowyat.net/2026/391344/economy-minister-govt-mitigating-impact-of-electricity-cost-changes-on-consumers/"/>
+        <updated>2026-04-29T05:39:45.000Z</updated>
+        <summary type="html"><![CDATA[Volatile global fuel prices could adversely affect electricity generation costs, in turn influencing tariffs for consumers. Despite this, the government assured that it will minimise the impact of the electricity cost changes on the public and business sector. Speaking during the Global Supply Crisis briefing, Economy Minister Akmal Nasrullah Mohd Nasir explained that measures are […]
+The post Economy Minister: Govt Mitigating Impact Of Electricity Cost Changes On Consumers appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Nurul Kamil</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Canada proposes ban on crypto ATMs as fraud cases mount]]></title>
+        <id>fcc3c87a-5fc6-4586-88e6-41baccb06989</id>
+        <link href="https://www.coindesk.com/markets/2026/04/29/canada-proposes-ban-on-bitcoin-atms-as-fraud-cases-mount"/>
+        <updated>2026-04-29T05:14:33.000Z</updated>
+        <summary type="html"><![CDATA[Canada's Liberal government calls machines a “primary method” for scams as data and law enforcement link them to rising losses]]></summary>
+        <author>
+            <name>Sam Reynolds</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[XRP falls to $1.38 after breaking below $1.40 on rising selling pressure]]></title>
+        <id>9adb9cc5-7bb3-4697-8aff-96e0f43db11e</id>
+        <link href="https://www.coindesk.com/markets/2026/04/29/xrp-falls-to-usd1-38-after-breaking-below-usd1-40-on-rising-selling-pressure"/>
+        <updated>2026-04-29T04:52:22.000Z</updated>
+        <summary type="html"><![CDATA[High-volume move flips support into resistance, leaving price stuck at a key decision level.]]></summary>
+        <author>
+            <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[PlayStation Adds 30-Day Online Check-In DRM For Digital Games Bought After March]]></title>
+        <id>https://www.lowyat.net/?p=391326</id>
+        <link href="https://www.lowyat.net/2026/391326/playstation-30-day-online-check-in-drm-digital-games-after-march/"/>
+        <updated>2026-04-29T04:48:07.000Z</updated>
+        <summary type="html"><![CDATA[You’ve probably seen over the weekend signs of a worrying development for people who buy digital games on PlayStation. But in case you missed it, some gamers have reported seeing a new 30-day online check-in requirement for some of these digital games. This is reminiscent of some fringe situations that can arise with free games […]
+The post PlayStation Adds 30-Day Online Check-In DRM For Digital Games Bought After March appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin rises to $77,000 ahead of Fed decision as Trump preps for lengthy Hormuz block]]></title>
+        <id>0b29d6f0-6c8f-45f1-8465-965ce0603bc9</id>
+        <link href="https://www.coindesk.com/markets/2026/04/29/bitcoin-rises-to-usd77-000-ahead-of-fed-decision-as-trump-preps-for-lengthy-hormuz-block"/>
+        <updated>2026-04-29T04:27:13.000Z</updated>
+        <summary type="html"><![CDATA[Bitcoin is sitting almost still while the rest of the majors give back gains and oil pushes above $111 on reports of an extended U.S. naval blockade against Iran.]]></summary>
+        <author>
+            <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Valve Confirms Steam Deck 2 Development Is Ongoing]]></title>
+        <id>https://www.lowyat.net/?p=391332</id>
+        <link href="https://www.lowyat.net/2026/391332/valve-confirms-steam-deck-2-development-is-ongoing/"/>
+        <updated>2026-04-29T04:24:01.000Z</updated>
+        <summary type="html"><![CDATA[Valve has confirmed that a successor to its handheld gaming device is still in development, although details remain scarce for now. During a recent interview with IGN, Valve software engineer Pierre-Loup Griffais said the company is “hard at work” on what many expect to be the Steam Deck 2. The confirmation comes amid growing competition […]
+The post Valve Confirms Steam Deck 2 Development Is Ongoing appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Apple Reportedly Overhauling Photo Editor For iOS 27 With AI]]></title>
+        <id>https://www.lowyat.net/?p=391330</id>
+        <link href="https://www.lowyat.net/2026/391330/apple-reportedly-overhauling-photo-editor-for-ios-27-with-ai/"/>
+        <updated>2026-04-29T04:13:56.000Z</updated>
+        <summary type="html"><![CDATA[Apple has been steadily pushing its AI ambitions, including a more capable Siri, but we have yet to see the full extent of what its Apple Intelligence platform can actually deliver. That said, a new report now suggests the company could be bringing more AI-powered features to the Photos app in iOS 27. According to […]
+The post Apple Reportedly Overhauling Photo Editor For iOS 27 With AI appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Kiran Ganesan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Institutional money is coming for bitcoin, but Adam Back says it moves slower than you think]]></title>
+        <id>bcd3c3b4-9306-4afe-a853-d41220c19488</id>
+        <link href="https://www.coindesk.com/business/2026/04/29/institutional-money-is-coming-for-bitcoin-but-adam-back-says-it-moves-slower-than-you-think"/>
+        <updated>2026-04-29T04:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The legendary cryptographer discusses institutional money flows into bitcoin.]]></summary>
+        <author>
+            <name>Ian Allison</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Python's Data Model Is an API. Here Is How to Use It Properly]]></title>
         <id>https://dev.to/shayan_holakouee/pythons-data-model-is-an-api-here-is-how-to-use-it-properly-2c42</id>
@@ -306,6 +683,26 @@ Data pulled live from GitHub and npm.
 The post DJI Mic Mini 2 Arrives In Malaysia With Colourful Magnetic Covers appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Nurul Kamil</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bugs Rust won't catch]]></title>
+        <id>https://corrode.dev/blog/bugs-rust-wont-catch/</id>
+        <link href="https://corrode.dev/blog/bugs-rust-wont-catch/"/>
+        <updated>2026-04-29T02:19:11.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[When the Internet Was a Place]]></title>
+        <id>https://www.frontporchrepublic.com/2025/09/when-the-internet-was-a-place/</id>
+        <link href="https://www.frontporchrepublic.com/2025/09/when-the-internet-was-a-place/"/>
+        <updated>2026-04-29T01:36:52.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -4791,6 +5188,16 @@ https://ieatpdf.com]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Withnail's Coat and I]]></title>
+        <id>https://ontherow.substack.com/p/withnails-coat-and-i</id>
+        <link href="https://ontherow.substack.com/p/withnails-coat-and-i"/>
+        <updated>2026-04-27T19:27:47.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Build an AI teammate to help with your Postgres]]></title>
         <id>https://dev.to/reeshee/build-an-ai-teammate-to-help-with-your-postgres-5f99</id>
         <link href="https://dev.to/reeshee/build-an-ai-teammate-to-help-with-your-postgres-5f99"/>
@@ -5917,6 +6324,16 @@ Board Scout Battle Plan (score: 8.0) — Turn Rootline Defense’s existing scen
 Gemini (score: 7.7) — Introduce the snareRoot, a…]]></summary>
         <author>
             <name>dtannen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Hamiltonian Path Puzzle]]></title>
+        <id>https://www.4rknova.com//blog/2026/04/24/number-trail</id>
+        <link href="https://www.4rknova.com//blog/2026/04/24/number-trail"/>
+        <updated>2026-04-27T13:22:52.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -69195,524 +69612,6 @@ Curious how others are using them. Are you leaning more toward pair-programming 
         <summary type="html"><![CDATA[The team that helps operate the platform, CoW Swap, said that it was working to resolve the issue for the DEX aggregator.]]></summary>
         <author>
             <name>Margaux Nijkerk</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[United States Residential Proxy: Why Local IP Accuracy Matters for SERP, Ads, and Pricing]]></title>
-        <id>69de853e91716f3cfb679bdb</id>
-        <link href="https://www.freecodecamp.org/news/us-residential-proxy-why-local-ip-accuracy-matters-for-serp-ads-pricing/"/>
-        <updated>2026-04-14T18:19:42.000Z</updated>
-        <summary type="html"><![CDATA[In 2026, the concept of “location” on the internet has evolved from a broad regional signal into a hyper-specific, neighbourhood-level determinant of what users see. Search engines, advertising platfo]]></summary>
-        <author>
-            <name>Manish Shivanandhan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How can I keep from singing?]]></title>
-        <id>https://blog.danieljanus.pl/singing/</id>
-        <link href="https://blog.danieljanus.pl/singing/"/>
-        <updated>2026-04-14T18:18:39.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[40% of lost calories globally are from beef, needing 33 cal of feed per 1 cal]]></title>
-        <id>https://iopscience.iop.org/article/10.1088/2976-601X/ae4f6b</id>
-        <link href="https://iopscience.iop.org/article/10.1088/2976-601X/ae4f6b"/>
-        <updated>2026-04-14T18:14:29.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cybersecurity looks like proof of work now]]></title>
-        <id>https://www.dbreunig.com/2026/04/14/cybersecurity-is-proof-of-work-now.html</id>
-        <link href="https://www.dbreunig.com/2026/04/14/cybersecurity-is-proof-of-work-now.html"/>
-        <updated>2026-04-14T18:08:14.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ethereum Foundation unveils $1M audit subsidy program to boost crypto security and cut costs for builders]]></title>
-        <id>b89e44ec-c074-4f81-9403-19b4fcb8e2ce</id>
-        <link href="https://www.coindesk.com/tech/2026/04/14/ethereum-foundation-unveils-usd1m-audit-subsidy-program-to-boost-crypto-security-and-cut-costs-for-builders"/>
-        <updated>2026-04-14T18:04:19.000Z</updated>
-        <summary type="html"><![CDATA[The new initiative aims to address a persistent challenge in crypto development—the high cost of smart contract security audits.]]></summary>
-        <author>
-            <name>Margaux Nijkerk</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Redefining the future of software engineering]]></title>
-        <id>https://www.technologyreview.com/?p=1134397</id>
-        <link href="https://www.technologyreview.com/2026/04/14/1134397/redefining-the-future-of-software-engineering/"/>
-        <updated>2026-04-14T18:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Software engineering has experienced two seismic shifts this century. First was the rise of the open source movement, which gradually made code accessible to developers and engineers everywhere. Second, the adoption of development operations (DevOps) and agile methodologies took software from siloed to collaborative development and from batch to continuous delivery. Now, a third such…]]></summary>
-        <author>
-            <name>MIT Technology Review Insights</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I wrote to Flock's privacy contact to opt out of their domestic spying program]]></title>
-        <id>https://honeypot.net/2026/04/14/i-wrote-to-flocks-privacy.html</id>
-        <link href="https://honeypot.net/2026/04/14/i-wrote-to-flocks-privacy.html"/>
-        <updated>2026-04-14T17:47:00.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OpenSSL 4.0.0]]></title>
-        <id>https://github.com/openssl/openssl/releases/tag/openssl-4.0.0</id>
-        <link href="https://github.com/openssl/openssl/releases/tag/openssl-4.0.0"/>
-        <updated>2026-04-14T17:45:34.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Plain – The full-stack Python framework designed for humans and agents]]></title>
-        <id>https://github.com/dropseed/plain</id>
-        <link href="https://github.com/dropseed/plain"/>
-        <updated>2026-04-14T17:43:17.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Loonies for Loongsons]]></title>
-        <id>https://www.leadedsolder.com/2026/04/14/loongson-ls3a5000-debian-linux.html</id>
-        <link href="https://www.leadedsolder.com/2026/04/14/loongson-ls3a5000-debian-linux.html"/>
-        <updated>2026-04-14T17:14:50.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Turn your best AI prompts into one-click tools in Chrome]]></title>
-        <id>https://blog.google/products-and-platforms/products/chrome/skills-in-chrome/</id>
-        <link href="https://blog.google/products-and-platforms/products/chrome/skills-in-chrome/"/>
-        <updated>2026-04-14T17:09:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Modifying FileZilla to Workaround Bambu 3D Printer's FTP Issue]]></title>
-        <id>https://lantian.pub/en/article/modify-computer/modify-filezilla-workaround-bambu-3d-printer-ftp-issue.lantian/</id>
-        <link href="https://lantian.pub/en/article/modify-computer/modify-filezilla-workaround-bambu-3d-printer-ftp-issue.lantian/"/>
-        <updated>2026-04-14T17:06:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[DevOps jobs in 2026: roles, salaries, and how to actually get hired]]></title>
-        <id>https://dev.to/ajbuilds/devops-jobs-in-2026-roles-salaries-and-how-to-actually-get-hired-3bbf</id>
-        <link href="https://dev.to/ajbuilds/devops-jobs-in-2026-roles-salaries-and-how-to-actually-get-hired-3bbf"/>
-        <updated>2026-04-14T17:01:53.000Z</updated>
-        <summary type="html"><![CDATA[DevOps engineer is one of the most in-demand roles in tech right now. Job boards have thousands of open positions. Salaries are strong. Companies are actively hiring.
-And most people applying are getting screened out before their resume reaches a human.
-This guide covers what DevOps jobs actually require in 2026, the roles that exist and what separates them, realistic salary ranges, where to find real openings, and the portfolio that gets you past the filter.
-DevOps started as a philosophy — break down silos between development and operations, ship faster, fail smaller. By 2026 it has become a specific technical skill set that hiring managers test for in interviews.
-When a job posting says "DevOps Engineer," it almost always means someone who can do some combination of:
-Build and maintain …]]></summary>
-        <author>
-            <name>Aj</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI is quietly making human experts invisible. I built a tool to stop it.]]></title>
-        <id>https://dev.to/dannwaneri/ai-is-quietly-making-human-experts-invisible-i-built-a-tool-to-stop-it-3g2m</id>
-        <link href="https://dev.to/dannwaneri/ai-is-quietly-making-human-experts-invisible-i-built-a-tool-to-stop-it-3g2m"/>
-        <updated>2026-04-14T17:01:10.000Z</updated>
-        <summary type="html"><![CDATA[Every time you ask an AI to write code, something disappears.
-Not the code — the code shows up fine. What disappears is the trail. The GitHub discussion where someone spent two hours explaining why cursor-based pagination beats offset for live-updating datasets. The Stack Overflow answer from 2019 where one person, after a week of debugging, documented exactly why that approach fails under concurrent writes. The RFC your team wrote six months ago that established the pattern the AI just silently copied.
-The AI consumed all of it. The humans who produced it got nothing.
-And I don't mean "nothing" philosophically. I mean: no citation in the codebase. No way for a new developer to trace why the code is written the way it is. No signal to the person who wrote the original answer that their wor…]]></summary>
-        <author>
-            <name>Daniel Nwaneri</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop writing edge case tests. Let Hypothesis find them instead.]]></title>
-        <id>https://dev.to/peytongreen_dev/stop-writing-edge-case-tests-let-hypothesis-find-them-instead-5hl0</id>
-        <link href="https://dev.to/peytongreen_dev/stop-writing-edge-case-tests-let-hypothesis-find-them-instead-5hl0"/>
-        <updated>2026-04-14T17:00:05.000Z</updated>
-        <summary type="html"><![CDATA[Three years ago I wrote 47 edge case tests for a URL normalizer. Every test followed the same pattern: I thought of a weird input, wrote the test, confirmed the code handled it.
-Hypothesis wrote 10,000 edge cases for the same function in 30 seconds and found a bug I'd never have thought to write a test for.
-The bug: the normalizer silently returned an empty string when given a URL consisting entirely of whitespace. My 47 tests all used inputs that looked like URLs. Hypothesis found the whitespace case because it's not trying to think of inputs — it's trying to break your function by generating inputs at the boundary of your constraints.
-That's the core shift. You stop describing examples and start describing properties.
-A conventional test says: "given this specific input, I expect this sp…]]></summary>
-        <author>
-            <name>Peyton Green</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Spain to expand internet blocks to tennis, golf, movies broadcasting times]]></title>
-        <id>https://bandaancha.eu/articulos/telefonica-consigue-bloqueos-ips-11731</id>
-        <link href="https://bandaancha.eu/articulos/telefonica-consigue-bloqueos-ips-11731"/>
-        <updated>2026-04-14T16:59:09.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What "production-ready" really means for a NestJS backend]]></title>
-        <id>https://dev.to/alexsergey/what-production-ready-really-means-for-a-nestjs-backend-235d</id>
-        <link href="https://dev.to/alexsergey/what-production-ready-really-means-for-a-nestjs-backend-235d"/>
-        <updated>2026-04-14T16:56:50.000Z</updated>
-        <summary type="html"><![CDATA[Three weeks ago I shared an early version of this project and got a lot of thoughtful feedback.
-I've since reworked it - here’s the updated version:
-https://github.com/prod-forge/backend
-The idea hasn’t changed:
-Writing backend code is the easy part.
-This project focuses on:
-what happens before code
-what happens before deploy
-what happens when things break
-A simple Todo API, but built like a real production service:
-CI/CD with rollback
-forward-only migrations
-observability (Prometheus + Grafana + Loki)
-structured logging + correlation IDs
-Terraform infrastructure (AWS)
-E2E testing with Testcontainers
-improved structure and documentation
-clarified migration and release flow
-refined CI/CD and rollback approach
-better explanations of key decisions
-This is not a boilerplate.
-The goal is not to copy configs,
-If you’ve worked on real systems:
-What would you add or do differently?]]></summary>
-        <author>
-            <name>Sergey</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Claude Code Routines]]></title>
-        <id>https://code.claude.com/docs/en/routines</id>
-        <link href="https://code.claude.com/docs/en/routines"/>
-        <updated>2026-04-14T16:54:33.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built a LangGraph Agent That Audits Android Projects — Here's the Architecture]]></title>
-        <id>https://dev.to/samuvelp/i-built-a-langgraph-agent-that-audits-android-projects-heres-the-architecture-53jh</id>
-        <link href="https://dev.to/samuvelp/i-built-a-langgraph-agent-that-audits-android-projects-heres-the-architecture-53jh"/>
-        <updated>2026-04-14T16:44:52.000Z</updated>
-        <summary type="html"><![CDATA[The Problem Every Android Team Ignores Until It Hurts
-
-
-You know that feeling. You open an Android project you haven't touched in three months and the build fails. AGP needs bumping. Kotlin wants a new version. The Compose BOM has moved two releases ahead. You update, fix the cascade of breaks, and push — only for someone to flag that your targetSdk is two versions behind and Google Play will start rejecting uploads next quarter.
-That's the dependency side. Meanwhile, your AndroidManifest.xml has an exported Service with no permission guard because someone added it during a hackathon. Your codebase still has AsyncTask in a file nobody wants to refactor. You're at 20% Compose adoption with 47 XML layouts and no migration plan. The tech debt isn't in one place — it's scattered across build f…]]></summary>
-        <author>
-            <name>Samuvel Pandian</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[William Cecil's Succession Plan]]></title>
-        <id>https://www.historytoday.com/archive/history-matters/william-cecils-succession-plan</id>
-        <link href="https://www.historytoday.com/archive/history-matters/william-cecils-succession-plan"/>
-        <updated>2026-04-14T16:42:48.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ETL vs ELT: Which One Should You Use and Why?]]></title>
-        <id>https://dev.to/samwel_sam/etl-vs-eltwhich-one-should-you-use-and-why-5gja</id>
-        <link href="https://dev.to/samwel_sam/etl-vs-eltwhich-one-should-you-use-and-why-5gja"/>
-        <updated>2026-04-14T16:41:51.000Z</updated>
-        <summary type="html"><![CDATA[Every data pipeline starts with the same three actions: Extract, Load and Transform. The question is: in which order do you do them and does it matter?
-Imagine you work at a company and your job is to take sales record from five different systems - a CRM, an e-commerce platform, a warehouse database, a mobile app and a spreadsheet your finance team insists on keeping. Finally combine them into one clean, reliable report every morning. 
-To do that, you need a data pipeline: a repeatable process that moves data from where it lives to where it's useful. Two major architectural patterns exist for building these pipelines:ETL and ELT- they represents about when and where to clean your data.
-What is ETL?
-
-
-ETL stands for Extract Transform Load.
-STEP 2 - TRANSFORM
-STEP 3 - LOAD
-Note: If your data…]]></summary>
-        <author>
-            <name>Samuel Wachira</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Tested 6 AI Headshot Generators With the Same Photos. Here's the Data]]></title>
-        <id>https://dev.to/sarwar_ai/best-ai-headshot-generators-b2p</id>
-        <link href="https://dev.to/sarwar_ai/best-ai-headshot-generators-b2p"/>
-        <updated>2026-04-14T16:41:34.000Z</updated>
-        <summary type="html"><![CDATA[Finding the best AI headshot generator is harder than it looks. Most reviews are based on different input photos
-I did this differently.
-
-I used the same set of photos across all six tools. I scored each one across five consistent criteria. I read the
-why one tool outperforms
-Everything in this article is based on actual testing, not speculation.
-ProShoot
-DreamWave AI
-Aragon AI
-PortraitPal
-HeadshotMaster (free)
-Canva AI Headshots (free)
-I used the same input dataset for every tool: 8 photos belonging to a friend named Jason who agreed to
-The photos were intentionally average quality:
-No DSLR or professional lighting
-Mix of phone selfies, group photo crops, and casual shots
-Different lighting conditions including indoor and outdoor
-Varied expressions and angles
-Why average quality? Because …]]></summary>
-        <author>
-            <name>Sarwar</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How I Built an Autonomous Dataset Generator with CrewAI + Ollama (72-hour run, 1,065 entries)]]></title>
-        <id>https://dev.to/robopilingui/how-i-built-an-autonomous-dataset-generator-with-crewai-ollama-72-hour-run-1065-entries-2280</id>
-        <link href="https://dev.to/robopilingui/how-i-built-an-autonomous-dataset-generator-with-crewai-ollama-72-hour-run-1065-entries-2280"/>
-        <updated>2026-04-14T16:39:36.000Z</updated>
-        <summary type="html"><![CDATA[Background
-
-
-I needed high-quality instruction datasets for fine-tuning local LLMs, but commercial options were prohibitively expensive ($500-2,000 for decent quality datasets). 
-So I asked myself: What if I could build a system that generates these datasets autonomously while I sleep?
-Result: 1,065 professional instruction/response pairs in 72 hours, 100% local, zero API costs.
-Here's exactly how I did it.
-When you want to fine-tune a local LLM for specific tasks, you face three options:
-Use generic datasets → Don't match your domain
-Manual creation → Exhausting, slow, doesn't scale
-Buy commercial datasets → Expensive ($500-2,000), limited customization
-I wanted code instruction pairs with:
-Python/AI/ML/DevOps/Database topics
-Chain-of-Thought reasoning (not just answers)
-Real-world comple…]]></summary>
-        <author>
-            <name>Bernabé Puente Moure</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Backyard Quarry, Part 5: Digital Twins for Physical Objects]]></title>
-        <id>https://dev.to/kenwalger/the-backyard-quarry-part-5-digital-twins-for-physical-objects-5a9i</id>
-        <link href="https://dev.to/kenwalger/the-backyard-quarry-part-5-digital-twins-for-physical-objects-5a9i"/>
-        <updated>2026-04-14T16:38:52.000Z</updated>
-        <summary type="html"><![CDATA[At this point in the Backyard Quarry project, something subtle has happened.
-We started with a pile of rocks.
-We now have:
-a schema
-a capture process
-stored images
-searchable metadata
-classification
-lifecycle states
-Each rock has a record.
-Each record represents something in the physical world.
-And that leads to a useful observation.
-We’re no longer just cataloging rocks.
-We’re building digital representations of them.
-What Is a Digital Twin?
-In simple terms, a digital twin is:
-A structured digital representation of a physical object.
-That representation can include:
-identity
-properties
-visual data
-state
-history
-In the context of the Quarry, a rock’s digital twin might look like:
-rock_id: QRY-042
-weight_lb: 12.3
-dimensions_cm: 18 x 10 x 7
-color: gray
-rock_type: granite
-status: for_sale
-ima…]]></summary>
-        <author>
-            <name>Ken W Alger</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[MXGo.ai: privacy-first AI layer for your emails that works without any installation]]></title>
-        <id>https://dev.to/satwikkansal/mxgoai-privacy-first-ai-layer-for-your-emails-that-works-without-any-installation-1mhd</id>
-        <link href="https://dev.to/satwikkansal/mxgoai-privacy-first-ai-layer-for-your-emails-that-works-without-any-installation-1mhd"/>
-        <updated>2026-04-14T16:36:23.000Z</updated>
-        <summary type="html"><![CDATA[Most AI tools try to pull you out of your workflow. Email → copy content → paste into tool → get result → come back.
-That loop is the real inefficiency. While building MXGo.ai, the goal was simple:
-What if we didn’t build another app… and instead turned email itself into the interface?
-This article breaks down how we built an AI-powered email automation system that lets users summarize, analyze, research, and generate outputs—just by forwarding emails.
-Instead of building a dashboard, we treated email like an API surface. Users don’t log into MXGo. They just forward an email to a specific handle to get a response back in their inbox
-Example:
-send to summary@mxgo.ai → get a summary
-send to research@mxgo.ai → get insights
-send to schedule@mxgo.ai → get reminders for recurring tasks 
-This des…]]></summary>
-        <author>
-            <name>Satwik Kansal</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Getting Started with PowerShell: Your First Commands]]></title>
-        <id>https://dev.to/arnostorg/getting-started-with-powershell-your-first-commands-4hfe</id>
-        <link href="https://dev.to/arnostorg/getting-started-with-powershell-your-first-commands-4hfe"/>
-        <updated>2026-04-14T16:29:49.000Z</updated>
-        <summary type="html"><![CDATA[Getting Started with PowerShell: Your First Commands
-
-
-PowerShell seems intimidating, but you only need 5 commands to become productive. Let's start with the foundation.
-PowerShell is a command-line tool where you type commands instead of clicking. Each command does one job well. The prompt (>) waits for you to type commands.
-Your first three commands answer basic questions: Where am I? What's here? How do I get there?
-# Ask PowerShell: where am I right now?
-Get-Location
-
-# Output: C:\Users\YourName
-
-# Shortcut (same command):
-pwd
-
-# Ask PowerShell: what files and folders are here?
-Get-ChildItem
-
-# Output shows:
-# Name            LastWriteTime      Length
-# Documents       3/20/2026 10:15 AM
-# report.txt      3/18/2026 2:45 PM  4521
-
-# Shortcuts (same command):
-ls
-dir
-
-# Go into Documents …]]></summary>
-        <author>
-            <name>arnostorg</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build a Fashion App That Helps You Organize Your Wardrobe]]></title>
-        <id>69de6abf91716f3cfb5448a1</id>
-        <link href="https://www.freecodecamp.org/news/how-to-build-a-fashion-app-to-organize-your-wardrobe/"/>
-        <updated>2026-04-14T16:26:39.000Z</updated>
-        <summary type="html"><![CDATA[I used to spend too long deciding what to wear, even when my closet was full. That frustration made the problem feel very clear to me: it was not about having fewer clothes. It was about having better]]></summary>
-        <author>
-            <name>Mokshita V P</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[StadiumIQ: Redefining the Stadium Experience with Smart Crowd Intelligence]]></title>
-        <id>https://dev.to/anwar_khan_e9eb858b7a5f16/stadiumiq-redefining-the-stadium-experience-with-smart-crowd-intelligence-elf</id>
-        <link href="https://dev.to/anwar_khan_e9eb858b7a5f16/stadiumiq-redefining-the-stadium-experience-with-smart-crowd-intelligence-elf"/>
-        <updated>2026-04-14T16:26:03.000Z</updated>
-        <summary type="html"><![CDATA[Attending a live sports event is thrilling — the energy, the crowd, the atmosphere. But along with that excitement comes a set of common frustrations: long queues, overcrowded areas, confusing navigation, and chaotic exits.
-This is where StadiumIQ comes in — a smart, lightweight system designed to transform how fans experience large-scale sporting venues.
-
-🧠 What is StadiumIQ?
-StadiumIQ is a real-time stadium experience assistant that helps users:
-Navigate efficiently inside stadiums
-The best part?
-dataset-driven simulation
-⚡ Built at PromptWars Virtual Hackathon
-This project was built as part of:
-🌐 PromptWars Virtual — Build, Deploy & Win from Anywhere (India)
-PromptWars introduces a new way to build applications:
-Focus on intent-driven development instead of manual coding
-Google Antigr…]]></summary>
-        <author>
-            <name>Anwar Khan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build an Admin Dashboard Sidebar with shadcn/ui and Base UI]]></title>
-        <id>69de6a6491716f3cfb542305</id>
-        <link href="https://www.freecodecamp.org/news/build-an-admin-dashboard-sidebar-with-shadcn-ui-and-base-ui/"/>
-        <updated>2026-04-14T16:25:08.000Z</updated>
-        <summary type="html"><![CDATA[Admin dashboards are one of the most common real-world UI components you will build as a React developer. At the heart of nearly every dashboard is a sidebar, a persistent navigation panel that organi]]></summary>
-        <author>
-            <name>Vaibhav Gupta</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[5NF and Database Design]]></title>
-        <id>https://kb.databasedesignbook.com/posts/5nf/</id>
-        <link href="https://kb.databasedesignbook.com/posts/5nf/"/>
-        <updated>2026-04-14T16:22:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Kelet – Root Cause Analysis agent for your LLM apps]]></title>
-        <id>https://kelet.ai/</id>
-        <link href="https://kelet.ai/"/>
-        <updated>2026-04-14T16:16:51.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[80386 Memory Pipeline]]></title>
-        <id>https://nand2mario.github.io/posts/2026/80386_memory_pipeline/</id>
-        <link href="https://nand2mario.github.io/posts/2026/80386_memory_pipeline/"/>
-        <updated>2026-04-14T16:00:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[It's OK to compare floating-points for equality]]></title>
-        <id>https://lisyarus.github.io/blog/posts/its-ok-to-compare-floating-points-for-equality.html</id>
-        <link href="https://lisyarus.github.io/blog/posts/its-ok-to-compare-floating-points-for-equality.html"/>
-        <updated>2026-04-14T16:00:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[For the first time in the U.S., renewables generate more power than natural gas]]></title>
-        <id>https://e360.yale.edu/digest/us-renewables-natural-gas-coal</id>
-        <link href="https://e360.yale.edu/digest/us-renewables-natural-gas-coal"/>
-        <updated>2026-04-14T15:44:15.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Fediverse deserves a dumb graphical client]]></title>
-        <id>https://adele.pages.casa/md/blog/the-fediverse-deserves-a-dumb-graphical-client.md</id>
-        <link href="https://adele.pages.casa/md/blog/the-fediverse-deserves-a-dumb-graphical-client.md"/>
-        <updated>2026-04-14T15:42:48.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: A memory database that forgets, consolidates, and detects contradiction]]></title>
-        <id>https://github.com/yantrikos/yantrikdb-server</id>
-        <link href="https://github.com/yantrikos/yantrikdb-server"/>
-        <updated>2026-04-14T15:41:01.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
