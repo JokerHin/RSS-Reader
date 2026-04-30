@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/thinkkun/audit-your-vpc-find-accidentally-public-subnets-with-python-2ml2",
+          "author": "Naveen Karasu",
+          "description": "Day 5: Find Accidentally Public Subnets\n\n\nThe most common VPC misconfiguration is not a bad security group rule -- it is a subnet using the main route table when it should not be.\nSubnets without an explicit route table association inherit the VPC's main route table. If that table has an Internet Gateway route, those subnets are public whether you intended it or not.\nHere is a quick AWS CLI audit:\n# Get main route table for your VPC\nMAIN_RT=$(aws ec2 describe-route-tables \\\n  --filters Name=vpc-id,Values=vpc-0abc123 \\\n           Name=association.main,Values=true \\\n  --query 'RouteTables[0].RouteTableId' --output text)\n\n# Check if main RT has IGW route\naws ec2 describe-route-tables \\\n  --route-table-ids $MAIN_RT \\\n  --query 'RouteTables[0].Routes[?GatewayId!=`local`]'\n\n# Find subnets with no explicit RT association\naws ec2 describe-subnets \\\n  --filters Name=vpc-id,Values=vpc-0abc123 \\\n  --query 'Subnets[].SubnetId' --output text | tr '\\t' '\\n' | while read SID; do\n  ASSOC=$(aws ec2 describe-route-tables \\\n    --filters Name=association.subnet-id,Values=$SID \\\n    --query 'RouteTables[0].RouteTableId' --output text)\n  if [ \"$ASSOC\" = \"None\" ]; then\n    echo \"WARNING: $SID uses main route table\"\n  fi\ndone\n\nIf the main RT has an IGW route AND subnets are unassociated, fix both: remove the IGW route from main, and explicitly associate each subnet.\nTip: In Terraform, always use aws_route_table_association for every subnet. Never rely on the default.",
+          "link": "https://dev.to/thinkkun/audit-your-vpc-find-accidentally-public-subnets-with-python-2ml2",
+          "publishedOn": "2026-04-30T19:12:36.000Z",
+          "wordCount": 1667,
+          "title": "Audit Your VPC: Find Accidentally Public Subnets with Python",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foduej5yyfbkb0oqjpnvo.png"
+        },
+        {
+          "id": "https://dev.to/asad_abdullah_zafar/scaling-shopify-during-flash-sales-what-actually-breaks-and-how-to-fix-it-3hh5",
+          "author": "Asad Abdullah Zafar",
+          "description": "Flash sales are brutal stress tests for your Shopify store.\nThird-party app scripts loading on every page\nThe Technical Breakdown\nWhat You Should Do Before Every Flash Sale\nKill non-essential apps\nEvery active app injects scripts. During a flash sale, those scripts stack up and block the main thread.\nAudit your Liquid code\nNested loops, redundant API calls inside templates, and unoptimized {% for %}blocks destroy render time under load.\nTest checkout concurrently\nUse tools like k6 or Locust to simulate 500+ simultaneous checkout sessions before the sale goes live.\nSwitch to native inventory tracking\nThird-party inventory sync apps frequently fail under simultaneous cart adds. Shopify's native system handles it better.\nPre-warm your CDN\nVisit key pages through multiple geolocations before the sale so edge nodes are primed with cached assets.\nIf you want the full infrastructure guide including Shopify Plus vs standard plan breakdown, Hydrogen headless setup for flash sales, and a real-time response playbook — I wrote it all up in detail.\n👉 Full guide: https://kolachitech.com/scaling-shopify-flash-sales/\nDrop a comment if you have questions about flash sale infrastructure. Happy to go deeper on any of these.",
+          "link": "https://dev.to/asad_abdullah_zafar/scaling-shopify-during-flash-sales-what-actually-breaks-and-how-to-fix-it-3hh5",
+          "publishedOn": "2026-04-30T19:04:06.000Z",
+          "wordCount": 1735,
+          "title": "Scaling Shopify During Flash Sales: What Actually Breaks (And How to Fix It)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmsaday3ym08vl5htfq82.png"
+        },
+        {
+          "id": "https://dev.to/wasi_devops/amazon-rds-demystified-why-amazon-rds-is-still-a-game-changer-4lo9",
+          "author": "Wasi Abdullah",
+          "description": "If you've ever installed a database on a VM, configured backups at 2 AM, worried about failover, or tuned Linux memory for MySQL - you already know the pain.\nThis article breaks down what RDS is, why it matters, how it works internally, and the concepts every DevOps engineer, SRE, and backend developer must know.\n\nRunning databases yourself means handling:\nOS installation & patching\nDatabase installation & upgrades\nBackup strategies\nReplication setup\nFailover planning\nMonitoring and alerting\nSecurity hardening\nRDS automates all of this with built-in best practices.\nWhen creating an RDS instance, you choose a database engine - the database technology powering your instance.\n\nMulti-AZ (Synchronous Replication)\nPrimary DB writes data\nStandby DB in another AZ confirms the write\nOnly then is the transaction complete\nPurpose: High availability and zero data loss\n\nRead Replicas (Asynchronous Replication)\nPurpose: Scale read traffic, reporting, analytics\nChoose standard RDS when you need maximum engine flexibility or specific commercial database features (Oracle, SQL Server).\nChoose Aurora when performance, scalability, and cost-efficiency matter most. Aurora offers higher throughput, automatic storage scaling in 10GB increments, and faster failover.\n\nFor Oracle and SQL Server only, RDS Custom allows OS-level access and SSH to the underlying instance - useful for legacy or special compliance needs.",
+          "link": "https://dev.to/wasi_devops/amazon-rds-demystified-why-amazon-rds-is-still-a-game-changer-4lo9",
+          "publishedOn": "2026-04-30T19:03:41.000Z",
+          "wordCount": 1737,
+          "title": "Amazon RDS Demystified: Why Amazon RDS is Still a Game-Changer?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fklbxilvgfc3rwe21rs0r.png"
+        },
+        {
+          "id": "https://dev.to/chris_lee_5e58cce05f5d01d/when-profiling-turns-into-a-reality-check-51ie",
+          "author": "Chris Lee",
+          "description": "Yesterday I finally deployed my micro‑service stack to production, only to see user reports of sudden latency spikes and error 429 flood. The fix didn’t come from a new library or a hot‑reload, it came from a simple “hand‑off” I had ignored while building the app. In development I ran a single instance on my laptop, so my database pool size, cache eviction policies, and HTTP client retries were set for perfect local performance. In a real, horizontally‑scalable environment these same hard‑coded values became bottlenecks: the connection pool throttled all workers, the in‑memory cache filled up and fell for garbage collection, and the retry‑logic turned idle network time into a cascading failure.  \nThe hard lesson: always shoot for the cluster, not the laptop. Write tests that spin up multiple instances or simulate load, and profile the composite system, not just the component. Even a simple time.sleep in a request handler can expose a hidden race condition in a shared cache, and a single unbounded loop can pin up the event loop on a node‑pool. Adding a small “under‑the‑hood” instrument that reports pool usage, cache hit rates, and retry counts turned out to be the quickest way to catch the issue before ships crashed. In short, treat your staging environment as a living replica of production and let metrics surface the real-world constraints before you ship anything.",
+          "link": "https://dev.to/chris_lee_5e58cce05f5d01d/when-profiling-turns-into-a-reality-check-51ie",
+          "publishedOn": "2026-04-30T19:00:29.000Z",
+          "wordCount": 1617,
+          "title": "When Profiling Turns Into a Reality Check",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbgo236i3m02v9h3oyw1r.png"
+        },
+        {
+          "id": "https://dev.to/rushanksavant/sentence-window-retrieval-212d",
+          "author": "Rushank Savant",
+          "description": "Sentence Window Retrieval is a technique designed to solve a classic RAG dilemma: \"How do I give the LLM enough context without confusing it with irrelevant noise?\"\nIn standard RAG, you search for a chunk of text, and whatever you find is exactly what you send to the LLM.\nIn Sentence Window Retrieval, you decouple the Search from the Synthesis:\n1. Search (The Needle): You break your document into tiny, highly specific units (usually just 1 or 2 sentences). You use these tiny units to find the exact \"needle\" in the haystack.\n2. Context (The Window): Once you find that specific sentence, you don't just send that one line. Instead, you \"roll down the window\" to capture the sentences immediately before and after it.\nWhy do we do this?\nPrecision: Small sentences are easier for vector models to …",
+          "link": "https://dev.to/rushanksavant/sentence-window-retrieval-212d",
+          "publishedOn": "2026-04-30T19:00:10.000Z",
+          "wordCount": 2345,
+          "title": "Sentence Window Retrieval",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsal6acets6eqjs75qwg5.jpg"
+        },
+        {
+          "id": "https://dev.to/a95yman/how-i-structure-authentication-in-net-jwt-refresh-tokens-161a",
+          "author": "Ayman Atif",
+          "description": "If you’ve built a few .NET APIs, you’ve probably done authentication more than once.\nJWT setup\nlogin and register endpoints\nprotecting routes\nmaybe adding roles\nIt works, but every time I started a new project, I found myself repeating the same setup again.\nAfter doing this a few times, I decided to settle on a structure that I can reuse and understand without digging through tutorials.\nThis is the approach I use now.\nI’m not trying to build a full identity system.\nI just want:\na clean login and register flow\nJWT authentication that works\nrefresh tokens so users don’t get logged out constantly\na structure that doesn’t turn into a mess later The structure\nI keep things split into simple layers.\nApi\nApplication\nDomain\nInfrastructure\nShared\nNothing fancy. Just enough separation so things don’…",
+          "link": "https://dev.to/a95yman/how-i-structure-authentication-in-net-jwt-refresh-tokens-161a",
+          "publishedOn": "2026-04-30T18:52:36.000Z",
+          "wordCount": 1974,
+          "title": "How I Structure Authentication in .NET (JWT + Refresh Tokens)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmj72su1i34xla89n2m5d.JPG"
+        },
+        {
+          "id": "https://dev.to/gravox/devops-lab-update-docker-deployment-on-ubuntu-45lk",
+          "author": "Gravox",
+          "description": "This lab documents the successful installation and validation of Docker Engine within a Linux-based environment, targeting core competencies expected of a DevOps Engineer.\nTechnical Milestones\nProvisioned and configured an Ubuntu-based system environment\nDeployed Docker Engine with systemd service management\nValidated container runtime and daemon operations\nPerformed image acquisition and management via Docker Hub registry\nExecuted a containerized workload (\"hello-world\") to verify runtime behavior\nInspected container lifecycle, including initialization and termination states\nThis lab establishes foundational experience in container runtime environments and image lifecycle management.\nNext Phase\nBuilding custom Docker images using Dockerfiles\nRunning multi-container workloads and simulating deployment pipelines\n\n\n\n  \n  \n  devops #docker #linux #cloud #containers #aws #learninginpublic",
+          "link": "https://dev.to/gravox/devops-lab-update-docker-deployment-on-ubuntu-45lk",
+          "publishedOn": "2026-04-30T18:52:25.000Z",
+          "wordCount": 1488,
+          "title": "DevOps Lab Update — Docker Deployment on Ubuntu",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fclzxq2i32kx02gq6zvu5.png"
+        },
+        {
+          "id": "https://dev.to/gavin_clive/frontend-engineers-should-care-more-about-infrastructure-id7",
+          "author": "Gavin Clive",
+          "description": "One 304 Not Modified is easy to ignore. A page full of them is latency.\nWe migrated CDN providers that quarter.\nThe new provider was meaningfully cheaper, and its edge coverage in Southeast Asia looked comparable. The migration itself went smoothly. Traffic moved over, error rates stayed normal, and the infra team signed it off.\nOne thing had changed underneath us: the Cache-Control headers our old provider had been injecting at the edge did not carry over.\nBefore that migration, I did not think about those headers much. Not because they were unimportant, but because they had already been decided below the application layer. The asset pipeline emitted files, the CDN served them, the browser cached them, and the page worked.\nThe new provider was still serving our static images correctly. ET…",
+          "link": "https://dev.to/gavin_clive/frontend-engineers-should-care-more-about-infrastructure-id7",
+          "publishedOn": "2026-04-30T18:47:23.000Z",
+          "wordCount": 2139,
+          "title": "Frontend Engineers Should Care More About Infrastructure",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fb89zvy2ghvx1lb7mdpp1.png"
+        },
+        {
+          "id": "https://dev.to/krishnakanth_eswaran_6000/zero-downtime-ecs-eks-migration-orchestrating-a-6-team-production-cutover-at-scale-1pe6",
+          "author": "krishnakanth eswaran",
+          "description": "Task at hand: Migrating Live Healthcare Services Without Dropping a Single Request\nWhen you're processing healthcare revenue cycle transactions worth millions of dollars daily, downtime isn't just inconvenient—it's financially catastrophic and potentially impacts patient care. This is the story of how we migrated 15+ microservices from AWS ECS to EKS across 6 engineering teams with zero downtime, zero rollbacks, and zero production incidents.\nThe stakes: AR Finance and Posting Modernisation services handling real-time remittance processing for U.S. healthcare providers.\nThe constraint: Absolute zero tolerance for downtime or data loss.\nThe scope: Domain-wide cutover coordinating Rules Core, Payment Processing, Reconciliation, Analytics, Data Pipeline, and Platform teams.\nOur ECS-based arch…",
+          "link": "https://dev.to/krishnakanth_eswaran_6000/zero-downtime-ecs-eks-migration-orchestrating-a-6-team-production-cutover-at-scale-1pe6",
+          "publishedOn": "2026-04-30T18:45:10.000Z",
+          "wordCount": 3294,
+          "title": "Zero-Downtime ECS EKS Migration: Orchestrating a 6-Team Production Cutover at Scale",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx0n8pd02k4nbncxnyicg.png"
+        },
+        {
+          "id": "https://dev.to/amariahak/how-i-reduced-ai-codebase-context-from-100k-to-5k-tokens-using-a-graph-based-rag-4dbd",
+          "author": "Amariah Kamau",
+          "description": "Most AI coding tools lie to you about context.\nThey say \"I understand your codebase.\" What they actually do is dump as many files as possible into the context window and hope the model figures it out. That works on a 3-file project. It falls apart on anything real.\nHere's the problem I kept hitting: a medium-sized production codebase hits ~100K tokens when you try to feed it to an LLM. That's expensive, slow, and surprisingly lossy — models start hallucinating relationships between files that don't exist, missing the ones that do.\nWhen you open a project in Atlarix, it runs a parser over every file using Tree-sitter AST. Instead of storing raw text, it extracts:\nEvery function, class, interface, and type\nImport/export relationships between files\nCall relationships between functions\nFile-le…",
+          "link": "https://dev.to/amariahak/how-i-reduced-ai-codebase-context-from-100k-to-5k-tokens-using-a-graph-based-rag-4dbd",
+          "publishedOn": "2026-04-30T18:43:26.000Z",
+          "wordCount": 1941,
+          "title": "How I reduced AI codebase context from 100K to 5K tokens using a graph-based RAG",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fov5h0kfagi7kty0ptaxf.png"
+        },
+        {
+          "id": "https://dev.to/engrshishir/how-wordpress-orchestrates-thousands-of-plugins-the-magic-of-hooks--4klc",
+          "author": "Shishir Bhuiyan",
+          "description": "WordPress's greatest strength is its plugin ecosystem. But have you ever wondered how it manages thousands of developers writing code in completely different styles—some using old-school procedural code, others using modern Object-Oriented Programming (OOP)—without the whole system crashing down?\nThe secret lies in the synergy between PHP Callables and the WordPress Hook System.\nThe Global 'Address Book': $wp_filter\nThink of WordPress as having a massive global spreadsheet or \"Address Book\" called $wp_filter. When you install a plugin, WordPress doesn't actively go out and \"search\" for the plugin's features. Instead, the plugin introduces itself.\nBy using functions like add_action() or add_filter(), a plugin writes its own name and \"phone number\" (the function name) into that specific row of the spreadsheet.\nThe Gatekeeper: is_callable()\n\n\nThe Universal Adapter: call_user_func_array()\n\n\n\nWhether a developer provides:\nA simple function name (String)\nA method inside a class (Array)\nA modern Anonymous Function or Namespace\nWordPress doesn't need to \"translate\" the code. It simply hands the registration over to the PHP engine and says, \"You know how to run this; go ahead.\"\nDecoupling: The \"Radio Station\" Logic\nThe entire system operates like a radio station.\nWordPress is the broadcaster, sending out signals on specific frequencies (Hooks).\nPlugins are the radio sets tuned into those frequencies.\nThe broadcaster (WordPress) doesn't care who is listening or what device they are using. This Decoupling—where the core and the plugins don't depend on each other's internal structure—is why a plugin written years ago can still function perfectly with a modern theme today.\nThe Result: A Seamless Connection\nThis elegant \"handshake\" is exactly what makes WordPress the most flexible CMS on the planet.",
+          "link": "https://dev.to/engrshishir/how-wordpress-orchestrates-thousands-of-plugins-the-magic-of-hooks--4klc",
+          "publishedOn": "2026-04-30T18:38:38.000Z",
+          "wordCount": 1774,
+          "title": "How WordPress Orchestrates Thousands of Plugins: The Magic of Hooks ?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9txrhuym0sb1l7t4aqv7.png"
+        },
+        {
+          "id": "https://dev.to/xwero/where-to-store-slugs-26lp",
+          "author": "david duymelinck",
+          "description": "A few days ago I saw a post about a slug library. And they used specific ORM models, post and author, to store the slugs.\nAs I mentioned a slug is a part of the routing. In the case of a post that can be where-to-store-slugs. This can be the full path, /where-to-store-slugs, but it also can be a part of the path, /posts/where-to-store-slugs. \nOn a mostly static website you can get away with putting the slugs in the routing configuration.\nThe second fastest thing of your website is the database. So that is why the library, and others like it, use that as the storage solution. \nBecause a slug can be the full path, most libraries have an option to check the uniqueness of slug. You don't want duplicate urls. \nHaving the slug as a part of the path is a fix, so now you have post/mike and author/mike. Now they are unique in their respective path, but you needed to change the routing to fix a uniqueness problem in the database. This is too tight of a coupling to not cause problems in the future. \nA more extreme example is /mike/mike. It could be the authors page as the parent to give context to the post. But it could also be the post that is the parent to give context to the author.\nAs I mentioned before an environment specific configuration for dynamic urls is an option.\nWhen you want to store the slugs in the database use a separate table. That table contains the urls with the slugs, their matching controllers and extra metadata if needed. \nThe first two solutions make it easier to check the uniqueness because they centralise the slugs.\nWhile a library that adds a slug to an ORM model might seem like a quick solution. I think most of the times they are a solution with a short lifespan.\nThe best way of thinking about slugs is to see where they fit in the website routing strategy. \nTo be clear this is not a rant against one library in particular, I seen multiple libraries in different languages that have the same pattern. \nUsing a slug might seems an insignificant detail, but there is always more than meets the eye.",
+          "link": "https://dev.to/xwero/where-to-store-slugs-26lp",
+          "publishedOn": "2026-04-30T18:38:14.000Z",
+          "wordCount": 2034,
+          "title": "Where to store slugs",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkclupl47qau51wj7dt50.png"
+        },
+        {
           "id": "https://dev.to/vansh_aggarwal_5fb2fff667/leetcode-solution-74-search-a-2d-matrix-2p3f",
           "author": "Vansh Aggarwal",
           "description": "LeetCode 74: Search a 2D Matrix - Conquer the Grid with Binary Search!\n\n\nHey fellow coders and problem-solvers! 👋 Vansh2710 here, diving into another LeetCode adventure. Today, we're tackling a classic problem that brilliantly combines the elegance of a sorted structure with the power of binary search: \"Search a 2D Matrix\".\nThis problem is a fantastic stepping stone for understanding how seemingly complex 2D data structures can often be simplified and optimized using fundamental algorithms. Ready to unlock its secrets? Let's go!\nImagine you're given a special kind of grid, an m x n matrix, filled with integers. This isn't just any grid, though; it has two super helpful properties:\n Each row is sorted: If you pick any row and read it from left to right, the numbers are always increasing (n…",
@@ -24476,36 +24596,6 @@
           "wordCount": 1589,
           "title": "Transparency and challenges to myself",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fs6uopent6k9mx4is9ifh.png"
-        },
-        {
-          "id": "https://dev.to/singhamandeep007/how-would-you-rate-my-portfolio-out-of-10-from-a-uxui-and-performance-perspective-the-good-the-1gc8",
-          "author": "Amandeep Singh",
-          "description": "How I Built My Portfolio Website with React + Vite: Themes, Particles, GitHub Visualizations, and a Dev.to-Powered Posts Page\n\n\n  \n\n              \n              \nAmandeep Singh\n                    \n                  \n\n                \nApr 5\n        \n#react\n            #typescript\n            #portfolio\n            #webdev\n        \n6 reactions\n            \nAdd Comment\n            \n        \n        \n          \n            5 min read",
-          "link": "https://dev.to/singhamandeep007/how-would-you-rate-my-portfolio-out-of-10-from-a-uxui-and-performance-perspective-the-good-the-1gc8",
-          "publishedOn": "2026-04-16T05:26:05.000Z",
-          "wordCount": 1452,
-          "title": "How would you rate my portfolio out of 10 from a UX/UI and performance perspective? The good, the bad, and the ugly - tell me in the comments.",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fam61u9vmpctgt2jab75l.png"
-        },
-        {
-          "id": "https://dev.to/ouvarov/css-in-a-team-how-i-stopped-explaining-rules-and-started-enforcing-them-21eg",
-          "author": "Olexandr Uvarov",
-          "description": "I once led a team of 4 markup developers. First week, I opened a PR and found this:\n// developer A\n.card {\n  z-index: 999;\n  color: #fff;\n  padding: 13px;\n  display: flex;\n  align-items: center;\n}\n\n// developer B\n.modal {\n  z-index: 9;\n  color: var(--color-white);\n  padding: 15px;\n  align-items: center;\n  display: flex;\n}\n\nSame project. Same component type. Completely different conventions. 13px vs 15px — nobody knows why. Raw hex vs custom property — nobody agreed. z-index: 9 vs z-index: 999 — nobody coordinated.\nWe had a kickoff meeting. We wrote down conventions. Two months later, everyone had forgotten half of them. A new team member joined — had no idea they existed.\nThat's when I stopped trying to get people to remember rules. I started making the rules impossible to forget.\nA conven…",
-          "link": "https://dev.to/ouvarov/css-in-a-team-how-i-stopped-explaining-rules-and-started-enforcing-them-21eg",
-          "publishedOn": "2026-04-16T05:26:02.000Z",
-          "wordCount": 3997,
-          "title": "CSS in a Team: How I Stopped Explaining Rules and Started Enforcing Them",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fvewkfp80qupheoeigyow.png"
-        },
-        {
-          "id": "https://dev.to/yadin/unforgettable-2ibj",
-          "author": "Dr. Gilad Yadin",
-          "description": "“No man ever steps in the same river twice, for it is not the same river and he is not the same man.”\n–Heraclitus, 5th century BCE\nSuppose there is some online information about you that you’d prefer to keep private. It could be something you worry others would find unprofessional, something you consider embarrassing, or something that is inaccurate. For any reason, you want that information not to show up when people look up your name. Privacy law recognizes your right to have that information erased. In fact, one of the core principles of modern privacy law is control over personal information, which includes the right to erasure, also known as the right to be forgotten. It is an intriguing privacy right that has developed over the past two decades and is now at risk of becoming obsolete…",
-          "link": "https://dev.to/yadin/unforgettable-2ibj",
-          "publishedOn": "2026-04-16T05:23:50.000Z",
-          "wordCount": 2531,
-          "title": "Unforgettable",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8jl5r6bw2onzonjxix5y.webp"
         }
       ]
     },
@@ -24514,6 +24604,26 @@
       "feedUrl": "https://www.freecodecamp.org/news/rss/",
       "siteUrl": "https://www.freecodecamp.org/news/",
       "articles": [
+        {
+          "id": "69f36894909e64ad07e3fc7f",
+          "author": "Sandeep Bharadwaj Mannapur",
+          "description": "Building a single AI agent that answers questions or runs searches is a solved problem. A handful of tutorials and a few hours of work will get you there. What most tutorials skip is the engineering l",
+          "link": "https://www.freecodecamp.org/news/how-to-build-a-multi-agent-ai-system-with-langgraph-mcp-and-a2a-full-book/",
+          "publishedOn": "2026-04-30T14:35:00.000Z",
+          "wordCount": 25181,
+          "title": "How to Build a Multi-Agent AI System with LangGraph, MCP, and A2A [Full Book]",
+          "imageUrl": "https://cdn.hashnode.com/uploads/covers/5e1e335a7a1d3fcc59028c64/41b8ee2f-3097-497e-b008-0259f6c10772.png"
+        },
+        {
+          "id": "69f3683c909e64ad07e3b0fc",
+          "author": "Tolani Akintayo",
+          "description": "You've completed three AWS courses. You have notes from a dozen Docker tutorials. You know what Kubernetes is, what CI/CD means, and you can explain Infrastructure as Code without hesitating. And yet",
+          "link": "https://www.freecodecamp.org/news/how-to-land-your-first-cloud-or-devops-role-what-hiring-managers-actually-look-for/",
+          "publishedOn": "2026-04-30T14:33:32.000Z",
+          "wordCount": 5302,
+          "title": "How to Land Your First Cloud or DevOps Role: What Hiring Managers Actually Look For",
+          "imageUrl": "https://cdn.hashnode.com/uploads/covers/5e1e335a7a1d3fcc59028c64/374e807b-a67f-4f04-a639-dfa230b0ba5f.png"
+        },
         {
           "id": "69f2e347b18c978233780179",
           "author": "Rakshath Naik",
@@ -25001,6 +25111,66 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://peterdohertys.website/blog-posts/full-text-search-w-duckdb.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://peterdohertys.website/blog-posts/full-text-search-w-duckdb.html",
+          "publishedOn": "2026-04-30T18:14:18.000Z",
+          "wordCount": 1805,
+          "title": "Full-Text Search with DuckDB",
+          "imageUrl": null
+        },
+        {
+          "id": "https://lost-number.bearblog.dev/recovering-files-from-beyond-the-grave-using-photorec/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://lost-number.bearblog.dev/recovering-files-from-beyond-the-grave-using-photorec/",
+          "publishedOn": "2026-04-30T17:42:11.000Z",
+          "wordCount": 1986,
+          "title": "Recovering files from beyond the grave using PhotoRec",
+          "imageUrl": "https://bear-images.sfo2.cdn.digitaloceanspaces.com/lost-number/image-7.webp"
+        },
+        {
+          "id": "https://nickkossolapov.github.io/fame-boy/building-a-game-boy-emulator-in-fsharp/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://nickkossolapov.github.io/fame-boy/building-a-game-boy-emulator-in-fsharp/",
+          "publishedOn": "2026-04-30T17:14:21.000Z",
+          "wordCount": 7129,
+          "title": "I built a Game Boy emulator in F#",
+          "imageUrl": "https://nickkossolapov.github.io/fame-boy/building-a-game-boy-emulator-in-fsharp/images/pokemon.gif"
+        },
+        {
+          "id": "https://github.com/kubereboot/kured",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/kubereboot/kured",
+          "publishedOn": "2026-04-30T16:53:44.000Z",
+          "wordCount": 1751,
+          "title": "Kubereboot/Kured: Kubernetes Reboot Daemon",
+          "imageUrl": "https://opengraph.githubassets.com/85fabf8965cdaa8ffe4548022a100d2cbf51847a4fae7610d377c3dae9a5843d/kubereboot/kured"
+        },
+        {
+          "id": "https://github.com/carlovalenti/TRiP",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/carlovalenti/TRiP",
+          "publishedOn": "2026-04-30T16:48:17.000Z",
+          "wordCount": 5270,
+          "title": "Show HN: TRiP – a complete transformer engine in C built from scratch just by me",
+          "imageUrl": "https://opengraph.githubassets.com/cb3fe29fac550b170b91d691bec0364cac1fa1e319dbedf10402436024eb3a8f/carlovalenti/TRiP"
+        },
+        {
+          "id": "https://www.openwall.com/lists/oss-security/2026/04/30/10",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.openwall.com/lists/oss-security/2026/04/30/10",
+          "publishedOn": "2026-04-30T16:43:47.000Z",
+          "wordCount": 656,
+          "title": "CopyFail Was Not Disclosed to Distros",
+          "imageUrl": null
+        },
         {
           "id": "https://thereader.mitpress.mit.edu/the-whistleblower-who-uncovered-the-nsas-big-brother-machine/",
           "author": null,
@@ -25752,6 +25922,16 @@
           "imageUrl": "https://assets.tangled.network/blog/federation/Light-OG.png"
         },
         {
+          "id": "https://www.gilesthomas.com/2026/04/10g-ethernet-what-i-did",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.gilesthomas.com/2026/04/10g-ethernet-what-i-did",
+          "publishedOn": "2026-04-29T13:15:46.000Z",
+          "wordCount": 3823,
+          "title": "10Gb/s Ethernet: what I did to get it working in my home",
+          "imageUrl": "https://www.gilesthomas.com/images/favicons/web-app-manifest-512x512.png"
+        },
+        {
           "id": "https://healthmanagement.org/c/icu/IssueArticle/improving-handovers-by-learning-from-scuderia-ferrari",
           "author": null,
           "description": "Comments",
@@ -26160,6 +26340,16 @@
           "wordCount": 7045,
           "title": "BookStack Moves from GitHub to Codeberg",
           "imageUrl": "https://opengraph.githubassets.com/4ae4526c09660d321bf100891d5e55b319720a95786e3b08478e53d57aca1b37/BookStackApp/BookStack/issues/4551"
+        },
+        {
+          "id": "https://www.siliconimist.com/p/semiconductors-made-in-america",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.siliconimist.com/p/semiconductors-made-in-america",
+          "publishedOn": "2026-04-28T17:26:58.000Z",
+          "wordCount": 3196,
+          "title": "How Semiconductors Were Made in America",
+          "imageUrl": "https://substackcdn.com/image/fetch/$s_!LsuT!,w_1200,h_600,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-video.s3.amazonaws.com%2Fvideo_upload%2Fpost%2F194894516%2Fc0a36896-8842-4512-8846-e8cce323095b%2Ftranscoded-1776766288.png"
         },
         {
           "id": "https://github.com/FeSens/auto-arch-tournament/blob/main/docs/auto-arch-tournament-blog-post.md",
@@ -34610,56 +34800,6 @@
           "wordCount": 1088,
           "title": "I learned Unity the wrong way",
           "imageUrl": "https://darkounity.com/api/images/how-i-learned-unity-the-wrong-way.webp"
-        },
-        {
-          "id": "https://www.ycombinator.com/companies/ramain/jobs/bwtwd9W-founding-gtm-operations-lead",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.ycombinator.com/companies/ramain/jobs/bwtwd9W-founding-gtm-operations-lead",
-          "publishedOn": "2026-04-16T07:01:29.000Z",
-          "wordCount": 1175,
-          "title": "RamAIn (YC W26) Is Hiring",
-          "imageUrl": "https://bookface-images.s3.amazonaws.com/logos/beca0fa1a556486413fd1850c82f7bf74971dc25.png?1767663168"
-        },
-        {
-          "id": "https://www.historytoday.com/archive/leonardo-borgia-and-machiavelli-fateful-collusion",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.historytoday.com/archive/leonardo-borgia-and-machiavelli-fateful-collusion",
-          "publishedOn": "2026-04-16T06:38:43.000Z",
-          "wordCount": 53,
-          "title": "Leonardo, Borgia, and Machiavelli: A Fateful Collusion",
-          "imageUrl": null
-        },
-        {
-          "id": "https://redixhumayun.github.io/databases/2026/04/14/zero-copy-pages-in-rust.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://redixhumayun.github.io/databases/2026/04/14/zero-copy-pages-in-rust.html",
-          "publishedOn": "2026-04-16T06:11:40.000Z",
-          "wordCount": 3551,
-          "title": "Zero-Copy Pages in Rust: Or How I Learned to Stop Worrying and Love Lifetimes",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.vulture.com/article/ben-lerner-transcription-interview.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.vulture.com/article/ben-lerner-transcription-interview.html",
-          "publishedOn": "2026-04-16T05:43:09.000Z",
-          "wordCount": 45173,
-          "title": "Ben Lerner's Big Feelings",
-          "imageUrl": "https://pyxis.nymag.com/v1/imgs/f58/a00/747d139c959fa5a26143f4dc8e0b6612d9-Ben-Lerner-lede.1x.rsocial.w1200.jpg"
-        },
-        {
-          "id": "https://www.bbc.com/news/articles/ckgx103wkl1o",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.bbc.com/news/articles/ckgx103wkl1o",
-          "publishedOn": "2026-04-16T05:39:50.000Z",
-          "wordCount": 4126,
-          "title": "Germany suspends military approval for long stays abroad for men under 45",
-          "imageUrl": "https://ichef.bbci.co.uk/news/1024/branded_news/3752/live/9f5e7dd0-3356-11f1-8606-05fe34b06e1b.jpg"
         }
       ]
     },
@@ -36302,46 +36442,6 @@
           "wordCount": 15266,
           "title": "Huawei Revives Watch-To-Earbuds Watch Buds 2",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/04/Huawei-Watch-Buds-2-2.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=389913",
-          "author": "Nurul Kamil",
-          "description": "Google has been pretty busy this week. Aside from bringing Personal Intelligence to our shores, the company has announced a dedicated Gemini app for macOS. This app, which was coded in Swift, offers a native desktop experience that’s easily accessible without needing to switch tabs. Users can launch the app using a keyboard shortcut. Pressing […]\nThe post Google Puts Gemini On macOS, Windows Devices With New Native Apps appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/389913/google-gemini-macos-windows-apps/",
-          "publishedOn": "2026-04-16T07:00:50.000Z",
-          "wordCount": 15237,
-          "title": "Google Puts Gemini On macOS, Windows Devices With New Native Apps",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/04/google-gemini-macos-1.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=389904",
-          "author": "Kiran Ganesan",
-          "description": "Microsoft is reportedly preparing to refresh its Surface Pro and Surface Laptop lineup with new chips, improved displays, and a handful of quality-of-life upgrades, according to a report by Windows Central. The company is allegedly planning a two-stage rollout for the devices, with Intel-powered models arriving first, followed by Snapdragon variants at a later date. […]\nThe post Report: Microsoft To Refresh Surface Pro, Laptop Lines With New Chips, Better Display appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/389904/report-microsoft-to-refresh-surface-pro-laptop-lines/",
-          "publishedOn": "2026-04-16T06:23:47.000Z",
-          "wordCount": 15624,
-          "title": "Report: Microsoft To Refresh Surface Pro, Laptop Lines With New Chips, Better Display",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2024/08/Microsoft-Surface-Laptop-7-Copilotplus-Product-Shot-12-scaled.jpg"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=389888",
-          "author": "Heirul Kamel",
-          "description": "OPPO is preparing to introduce the Find X9 Ultra as its latest flagship smartphone, with a global launch arriving soon. While the device is expected to push boundaries in mobile photography, the company has revealed that it will also come with a host of new AI features via ColorOS 16, designed to enhance everyday usability. […]\nThe post OPPO Details New AI Features For Find X9 Ultra; Pre-Orders Now Open appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/389888/oppo-find-x9-ultra-ai-features-pre-orders-malaysia/",
-          "publishedOn": "2026-04-16T06:06:02.000Z",
-          "wordCount": 15722,
-          "title": "OPPO Details New AI Features For Find X9 Ultra; Pre-Orders Now Open",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/04/OPPO-Find-X9-Ultra-back-hand.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=389886",
-          "author": "Ian Chee",
-          "description": "While Valve has confirmed that it is testing some new additions in beta, other possible upcoming features are still being discovered via leaks. One example of the former is an FPS estimator for games based on your rig. An example of the latter has recently popped up, and it looks to be a 30-day price […]\nThe post Steam Games May Get 30-Day Price History appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/389886/steam-games-30-day-price-history/",
-          "publishedOn": "2026-04-16T05:53:39.000Z",
-          "wordCount": 15142,
-          "title": "Steam Games May Get 30-Day Price History",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/07/Steam-logo-stock-file-photo.jpg"
         }
       ]
     },
@@ -36356,6 +36456,16 @@
       "feedUrl": "https://www.technologyreview.com/feed/",
       "siteUrl": "https://www.technologyreview.com",
       "articles": [
+        {
+          "id": "https://www.technologyreview.com/?p=1136684",
+          "author": "MIT Technology Review",
+          "description": "The ultimate plan to live forever is a brand new body. This subscriber-only eBook explores R3 Bio, a small startup that has pitched a startling and ethically charged vision for “brainless clones” to serve the role of backup human bodies. by Antonio Regalado March 20, 2026 Related Stories: Access all subscriber-only eBooks:",
+          "link": "https://www.technologyreview.com/2026/04/30/1136684/exclusive-ebook-inside-the-stealthy-startup-that-pitched-brainless-human-clones/",
+          "publishedOn": "2026-04-30T18:42:50.000Z",
+          "wordCount": 4843,
+          "title": "Exclusive eBook: Inside the stealthy startup that pitched brainless human clones",
+          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/04/brainless-clones.png?resize=1200,600"
+        },
         {
           "id": "https://www.technologyreview.com/?p=1136721",
           "author": "Will Douglas Heaven",
@@ -40112,46 +40222,6 @@
           "wordCount": 10941,
           "title": "The CLARITY Act breakthrough: Why JPMorgan says the U.S. crypto rulebook is ‘close to completion’",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/3d14ee5efae01770bbbc627c6ecb94cb0e826a8d-4027x2265.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "e18d2820-f7f2-45ce-a877-f7f52787c500",
-          "author": "Sam Reynolds",
-          "description": "Macro-driven ETF inflows have lifted prices, but CryptoQuant data signals large holders are positioning to sell near a key breakeven zone",
-          "link": "https://www.coindesk.com/markets/2026/04/16/bitcoin-is-testing-a-level-that-capped-its-rally-in-january",
-          "publishedOn": "2026-04-16T07:07:55.000Z",
-          "wordCount": 10887,
-          "title": "Bitcoin is testing a level that capped its rally in January, CryptoQuant says",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/bfb4779e9245468a88a2a948bb0e1677ae7e7858-3840x2160.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "3a4a680c-f6b0-4732-b7ff-8caa61c24aa3",
-          "author": "Shaurya Malwa",
-          "description": "The Blockstream CEO told Paris Blockchain Week that Bitcoin should build quantum-resistant upgrades now, a day after Jameson Lopp proposed freezing vulnerable coins instead.",
-          "link": "https://www.coindesk.com/tech/2026/04/16/bitcoin-s-quantum-debate-splits-as-adam-back-pushes-optional-upgrades-over-forced-freeze",
-          "publishedOn": "2026-04-16T05:51:15.000Z",
-          "wordCount": 10909,
-          "title": "Bitcoin's quantum debate splits as Adam Back pushes optional upgrades over forced freeze",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/c72a7d7906fb5fbc62478d497a1a0b6acf914bb5-2048x1365.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "2ae711e2-6a45-4db8-bfa4-3513279c95aa",
-          "author": "Omkar Godbole",
-          "description": "BTC is up 10% for the month, but the bull run has stalled near $75,000 in the past 48 hours. Here's why.",
-          "link": "https://www.coindesk.com/markets/2026/04/16/bitcoin-rally-is-taking-a-breather-near-usd75-000-onchain-data-shows-why",
-          "publishedOn": "2026-04-16T05:44:21.000Z",
-          "wordCount": 10919,
-          "title": "Bitcoin rally is taking a breather near $75,000. Onchain data shows why",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/94d6b058781a0a1c3225d8d2d844d7410eb18794-3000x2001.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "db54270c-ece8-402c-a4c0-3953bb062fe4",
-          "author": "Shaurya Malwa",
-          "description": "Breakout backed by heavy participation and late-session buying, though weak on-chain activity raises questions over durability.",
-          "link": "https://www.coindesk.com/markets/2026/04/16/dogecoin-jumps-4-5-to-nearly-10-cents-outperforming-bitcoin-and-ether",
-          "publishedOn": "2026-04-16T05:32:40.000Z",
-          "wordCount": 10557,
-          "title": "Dogecoin jumps 4.5% to nearly 10-cents, outperforming bitcoin and ether",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/041426643bddc73b9b19b0b9ed10617f4ae503d0-1188x734.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },

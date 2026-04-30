@@ -2,10 +2,338 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-04-30T17:19:03.040Z</updated>
+    <updated>2026-04-30T19:18:44.383Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Audit Your VPC: Find Accidentally Public Subnets with Python]]></title>
+        <id>https://dev.to/thinkkun/audit-your-vpc-find-accidentally-public-subnets-with-python-2ml2</id>
+        <link href="https://dev.to/thinkkun/audit-your-vpc-find-accidentally-public-subnets-with-python-2ml2"/>
+        <updated>2026-04-30T19:12:36.000Z</updated>
+        <summary type="html"><![CDATA[Day 5: Find Accidentally Public Subnets
+
+
+The most common VPC misconfiguration is not a bad security group rule -- it is a subnet using the main route table when it should not be.
+Subnets without an explicit route table association inherit the VPC's main route table. If that table has an Internet Gateway route, those subnets are public whether you intended it or not.
+Here is a quick AWS CLI audit:
+# Get main route table for your VPC
+MAIN_RT=$(aws ec2 describe-route-tables \
+  --filters Name=vpc-id,Values=vpc-0abc123 \
+           Name=association.main,Values=true \
+  --query 'RouteTables[0].RouteTableId' --output text)
+
+# Check if main RT has IGW route
+aws ec2 describe-route-tables \
+  --route-table-ids $MAIN_RT \
+  --query 'RouteTables[0].Routes[?GatewayId!=`local`]'
+
+# Find subnets with no explicit RT association
+aws ec2 describe-subnets \
+  --filters Name=vpc-id,Values=vpc-0abc123 \
+  --query 'Subnets[].SubnetId' --output text | tr '\t' '\n' | while read SID; do
+  ASSOC=$(aws ec2 describe-route-tables \
+    --filters Name=association.subnet-id,Values=$SID \
+    --query 'RouteTables[0].RouteTableId' --output text)
+  if [ "$ASSOC" = "None" ]; then
+    echo "WARNING: $SID uses main route table"
+  fi
+done
+
+If the main RT has an IGW route AND subnets are unassociated, fix both: remove the IGW route from main, and explicitly associate each subnet.
+Tip: In Terraform, always use aws_route_table_association for every subnet. Never rely on the default.]]></summary>
+        <author>
+            <name>Naveen Karasu</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Scaling Shopify During Flash Sales: What Actually Breaks (And How to Fix It)]]></title>
+        <id>https://dev.to/asad_abdullah_zafar/scaling-shopify-during-flash-sales-what-actually-breaks-and-how-to-fix-it-3hh5</id>
+        <link href="https://dev.to/asad_abdullah_zafar/scaling-shopify-during-flash-sales-what-actually-breaks-and-how-to-fix-it-3hh5"/>
+        <updated>2026-04-30T19:04:06.000Z</updated>
+        <summary type="html"><![CDATA[Flash sales are brutal stress tests for your Shopify store.
+Third-party app scripts loading on every page
+The Technical Breakdown
+What You Should Do Before Every Flash Sale
+Kill non-essential apps
+Every active app injects scripts. During a flash sale, those scripts stack up and block the main thread.
+Audit your Liquid code
+Nested loops, redundant API calls inside templates, and unoptimized {% for %}blocks destroy render time under load.
+Test checkout concurrently
+Use tools like k6 or Locust to simulate 500+ simultaneous checkout sessions before the sale goes live.
+Switch to native inventory tracking
+Third-party inventory sync apps frequently fail under simultaneous cart adds. Shopify's native system handles it better.
+Pre-warm your CDN
+Visit key pages through multiple geolocations before the sale so edge nodes are primed with cached assets.
+If you want the full infrastructure guide including Shopify Plus vs standard plan breakdown, Hydrogen headless setup for flash sales, and a real-time response playbook — I wrote it all up in detail.
+👉 Full guide: https://kolachitech.com/scaling-shopify-flash-sales/
+Drop a comment if you have questions about flash sale infrastructure. Happy to go deeper on any of these.]]></summary>
+        <author>
+            <name>Asad Abdullah Zafar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Amazon RDS Demystified: Why Amazon RDS is Still a Game-Changer?]]></title>
+        <id>https://dev.to/wasi_devops/amazon-rds-demystified-why-amazon-rds-is-still-a-game-changer-4lo9</id>
+        <link href="https://dev.to/wasi_devops/amazon-rds-demystified-why-amazon-rds-is-still-a-game-changer-4lo9"/>
+        <updated>2026-04-30T19:03:41.000Z</updated>
+        <summary type="html"><![CDATA[If you've ever installed a database on a VM, configured backups at 2 AM, worried about failover, or tuned Linux memory for MySQL - you already know the pain.
+This article breaks down what RDS is, why it matters, how it works internally, and the concepts every DevOps engineer, SRE, and backend developer must know.
+
+Running databases yourself means handling:
+OS installation & patching
+Database installation & upgrades
+Backup strategies
+Replication setup
+Failover planning
+Monitoring and alerting
+Security hardening
+RDS automates all of this with built-in best practices.
+When creating an RDS instance, you choose a database engine - the database technology powering your instance.
+
+Multi-AZ (Synchronous Replication)
+Primary DB writes data
+Standby DB in another AZ confirms the write
+Only then is the transaction complete
+Purpose: High availability and zero data loss
+
+Read Replicas (Asynchronous Replication)
+Purpose: Scale read traffic, reporting, analytics
+Choose standard RDS when you need maximum engine flexibility or specific commercial database features (Oracle, SQL Server).
+Choose Aurora when performance, scalability, and cost-efficiency matter most. Aurora offers higher throughput, automatic storage scaling in 10GB increments, and faster failover.
+
+For Oracle and SQL Server only, RDS Custom allows OS-level access and SSH to the underlying instance - useful for legacy or special compliance needs.]]></summary>
+        <author>
+            <name>Wasi Abdullah</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[When Profiling Turns Into a Reality Check]]></title>
+        <id>https://dev.to/chris_lee_5e58cce05f5d01d/when-profiling-turns-into-a-reality-check-51ie</id>
+        <link href="https://dev.to/chris_lee_5e58cce05f5d01d/when-profiling-turns-into-a-reality-check-51ie"/>
+        <updated>2026-04-30T19:00:29.000Z</updated>
+        <summary type="html"><![CDATA[Yesterday I finally deployed my micro‑service stack to production, only to see user reports of sudden latency spikes and error 429 flood. The fix didn’t come from a new library or a hot‑reload, it came from a simple “hand‑off” I had ignored while building the app. In development I ran a single instance on my laptop, so my database pool size, cache eviction policies, and HTTP client retries were set for perfect local performance. In a real, horizontally‑scalable environment these same hard‑coded values became bottlenecks: the connection pool throttled all workers, the in‑memory cache filled up and fell for garbage collection, and the retry‑logic turned idle network time into a cascading failure.  
+The hard lesson: always shoot for the cluster, not the laptop. Write tests that spin up multiple instances or simulate load, and profile the composite system, not just the component. Even a simple time.sleep in a request handler can expose a hidden race condition in a shared cache, and a single unbounded loop can pin up the event loop on a node‑pool. Adding a small “under‑the‑hood” instrument that reports pool usage, cache hit rates, and retry counts turned out to be the quickest way to catch the issue before ships crashed. In short, treat your staging environment as a living replica of production and let metrics surface the real-world constraints before you ship anything.]]></summary>
+        <author>
+            <name>Chris Lee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sentence Window Retrieval]]></title>
+        <id>https://dev.to/rushanksavant/sentence-window-retrieval-212d</id>
+        <link href="https://dev.to/rushanksavant/sentence-window-retrieval-212d"/>
+        <updated>2026-04-30T19:00:10.000Z</updated>
+        <summary type="html"><![CDATA[Sentence Window Retrieval is a technique designed to solve a classic RAG dilemma: "How do I give the LLM enough context without confusing it with irrelevant noise?"
+In standard RAG, you search for a chunk of text, and whatever you find is exactly what you send to the LLM.
+In Sentence Window Retrieval, you decouple the Search from the Synthesis:
+1. Search (The Needle): You break your document into tiny, highly specific units (usually just 1 or 2 sentences). You use these tiny units to find the exact "needle" in the haystack.
+2. Context (The Window): Once you find that specific sentence, you don't just send that one line. Instead, you "roll down the window" to capture the sentences immediately before and after it.
+Why do we do this?
+Precision: Small sentences are easier for vector models to …]]></summary>
+        <author>
+            <name>Rushank Savant</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Structure Authentication in .NET (JWT + Refresh Tokens)]]></title>
+        <id>https://dev.to/a95yman/how-i-structure-authentication-in-net-jwt-refresh-tokens-161a</id>
+        <link href="https://dev.to/a95yman/how-i-structure-authentication-in-net-jwt-refresh-tokens-161a"/>
+        <updated>2026-04-30T18:52:36.000Z</updated>
+        <summary type="html"><![CDATA[If you’ve built a few .NET APIs, you’ve probably done authentication more than once.
+JWT setup
+login and register endpoints
+protecting routes
+maybe adding roles
+It works, but every time I started a new project, I found myself repeating the same setup again.
+After doing this a few times, I decided to settle on a structure that I can reuse and understand without digging through tutorials.
+This is the approach I use now.
+I’m not trying to build a full identity system.
+I just want:
+a clean login and register flow
+JWT authentication that works
+refresh tokens so users don’t get logged out constantly
+a structure that doesn’t turn into a mess later The structure
+I keep things split into simple layers.
+Api
+Application
+Domain
+Infrastructure
+Shared
+Nothing fancy. Just enough separation so things don’…]]></summary>
+        <author>
+            <name>Ayman Atif</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DevOps Lab Update — Docker Deployment on Ubuntu]]></title>
+        <id>https://dev.to/gravox/devops-lab-update-docker-deployment-on-ubuntu-45lk</id>
+        <link href="https://dev.to/gravox/devops-lab-update-docker-deployment-on-ubuntu-45lk"/>
+        <updated>2026-04-30T18:52:25.000Z</updated>
+        <summary type="html"><![CDATA[This lab documents the successful installation and validation of Docker Engine within a Linux-based environment, targeting core competencies expected of a DevOps Engineer.
+Technical Milestones
+Provisioned and configured an Ubuntu-based system environment
+Deployed Docker Engine with systemd service management
+Validated container runtime and daemon operations
+Performed image acquisition and management via Docker Hub registry
+Executed a containerized workload ("hello-world") to verify runtime behavior
+Inspected container lifecycle, including initialization and termination states
+This lab establishes foundational experience in container runtime environments and image lifecycle management.
+Next Phase
+Building custom Docker images using Dockerfiles
+Running multi-container workloads and simulating deployment pipelines
+
+
+
+  
+  
+  devops #docker #linux #cloud #containers #aws #learninginpublic]]></summary>
+        <author>
+            <name>Gravox</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Frontend Engineers Should Care More About Infrastructure]]></title>
+        <id>https://dev.to/gavin_clive/frontend-engineers-should-care-more-about-infrastructure-id7</id>
+        <link href="https://dev.to/gavin_clive/frontend-engineers-should-care-more-about-infrastructure-id7"/>
+        <updated>2026-04-30T18:47:23.000Z</updated>
+        <summary type="html"><![CDATA[One 304 Not Modified is easy to ignore. A page full of them is latency.
+We migrated CDN providers that quarter.
+The new provider was meaningfully cheaper, and its edge coverage in Southeast Asia looked comparable. The migration itself went smoothly. Traffic moved over, error rates stayed normal, and the infra team signed it off.
+One thing had changed underneath us: the Cache-Control headers our old provider had been injecting at the edge did not carry over.
+Before that migration, I did not think about those headers much. Not because they were unimportant, but because they had already been decided below the application layer. The asset pipeline emitted files, the CDN served them, the browser cached them, and the page worked.
+The new provider was still serving our static images correctly. ET…]]></summary>
+        <author>
+            <name>Gavin Clive</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Zero-Downtime ECS EKS Migration: Orchestrating a 6-Team Production Cutover at Scale]]></title>
+        <id>https://dev.to/krishnakanth_eswaran_6000/zero-downtime-ecs-eks-migration-orchestrating-a-6-team-production-cutover-at-scale-1pe6</id>
+        <link href="https://dev.to/krishnakanth_eswaran_6000/zero-downtime-ecs-eks-migration-orchestrating-a-6-team-production-cutover-at-scale-1pe6"/>
+        <updated>2026-04-30T18:45:10.000Z</updated>
+        <summary type="html"><![CDATA[Task at hand: Migrating Live Healthcare Services Without Dropping a Single Request
+When you're processing healthcare revenue cycle transactions worth millions of dollars daily, downtime isn't just inconvenient—it's financially catastrophic and potentially impacts patient care. This is the story of how we migrated 15+ microservices from AWS ECS to EKS across 6 engineering teams with zero downtime, zero rollbacks, and zero production incidents.
+The stakes: AR Finance and Posting Modernisation services handling real-time remittance processing for U.S. healthcare providers.
+The constraint: Absolute zero tolerance for downtime or data loss.
+The scope: Domain-wide cutover coordinating Rules Core, Payment Processing, Reconciliation, Analytics, Data Pipeline, and Platform teams.
+Our ECS-based arch…]]></summary>
+        <author>
+            <name>krishnakanth eswaran</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I reduced AI codebase context from 100K to 5K tokens using a graph-based RAG]]></title>
+        <id>https://dev.to/amariahak/how-i-reduced-ai-codebase-context-from-100k-to-5k-tokens-using-a-graph-based-rag-4dbd</id>
+        <link href="https://dev.to/amariahak/how-i-reduced-ai-codebase-context-from-100k-to-5k-tokens-using-a-graph-based-rag-4dbd"/>
+        <updated>2026-04-30T18:43:26.000Z</updated>
+        <summary type="html"><![CDATA[Most AI coding tools lie to you about context.
+They say "I understand your codebase." What they actually do is dump as many files as possible into the context window and hope the model figures it out. That works on a 3-file project. It falls apart on anything real.
+Here's the problem I kept hitting: a medium-sized production codebase hits ~100K tokens when you try to feed it to an LLM. That's expensive, slow, and surprisingly lossy — models start hallucinating relationships between files that don't exist, missing the ones that do.
+When you open a project in Atlarix, it runs a parser over every file using Tree-sitter AST. Instead of storing raw text, it extracts:
+Every function, class, interface, and type
+Import/export relationships between files
+Call relationships between functions
+File-le…]]></summary>
+        <author>
+            <name>Amariah Kamau</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Exclusive eBook: Inside the stealthy startup that pitched brainless human clones]]></title>
+        <id>https://www.technologyreview.com/?p=1136684</id>
+        <link href="https://www.technologyreview.com/2026/04/30/1136684/exclusive-ebook-inside-the-stealthy-startup-that-pitched-brainless-human-clones/"/>
+        <updated>2026-04-30T18:42:50.000Z</updated>
+        <summary type="html"><![CDATA[The ultimate plan to live forever is a brand new body. This subscriber-only eBook explores R3 Bio, a small startup that has pitched a startling and ethically charged vision for “brainless clones” to serve the role of backup human bodies. by Antonio Regalado March 20, 2026 Related Stories: Access all subscriber-only eBooks:]]></summary>
+        <author>
+            <name>MIT Technology Review</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How WordPress Orchestrates Thousands of Plugins: The Magic of Hooks ?]]></title>
+        <id>https://dev.to/engrshishir/how-wordpress-orchestrates-thousands-of-plugins-the-magic-of-hooks--4klc</id>
+        <link href="https://dev.to/engrshishir/how-wordpress-orchestrates-thousands-of-plugins-the-magic-of-hooks--4klc"/>
+        <updated>2026-04-30T18:38:38.000Z</updated>
+        <summary type="html"><![CDATA[WordPress's greatest strength is its plugin ecosystem. But have you ever wondered how it manages thousands of developers writing code in completely different styles—some using old-school procedural code, others using modern Object-Oriented Programming (OOP)—without the whole system crashing down?
+The secret lies in the synergy between PHP Callables and the WordPress Hook System.
+The Global 'Address Book': $wp_filter
+Think of WordPress as having a massive global spreadsheet or "Address Book" called $wp_filter. When you install a plugin, WordPress doesn't actively go out and "search" for the plugin's features. Instead, the plugin introduces itself.
+By using functions like add_action() or add_filter(), a plugin writes its own name and "phone number" (the function name) into that specific row of the spreadsheet.
+The Gatekeeper: is_callable()
+
+
+The Universal Adapter: call_user_func_array()
+
+
+
+Whether a developer provides:
+A simple function name (String)
+A method inside a class (Array)
+A modern Anonymous Function or Namespace
+WordPress doesn't need to "translate" the code. It simply hands the registration over to the PHP engine and says, "You know how to run this; go ahead."
+Decoupling: The "Radio Station" Logic
+The entire system operates like a radio station.
+WordPress is the broadcaster, sending out signals on specific frequencies (Hooks).
+Plugins are the radio sets tuned into those frequencies.
+The broadcaster (WordPress) doesn't care who is listening or what device they are using. This Decoupling—where the core and the plugins don't depend on each other's internal structure—is why a plugin written years ago can still function perfectly with a modern theme today.
+The Result: A Seamless Connection
+This elegant "handshake" is exactly what makes WordPress the most flexible CMS on the planet.]]></summary>
+        <author>
+            <name>Shishir Bhuiyan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Where to store slugs]]></title>
+        <id>https://dev.to/xwero/where-to-store-slugs-26lp</id>
+        <link href="https://dev.to/xwero/where-to-store-slugs-26lp"/>
+        <updated>2026-04-30T18:38:14.000Z</updated>
+        <summary type="html"><![CDATA[A few days ago I saw a post about a slug library. And they used specific ORM models, post and author, to store the slugs.
+As I mentioned a slug is a part of the routing. In the case of a post that can be where-to-store-slugs. This can be the full path, /where-to-store-slugs, but it also can be a part of the path, /posts/where-to-store-slugs. 
+On a mostly static website you can get away with putting the slugs in the routing configuration.
+The second fastest thing of your website is the database. So that is why the library, and others like it, use that as the storage solution. 
+Because a slug can be the full path, most libraries have an option to check the uniqueness of slug. You don't want duplicate urls. 
+Having the slug as a part of the path is a fix, so now you have post/mike and author/mike. Now they are unique in their respective path, but you needed to change the routing to fix a uniqueness problem in the database. This is too tight of a coupling to not cause problems in the future. 
+A more extreme example is /mike/mike. It could be the authors page as the parent to give context to the post. But it could also be the post that is the parent to give context to the author.
+As I mentioned before an environment specific configuration for dynamic urls is an option.
+When you want to store the slugs in the database use a separate table. That table contains the urls with the slugs, their matching controllers and extra metadata if needed. 
+The first two solutions make it easier to check the uniqueness because they centralise the slugs.
+While a library that adds a slug to an ORM model might seem like a quick solution. I think most of the times they are a solution with a short lifespan.
+The best way of thinking about slugs is to see where they fit in the website routing strategy. 
+To be clear this is not a rant against one library in particular, I seen multiple libraries in different languages that have the same pattern. 
+Using a slug might seems an insignificant detail, but there is always more than meets the eye.]]></summary>
+        <author>
+            <name>david duymelinck</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Full-Text Search with DuckDB]]></title>
+        <id>https://peterdohertys.website/blog-posts/full-text-search-w-duckdb.html</id>
+        <link href="https://peterdohertys.website/blog-posts/full-text-search-w-duckdb.html"/>
+        <updated>2026-04-30T18:14:18.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Recovering files from beyond the grave using PhotoRec]]></title>
+        <id>https://lost-number.bearblog.dev/recovering-files-from-beyond-the-grave-using-photorec/</id>
+        <link href="https://lost-number.bearblog.dev/recovering-files-from-beyond-the-grave-using-photorec/"/>
+        <updated>2026-04-30T17:42:11.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a Game Boy emulator in F#]]></title>
+        <id>https://nickkossolapov.github.io/fame-boy/building-a-game-boy-emulator-in-fsharp/</id>
+        <link href="https://nickkossolapov.github.io/fame-boy/building-a-game-boy-emulator-in-fsharp/"/>
+        <updated>2026-04-30T17:14:21.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[LeetCode Solution: 74. Search a 2D Matrix]]></title>
         <id>https://dev.to/vansh_aggarwal_5fb2fff667/leetcode-solution-74-search-a-2d-matrix-2p3f</id>
@@ -145,6 +473,16 @@ The problem is that ad blockers treat its data plane endpoint the same way they 
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Kubereboot/Kured: Kubernetes Reboot Daemon]]></title>
+        <id>https://github.com/kubereboot/kured</id>
+        <link href="https://github.com/kubereboot/kured"/>
+        <updated>2026-04-30T16:53:44.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Most products are hard to build for a simple reason: the problem was never clearly defined]]></title>
         <id>https://dev.to/yogya_goyal/most-products-are-hard-to-build-for-a-simple-reason-the-problem-was-never-clearly-defined-51ik</id>
         <link href="https://dev.to/yogya_goyal/most-products-are-hard-to-build-for-a-simple-reason-the-problem-was-never-clearly-defined-51ik"/>
@@ -245,6 +583,16 @@ At upload — or only when things break?]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Show HN: TRiP – a complete transformer engine in C built from scratch just by me]]></title>
+        <id>https://github.com/carlovalenti/TRiP</id>
+        <link href="https://github.com/carlovalenti/TRiP"/>
+        <updated>2026-04-30T16:48:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Can your AI model smell bullsh1t? BullshitBench has the receipts.]]></title>
         <id>https://dev.to/thegatewayguy/can-your-ai-model-smell-bullsh1t-bullshitbench-has-the-receipts-44ke</id>
         <link href="https://dev.to/thegatewayguy/can-your-ai-model-smell-bullsh1t-bullshitbench-has-the-receipts-44ke"/>
@@ -256,6 +604,16 @@ The v2 leaderboard now covers 152 model/reasoning configurations. The results ar
 The green rate = % of questions where the …]]></summary>
         <author>
             <name>Andrew Kew</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CopyFail Was Not Disclosed to Distros]]></title>
+        <id>https://www.openwall.com/lists/oss-security/2026/04/30/10</id>
+        <link href="https://www.openwall.com/lists/oss-security/2026/04/30/10"/>
+        <updated>2026-04-30T16:43:47.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -603,6 +961,16 @@ The headline number for me is not resolution. It is ite…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[How to Build a Multi-Agent AI System with LangGraph, MCP, and A2A [Full Book]]]></title>
+        <id>69f36894909e64ad07e3fc7f</id>
+        <link href="https://www.freecodecamp.org/news/how-to-build-a-multi-agent-ai-system-with-langgraph-mcp-and-a2a-full-book/"/>
+        <updated>2026-04-30T14:35:00.000Z</updated>
+        <summary type="html"><![CDATA[Building a single AI agent that answers questions or runs searches is a solved problem. A handful of tutorials and a few hours of work will get you there. What most tutorials skip is the engineering l]]></summary>
+        <author>
+            <name>Sandeep Bharadwaj Mannapur</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[The More Young People Use AI, the More They Hate It]]></title>
         <id>https://www.theverge.com/ai-artificial-intelligence/920401/gen-z-ai</id>
         <link href="https://www.theverge.com/ai-artificial-intelligence/920401/gen-z-ai"/>
@@ -610,6 +978,16 @@ The headline number for me is not resolution. It is ite…]]></summary>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Land Your First Cloud or DevOps Role: What Hiring Managers Actually Look For]]></title>
+        <id>69f3683c909e64ad07e3b0fc</id>
+        <link href="https://www.freecodecamp.org/news/how-to-land-your-first-cloud-or-devops-role-what-hiring-managers-actually-look-for/"/>
+        <updated>2026-04-30T14:33:32.000Z</updated>
+        <summary type="html"><![CDATA[You've completed three AWS courses. You have notes from a dozen Docker tutorials. You know what Kubernetes is, what CI/CD means, and you can explain Infrastructure as Code without hesitating. And yet]]></summary>
+        <author>
+            <name>Tolani Akintayo</name>
         </author>
     </entry>
     <entry>
@@ -4944,6 +5322,16 @@ The result is a specific kind of organizational debt that's invisible until it i
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[10Gb/s Ethernet: what I did to get it working in my home]]></title>
+        <id>https://www.gilesthomas.com/2026/04/10g-ethernet-what-i-did</id>
+        <link href="https://www.gilesthomas.com/2026/04/10g-ethernet-what-i-did"/>
+        <updated>2026-04-29T13:15:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Improving ICU handovers by learning from Scuderia Ferrari F1 team]]></title>
         <id>https://healthmanagement.org/c/icu/IssueArticle/improving-handovers-by-learning-from-scuderia-ferrari</id>
         <link href="https://healthmanagement.org/c/icu/IssueArticle/improving-handovers-by-learning-from-scuderia-ferrari"/>
@@ -8047,6 +8435,16 @@ The moment looks smooth because the friction happened ear…]]></summary>
         <id>https://github.com/BookStackApp/BookStack/issues/4551</id>
         <link href="https://github.com/BookStackApp/BookStack/issues/4551"/>
         <updated>2026-04-28T17:29:11.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Semiconductors Were Made in America]]></title>
+        <id>https://www.siliconimist.com/p/semiconductors-made-in-america</id>
+        <link href="https://www.siliconimist.com/p/semiconductors-made-in-america"/>
+        <updated>2026-04-28T17:26:58.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -67889,220 +68287,6 @@ Get your hands dirty - apply the material you have learned in a real world situa
 Speak up more often, voice your thoughts even if they come out messy.]]></summary>
         <author>
             <name>Thuc Nguyen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin is testing a level that capped its rally in January, CryptoQuant says]]></title>
-        <id>e18d2820-f7f2-45ce-a877-f7f52787c500</id>
-        <link href="https://www.coindesk.com/markets/2026/04/16/bitcoin-is-testing-a-level-that-capped-its-rally-in-january"/>
-        <updated>2026-04-16T07:07:55.000Z</updated>
-        <summary type="html"><![CDATA[Macro-driven ETF inflows have lifted prices, but CryptoQuant data signals large holders are positioning to sell near a key breakeven zone]]></summary>
-        <author>
-            <name>Sam Reynolds</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[RamAIn (YC W26) Is Hiring]]></title>
-        <id>https://www.ycombinator.com/companies/ramain/jobs/bwtwd9W-founding-gtm-operations-lead</id>
-        <link href="https://www.ycombinator.com/companies/ramain/jobs/bwtwd9W-founding-gtm-operations-lead"/>
-        <updated>2026-04-16T07:01:29.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Google Puts Gemini On macOS, Windows Devices With New Native Apps]]></title>
-        <id>https://www.lowyat.net/?p=389913</id>
-        <link href="https://www.lowyat.net/2026/389913/google-gemini-macos-windows-apps/"/>
-        <updated>2026-04-16T07:00:50.000Z</updated>
-        <summary type="html"><![CDATA[Google has been pretty busy this week. Aside from bringing Personal Intelligence to our shores, the company has announced a dedicated Gemini app for macOS. This app, which was coded in Swift, offers a native desktop experience that’s easily accessible without needing to switch tabs. Users can launch the app using a keyboard shortcut. Pressing […]
-The post Google Puts Gemini On macOS, Windows Devices With New Native Apps appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Leonardo, Borgia, and Machiavelli: A Fateful Collusion]]></title>
-        <id>https://www.historytoday.com/archive/leonardo-borgia-and-machiavelli-fateful-collusion</id>
-        <link href="https://www.historytoday.com/archive/leonardo-borgia-and-machiavelli-fateful-collusion"/>
-        <updated>2026-04-16T06:38:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Report: Microsoft To Refresh Surface Pro, Laptop Lines With New Chips, Better Display]]></title>
-        <id>https://www.lowyat.net/?p=389904</id>
-        <link href="https://www.lowyat.net/2026/389904/report-microsoft-to-refresh-surface-pro-laptop-lines/"/>
-        <updated>2026-04-16T06:23:47.000Z</updated>
-        <summary type="html"><![CDATA[Microsoft is reportedly preparing to refresh its Surface Pro and Surface Laptop lineup with new chips, improved displays, and a handful of quality-of-life upgrades, according to a report by Windows Central. The company is allegedly planning a two-stage rollout for the devices, with Intel-powered models arriving first, followed by Snapdragon variants at a later date. […]
-The post Report: Microsoft To Refresh Surface Pro, Laptop Lines With New Chips, Better Display appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Kiran Ganesan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Zero-Copy Pages in Rust: Or How I Learned to Stop Worrying and Love Lifetimes]]></title>
-        <id>https://redixhumayun.github.io/databases/2026/04/14/zero-copy-pages-in-rust.html</id>
-        <link href="https://redixhumayun.github.io/databases/2026/04/14/zero-copy-pages-in-rust.html"/>
-        <updated>2026-04-16T06:11:40.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OPPO Details New AI Features For Find X9 Ultra; Pre-Orders Now Open]]></title>
-        <id>https://www.lowyat.net/?p=389888</id>
-        <link href="https://www.lowyat.net/2026/389888/oppo-find-x9-ultra-ai-features-pre-orders-malaysia/"/>
-        <updated>2026-04-16T06:06:02.000Z</updated>
-        <summary type="html"><![CDATA[OPPO is preparing to introduce the Find X9 Ultra as its latest flagship smartphone, with a global launch arriving soon. While the device is expected to push boundaries in mobile photography, the company has revealed that it will also come with a host of new AI features via ColorOS 16, designed to enhance everyday usability. […]
-The post OPPO Details New AI Features For Find X9 Ultra; Pre-Orders Now Open appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Steam Games May Get 30-Day Price History]]></title>
-        <id>https://www.lowyat.net/?p=389886</id>
-        <link href="https://www.lowyat.net/2026/389886/steam-games-30-day-price-history/"/>
-        <updated>2026-04-16T05:53:39.000Z</updated>
-        <summary type="html"><![CDATA[While Valve has confirmed that it is testing some new additions in beta, other possible upcoming features are still being discovered via leaks. One example of the former is an FPS estimator for games based on your rig. An example of the latter has recently popped up, and it looks to be a 30-day price […]
-The post Steam Games May Get 30-Day Price History appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin's quantum debate splits as Adam Back pushes optional upgrades over forced freeze]]></title>
-        <id>3a4a680c-f6b0-4732-b7ff-8caa61c24aa3</id>
-        <link href="https://www.coindesk.com/tech/2026/04/16/bitcoin-s-quantum-debate-splits-as-adam-back-pushes-optional-upgrades-over-forced-freeze"/>
-        <updated>2026-04-16T05:51:15.000Z</updated>
-        <summary type="html"><![CDATA[The Blockstream CEO told Paris Blockchain Week that Bitcoin should build quantum-resistant upgrades now, a day after Jameson Lopp proposed freezing vulnerable coins instead.]]></summary>
-        <author>
-            <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin rally is taking a breather near $75,000. Onchain data shows why]]></title>
-        <id>2ae711e2-6a45-4db8-bfa4-3513279c95aa</id>
-        <link href="https://www.coindesk.com/markets/2026/04/16/bitcoin-rally-is-taking-a-breather-near-usd75-000-onchain-data-shows-why"/>
-        <updated>2026-04-16T05:44:21.000Z</updated>
-        <summary type="html"><![CDATA[BTC is up 10% for the month, but the bull run has stalled near $75,000 in the past 48 hours. Here's why.]]></summary>
-        <author>
-            <name>Omkar Godbole</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ben Lerner's Big Feelings]]></title>
-        <id>https://www.vulture.com/article/ben-lerner-transcription-interview.html</id>
-        <link href="https://www.vulture.com/article/ben-lerner-transcription-interview.html"/>
-        <updated>2026-04-16T05:43:09.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Germany suspends military approval for long stays abroad for men under 45]]></title>
-        <id>https://www.bbc.com/news/articles/ckgx103wkl1o</id>
-        <link href="https://www.bbc.com/news/articles/ckgx103wkl1o"/>
-        <updated>2026-04-16T05:39:50.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Dogecoin jumps 4.5% to nearly 10-cents, outperforming bitcoin and ether]]></title>
-        <id>db54270c-ece8-402c-a4c0-3953bb062fe4</id>
-        <link href="https://www.coindesk.com/markets/2026/04/16/dogecoin-jumps-4-5-to-nearly-10-cents-outperforming-bitcoin-and-ether"/>
-        <updated>2026-04-16T05:32:40.000Z</updated>
-        <summary type="html"><![CDATA[Breakout backed by heavy participation and late-session buying, though weak on-chain activity raises questions over durability.]]></summary>
-        <author>
-            <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How would you rate my portfolio out of 10 from a UX/UI and performance perspective? The good, the bad, and the ugly - tell me in the comments.]]></title>
-        <id>https://dev.to/singhamandeep007/how-would-you-rate-my-portfolio-out-of-10-from-a-uxui-and-performance-perspective-the-good-the-1gc8</id>
-        <link href="https://dev.to/singhamandeep007/how-would-you-rate-my-portfolio-out-of-10-from-a-uxui-and-performance-perspective-the-good-the-1gc8"/>
-        <updated>2026-04-16T05:26:05.000Z</updated>
-        <summary type="html"><![CDATA[How I Built My Portfolio Website with React + Vite: Themes, Particles, GitHub Visualizations, and a Dev.to-Powered Posts Page
-
-
-  
-
-              
-              
-Amandeep Singh
-                    
-                  
-
-                
-Apr 5
-        
-#react
-            #typescript
-            #portfolio
-            #webdev
-        
-6 reactions
-            
-Add Comment
-            
-        
-        
-          
-            5 min read]]></summary>
-        <author>
-            <name>Amandeep Singh</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CSS in a Team: How I Stopped Explaining Rules and Started Enforcing Them]]></title>
-        <id>https://dev.to/ouvarov/css-in-a-team-how-i-stopped-explaining-rules-and-started-enforcing-them-21eg</id>
-        <link href="https://dev.to/ouvarov/css-in-a-team-how-i-stopped-explaining-rules-and-started-enforcing-them-21eg"/>
-        <updated>2026-04-16T05:26:02.000Z</updated>
-        <summary type="html"><![CDATA[I once led a team of 4 markup developers. First week, I opened a PR and found this:
-// developer A
-.card {
-  z-index: 999;
-  color: #fff;
-  padding: 13px;
-  display: flex;
-  align-items: center;
-}
-
-// developer B
-.modal {
-  z-index: 9;
-  color: var(--color-white);
-  padding: 15px;
-  align-items: center;
-  display: flex;
-}
-
-Same project. Same component type. Completely different conventions. 13px vs 15px — nobody knows why. Raw hex vs custom property — nobody agreed. z-index: 9 vs z-index: 999 — nobody coordinated.
-We had a kickoff meeting. We wrote down conventions. Two months later, everyone had forgotten half of them. A new team member joined — had no idea they existed.
-That's when I stopped trying to get people to remember rules. I started making the rules impossible to forget.
-A conven…]]></summary>
-        <author>
-            <name>Olexandr Uvarov</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Unforgettable]]></title>
-        <id>https://dev.to/yadin/unforgettable-2ibj</id>
-        <link href="https://dev.to/yadin/unforgettable-2ibj"/>
-        <updated>2026-04-16T05:23:50.000Z</updated>
-        <summary type="html"><![CDATA[“No man ever steps in the same river twice, for it is not the same river and he is not the same man.”
-–Heraclitus, 5th century BCE
-Suppose there is some online information about you that you’d prefer to keep private. It could be something you worry others would find unprofessional, something you consider embarrassing, or something that is inaccurate. For any reason, you want that information not to show up when people look up your name. Privacy law recognizes your right to have that information erased. In fact, one of the core principles of modern privacy law is control over personal information, which includes the right to erasure, also known as the right to be forgotten. It is an intriguing privacy right that has developed over the past two decades and is now at risk of becoming obsolete…]]></summary>
-        <author>
-            <name>Dr. Gilad Yadin</name>
         </author>
     </entry>
 </feed>
