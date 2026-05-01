@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-05-01 datetime="2026-05-01T11:46:32.000Z">2026-05-01</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-05-01 datetime="2026-05-01T11:46:32.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-05-01 datetime="2026-05-01T13:32:08.000Z">2026-05-01</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-05-01 datetime="2026-05-01T13:32:08.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,469 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/hiyoyok/how-many-log-lines-should-you-send-to-gemini-the-context-window-problem-ngd"
+                        open
+                      >
+                        <summary class="article-expander__title">How Many Log Lines Should You Send to Gemini? The Context Window Problem.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/hiyoyok/how-many-log-lines-should-you-send-to-gemini-the-context-window-problem-ngd">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fujcsw8trmppxutpndusl.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>All tests run on an 8-year-old MacBook Air.
+When you send logcat lines to Gemini for diagnosis, how many lines should you include?
+Too few: the model lacks context, gives a generic answer.
+Here&#x27;s what I found after testing different window sizes in HiyokoLogcat.
+First attempt: grab the last 500 lines and send them all.
+Problems:
+Gemini 1.5 Flash has a large context window, but 500 verbose logcat lines is a lot of tokens
+Response latency increases noticeably
+The model sometimes focuses on unrelated noise rather than the actual error
+After testing, ±50 lines around the target error hits the sweet spot:
+pub fn get_diagnosis_context(
+    buffer: &amp;LogRingBuffer,
+    error_idx: usize,
+) -&gt; String {
+    let window &#x3D; 50;
+    let lines &#x3D; buffer.context_around(error_idx, window);
+
+    lines
+        .iter()
+        .map(|l| format!(&quot;[{}] {}/{}: {}&quot;,
+            l.timestamp, l.level, l.tag, l.message))
+        .collect::&gt;()
+        .join(&quot;\n&quot;)
+}
+
+50 lines before captures the sequence of events leading to the crash.
+100 lines total. Typically 3,000–6,000 tokens. Fast response, relevant diagnosis.
+Some crashes only make sense with more context — memory leaks that build up over minutes, threading issues with long setup chains.
+For these, I added a &quot;deep diagnosis&quot; mode that sends ±200 lines:
+pub enum DiagnosisMode {
+    Quick,  // ±50 lines
+    Deep,   // ±200 lines
+}
+
+Quick is the default. Deep is one extra click. Most users never need it.
+Raw logcat output has a lot of repetitive structure. Reformatting before sending reduces token count without losing information:
+// Raw (verbose)
+04-20 10:23:45.123  1234  5678 E AndroidRuntime: FATAL EXCEPTION: main
+
+// Reformatted (compact)
+[10:23:45] E/AndroidRuntime: FATAL EXCEPTION: main
+
+Same information, fewer tokens. Over 100 lines this adds up.
+±50 lines, reformatted, PII-masked → Gemini gives a specific, actionable diagnosis in 2–3 seconds on the free tier.
+That&#x27;s the configuration I shipped with.
+HiyokoLogcat is free and open source → github.com/hiyoyok/HiyokoLogcat
+@hiyoyok</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/utkuhanakar/building-a-local-ai-workstation-orchestrating-claude-mcp-cursor-and-github-for-vibe-coding-10i8"
+                        open
+                      >
+                        <summary class="article-expander__title">Building a Local AI Workstation: Orchestrating Claude MCP, Cursor, and GitHub for &quot;Vibe Coding&quot;</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/utkuhanakar/building-a-local-ai-workstation-orchestrating-claude-mcp-cursor-and-github-for-vibe-coding-10i8">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffgr7pdjq7i8j8e9nzwja.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The days of being just a &quot;code monkey&quot; are ending. If you are still memorizing boilerplate code and manually typing out standard CRUD operations, you are competing against machines that can do it in seconds.
+Recently, I realized that my role as a developer isn&#x27;t to write every single line of code anymore. My role is to be the System Architect. I need to design the logic, structure the data, and manage the execution. The actual typing? I leave that to the AI. This paradigm shift is often playfully called &quot;vibe coding,&quot; but underneath the meme, it is a highly sophisticated approach to software engineering.
+To fully embrace this, I decided to stop relying solely on web-based chatbots and built a complete, localized AI Workstation. Here is how I integrated Cursor, Claude 3.5 Sonnet, Model Cont…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/itxshakil/secure-file-uploads-seven-checks-and-why-each-one-exists-222n"
+                        open
+                      >
+                        <summary class="article-expander__title">Secure File Uploads: Seven Checks and Why Each One Exists</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/itxshakil/secure-file-uploads-seven-checks-and-why-each-one-exists-222n">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fe8884i4rtyixwta6n1s4.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Part 3 of 4 — Laravel Architecture Patterns for Production
+~9 min read · Security · Middleware · File handling
+A file upload is the moment you hand control to an untrusted user.
+Everything else in your application — form inputs, query parameters, JSON — is text. You validate it, sanitize it, store it in a database. A file upload is arbitrary binary data from a source you cannot verify, about to be written to your filesystem. The surface area is different. The failure modes are different. The consequences are different.
+Most tutorials cover the happy path: accept the file, store it, return a URL. The problem is never the happy path.
+Rename a PHP file to image.jpg. Upload it. Many Laravel applications accept it — because getClientOriginalExtension() returns jpg and getClientMimeType() return…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;14
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/adioof/14-years-at-one-company-broke-a-senior-devs-career-loyalty-is-a-scam-4l2d"
+                        open
+                      >
+                        <summary class="article-expander__title">14 years at one company broke a senior dev&#x27;s career. Loyalty is a scam.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/adioof/14-years-at-one-company-broke-a-senior-devs-career-loyalty-is-a-scam-4l2d">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Flitter.catbox.moe%2F3ok945.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>A senior frontend dev spent 14 years at one company, got laid off, and discovered they couldn&#x27;t pass a modern interview. That&#x27;s not a cautionary tale. That&#x27;s the system working as designed.
+I keep thinking about this story. It surfaced in a developer community known for strict anti-venting rules, and it still resonated hard. That tells you something about how many people saw themselves in it.
+Fourteen years is a long time. Long enough to become the person everyone asks about that one legacy system. Long enough to stop learning things that scare you.
+The dev reported being completely unprepared for today&#x27;s job market. Not because they were bad at their job. Because their job had quietly stopped demanding growth years ago.
+People never talk about what being comfortable costs you: the company…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/edriso/how-to-reset-your-mysql-root-password-on-ubuntu-when-nothing-works-64"
+                        open
+                      >
+                        <summary class="article-expander__title">How to Reset Your MySQL Root Password on Ubuntu (When Nothing Works)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/edriso/how-to-reset-your-mysql-root-password-on-ubuntu-when-nothing-works-64">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl8ccxo08w11ko1osxnkn.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I was working on a Laravel task and got this error in my logs:
+SQLSTATE[HY000] [1045] Access denied for user &#x27;root&#x27;@&#x27;localhost&#x27; (using password: YES)
+
+My .env file had DB_PASSWORD&#x3D;password, but MySQL was rejecting it. I tried the usual tricks and ran into a wall. Here is what was happening, what fixed it, and a few small things that confused me along the way. If you are a junior dev and any of this sounds familiar, this post is for you.
+Before anything wild, open your .env file and check these lines:
+DB_CONNECTION&#x3D;mysql
+DB_HOST&#x3D;127.0.0.1
+DB_PORT&#x3D;3306
+DB_DATABASE&#x3D;my_app
+DB_USERNAME&#x3D;root
+DB_PASSWORD&#x3D;password
+
+If your password is blank or wrong, just fix it and run:
+php artisan config:clear
+
+Done. If the password really is what you think it is and MySQL still rejects it, keep reading.
+On a lo…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/sohanaakbar7/how-to-add-dark-mode-to-any-website-even-if-youre-not-a-css-wizard-iim"
+                        open
+                      >
+                        <summary class="article-expander__title">How to Add Dark Mode to Any Website (Even If You’re Not a CSS Wizard)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sohanaakbar7/how-to-add-dark-mode-to-any-website-even-if-youre-not-a-css-wizard-iim">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxjgmuo0apj4680ydpxcl.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Introduction
+But here’s the good news: You don’t need to redesign your entire website. With a few smart CSS rules and a sprinkle of JavaScript, you can add dark mode to any website in under 30 minutes.
+In this article, I’ll show you three methods—from quick-and-dirty to fully professional.
+Method 1: The “Browser Native” Approach (Easiest)
+Step 1: Add Dark CSS Variables
+/* Dark mode automatic */
+@media (prefers-color-scheme: dark) {
+body {
+Method 2: Manual Toggle with JavaScript (Most Flexible)
+Step 1: HTML Toggle Button
+.dark-mode {
+body {
+// Check localStorage or system preference
+toggle.addEventListener(&#x27;click&#x27;, () &#x3D;&gt; {
+Method 3: For Legacy Websites (Overriding Inline Styles)
+css
+Warning: Images and videos will also invert. You’ll need to un-invert them:
+css
+Pro Tips for a High-Quality Dark Mode
+Reduce shadows – Dark mode looks cleaner with less shadow depth.
+Test all interactive elements – Buttons, links, and inputs must remain accessible.
+Toggle system preference + manual override – Best of both worlds:
+javascript
+Open your CSS file.
+Define CSS variables for colors.
+Add the .dark-mode class overrides.
+Insert the JavaScript above.
+Add a floating button with position: fixed.
+That’s it. Your blog now has dark mode.
+Conclusion
+Whether you manage a personal blog, a corporate site, or a web app, these three methods work everywhere.
+Your users will thank you—especially those coding at 2 AM.
+Ready to go dark?
+Let me know if you’d like a ready-to-copy HTML/CSS/JS template for this.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/ariscandra/teks-pegangan-44e"
+                        open
+                      >
+                        <summary class="article-expander__title">Teks Pegangan</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ariscandra/teks-pegangan-44e">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fj1aqjytpzeht1ro4n88g.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Teks Pegangan Presentasi - Radar Pramuka (Audit Final)
+
+
+Nama Kelompok: Radar Pramuka
+
+Durasi target: 10 menit
+
+Tema: Pengujian Keamanan Jaringan pada Web Dummy DesignNet Studio
+
+
+
+Waktu
+Durasi
+Pembicara
+Slide
+Fokus
+
+
+
+
+00:00-00:50
+50 detik
+Dimas
+1-3
+Pembuka, tujuan, alur
+
+
+00:50-02:30
+1:40
+Aris
+4-5
+Latar belakang, tools
+
+
+02:30-03:40
+1:10
+Ariel
+6-7
+Pengantar hasil, reconnaissance &amp; scanning
+
+
+03:40-04:50
+1:10
+Aripin
+8
+Web dummy &amp; analisis trafik
+
+
+04:50-06:00
+1:10
+Ariel
+9
+Eksploitasi dasar (reverse/bind shell)
+
+
+06:00-07:30
+1:30
+Aripin
+10
+Validasi dengan Metasploit
+
+
+07:30-09:30
+2:00
+Dimas
+11
+Analisis pertahanan sistem
+
+
+09:30-10:00
+30 detik
+Dimas
+12-13
+Penutup dan Q&amp;A
+
+
+
+Catatan proporsi:
+Urutan sudah mengikuti deck: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 7 -&gt; 8 -&gt; 9 -&gt; 10 -&gt; 11 -&gt; 12 -&gt; 13.
+Pemb…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/jonoherrington/we-blamed-stack-overflow-for-a-decade-now-its-ai-472b"
+                        open
+                      >
+                        <summary class="article-expander__title">We Blamed Stack Overflow for a Decade. Now It&#x27;s AI.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/jonoherrington/we-blamed-stack-overflow-for-a-decade-now-its-ai-472b">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fwww.jonoherrington.com%2Fimages%2Fposts%2Fblaming-ai-stackoverflow.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Twenty-three years of writing code teaches you something about the stories we tell ourselves when things break.
+You&#x27;ve seen it ... The production incident that wakes everyone up at 3 AM. The cryptic error that nobody can explain. The Slack channel lighting up with alerts and confusion. And then, like clockwork, the explanation surfaces: &quot;I got this from Stack Overflow.&quot;
+That phrase carried weight. It was supposed to be absolution. The code worked somewhere else ... on the internet, in a different context, for a different problem. How was anyone supposed to know it wouldn&#x27;t work here? Copy without reading. Skip the context. Ship it. When it breaks, blame the source.
+I&#x27;ve watched this play out for over two decades. Junior developers ... or honestly, anyone who didn&#x27;t fully understand an issu…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;10
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/rabata_io/we-benchmarked-10-s3-providers-heres-what-the-numbers-actually-show-3025"
+                        open
+                      >
+                        <summary class="article-expander__title">We benchmarked 10+ S3 providers — here&#x27;s what the numbers actually show</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/rabata_io/we-benchmarked-10-s3-providers-heres-what-the-numbers-actually-show-3025">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkz17gtgd3xlra7vx5fgn.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>With so many S3-compatible providers on the market, it can be difficult to understand which one truly fits your workload.
+To keep things objective, we used MinIO warp v1.0.7, a widely adopted open-source benchmarking tool. Tests included upload, download, mixed workloads, small object throughput, and large object handling. All benchmarks were run under identical conditions on a Debian 13 VM with 16 GB RAM, located in US-East-1, using 8 concurrent threads and consistent object sizes.
+Our methodology is fully reproducible — every parameter and setup detail is publicly available. You can find the complete benchmark methodology and replication guide with step-by-step instructions to run your own tests. All pricing information reflects rates publicly available as of October 1, 2025.
+Here&#x27;s the summary:
+
+Mixed operations (simultaneous reads, writes, metadata) is the most realistic measure of real-world performance — and results vary wildly
+Cloudflare R2 has zero egress fees but came in last on mixed ops (44 Mbit/s) and small objects (42 obj/s)
+Hetzner&#x27;s numbers look low — but that&#x27;s because we tested from US-East-1 and they&#x27;re EU-only, so transatlantic latency skews the results
+Backblaze B2 dominates on downloads but showed timeouts during large-object tests
+For full per-provider breakdowns and detailed analysis: https://rabata.io/s3-comparison</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/sourcier/breadcrumb-navigation-with-schemaorg-markup-5gc8"
+                        open
+                      >
+                        <summary class="article-expander__title">Breadcrumb navigation with Schema.org markup</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sourcier/breadcrumb-navigation-with-schemaorg-markup-5gc8">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdjyh0smy7b5u6djlxj3h.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Original post: Breadcrumb navigation with Schema.org markup
+Series: Part of How this blog was built — documenting every decision that shaped this site.
+Breadcrumbs are one of those components that look simple but have several layers
+Breadcrumb.astro handles all three, and it does so with a fallback auto-generation
+
+Diagram fallback for Dev.to. View the canonical article for the original SVG: https://sourcier.uk/blog/breadcrumb-schema-astro
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  crumbs: Crumb[];
+  inverted?: boolean;
+  noContainer?: boolean;
+}
+
+crumbs is an array of label/href pairs. The final crumb in the list should have
+href — it represents the current page and shouldn&#x27;t be a link. The inverted
+noContainer prop skips the .container wrapper, used when t…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/nickbenksim/basics-of-css-flexbox-a-complete-guide-for-beginners-on-flexible-element-positioning-lee"
+                        open
+                      >
+                        <summary class="article-expander__title">Basics of CSS Flexbox: A Complete Guide for Beginners on Flexible Element Positioning</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/nickbenksim/basics-of-css-flexbox-a-complete-guide-for-beginners-on-flexible-element-positioning-lee">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2ki8j9qd5ynvhx3v161a.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Welcome to the world of responsive design! If you’ve ever faced difficulties aligning elements to the center, creating even spacing, or building complex layouts, then Flexbox is your savior. In this article, we will break down all the key concepts of CSS Flexbox step by step, turning you from a beginner into a confident user of this powerful technology.
+What is CSS Flexbox?
+CSS Flexible Box Layout, or simply Flexbox, is a one-dimensional CSS layout module that allows you to design a complex, flexible structure for distributing space and aligning items within a container. It significantly simplifies the creation of responsive layouts by allowing elements to automatically “shrink” or “stretch” depending on the available space.
+Why is Flexbox so popular?
+Simplicity of alignment: Horizontal an…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/nickbenksim/complete-guide-to-css-container-queries-in-2026-1b4p"
+                        open
+                      >
+                        <summary class="article-expander__title">Complete Guide to CSS Container Queries in 2026</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/nickbenksim/complete-guide-to-css-container-queries-in-2026-1b4p">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F78oc5jnrh05hvyl8o57i.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comprehensive Guide to CSS Container Queries: A Revolution in Responsive Design in 2026
+For over a decade, responsive web design has been synonymous with media queries. We created layouts based on the viewport width — the browser’s window itself. But as we move into 2026, the industry standard has changed. Welcome to the era of CSS Container Queries — a revolutionary technology that allows components to be truly independent, modular, and context-aware.
+What are CSS Container Queries?
+At its core, container queries allow you to style an element based on the size of its container, rather than the size of the entire viewport. Previously, if you wanted a card component to look different inside a narrow sidebar and a wide main content area, you had to write complex media query overrides or use …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -1718,6 +2181,46 @@ When faced with I/O‑bound tasks, many folks reach for concurrent.futures and t
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="ad160b63-86bf-4bfc-9d0c-be01db21cce2"
+                        open
+                      >
+                        <summary class="article-expander__title">Institutional demand to drive bitcoin market cap to $16 trillion by 2030: Ark Invest</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/05/01/institutional-demand-to-drive-bitcoin-market-cap-to-usd16-trillion-by-2030-ark-invest">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6ccf18504f2934569339f68665f855f679f37378-4312x2426.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The figure implies a sharp increase in the bitcoin price.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;38
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="6cd8785e-32f1-4cb9-8e69-45a3c1e44bb6"
+                        open
+                      >
+                        <summary class="article-expander__title">CoinDesk 20 performance update: Bittensor (TAO) gains 5.5%, leading index higher</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/coindesk-indices/2026/05/01/coindesk-20-performance-update-bittensor-tao-gains-5-5-leading-index-higher">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/628e1dddfca65dba520cc55ccd2a2f8f7d0a5659-640x480.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Bitcoin (BTC), up 1.9% from Thursday, was also a top performer.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;34
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="52a9c322-987f-42c5-9360-ac6387382eb9"
                         open
                       >
@@ -1844,10 +2347,141 @@ When faced with I/O‑bound tasks, many folks reach for concurrent.futures and t
                     class="source-heading__name"
                     data-action="toggle-accordions"
                     title="Click to toggle the source, Ctrl + click to toggle all."
+                  >MIT Technology Review</button>
+                  <a class="source-heading__link" href="https://www.technologyreview.com">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.technologyreview.com/?p&#x3D;1136762"
+                        open
+                      >
+                        <summary class="article-expander__title">The Download: a new Christian phone network, and debugging LLMs</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.technologyreview.com/2026/05/01/1136762/the-download-christian-phone-network-debugging-llms/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://wp.technologyreview.com/wp-content/uploads/2026/05/radiant-phone2.webp?resize&#x3D;1200,600" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. A new US phone network for Christians aims to block porn and gender-related content A new US-wide cell phone network marketed to Christians is set to launch next week. It blocks…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;23
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.technologyreview.com/?p&#x3D;1136734"
+                        open
+                      >
+                        <summary class="article-expander__title">Inexpensive seafloor-hopping submersibles could stoke deep-sea science—and mining</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.technologyreview.com/2026/05/01/1136734/inexpensive-seafloor-hopping-submersibles-could-stoke-deep-sea-science-and-mining/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://wp.technologyreview.com/wp-content/uploads/2026/04/FD3C0ADB-581A-4E96-8A81-E339F9F312B5.jpg?resize&#x3D;1200,600" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Smack dab between Australia and South America, the US National Oceanic and Atmospheric Administration (NOAA) research vessel Rainier is currently on a mission to map more than 8,000 square nautical miles of the Pacific seafloor in search of critical mineral deposits. But it isn’t doing it alone; for a month starting this week, it will…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;26
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.technologyreview.com/?p&#x3D;1136722"
+                        open
+                      >
+                        <summary class="article-expander__title">Trump’s mass firing just dealt another blow to American science</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.technologyreview.com/2026/05/01/1136722/mass-firing-trump-fresh-blow-american-science-nsf-nsb/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://wp.technologyreview.com/wp-content/uploads/2026/04/nsf-funding2.jpg?resize&#x3D;1200,600" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>This past week delivered another gut punch for science in the US. This time, the target was the National Science Foundation—a federal agency that funds major research projects to the tune of around $9 billion. The foundation’s efforts were overseen by a board of 22 prominent scientists. On Friday last week, they were all fired.…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;21
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.technologyreview.com/?p&#x3D;1136739"
+                        open
+                      >
+                        <summary class="article-expander__title">A new US phone network for Christians aims to block porn and gender-related content</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.technologyreview.com/2026/05/01/1136739/a-new-t-mobile-network-for-christians-aims-to-block-porn-and-gender-related-content/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://wp.technologyreview.com/wp-content/uploads/2026/04/radiant-phone2.jpg?resize&#x3D;1200,600" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>A new US-wide cell phone network marketed to Christians is set to launch next week. It blocks porn, which experts in network security say marks the first time a US cell plan has used network-level blocking for such content that can’t be turned off even by adult account owners. It’s also rolling out a filter…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;25
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
                   >Hacker News</button>
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.pagetable.com/?p&#x3D;1854"
+                        open
+                      >
+                        <summary class="article-expander__title">Running Adobe&#x27;s 1991 PostScript Interpreter in the Browser</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.pagetable.com/?p&#x3D;1854">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://sitemogging.com/"
+                        open
+                      >
+                        <summary class="article-expander__title">Show HN: Site Mogging</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://sitemogging.com/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://sitemogging.com/og-home.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -1954,6 +2588,26 @@ When faced with I/O‑bound tasks, many folks reach for concurrent.futures and t
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://github.com/intel/auto-round"
+                        open
+                      >
+                        <summary class="article-expander__title">Advanced Quantization Algorithm for LLMs</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/intel/auto-round">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://opengraph.githubassets.com/7fb501fb48e5696a3af643324bbb7da7df7ed6f1e1d410b596e57d6c7556edf6/intel/auto-round" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;26
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -2150,80 +2804,6 @@ When faced with I/O‑bound tasks, many folks reach for concurrent.futures and t
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;4
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >MIT Technology Review</button>
-                  <a class="source-heading__link" href="https://www.technologyreview.com">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.technologyreview.com/?p&#x3D;1136734"
-                        open
-                      >
-                        <summary class="article-expander__title">Inexpensive seafloor-hopping submersibles could stoke deep-sea science—and mining</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.technologyreview.com/2026/05/01/1136734/inexpensive-seafloor-hopping-submersibles-could-stoke-deep-sea-science-and-mining/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://wp.technologyreview.com/wp-content/uploads/2026/04/FD3C0ADB-581A-4E96-8A81-E339F9F312B5.jpg?resize&#x3D;1200,600" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Smack dab between Australia and South America, the US National Oceanic and Atmospheric Administration (NOAA) research vessel Rainier is currently on a mission to map more than 8,000 square nautical miles of the Pacific seafloor in search of critical mineral deposits. But it isn’t doing it alone; for a month starting this week, it will…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;26
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.technologyreview.com/?p&#x3D;1136722"
-                        open
-                      >
-                        <summary class="article-expander__title">Trump’s mass firing just dealt another blow to American science</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.technologyreview.com/2026/05/01/1136722/mass-firing-trump-fresh-blow-american-science-nsf-nsb/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://wp.technologyreview.com/wp-content/uploads/2026/04/nsf-funding2.jpg?resize&#x3D;1200,600" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>This past week delivered another gut punch for science in the US. This time, the target was the National Science Foundation—a federal agency that funds major research projects to the tune of around $9 billion. The foundation’s efforts were overseen by a board of 22 prominent scientists. On Friday last week, they were all fired.…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;21
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.technologyreview.com/?p&#x3D;1136739"
-                        open
-                      >
-                        <summary class="article-expander__title">A new US phone network for Christians aims to block porn and gender-related content</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.technologyreview.com/2026/05/01/1136739/a-new-t-mobile-network-for-christians-aims-to-block-porn-and-gender-related-content/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://wp.technologyreview.com/wp-content/uploads/2026/04/radiant-phone2.jpg?resize&#x3D;1200,600" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>A new US-wide cell phone network marketed to Christians is set to launch next week. It blocks porn, which experts in network security say marks the first time a US cell plan has used network-level blocking for such content that can’t be turned off even by adult account owners. It’s also rolling out a filter…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;25
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -105975,62 +106555,6 @@ OpenAI GPT-4: $0.03 per 1K input token…</span>
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://github.com/dacracot/Klondike3-Simulator"
-                        open
-                      >
-                        <summary class="article-expander__title">Solitaire simulator for finding the best strategy: Current record is 8.590%</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/dacracot/Klondike3-Simulator">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://opengraph.githubassets.com/7060f86fe83635b4289c84fe46e431cabfce118139f77a49668bb805ea5bc22a/dacracot/Klondike3-Simulator" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;191
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://lucasgerads.com/blog/lecroy-mcp-spice-demo/"
-                        open
-                      >
-                        <summary class="article-expander__title">Show HN: Spice simulation → oscilloscope → verification with Claude Code</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://lucasgerads.com/blog/lecroy-mcp-spice-demo/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;1
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://medium.com/@iainmcgin/zero-copy-protobuf-and-connectrpc-for-rust-69bda8ac0f02"
-                        open
-                      >
-                        <summary class="article-expander__title">Zero-copy protobuf and ConnectRPC for Rust</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://medium.com/@iainmcgin/zero-copy-protobuf-and-connectrpc-for-rust-69bda8ac0f02">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -106941,8 +107465,8 @@ The post DJI Osmo Pocket 4 Launches In Malaysia With 1-Inch Sensor, Improved Sub
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/25213464496">
-        <time id="build-timestamp" datetime="2026-05-01T11:58:14.934Z">2026-05-01T11:58:14.934Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/25216499952">
+        <time id="build-timestamp" datetime="2026-05-01T13:42:19.577Z">2026-05-01T13:42:19.577Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>

@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/hiyoyok/how-many-log-lines-should-you-send-to-gemini-the-context-window-problem-ngd",
+          "author": "hiyoyo",
+          "description": "All tests run on an 8-year-old MacBook Air.\nWhen you send logcat lines to Gemini for diagnosis, how many lines should you include?\nToo few: the model lacks context, gives a generic answer.\nHere's what I found after testing different window sizes in HiyokoLogcat.\nFirst attempt: grab the last 500 lines and send them all.\nProblems:\nGemini 1.5 Flash has a large context window, but 500 verbose logcat lines is a lot of tokens\nResponse latency increases noticeably\nThe model sometimes focuses on unrelated noise rather than the actual error\nAfter testing, ±50 lines around the target error hits the sweet spot:\npub fn get_diagnosis_context(\n    buffer: &LogRingBuffer,\n    error_idx: usize,\n) -> String {\n    let window = 50;\n    let lines = buffer.context_around(error_idx, window);\n\n    lines\n        .iter()\n        .map(|l| format!(\"[{}] {}/{}: {}\",\n            l.timestamp, l.level, l.tag, l.message))\n        .collect::>()\n        .join(\"\\n\")\n}\n\n50 lines before captures the sequence of events leading to the crash.\n100 lines total. Typically 3,000–6,000 tokens. Fast response, relevant diagnosis.\nSome crashes only make sense with more context — memory leaks that build up over minutes, threading issues with long setup chains.\nFor these, I added a \"deep diagnosis\" mode that sends ±200 lines:\npub enum DiagnosisMode {\n    Quick,  // ±50 lines\n    Deep,   // ±200 lines\n}\n\nQuick is the default. Deep is one extra click. Most users never need it.\nRaw logcat output has a lot of repetitive structure. Reformatting before sending reduces token count without losing information:\n// Raw (verbose)\n04-20 10:23:45.123  1234  5678 E AndroidRuntime: FATAL EXCEPTION: main\n\n// Reformatted (compact)\n[10:23:45] E/AndroidRuntime: FATAL EXCEPTION: main\n\nSame information, fewer tokens. Over 100 lines this adds up.\n±50 lines, reformatted, PII-masked → Gemini gives a specific, actionable diagnosis in 2–3 seconds on the free tier.\nThat's the configuration I shipped with.\nHiyokoLogcat is free and open source → github.com/hiyoyok/HiyokoLogcat\n@hiyoyok",
+          "link": "https://dev.to/hiyoyok/how-many-log-lines-should-you-send-to-gemini-the-context-window-problem-ngd",
+          "publishedOn": "2026-05-01T13:32:08.000Z",
+          "wordCount": 1804,
+          "title": "How Many Log Lines Should You Send to Gemini? The Context Window Problem.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fujcsw8trmppxutpndusl.png"
+        },
+        {
+          "id": "https://dev.to/utkuhanakar/building-a-local-ai-workstation-orchestrating-claude-mcp-cursor-and-github-for-vibe-coding-10i8",
+          "author": "Utkuhan Akar",
+          "description": "The days of being just a \"code monkey\" are ending. If you are still memorizing boilerplate code and manually typing out standard CRUD operations, you are competing against machines that can do it in seconds.\nRecently, I realized that my role as a developer isn't to write every single line of code anymore. My role is to be the System Architect. I need to design the logic, structure the data, and manage the execution. The actual typing? I leave that to the AI. This paradigm shift is often playfully called \"vibe coding,\" but underneath the meme, it is a highly sophisticated approach to software engineering.\nTo fully embrace this, I decided to stop relying solely on web-based chatbots and built a complete, localized AI Workstation. Here is how I integrated Cursor, Claude 3.5 Sonnet, Model Cont…",
+          "link": "https://dev.to/utkuhanakar/building-a-local-ai-workstation-orchestrating-claude-mcp-cursor-and-github-for-vibe-coding-10i8",
+          "publishedOn": "2026-05-01T13:31:57.000Z",
+          "wordCount": 2042,
+          "title": "Building a Local AI Workstation: Orchestrating Claude MCP, Cursor, and GitHub for \"Vibe Coding\"",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ffgr7pdjq7i8j8e9nzwja.png"
+        },
+        {
+          "id": "https://dev.to/itxshakil/secure-file-uploads-seven-checks-and-why-each-one-exists-222n",
+          "author": "Shakil Alam",
+          "description": "Part 3 of 4 — Laravel Architecture Patterns for Production\n~9 min read · Security · Middleware · File handling\nA file upload is the moment you hand control to an untrusted user.\nEverything else in your application — form inputs, query parameters, JSON — is text. You validate it, sanitize it, store it in a database. A file upload is arbitrary binary data from a source you cannot verify, about to be written to your filesystem. The surface area is different. The failure modes are different. The consequences are different.\nMost tutorials cover the happy path: accept the file, store it, return a URL. The problem is never the happy path.\nRename a PHP file to image.jpg. Upload it. Many Laravel applications accept it — because getClientOriginalExtension() returns jpg and getClientMimeType() return…",
+          "link": "https://dev.to/itxshakil/secure-file-uploads-seven-checks-and-why-each-one-exists-222n",
+          "publishedOn": "2026-05-01T13:26:57.000Z",
+          "wordCount": 4069,
+          "title": "Secure File Uploads: Seven Checks and Why Each One Exists",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fe8884i4rtyixwta6n1s4.png"
+        },
+        {
+          "id": "https://dev.to/adioof/14-years-at-one-company-broke-a-senior-devs-career-loyalty-is-a-scam-4l2d",
+          "author": "Aditya Agarwal",
+          "description": "A senior frontend dev spent 14 years at one company, got laid off, and discovered they couldn't pass a modern interview. That's not a cautionary tale. That's the system working as designed.\nI keep thinking about this story. It surfaced in a developer community known for strict anti-venting rules, and it still resonated hard. That tells you something about how many people saw themselves in it.\nFourteen years is a long time. Long enough to become the person everyone asks about that one legacy system. Long enough to stop learning things that scare you.\nThe dev reported being completely unprepared for today's job market. Not because they were bad at their job. Because their job had quietly stopped demanding growth years ago.\nPeople never talk about what being comfortable costs you: the company…",
+          "link": "https://dev.to/adioof/14-years-at-one-company-broke-a-senior-devs-career-loyalty-is-a-scam-4l2d",
+          "publishedOn": "2026-05-01T13:25:48.000Z",
+          "wordCount": 2022,
+          "title": "14 years at one company broke a senior dev's career. Loyalty is a scam.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Flitter.catbox.moe%2F3ok945.png"
+        },
+        {
+          "id": "https://dev.to/edriso/how-to-reset-your-mysql-root-password-on-ubuntu-when-nothing-works-64",
+          "author": "Mohamed Idris",
+          "description": "I was working on a Laravel task and got this error in my logs:\nSQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)\n\nMy .env file had DB_PASSWORD=password, but MySQL was rejecting it. I tried the usual tricks and ran into a wall. Here is what was happening, what fixed it, and a few small things that confused me along the way. If you are a junior dev and any of this sounds familiar, this post is for you.\nBefore anything wild, open your .env file and check these lines:\nDB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=my_app\nDB_USERNAME=root\nDB_PASSWORD=password\n\nIf your password is blank or wrong, just fix it and run:\nphp artisan config:clear\n\nDone. If the password really is what you think it is and MySQL still rejects it, keep reading.\nOn a lo…",
+          "link": "https://dev.to/edriso/how-to-reset-your-mysql-root-password-on-ubuntu-when-nothing-works-64",
+          "publishedOn": "2026-05-01T13:25:13.000Z",
+          "wordCount": 2479,
+          "title": "How to Reset Your MySQL Root Password on Ubuntu (When Nothing Works)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl8ccxo08w11ko1osxnkn.png"
+        },
+        {
+          "id": "https://dev.to/sohanaakbar7/how-to-add-dark-mode-to-any-website-even-if-youre-not-a-css-wizard-iim",
+          "author": "Sohana Akbar",
+          "description": "Introduction\nBut here’s the good news: You don’t need to redesign your entire website. With a few smart CSS rules and a sprinkle of JavaScript, you can add dark mode to any website in under 30 minutes.\nIn this article, I’ll show you three methods—from quick-and-dirty to fully professional.\nMethod 1: The “Browser Native” Approach (Easiest)\nStep 1: Add Dark CSS Variables\n/* Dark mode automatic */\n@media (prefers-color-scheme: dark) {\nbody {\nMethod 2: Manual Toggle with JavaScript (Most Flexible)\nStep 1: HTML Toggle Button\n.dark-mode {\nbody {\n// Check localStorage or system preference\ntoggle.addEventListener('click', () => {\nMethod 3: For Legacy Websites (Overriding Inline Styles)\ncss\nWarning: Images and videos will also invert. You’ll need to un-invert them:\ncss\nPro Tips for a High-Quality Dark Mode\nReduce shadows – Dark mode looks cleaner with less shadow depth.\nTest all interactive elements – Buttons, links, and inputs must remain accessible.\nToggle system preference + manual override – Best of both worlds:\njavascript\nOpen your CSS file.\nDefine CSS variables for colors.\nAdd the .dark-mode class overrides.\nInsert the JavaScript above.\nAdd a floating button with position: fixed.\nThat’s it. Your blog now has dark mode.\nConclusion\nWhether you manage a personal blog, a corporate site, or a web app, these three methods work everywhere.\nYour users will thank you—especially those coding at 2 AM.\nReady to go dark?\nLet me know if you’d like a ready-to-copy HTML/CSS/JS template for this.",
+          "link": "https://dev.to/sohanaakbar7/how-to-add-dark-mode-to-any-website-even-if-youre-not-a-css-wizard-iim",
+          "publishedOn": "2026-05-01T13:24:19.000Z",
+          "wordCount": 2036,
+          "title": "How to Add Dark Mode to Any Website (Even If You’re Not a CSS Wizard)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxjgmuo0apj4680ydpxcl.png"
+        },
+        {
+          "id": "https://dev.to/ariscandra/teks-pegangan-44e",
+          "author": "Aris Candra Muzaffar",
+          "description": "Teks Pegangan Presentasi - Radar Pramuka (Audit Final)\n\n\nNama Kelompok: Radar Pramuka\n\nDurasi target: 10 menit\n\nTema: Pengujian Keamanan Jaringan pada Web Dummy DesignNet Studio\n\n\n\nWaktu\nDurasi\nPembicara\nSlide\nFokus\n\n\n\n\n00:00-00:50\n50 detik\nDimas\n1-3\nPembuka, tujuan, alur\n\n\n00:50-02:30\n1:40\nAris\n4-5\nLatar belakang, tools\n\n\n02:30-03:40\n1:10\nAriel\n6-7\nPengantar hasil, reconnaissance & scanning\n\n\n03:40-04:50\n1:10\nAripin\n8\nWeb dummy & analisis trafik\n\n\n04:50-06:00\n1:10\nAriel\n9\nEksploitasi dasar (reverse/bind shell)\n\n\n06:00-07:30\n1:30\nAripin\n10\nValidasi dengan Metasploit\n\n\n07:30-09:30\n2:00\nDimas\n11\nAnalisis pertahanan sistem\n\n\n09:30-10:00\n30 detik\nDimas\n12-13\nPenutup dan Q&A\n\n\n\nCatatan proporsi:\nUrutan sudah mengikuti deck: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13.\nPemb…",
+          "link": "https://dev.to/ariscandra/teks-pegangan-44e",
+          "publishedOn": "2026-05-01T13:23:58.000Z",
+          "wordCount": 2312,
+          "title": "Teks Pegangan",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fj1aqjytpzeht1ro4n88g.png"
+        },
+        {
+          "id": "https://dev.to/jonoherrington/we-blamed-stack-overflow-for-a-decade-now-its-ai-472b",
+          "author": "Jono Herrington",
+          "description": "Twenty-three years of writing code teaches you something about the stories we tell ourselves when things break.\nYou've seen it ... The production incident that wakes everyone up at 3 AM. The cryptic error that nobody can explain. The Slack channel lighting up with alerts and confusion. And then, like clockwork, the explanation surfaces: \"I got this from Stack Overflow.\"\nThat phrase carried weight. It was supposed to be absolution. The code worked somewhere else ... on the internet, in a different context, for a different problem. How was anyone supposed to know it wouldn't work here? Copy without reading. Skip the context. Ship it. When it breaks, blame the source.\nI've watched this play out for over two decades. Junior developers ... or honestly, anyone who didn't fully understand an issu…",
+          "link": "https://dev.to/jonoherrington/we-blamed-stack-overflow-for-a-decade-now-its-ai-472b",
+          "publishedOn": "2026-05-01T13:23:23.000Z",
+          "wordCount": 2856,
+          "title": "We Blamed Stack Overflow for a Decade. Now It's AI.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fwww.jonoherrington.com%2Fimages%2Fposts%2Fblaming-ai-stackoverflow.png"
+        },
+        {
+          "id": "https://dev.to/rabata_io/we-benchmarked-10-s3-providers-heres-what-the-numbers-actually-show-3025",
+          "author": "Rabata",
+          "description": "With so many S3-compatible providers on the market, it can be difficult to understand which one truly fits your workload.\nTo keep things objective, we used MinIO warp v1.0.7, a widely adopted open-source benchmarking tool. Tests included upload, download, mixed workloads, small object throughput, and large object handling. All benchmarks were run under identical conditions on a Debian 13 VM with 16 GB RAM, located in US-East-1, using 8 concurrent threads and consistent object sizes.\nOur methodology is fully reproducible — every parameter and setup detail is publicly available. You can find the complete benchmark methodology and replication guide with step-by-step instructions to run your own tests. All pricing information reflects rates publicly available as of October 1, 2025.\nHere's the summary:\n\nMixed operations (simultaneous reads, writes, metadata) is the most realistic measure of real-world performance — and results vary wildly\nCloudflare R2 has zero egress fees but came in last on mixed ops (44 Mbit/s) and small objects (42 obj/s)\nHetzner's numbers look low — but that's because we tested from US-East-1 and they're EU-only, so transatlantic latency skews the results\nBackblaze B2 dominates on downloads but showed timeouts during large-object tests\nFor full per-provider breakdowns and detailed analysis: https://rabata.io/s3-comparison",
+          "link": "https://dev.to/rabata_io/we-benchmarked-10-s3-providers-heres-what-the-numbers-actually-show-3025",
+          "publishedOn": "2026-05-01T13:23:12.000Z",
+          "wordCount": 1627,
+          "title": "We benchmarked 10+ S3 providers — here's what the numbers actually show",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkz17gtgd3xlra7vx5fgn.png"
+        },
+        {
+          "id": "https://dev.to/sourcier/breadcrumb-navigation-with-schemaorg-markup-5gc8",
+          "author": "Roger Rajaratnam",
+          "description": "Original post: Breadcrumb navigation with Schema.org markup\nSeries: Part of How this blog was built — documenting every decision that shaped this site.\nBreadcrumbs are one of those components that look simple but have several layers\nBreadcrumb.astro handles all three, and it does so with a fallback auto-generation\n\nDiagram fallback for Dev.to. View the canonical article for the original SVG: https://sourcier.uk/blog/breadcrumb-schema-astro\ninterface Crumb {\n  label: string;\n  href?: string;\n}\n\ninterface Props {\n  crumbs: Crumb[];\n  inverted?: boolean;\n  noContainer?: boolean;\n}\n\ncrumbs is an array of label/href pairs. The final crumb in the list should have\nhref — it represents the current page and shouldn't be a link. The inverted\nnoContainer prop skips the .container wrapper, used when t…",
+          "link": "https://dev.to/sourcier/breadcrumb-navigation-with-schemaorg-markup-5gc8",
+          "publishedOn": "2026-05-01T13:21:58.000Z",
+          "wordCount": 2291,
+          "title": "Breadcrumb navigation with Schema.org markup",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdjyh0smy7b5u6djlxj3h.png"
+        },
+        {
+          "id": "https://dev.to/nickbenksim/basics-of-css-flexbox-a-complete-guide-for-beginners-on-flexible-element-positioning-lee",
+          "author": "Nick Benksim",
+          "description": "Welcome to the world of responsive design! If you’ve ever faced difficulties aligning elements to the center, creating even spacing, or building complex layouts, then Flexbox is your savior. In this article, we will break down all the key concepts of CSS Flexbox step by step, turning you from a beginner into a confident user of this powerful technology.\nWhat is CSS Flexbox?\nCSS Flexible Box Layout, or simply Flexbox, is a one-dimensional CSS layout module that allows you to design a complex, flexible structure for distributing space and aligning items within a container. It significantly simplifies the creation of responsive layouts by allowing elements to automatically “shrink” or “stretch” depending on the available space.\nWhy is Flexbox so popular?\nSimplicity of alignment: Horizontal an…",
+          "link": "https://dev.to/nickbenksim/basics-of-css-flexbox-a-complete-guide-for-beginners-on-flexible-element-positioning-lee",
+          "publishedOn": "2026-05-01T13:21:58.000Z",
+          "wordCount": 3363,
+          "title": "Basics of CSS Flexbox: A Complete Guide for Beginners on Flexible Element Positioning",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F2ki8j9qd5ynvhx3v161a.png"
+        },
+        {
+          "id": "https://dev.to/nickbenksim/complete-guide-to-css-container-queries-in-2026-1b4p",
+          "author": "Nick Benksim",
+          "description": "Comprehensive Guide to CSS Container Queries: A Revolution in Responsive Design in 2026\nFor over a decade, responsive web design has been synonymous with media queries. We created layouts based on the viewport width — the browser’s window itself. But as we move into 2026, the industry standard has changed. Welcome to the era of CSS Container Queries — a revolutionary technology that allows components to be truly independent, modular, and context-aware.\nWhat are CSS Container Queries?\nAt its core, container queries allow you to style an element based on the size of its container, rather than the size of the entire viewport. Previously, if you wanted a card component to look different inside a narrow sidebar and a wide main content area, you had to write complex media query overrides or use …",
+          "link": "https://dev.to/nickbenksim/complete-guide-to-css-container-queries-in-2026-1b4p",
+          "publishedOn": "2026-05-01T13:21:41.000Z",
+          "wordCount": 2009,
+          "title": "Complete Guide to CSS Container Queries in 2026",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F78oc5jnrh05hvyl8o57i.png"
+        },
+        {
           "id": "https://dev.to/oleh_koren/part-1-common-mistakes-in-performance-testing-running-tests-from-your-local-machine-4mie",
           "author": "Oleh Koren",
           "description": "Hey, I'm Oleh — a Performance QA Engineer who has been breaking systems professionally for a while now. In a good way, of course.\nI also teach performance testing — you can check out my hands-on course below:\n🎯 Performance Testing: From Basics to Hands-On\n\n\nWe're starting a series: Common Mistakes in Performance Testing that I usually see. Each part covers one mistake in depth. Today — the one that surprises people the most when they first hear it.\nYou built a great script. Results look terrible. Before blaming the app — where did you run the test from?\nBefore you start blaming the app — where exactly did you run that test from?\nOne of the most common mistakes I see is engineers running load tests from their local machine while the application is hosted somewhere completely different. Say…",
@@ -24702,6 +24822,26 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://www.pagetable.com/?p=1854",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.pagetable.com/?p=1854",
+          "publishedOn": "2026-05-01T11:58:11.000Z",
+          "wordCount": 1293,
+          "title": "Running Adobe's 1991 PostScript Interpreter in the Browser",
+          "imageUrl": null
+        },
+        {
+          "id": "https://sitemogging.com/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://sitemogging.com/",
+          "publishedOn": "2026-05-01T11:32:48.000Z",
+          "wordCount": 41,
+          "title": "Show HN: Site Mogging",
+          "imageUrl": "https://sitemogging.com/og-home.png"
+        },
+        {
           "id": "https://xcancel.com/aaronp613/status/2049986504617820551",
           "author": null,
           "description": "Comments",
@@ -24760,6 +24900,16 @@
           "wordCount": 918,
           "title": "The Rotary Un-Smartphone",
           "imageUrl": "https://www.skysedge.us/images/favicon.png"
+        },
+        {
+          "id": "https://github.com/intel/auto-round",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/intel/auto-round",
+          "publishedOn": "2026-05-01T09:10:02.000Z",
+          "wordCount": 7672,
+          "title": "Advanced Quantization Algorithm for LLMs",
+          "imageUrl": "https://opengraph.githubassets.com/7fb501fb48e5696a3af643324bbb7da7df7ed6f1e1d410b596e57d6c7556edf6/intel/auto-round"
         },
         {
           "id": "https://github.com/darrylmorley/whatcable",
@@ -34210,36 +34360,6 @@
           "wordCount": 4115,
           "title": "IPC medley: message-queue peeking, io_uring, and bus1",
           "imageUrl": null
-        },
-        {
-          "id": "https://github.com/dacracot/Klondike3-Simulator",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/dacracot/Klondike3-Simulator",
-          "publishedOn": "2026-04-17T01:38:01.000Z",
-          "wordCount": 57304,
-          "title": "Solitaire simulator for finding the best strategy: Current record is 8.590%",
-          "imageUrl": "https://opengraph.githubassets.com/7060f86fe83635b4289c84fe46e431cabfce118139f77a49668bb805ea5bc22a/dacracot/Klondike3-Simulator"
-        },
-        {
-          "id": "https://lucasgerads.com/blog/lecroy-mcp-spice-demo/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://lucasgerads.com/blog/lecroy-mcp-spice-demo/",
-          "publishedOn": "2026-04-17T00:37:47.000Z",
-          "wordCount": 357,
-          "title": "Show HN: Spice simulation → oscilloscope → verification with Claude Code",
-          "imageUrl": null
-        },
-        {
-          "id": "https://medium.com/@iainmcgin/zero-copy-protobuf-and-connectrpc-for-rust-69bda8ac0f02",
-          "author": null,
-          "description": "Comments",
-          "link": "https://medium.com/@iainmcgin/zero-copy-protobuf-and-connectrpc-for-rust-69bda8ac0f02",
-          "publishedOn": "2026-04-17T00:29:37.000Z",
-          "wordCount": null,
-          "title": "Zero-copy protobuf and ConnectRPC for Rust",
-          "imageUrl": null
         }
       ]
     },
@@ -35837,6 +35957,16 @@
       "siteUrl": "https://www.technologyreview.com",
       "articles": [
         {
+          "id": "https://www.technologyreview.com/?p=1136762",
+          "author": "Thomas Macaulay",
+          "description": "This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. A new US phone network for Christians aims to block porn and gender-related content A new US-wide cell phone network marketed to Christians is set to launch next week. It blocks…",
+          "link": "https://www.technologyreview.com/2026/05/01/1136762/the-download-christian-phone-network-debugging-llms/",
+          "publishedOn": "2026-05-01T12:10:00.000Z",
+          "wordCount": 6870,
+          "title": "The Download: a new Christian phone network, and debugging LLMs",
+          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/05/radiant-phone2.webp?resize=1200,600"
+        },
+        {
           "id": "https://www.technologyreview.com/?p=1136734",
           "author": "Hannah Richter",
           "description": "Smack dab between Australia and South America, the US National Oceanic and Atmospheric Administration (NOAA) research vessel Rainier is currently on a mission to map more than 8,000 square nautical miles of the Pacific seafloor in search of critical mineral deposits. But it isn’t doing it alone; for a month starting this week, it will…",
@@ -36293,6 +36423,26 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "ad160b63-86bf-4bfc-9d0c-be01db21cce2",
+          "author": "Olivier Acuna",
+          "description": "The figure implies a sharp increase in the bitcoin price.",
+          "link": "https://www.coindesk.com/markets/2026/05/01/institutional-demand-to-drive-bitcoin-market-cap-to-usd16-trillion-by-2030-ark-invest",
+          "publishedOn": "2026-05-01T13:31:53.000Z",
+          "wordCount": 11455,
+          "title": "Institutional demand to drive bitcoin market cap to $16 trillion by 2030: Ark Invest",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6ccf18504f2934569339f68665f855f679f37378-4312x2426.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "6cd8785e-32f1-4cb9-8e69-45a3c1e44bb6",
+          "author": "CoinDesk Indices",
+          "description": "Bitcoin (BTC), up 1.9% from Thursday, was also a top performer.",
+          "link": "https://www.coindesk.com/coindesk-indices/2026/05/01/coindesk-20-performance-update-bittensor-tao-gains-5-5-leading-index-higher",
+          "publishedOn": "2026-05-01T13:21:26.000Z",
+          "wordCount": 10149,
+          "title": "CoinDesk 20 performance update: Bittensor (TAO) gains 5.5%, leading index higher",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/628e1dddfca65dba520cc55ccd2a2f8f7d0a5659-640x480.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "52a9c322-987f-42c5-9360-ac6387382eb9",
           "author": "Francisco Rodrigues",

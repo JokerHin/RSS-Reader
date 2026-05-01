@@ -2,10 +2,393 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-05-01T11:58:15.043Z</updated>
+    <updated>2026-05-01T13:42:19.694Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[How Many Log Lines Should You Send to Gemini? The Context Window Problem.]]></title>
+        <id>https://dev.to/hiyoyok/how-many-log-lines-should-you-send-to-gemini-the-context-window-problem-ngd</id>
+        <link href="https://dev.to/hiyoyok/how-many-log-lines-should-you-send-to-gemini-the-context-window-problem-ngd"/>
+        <updated>2026-05-01T13:32:08.000Z</updated>
+        <summary type="html"><![CDATA[All tests run on an 8-year-old MacBook Air.
+When you send logcat lines to Gemini for diagnosis, how many lines should you include?
+Too few: the model lacks context, gives a generic answer.
+Here's what I found after testing different window sizes in HiyokoLogcat.
+First attempt: grab the last 500 lines and send them all.
+Problems:
+Gemini 1.5 Flash has a large context window, but 500 verbose logcat lines is a lot of tokens
+Response latency increases noticeably
+The model sometimes focuses on unrelated noise rather than the actual error
+After testing, ±50 lines around the target error hits the sweet spot:
+pub fn get_diagnosis_context(
+    buffer: &LogRingBuffer,
+    error_idx: usize,
+) -> String {
+    let window = 50;
+    let lines = buffer.context_around(error_idx, window);
+
+    lines
+        .iter()
+        .map(|l| format!("[{}] {}/{}: {}",
+            l.timestamp, l.level, l.tag, l.message))
+        .collect::>()
+        .join("\n")
+}
+
+50 lines before captures the sequence of events leading to the crash.
+100 lines total. Typically 3,000–6,000 tokens. Fast response, relevant diagnosis.
+Some crashes only make sense with more context — memory leaks that build up over minutes, threading issues with long setup chains.
+For these, I added a "deep diagnosis" mode that sends ±200 lines:
+pub enum DiagnosisMode {
+    Quick,  // ±50 lines
+    Deep,   // ±200 lines
+}
+
+Quick is the default. Deep is one extra click. Most users never need it.
+Raw logcat output has a lot of repetitive structure. Reformatting before sending reduces token count without losing information:
+// Raw (verbose)
+04-20 10:23:45.123  1234  5678 E AndroidRuntime: FATAL EXCEPTION: main
+
+// Reformatted (compact)
+[10:23:45] E/AndroidRuntime: FATAL EXCEPTION: main
+
+Same information, fewer tokens. Over 100 lines this adds up.
+±50 lines, reformatted, PII-masked → Gemini gives a specific, actionable diagnosis in 2–3 seconds on the free tier.
+That's the configuration I shipped with.
+HiyokoLogcat is free and open source → github.com/hiyoyok/HiyokoLogcat
+@hiyoyok]]></summary>
+        <author>
+            <name>hiyoyo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Local AI Workstation: Orchestrating Claude MCP, Cursor, and GitHub for "Vibe Coding"]]></title>
+        <id>https://dev.to/utkuhanakar/building-a-local-ai-workstation-orchestrating-claude-mcp-cursor-and-github-for-vibe-coding-10i8</id>
+        <link href="https://dev.to/utkuhanakar/building-a-local-ai-workstation-orchestrating-claude-mcp-cursor-and-github-for-vibe-coding-10i8"/>
+        <updated>2026-05-01T13:31:57.000Z</updated>
+        <summary type="html"><![CDATA[The days of being just a "code monkey" are ending. If you are still memorizing boilerplate code and manually typing out standard CRUD operations, you are competing against machines that can do it in seconds.
+Recently, I realized that my role as a developer isn't to write every single line of code anymore. My role is to be the System Architect. I need to design the logic, structure the data, and manage the execution. The actual typing? I leave that to the AI. This paradigm shift is often playfully called "vibe coding," but underneath the meme, it is a highly sophisticated approach to software engineering.
+To fully embrace this, I decided to stop relying solely on web-based chatbots and built a complete, localized AI Workstation. Here is how I integrated Cursor, Claude 3.5 Sonnet, Model Cont…]]></summary>
+        <author>
+            <name>Utkuhan Akar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Institutional demand to drive bitcoin market cap to $16 trillion by 2030: Ark Invest]]></title>
+        <id>ad160b63-86bf-4bfc-9d0c-be01db21cce2</id>
+        <link href="https://www.coindesk.com/markets/2026/05/01/institutional-demand-to-drive-bitcoin-market-cap-to-usd16-trillion-by-2030-ark-invest"/>
+        <updated>2026-05-01T13:31:53.000Z</updated>
+        <summary type="html"><![CDATA[The figure implies a sharp increase in the bitcoin price.]]></summary>
+        <author>
+            <name>Olivier Acuna</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Secure File Uploads: Seven Checks and Why Each One Exists]]></title>
+        <id>https://dev.to/itxshakil/secure-file-uploads-seven-checks-and-why-each-one-exists-222n</id>
+        <link href="https://dev.to/itxshakil/secure-file-uploads-seven-checks-and-why-each-one-exists-222n"/>
+        <updated>2026-05-01T13:26:57.000Z</updated>
+        <summary type="html"><![CDATA[Part 3 of 4 — Laravel Architecture Patterns for Production
+~9 min read · Security · Middleware · File handling
+A file upload is the moment you hand control to an untrusted user.
+Everything else in your application — form inputs, query parameters, JSON — is text. You validate it, sanitize it, store it in a database. A file upload is arbitrary binary data from a source you cannot verify, about to be written to your filesystem. The surface area is different. The failure modes are different. The consequences are different.
+Most tutorials cover the happy path: accept the file, store it, return a URL. The problem is never the happy path.
+Rename a PHP file to image.jpg. Upload it. Many Laravel applications accept it — because getClientOriginalExtension() returns jpg and getClientMimeType() return…]]></summary>
+        <author>
+            <name>Shakil Alam</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[14 years at one company broke a senior dev's career. Loyalty is a scam.]]></title>
+        <id>https://dev.to/adioof/14-years-at-one-company-broke-a-senior-devs-career-loyalty-is-a-scam-4l2d</id>
+        <link href="https://dev.to/adioof/14-years-at-one-company-broke-a-senior-devs-career-loyalty-is-a-scam-4l2d"/>
+        <updated>2026-05-01T13:25:48.000Z</updated>
+        <summary type="html"><![CDATA[A senior frontend dev spent 14 years at one company, got laid off, and discovered they couldn't pass a modern interview. That's not a cautionary tale. That's the system working as designed.
+I keep thinking about this story. It surfaced in a developer community known for strict anti-venting rules, and it still resonated hard. That tells you something about how many people saw themselves in it.
+Fourteen years is a long time. Long enough to become the person everyone asks about that one legacy system. Long enough to stop learning things that scare you.
+The dev reported being completely unprepared for today's job market. Not because they were bad at their job. Because their job had quietly stopped demanding growth years ago.
+People never talk about what being comfortable costs you: the company…]]></summary>
+        <author>
+            <name>Aditya Agarwal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Reset Your MySQL Root Password on Ubuntu (When Nothing Works)]]></title>
+        <id>https://dev.to/edriso/how-to-reset-your-mysql-root-password-on-ubuntu-when-nothing-works-64</id>
+        <link href="https://dev.to/edriso/how-to-reset-your-mysql-root-password-on-ubuntu-when-nothing-works-64"/>
+        <updated>2026-05-01T13:25:13.000Z</updated>
+        <summary type="html"><![CDATA[I was working on a Laravel task and got this error in my logs:
+SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)
+
+My .env file had DB_PASSWORD=password, but MySQL was rejecting it. I tried the usual tricks and ran into a wall. Here is what was happening, what fixed it, and a few small things that confused me along the way. If you are a junior dev and any of this sounds familiar, this post is for you.
+Before anything wild, open your .env file and check these lines:
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=my_app
+DB_USERNAME=root
+DB_PASSWORD=password
+
+If your password is blank or wrong, just fix it and run:
+php artisan config:clear
+
+Done. If the password really is what you think it is and MySQL still rejects it, keep reading.
+On a lo…]]></summary>
+        <author>
+            <name>Mohamed Idris</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Add Dark Mode to Any Website (Even If You’re Not a CSS Wizard)]]></title>
+        <id>https://dev.to/sohanaakbar7/how-to-add-dark-mode-to-any-website-even-if-youre-not-a-css-wizard-iim</id>
+        <link href="https://dev.to/sohanaakbar7/how-to-add-dark-mode-to-any-website-even-if-youre-not-a-css-wizard-iim"/>
+        <updated>2026-05-01T13:24:19.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+But here’s the good news: You don’t need to redesign your entire website. With a few smart CSS rules and a sprinkle of JavaScript, you can add dark mode to any website in under 30 minutes.
+In this article, I’ll show you three methods—from quick-and-dirty to fully professional.
+Method 1: The “Browser Native” Approach (Easiest)
+Step 1: Add Dark CSS Variables
+/* Dark mode automatic */
+@media (prefers-color-scheme: dark) {
+body {
+Method 2: Manual Toggle with JavaScript (Most Flexible)
+Step 1: HTML Toggle Button
+.dark-mode {
+body {
+// Check localStorage or system preference
+toggle.addEventListener('click', () => {
+Method 3: For Legacy Websites (Overriding Inline Styles)
+css
+Warning: Images and videos will also invert. You’ll need to un-invert them:
+css
+Pro Tips for a High-Quality Dark Mode
+Reduce shadows – Dark mode looks cleaner with less shadow depth.
+Test all interactive elements – Buttons, links, and inputs must remain accessible.
+Toggle system preference + manual override – Best of both worlds:
+javascript
+Open your CSS file.
+Define CSS variables for colors.
+Add the .dark-mode class overrides.
+Insert the JavaScript above.
+Add a floating button with position: fixed.
+That’s it. Your blog now has dark mode.
+Conclusion
+Whether you manage a personal blog, a corporate site, or a web app, these three methods work everywhere.
+Your users will thank you—especially those coding at 2 AM.
+Ready to go dark?
+Let me know if you’d like a ready-to-copy HTML/CSS/JS template for this.]]></summary>
+        <author>
+            <name>Sohana Akbar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Teks Pegangan]]></title>
+        <id>https://dev.to/ariscandra/teks-pegangan-44e</id>
+        <link href="https://dev.to/ariscandra/teks-pegangan-44e"/>
+        <updated>2026-05-01T13:23:58.000Z</updated>
+        <summary type="html"><![CDATA[Teks Pegangan Presentasi - Radar Pramuka (Audit Final)
+
+
+Nama Kelompok: Radar Pramuka
+
+Durasi target: 10 menit
+
+Tema: Pengujian Keamanan Jaringan pada Web Dummy DesignNet Studio
+
+
+
+Waktu
+Durasi
+Pembicara
+Slide
+Fokus
+
+
+
+
+00:00-00:50
+50 detik
+Dimas
+1-3
+Pembuka, tujuan, alur
+
+
+00:50-02:30
+1:40
+Aris
+4-5
+Latar belakang, tools
+
+
+02:30-03:40
+1:10
+Ariel
+6-7
+Pengantar hasil, reconnaissance & scanning
+
+
+03:40-04:50
+1:10
+Aripin
+8
+Web dummy & analisis trafik
+
+
+04:50-06:00
+1:10
+Ariel
+9
+Eksploitasi dasar (reverse/bind shell)
+
+
+06:00-07:30
+1:30
+Aripin
+10
+Validasi dengan Metasploit
+
+
+07:30-09:30
+2:00
+Dimas
+11
+Analisis pertahanan sistem
+
+
+09:30-10:00
+30 detik
+Dimas
+12-13
+Penutup dan Q&A
+
+
+
+Catatan proporsi:
+Urutan sudah mengikuti deck: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13.
+Pemb…]]></summary>
+        <author>
+            <name>Aris Candra Muzaffar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[We Blamed Stack Overflow for a Decade. Now It's AI.]]></title>
+        <id>https://dev.to/jonoherrington/we-blamed-stack-overflow-for-a-decade-now-its-ai-472b</id>
+        <link href="https://dev.to/jonoherrington/we-blamed-stack-overflow-for-a-decade-now-its-ai-472b"/>
+        <updated>2026-05-01T13:23:23.000Z</updated>
+        <summary type="html"><![CDATA[Twenty-three years of writing code teaches you something about the stories we tell ourselves when things break.
+You've seen it ... The production incident that wakes everyone up at 3 AM. The cryptic error that nobody can explain. The Slack channel lighting up with alerts and confusion. And then, like clockwork, the explanation surfaces: "I got this from Stack Overflow."
+That phrase carried weight. It was supposed to be absolution. The code worked somewhere else ... on the internet, in a different context, for a different problem. How was anyone supposed to know it wouldn't work here? Copy without reading. Skip the context. Ship it. When it breaks, blame the source.
+I've watched this play out for over two decades. Junior developers ... or honestly, anyone who didn't fully understand an issu…]]></summary>
+        <author>
+            <name>Jono Herrington</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[We benchmarked 10+ S3 providers — here's what the numbers actually show]]></title>
+        <id>https://dev.to/rabata_io/we-benchmarked-10-s3-providers-heres-what-the-numbers-actually-show-3025</id>
+        <link href="https://dev.to/rabata_io/we-benchmarked-10-s3-providers-heres-what-the-numbers-actually-show-3025"/>
+        <updated>2026-05-01T13:23:12.000Z</updated>
+        <summary type="html"><![CDATA[With so many S3-compatible providers on the market, it can be difficult to understand which one truly fits your workload.
+To keep things objective, we used MinIO warp v1.0.7, a widely adopted open-source benchmarking tool. Tests included upload, download, mixed workloads, small object throughput, and large object handling. All benchmarks were run under identical conditions on a Debian 13 VM with 16 GB RAM, located in US-East-1, using 8 concurrent threads and consistent object sizes.
+Our methodology is fully reproducible — every parameter and setup detail is publicly available. You can find the complete benchmark methodology and replication guide with step-by-step instructions to run your own tests. All pricing information reflects rates publicly available as of October 1, 2025.
+Here's the summary:
+
+Mixed operations (simultaneous reads, writes, metadata) is the most realistic measure of real-world performance — and results vary wildly
+Cloudflare R2 has zero egress fees but came in last on mixed ops (44 Mbit/s) and small objects (42 obj/s)
+Hetzner's numbers look low — but that's because we tested from US-East-1 and they're EU-only, so transatlantic latency skews the results
+Backblaze B2 dominates on downloads but showed timeouts during large-object tests
+For full per-provider breakdowns and detailed analysis: https://rabata.io/s3-comparison]]></summary>
+        <author>
+            <name>Rabata</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Breadcrumb navigation with Schema.org markup]]></title>
+        <id>https://dev.to/sourcier/breadcrumb-navigation-with-schemaorg-markup-5gc8</id>
+        <link href="https://dev.to/sourcier/breadcrumb-navigation-with-schemaorg-markup-5gc8"/>
+        <updated>2026-05-01T13:21:58.000Z</updated>
+        <summary type="html"><![CDATA[Original post: Breadcrumb navigation with Schema.org markup
+Series: Part of How this blog was built — documenting every decision that shaped this site.
+Breadcrumbs are one of those components that look simple but have several layers
+Breadcrumb.astro handles all three, and it does so with a fallback auto-generation
+
+Diagram fallback for Dev.to. View the canonical article for the original SVG: https://sourcier.uk/blog/breadcrumb-schema-astro
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  crumbs: Crumb[];
+  inverted?: boolean;
+  noContainer?: boolean;
+}
+
+crumbs is an array of label/href pairs. The final crumb in the list should have
+href — it represents the current page and shouldn't be a link. The inverted
+noContainer prop skips the .container wrapper, used when t…]]></summary>
+        <author>
+            <name>Roger Rajaratnam</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Basics of CSS Flexbox: A Complete Guide for Beginners on Flexible Element Positioning]]></title>
+        <id>https://dev.to/nickbenksim/basics-of-css-flexbox-a-complete-guide-for-beginners-on-flexible-element-positioning-lee</id>
+        <link href="https://dev.to/nickbenksim/basics-of-css-flexbox-a-complete-guide-for-beginners-on-flexible-element-positioning-lee"/>
+        <updated>2026-05-01T13:21:58.000Z</updated>
+        <summary type="html"><![CDATA[Welcome to the world of responsive design! If you’ve ever faced difficulties aligning elements to the center, creating even spacing, or building complex layouts, then Flexbox is your savior. In this article, we will break down all the key concepts of CSS Flexbox step by step, turning you from a beginner into a confident user of this powerful technology.
+What is CSS Flexbox?
+CSS Flexible Box Layout, or simply Flexbox, is a one-dimensional CSS layout module that allows you to design a complex, flexible structure for distributing space and aligning items within a container. It significantly simplifies the creation of responsive layouts by allowing elements to automatically “shrink” or “stretch” depending on the available space.
+Why is Flexbox so popular?
+Simplicity of alignment: Horizontal an…]]></summary>
+        <author>
+            <name>Nick Benksim</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Complete Guide to CSS Container Queries in 2026]]></title>
+        <id>https://dev.to/nickbenksim/complete-guide-to-css-container-queries-in-2026-1b4p</id>
+        <link href="https://dev.to/nickbenksim/complete-guide-to-css-container-queries-in-2026-1b4p"/>
+        <updated>2026-05-01T13:21:41.000Z</updated>
+        <summary type="html"><![CDATA[Comprehensive Guide to CSS Container Queries: A Revolution in Responsive Design in 2026
+For over a decade, responsive web design has been synonymous with media queries. We created layouts based on the viewport width — the browser’s window itself. But as we move into 2026, the industry standard has changed. Welcome to the era of CSS Container Queries — a revolutionary technology that allows components to be truly independent, modular, and context-aware.
+What are CSS Container Queries?
+At its core, container queries allow you to style an element based on the size of its container, rather than the size of the entire viewport. Previously, if you wanted a card component to look different inside a narrow sidebar and a wide main content area, you had to write complex media query overrides or use …]]></summary>
+        <author>
+            <name>Nick Benksim</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CoinDesk 20 performance update: Bittensor (TAO) gains 5.5%, leading index higher]]></title>
+        <id>6cd8785e-32f1-4cb9-8e69-45a3c1e44bb6</id>
+        <link href="https://www.coindesk.com/coindesk-indices/2026/05/01/coindesk-20-performance-update-bittensor-tao-gains-5-5-leading-index-higher"/>
+        <updated>2026-05-01T13:21:26.000Z</updated>
+        <summary type="html"><![CDATA[Bitcoin (BTC), up 1.9% from Thursday, was also a top performer.]]></summary>
+        <author>
+            <name>CoinDesk Indices</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Download: a new Christian phone network, and debugging LLMs]]></title>
+        <id>https://www.technologyreview.com/?p=1136762</id>
+        <link href="https://www.technologyreview.com/2026/05/01/1136762/the-download-christian-phone-network-debugging-llms/"/>
+        <updated>2026-05-01T12:10:00.000Z</updated>
+        <summary type="html"><![CDATA[This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. A new US phone network for Christians aims to block porn and gender-related content A new US-wide cell phone network marketed to Christians is set to launch next week. It blocks…]]></summary>
+        <author>
+            <name>Thomas Macaulay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Running Adobe's 1991 PostScript Interpreter in the Browser]]></title>
+        <id>https://www.pagetable.com/?p=1854</id>
+        <link href="https://www.pagetable.com/?p=1854"/>
+        <updated>2026-05-01T11:58:11.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Part 1: Common Mistakes in Performance Testing - Running Tests from Your Local Machine]]></title>
         <id>https://dev.to/oleh_koren/part-1-common-mistakes-in-performance-testing-running-tests-from-your-local-machine-4mie</id>
@@ -196,6 +579,16 @@ Yes, you read that right. The thing you use to run git status is now an AI-power
 And here's what nobody's talking about yet: most developers are using less than 10% of what Warp can actually do. I spent a week going deep into Warp's documentation, its open-source codebase, and talking to the community — and I found 5 features that fundamentally change…]]></summary>
         <author>
             <name>韩</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Site Mogging]]></title>
+        <id>https://sitemogging.com/</id>
+        <link href="https://sitemogging.com/"/>
+        <updated>2026-05-01T11:32:48.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -513,6 +906,16 @@ reads the formats i actually have. evtx (windows nat…]]></summary>
         <summary type="html"><![CDATA[BTC rises on steady volume and strong technical structure, but surging put interest and muted prediction market odds point to defensive positioning.]]></summary>
         <author>
             <name>Jamie Crawley</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Advanced Quantization Algorithm for LLMs]]></title>
+        <id>https://github.com/intel/auto-round</id>
+        <link href="https://github.com/intel/auto-round"/>
+        <updated>2026-05-01T09:10:02.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -66863,36 +67266,6 @@ Before diving into solutions, let's be honest about the current landscape. If yo
 OpenAI GPT-4: $0.03 per 1K input token…]]></summary>
         <author>
             <name>jordan macias</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Solitaire simulator for finding the best strategy: Current record is 8.590%]]></title>
-        <id>https://github.com/dacracot/Klondike3-Simulator</id>
-        <link href="https://github.com/dacracot/Klondike3-Simulator"/>
-        <updated>2026-04-17T01:38:01.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Spice simulation → oscilloscope → verification with Claude Code]]></title>
-        <id>https://lucasgerads.com/blog/lecroy-mcp-spice-demo/</id>
-        <link href="https://lucasgerads.com/blog/lecroy-mcp-spice-demo/"/>
-        <updated>2026-04-17T00:37:47.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Zero-copy protobuf and ConnectRPC for Rust]]></title>
-        <id>https://medium.com/@iainmcgin/zero-copy-protobuf-and-connectrpc-for-rust-69bda8ac0f02</id>
-        <link href="https://medium.com/@iainmcgin/zero-copy-protobuf-and-connectrpc-for-rust-69bda8ac0f02"/>
-        <updated>2026-04-17T00:29:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
