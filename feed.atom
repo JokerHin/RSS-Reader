@@ -2,10 +2,311 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-05-09T16:53:31.204Z</updated>
+    <updated>2026-05-09T17:50:05.225Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Why I stopped using exceptions for control flow in my .NET 8 APIs]]></title>
+        <id>https://dev.to/fenixkit/why-i-stopped-using-exceptions-for-control-flow-in-my-net-8-apis-29j2</id>
+        <link href="https://dev.to/fenixkit/why-i-stopped-using-exceptions-for-control-flow-in-my-net-8-apis-29j2"/>
+        <updated>2026-05-09T17:36:59.000Z</updated>
+        <summary type="html"><![CDATA[Why I stopped using exceptions for control flow in my .NET 8 APIs
+
+
+For a long time, my .NET APIs looked like this:
+public async Task<Product> GetByIdAsync(string id)
+{
+    var product = await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
+
+    if (product is null)
+        throw new KeyNotFoundException($"Product with id '{id}' was not found.");
+
+    return product;
+}
+
+And in the endpoint:
+app.MapGet("/api/products/{id}", async (string id, IProductRepository repo) =>
+{
+    try
+    {
+        var product = await repo.GetByIdAsync(id);
+        return Results.Ok(product);
+    }
+    catch (KeyNotFoundException ex)
+    {
+        return Results.NotFound(ex.Message);
+    }
+    catch (Exception ex)
+    {
+        return Results.Problem(ex.Message);
+    }
+});
+
+It worked. But every endpoint …]]></summary>
+        <author>
+            <name>fenixkit</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Built a QR-Powered ERP for Garment Factories Using React, Firebase, and a Raspberry Pi 🧵⚡]]></title>
+        <id>https://dev.to/drmcoder/how-i-built-a-qr-powered-erp-for-garment-factories-using-react-firebase-and-a-raspberry-pi-55gc</id>
+        <link href="https://dev.to/drmcoder/how-i-built-a-qr-powered-erp-for-garment-factories-using-react-firebase-and-a-raspberry-pi-55gc"/>
+        <updated>2026-05-09T17:35:16.000Z</updated>
+        <summary type="html"><![CDATA[The Problem: The "Spreadsheet Chaos" of the Sewing Floor
+Before Scan ERP, tracking was done on paper or messy Excel sheets. This led to:
+Payment Disputes: "I sewed 50 sleeves, why am I paid for 40?"
+The Black Hole: A bundle goes missing, and production stops for hours.
+Delayed Decisions: Managers only see "yesterday's" data, never "now."
+The Solution: A "Zero-Install" System of Action 
+We built Scan ERP as a Progressive Web App (PWA) because factory environments hate App Stores. No downloads, no updates—just a QR scan and you're in.  
+The Multi-Engine QR Scanner (99% Accuracy)
+Scanning on cheap, greasy $100 Android phones is hard. To hit 99% accuracy, we didn't rely on one library. We built a hybrid engine combining:
+BarcodeDetector API (Native & Fast)
+jsQR (Fallback) 
+This ensures that even a smudged QR code on a moving bundle gets registered in <200ms.  
+Architecture: From Monolith to Modular
+Initially, our firebase-services.js was a 3,000-line beast. We recently performed a major "Architectural Cleanup":
+
+
+
+Modular Services: Split by domain (Inventory, Piece-rate, Quality Control).  
+Base Service Pattern: A standardized FirebaseBaseService for CRUD, automated timestamps (createdAt, updatedAt), and batch transactions. 
+Bottlenecks Detected in <30 Seconds: If a line slows down, the dashboard turns red instantly.  
+Zero Payment Disputes: Every scan creates a tamper-proof entry in the operator's digital diary.  
+Lessons Learned
+UX > Beauty: Big buttons, high contrast, and voice notifications matter more than fancy animations on a dusty factory floor.  
+PWA is the Future of Enterprise: In 2026, the "install barrier" is the biggest killer of B2B apps. PWAs solve this.  
+Check out the live project here: https://scanerp.pro/
+Are you building niche ERPs or experimenting with PWA scanning? Let's chat in the comments!]]></summary>
+        <author>
+            <name>Santosh Rijal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[When Stability Improves Performance (Threading)]]></title>
+        <id>https://dev.to/tavari/when-stability-improves-performance-threading-3e2p</id>
+        <link href="https://dev.to/tavari/when-stability-improves-performance-threading-3e2p"/>
+        <updated>2026-05-09T17:33:56.000Z</updated>
+        <summary type="html"><![CDATA[The common assumption in concurrent systems is that stability and performance pull in opposite directions. You add safety mechanisms, locks, routing constraints, and you pay for them in throughput. This post is about a case where that assumption turned out to be wrong.
+TokenGate is a token-managed concurrency system. Decorated functions return tokens instead of executing immediately. Those tokens are admitted through a wrapped decorator, routed to per-core mailboxes by weight class, and executed on thread pool workers.  
+This system also includes a successful separation over async coordination and threaded execution, which is a common source of complexity in concurrent systems.
+TokenGate aims to ease this by using tokens as a bridge between the async event loop and a thread pool. The async…]]></summary>
+        <author>
+            <name>Joseph Boone</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why VirusTotal Alone Isn't Enough to Verify APK Safety]]></title>
+        <id>https://dev.to/sehan_shahid/why-virustotal-alone-isnt-enough-to-verify-apk-safety-2683</id>
+        <link href="https://dev.to/sehan_shahid/why-virustotal-alone-isnt-enough-to-verify-apk-safety-2683"/>
+        <updated>2026-05-09T17:30:31.000Z</updated>
+        <summary type="html"><![CDATA[Every week, thousands of Android users download APK files from Telegram groups, forums, and third-party sites. Most of them do one thing to verify safety — drag the file into VirusTotal and check if anything flags red.
+That's not enough. Here's why.
+What VirusTotal Actually Does
+
+
+VirusTotal checks your file against 70+ antivirus signature databases. A signature is essentially a fingerprint of a known threat. If your APK matches a known bad fingerprint — it gets flagged.
+The problem is brand new malware has no fingerprint yet. Modified APKs designed to evade detection have no fingerprint. Spyware that doesn't match any known family has no fingerprint.
+Signature scanning catches yesterday's threats, not today's.
+What Actually Hides Inside Malicious APKs
+
+
+After scanning hundreds of APKs, th…]]></summary>
+        <author>
+            <name>Sehan Shahid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Authorization and Authentication in AWS]]></title>
+        <id>https://dev.to/khursheed_alam_d53e78064d/authorization-and-authentication-in-aws-5340</id>
+        <link href="https://dev.to/khursheed_alam_d53e78064d/authorization-and-authentication-in-aws-5340"/>
+        <updated>2026-05-09T17:28:34.000Z</updated>
+        <summary type="html"><![CDATA[Hey do you know how authorization and authentication works in AWS. It is a first step to ensure control access to resources and actions that you can perform daily without using root user. Lets understand this concept with the help of example - Imagine you have a bank account in XYZ bank and that bank has different services available like withdrawing money, money deposit, account opening, service desk to help  customers according to their needs. Suppose someone wants to enter a bank to make use of these services, he first needs to authenticate himself by showing valid ID that includes credentials. Then, he will be authorised to use services depending on permissions granted to him.
+This same scenario works in AWS Cloud also by making use of IAM service that has features like Users, Groups, P…]]></summary>
+        <author>
+            <name>Khursheed Alam</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Trump Media’s Q1 loss widens to $406 million on bitcoin, CRO markdowns]]></title>
+        <id>30c0240f-2627-4ac6-b7b2-a254c635ef7c</id>
+        <link href="https://www.coindesk.com/business/2026/05/09/trump-media-s-q1-loss-widens-to-usd406-million-on-bitcoin-cro-markdowns"/>
+        <updated>2026-05-09T17:28:08.000Z</updated>
+        <summary type="html"><![CDATA[The loss was primarily driven by $244 million in unrealized losses on cryptocurrency holdings and an additional $108.2 million investment loss.]]></summary>
+        <author>
+            <name>Francisco Rodrigues</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Code with Claude Extended SF: Heck yeah and then wait, what?]]></title>
+        <id>https://dev.to/earlgreyhot1701d/code-with-claude-extended-sf-heck-yeah-and-wait-what-5dbd</id>
+        <link href="https://dev.to/earlgreyhot1701d/code-with-claude-extended-sf-heck-yeah-and-wait-what-5dbd"/>
+        <updated>2026-05-09T17:26:14.000Z</updated>
+        <summary type="html"><![CDATA[Heck yeah
+
+
+I won a golden ticket to Code with Claude Extended (CCE) in San Francisco on May 7th.
+The application said attendees would be selected by lottery. I won the CCE lotto. On April 9th, I got the email: "You're invited." Emphasis on Extended, because demand was so high that Anthropic added a second day.
+The first day of Code with Claude was the "what's new" day. CCE was the "see it in the wild" day. Built for independent developers and early-stage founders. Founders stage. Builder stage. Workshops.
+I was at work when I read the invitation. I had to stop and pause. Once I gathered myself, I couldn't hit the register button fast enough. I'd hate to see what my heart rate was. I wanted to participate so, so badly.
+Heck yeah, I got in to CCE.
+Let's gooooooooooo.
+Before any workshop sta…]]></summary>
+        <author>
+            <name>L. Cordero</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Solana Transactions Are Different from REST API Calls (And Why It Matters)]]></title>
+        <id>https://dev.to/lymah/how-solana-transactions-are-different-from-rest-api-calls-and-why-it-matters-4lgc</id>
+        <link href="https://dev.to/lymah/how-solana-transactions-are-different-from-rest-api-calls-and-why-it-matters-4lgc"/>
+        <updated>2026-05-09T17:25:56.000Z</updated>
+        <summary type="html"><![CDATA[The Problem: Your Mental Model Is Broken
+
+
+You know how to build APIs. You understand request/response cycles. You know that a successful POST returns 200 OK, and a failed request returns 400 Bad Request. You've never been charged for a 400.
+Solana transactions will break every one of those assumptions.
+Last week, I sent a transaction that failed due to insufficient funds. The validator still charged me a fee. A 400 Bad Request just cost me real money. That's when I realized: I was thinking about blockchain like it was an API, and it's not.
+In this post, I'm going to show you exactly how Solana transactions work, how they differ from REST APIs, and why understanding those differences will make you a better blockchain developer.
+Here's how you think about HTTP today:
+POST /transfer
+{
+  "rec…]]></summary>
+        <author>
+            <name>Lymah</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Custom OpenTelemetry Collector for Oracle WebLogic: Bringing Observability to Enterprise Java]]></title>
+        <id>https://dev.to/vinnicius_andrade_a0d86e4/custom-opentelemetry-collector-for-oracle-weblogic-bringing-observability-to-enterprise-java-1d98</id>
+        <link href="https://dev.to/vinnicius_andrade_a0d86e4/custom-opentelemetry-collector-for-oracle-weblogic-bringing-observability-to-enterprise-java-1d98"/>
+        <updated>2026-05-09T17:22:29.000Z</updated>
+        <summary type="html"><![CDATA[Oracle WebLogic Server powers countless enterprise Java systems. But getting observability out of it has always meant juggling multiple tools, agents, and dashboards with no way to correlate signals across applications and infrastructure.
+I recently worked on standardizing observability across heterogeneous enterprise architectures at Banco do Brasil — from mainframe COBOL to cloud-native systems to on-premises WebLogic. The goal was simple: one semantic convention, one backend, one view of an entire transaction.
+This post walks through building a custom, minimal OpenTelemetry Collector for WebLogic that makes this possible.
+Repository: github.com/vinnicius/weblogic-opentelemetry
+Application (OTel Java Agent)  ──┐
+Host (CPU/memory/disk)         ──┼──→  otelcol-weblogic  ──→  Your Backend
+W…]]></summary>
+        <author>
+            <name>Vinnicius Andrade</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[State of Linux Terminal Emulators in 2026]]></title>
+        <id>https://dev.to/shrsv/state-of-linux-terminal-emulators-in-2026-1gh5</id>
+        <link href="https://dev.to/shrsv/state-of-linux-terminal-emulators-in-2026-1gh5"/>
+        <updated>2026-05-09T17:19:33.000Z</updated>
+        <summary type="html"><![CDATA[Hello, I'm Shrijith Venkatramana. I'm building git-lrc, an AI code reviewer that runs on every commit. Star Us to help devs discover the project. Do give it a try and share your feedback for improving the product.
+The Linux terminal emulator landscape has evolved into a rich ecosystem of powerful, modern tools that sometimes go overlooked. 
+While many people are happy with their distribution's default, the last few years have brought some incredible improvements that can genuinely change your command-line workflow.
+This article dives into the state of terminal emulators in 2026, comparing 10 of the most popular options. 
+It's not about declaring a single "best" terminal, but about understanding the trade-offs, the new capabilities, and finding the right tool for how you work.
+The once-unif…]]></summary>
+        <author>
+            <name>Shrijith Venkatramana</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Say It With Flowers: BouqAIs with the Tussie-Mussie Generator]]></title>
+        <id>https://dev.to/cloudinary/say-it-with-flowers-bouqais-with-the-tussie-mussie-generator-3do0</id>
+        <link href="https://dev.to/cloudinary/say-it-with-flowers-bouqais-with-the-tussie-mussie-generator-3do0"/>
+        <updated>2026-05-09T17:19:01.000Z</updated>
+        <summary type="html"><![CDATA[The Tussie-Mussie Generator is a web app for anyone who wants to send a meaningful floral e-card with an AI-generated "tussie mussie", a type of small nosegay. It uses the Victorian language of flowers to compose a bouquet, generates an image with Gemini, and sends it via Resend. This post covers 
+Migrated email sending from Mailgun to Resend, including a Cloudflare serverless function
+Fixed DNS configuration across Porkbun, Netlify, and Resend for a custom subdomain
+Replaced the previous image generator with Gemini for accurate tussie mussie generation
+Refactored the UI with Astro + Vue and impeccable.style for AI-assisted critique
+Have you ever wanted to build an e-card system that would allow you to send little ai-generated bouquets to your friends? No? Yes? Read on, gentle reader!
+Last…]]></summary>
+        <author>
+            <name>Jen Looper</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What to Audit in a Vibe-Coded MVP Before Real Users See It]]></title>
+        <id>https://dev.to/somnath_khadanga_2e5c2364/what-to-audit-in-a-vibe-coded-mvp-before-real-users-see-it-dpi</id>
+        <link href="https://dev.to/somnath_khadanga_2e5c2364/what-to-audit-in-a-vibe-coded-mvp-before-real-users-see-it-dpi"/>
+        <updated>2026-05-09T17:14:14.000Z</updated>
+        <summary type="html"><![CDATA[You built it with Cursor. Or Claude Code. Maybe both. The product works — users can sign up, the core workflow runs, and you've shown it to a dozen people without anything catching fire.
+Now you want to share it more widely.
+Before you do, run this audit.
+This is not a "rewrite everything" post. Most AI-generated code is structurally fine. The problem is almost never the code itself — it's the things the AI didn't know to think about: your deployment environment, your specific threat model, what happens when a real user does something unexpected at 2am.
+I've reviewed several AI-assisted codebases in the last few months. The same problems show up in almost all of them. They're not hard to fix. They're just not obvious when you're moving fast.
+<p>AI coding tools are genuinely fast. They're n…]]></summary>
+        <author>
+            <name>Somnath Khadanga</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Termux App Store — A TUI Package Manager for Termux]]></title>
+        <id>https://dev.to/wsoe/termux-app-store-a-tui-package-manager-for-termux-2o7n</id>
+        <link href="https://dev.to/wsoe/termux-app-store-a-tui-package-manager-for-termux-2o7n"/>
+        <updated>2026-05-09T17:10:05.000Z</updated>
+        <summary type="html"><![CDATA[Hey everyone,
+I’ve been working on a project called Termux App Store — a terminal-based app store / package manager experience designed specifically for Termux on Android.
+The main goal is to make discovering, installing, and even sharing tools easier directly from the terminal without needing a full graphical UI.
+Using Termux on mobile is powerful, but sometimes:
+remembering package names is annoying
+typing long install commands on a phone is tedious
+discovering new tools isn’t very user-friendly
+sharing personal scripts/tools can feel fragmented
+So I wanted to experiment with something that feels more like an “app store” experience while still staying fully inside the terminal.
+Modern TUI interface
+Browse tools interactively
+Search packages quickly
+Install tools directly from the UI
+Lightweight and mobile-friendly
+Works entirely in terminal
+Community-driven tool uploads/distribution
+Easy navigation without memorizing commands
+Designed specifically for the Termux ecosystem
+Instead of:
+pkg install something
+You can browse and manage tools in one place with a cleaner workflow.
+The idea is not to replace Termux packages, but to create a more user-friendly layer for discovering and distributing tools/scripts/projects inside the community.
+Still actively being developed and improved.
+I’m experimenting with:
+better package management
+repository integration
+smoother UI/UX
+upload/distribution system
+plugin-style architecture
+performance improvements for low-end devices
+I’d love feedback from the Termux community:
+What features would you want?
+What would make it genuinely useful?
+What problems do you face using Termux on mobile?
+GitHub:
+https://github.com/djunekz/termux-app-store
+Demo / Screenshots:
+https://github.com/djunekz/termux-app-store
+Thanks for reading 🙌]]></summary>
+        <author>
+            <name>RedVase</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CPanel's Black Week: 3 New Vulnerabilities Patched After Attack on 44k Servers]]></title>
+        <id>https://www.copahost.com/blog/cpanels-black-week-three-new-vulnerabilities-patched-after-ransomware-attack-on-44000-servers/</id>
+        <link href="https://www.copahost.com/blog/cpanels-black-week-three-new-vulnerabilities-patched-after-ransomware-attack-on-44000-servers/"/>
+        <updated>2026-05-09T17:06:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sports betting should be regulated as a financial product, not gambling, aspiring prediction market provider says]]></title>
+        <id>08a0cca3-88d2-42a6-989f-d8f10bd65649</id>
+        <link href="https://www.coindesk.com/policy/2026/05/09/sports-betting-should-be-regulated-as-a-financial-product-not-gambling-aspiring-prediction-market-provider-says"/>
+        <updated>2026-05-09T17:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Novig CEO Jacob Fortinsky said his company will transition to a federal Designated Contract Market framework this summer to launch in all 50 states, while 57 Maiden's Adam Mastrelli said he was banned from two major sportsbooks within two months for being “sharp."]]></summary>
+        <author>
+            <name>Jeffrey Albus</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How I Gave My Clients a Direct Line Into My App's Backlog Using OSC]]></title>
         <id>https://dev.to/oscdev/how-i-gave-my-clients-a-direct-line-into-my-apps-backlog-using-osc-1p8m</id>
@@ -285,6 +586,16 @@ The whole thing running on a $13/month VPS, using free
 Gemini …]]></summary>
         <author>
             <name>PINGxCEO</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Introduction to Beaver Triples]]></title>
+        <id>https://stoffelmpc.com/stoffel-blog/beaver-triples-tuples</id>
+        <link href="https://stoffelmpc.com/stoffel-blog/beaver-triples-tuples"/>
+        <updated>2026-05-09T16:02:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -949,6 +1260,16 @@ a lot of the value i get from teammates is invisible if you only look at the fin
         <id>https://cyberinsider.com/grapheneos-fixes-android-vpn-leak-google-refused-to-patch/</id>
         <link href="https://cyberinsider.com/grapheneos-fixes-android-vpn-leak-google-refused-to-patch/"/>
         <updated>2026-05-09T14:11:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Mochi.js: bun-native high-fidelity browser automation library]]></title>
+        <id>https://mochijs.com/</id>
+        <link href="https://mochijs.com/"/>
+        <updated>2026-05-09T14:01:40.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -61928,82 +62249,6 @@ This project is under development and am going to add more features to to so tha
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ripple-linked XRP stalls near $1.44 as 'triangle squeeze' nears breakout]]></title>
-        <id>91d86e44-84e5-41a4-a990-62f91ef5c877</id>
-        <link href="https://www.coindesk.com/markets/2026/04/25/ripple-linked-xrp-stalls-near-usd1-44-as-triangle-squeeze-nears-breakout"/>
-        <updated>2026-04-25T05:33:20.000Z</updated>
-        <summary type="html"><![CDATA[Price holds in tight range after high-volume move, with compression signaling a decisive move as institutional demand quietly builds.]]></summary>
-        <author>
-            <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built a Developer Trading Card Generator with Google AI Studio — Meet CodeCard Forge]]></title>
-        <id>https://dev.to/devil_21cf096c1059553286d/i-built-a-developer-trading-card-generator-with-google-ai-studio-meet-codecard-forge-43i2</id>
-        <link href="https://dev.to/devil_21cf096c1059553286d/i-built-a-developer-trading-card-generator-with-google-ai-studio-meet-codecard-forge-43i2"/>
-        <updated>2026-04-25T05:04:55.000Z</updated>
-        <summary type="html"><![CDATA[I Used Google AI Studio to Mint My Developer Identity as a Collectible Card — Here's What Happened
-
-
-This is a submission for the Google Cloud NEXT Writing Challenge
-I want to be honest with you: I did not expect this to work.
-Not "work" in the sense of running without errors. I mean work in the sense of — within a single afternoon, going from a random idea in my head to a real, deployed web application that I'm actually proud to show people. That's not how software has ever felt before. Until Google Cloud NEXT '26.
-Google AI Studio dropped a feature at NEXT '26 that lets you describe an app in plain English and watch it get built in front of you — full TypeScript, React components, API integrations, the whole thing. I'd seen the Magic: The Gathering card demo floating around. Cool, but ev…]]></summary>
-        <author>
-            <name>Devil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[BillForge — A Lightweight Invoice Generator with PDF Export & Google Sheets Sync]]></title>
-        <id>https://dev.to/nilesh-padiyar/billforge-a-lightweight-invoice-generator-with-pdf-export-google-sheets-sync-86m</id>
-        <link href="https://dev.to/nilesh-padiyar/billforge-a-lightweight-invoice-generator-with-pdf-export-google-sheets-sync-86m"/>
-        <updated>2026-04-25T05:02:40.000Z</updated>
-        <summary type="html"><![CDATA[🚀 I built a lightweight Invoice Generator using HTML, CSS & JavaScript
-
-
-Most invoice tools I’ve used are either:
-Too heavy
-Require login/signup
-Or feel overkill for simple use cases
-So I decided to build something minimal.
-👉 Introducing BillForge — a lightweight invoice generator that runs entirely in the browser.
-I wanted a tool that:
-Works instantly (no setup)
-Doesn’t require a backend
-Generates clean, printable invoices
-Can export to PDF easily
-🧾 Dynamic invoice creation
-➕ Add / remove items
-💰 Real-time total calculation
-📄 Export as PDF
-📤 Share via WhatsApp / Gmail
-☁️ Optional Google Sheets integration
-HTML5
-CSS3
-Vanilla JavaScript
-html2canvas (for capturing UI)
-jsPDF (for PDF generation)
-The app captures the invoice layout using html2canvas, then converts it into a PDF using jsPDF.
-For optional backend support, I used Google Apps Script, which stores invoice data in Google Sheets.
-👉 Live Demo: https://nilesh-padiyar.github.io/billforge/
-https://github.com/nilesh-padiyar/billforge
-Handling DOM-based PDF generation isn’t always straightforward
-Balancing PDF quality vs file size is tricky
-Keeping UI clean makes a big difference in usability
-Even simple projects can benefit from optional backend integrations
-I’m thinking of adding:
-Invoice history
-Custom themes
-Export to CSV/Excel
-I’d love to hear:
-What features would you expect in such a tool?
-Any improvements or ideas?
-Thanks for reading!]]></summary>
-        <author>
-            <name>Nilesh</name>
         </author>
     </entry>
 </feed>
