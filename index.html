@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-05-10 datetime="2026-05-10T17:47:19.000Z">2026-05-10</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-05-10 datetime="2026-05-10T17:47:19.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-05-10 datetime="2026-05-10T18:48:16.000Z">2026-05-10</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-05-10 datetime="2026-05-10T18:48:16.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,340 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/bmbrick/how-i-built-a-perceptual-color-quantization-engine-for-lego-mosaics-4lkm"
+                        open
+                      >
+                        <summary class="article-expander__title">How I Built a Perceptual Color Quantization Engine for LEGO Mosaics</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/bmbrick/how-i-built-a-perceptual-color-quantization-engine-for-lego-mosaics-4lkm">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Feazpkjqlsbcmrd5q4qqu.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Problem
+
+
+Converting a photo into a LEGO mosaic sounds simple: resize the image, find the closest LEGO color for each pixel, done.
+Except it looks terrible. Skin tones turn green. Hair becomes a muddy blob. The algorithm picks colors that are mathematically close in RGB but perceptually wrong.
+I switched from RGB to OKLab, a perceptually uniform color space designed in 2020. In OKLab, equal numerical distances correspond to equal perceived color differences.
+This alone was a massive improvement, but it wasn&#x27;t enough.
+LEGO bricks aren&#x27;t paint. A matte red brick and a transparent red brick look completely different under the same light. My engine models each brick&#x27;s material properties (matte, transparent, metallic, glitter) and weights the color distance accordingly.
+// Simplified: material-aware distance
+function colorDistance(pixel, brick) {
+  const labDist &#x3D; oklabDistance(pixel, brick.color);
+  const materialPenalty &#x3D; pixel.material !&#x3D;&#x3D; brick.material ? 0.15 : 0;
+  return labDist + materialPenalty;
+}
+
+Quantized images have a speckle problem: isolated pixels of wrong colors create noise. I added a spatial stabilization pass that:
+Splits the image into 4x4 blocks
+Runs a coarse quantization per block with a &quot;block anchor&quot; weight
+Applies a despeckle pass that replaces isolated single-pixel colors
+The full pipeline:
+Resize to target grid (48x48 or 64x64 studs)
+Convert to OKLab
+Quantize with material-aware matching
+Spatial stabilization (block anchor + despeckle)
+Edge preservation check
+Render 4-layer Canvas preview
+The tool is live at www.bmbrick.com. Free to try, free (during launch period) for the full parts list.
+Faces look like faces. Fur looks like fur. It&#x27;s not perfect, but it&#x27;s a massive improvement over naive RGB matching.
+Built with vanilla JS, Canvas API, and Web Workers. No framework, no bundler.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/arpitstack/your-aws-bill-is-lying-to-you-it-shows-services-not-features-5817"
+                        open
+                      >
+                        <summary class="article-expander__title">Your AWS bill is lying to you — it shows services, not features</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/arpitstack/your-aws-bill-is-lying-to-you-it-shows-services-not-features-5817">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Faty4na9ow11kax38xe5f.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Our AWS bill crossed $180K in a single month.
+We had Datadog. We had CloudWatch dashboards. We had a PagerDuty integration, three runbooks, and a Grafana board that took an intern two weeks to build. We had observability.
+What we didn&#x27;t have — what I didn&#x27;t realize we were missing until our CFO sent a Slack message on a Tuesday afternoon — was any idea which product feature was responsible for which dollar.
+She didn&#x27;t ask why our p99 latency was 230ms. She asked:
+&quot;Which feature drove the $34K jump in compute costs last month?&quot;
+I had no answer.
+This is that story. And if you&#x27;re running a B2B SaaS product with more than a handful of microservices and an AI component or two, I&#x27;d bet it&#x27;s your story too — you just haven&#x27;t hit the Tuesday Slack message yet.
+Here&#x27;s the trap: modern observability…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;13
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/codewithahsan/i-built-a-chrome-extension-to-sync-ai-studio-system-instructions-heres-why-chromestoragesync-2llm"
+                        open
+                      >
+                        <summary class="article-expander__title">I Built a Chrome Extension to Sync AI Studio System Instructions. Here&#x27;s Why chrome.storage.sync Couldn&#x27;t Do It</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/codewithahsan/i-built-a-chrome-extension-to-sync-ai-studio-system-instructions-heres-why-chromestoragesync-2llm">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foj8omntf4mlhi63u9iaj.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I use Google AI Studio on three machines. My laptop, my desktop, and occasionally a work machine.
+Every time I switched devices, my system instructions weren&#x27;t there. I&#x27;d carefully crafted a &quot;Software Architect&quot; prompt, a &quot;Posts &amp; Content&quot; persona, a &quot;YT Expert&quot; context — and they existed on exactly one device. The others were blank.
+Chrome sync handles bookmarks, passwords, even open tabs. Why not this?
+chrome.storage.sync looks like exactly the right tool. It&#x27;s built into Chrome, it syncs across devices on the same Google account, and it has a reasonable quota.
+There&#x27;s one catch: Chrome only syncs extension storage for extensions installed from the Chrome Web Store.
+Sideloaded extensions — installed via Developer Mode from a local folder — get a randomly generated ID on each device. Diff…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/adev3loper/how-python-powers-real-world-data-analytics-3m6m"
+                        open
+                      >
+                        <summary class="article-expander__title">How Python Powers Real-World Data Analytics</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/adev3loper/how-python-powers-real-world-data-analytics-3m6m">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fres.cloudinary.com%2Fdnnjo9bdw%2Fimage%2Fupload%2Fv1778436849%2Fpython-data-analytics_article_ad3v.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Python Isn&#x27;t a Trend. It&#x27;s the Standard.
+
+
+If you work with data in any capacity, whether wrangling CSVs for a monthly report or building production dashboards for executive stakeholders, you will eventually encounter Python. Not as an option. As the default.
+A decade ago, data analysis meant Excel, maybe some VBA macros if you were ambitious. Organisations that needed serious number-crunching turned to proprietary tools like SAS, SPSS, or MATLAB, typically running on expensive enterprise licences. Those tools served their purpose, but they buckled under the demands of modern data volumes and the pace at which teams now need to iterate. As companies scaled their data operations, they gravitated toward Python, drawn by its readability, its zero licence cost, and an open-source ecosystem tha…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/imatulsrivas/i-built-14-vs-code-extensions-to-fix-the-workflows-developers-quietly-suffer-through-pba"
+                        open
+                      >
+                        <summary class="article-expander__title">I built 14 VS Code extensions to fix the workflows developers quietly suffer through</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/imatulsrivas/i-built-14-vs-code-extensions-to-fix-the-workflows-developers-quietly-suffer-through-pba">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fin5s0chlppfdruhyrn9u.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Every developer I know has the same quiet frustrations.
+Leaked API keys that slipped past .gitignore. VS Code that got slow somewhere between extension 15 and 20. Architecture nobody fully understands anymore. Regex tested in a browser tab, then pasted back. Focus sessions interrupted by a notification that could have waited.
+None of these are catastrophic. They just compound.
+I spent the last several months building 14 VS Code extensions — one per pain point. Each one is a focused tool that brings a useful signal inside the editor, at the moment it matters.
+─────────────────────────────────────
+SecureVault Pro      → Scans files and workspaces for API keys, credentials, PII, .env risks
+─────────────────────────────────────
+Most developer tooling works like this: something goes wrong, a post-mortem happens, a new dashboard gets added to the bookmark bar. That dashboard gets checked once.
+This suite works differently. The signal appears inside the editor, at the moment it matters.
+SecureVault catching a leaked key before a commit is worth more than a SIEM alert after the push. DependencyGuard flagging a vulnerable package during development is worth more than a Dependabot PR three weeks later. ArchitectureMapper showing a circular dependency before a refactor is worth more than a three-hour debugging session after one.
+─────────────────────────────────────
+• India: ₹49 per extension (one-time)
+Extensions: https://atulhritik-payments.vercel.app
+─────────────────────────────────────
+Install from VS Code Marketplace (publisher: AtulHritik) or install the .vsix package manually.
+Open Command Palette (Ctrl+Shift+P), search the extension name, run the main command.
+To unlock paid features: run Buy License → complete payment → copy key → run Enter License Key.
+─────────────────────────────────────
+Repository: https://github.com/atul0016/VSCDExtension-new
+https://github.com/atul0016/VSCDExtension-new/issues</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/damian_marchewka_bdf5aec2/task-manager-api-in-fastapi-302a"
+                        open
+                      >
+                        <summary class="article-expander__title">Task Manager API in FastAPI</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/damian_marchewka_bdf5aec2/task-manager-api-in-fastapi-302a">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F32nj9kewrigm7cclurpd.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I built a complete REST API for task management in FastAPI with a well-defined layered architecture (router, service, repository, DB) and a SQLAlchemy-based database. I have full CRUD testing coverage, including success and failure scenarios, an isolated test environment, and database resets. I understand the differences between HTTP code, test the API as a whole, not individual functions, and use a plan-to-implement approach. The project is ready for further expansion with pagination, validation, and JWT authorization.
+Project link: https://github.com/DamianMarchewka/Task-Manager-API
+Feedback and constructive criticism are welcome.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/harman_panwar_46de8d9454b/javascript-modules-explained-from-chaos-to-clean-code-ibb"
+                        open
+                      >
+                        <summary class="article-expander__title">JavaScript Modules Explained: From Chaos to Clean Code</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/harman_panwar_46de8d9454b/javascript-modules-explained-from-chaos-to-clean-code-ibb">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8zpa9ajx1s1aslnerlw3.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>If you&#x27;ve ever opened a JavaScript file and found 3,000 lines of tangled functions, global variables clashing with each other, and no clear structure — you already understand why modules exist, even if you haven&#x27;t used them yet.
+Modules are one of the most important concepts in modern JavaScript. They solve a fundamental problem: how do you split your code into organized, reusable, and maintainable pieces without everything falling apart?
+In this guide, we&#x27;ll start from the problem modules solve, then walk through how to export, import, and structure your code like a professional developer. No bundler configuration. No framework abstractions. Just vanilla JavaScript and the module system built into the language itself.
+The Problem: Why Your Code Falls Apart Without Modules
+What Are JavaScr…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/asterview/your-mcp-server-has-no-network-identity-heres-why-thats-a-problem-34lj"
+                        open
+                      >
+                        <summary class="article-expander__title">Your MCP Server Has No Network Identity. Here&#x27;s Why That&#x27;s a Problem.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/asterview/your-mcp-server-has-no-network-identity-heres-why-thats-a-problem-34lj">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4x3hwur0cjnvildftlz5.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>MCP (Model Context Protocol) crossed 97 million monthly SDK downloads. Every major AI provider adopted it. It solved a real problem: how do agents invoke tools and retrieve context in a standardized way?
+But MCP is a protocol for what agents can do. It says nothing about where they are or how they find each other.
+Your MCP server lives at a URL. That URL is hardcoded in your agent&#x27;s config. If it changes, your agent breaks. If you want another agent to discover your server&#x27;s capabilities, you need a registry, a service mesh, or a human to copy and paste the URL.
+This is the network identity problem for MCP, and it&#x27;s more tractable than it looks.
+MCP standardizes the tool-calling layer. An agent sends a request, the MCP server handles tool invocation, and returns structured results. The pro…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/asterview/p2p-vs-broker-the-architecture-decision-defining-multi-agent-systems-54dg"
+                        open
+                      >
+                        <summary class="article-expander__title">P2P vs. Broker: The Architecture Decision Defining Multi-Agent Systems</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/asterview/p2p-vs-broker-the-architecture-decision-defining-multi-agent-systems-54dg">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fh01aitrwez93oei92b96.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Most multi-agent systems are built on a broker. There&#x27;s a coordinator that receives tasks, dispatches them to worker agents, and collects results. It&#x27;s a natural architecture. It mirrors how humans organize teams. It&#x27;s easy to reason about.
+It&#x27;s also a bottleneck that gets worse as your fleet grows.
+This post breaks down when broker architectures work, when they fail, and what a peer-to-peer alternative actually looks like in production.
+A broker-based system has real advantages for small fleets:
+Simple mental model: one coordinator, many workers. Easy to debug.
+Clear ordering: the broker controls task sequencing. No race conditions.
+Auditability: everything flows through a central point. Logs are coherent.
+Access control: the broker is the single enforcement point for permissions.
+For a t…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/nbouvrette/your-scrum-isnt-scrum-the-scrum-guide-is-13-pages-your-process-has-300-2330"
+                        open
+                      >
+                        <summary class="article-expander__title">Your Scrum Isn&#x27;t Scrum. The Scrum Guide Is 13 Pages. Your Process Has 300.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/nbouvrette/your-scrum-isnt-scrum-the-scrum-guide-is-13-pages-your-process-has-300-2330">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fd0iekxw7f5olhp15k3rt.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Originally published at theendofcoding.com.
+The Scrum Guide is 13 pages. The terms &quot;user story&quot; and &quot;epic&quot; never appear in it. The word &quot;velocity&quot; appears zero times. Story points have not been mentioned since 2010. Planning poker, Fibonacci, &quot;As a user, I want,&quot; Given/When/Then, two-week sprints — none of it is in there. What most engineering organizations call Scrum is a folk overlay assembled on top of the Guide over twenty years by books, tools, and consultants. Most of what your team fights about at sprint planning was never Scrum.
+This is not a critique of Scrum. The Scrum Guide is fine. The bloat this article catalogs was added to Scrum — by mid- and large-sized enterprises that grafted on practices from books, tools, and consultants left and right until what took ten minutes to rea…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;15
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/samchenreviews/how-i-cut-my-ai-api-bill-by-90-with-a-multi-model-routing-system-1hk7"
+                        open
+                      >
+                        <summary class="article-expander__title">How I Cut My AI API Bill by 90% With a Multi-Model Routing System</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/samchenreviews/how-i-cut-my-ai-api-bill-by-90-with-a-multi-model-routing-system-1hk7">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F1w0qd5broe9xg5k8yole.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Last month my Claude API bill was $847. This month it&#x27;s $73. Same output quality. Here&#x27;s the system I built.
+I run multiple AI-powered services — content generation, email classification, SEO optimization, data extraction. Every call was going to Claude Sonnet because &quot;it works.&quot; But most of those calls didn&#x27;t need Sonnet-level intelligence.
+Classifying an email as spam? That&#x27;s a Haiku job. Generating embeddings? Ollama handles that for free. Writing a full article? OK, that&#x27;s Sonnet. But only 15% of my calls actually needed the expensive model.
+I built a routing layer that sits between my application code and the LLM providers. Every request gets classified by complexity, then routed to the cheapest model that can handle it.
+from empire_router import router
+
+# Auto-routed based on task co…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/asterview/why-your-ai-agents-are-still-bottlenecked-by-http-and-what-to-do-about-it-bec"
+                        open
+                      >
+                        <summary class="article-expander__title">Why Your AI Agents Are Still Bottlenecked by HTTP (And What to Do About It)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/asterview/why-your-ai-agents-are-still-bottlenecked-by-http-and-what-to-do-about-it-bec">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F74r010e1zitrvic221p2.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>You&#x27;ve wired up your AI agent to a dozen APIs. It can search the web, pull database records, call external services. It looks like a capable system on paper.
+But watch what it actually does at runtime.
+It fires off an HTTP request. Waits for DNS. Does the TLS handshake. Gets back HTML or JSON designed for a human interface. Parses it with fragile selectors or regex. Retries when the schema changed. Does it again, and again, for every piece of data it needs.
+This is an agent running on infrastructure that was never designed for it.
+For every search a human makes, an AI agent performs 20-50x more requests. Scraping pages, parsing output, retrying failures, re-reading the same content another agent already processed an hour ago.
+HTTP was designed in 1991 for a browser rendering documents for …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -3536,10 +3870,142 @@ I&#x27;ve spent 19 years building software systems, the last several focused on 
                     class="source-heading__name"
                     data-action="toggle-accordions"
                     title="Click to toggle the source, Ctrl + click to toggle all."
+                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
+                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="2679fc12-9301-41f8-8c32-c0f01f4455ad"
+                        open
+                      >
+                        <summary class="article-expander__title">Policy at Consensus Miami: State of Crypto</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/05/10/policy-at-consensus-miami-state-of-crypto">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/21d21ad9a1e8a42425d6e4c1954666616c57dd51-4242x2828.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>This was a hectic week.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;38
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="bf15937e-c2a1-4467-85a4-a1b58baf0429"
+                        open
+                      >
+                        <summary class="article-expander__title">Agentic commerce will run on crypto rails, PayPal and Google reps tell Consensus Miami</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/05/10/agentic-commerce-will-run-on-crypto-rails-paypal-and-google-reps-tell-consensus-miami">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5a3a1c73d58c0d900a0709bd5ab1d20c5a56a1eb-2048x1152.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Senior figures from PayPal and Google Cloud said open payment protocols, machine-readable merchant catalogs and multi-party crypto custody are needed to scale agentic commerce.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;37
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="d2ef3425-8440-4bcc-b4c8-0bad5c62b663"
+                        open
+                      >
+                        <summary class="article-expander__title">Bored Ape NFTs are finally making a comeback as crypto traders rediscover their appetite for risk</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/05/10/bored-ape-nfts-are-finally-making-a-comeback-as-crypto-traders-rediscover-their-appetite-for-risk">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/7921e8d1cbf946cddef430a08db6d8c826970ed2-1440x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>BAYC floor prices have doubled in a month as traders rotate back into speculative crypto bets, reviving hopes of a broader NFT recovery.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;38
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
                   >Hacker News</button>
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://grapheneos.social/@GrapheneOS/116550899908879585"
+                        open
+                      >
+                        <summary class="article-expander__title">Hardware Attestation as Monopoly Enabler</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://grapheneos.social/@GrapheneOS/116550899908879585">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;1
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://nesbitt.io/2026/02/03/incident-report-cve-2024-yikes.html"
+                        open
+                      >
+                        <summary class="article-expander__title">Incident Report: CVE-2024-YIKES</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://nesbitt.io/2026/02/03/incident-report-cve-2024-yikes.html">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://nesbitt.io/images/boxes.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://news.ycombinator.com/item?id&#x3D;48085993"
+                        open
+                      >
+                        <summary class="article-expander__title">Ask HN: What Are You Working On? (May 2026)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://news.ycombinator.com/item?id&#x3D;48085993">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -3630,6 +4096,25 @@ I&#x27;ve spent 19 years building software systems, the last several focused on 
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.quarter--mile.com/The-Locals-Dont-Know"
+                        open
+                      >
+                        <summary class="article-expander__title">The Locals Don&#x27;t Know</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.quarter--mile.com/The-Locals-Dont-Know">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -4079,60 +4564,6 @@ I&#x27;ve spent 19 years building software systems, the last several focused on 
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
-                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="bf15937e-c2a1-4467-85a4-a1b58baf0429"
-                        open
-                      >
-                        <summary class="article-expander__title">Agentic commerce will run on crypto rails, PayPal and Google reps tell Consensus Miami</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/05/10/agentic-commerce-will-run-on-crypto-rails-paypal-and-google-reps-tell-consensus-miami">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5a3a1c73d58c0d900a0709bd5ab1d20c5a56a1eb-2048x1152.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Senior figures from PayPal and Google Cloud said open payment protocols, machine-readable merchant catalogs and multi-party crypto custody are needed to scale agentic commerce.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;37
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="d2ef3425-8440-4bcc-b4c8-0bad5c62b663"
-                        open
-                      >
-                        <summary class="article-expander__title">Bored Ape NFTs are finally making a comeback as crypto traders rediscover their appetite for risk</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/05/10/bored-ape-nfts-are-finally-making-a-comeback-as-crypto-traders-rediscover-their-appetite-for-risk">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/7921e8d1cbf946cddef430a08db6d8c826970ed2-1440x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>BAYC floor prices have doubled in a month as traders rotate back into speculative crypto bets, reviving hopes of a broader NFT recovery.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;38
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -17159,6 +17590,25 @@ If you&#x27;re leaving your home for the office every day like I am, this time s
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;27
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.joachimschipper.nl/Stop%20MITM%20on%20the%20first%20SSH%20connection,%20on%20any%20VPS%20or%20cloud%20provider.html"
+                        open
+                      >
+                        <summary class="article-expander__title">Stop MitM on the first SSH connection, on any VPS or cloud provider</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.joachimschipper.nl/Stop%20MITM%20on%20the%20first%20SSH%20connection,%20on%20any%20VPS%20or%20cloud%20provider.html">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;4
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -94159,65 +94609,6 @@ The post EZI Ray 01 Electric Scooter Lands In Malaysia appeared first on Lowyat.
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://interblah.net/self-updating-screenshots"
-                        open
-                      >
-                        <summary class="article-expander__title">Self-updating screenshots</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://interblah.net/self-updating-screenshots">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.ycombinator.com/companies/terra-api/jobs/DY7BCZU-applied-ai-strategist-market-intelligence-health"
-                        open
-                      >
-                        <summary class="article-expander__title">Terra API (YC W21) Hiring: Applied AI Strategist(Health Intelligence)</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.ycombinator.com/companies/terra-api/jobs/DY7BCZU-applied-ai-strategist-market-intelligence-health">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://bookface-images.s3.amazonaws.com/logos/915fb21dc2d843d2a928dda2b272d60118669846.png?1684319250" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://techtrenches.dev/p/the-west-forgot-how-to-make-things"
-                        open
-                      >
-                        <summary class="article-expander__title">The West Forgot How to Make Things. Now It&#x27;s Forgetting How to Code</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://techtrenches.dev/p/the-west-forgot-how-to-make-things">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://substackcdn.com/image/fetch/$s_!YrAo!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fa56e63d9-5f03-432a-99de-2f46dd286b53_508x340.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;15
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -99434,168 +99825,6 @@ After your test run you get a self-contained cloudreport.html with a full breakd
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/zohair_ahmed_nadeem/about-who-u-r-3jki"
-                        open
-                      >
-                        <summary class="article-expander__title">About &quot;Who U R</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/zohair_ahmed_nadeem/about-who-u-r-3jki">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F87ls2k0sv1nk0wc031vj.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The Idea 💡
-
-
-I was looking for a fun and unique Django project — something that would polish my skills while being genuinely interesting. Then a reel popped up on my feed showing personality traits based on birth month. That random moment sparked everything.
-I thought — what if I research this properly and build it?
-That&#x27;s when I discovered Astrology as a system for personality analysis. I started researching how birth data maps to personality traits, and the more I dug in, the more fascinating it became. I decided to build it.
-The biggest technical decision I made early on was: I will not save any user data in the database.
-This was a privacy-first approach. Instead of storing user inputs, I send data directly to the API via POST method and get results back in JSON format — processed and…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/aswin94/eight-years-in-fintech-zero-tools-for-myself-423n"
-                        open
-                      >
-                        <summary class="article-expander__title">Eight Years in FinTech. Zero Tools for Myself.</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/aswin94/eight-years-in-fintech-zero-tools-for-myself-423n">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1611974789855-9c2a0a7236a3%3Fw%3D1000%26h%3D420%26fit%3Dcrop%26q%3D80" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>There&#x27;s a particular irony in spending your career building tools that help people make better financial decisions — and not having any of those tools for yourself.
-That&#x27;s exactly where I&#x27;ve been for eight years.
-I&#x27;m a Lead Engineer at a global FinTech firm. My day job involves building the infrastructure that wealth management platforms run on — portfolio dashboards, brokerage integrations, API gateways, rendering pipelines under real load. The engineering problems are interesting. The domain is one I respect. I&#x27;m good at it.
-But here&#x27;s what I noticed somewhere around year five: everything I built faced outward. Toward institutional clients. Toward scale. Toward other people&#x27;s money.
-
-
-
-What I built at work
-What I had for myself
-
-
-
-
-Portfolio tracking dashboards
-A spreadsheet
-
-
-Real-time …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;10
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/mark0_617b45cda9782a/monitoring-claude-codecowork-at-scale-with-otel-in-elastic-4kei"
-                        open
-                      >
-                        <summary class="article-expander__title">Monitoring Claude Code/Cowork at scale with OTel in Elastic</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mark0_617b45cda9782a/monitoring-claude-codecowork-at-scale-with-otel-in-elastic-4kei">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frm6xck03tl9oz9zd1agp.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Elastic&#x27;s InfoSec team has developed a robust monitoring pipeline for AI coding assistants like Claude Code and Cowork to address the visibility challenges posed by autonomous agents in engineering workflows. By leveraging native OpenTelemetry (OTel) capabilities, security teams can monitor agent actions—such as shell command execution and API calls—in real-time to support threat detection, compliance, and incident response.
-The article outlines two primary architectural approaches for ingesting OTel data into Elasticsearch: using a self-managed Elastic Distribution of the OpenTelemetry Collector (EDOT) or utilizing Elastic Cloud&#x27;s Managed OTLP endpoint. It further details the use of custom Elasticsearch mappings and ingest pipelines to structure telemetry data, enabling advanced security use cases like tool invocation auditing, session reconstruction, and cost anomaly detection.
-Read Full Article</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/mario_wu_eeaee9e5d5c942b8/arxiv-weekly-llm-papers-agent-3okd"
-                        open
-                      >
-                        <summary class="article-expander__title">Arxiv Weekly LLM Papers Agent</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mario_wu_eeaee9e5d5c942b8/arxiv-weekly-llm-papers-agent-3okd">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F9nyp21oo7pfyulds3scw.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Arxiv Weekly LLM Papers Agent
-
-
-The long-tail keyword here is arxiv weekly LLM papers agent. The intent is not just &quot;summarize papers.&quot; A useful weekly digest connects papers to implementations, discussion, adoption signals, and regional commentary. AutoSearch helps an agent collect that wider context through MCP-native research across 40 channels, including academic, developer, social, video, and 10+ Chinese sources.
-For LLM papers, the abstract is only the start. The practical question is whether the idea has code, whether researchers are discussing limitations, whether developers are reproducing results, and whether Chinese AI communities are interpreting the work differently.
-Define the output before collecting sources. A good weekly digest might include paper title, core idea, method …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/wheynelau/learnings-of-the-poor-2086"
-                        open
-                      >
-                        <summary class="article-expander__title">Learnings of the Poor</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/wheynelau/learnings-of-the-poor-2086">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fdpfh8tqmok4lut54ud4w.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Necessity is the mother of invention
-I was already GPU poor, but a recent job change combined with rising component prices have also made me RAM and NVMe poor.
-While I am nowhere close to the experts of optimisations in the early 2000s or 90s, I took this time to brush up on some fundamentals and key concepts in Python. As the saying goes:
-&quot;Premature optimisation is the root of all evil&quot;
-We are not looking for very deep level optimisations, these changes aim to follow the Pareto Principle where 80% of the outcome comes from 20% of the effort. The changes below may or may not be 20% effort but I would consider them low-effort.
-As such, there won&#x27;t be any discussion on performance profiling, where we are determining hot loops, cache misses, memory reallocations etc.
-Frankly I think this is a…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/mario_wu_eeaee9e5d5c942b8/langchain-deep-research-retriever-pattern-33h7"
-                        open
-                      >
-                        <summary class="article-expander__title">LangChain Deep Research Retriever Pattern</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mario_wu_eeaee9e5d5c942b8/langchain-deep-research-retriever-pattern-33h7">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3y3mho5r6nbikc0gd74j.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>LangChain Deep Research Retriever Pattern
-
-
-The target long-tail keyword is LangChain deep research retriever. Many teams searching that phrase want a way to give LangChain applications fresh external evidence, not just documents already embedded in a vector store. AutoSearch can serve that role as an MCP-native tool or retrieval component that reaches 40 channels, including 10+ Chinese sources, while staying independent from the LLM.
-This pattern is useful when a chain needs timely information or source diversity. A private knowledge base can answer internal questions, but it will not know new GitHub issues, market sentiment, arxiv-style papers, or Chinese platform discussion unless you fetch them.
-In LangChain, a retriever usually returns documents from an index. AutoSearch is better tho…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -99852,8 +100081,8 @@ The post Windows 11 Task Manager Will Soon Show Neural Engine Columns appeared f
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/25635594824">
-        <time id="build-timestamp" datetime="2026-05-10T17:51:11.154Z">2026-05-10T17:51:11.154Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/25637103526">
+        <time id="build-timestamp" datetime="2026-05-10T19:01:15.872Z">2026-05-10T19:01:15.872Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>
