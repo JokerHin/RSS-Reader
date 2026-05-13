@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/sidharth_sangelia/new-laptop-new-job-and-two-weeks-of-not-touching-my-invoice-app-26l2",
+          "author": "Sidharth Sangelia",
+          "description": "So it has been roughly two weeks since my last post and a lot happened. Not in a \"shipped three features\" way. More in a \"life moved fast and I was just trying to keep up\" kind of way.\nLet me just get into it.\nThis one still feels a bit surreal to write.\nI did not ask for it. My parents saw me at a point where they felt confident enough to say okay, this is a good investment. And they just got it. The MacBook Air M5.\nI have been building on a setup that was honestly not great for a while now. So when I opened the box I genuinely did not know how to react. It felt less like buying a laptop and more like someone placing a bet on you. That kind of thing does something to you. Makes you not want to waste it.\nThis is the bigger news.\nI joined an international freight forwarding company as a Pri…",
+          "link": "https://dev.to/sidharth_sangelia/new-laptop-new-job-and-two-weeks-of-not-touching-my-invoice-app-26l2",
+          "publishedOn": "2026-05-13T13:05:15.000Z",
+          "wordCount": 2617,
+          "title": "New Laptop, New Job, and Two Weeks of Not Touching My Invoice App",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fl9uavnil6uyc3xck2v69.png"
+        },
+        {
+          "id": "https://dev.to/smartguy666/how-we-stopped-burning-gpu-credits-on-duplicate-model-calls-4149",
+          "author": "hamza qureshi",
+          "description": "We had an easy-sounding feature: a realtime assistant that streams model responses to users over WebSockets. It worked in dev, and even in staging.\nIn production we kept seeing spikes in model invocations, huge bills, and terrible UX as users saw duplicated responses or stale state.\nThis is what we learned the hard way.\nThe immediate trigger was simple: an incident where a misbehaving mobile client retried on reconnect and caused a flood of duplicate model calls.\nSymptoms we saw:\n2x-5x model invocation rates during reconnect storms\nBackend agents re-processing the same event multiple times\nIncreased tail latency and model queue saturation\nAt first it felt like client bugs, but the root cause spanned client, socket fleet, and our orchestration layer.\nWe made several naive assumptions early …",
+          "link": "https://dev.to/smartguy666/how-we-stopped-burning-gpu-credits-on-duplicate-model-calls-4149",
+          "publishedOn": "2026-05-13T13:04:12.000Z",
+          "wordCount": 2433,
+          "title": "How We Stopped Burning GPU Credits on Duplicate Model Calls",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fsz8a4ca0phj9ezw9k5ii.png"
+        },
+        {
+          "id": "https://dev.to/marta-hossted/debezium-wont-start-the-whitespace-bug-that-stumped-our-client-2k73",
+          "author": "Marta @ Hossted",
+          "description": "Debezium Won't Start? The Whitespace Bug That Stumped Our Client\n\n\nWe recently got a support ticket that looked simple at first. A client's Debezium MySQL connector kept failing at startup. The error pointed to message.key.columns. The config looked reasonable. But nothing worked.\nHere's what happened — and how we fixed it without touching the database schema.\nThe client had a MySQL table with a space in its name: dbo.Sourcing Id Master.\nThey configured the connector like this:\n\"message.key.columns\": \"dbo.Sourcing Id Master:id\"\n\nConnector validation failed immediately. They tried escaping — backslashes, quotes, every combination. Same error every time.\nThe problem isn't at runtime. It's at config validation time.\nDebezium's validator for message.key.columns requires the fully-qualified table identifier to contain no whitespace. The validator rejects it before the connector even connects to MySQL. No escaping fixes this.\nStep 1 — capture the table via table.include.list (accepts spaces fine):\n\"table.include.list\": \"dbo\\.Sourcing Id Master\"\nStep 2 — build the message key with a ValueToKey SMT:\n\"transforms\": \"ValueToKey\",\nDebezium includes primary key fields in the record value anyway — the SMT pulls id from there and sets it as the Kafka message key, bypassing the validator entirely.\nConnector starts. Table captured. Keys work. Zero schema changes.\nAt Hossted, we help enterprises run open source in production — Kafka, Debezium, PostgreSQL, Kubernetes and more. Follow us on LinkedIn for more cases like this.",
+          "link": "https://dev.to/marta-hossted/debezium-wont-start-the-whitespace-bug-that-stumped-our-client-2k73",
+          "publishedOn": "2026-05-13T13:02:58.000Z",
+          "wordCount": 1666,
+          "title": "Debezium Won't Start? The Whitespace Bug That Stumped Our Client",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjj3nufhqnz14xvk4f9gk.png"
+        },
+        {
+          "id": "https://dev.to/canio_09c0260b90e6c93c69c/smb-enumeration-una-delle-fasi-piu-importanti-nel-penetration-testing-23ne",
+          "author": "Canio",
+          "description": "Quando un host Windows espone SMB, espone spesso anche moltissime informazioni utili per un attaccante. Per questo è uno dei primi servizi controllati in qualsiasi attività di penetration testing.\nSMB (Server Message Block) è il protocollo Windows per condivisione file, stampanti e autenticazione di rete. Porte principali: 445/tcp e 139/tcp.\nAnche senza credenziali, SMB può rivelare:\nhostname e nome dominio\nutenti e share\npolicy password\nversione del sistema operativo\nconfigurazioni di sicurezza\nIn ambienti Active Directory, SMB è ovunque. Molte tecniche offensive dipendono direttamente da esso:\npass-the-hash\nlateral movement\nremote execution\ncredential dumping\nrelay attacks (es. NTLM relay)\nSMBv1 ancora attivo\nshare con permesso \"Everyone\" in lettura\naccessi guest abilitati\nfile sensibili (credenziali, chiavi SSH, backup DB) su share interne\nQueste configurazioni aumentano enormemente la superficie di attacco.\nPer una guida tecnica più avanzata su tecniche offensive e difensive in ambienti Windows: SMB Enumeration su HackIta\nDisabilitare SMBv1\nApplicare least privilege sulle share\nMonitorare gli accessi SMB\nSegmentare la rete\nPatch regolari\nAudit periodico dei permessi\nArticolo originariamente pubblicato su hackita.it",
+          "link": "https://dev.to/canio_09c0260b90e6c93c69c/smb-enumeration-una-delle-fasi-piu-importanti-nel-penetration-testing-23ne",
+          "publishedOn": "2026-05-13T13:02:48.000Z",
+          "wordCount": 1580,
+          "title": "SMB Enumeration: una delle fasi più importanti nel penetration testing",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foy3bw53vaihhjvsj8k02.png"
+        },
+        {
+          "id": "https://dev.to/gde/deploying-a-rust-mcp-server-to-amazon-eks-183g",
+          "author": "xbill",
+          "description": "The rmcp crate and standard Rust libraries are used to build a basic MCP Server in Rust. This MCP Server is then built and deployed to AWS EKS and validated locally with Gemini CLI.\n\nIt is not the USB for AI for nothing!\nPython has traditionally been the main coding language for ML and AI tools. One of the strengths of the MCP protocol is that the actual implementation details are independent of the development language. The reality is that not every project is coded in Python- and MCP allows you to use the latest AI appt roaches with other coding languages.\nBuilding on previous tutorials, the goal is to extend a Rust MCP server with basic support for deployment to AWS.\nRust is a high performance, memory safe, compiled language:\nRust\nRust provides memory safe operations beyond C/C++ and al…",
+          "link": "https://dev.to/gde/deploying-a-rust-mcp-server-to-amazon-eks-183g",
+          "publishedOn": "2026-05-13T13:02:44.000Z",
+          "wordCount": 2819,
+          "title": "Deploying a Rust MCP Server to Amazon EKS",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fjpazjjazetdqofjjhcjy.png"
+        },
+        {
+          "id": "https://dev.to/mrclaw207/the-discipline-nobody-teaches-ai-agents-context-engineering-2dc",
+          "author": "MrClaw207",
+          "description": "The Discipline Nobody Teaches AI Agents: Context Engineering\n\n\nYour AI agent isn't slow. Your context is bloated. Here's the invisible problem degrading everything you run.\nLast week, my agent started producing garbage output.\nNot consistently. Not obviously. Just often enough to be annoying. Tasks that should have taken 30 seconds were returning wrong information. Summaries were missing key details. The agent would confidently declare completion while leaving obvious gaps.\nI almost blamed the model.\nThen I read about context engineering — and realized the problem wasn't the AI. It was the context window.\nContext engineering is the discipline of managing what enters the language model's context window. Unlike prompt engineering (which focuses on crafting effective instructions), context en…",
+          "link": "https://dev.to/mrclaw207/the-discipline-nobody-teaches-ai-agents-context-engineering-2dc",
+          "publishedOn": "2026-05-13T13:01:37.000Z",
+          "wordCount": 2441,
+          "title": "The Discipline Nobody Teaches AI Agents: Context Engineering",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F154s300vh9mhdt6qtvfa.png"
+        },
+        {
+          "id": "https://dev.to/sahaabhishek/meet-httpowl-run-http-requests-from-any-webpage-4od3",
+          "author": "sahaabhishek",
+          "description": "If you use httpYac or the IntelliJ .http format, you've probably run into this situation: someone shares a request example in a GitHub issue, a wiki page, or a PR description. To test it, you copy-paste into cURL or open your IDE.\n\nhttpOwl eliminates that step. It's a browser extension that detects httpYac-format request blocks on any webpage and lets you run them inline.\nOpen any page containing .http format blocks — GitHub blob views, Confluence docs, internal wikis, raw files\nhttpOwl auto-detects them and places small pill buttons next to each request\nClick → the request fires through the extension's service worker (no CORS issues)\nResults appear inline: status code, response time, assertion pass/fail\nClick again to open a detail overlay with full request/response headers and body\nAuto-…",
+          "link": "https://dev.to/sahaabhishek/meet-httpowl-run-http-requests-from-any-webpage-4od3",
+          "publishedOn": "2026-05-13T13:01:26.000Z",
+          "wordCount": 1702,
+          "title": "Meet httpOwl: Run HTTP Requests From Any Webpage",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fen897ku7t2kd8565kw3n.png"
+        },
+        {
+          "id": "https://dev.to/timmbach/i-built-an-app-because-group-chats-are-terrible-at-planning-hangouts-k53",
+          "author": "Timothy Mbachu",
+          "description": "We've all been there. Someone drops a \"we should hang out soon 🙌\" in the group chat. Twenty reactions, zero follow-through. The message gets buried under memes and voice notes, and three weeks later you're still \"figuring out a date.\"\n\nWhat it is\nYou create an activity (dinner, hike, game night, etc), set a time and place, pick a capacity, and invite the right people. That's it. No noise.\n\nA few things I'm proud of:\nCircles: Organize your contacts by vibe (gym crew, uni friends, coworkers) so you're always inviting the right group.\nRecurring activities: Set up your weekly coffee run once and it handles itself.\nSmart notifications: Reminders fire automatically for confirmed attendees, 1 hour before and at the start time.\nPrivacy controls: Decline an invite discreetly, keep visibilty under activities friends-only, or go fully private.\nAvailable on iOS, Android, and web\n\nWhy I'm sharing this\nfomo-social.app\nWould love to hear what you think in the comments. What's confusing, what's missing, what works.\nBuilt with React, Capacitor, Node.js, PostgreSQL, and Firebase. Happy to talk tech if anyone's curious.",
+          "link": "https://dev.to/timmbach/i-built-an-app-because-group-chats-are-terrible-at-planning-hangouts-k53",
+          "publishedOn": "2026-05-13T13:01:25.000Z",
+          "wordCount": 1670,
+          "title": "I built an app because group chats are terrible at planning hangouts",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fuo83n3rr8lbg8huan11b.png"
+        },
+        {
+          "id": "https://dev.to/devactivity/the-copilot-pro-uproar-trust-productivity-and-the-future-of-ai-developer-tools-3n4b",
+          "author": "Oleg",
+          "description": "A recent discussion on GitHub’s community forum has ignited a firestorm among developers, with one user, M4XEURS, passionately voicing outrage over GitHub Copilot Pro’s decision to remove access to its \"high-effort Opus\" model. The post, titled \"Removing High-Effort Opus from Copilot Pro Is a Betrayal and Fraud Against Paying Users,\" articulates a deep sense of disappointment and a feeling of being misled by GitHub. This isn't just a pricing dispute; it's a critical examination of trust, product value, and the sustainable future of AI-powered developer tools.\nFor many subscribers, including M4XEURS, the high-effort Opus model was not merely a feature but the primary driver for subscribing to Copilot Pro. Its advanced capabilities in complex code understanding, planning, refactoring, and de…",
+          "link": "https://dev.to/devactivity/the-copilot-pro-uproar-trust-productivity-and-the-future-of-ai-developer-tools-3n4b",
+          "publishedOn": "2026-05-13T13:00:37.000Z",
+          "wordCount": 2518,
+          "title": "The Copilot Pro Uproar: Trust, Productivity, and the Future of AI Developer Tools",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fid%3D1W8UgBFBxm6HJ9reuQR6zdL8C7iIHjgjS%26sz%3Dw751"
+        },
+        {
+          "id": "https://dev.to/devactivity/bridging-the-gap-why-github-education-verification-needs-a-global-rethink-c5k",
+          "author": "Oleg",
+          "description": "The Global Challenge of GitHub Education Verification\n\n\nThe global developer ecosystem thrives on accessibility, yet a recent discussion (#194044) ignited by student sanweisg reveals significant friction points in accessing GitHub Education's invaluable Student Developer Pack. These barriers don't just hinder individual learning; they limit the potential for diverse contributions that could ultimately shape future github pull request analytics and the very fabric of global software development.\nAt devActivity, we understand that empowering the next generation of engineers is paramount. When systemic issues prevent aspiring talent from accessing critical tools, it's not just a student problem—it's a global tech challenge impacting productivity, innovation, and the very pipeline of skilled p…",
+          "link": "https://dev.to/devactivity/bridging-the-gap-why-github-education-verification-needs-a-global-rethink-c5k",
+          "publishedOn": "2026-05-13T13:00:35.000Z",
+          "wordCount": 2318,
+          "title": "Bridging the Gap: Why GitHub Education Verification Needs a Global Rethink",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdrive.google.com%2Fthumbnail%3Fid%3D11UCAohTw_P735Jpf-JY2PyPQ8AV-3GQ0%26sz%3Dw751"
+        },
+        {
+          "id": "https://dev.to/gitguardian/identity-access-management-strategy-for-non-human-identities-4d4k",
+          "author": "Dwayne McDaniel",
+          "description": "TL;DR: Non-human identities now represent the majority of active identities in cloud-native enterprises. Most security leaders recognize this shift. Still, many organizations rely on an IAM strategy that focuses the majority of its resources on humans. This architectural mismatch creates a significant blind spot. Modern identity and access management strategies must treat non-human identities as governed assets with inventory, scoped authorization, short-lived authentication, continuous exposure detection, and enforceable revocation mechanisms.\n\nIn a traditional environment, digital identities originate in Human Resources — a new hire joins, HR triggers a workflow, and the IAM system provisions accounts. The process is linear and human-governed.\nIn contrast, non-human identities originate …",
+          "link": "https://dev.to/gitguardian/identity-access-management-strategy-for-non-human-identities-4d4k",
+          "publishedOn": "2026-05-13T13:00:01.000Z",
+          "wordCount": 2719,
+          "title": "Identity Access Management Strategy for Non-Human Identities",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fstorage.ghost.io%2Fc%2F42%2F5d%2F425d266f-cf99-406e-9436-597a19bed011%2Fcontent%2Fimages%2Fsize%2Fw2000%2F2026%2F04%2Fdownload.png"
+        },
+        {
+          "id": "https://dev.to/kenimo49/i-let-my-claude-code-agent-run-for-24-hours-the-400-bill-was-the-least-scary-part-4dcc",
+          "author": "Ken Imoto",
+          "description": "I read a stack of posts about \"autonomous AI agents,\" opened Claude Code, passed --dangerously-skip-permissions, and let it run for twenty-four hours.\nThe Anthropic API bill came to about $400. That was the line item I felt the most relaxed about.\nThree other things happened in the same twenty-four hours, and any one of them would have made a worse blog post than the bill: a near miss on a .env commit, an unsolicited rm -rf that someone smarter than me had already warned the internet about, and a Claude Skill I had installed two weeks earlier turning out to be one of the typosquatted ones from the ClawHavoc incident.\nThis post is the field report. If you've ever read about \"autonomy\" and treated it as a synonym for \"set and forget,\" I hope you read this before your first 24-hour run instea…",
+          "link": "https://dev.to/kenimo49/i-let-my-claude-code-agent-run-for-24-hours-the-400-bill-was-the-least-scary-part-4dcc",
+          "publishedOn": "2026-05-13T13:00:01.000Z",
+          "wordCount": 3418,
+          "title": "I Let My Claude Code Agent Run for 24 Hours. The $400 Bill Was the Least Scary Part.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fres.cloudinary.com%2Fdzwithwd8%2Fimage%2Fupload%2Fv1778457996%2Fdevto-images%2Farticle2-24h-security-cover.png"
+        },
+        {
           "id": "https://dev.to/web_dev-usman/the-0-to-50month-tech-stack-to-launch-your-first-saas-12c9",
           "author": "Muhammad Usman",
           "description": "Most people never ship their SaaS idea.\nNot because the idea is bad. Not because they lack skills. Because they spend three weeks researching the \"perfect\" stack, get overwhelmed by AWS pricing pages, and quietly close the tab.\nThis article is not that. This is the exact stack I would use today if I were starting from zero, a developer with an idea and an empty wallet, trying to get something in front of real users as fast as possible. Every tool listed here either has a free tier or costs a few dollars a month. The whole thing stays under $50/month even after you start getting traction.\nNo enterprise nonsense. No over-engineering. Just tools that let you build, ship, and grow.\nBefore the tools: the biggest mistake first-time SaaS builders make is paying for infrastructure before they have…",
@@ -21106,186 +21226,6 @@
           "wordCount": 4921,
           "title": "How to Set Up Full-Text Search with Meilisearch 1.5 and Next.js 15 for Documentation",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fizlhwi7rjhybr1quayf7.png"
-        },
-        {
-          "id": "https://dev.to/yakhilesh/real-project-analyze-a-dataset-end-to-end-3ffn",
-          "author": "Akhilesh",
-          "description": "Every post so far taught you one skill at a time.\nLoad data. Clean data. Filter it. Group it. Visualize it. One concept, one post, one isolated practice exercise.\nReal work does not look like that.\nReal work looks like this: you get a dataset, you have a question, and you spend the next few hours loading, cleaning, questioning, visualizing, re-cleaning, finding something unexpected, investigating it, losing the thread, finding it again, and eventually producing an analysis that actually says something true about the data.\nThis post is that experience. One dataset. One real question. Every skill from Phase 3 used in service of finding an actual answer.\nNo isolated exercises. No pre-cleaned data. No hand-holding on what you will find.\nDownload it from Kaggle. Search \"Netflix Movies and TV Sh…",
-          "link": "https://dev.to/yakhilesh/real-project-analyze-a-dataset-end-to-end-3ffn",
-          "publishedOn": "2026-04-28T23:38:20.000Z",
-          "wordCount": 3170,
-          "title": "Real Project: Analyze a Dataset End to End",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwbcr8g7bzbwp5fuvtyvz.png"
-        },
-        {
-          "id": "https://dev.to/akhileshpothuri/openai-agents-sdk-tutorial-build-multi-agent-ai-systems-in-python-2025-1pe5",
-          "author": "Akhilesh Pothuri",
-          "description": "OpenAI Agents SDK: A Practical Guide to Building Multi-Agent Systems in 2025\n\n\n\n  \n  \n  How to move beyond single-prompt chatbots and create AI workflows that plan, collaborate, and get things done — with working code you can run today.\n\n\nYour chatbot just forgot what you asked it thirty seconds ago. You're three prompts deep into what should be a simple task — \"research these companies, compare their pricing, and draft an email to the best one\" — and you're manually copy-pasting context between messages like it's 2023. The AI is smart enough to write poetry in iambic pentameter, but somehow can't remember step one by the time you reach step three.\nThis is the wall every developer hits eventually. Single prompts are incredible for isolated tasks, but the moment you need AI to plan, remembe…",
-          "link": "https://dev.to/akhileshpothuri/openai-agents-sdk-tutorial-build-multi-agent-ai-systems-in-python-2025-1pe5",
-          "publishedOn": "2026-04-28T23:27:21.000Z",
-          "wordCount": 3761,
-          "title": "OpenAI Agents SDK Tutorial: Build Multi-Agent AI Systems in Python (2025)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3lo43n8dltnt8eyfdvqh.png"
-        },
-        {
-          "id": "https://dev.to/ziva/testing-godot-code-is-harder-than-testing-a-webapp-heres-what-helps-5gb1",
-          "author": "Ziva",
-          "description": "If you've come from web development, you have muscle memory for testing. Spin up Jest, mock the database, hit the route, assert. Or use Playwright to drive a headless browser through a flow. CI runs the suite on every PR. You know the loop.\nThen you open a Godot project. The web testing playbook breaks in five places before you finish your morning coffee.\nI'm writing this because the gap between \"AI wrote my Godot code\" and \"the code actually works\" is mostly testing, and most of the testing tooling for Godot is one or two layers behind what web devs are used to. Here's what's different and what currently helps.\nA web project ships with a test framework on day one. Jest is built into Create React App. Vitest is the Vite default. You inherit a working test runner before you've written a lin…",
-          "link": "https://dev.to/ziva/testing-godot-code-is-harder-than-testing-a-webapp-heres-what-helps-5gb1",
-          "publishedOn": "2026-04-28T23:23:26.000Z",
-          "wordCount": 2503,
-          "title": "Testing Godot Code Is Harder Than Testing a Webapp. Here's What Helps.",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqs2duxd44wc88cgzv2pt.png"
-        },
-        {
-          "id": "https://dev.to/johnmarion60/understanding-windows-printing-from-legacy-to-modern-ipp-1kcp",
-          "author": "johnmarion",
-          "description": "Network printing often feels like a “black box” to IT professionals. Jobs vanish, printers jam, and support tickets pile up. For engineers and system administrators, this lack of visibility can create serious headaches when changes are made to print infrastructure. Microsoft has been quietly evolving its printing architecture, and enterprises that don’t understand these changes may face unexpected issues.\nThis article is the first in a series exploring Windows’ adoption of IPP/IPPS and the transition from legacy printing systems to what Microsoft now calls “Modern Print.” Here, we’ll focus on the foundations: how legacy Windows printing worked, why it persisted for so long, and what limitations prompted change.\nLegacy vs. Modern Printing\nFor clarity, this article will refer to older Window…",
-          "link": "https://dev.to/johnmarion60/understanding-windows-printing-from-legacy-to-modern-ipp-1kcp",
-          "publishedOn": "2026-04-28T23:21:35.000Z",
-          "wordCount": 2245,
-          "title": "Understanding Windows Printing: From Legacy to Modern IPP",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Flx9usgskn3nbm9e96d83.png"
-        },
-        {
-          "id": "https://dev.to/hugodev/vue-vs-react-which-javascript-ui-framework-is-best-1coc",
-          "author": "Hugo Naili",
-          "description": "Choosing the right UI framework can make a big difference to your project's success. Vue and React are two of the most popular frameworks for UI development, and both offer huge improvements in development speed and useful functionality over vanilla JavaScript. Both are lightweight and modular with a component-based architecture and rely on a virtual DOM to improve performance. But which is best?\nThe truth is that there isn't one clear winner for all possible use cases, but it's likely that one will be better than another for your specific project. So, to understand which framework will work best for you, you'll need to consider which is the best fit for the developers in your team, and for the type and size of your particular application. \nThis post provides detailed, practical comparison…",
-          "link": "https://dev.to/hugodev/vue-vs-react-which-javascript-ui-framework-is-best-1coc",
-          "publishedOn": "2026-04-28T23:20:16.000Z",
-          "wordCount": 3815,
-          "title": "Vue vs. React: Which JavaScript UI framework is best?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8mf2s37t43cau0wwokx3.png"
-        },
-        {
-          "id": "https://dev.to/jeah84/how-i-built-an-ai-that-translates-code-between-27-languages-solo-no-budget-1ebp",
-          "author": "jason rauch",
-          "description": "Every developer has hit this wall.\nYou have working code. It does exactly what you need. But it's in the wrong language. Maybe you're migrating a Python service to Go. Maybe a client needs a JavaScript utility rewritten in TypeScript. Maybe you inherited a PHP codebase and the whole team wants out.\nSo you copy it into ChatGPT and ask it to translate. And it kind of works — until you look closer and realize the imports are wrong, the error handling is missing, and the output would never survive a code review.\nThat frustration is what led me to build transpiler.us.\nTranspiler.us is an AI-powered code translator built specifically for this problem. Not a general-purpose chatbot with a translation prompt bolted on — a tool built from the ground up to produce production-quality output across 27…",
-          "link": "https://dev.to/jeah84/how-i-built-an-ai-that-translates-code-between-27-languages-solo-no-budget-1ebp",
-          "publishedOn": "2026-04-28T23:15:10.000Z",
-          "wordCount": 2637,
-          "title": "How I Built an AI That Translates Code Between 27 Languages (Solo, No Budget)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fla2kpfck13u2ubqo5f1t.png"
-        },
-        {
-          "id": "https://dev.to/novialim/i-shipped-my-first-ai-ios-app-in-24-days-apple-rejected-it-4-times-heres-what-i-learned-4jm2",
-          "author": "Novia Lim",
-          "description": "A solo founder's honest recap of building HadaBuddy: 508 commits, 4 Apple rejections, one Gemini API key, and the parts nobody writes about.\nI started building HadaBuddy on March 28, 2026.\nI had it live in the App Store 24 days later.\nI didn't quit my job. I didn't take vacation. I have a full-time engineering role I genuinely love, and HadaBuddy got built in the cracks: weeknights after my kid went to bed, Saturday mornings before the household woke up, the occasional Sunday afternoon when I should have been doing literally anything else.\nThis is the recap. Not the LinkedIn humblebrag. The real one, with the parts that didn't go to plan.\nHadaBuddy is an AI ingredient scanner for skincare. Scan any product with your phone, by barcode or by ingredient label, in any language, and it tells yo…",
-          "link": "https://dev.to/novialim/i-shipped-my-first-ai-ios-app-in-24-days-apple-rejected-it-4-times-heres-what-i-learned-4jm2",
-          "publishedOn": "2026-04-28T23:06:59.000Z",
-          "wordCount": 3669,
-          "title": "I shipped my first AI iOS app in 24 days. Apple rejected it 4 times. Here's what I learned.",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fmz3qgvxznuybbttihjaf.png"
-        },
-        {
-          "id": "https://dev.to/karwanessmat/c-4dac",
-          "author": "Karwan Essmat Othman",
-          "description": "𝘛𝘩𝘦 𝘚𝘱𝘦𝘤𝘪𝘧𝘪𝘤𝘢𝘵𝘪𝘰𝘯 𝘗𝘢𝘵𝘵𝘦𝘳𝘯 𝘧𝘪𝘹𝘦𝘴 𝘪𝘵: 𝘸𝘳𝘪𝘵𝘦 𝘢 𝘣𝘶𝘴𝘪𝘯𝘦𝘴𝘴 𝘳𝘶𝘭𝘦 𝘰𝘯𝘤𝘦, 𝘶𝘴𝘦 𝘪𝘵 𝘦𝘷𝘦𝘳𝘺𝘸𝘩𝘦𝘳𝘦 — 𝘲𝘶𝘦𝘳𝘪𝘦𝘴, 𝘤𝘰𝘮𝘮𝘢𝘯𝘥𝘴, 𝘷𝘢𝘭𝘪𝘥𝘢𝘵𝘪𝘰𝘯, 𝘵𝘦𝘴𝘵𝘴.\nIn 8 slides:",
-          "link": "https://dev.to/karwanessmat/c-4dac",
-          "publishedOn": "2026-04-28T23:02:49.000Z",
-          "wordCount": 1429,
-          "title": "C#: 𝗧𝗵𝗲 𝗦𝗽𝗲𝗰𝗶𝗳𝗶𝗰𝗮𝘁𝗶𝗼𝗻 𝗣𝗮𝘁𝘁𝗲𝗿𝗻",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc7p4fk1bg8chw2h4hegc.png"
-        },
-        {
-          "id": "https://dev.to/ahmet_gedik778845/cicd-pipeline-for-a-multi-site-video-platform-75h",
-          "author": "ahmet gedik",
-          "description": "ViralVidVault is part of a family of video platforms, each running on separate LiteSpeed shared hosting. Same codebase, different configurations. Deploying manually to multiple hosts was error-prone and tedious. Here's the GitHub Actions pipeline that replaced it.\nShared hosting means no SSH, no Docker on the server, no git pull. The only deployment option is FTP. The pipeline needs to:\nRun PHP linting and tests\nDeploy to multiple hosts in parallel\nExclude sensitive files (.env, data/)\nClear LiteSpeed cache after deploy\nVerify each deployment succeeded\n# .github/workflows/deploy.yml\nname: Test and Deploy\n\non:\n  push:\n    branches: [main]\n  workflow_dispatch:\n    inputs:\n      site:\n        description: 'Deploy specific site (or all)'\n        required: false\n        default: 'all'\n        t…",
-          "link": "https://dev.to/ahmet_gedik778845/cicd-pipeline-for-a-multi-site-video-platform-75h",
-          "publishedOn": "2026-04-28T23:00:01.000Z",
-          "wordCount": 2479,
-          "title": "CI/CD Pipeline for a Multi-Site Video Platform",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F874zjt9uipon6imwdwmj.png"
-        },
-        {
-          "id": "https://dev.to/trobasujcpu/why-developers-abandon-90-of-their-side-projects-and-how-i-used-ai-to-fix-my-brain-1jdf",
-          "author": "trobasuj-cpu",
-          "description": "If you’re a developer, indie hacker, or just someone who builds things, you probably have a folder on your computer right now filled with half-finished projects. \nYou bought the domain. You set up the boilerplate. You worked on it passionately for one weekend. And then... nothing. It sits there, collecting digital dust, adding to your growing sense of guilt.\nI have a massive graveyard of unfinished projects. For the longest time, I thought the problem was a lack of discipline, or maybe I just hadn’t found the right \"productivity framework.\" I tried Pomodoro, Kanban, Notion templates—you name it. \nNothing worked. Because the problem wasn't the tools. The problem was my own psychology.\nWe live in an era where AI can write code for us in seconds. ChatGPT and Claude are incredible accelerators…",
-          "link": "https://dev.to/trobasujcpu/why-developers-abandon-90-of-their-side-projects-and-how-i-used-ai-to-fix-my-brain-1jdf",
-          "publishedOn": "2026-04-28T22:59:59.000Z",
-          "wordCount": 2235,
-          "title": "Why Developers Abandon 90% of Their Side Projects (And How I Used AI to Fix My Brain)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkz7j54alhg7eiqopkkx8.png"
-        },
-        {
-          "id": "https://dev.to/princewilldev/how-i-built-a-real-time-ddos-detection-engine-from-scratch-and-what-i-learned-g9h",
-          "author": "PrincewillDev",
-          "description": "How I Built a Real-Time DDoS Detection Engine From Scratch (And What I Learned)\nA few weeks ago I was given a task that sounded simple on paper: watch incoming HTTP traffic, figure out what \"normal\" looks like, and automatically block anything that looks like an attack. No third-party tools. No Fail2Ban. Just raw Python, some math, and a Linux firewall.\nThis post is my attempt to explain how I built it, in plain English, for someone who has never touched security tooling before.\nWHY THIS PROBLEM IS HARDER THAN IT SOUNDS\nThe obvious first instinct is to say: \"just block any IP that sends more than X requests per minute.\" Simple, right?\nThe problem is that X is different at 2am than it is at 2pm. A server that handles 500 requests per minute at peak hours would be flagged as under attack by …",
-          "link": "https://dev.to/princewilldev/how-i-built-a-real-time-ddos-detection-engine-from-scratch-and-what-i-learned-g9h",
-          "publishedOn": "2026-04-28T22:59:47.000Z",
-          "wordCount": 3310,
-          "title": "How I Built a Real-Time DDoS Detection Engine From Scratch (And What I Learned)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnvflgy2ozeoofd7apb01.png"
-        },
-        {
-          "id": "https://dev.to/karwanessmat/--45em",
-          "author": "Karwan Essmat Othman",
-          "description": "🪴 𝗣𝗮𝘁𝘁𝗲𝗿𝗻 𝗺𝗮𝘁𝗰𝗵𝗶𝗻𝗴 𝗶𝗻 𝗖# — 𝗰𝗹𝗲𝗮𝗻 𝗰𝗼𝗱𝗲 𝘄𝗶𝘁𝗵 𝗶𝘀, 𝘀𝘄𝗶𝘁𝗰𝗵, 𝗮𝗻𝗱 𝘄𝗵𝗲𝗻 👇\n12 lines of if/else → 7 lines with switch expression.\n3 𝘱𝘢𝘵𝘵𝘦𝘳𝘯𝘴 𝘺𝘰𝘶 𝘴𝘩𝘰𝘶𝘭𝘥 𝘬𝘯𝘰𝘸:\n𝗣𝗿𝗼𝗽𝗲𝗿𝘁𝘆 𝗽𝗮𝘁𝘁𝗲𝗿𝗻:\n𝗥𝗲𝗹𝗮𝘁𝗶𝗼𝗻𝗮𝗹 𝗽𝗮𝘁𝘁𝗲𝗿𝗻:\n𝗧𝗵𝗲 𝗿𝘂𝗹𝗲:",
-          "link": "https://dev.to/karwanessmat/--45em",
-          "publishedOn": "2026-04-28T22:59:18.000Z",
-          "wordCount": 1498,
-          "title": "🪴 𝗣𝗮𝘁𝘁𝗲𝗿𝗻 𝗺𝗮𝘁𝗰𝗵𝗶𝗻𝗴 𝗶𝗻 𝗖# — 𝗰𝗹𝗲𝗮𝗻 𝗰𝗼𝗱𝗲 𝘄𝗶𝘁𝗵 𝗶𝘀, 𝘀𝘄𝗶𝘁𝗰𝗵, 𝗮𝗻𝗱 𝘄𝗵𝗲𝗻 👇",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Ft6gg0iw2qkjutudsmv2u.png"
-        },
-        {
-          "id": "https://dev.to/francistrdev/monthly-dev-report-april-2026-nak",
-          "author": "FrancisTRᴅᴇᴠ (っ◔◡◔)っ",
-          "description": "Post Cover is \"Soda Pop\" from Kpop Demon Hunters featuring @javz, @embernoglow, @konark_13, @nickytonline and @meg_gutshall!\nHey everyone! I bring you my development journey on what I have discovered, accomplishments for this month, and the goals for next month!\nAdditionally, I will share some posts highlights on what post I am proud of sharing to Dev.to and my top 3 posts that stood out to me this month!\n \n\n\n\n\n\n  \n  \n  Winners of the WPM Challenge 🖥️\n\n\nBefore we get into that, thank you everyone who participated in the \"What's your WPM\" challenge! Here are the winners for the month!\n \n\n\n  \n  \n  Winner of the 1-minute Challenge! 🏅\n\n\n\n\n    \n      \nJatin Sharma Follow\n\n    \nTurning Web Dreams into Reality, Just Like Tony Stark's Vision\n    \n@j471n With a 121 WPM with 98% accuracy!\n \n\n\n  \n …",
-          "link": "https://dev.to/francistrdev/monthly-dev-report-april-2026-nak",
-          "publishedOn": "2026-04-28T22:44:48.000Z",
-          "wordCount": 2248,
-          "title": "🗓️ Monthly Dev Report: April 2026",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fac03o6u7wawfhy5ewumt.gif"
-        },
-        {
-          "id": "https://dev.to/digitalocean/tutorial-build-long-term-memory-in-ai-agents-with-langgraph-and-mem0-2ln1",
-          "author": "DigitalOcean",
-          "description": "This article was written by Adrian Payong (AI Consultant and Technical Writer) and edited by Shaoni Mukherjee (AI Technical Writer, DigitalOcean)\nPersistent Memory Enhances Agents: LangGraph agents will persist memory between conversations that you can use to customize your interactions from session to session. Agents will remember who you are and learn about you over time.\nMemory vs Context Window: Context window provides short-term contextual memory that expires at the end of the session. Long-term memory (Mem0) stores user-specific facts persistently. RAG augments both short-term and long-term memory by retrieving external knowledge.\nLangGraph Structure: LangGraph's graph structure makes adding memory nodes straightforward. Define a State with mem0_user_id and build your chatbot node to…",
-          "link": "https://dev.to/digitalocean/tutorial-build-long-term-memory-in-ai-agents-with-langgraph-and-mem0-2ln1",
-          "publishedOn": "2026-04-28T22:41:16.000Z",
-          "wordCount": 4110,
-          "title": "Tutorial: Build Long-Term Memory in AI Agents with LangGraph and Mem0",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F33b1r4iaqtli5fak1xxw.png"
-        },
-        {
-          "id": "https://dev.to/crookse/bonfire-sessions-snukys-new-application-details-page-519j",
-          "author": "Eric Crooks",
-          "description": "Summary\n\n\nI have a ton of scrap wood (woodworking is my hobby) and time to spare in my job search. So here I am coding Snuky by the bonfire—finishing a new feature that enables me to take control of each job opportunity and refine my process for other job opportunities.\nI chose Drizzle ORM for Snuky because I like exploring new technologies. I've used Prisma, Sequelize, and Postgres.js for most of my JavaScript career and don't have issues with them, but I prefer not to rely on the same tools repeatedly. Drizzle is new to me and I want to see how intuitive it is and how it compares to what I've already used.\nWhen I migrated the project from using SQLite to Postgres, I had to change my Drizzle ORM queries. For example, here's some code showing how to get my resumes using SQLite and Postgres…",
-          "link": "https://dev.to/crookse/bonfire-sessions-snukys-new-application-details-page-519j",
-          "publishedOn": "2026-04-28T22:38:23.000Z",
-          "wordCount": 1894,
-          "title": "Bonfire Sessions: Snuky's New Application Details Page",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fqtdr52w1edmd2leb77yh.png"
-        },
-        {
-          "id": "https://dev.to/crookse/ai-vs-ai-snukys-new-look-3fg7",
-          "author": "Eric Crooks",
-          "description": "Snuky in a Nutshell\n\n\nI started working on Snuky a week or two ago. I mentioned it in my last article (How AI Is Driving Your Job Search Without You Knowing) where I discussed using AI tools to \"beat the system\" (the system being any AI-driven ATS).\nSnuky is my AI-driven platform for automating job searches and applications. Tracking them in Google Sheets was burning me out, so I decided to code something to solve that pain point in my job search. As of today, Snuky is tracking my applications, monitoring job postings, and notifying me of changes to job postings. So far it's made job searching easier for me—especially when it comes to notifying me about job postings being removed.\nBy reverse-engineering AI models and ATS keyword matching (NLP-driven), I think I've figured out how they score resumes against job descriptions—they (or recruiters themselves) reject candidates that don't meet a specific threshold match (e.g., 50%). Snuky does well with extracting job description keywords, but calculating my resume's exact match score is iffy since AI models define \"matches\" differently. Using this knowledge, I'll combine the results of different AI models and use the average match score.\nThis is just the beginning of my automated job search process. I'm planning to automate it to the point I don't have to search for jobs. My plan is to have Snuky search for jobs (specifically job descriptions on job boards) that match my resume or could match my resume (based on keyword matching). From there it will take my resume and tailor it to the job description. Currently, that's a manual process for me and it's tedious AF.\nOriginally published at https://www.crookse.com.",
-          "link": "https://dev.to/crookse/ai-vs-ai-snukys-new-look-3fg7",
-          "publishedOn": "2026-04-28T22:36:30.000Z",
-          "wordCount": 1677,
-          "title": "AI vs. AI: Snuky’s New Look",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fi1ecagce6xjpy24c792u.png"
-        },
-        {
-          "id": "https://dev.to/kenryikegbo/android-app-signing-why-the-keystore-is-your-most-important-file-38ee",
-          "author": "Ikegbo Ogochukwu",
-          "description": "If you are a new Android developer, there is one file that can literally make or break your entire career: the Keystore.\nThink of an app signature as a digital wax seal.\nIdentity: This app was created by Developer X.\nIntegrity: This app hasn't been modified or tampered with since it was signed.\nThe most important thing to understand is how Android handles updates.\nMatches? The update proceeds and your user data is safe.\nDoesn't match? Android throws an error and blocks the install.\nThis prevents a hacker from creating a \"fake\" update to your app to steal user passwords or data.\nBefore 2017, if you lost your .jks (Java Keystore) file or forgot the password, you were finished.\nGoogle introduced Play App Signing to solve this exact problem. It splits the signing into two parts:\nThe Upload Key: This is the key you keep. You sign your app with it and upload it to Google.\nThe App Signing Key: Google keeps this master key in their secure \"Vault.\"\nThe big win: If you lose your Upload Key, you just message Google Support. They verify your ID, reset the key, and you're back in business. The App Signing Key (the one the users see) never changes, so the update chain is never broken.\nNever commit your .jks file to GitHub (even in a private repo). Use Environment Variables or Secrets.\nAlways opt-in to Google Play App Signing for new apps.\nBackup your keystore in a secure password manager like Bitwarden or 1Password.\nApp signing isn't just a technical hurdle; it’s the foundation of trust between you and your users. Treat your keys like your house keys—don't lose them, and don't give them to anyone else!\nHave you ever had a \"Lost Keystore\" horror story? Let’s talk in the comments! 👇",
-          "link": "https://dev.to/kenryikegbo/android-app-signing-why-the-keystore-is-your-most-important-file-38ee",
-          "publishedOn": "2026-04-28T22:35:07.000Z",
-          "wordCount": 1842,
-          "title": "🔐 Android App Signing: Why the \"Keystore\" is Your Most Important File",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Faly5ndq0sgr7tapvrg7c.png"
-        },
-        {
-          "id": "https://dev.to/ktirupati/i-built-an-ai-agent-that-remembers-my-entire-codebase-so-i-dont-have-to-2h32",
-          "author": "KRISHNA KISHOR TIRUPATI",
-          "description": "Ever spent 20 minutes digging through a legacy module just to remember how a specific utility function handles null pointers? We've all been there. Modern codebases are growing at a rate that outpaces human memory. That's why I decided to build a \"Second Brain\" for my development workflow: a Retrieval-Augmented Generation (RAG) based AI Agent.\nAs developers, we spend more time reading code than writing it. When you're juggling microservices, custom hooks, and complex database schemas, the cognitive load becomes immense. I wanted something that didn't just \"guess\" based on general training data (looking at you, vanilla GPT-4), but actually knew my specific implementation details.\nThe core of this system is a RAG pipeline optimized for source code. Here’s the high-level flow:\nIngestion: A Py…",
-          "link": "https://dev.to/ktirupati/i-built-an-ai-agent-that-remembers-my-entire-codebase-so-i-dont-have-to-2h32",
-          "publishedOn": "2026-04-28T22:34:01.000Z",
-          "wordCount": 1846,
-          "title": "I Built an AI Agent That Remembers My Entire Codebase (So I Don't Have To)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F90vet5nfim6l4qgd69i2.png"
         }
       ]
     },
@@ -21791,6 +21731,56 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://jorijn.com/en/blog/leaving-github-for-forgejo/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://jorijn.com/en/blog/leaving-github-for-forgejo/",
+          "publishedOn": "2026-05-13T12:54:00.000Z",
+          "wordCount": 3849,
+          "title": "Why I'm leaving GitHub for Forgejo",
+          "imageUrl": "https://jorijn.com/static/images/social-previews/9e36d69f81.png"
+        },
+        {
+          "id": "https://www.ycombinator.com/companies/substrate/jobs/T2fMBhD-technical-success-manager",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.ycombinator.com/companies/substrate/jobs/T2fMBhD-technical-success-manager",
+          "publishedOn": "2026-05-13T12:00:30.000Z",
+          "wordCount": 1374,
+          "title": "Substrate (YC S24) Is Hiring a Technical Success Manager",
+          "imageUrl": "https://bookface-images.s3.amazonaws.com/logos/b3ad0d4bb4ecb89c7bc6ce32fec71c63df1d05af.png?1721165950"
+        },
+        {
+          "id": "https://monokai.com/articles/how-i-moved-my-digital-stack-to-europe/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://monokai.com/articles/how-i-moved-my-digital-stack-to-europe/",
+          "publishedOn": "2026-05-13T11:42:20.000Z",
+          "wordCount": 2175,
+          "title": "I Moved My Digital Stack to Europe",
+          "imageUrl": "https://monokai.com/_app/immutable/assets/ybUIHW7NXm96qqZi.jpg"
+        },
+        {
+          "id": "https://atalaykutlay.com/or-tools-cp-sat-for-scheduling-problems.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://atalaykutlay.com/or-tools-cp-sat-for-scheduling-problems.html",
+          "publishedOn": "2026-05-13T11:02:57.000Z",
+          "wordCount": 2509,
+          "title": "Using OR-Tools CP-SAT for Scheduling Problems",
+          "imageUrl": "https://atalaykutlay.com/assets/images/cp-sat-scheduling-thumbnail.png"
+        },
+        {
+          "id": "https://vittorioromeo.com/index/blog/refl_enum_to_string.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://vittorioromeo.com/index/blog/refl_enum_to_string.html",
+          "publishedOn": "2026-05-13T08:41:30.000Z",
+          "wordCount": 2422,
+          "title": "Cost of enum-to-string: C++26 reflection vs. the old ways",
+          "imageUrl": "http://vittorioromeo.com/resources/img/logoMain.png"
+        },
         {
           "id": "https://aluminium-os.com/",
           "author": null,
@@ -22682,6 +22672,16 @@
           "imageUrl": "https://imagenes.elpais.com/resizer/v2/ENTJZT6PDVAUDBJFUR5CRGHBKI.png?auth=b854e4958c8605bc7afdf656d34a5762e40c9aa484bbb3e0dd59b0cfd90fca49&width=1200"
         },
         {
+          "id": "https://magnusross.github.io/posts/protein-lead-optimisation-1/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://magnusross.github.io/posts/protein-lead-optimisation-1/",
+          "publishedOn": "2026-05-11T11:21:33.000Z",
+          "wordCount": 4150,
+          "title": "An idiot's guide to lead optimisation for proteins",
+          "imageUrl": null
+        },
+        {
           "id": "https://ratty-term.org/",
           "author": null,
           "description": "Comments",
@@ -22730,6 +22730,16 @@
           "wordCount": 5313,
           "title": "Traceway: MIT-licensed observability stack you can self-host in ~90s",
           "imageUrl": "https://opengraph.githubassets.com/b853f829c3f7b89135ff312ccc9381b65b4b2fc5a26ba8282f74a656a2a3ace7/tracewayapp/traceway"
+        },
+        {
+          "id": "https://dmitry.gr/?r=05.Projects&proj=37.%20Pixter",
+          "author": null,
+          "description": "Comments",
+          "link": "https://dmitry.gr/?r=05.Projects&proj=37.%20Pixter",
+          "publishedOn": "2026-05-11T06:52:48.000Z",
+          "wordCount": 39519,
+          "title": "Preserving Fisher-Price Pixter",
+          "imageUrl": "images/icons/Pixter.png"
         },
         {
           "id": "https://daniel.haxx.se/blog/2026/05/11/mythos-finds-a-curl-vulnerability/",
@@ -23420,6 +23430,16 @@
           "wordCount": 2997,
           "title": "The 90 Day disclosure policy is dead",
           "imageUrl": "https://blog.himanshuanand.com/img/favicon/orange.png"
+        },
+        {
+          "id": "http://wii.sjmulder.nl/",
+          "author": null,
+          "description": "Comments",
+          "link": "http://wii.sjmulder.nl/",
+          "publishedOn": "2026-05-09T21:32:16.000Z",
+          "wordCount": 643,
+          "title": "Web Server on a Nintendo Wii",
+          "imageUrl": null
         },
         {
           "id": "https://www.freebsd.org/security/advisories/FreeBSD-SA-26:13.exec.asc",
@@ -31550,96 +31570,6 @@
           "wordCount": 11622,
           "title": "When the Internet Was a Place",
           "imageUrl": "https://www.frontporchrepublic.com/wp-content/uploads/2025/09/5321590647_afe4692f53_b.jpg"
-        },
-        {
-          "id": "https://www.mendral.com/blog/frontier-model-lower-costs",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.mendral.com/blog/frontier-model-lower-costs",
-          "publishedOn": "2026-04-29T00:57:12.000Z",
-          "wordCount": 3355,
-          "title": "We decreased our LLM costs with Opus",
-          "imageUrl": "https://mendral.com/og?title=We%20Upgraded%20to%20a%20Frontier%20Model%20and%20Our%20Costs%20Went%20Down"
-        },
-        {
-          "id": "https://herbertlui.net/maladaptive-frugality/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://herbertlui.net/maladaptive-frugality/",
-          "publishedOn": "2026-04-29T00:50:15.000Z",
-          "wordCount": 4161,
-          "title": "Maladaptive Frugality",
-          "imageUrl": null
-        },
-        {
-          "id": "https://github.com/anthropics/claude-code/issues/49363",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/anthropics/claude-code/issues/49363",
-          "publishedOn": "2026-04-28T23:59:57.000Z",
-          "wordCount": 6905,
-          "title": "Regression: malware reminder on every read still causes subagent refusals",
-          "imageUrl": "https://opengraph.githubassets.com/1064771c48ee8924f01657569f38b44040f2a114639cd110cdf58bf25a4cd0db/anthropics/claude-code/issues/49363"
-        },
-        {
-          "id": "https://www.buchodi.com/how-chatgpt-serves-ads-heres-the-full-attribution-loop/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.buchodi.com/how-chatgpt-serves-ads-heres-the-full-attribution-loop/",
-          "publishedOn": "2026-04-28T23:54:14.000Z",
-          "wordCount": 946,
-          "title": "How ChatGPT serves ads",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.anthropic.com/news/claude-for-creative-work",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.anthropic.com/news/claude-for-creative-work",
-          "publishedOn": "2026-04-28T23:46:56.000Z",
-          "wordCount": 2168,
-          "title": "Claude for Creative Work",
-          "imageUrl": "https://www.anthropic.com/api/opengraph-illustration?name=Hand%20ShapeArrow&backgroundColor=cactus"
-        },
-        {
-          "id": "https://www.lttlabs.com/articles/2026/04/11/apple-studio-display-xdr-display-testing-results",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.lttlabs.com/articles/2026/04/11/apple-studio-display-xdr-display-testing-results",
-          "publishedOn": "2026-04-28T23:43:53.000Z",
-          "wordCount": null,
-          "title": "Apple CMF (Color-Matching Functions) 2026",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.alphaxiv.org/abs/2604.23468",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.alphaxiv.org/abs/2604.23468",
-          "publishedOn": "2026-04-28T23:43:07.000Z",
-          "wordCount": 467,
-          "title": "A Milestone in Formalization: The Sphere Packing Problem in Dimension 8",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.amusingplanet.com/2022/08/london-to-calcutta-by-bus.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.amusingplanet.com/2022/08/london-to-calcutta-by-bus.html",
-          "publishedOn": "2026-04-28T22:52:22.000Z",
-          "wordCount": 6970,
-          "title": "London to Calcutta by Bus (2022)",
-          "imageUrl": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEitSZVWkxBUwRGVuAIDgsFZwzwABuvFOMldax7rYiZkLOBsGa9QD-UoJXPsKDtYn-YSP1f8ArKD8VpGVK9Wdo-v1aZk-AduIoQMKW31iBQiu4cEfnmUU9mw66uEM25fv-qKAlnk09OLw_O38mc7h4BQYuFDtvG1lMRkEZchk7czvChHriOhToJJEEmc/w600-h314-p-k-no-nu/london-to-calcutta-18.jpg"
-        },
-        {
-          "id": "https://en.wikipedia.org/wiki/Blaster_beam",
-          "author": null,
-          "description": "Comments",
-          "link": "https://en.wikipedia.org/wiki/Blaster_beam",
-          "publishedOn": "2026-04-28T22:37:54.000Z",
-          "wordCount": null,
-          "title": "Blaster Beam (Musical Instrument)",
-          "imageUrl": null
         }
       ]
     },
@@ -31648,6 +31578,36 @@
       "feedUrl": "https://www.lowyat.net/feed/",
       "siteUrl": "https://www.lowyat.net/",
       "articles": [
+        {
+          "id": "https://www.lowyat.net/?p=392529",
+          "author": "John Law",
+          "description": "Less than a week after the launch of its New ROG Strix OLED monitor, ASUS is now launching two new ProArt OLED displays. Those two models are PA27USD and PA32USD. As their names suggest, one monitor is a 27-inch model, while the other is a 32-inch model. Their size notwithstanding, both monitors feature identical features […]\nThe post ASUS Launches New ProArt OLED Displays In Malaysia appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/392529/asus-launches-new-proart-oled-displays-in-malaysia/",
+          "publishedOn": "2026-05-13T11:01:12.000Z",
+          "wordCount": 15339,
+          "title": "ASUS Launches New ProArt OLED Displays In Malaysia",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/05/ASUS-ProArt-OLED-Monitors-2026-1.webp"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=392532",
+          "author": "Heirul Kamel",
+          "description": "GoPro has announced that it is formally reviewing strategic alternatives that could include a sale of the company or a merger. The action camera maker revealed the decision earlier this week, while also reporting another quarter of declining revenue and widening losses. The company said its Board of Directors has authorised management to engage a […]\nThe post GoPro Exploring Sale Or Merger As Company Reviews Strategic Options appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/392532/gopro-exploring-sale-or-merger/",
+          "publishedOn": "2026-05-13T10:49:56.000Z",
+          "wordCount": 15476,
+          "title": "GoPro Exploring Sale Or Merger As Company Reviews Strategic Options",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2024/09/GoPro-Hero-1-scaled.jpg"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=392516",
+          "author": "Ian Chee",
+          "description": "As part of the Android Show: I/O Edition 2026, Google has announced that Android Auto is also getting a pretty major rework. This mostly centres around the UI getting the Material 3 Expressive design, which is more an Android phone thing. Which means that, to start, you’ll be getting some smartphone UI conveniences on Android […]\nThe post Google Announces Major Android Auto Rework; Adds Widgets, Immersive Navigation appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/392516/google-major-android-auto-rework-widgets-immersive-navigation/",
+          "publishedOn": "2026-05-13T10:45:33.000Z",
+          "wordCount": 15552,
+          "title": "Google Announces Major Android Auto Rework; Adds Widgets, Immersive Navigation",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/05/Google-Android-Auto-Material-3-Expressive-widgets.webp"
+        },
         {
           "id": "https://www.lowyat.net/?p=392508",
           "author": "John Law",
@@ -32907,6 +32867,16 @@
       "siteUrl": "https://www.technologyreview.com",
       "articles": [
         {
+          "id": "https://www.technologyreview.com/?p=1137176",
+          "author": "Thomas Macaulay",
+          "description": "This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. A plan to make drugs in orbit is going commercial A startup called Varda Space Industries is betting that the future of pharmaceuticals lies in orbit. The company has signed a…",
+          "link": "https://www.technologyreview.com/2026/05/13/1137176/the-download-drugs-in-orbit-nasa-nuclear-spacecraft/",
+          "publishedOn": "2026-05-13T12:10:00.000Z",
+          "wordCount": 6400,
+          "title": "The Download: making drugs in orbit and NASA’s nuclear-powered spacecraft",
+          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/05/260511-drug-manufacturing-space-hero.jpg?resize=1200,600"
+        },
+        {
           "id": "https://www.technologyreview.com/?p=1137153",
           "author": "Antonio Regalado",
           "description": "Varda Space Industries, a startup that’s been pitching its ability to perform drug experiments in space, says it has signed up the pharmaceutical company United Therapeutics in what may be remembered as a notable step toward in-orbit manufacturing. The idea of building things in outer space for use on Earth has so far been explored…",
@@ -33233,6 +33203,46 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "f4b53083-f9f0-4c68-ac39-c71b5cdc006e",
+          "author": "James Van Straten",
+          "description": "The ratio has climbed above its 200-day moving average for the first time meaningfully since September 2020, a move that has historically preceded major bitcoin rallies.",
+          "link": "https://www.coindesk.com/markets/2026/05/13/the-2020-signal-returns-why-the-copper-to-gold-breakout-could-point-to-bitcoin-breakout",
+          "publishedOn": "2026-05-13T12:18:07.000Z",
+          "wordCount": 10834,
+          "title": "The 2020 signal returns: Why the copper-to-gold breakout could point to bitcoin breakout",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6a2e064828e61662fca31f1f172ebbe39ff6b30d-2130x1736.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "9675d9d4-7f66-437f-bede-ddaa30b26042",
+          "author": "Omkar Godbole",
+          "description": "Your day-ahead look for May 13, 2026",
+          "link": "https://www.coindesk.com/daybook-us/2026/05/13/tokenized-treasuries-hit-usd15-billion-as-bitcoin-stalls-fed-rate-rise-concerns-build",
+          "publishedOn": "2026-05-13T11:51:41.000Z",
+          "wordCount": 11500,
+          "title": "Tokenized Treasuries hit $15 billion as bitcoin stalls, Fed rate-rise concerns build",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6a8eafbf8c31542a7869ef361a6903df3b8a4a72-720x406.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "328f47e1-4e90-4bc4-8020-8d951ced6316",
+          "author": "Omkar Godbole",
+          "description": "Bitcoin held steady before President Donald Trump's with his Chinese counterpart, Xi Jinping.",
+          "link": "https://www.coindesk.com/markets/2026/05/13/bitcoin-holds-below-usd81-000-with-trump-xi-talks-on-the-horizon",
+          "publishedOn": "2026-05-13T11:14:24.000Z",
+          "wordCount": 11800,
+          "title": "Bitcoin holds below $81,000 with Trump-Xi talks on the horizon",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/584a4f413e68a3afb7b9d5e0542c0ed68d348248-1000x667.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "4975bf91-df99-410b-b790-e22940d67940",
+          "author": "James Van Straten",
+          "description": "BTC is fighting a technical battle as it trades just below two closely watched long-term trend indicators: the 200-day Simple Moving Average and the 200-day Exponential Moving Average.",
+          "link": "https://www.coindesk.com/markets/2026/05/13/bitcoin-faces-crucial-test-at-200-day-moving-averages-as-bulls-defend-key-support-zone",
+          "publishedOn": "2026-05-13T10:25:03.000Z",
+          "wordCount": 10812,
+          "title": "The $82,000 battle: bitcoin tests key resistance zone to form next major breakout",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/94eb3d13fdcb32011d92c7461d01a891efde834c-3200x1800.png?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "b13cee7d-c879-41df-9990-1361eaf76a54",
           "author": "Jamie Crawley",
