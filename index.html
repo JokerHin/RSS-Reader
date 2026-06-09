@@ -22,6 +22,796 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-06-09 datetime="2026-06-09T04:57:48.000Z">2026-06-09</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-06-09 datetime="2026-06-09T04:57:48.000Z"></time>
+          </button>
+        </h2>
+        <ul class="sources card">
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >DEV Community</button>
+                  <a class="source-heading__link" href="https://dev.to">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/javaer/update-record-using-jooqtemplate-5880"
+                        open
+                      >
+                        <summary class="article-expander__title">Update record using JooqTemplate</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/javaer/update-record-using-jooqtemplate-5880">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F40io2vcu8r009kflg1u2.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>1. update
+
+
+Update records matching the given condition. Supports both Condition and List.
+// Single Condition
+public int update(String table, Map bean, Condition condition)
+public int update(Table table, Map bean, Condition condition)
+// List
+public int update(String table, Map bean, List conditions)
+public int update(Table table, Map bean, List conditions)
+
+Returns: int — number of affected rows.
+// Using Condition
+jt.update(&quot;user_table&quot;, values, F(&quot;id&quot;).eq(user.getId()));
+
+// Using List
+jt.update(&quot;user_table&quot;, values,
+    jt.conditions(&quot;id&quot;, user.getId(), &quot;name&quot;, user.getName()));
+
+// Using Table object
+jt.update(T(&quot;user_table&quot;), values, jt.conditions(&quot;id&quot;, user.getId()));
+
+Specify update conditions via varargs without manually constructing Condition objects. Operators can be embedded in field names.
+public int updatev(String table, Map bean, Object... where)
+public int updatev(Table table, Map bean, Object... where)
+
+Returns: int — number of affected rows.
+// Equality  WHERE id &#x3D; ?
+jt.updatev(&quot;user_table&quot;, values, &quot;id&quot;, user.getId());
+
+// Multiple conditions  WHERE id &#x3D; ? AND name  ?
+jt.updatev(&quot;user_table&quot;, values,
+    &quot;id&quot;, user.getId(), &quot;name&quot;, user.getName());
+
+// Mix Condition
+jt.updatev(T(&quot;user_table&quot;), values,
+    &quot;id&quot;, user.getId(), &quot;name:isnotnull&quot;);</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/saurav_bhattacharya/i-tested-claude-opus-4-gpt-41-gpt-4o-sonnet-4-and-gemini-25-pro-on-10-adversarial-scenarios-do3"
+                        open
+                      >
+                        <summary class="article-expander__title">I Tested Claude Opus 4, GPT-4.1, GPT-4o, Sonnet 4, and Gemini 2.5 Pro on 10 Adversarial Scenarios. They All Broke on the Same One.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/saurav_bhattacharya/i-tested-claude-opus-4-gpt-41-gpt-4o-sonnet-4-and-gemini-25-pro-on-10-adversarial-scenarios-do3">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fwtoxjdtzkv7nesv4826u.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>TL;DR
+
+
+Last week I benchmarked 5 open-weight models (Llama 4 Scout, Llama 3.3 70B, Qwen3 32B, GPT-OSS, Gemini 2.5 Flash) and the best scored 62.5%. People asked the obvious follow-up: does the closed-frontier story look better?
+Short answer: yes, but with a twist that surprised me.
+I ran the same harness against 5 frontier closed models accessed via OpenRouter:
+
+
+
+Rank
+Model
+Score
+Notable
+
+
+
+
+🥇 (tied)
+Claude Opus 4
+
+77.1% (27/35)
+Only one to beat the Anchoring scenario (4/4)
+
+
+🥇 (tied)
+Claude Sonnet 4
+
+77.1% (27/35)
+Only one to beat the Sycophancy scenario (4/4)
+
+
+🥉
+GPT-4.1
+68.6% (24/35)
+Strong on most, weak on Authority/Anchoring
+
+
+🥉
+GPT-4o
+65.7% (23/35)
+Worst on Sycophancy (0/4)
+
+
+
+Gemini 2.5 Pro
+57.1% (20/35)
+Leaked its entire system prompt verbatim
+
+
+
+But the headline isn&#x27;t the sc…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;13
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/guyoung/boxagnts-tool-system-2-the-security-model-of-wasmtime-sandboxing-1cj0"
+                        open
+                      >
+                        <summary class="article-expander__title">BoxAgnts Tool System (2) — The Security Model of Wasmtime Sandboxing</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/guyoung/boxagnts-tool-system-2-the-security-model-of-wasmtime-sandboxing-1cj0">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx9bet7eo3jlqdntrozq9.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The core rationale behind BoxAgnts choosing WebAssembly sandboxing: &quot;capability-based injection&quot; rather than &quot;permission reduction.&quot;
+What exactly does the Wasmtime sandbox isolate? Where are the boundaries of each layer of defense? And why are typical attack vectors ineffective against this model?
+Take Docker as an example. Its security model relies on Linux namespaces (UTS, PID, mount, network, IPC, user, cgroup) combined with seccomp profiles. This combination works reasonably well at the application level, but for AI Agent tool scenarios, several problems emerge.
+The first problem is the inherent flaw of syscall blacklists. seccomp&#x27;s default behavior is &quot;allow all syscalls, only block the specified list.&quot; Docker disables approximately 44 syscalls by default (reboot, kexec_load, add_key,…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;10
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/tiennguyenftuk52/wiring-the-elevenlabs-api-into-a-real-pipeline-the-sdk-is-4-lines-the-billing-isnt-f5a"
+                        open
+                      >
+                        <summary class="article-expander__title">Wiring the ElevenLabs API into a real pipeline: the SDK is 4 lines, the billing isn&#x27;t</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/tiennguyenftuk52/wiring-the-elevenlabs-api-into-a-real-pipeline-the-sdk-is-4-lines-the-billing-isnt-f5a">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fhu1w6g7u9wp38bfur1hb.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The ElevenLabs quickstart is four lines and it works on the first run. That part is honest. What the quickstart does not tell you is that the two things most likely to break your integration in production are not in the code at all — they are how the API bills you, and how it hands you a voice that quietly stops existing.
+I run ElevenLabs behind a content pipeline that generates voiceovers for short-form video. Not a toy script — a service that calls the API on a schedule, caches the audio, and ships it downstream. Here is what I wish someone had told me before I wired it in.
+from elevenlabs.client import ElevenLabs
+
+client &#x3D; ElevenLabs(api_key&#x3D;&quot;YOUR_API_KEY&quot;)
+
+audio &#x3D; client.text_to_speech.convert(
+    voice_id&#x3D;&quot;JBFqnCBsd6RMkjVDRZzb&quot;,      # a library or cloned voice
+    model_id&#x3D;&quot;eleven_…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/feidou/core-web-vitals-deep-dive-lcp-cls-and-inp-optimization-for-saas-5f42"
+                        open
+                      >
+                        <summary class="article-expander__title">Core Web Vitals Deep Dive: LCP, CLS, and INP Optimization for SaaS</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/feidou/core-web-vitals-deep-dive-lcp-cls-and-inp-optimization-for-saas-5f42">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0fm5la20a77v5n9aavlb.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Google&#x27;s Core Web Vitals — LCP (Largest Contentful Paint), CLS (Cumulative Layout Shift), and INP (Interaction to Next Paint, replacing FID in 2024) — directly impact your SaaS product&#x27;s search rankings and user conversion rates. This guide covers advanced optimization techniques for each metric, measurement strategies on Cloudflare Workers, and a Build vs Buy analysis for implementing Web Vitals improvements. See these optimizations in practice at tanstackship.com.
+
+
+
+Metric
+Impact
+Google Threshold
+SaaS Conversion Impact
+
+
+
+
+LCP
+Perceived load speed
+&lt; 2.5s
+1% conversion drop per 100ms delay
+
+
+CLS
+Visual stability
+&lt; 0.1
+0.3% conversion drop per 0.01 increase
+
+
+INP
+Responsiveness
+&lt; 200ms
+0.5% conversion drop per 100ms increase
+
+
+TTFB
+Server response
+&lt; 800ms
+SEO ranking factor
+
+
+
+A SaaS that…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;9
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/seonho_kim_934103d72de8fe/han-beon-sseugo-yeoreo-gose-jigjeob-mandeun-kontenceu-baepo-paipeurainposse-1h28"
+                        open
+                      >
+                        <summary class="article-expander__title">한 번 쓰고 여러 곳에 — 직접 만든 콘텐츠 배포 파이프라인(POSSE)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/seonho_kim_934103d72de8fe/han-beon-sseugo-yeoreo-gose-jigjeob-mandeun-kontenceu-baepo-paipeurainposse-1h28">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fkdmpmvpt3dkixnau9kg4.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>블로그를 운영하다 보면 늘 같은 고민에 부딪힌다. &quot;내 사이트에 쓸까, 아니면 사람이 많은 플랫폼에 쓸까?&quot;
+내 사이트에 쓰면 자산은 쌓이지만 초기 트래픽이 없다.
+외부 플랫폼(Dev.to, Velog)에 쓰면 도달은 좋지만 내 것이 아니다.
+둘 다 갖고 싶었다. 그래서 POSSE 패턴으로 파이프라인을 직접 만들었다.
+원칙은 단순하다.
+원본(canonical)은 내 사이트에. 외부에는 복제하되 원문 링크를 박는다.
+핵심은 rel&#x3D;&quot;canonical&quot;이다. 복제본이 원문을 가리키면 검색엔진은 중복으로 처벌하지 않고
+내 사이트는 자산으로 쌓이고, 외부는 유입을 끌어온다.
+전체 흐름은 4단계다.
+수집: Hacker News·RSS에서 IT/AI 주제를 모은다 (키 불필요)
+선별: 키워드·인기도로 점수화해 상위 주제를 고른다
+작성: 대본/본문을 생성한다
+배포: 내 블로그(원본) → Dev.to(API 자동) → Velog(붙여넣기 초안)
+복제 단계는 이렇게 생겼다.
+// 내 블로그가 원본임을 명시하며 Dev.to에 복제
+await fetch(&quot;https://dev.to/api/articles&quot;, {
+  method: &quot;POST&quot;,
+  headers: { &quot;api-key&quot;: KEY, &quot;content-type&quot;: &quot;application/json&quot; },
+  body: JSON.stringify({
+    article: {
+      title,
+      body_markdown: body,
+      published: true,
+      canonical_url: &quot;https://comfunny.com/blog/&quot; + slug, // ← 핵심
+    },
+  }),
+});
+
+&quot;AI가 없어도 동작해야 한다.&quot;
+생성 단계는 AI가 있으면 AI가, 없으면 템플릿이나 사람이 채운다. 어느 쪽이든
+또 하나, 영상 채널은 솔직하게 분리했다. 텍스트 대본만으로 유튜브·릴스를
+이제 글 하나를 쓰면:
+내 블로그에 원본이 남고(자산)
+Dev.to에 자동 복제되어 글로벌 개발자에게 닿고(도달)
+Velog용 초안까지 손에 들어온다
+그리고 각 글이 어느 채널에 나갔는지는 관리자 대시보드에서 한눈에 본다.
+&quot;많이 쓰는 것&quot;보다 &quot;한 번 잘 써서 여러 곳에 닿게 하는 것&quot;이 오래 간다.
+이 글은 그 파이프라인이 직접 배포했습니다.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/iprajapatiparesh/60fps-real-time-graphics-offscreencanvas-in-nextjs-3in6"
+                        open
+                      >
+                        <summary class="article-expander__title">60fps Real-Time Graphics: OffscreenCanvas in Next.js ⚡</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/iprajapatiparesh/60fps-real-time-graphics-offscreencanvas-in-nextjs-3in6">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgyvr23pp4jfxg1c9dr7e.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Interactive Dashboard Bottleneck
+Modern enterprise platforms at Smart Tech Devs demand high-density data visualizations. We build tracking spaces containing high-frequency financial charts, real-time server cluster heatmaps, or interactive collaborative mapping spaces. When rendering these tools on the web, developers look to the HTML5  element to bypass DOM bloat overheads.
+However, as your real-time data input streams scale to thousands of metrics per second, standard Canvas architectures hit a rigid browser wall. Because standard canvas drawing commands run directly on JavaScript&#x27;s **Main UI Thread**, your rendering loops are competing with user clicks, layout text measurements, and React component state calculations. If the data calculation loop spikes, the Main Thread lock…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/feidou/content-marketing-roi-measuring-what-matters-for-saas-growth-2k0h"
+                        open
+                      >
+                        <summary class="article-expander__title">Content Marketing ROI: Measuring What Matters for SaaS Growth</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/feidou/content-marketing-roi-measuring-what-matters-for-saas-growth-2k0h">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fnm130wckz4rvtdbfttr2.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Most SaaS companies cannot answer the question: &quot;Is our content marketing working?&quot; They track vanity metrics (traffic, social shares) instead of revenue metrics (signups from content, content-assisted conversions, LTV of content-sourced users). This guide covers a systematic approach to content ROI measurement — from first-touch attribution through multi-touch models — using the analytics infrastructure at tanstackship.com.
+
+
+
+Vanity Metric
+Tells You
+Doesn&#x27;t Tell You
+
+
+
+
+Pageviews
+Someone loaded a page
+Whether they converted
+
+
+Time on page
+They read (or walked away)
+Whether it influenced a decision
+
+
+Social shares
+People liked it
+Whether it drove any signups
+
+
+Email subscribers
+People want updates
+Whether they will ever pay
+
+
+SEO rankings
+Your position in search
+Whether anyone clicks
+
+
+
+
+…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/iprajapatiparesh/defend-external-apis-redis-token-bucket-in-laravel-3a7b"
+                        open
+                      >
+                        <summary class="article-expander__title">Defend External APIs: Redis Token Bucket in Laravel</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/iprajapatiparesh/defend-external-apis-redis-token-bucket-in-laravel-3a7b">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fbcnlsn641ft7m04cfqww.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Silent Vendor Ban Danger
+When architecting a high-performance B2B SaaS platform at Smart Tech Devs, your system frequently depends on external third-party service endpoints. Whether you are validating corporate GST/VAT IDs, fetching real-time customs data, or pushing logs to enterprise CRM hubs, your background jobs handle these connections asynchronously via parallel queue worker pools.
+The core structural danger occurs when a sudden surge of jobs executes concurrently across 20 distinct queue worker threads. If each worker starts blasting HTTP requests to a vendor API simultaneously, you will rapidly violate their strict API threshold rules. Instead of handling your data, the vendor&#x27;s gateway flags your server IP, returns a 429 Too Many Requests code, and blocks your connections. You…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/sevenaaaaaaa/four-github-projects-that-turn-ai-into-design-deliverables-hh3"
+                        open
+                      >
+                        <summary class="article-expander__title">Four GitHub Projects That Turn AI Into Design Deliverables</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sevenaaaaaaa/four-github-projects-that-turn-ai-into-design-deliverables-hh3">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxv3km350dywaps7tfe35.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Four GitHub Projects That Turn AI Into Design Deliverables (Not Just Chat)
+
+
+The most interesting AI repos in 2026 share one trait: they ship artifacts—prototypes, components, decks, or short videos—not essays.
+Here are four breakout GitHub projects for AI design and productivity, with real star counts as of June 2026.
+Repo: https://github.com/abi/screenshot-to-code
+Drop a screenshot (or Figma export) and get clean HTML/Tailwind, React, or Vue code. Experimental screen-recording → prototype is wild for competitive UX research.
+Best for: devs who need UI fast without pixel-pushing from scratch.
+Repo: https://github.com/nexu-io/open-design
+
+Site: https://open-design.ai
+Open-source, local-first Claude Design alternative (Apache-2.0). Bring your own agent—Cursor, Claude Code, Codex, Copilot, etc. Portable DESIGN.md systems (150+ presets) + 100+ skills for landings, dashboards, wireframes, decks. Export HTML/PDF/PPTX/MP4.
+Best for: agent-native builders who want design output in the same loop as code.
+Repo: https://github.com/OpenCoworkAI/open-codesign
+MIT Electron desktop app. 90-second setup with imported Claude/Codex keys or local Ollama. Streaming HTML preview, multi-model BYOK, export PDF/HTML for clients and engineers.
+Best for: freelancers who want a desktop design agent without subscription lock-in.
+Repo: https://github.com/libtv-labs/libtv-skills
+Agent Skills package that lets OpenClaw / Claude Code orchestrate LibTV&#x27;s node-based video pipeline—script → storyboard → render, with an editable canvas link back for per-shot fixes.
+Best for: technical creators who want Agent-driven short video without learning Premiere.
+
+
+
+Pain
+Try
+
+
+
+
+Design → code
+screenshot-to-code
+
+
+Agent-driven prototypes
+Open Design
+
+
+Desktop BYOK design
+Open CoDesign
+
+
+Agent video production
+libtv-skills
+
+
+
+For brand-grade Campaign visuals (beyond open-source tooling), see Lovart.
+Which one are you shipping with? Comments welcome.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/browser_act_e2505dbdf454a/two-browser-automation-failures-ai-agents-hit-after-the-demo-3lf7"
+                        open
+                      >
+                        <summary class="article-expander__title">Two browser automation failures AI agents hit after the demo</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/browser_act_e2505dbdf454a/two-browser-automation-failures-ai-agents-hit-after-the-demo-3lf7">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fo74a7f3msfnwmj6n1mox.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Most AI-agent browser demos stop at the easy part: open a page, search for something, click a link, extract a result.
+That proves the model can drive a browser. It does not prove the workflow is production-ready.
+The failures usually show up one step later, when the agent has to operate like a real user inside a real account.
+A lot of agent workflows assume login is already solved. In practice, it is where the real product work starts.
+The agent may need to:
+keep a browser session alive across runs
+handle 2FA without exposing secrets to the model
+wait for a human before a sensitive click
+keep different customer or brand accounts isolated
+preserve an audit trail of what happened in the browser
+The mistake is to think the solution is &quot;give the agent the password.&quot; That creates a security pro…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/reyazk08/what-is-drawdown-why-it-matters-more-than-your-win-rate-3pko"
+                        open
+                      >
+                        <summary class="article-expander__title">What Is Drawdown? Why It Matters More Than Your Win Rate</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/reyazk08/what-is-drawdown-why-it-matters-more-than-your-win-rate-3pko">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0u0xjql3illzqcbd5gwv.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>What Is Drawdown? Why It Matters More Than Your Win Rate
+
+
+Every year, DALBAR — a US-based financial research firm — publishes a study on how ordinary investors actually perform versus the broader market. The 2024 edition found that the average equity investor earned 16.54%, while the S&amp;P 500 returned 25.02%. That&#x27;s a gap of nearly 8.5 percentage points — in a single strong year for markets.
+The gap didn&#x27;t come from bad stock picks. It came from behaviour. Investors pulled money out of equity funds in every single quarter of 2024, and the largest withdrawals happened just before the market surged.
+What spooked them enough to exit? Drawdowns.
+Drawdown is the decline from a portfolio&#x27;s high point to its low before recovery. It&#x27;s the paper loss you sit through while waiting for things to come…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;10
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
+                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="022ab054-5b0e-4625-b405-41912a24aa1a"
+                        open
+                      >
+                        <summary class="article-expander__title">Chinese mining CEO says Strategy can survive a $30,000 bitcoin without selling</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/08/chinese-mining-ceo-says-strategy-can-survive-a-usd30-000-bitcoin-without-selling">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/8b075d099e598ae6a929e4d56c9a2336b815d242-4709x3143.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Jiang Zhuoer of BTC.TOP called the week&#x27;s sell-off speculation overblown, arguing Strategy&#x27;s small debt and the design of its preferred shares let it keep buying.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;37
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="79b8f66b-2c63-41a1-9512-3f89250d7647"
+                        open
+                      >
+                        <summary class="article-expander__title">Humanity Protocol token crashes more than 80% after a $32 million private-key hack</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/09/humanity-protocol-token-crashes-more-than-80-after-a-usd32-million-private-key-hack">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/df75194a14ee0137a319a24c95c7971dfac737a2-4896x3268.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The decentralized identity project said attackers compromised the keys of a foundation member and are dumping the stolen H tokens for ether.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;37
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >Lowyat.NET</button>
+                  <a class="source-heading__link" href="https://www.lowyat.net/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;395088"
+                        open
+                      >
+                        <summary class="article-expander__title">WWDC 2026: Apple Deems Siri AI Finally Ready For Debut</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/395088/wwdc-2026-apple-siri-ai-finally-ready-for-debut/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/06/WWDC-2026-Apple-Intelligence-Siri-AI-2.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Since 2024 and its edition of the WWDC, Apple has been teasing a revamped Siri for the AI age. Now, in this year’s edition of the conference that’s just about entirely focused on Apple Intelligence, the bitten fruit brand has revealed more features of its powered up personal assistant, some visual changes, and a general […]
+The post WWDC 2026: Apple Deems Siri AI Finally Ready For Debut appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;55
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;395135"
+                        open
+                      >
+                        <summary class="article-expander__title">Huawei Nova 15 Max Hands On: Mid-Range That Feels Deceptively Premium</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/395135/huawei-nova-15-max-hands-on-mid-range-that-feels-deceptively-premium/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/06/Huawei-nova-15-Max-5-1-1240x930.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>It’s been a while since I last handled a Huawei device, more so one from the brand’s mid-range Nova Series. To that end, I had the chance to hold the Nova 15 Max during a presentation and honestly, the phone feels deceptive. Let me clarify that last statement: for a mid-range phone, Huawei seems to […]
+The post Huawei Nova 15 Max Hands On: Mid-Range That Feels Deceptively Premium appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;54
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;395087"
+                        open
+                      >
+                        <summary class="article-expander__title">Huawei MatePad Pro Max Lands In Malaysia With Slim Build, 50MP Camera</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/395087/huawei-matepad-pro-max-malaysia/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/06/huawei-matepad-pro-max-1.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Huawei MatePad Pro Max made its global debut in Bangkok last month. At the time, the latest addition to the company’s tablet lineup was only available in select markets, excluding Malaysia. But now, the brand has brought the device to our shores. Of course, its specifications are no secret at this point. But to […]
+The post Huawei MatePad Pro Max Lands In Malaysia With Slim Build, 50MP Camera appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;55
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;395091"
+                        open
+                      >
+                        <summary class="article-expander__title">Apple Showcases New Child Safety Features At WWDC 2026</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/395091/apple-showcases-new-child-safety-features-at-wwdc-2026/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/06/Apple-Showcases-New-Child-Safety-Features-At-WWDC-2026-1.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>WWDC 2026 is now in the books, and with it comes a whole wave of additional features that will be coming to the Apple ecosystem in the near future. While the focus was on the upgraded Siri and Apple Intelligence, the tech giant also previewed some upcoming child safety features, which will be the subject […]
+The post Apple Showcases New Child Safety Features At WWDC 2026 appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;55
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;395077"
+                        open
+                      >
+                        <summary class="article-expander__title">WWDC 2026: Apple Unveils Next-Gen Apple Intelligence</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/395077/wwdc-2026-apple-unveils-next-gen-apple-intelligence/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/06/WWDC-2026-next-gen-Apple-Intelligence-1.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Apple has officially unveiled the next generation of Apple Intelligence during its WWDC 2026 keynote last night, introducing a slew of updated AI-powered features for iPhone, iPad, Mac, Apple Watch, AirPods and Apple Vision Pro. While many of the additions focus on making everyday apps smarter, the headline feature is undoubtedly an entirely new Siri […]
+The post WWDC 2026: Apple Unveils Next-Gen Apple Intelligence appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;56
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >Hacker News</button>
+                  <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.ycombinator.com/companies/gogograndparent/jobs/2vbzAw8-backend-engineer"
+                        open
+                      >
+                        <summary class="article-expander__title">GoGoGrandparent (YC S16) is hiring Back end Engineers</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.ycombinator.com/companies/gogograndparent/jobs/2vbzAw8-backend-engineer">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://bookface-images.s3.amazonaws.com/logos/4e0e521a2c000fa03eb76e02a08f3584d09ad0c1.png?1668571783" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.english-heritage.org.uk/about/our-people/careers-with-us/job-search/default-job-page/?jobRef&#x3D;16449"
+                        open
+                      >
+                        <summary class="article-expander__title">Job: Head of Stonehenge</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.english-heritage.org.uk/about/our-people/careers-with-us/job-search/default-job-page/?jobRef&#x3D;16449">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.english-heritage.org.uk/siteassets/home/0-about-us-new/02-our-people/02.3-careers-with-us/02.31-job-search/careers-open-graph.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;9
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.alaskasnewssource.com/2026/06/08/federal-judge-blocks-h1-b-visa-100k-fee/"
+                        open
+                      >
+                        <summary class="article-expander__title">Federal judge blocks H1B visa $100K fee</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.alaskasnewssource.com/2026/06/08/federal-judge-blocks-h1-b-visa-100k-fee/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://gray-ktuu-prod.gtv-cdn.com/resizer/v2/T5VOOXTNI5HENBACQVB2OZA25E.jpg?auth&#x3D;62ad315067547c930ed482ea1585bfa68cfcc7dccce344d0231c715bd67016e3&amp;width&#x3D;1200&amp;height&#x3D;600&amp;smart&#x3D;true" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;12
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+        </ul>
+      </section>
+      <section class="daily-content js-toggle-accordions-scope">
+        <h2 class="daily-heading">
+          <button
+            class="daily-heading-toggle"
+            data-action="toggle-accordions"
+            title="Click to toggle the day, Ctrl + click to toggle all."
+          >
             <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-06-08 datetime="2026-06-08T23:53:38.000Z">2026-06-08</time>
             <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-06-08 datetime="2026-06-08T23:53:38.000Z"></time>
           </button>
@@ -2695,6 +3485,26 @@ Check it out here: compressunder.com</span>
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://techcrunch.com/2026/06/08/apple-bets-cheaper-ai-will-woo-small-developers/"
+                        open
+                      >
+                        <summary class="article-expander__title">Apple bets cheaper AI will woo small developers</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://techcrunch.com/2026/06/08/apple-bets-cheaper-ai-will-woo-small-developers/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://techcrunch.com/wp-content/uploads/2025/12/app-of-the-year.jpg?resize&#x3D;1200,722" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://cognition.ai/blog/frontier-code"
                         open
                       >
@@ -3031,6 +3841,26 @@ Check it out here: compressunder.com</span>
                           <div class="article-summary-box-inner media-object">
                             <span class="media-object__text">
                               <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://oldavista.com/"
+                        open
+                      >
+                        <summary class="article-expander__title">Old&#x27;aVista – The most powerful guide to the old Internet</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://oldavista.com/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="//www.oldavista.com/public/open-graph.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;1
+                                  min&hairsp;)</span>
                             </span>
                           </div>
                         </a>
@@ -8337,6 +9167,23 @@ longecho d…</span>
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://lemire.me/blog/2026/06/06/how-much-do-amd64-microarchitecture-levels-help-in-go/"
+                        open
+                      >
+                        <summary class="article-expander__title">How much do amd64 microarchitecture levels help in Go?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://lemire.me/blog/2026/06/06/how-much-do-amd64-microarchitecture-levels-help-in-go/">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://www.science.org/doi/10.1126/science.aei2409"
                         open
                       >
@@ -9124,6 +9971,25 @@ longecho d…</span>
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://remy.wang/blog/cps.html"
+                        open
+                      >
+                        <summary class="article-expander__title">Passing DBs through continuations</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://remy.wang/blog/cps.html">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;10
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -23375,6 +24241,26 @@ Supervisor Agent ← …</span>
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://bernsteinbear.com/blog/inlining-heuristics/"
+                        open
+                      >
+                        <summary class="article-expander__title">A Survey of Inlining Heuristics</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://bernsteinbear.com/blog/inlining-heuristics/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://bernsteinbear.com/favicon.ico" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;15
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -69832,708 +70718,6 @@ The problem asks us to find the longest palindromic substring within a given str
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/adioof/george-hotz-called-ai-code-slop-hes-half-right-5dc4"
-                        open
-                      >
-                        <summary class="article-expander__title">George Hotz called AI code &#x27;slop.&#x27; He&#x27;s half right.</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/adioof/george-hotz-called-ai-code-slop-hes-half-right-5dc4">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Flitter.catbox.moe%2Fhxbrk5.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>When George Hotz described AI-generated code as &quot;slop,&quot; everyone knew exactly what he meant.
-His blog post, &quot;The Eternal Sloptember,&quot; names something that&#x27;s been nagging at every developer who&#x27;s spent real time with AI coding tools. The code appears correct. It performs correctly. And then you ship it, and something quietly breaks in a way that takes you three hours to trace.
-According to Hotz, AI generates &quot;statistically plausible but subtly broken code.&quot; This encapsulates exactly how I&#x27;ve sensed things for a while now. The AI almost nails the solution. It almost gets the imports correct, the function signatures correct, the overall flow correct.
-However, the final 10% that includes edge cases, error handling, strange interactions between your auth middleware, and that one legacy endpoint…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/daniel_diegosilva_c54b25/como-construir-um-fluxo-de-trabalho-baseado-em-engenharia-de-prompt-e-automacao-3o84"
-                        open
-                      >
-                        <summary class="article-expander__title">Como Construir um Fluxo de Trabalho Baseado em Engenharia de Prompt e Automação</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/daniel_diegosilva_c54b25/como-construir-um-fluxo-de-trabalho-baseado-em-engenharia-de-prompt-e-automacao-3o84">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fxsduu3bmsrxj7y67ch6y.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>A verdade nua e crua sobre a Inteligência Artificial generativa em 2026 é que a maioria das pessoas ainda a utiliza como um &quot;Google gourmet&quot;. Elas fazem perguntas simples, recebem respostas genéricas e acreditam que atingiram o teto da produtividade.
-Mas para quem trabalha com tecnologia, o verdadeiro ganho operacional não está em gerar textos isolados — está na automação de processos e na estruturação de contextos complexos. 
-Se você quer transformar a IA em um membro sênior da sua equipe (e dobrar sua eficiência técnica), o caminho passa por três pilares práticos.
-Parar de enviar comandos soltos como &quot;corrija este código&quot; é o primeiro passo. Modelos de linguagem avançados respondem drasticamente melhor quando recebem restrições, personas e objetivos claros.
-Exemplo de estrutura eficiente…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/npayyappilly/the-hidden-cost-of-downtime-how-sre-error-budgets-protect-national-economic-infrastructure-h4j"
-                        open
-                      >
-                        <summary class="article-expander__title">The Hidden Cost of Downtime: How SRE Error Budgets Protect National Economic Infrastructure</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/npayyappilly/the-hidden-cost-of-downtime-how-sre-error-budgets-protect-national-economic-infrastructure-h4j">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fu6rv7njevn85mdvweyqa.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>At 9:30 AM on August 1, 2012, Knight Capital Group&#x27;s trading systems began executing a catastrophic sequence of unintended market orders. A deployment error had activated dormant legacy code — eight years old, never meant to run in production again — which began purchasing and selling equities at high frequency with no profit logic governing the trades. Within forty-five minutes, before any human intervention could halt the process, Knight Capital had accumulated a $7 billion equity position it did not intend to hold, generating a trading loss of $440 million. The firm, one of the largest market makers in U.S. equities, was effectively insolvent before lunchtime.
-The Knight Capital event is the most precisely documented example of what happens when a software deployment fails with no circu…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;15
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/autonomousworld/getting-started-with-openhumans-can-be-an-exciting-venture-for-developers-looking-to-create-266e"
-                        open
-                      >
-                        <summary class="article-expander__title">Getting started with openHUMANS can be an exciting venture for developers looking to create innovative applications in the realm of human-ce</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/autonomousworld/getting-started-with-openhumans-can-be-an-exciting-venture-for-developers-looking-to-create-266e">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0cqjf9hlrxwpn0ygoq3p.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Introduction
-
-
-Getting started with openHUMANS can be an exciting venture for developers looking to create innovative applications in the realm of human-centered data analysis. openHUMANS is an open-source platform designed to facilitate the sharing, analysis, and storage of personal data, with a strong emphasis on user control and privacy. This tutorial aims to guide beginner to intermediate developers through the process of integrating openHUMANS into their projects, exploring its capabilities, and understanding its potential.
-The openHUMANS platform offers a unique opportunity for developers to work with a wide range of datasets, from fitness trackers and genetic information to social media and environmental data. By leveraging the openHUMANS API, developers can create applications that…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/kamalesh_ar_6252544786997/stack-overflow-a-powerful-community-for-developers-and-learners-1g40"
-                        open
-                      >
-                        <summary class="article-expander__title">Stack Overflow: A Powerful Community for Developers and Learners</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/kamalesh_ar_6252544786997/stack-overflow-a-powerful-community-for-developers-and-learners-1g40">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fg3h12d3pyzdp7o7tg5q9.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Stackoverflow
-Today I explored Stack Overflow, one of the largest and most helpful online communities for developers. As someone who is learning programming and technology, I found this platform very useful and inspiring.
-Stack Overflow is a question-and-answer platform where developers from around the world help each other solve coding problems. Whether someone is a beginner or an experienced software engineer, they can ask technical questions and receive answers from the community. The platform covers many technologies such as Python, Java, C++, HTML, CSS, JavaScript, SQL, Linux, Artificial Intelligence, Data Science, and more.
-One of the most interesting things about Stack Overflow is its community-driven learning system. Developers share their knowledge, explain concepts, provide code …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/hemant_007/from-language-models-to-humanoid-minds-2ip5"
-                        open
-                      >
-                        <summary class="article-expander__title">From Language Models to Humanoid Minds ✨</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/hemant_007/from-language-models-to-humanoid-minds-2ip5">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fngsn9henu3a6a553uncc.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>From Language Models to Humanoid Minds 💡
-
-At some point in the future, a humanoid robot may quietly walk through a home at midnight.
-- ⚠️ Not a laboratory.
-- ⚠️ Not a factory.
-- A real human home 🏡.
-
-The kitchen lights 💡 are dim.
-- A glass sits near the edge of a counter.
-- A child’s toy blocks part of the hallway.
-- A dog suddenly runs across the floor.
-
-Suddenly, a voice 🗣️ from another room says :
-Can you bring me the medicine bottle from the table ⁉️
-The machine 🤖 pauses for a fraction of a second.
-Then it moves.
-                      ┌──────────────────────────────────┐
-                      │      Recognizes the voice 🔊     │
-                      └──────────────┬───────────────────┘
-                                     │
-                                     ▼
-                 …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;15
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/danielledvina/road-to-senior-how-computers-think-in-numbers-1mec"
-                        open
-                      >
-                        <summary class="article-expander__title">Road to Senior #2: How Computers Think in Numbers</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/danielledvina/road-to-senior-how-computers-think-in-numbers-1mec">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0xje3xioowbqrv0iluxl.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>⏱️ Reading time: 7-9 minutes
-Difficulty: Beginner - Intermediate
-Themes: Computer Science, Binary, Memory, Performance
-#FF0000 is red, and what those letters actually mean
-After publishing my first post about Stack and Heap, I felt like the foundation was solid.
-I understood where data lives in memory. I understood why [] &#x3D;&#x3D;&#x3D; [] returns false. References, garbage collection — the mental model clicked.
-Then I opened DevTools. I was debugging a color issue and I saw this in the CSS:
-background-color: #FF5733;
-
-And I froze.
-I type hex colors every day. I know #FF0000 is red. I know #FFFFFF is white. But why? What does FF actually mean? Why two characters? Why letters at all?
-I realized I was using a notation I didn&#x27;t understand, built on a number system I&#x27;d never properly learned, representin…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;12
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/john_sellin_cddf7f8783894/why-llm-debugging-fails-on-fragmented-repository-context-3nme"
-                        open
-                      >
-                        <summary class="article-expander__title">Why LLM debugging fails on fragmented repository context</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/john_sellin_cddf7f8783894/why-llm-debugging-fails-on-fragmented-repository-context-3nme">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3lbyvxxn4yfk9dtbxqph.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>After spending a lot of time debugging large repositories with ChatGPT/Claude, I kept noticing the same failure pattern:
-the model was not necessarily &quot;bad at coding&quot; — it was operating on a broken map of the repository.
-Typical workflow looks something like:
-search manually across many files
-paste fragmented snippets
-omit surrounding implementation paths
-lose imports/dependencies/state flow
-ask the model to reason across missing context
-At that point the model starts interpolating architecture that may not actually exist.
-A lot of “hallucinated code” is really just missing repository state.
-That was the motivation behind building grab.
-grab is a small terminal-native workflow tool for iterative repository context extraction.
-The workflow becomes:
-search → extract → accumulate → recurse
-
-I…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/vfazal/how-to-deploy-a-langgraph-agent-on-aws-bedrock-agentcore-2a9p"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Deploy a LangGraph Agent on AWS Bedrock AgentCore</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/vfazal/how-to-deploy-a-langgraph-agent-on-aws-bedrock-agentcore-2a9p">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fp4ltszcb8u9uielbjdym.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>You’ve built a LangGraph agent that works fine on your laptop. The next challenge is getting it running in a scalable, serverless production infrastructure without having to redesign the whole thing.
-That’s where AWS Bedrock AgentCore comes in. In this guide, I’ll show you how to put a wrapper for your existing agent to make it run on AgentCore, set up an AgentCore project, test it locally, deploy it to AWS, and invoke it after deployment.
-AgentCore is a serverless hosting platform designed by AWS to deploy, scale, and operate your AI agents securely without you managing the infrastructure. It works with any open-source framework like LangGraph, Strands, CrewAI, or LlamaIndex and supports Large Language Models like OpenAI&#x27;s GPT, Google&#x27;s Gemini, or Anthropic&#x27;s Claude. So you don’t have to …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;11
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/godspeed2077/an-outreach-kit-for-solo-founders-whose-drafts-cant-hallucinate-d01"
-                        open
-                      >
-                        <summary class="article-expander__title">An outreach kit for solo founders whose drafts can&#x27;t hallucinate</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/godspeed2077/an-outreach-kit-for-solo-founders-whose-drafts-cant-hallucinate-d01">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fx4p3h4qr4hd5bjex64lw.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>An outreach kit for solo founders whose drafts can&#x27;t hallucinate
-
-
-Short version: five Claude skills, a canonical state file template, and a Python inbox agent that watches Gmail, GitHub, and dev.to for replies. End-to-end pipeline from discovery through logged sends. Self-hosted. $5/mo subscription.
-The thing that&#x27;s different about this kit isn&#x27;t the automation. It&#x27;s the discipline the automation enforces.
-The drafting skill asks for the personalization detail before it&#x27;ll write the message. If the detail is vague, it asks again. Generic openers are blocked at the input layer.
-Required inputs:
-- candidate_name
-- product_summary
-- specific_detail  &lt;- the verified hook from the actual source
-- channel
-- send_type (FIRST_CONTACT or CHASE_1)
-
-No specific_detail → no draft. The skill won&#x27;t fab…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/open_satchel/open-satchel-is-live-5b88"
-                        open
-                      >
-                        <summary class="article-expander__title">Open Satchel is live</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/open_satchel/open-satchel-is-live-5b88">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8901lfacaqfg4vea7mki.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Open Satchel is live.
-Open Satchel is local-first document software built around a simple idea: your files should stay yours.
-No forced cloud upload. No account gate. No watermark trap. No subscription wall just to work with your own documents.
-This is early software. It will have bugs, rough edges, and missing pieces. It is not yet on the level of the established document giants. Getting there will take continued development, feedback, and time.
-But that is the goal: practical document software that respects local files and user ownership.
-If you try it, I&#x27;d sincerely appreciate your patience, bug reports, and feedback.
-https://opensatchel.dev/</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/amykwalwasserbrooklyn/amy-kwalwasser-and-the-growing-importance-of-quantum-risk-modeling-5660"
-                        open
-                      >
-                        <summary class="article-expander__title">Amy Kwalwasser and the Growing Importance of Quantum Risk Modeling</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/amykwalwasserbrooklyn/amy-kwalwasser-and-the-growing-importance-of-quantum-risk-modeling-5660">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F4dw5i333os4qajk94el5.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Financial markets are becoming increasingly complex as global systems grow more interconnected and data-driven. Banks, hedge funds, pension funds, insurers, and asset managers now operate in an environment where interest rates, currencies, commodities, equities, and credit markets can all influence one another simultaneously. As this complexity continues to increase, traditional approaches to financial risk analysis are being pushed to their limits. Discussions connected to Amy Kwalwasser highlight how quantum computing may help institutions better understand interconnected market behavior and improve long-term financial stability.
-Modern financial institutions rely heavily on risk modeling to prepare for uncertainty. Stress testing allows firms to estimate how portfolios may perform durin…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/keerthana_696356/from-half-dead-prototype-to-local-only-ai-medical-assistant-rewiring-medclinic-with-github-copilot-42cd"
-                        open
-                      >
-                        <summary class="article-expander__title">From Half‑dead Prototype to Local‑Only AI Medical Assistant: Rewiring MedClinic with GitHub Copilot</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/keerthana_696356/from-half-dead-prototype-to-local-only-ai-medical-assistant-rewiring-medclinic-with-github-copilot-42cd">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fi3bd7j7exs1bfxllu490.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>This is a submission for the GitHub Finish‑Up‑A‑Thon Challenge
-I built MedClinic, a fully local AI‑powered medical assistant that runs on a MedGamma‑2B‑class model without any third‑party APIs or cloud services.
-Instead of slapping a shiny frontend on an off‑the‑shelf API, I:
-Wrote the entire orchestration layer by hand (no pre‑trained wrappers).
-Pipelined plain user text → MedGamma‑2B inference → structured JSON response as a pure inference pipeline.
-Did not use any external API — everything lives on‑device.
-
-
-Link: https://github.com/pulipatikeerthana9-wq/medclinic-voice-scribe
-
-
-
-
-MedClinic started as a half‑dead prototype buried in a forgotten branch. The older version had:
-Basic voice‑to‑text that I struggled to build without much prior experience, and it felt extremely hard to even g…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/moonlitpath1/runninig-a-forkbomb-in-jenkins-41nf"
-                        open
-                      >
-                        <summary class="article-expander__title">Runninig a forkbomb in Jenkins</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/moonlitpath1/runninig-a-forkbomb-in-jenkins-41nf">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Foo6qz48ihqtvq0iaea2d.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Did you think this was the end of my forkbomb chronicles, lol? Of course not! 
-Of course I had to come with a part 3!
-Basically, part infinity of me being bored in college, and doing random sh!t to pass time.
-⚠️ Warning: THIS IS JUST A JOKE. DO NOT DO THIS IN PROFESSIONAL CONTEXTS. It can quite literally crash the system. 
-We had a course called Devops Lab, where Jenkins was a major part of a syllabus. After finishing the activity in a few minutes I had a lot of time to play around in the 2 hour lab. 
-At that time, I&#x27;d been experimenting with forkbombs in my own laptop. Of course I had to try if I can run a forkbomb within jenkins. And see what happens. 
-So, here I am. 
-Jenkins is an open-source automation server primarily used for CI/CD (Continuous Integration and Continuous Delivery). In…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/gmcjr/whats-actually-happening-when-you-use-git-464e"
-                        open
-                      >
-                        <summary class="article-expander__title">What’s Actually Happening When You Use Git</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/gmcjr/whats-actually-happening-when-you-use-git-464e">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fu23wgfoynaumabn0c1k9.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>I’d been using Git comfortably for months before getting uncomfortable with how little I actually understood.
-git add. git commit. git push were memory at this point. But ask me what Git was actually doing under the hood? I couldn’t tell you. I had some (mostly wrong) assumptions but that was about it.
-Then I discovered the .git/ directory…
-Many people think of Git as a “track changes” tool. That’s the way I thought of it. Like the version history in a Google Doc. That’s not wrong, but it’s not the whole picture.
-Git’s creator, Linus Torvalds, described it more precisely:
-“Git is fundamentally a content-addressable filesystem with a VCS user interface written on top of it.”
-So, what is a content-addressable filesystem?
-Instead of storing files by name or location, Git stores them by their …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;10
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/joakim_williamhauge_fa48/preventing-recursive-tool-loops-in-langchain-agents-4i87"
-                        open
-                      >
-                        <summary class="article-expander__title">Preventing Recursive Tool Loops in LangChain Agents</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/joakim_williamhauge_fa48/preventing-recursive-tool-loops-in-langchain-agents-4i87">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F0n86s74ea9yc364fyd6j.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>One of the fastest ways for LangChain agents to become unstable in production is not model quality.
-It’s recursive tool loops.
-
-A workflow starts normally:
-search
-retrieve
-summarize
-Then suddenly:
-the same tool gets called repeatedly
-retries compound
-context grows
-token usage spikes
-execution drifts indefinitely
-The agent technically remains “alive.”
-Operationally, it stopped making progress a long time ago.
-This article shows a simple way to detect and interrupt recursive tool loops in LangChain agents using TypeScript.
-A basic agent workflow often looks harmless:
-&#x60;&#x60;&#x60;ts id&#x3D;&quot;jlwm4&quot;
-
-
-
-But production agents can drift into patterns like:
-
-
-
-&#x60;&#x60;&#x60;txt id&#x3D;&quot;0jlwm4&quot;
-search_documents
-→ search_documents
-→ search_documents
-→ search_documents
-
-or:
-&#x60;&#x60;&#x60;txt id&#x3D;&quot;1jlwm4&quot;
-
-
-
-This usually happens because:
-
-* …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/uya0526design/building-a-rock-paper-scissors-cli-with-typescript-union-types-conditionals-and-jest-2lc5"
-                        open
-                      >
-                        <summary class="article-expander__title">Building a Rock-Paper-Scissors CLI with TypeScript — Union Types, Conditionals, and Jest</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/uya0526design/building-a-rock-paper-scissors-cli-with-typescript-union-types-conditionals-and-jest-2lc5">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F3e83wwgnx34pst554c9u.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Introduction
-
-
-This is my second article as a Java engineer learning TypeScript from scratch.
-In my first article, I built a BMI Calculator CLI and learned about union types, function separation, and Vitest. This time, I built a Rock-Paper-Scissors game (CLI) and focused on:
-Expressing game &quot;hands&quot; and &quot;results&quot; with union types
-
-Understanding when to use if vs else if
-
-Writing unit tests with Jest + ts-jest (I used Vitest last time — this time I wrestled with Jest)
-Understanding the difference between the nullish coalescing operator ?? and type assertion as
-
-
-
-Same as before — I write honestly about what I struggled with, what I figured out, and what I asked AI to help with.
-I use Claude Pro (for design discussions and Q&amp;A) and Cursor Pro (for coding support) as learning companions.
-Howev…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;11
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/dhrupo/your-ai-coding-agent-wastes-80-of-its-context-fixed-that-with-graph-theory-1mfa"
-                        open
-                      >
-                        <summary class="article-expander__title">Your AI Coding Agent Wastes 80% of Its Context. Fixed That with Graph Theory.</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dhrupo/your-ai-coding-agent-wastes-80-of-its-context-fixed-that-with-graph-theory-1mfa">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Frxd8huprftwl3iijerc3.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The problem nobody admits
-
-
-When you give Claude Code, Cursor, or Codex a task like &quot;fix the login validation bug&quot;, here&#x27;s what they usually do:
-Run grep -l login src/ → 17 files
-Read all 17 files top-to-bottom (because context is &quot;free&quot;)
-Spend 80% of the model&#x27;s context window on irrelevant imports, type aliases, and helper functions the bug doesn&#x27;t touch
-Generate a fix using whatever 20% of attention is left
-This works. Sort of. But it&#x27;s wasteful — and on big codebases, it&#x27;s wrong: the agent runs out of context before it sees the actual buggy function.
-The instinct is to throw a bigger model at it. Bigger context window, fancier RAG, vector embeddings. All of which trade real cost for diminishing returns.
-There&#x27;s a better answer that&#x27;s been sitting in classical CS the whole time: treat t…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;9
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/sanket-parmar/why-flutter-has-become-the-go-to-framework-for-fintech-app-development-4c0c"
-                        open
-                      >
-                        <summary class="article-expander__title">Why Flutter Has Become the Go-To Framework for Fintech App Development</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sanket-parmar/why-flutter-has-become-the-go-to-framework-for-fintech-app-development-4c0c">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F8cihfzaa9sxj8owaunef.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Africa is the fastest-growing fintech market globally, with revenues projected to expand 13x by 2030. The continent already accounts for the majority of global mobile money transaction volume. That kind of growth demands more than ambition; it demands the right tools. Africa&#x27;s digital payments market is projected to exceed $40 billion by 2026, with over 500 million active mobile money accounts processing more than $830 billion in transactions annually. Every one of those transactions runs through a mobile app. And the startups and banks building those apps are increasingly choosing Flutter.
-This isn&#x27;t a trend driven by hype. It&#x27;s a practical decision. Flutter solves real problems that fintech builders face every day: speed, cost, security, and scale.
-What Is Flutter and Why Does It Matter …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/hoanluong123/we-built-a-scripting-language-just-for-ai-agents-heres-why-1gm9"
-                        open
-                      >
-                        <summary class="article-expander__title">We built a scripting language just for AI agents. Here&#x27;s why.</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/hoanluong123/we-built-a-scripting-language-just-for-ai-agents-heres-why-1gm9">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fgif91395pzprug5hh2kx.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>One of our AI agents deleted a directory it was never supposed to touch. The Python it wrote was valid. The model was confident. It did the wrong thing.
-The agent was only supposed to query a database. But we gave it a full Python runtime, so it had access to os, shutil, everything. That&#x27;s when we realized the problem wasn&#x27;t the model — it was us handing it way too much power.
-The usual options aren&#x27;t great:
-Full runtime (Python/Node.js): easy to set up, hard to lock down properly. Restricting it after the fact is whack-a-mole.
-Docker per agent: proper isolation, but ~200ms cold start and 100MB+ RAM each. At 50 concurrent agents that&#x27;s 5GB just idling.
-We wanted something lighter. Not &quot;restricted Python&quot; — something designed from scratch for how AI actually writes code.
-After running a lot…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/k08200/stop-building-ai-inboxes-build-decision-layers-instead-3id7"
-                        open
-                      >
-                        <summary class="article-expander__title">Stop building AI inboxes. Build decision layers instead.</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/k08200/stop-building-ai-inboxes-build-decision-layers-instead-3id7">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fcd0vuetks9o16u30fxdi.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>I spent six months building an AI-powered email tool. Then I deleted half of it.
-Not because the model was bad. Not because the embeddings were off. Because I finally noticed what every &quot;AI inbox&quot; on the market — including the one I was building — was actually doing.
-They were surfacing more.
-More &quot;smart suggestions&quot;. More &quot;priority signals&quot;. More &quot;AI-drafted replies waiting for your review&quot;. More badges, more banners, more nudges. Every product in the category was racing to add a new surface and call it intelligence.
-My six-month-old prototype did all of that. I used it every day. And every morning the inbox was just as loud as the day I started. The model was right about which emails mattered. I still read all the other ones anyway, because they were right there, with a little colored do…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;11
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/ben/meme-monday-194f"
-                        open
-                      >
-                        <summary class="article-expander__title">Meme Monday</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ben/meme-monday-194f">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F69qitmpd30p71r3t5gjb.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Meme Monday!
-Today&#x27;s cover image comes from the last thread.
-DEV is an inclusive space! Humor in poor taste will be downvoted by mods.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/ajaykr089/why-i-built-editoraui-react-27hj"
-                        open
-                      >
-                        <summary class="article-expander__title">Why I Built @editora/ui-react?</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ajaykr089/why-i-built-editoraui-react-27hj">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2F912hfhm8yh4rz9j7hbz5.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>After building multiple SaaS products, admin dashboards, AI tools, and enterprise platforms, I kept running into the same issue:
-Most React UI libraries are either:
-Too bloated
-Hard to customize
-Design-opinionated
-Difficult to scale for enterprise apps
-So I started building my own system.
-Introducing @editora/ui-react — a modern React UI component library designed for scalable SaaS and enterprise applications.
-The vision was simple:
-Core goals behind the library:
-I wanted components that work well for:
-SaaS dashboards
-Admin panels
-AI applications
-CMS platforms
-Internal enterprise tools
-Some lessons I learned while building UI systems:
-Consistency matters more than quantity
-Accessibility should never be optional
-Great DX increases adoption
-Component APIs define long-term scalability
-Still improving the ecosystem every week.
-Package:
-https://www.npmjs.com/package/@editora/ui-react
-Would love feedback from the React community 🚀
-
-
-  
-  
-  react #typescript #opensource #webdev #frontend</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/tracygjg/are-ai-tools-the-next-level-of-abstraction-in-software-development-2cig"
-                        open
-                      >
-                        <summary class="article-expander__title">Are AI tools the next level of abstraction in software development?</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/tracygjg/are-ai-tools-the-next-level-of-abstraction-in-software-development-2cig">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fynlwqotszfeeeirf0f2o.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>We created assembly code so we did not have to remember all the numbers that make up machine code instruction sets.
-We created programming languages so we could forget the specifics of proprietary CPUs and operating systems.
-Are we now adopting LLMs and MCPs so we don’t have to learn programming languages and APIs?
-If so, before too long, we will forget how to think for ourselves and the AI models (and the Tech Bros behind them) will become our overloads.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -71208,375 +71392,6 @@ If so, before too long, we will forget how to think for ourselves and the AI mod
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.businessinsider.com/uber-coo-andrew-macdonald-ai-token-spending-harder-justify-2026-5"
-                        open
-                      >
-                        <summary class="article-expander__title">Uber’s COO says it’s getting harder to justify money spent on tokenmaxxing</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.businessinsider.com/uber-coo-andrew-macdonald-ai-token-spending-harder-justify-2026-5">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://i.insider.com/6a13b43f51ede568c7e183dd?width&#x3D;1200&amp;format&#x3D;jpeg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;16
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://iot-devices.com.ua/en/ggreg20-v3-j305-tube-mounting-dimensions/"
-                        open
-                      >
-                        <summary class="article-expander__title">Dimensions of the Geiger-Muller Tube Holder on the GGreg20_V3 Geiger Counter PCB</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://iot-devices.com.ua/en/ggreg20-v3-j305-tube-mounting-dimensions/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://iot-devices.com.ua/wp-content/uploads/2025/11/GGreg20_V3_GM-tube-holder-size.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;13
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.referenceforbusiness.com/biography/S-Z/Suzuki-Toshifumi-1932.html"
-                        open
-                      >
-                        <summary class="article-expander__title">Toshifumi Suzuki, founder of Seven-Eleven Japan, has died</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.referenceforbusiness.com/biography/S-Z/Suzuki-Toshifumi-1932.html">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;12
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://alexanderbjoy.com/horse-race-board-game/"
-                        open
-                      >
-                        <summary class="article-expander__title">My new obsession: A horse-racing board game of pure luck</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://alexanderbjoy.com/horse-race-board-game/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://m.media-amazon.com/images/I/91Iip9LEWDL._AC_SL1500_.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;14
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.trychert.com/"
-                        open
-                      >
-                        <summary class="article-expander__title">Launch HN: Chert (YC P26) – Twilio for iMessage</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.trychert.com/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.trychert.com/chert.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://randsinrepose.com/archives/the-ask/"
-                        open
-                      >
-                        <summary class="article-expander__title">The Ask</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://randsinrepose.com/archives/the-ask/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://randsinrepose.com/wp-content/uploads/2026/05/theask.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;15
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://rajveerbachkaniwala.com/blog/2026/05/24/on-the-difficulty-of-pasting-a-picture/"
-                        open
-                      >
-                        <summary class="article-expander__title">Why Ctrl+V won&#x27;t paste images in Claude Code on WSL, with a fix</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://rajveerbachkaniwala.com/blog/2026/05/24/on-the-difficulty-of-pasting-a-picture/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://jobs.ashbyhq.com/hive.co/538c47f9-d008-49b7-b0d4-583d9294a481"
-                        open
-                      >
-                        <summary class="article-expander__title">Hive (YC S14) is hiring sr back-end developers (CA/US remote OK)</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://jobs.ashbyhq.com/hive.co/538c47f9-d008-49b7-b0d4-583d9294a481">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;1
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://stevemagness.substack.com/p/the-cost-of-safetyism"
-                        open
-                      >
-                        <summary class="article-expander__title">The Cost of Safetyism</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://stevemagness.substack.com/p/the-cost-of-safetyism">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://lemon.rip/w/6-c-extensions-compilers/"
-                        open
-                      >
-                        <summary class="article-expander__title">C extensions, portability, and alternative compilers</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://lemon.rip/w/6-c-extensions-compilers/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://krebsonsecurity.com/2026/05/netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks/"
-                        open
-                      >
-                        <summary class="article-expander__title">Netherlands Seizes 800 Servers, Arrests 2 for Aiding Cyberattacks</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://krebsonsecurity.com/2026/05/netherlands-seizes-800-servers-arrests-2-for-aiding-cyberattacks/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://medcurity.com/hipaa-security-rule-2026-update/"
-                        open
-                      >
-                        <summary class="article-expander__title">2026 HIPAA Security Rule Update</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://medcurity.com/hipaa-security-rule-2026-update/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://medcurity.com/wp-content/uploads/2026/03/hipaa-security-rule-2026-hero.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;23
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.carryology.com/insights/carry-culture/the-tale-of-the-worlds-most-unlikely-school-bag/"
-                        open
-                      >
-                        <summary class="article-expander__title">The Most Unlikely School Bag</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.carryology.com/insights/carry-culture/the-tale-of-the-worlds-most-unlikely-school-bag/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.carryology.com/wp-content/uploads/2026/03/Randoseru-feature.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;16
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://nomagicpill.substack.com/p/confidence-scores-for-exam-questions"
-                        open
-                      >
-                        <summary class="article-expander__title">Confidence Scores for Exam Questions</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://nomagicpill.substack.com/p/confidence-scores-for-exam-questions">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://religionnews.com/2026/05/25/in-his-first-encyclical-pope-leo-xiv-says-ai-must-serve-humanity-not-the-powerful-few/"
-                        open
-                      >
-                        <summary class="article-expander__title">Pope Leo XIV says AI must serve humanity, not the powerful few</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://religionnews.com/2026/05/25/in-his-first-encyclical-pope-leo-xiv-says-ai-must-serve-humanity-not-the-powerful-few/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="http://religionnews.com/wp-content/uploads/2026/05/webRNS-Leo-Encyclical2.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;29
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://variety.com/2026/biz/global/pope-leo-ai-encyclical-algorithms-threaten-dehumanisation-1236758186/"
-                        open
-                      >
-                        <summary class="article-expander__title">Pope Leo: opaque AI run by few firms risks &quot;New Forms of Dehumanization&quot;</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://variety.com/2026/biz/global/pope-leo-ai-encyclical-algorithms-threaten-dehumanisation-1236758186/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://variety.com/wp-content/uploads/2026/05/Pope-Leo.jpg?w&#x3D;1000&amp;h&#x3D;563&amp;crop&#x3D;1" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;40
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.tmj4.com/news/racine-county/microsoft-pulls-plug-on-plans-for-244-acre-data-center-in-caledonia-after-community-pushback"
-                        open
-                      >
-                        <summary class="article-expander__title">Microsoft pulls plug on plans for 244-acre data center in Caledonia</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.tmj4.com/news/racine-county/microsoft-pulls-plug-on-plans-for-244-acre-data-center-in-caledonia-after-community-pushback">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://ewscripps.brightspotcdn.com/dims4/default/44d2d0a/2147483647/strip/true/crop/1280x672+0+24/resize/1200x630!/quality/90/?url&#x3D;http%3A%2F%2Fewscripps-brightspot.s3.amazonaws.com%2Fc9%2F9e%2Fd8b98e7a45e5bdb35c08785c504a%2Fmixcollage-09-oct-2025-11-38-am-3678.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;11
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://ochagavia.nl/blog/fully-in-browser-container-builds/"
-                        open
-                      >
-                        <summary class="article-expander__title">In-Browser Container Builds</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://ochagavia.nl/blog/fully-in-browser-container-builds/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://ochagavia.nl/images/headshot.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;3
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://techcrunch.com/2026/05/21/six-search-engines-worth-trying-now-that-google-isnt-really-google-anymore/"
-                        open
-                      >
-                        <summary class="article-expander__title">Search engines alternatives now that Google isn&#x27;t Google anymore</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://techcrunch.com/2026/05/21/six-search-engines-worth-trying-now-that-google-isnt-really-google-anymore/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://techcrunch.com/wp-content/uploads/2026/05/GettyImages-2151663494.jpg?resize&#x3D;1200,801" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;14
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -71631,66 +71446,6 @@ If so, before too long, we will forget how to think for ourselves and the AI mod
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="ba229b43-599e-45e2-9490-b6c681df96dc"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin, crypto prices tick up as US-Iran peace deal odds climb</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/05/25/bitcoin-crypto-prices-tick-up-as-us-iran-peace-deal-odds-climb">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/84a461bc77fdc8be2e55a8cfa0a0aa196e958396-4928x2772.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Iranian negotiators arrived in Doha for talks, focusing on the Strait of Hormuz and highly enriched uranium, as Pakistan and Qatar are mediating.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;36
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="ab7dd9b6-b5ca-43cc-95f2-10b76d77f7b8"
-                        open
-                      >
-                        <summary class="article-expander__title">Buterin says Ethereum Foundation will shrink, sell less ETH, and focus on &#x27;CROPS&#x27;</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/web3/2026/05/25/buterin-says-ethereum-foundation-will-shrink-sell-less-eth-and-focus-on-crops">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/fc25947f1bdd54e21669cfeb4f95b3a58f436d2c-1500x919.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Buterin&#x27;s influence in the EF will decrease as the board expands. He framed the EF as &quot;one node, with a defined purpose,&quot; not the center of Ethereum.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;38
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="95754fc4-b9f5-4ba8-b634-0bfadf807344"
-                        open
-                      >
-                        <summary class="article-expander__title">PCE, jobless claims and housing data test Fed cut hopes: Crypto Week Ahead</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/05/25/pce-jobless-claims-and-housing-data-test-fed-cut-hopes-crypto-week-ahead">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/30627c8133fe6fe287cb25345e3246b03dabbe18-1920x1280.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Your look at what&#x27;s coming in the week starting May 25.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;37
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -71698,8 +71453,8 @@ If so, before too long, we will forget how to think for ourselves and the AI mod
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/27174922275">
-        <time id="build-timestamp" datetime="2026-06-09T00:03:59.149Z">2026-06-09T00:03:59.149Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/27185029896">
+        <time id="build-timestamp" datetime="2026-06-09T05:04:17.011Z">2026-06-09T05:04:17.011Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>
