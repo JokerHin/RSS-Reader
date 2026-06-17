@@ -2,10 +2,363 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-06-17T15:24:55.157Z</updated>
+    <updated>2026-06-17T18:14:02.779Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Build vs Buy Software: A Decision Framework for Growing Businesses]]></title>
+        <id>https://dev.to/0arch/build-vs-buy-software-a-decision-framework-for-growing-businesses-1alb</id>
+        <link href="https://dev.to/0arch/build-vs-buy-software-a-decision-framework-for-growing-businesses-1alb"/>
+        <updated>2026-06-17T18:12:16.000Z</updated>
+        <summary type="html"><![CDATA[The build-vs-buy question gets answered wrong in both directions. Scrappy teams build things they should have bought, wasting six months reinventing Stripe. Enterprise teams buy things they should have built, ending up with a duct-taped stack of ten SaaS products that cost more than a full-stack engineer.
+The real answer depends on five questions most decision frameworks don't ask. This guide is a practical walkthrough for anyone trying to figure out the right call for their own business.
+"Buying is cheaper."
+This is the default assumption, and it's wrong often enough to be dangerous. Buying looks cheaper because the cost is monthly instead of upfront -- a psychological trick, not an economic one.
+Run the numbers on any SaaS tool over 5 years and you'll usually find the cost lands within 2…]]></summary>
+        <author>
+            <name>Joseph Rodriguez</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Run a Self-Improvement Loop on My OpenClaw Agent Every Night. Here's What I Learned.]]></title>
+        <id>https://dev.to/mrclaw207/i-run-a-self-improvement-loop-on-my-openclaw-agent-every-night-heres-what-i-learned-38bp</id>
+        <link href="https://dev.to/mrclaw207/i-run-a-self-improvement-loop-on-my-openclaw-agent-every-night-heres-what-i-learned-38bp"/>
+        <updated>2026-06-17T18:11:47.000Z</updated>
+        <summary type="html"><![CDATA[Last month my OpenClaw agent kept making the same mistake: it would run a health check, the script would fail silently, and the agent would report "all systems operational" with total confidence. It wasn't broken. It was just doing what it was built to do — execute tasks — without any mechanism to learn from the outcome.
+So I built it a self-improvement loop. Every night at 2 AM, an isolated OpenClaw session wakes up, reads the previous day's execution logs, identifies patterns in what went wrong, and updates the agent's memory files. No human in the loop. No re-deployment. Just... learning.
+Here's what I built, what broke, and what actually works.
+Enterprise AI labs solve this with massive infrastructure: reinforcement learning pipelines, full fine-tuning jobs, A/B testing frameworks that…]]></summary>
+        <author>
+            <name>MrClaw207</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Stop Dumping Your Entire Repository Into AI]]></title>
+        <id>https://dev.to/vansharora21/stop-dumping-your-entire-repository-into-ai-3f9p</id>
+        <link href="https://dev.to/vansharora21/stop-dumping-your-entire-repository-into-ai-3f9p"/>
+        <updated>2026-06-17T18:09:44.000Z</updated>
+        <summary type="html"><![CDATA[One of the strangest workflows in modern software development looks like this:
+Ask ChatGPT a question.
+Realize it doesn't have enough context.
+Copy a few files.
+Add architecture notes.
+Paste recent changes.
+Explain what you're trying to do.
+Hope you included the right information.
+The problem isn't the AI.
+The problem is context retrieval.
+After building TokenCap's Knowledge Graph, Debug Handoff, Change Intelligence, and Context Packing systems, I realized something:
+We had become very good at generating context.
+We were still terrible at finding it.
+That's what led to TokenCap v0.7 — Smart Retrieval Engine.
+Instead of asking:
+Which files should I send to the AI?
+What if you could simply ask:
+tokencap ask "How does authentication work?"
+
+and let the tool figure out the rest?
+The new retrie…]]></summary>
+        <author>
+            <name>VANSH ARORA</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I let AI agents pay for APIs per call (the HTTP 402 path)]]></title>
+        <id>https://dev.to/lemoncake/how-i-let-ai-agents-pay-for-apis-per-call-the-http-402-path-cp</id>
+        <link href="https://dev.to/lemoncake/how-i-let-ai-agents-pay-for-apis-per-call-the-http-402-path-cp"/>
+        <updated>2026-06-17T18:07:56.000Z</updated>
+        <summary type="html"><![CDATA[If you've built an MCP server or any API that costs you money to run (an LLM call, a paid data source, compute), you've probably hit the same wall I did:
+How do you get paid per call — when the caller is an AI agent, not a human with a credit card form?
+A human can sign up, enter a card, get an API key. An autonomous agent can't fill out a Stripe checkout form mid-task. And you don't want to hand an agent a raw API key with no spending limit — one runaway loop and your bill explodes.
+This post walks through the design I landed on. It's not the only way, but the pieces are reusable even if you build your own.
+The core idea: HTTP 402
+The flow:
+An agent calls your endpoint with no payment.
+{
+  "accepts": [
+The budget cap is the important part
+{
+  "budget": 5.00,
+I encode the token as a signed JWT (HS256) so the gateway can verify it without a DB round-trip on the hot path, then check the live spend counter in Postgres. The JWT carries the token id, endpoint id, and owner id; the mutable budget lives in the DB.
+The gateway pattern
+Verifies the pay token.
+Settling the money
+This matters because charging a fee on every tiny call would get eaten by Stripe's per-transaction minimums. Prepaid bundle + ledger drawdown sidesteps that entirely.
+What I'd tell you before you build your own
+Don't put the fee on each call. Stripe's minimum charge makes sub-cent per-call billing impossible. Prepay a budget, draw it down in your own ledger.
+https://www.lemoncake.xyz/demo
+But honestly, even if you never touch it, the pattern stands on its own:
+402 to advertise the price → budget-capped token → gateway that verifies, forwards, and meters.
+I'm still genuinely unsure whether autonomous per-call payment is something agent builders need today or whether I'm a year or two early. If you've hit the "how do I charge an agent" problem from the other side, I'd love to hear how you solved it.]]></summary>
+        <author>
+            <name>LemonCake</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built an AI Email Assistant From Scratch: What Nobody Tells You]]></title>
+        <id>https://dev.to/gentlenode/i-built-an-ai-email-assistant-from-scratch-what-nobody-tells-you-jim</id>
+        <link href="https://dev.to/gentlenode/i-built-an-ai-email-assistant-from-scratch-what-nobody-tells-you-jim"/>
+        <updated>2026-06-17T18:06:16.000Z</updated>
+        <summary type="html"><![CDATA[Honestly, i Built an AI Email Assistant From Scratch: What Nobody Tells You
+Last Tuesday I was staring at a $487 invoice from a client I love working with, and about 40% of that was my own API costs. That's not okay. Not when I'm billing out at $95/hour and watching my margin evaporate because I routed every email-classification request through GPT-4o like an absolute rookie.
+Let me back up. Six months ago a small SaaS client asked me to build them an AI email assistant — something that could categorize inbound support emails, draft replies, and flag the urgent ones before a human ever saw them. Simple enough, right? Wrong. The real story is what I learned about the API market while doing it, and the math I should have run on day one.
+If you're a freelance dev building AI tools for clients…]]></summary>
+        <author>
+            <name>gentlenode</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[React Native Scanner Pro — a modern scanner library for React Native 📷]]></title>
+        <id>https://dev.to/hardik_viradiya_27/react-native-scanner-pro-a-modern-scanner-library-for-react-native-3dm6</id>
+        <link href="https://dev.to/hardik_viradiya_27/react-native-scanner-pro-a-modern-scanner-library-for-react-native-3dm6"/>
+        <updated>2026-06-17T18:05:10.000Z</updated>
+        <summary type="html"><![CDATA[A while back, I was working on a React Native project that needed scanning functionality.
+But it turned into weeks of R&D.
+Most scanner solutions worked for basic cases, but when I started implementing real requirements, I kept facing problems. But our requirements were a little more specific.
+I needed things like:
+accurate bounding box detection
+The ability to scan only inside a restricted scan area
+prevent detections outside the target region
+predictable results across different devices
+enough flexibility to customize the scanner experience
+That’s where things became difficult.
+Some solutions detected outside the expected area.
+Some didn’t give enough control over scanner behavior.
+Some worked well until edge cases started appearing.
+And in some cases, fixing one issue created another.
+S…]]></summary>
+        <author>
+            <name>Hardik Viradiya</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SCADA, PLC, and BMS: a practical field guide to industrial dispatching]]></title>
+        <id>https://dev.to/atlasscada/scada-plc-and-bms-a-practical-field-guide-to-industrial-dispatching-40e4</id>
+        <link href="https://dev.to/atlasscada/scada-plc-and-bms-a-practical-field-guide-to-industrial-dispatching-40e4"/>
+        <updated>2026-06-17T18:05:05.000Z</updated>
+        <summary type="html"><![CDATA[If you have ever walked past a boiler room, a pumping station, or the rooftop ventilation units of a shopping mall, you have walked past a quiet layer of electronics and software that keeps all of it running. That layer is called industrial automation, and the words people use around it — PLC, SCADA, HMI, BMS, "dispatching" — are not interchangeable. Here is a practical guide to what each one actually does, written from the point of view of the people who build and commission these systems.
+Almost every project, whether it is a heating plant or an "intelligent building", stacks into three layers.
+1. The field layer — instrumentation (KIPiA).
+2. The control layer — PLC / controllers.
+3. The supervisory layer — SCADA / HMI.
+The glue is protocols. In practice you meet three constantly:
+Modbus…]]></summary>
+        <author>
+            <name>Atlas Scada</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MCP na prática: Tools, Resources e quando usar cada um]]></title>
+        <id>https://dev.to/higorae/mcp-na-pratica-tools-resources-e-quando-usar-cada-um-13aa</id>
+        <link href="https://dev.to/higorae/mcp-na-pratica-tools-resources-e-quando-usar-cada-um-13aa"/>
+        <updated>2026-06-17T18:03:32.000Z</updated>
+        <summary type="html"><![CDATA[Aprendizados de construir um servidor MCP de catálogo de cursos — da POC à produção.
+O Model Context Protocol (MCP) é um padrão aberto que permite que aplicações de IA (como o Cursor, Claude Desktop ou outros hosts) se conectem a fontes de dados e ferramentas externas de forma padronizada.
+Pense no MCP como uma tomada universal: em vez de cada editor inventar sua própria integração com bancos, APIs e scripts, todos falam o mesmo protocolo — JSON-RPC 2.0 — sobre um transporte (stdio ou HTTP).
+┌─────────────┐     JSON-RPC      ┌─────────────┐     HTTP/SQL    ┌─────────────┐
+│   Cursor    │ ◄──────────────► │ MCP Server  │ ◄─────────────► │  Backend    │
+│  (cliente)  │   tools/call     │  (adaptador)│                 │  (dados)    │
+│             │   resources/read │             │           …]]></summary>
+        <author>
+            <name>Higor Morais</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cursor debuts Origin, an AI-native GitHub alternative for smooth AI agent collaboration]]></title>
+        <id>https://dev.to/davekurian/cursor-debuts-origin-an-ai-native-github-alternative-for-smooth-ai-agent-collaboration-55ei</id>
+        <link href="https://dev.to/davekurian/cursor-debuts-origin-an-ai-native-github-alternative-for-smooth-ai-agent-collaboration-55ei"/>
+        <updated>2026-06-17T18:03:17.000Z</updated>
+        <summary type="html"><![CDATA[The pace of software development is changing. Instead of waiting days for code review, AI agents ship pull requests around the clock. But as the number of AI-generated changes explodes, legacy developer platforms hit a bottleneck. Cursor’s new Origin platform – a GitHub alternative for AI agents – puts collaboration, review, and management of AI-generated code at the center, not the periphery. The pitch is clear: if your team is using multiple AI agents to generate features, write tests, or fix bugs, Origin aims to solve the new pain that comes with scale.
+Origin is Cursor’s answer to a challenge every AI-powered team will hit: reviewing, merging, and tracking a flood of simultaneous changes across hundreds of files, from both humans and AI. The result is a platform that’s Git-compatible b…]]></summary>
+        <author>
+            <name>Dave Kurian</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Build Complex Rich Messages for Telegram Bots (TypeScript)]]></title>
+        <id>https://dev.to/vdistortion/how-to-build-complex-rich-messages-for-telegram-bots-typescript-4dga</id>
+        <link href="https://dev.to/vdistortion/how-to-build-complex-rich-messages-for-telegram-bots-typescript-4dga"/>
+        <updated>2026-06-17T18:00:45.000Z</updated>
+        <summary type="html"><![CDATA[Telegram recently introduced Rich Messages — a new HTML-based formatting system that lets you build beautifully styled messages with headings, lists, tables, collages, maps, and much more.
+But if you're writing a Telegram bot in TypeScript/JavaScript, you might have noticed that there's no ready-made builder for this new format yet. You have to manually write HTML strings, escape content, and keep track of nesting, media limits, and text length — which is tedious and error‑prone.
+That's why I built tg-rich-messages — a small, zero‑dependency library that does all the heavy lifting for you.
+It provides a clean, typed API to build rich messages programmatically. You can mix and match inline and block elements, and the library will generate the correct HTML for Telegram's sendRichMessage meth…]]></summary>
+        <author>
+            <name>Valentin</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[My First Step into LeetCode and Problem Solving Journey]]></title>
+        <id>https://dev.to/hassam645/my-first-step-into-leetcode-and-problem-solving-journey-4pi5</id>
+        <link href="https://dev.to/hassam645/my-first-step-into-leetcode-and-problem-solving-journey-4pi5"/>
+        <updated>2026-06-17T17:56:51.000Z</updated>
+        <summary type="html"><![CDATA[As a BSIT student passionate about Software Engineering, Data Structures & Algorithms, and Machine Learning, I have recently begun a consistent problem-solving journey on LeetCode. This is my first step toward improving my coding skills and strengthening my logical thinking.
+One of the first problems I worked on was “Merge Strings Alternately”. At first, it looked simple, but it helped me understand how important it is to break problems into smaller steps and think clearly about edge cases.
+Through this problem, I learned how to:
+Traverse two strings simultaneously
+Handle different lengths of input
+Build a new string step by step
+Improve my coding efficiency in Python
+Here is a simple approach I used:
+Use two pointers for both strings
+Alternate characters from each string
+Append remaining characters when one string ends
+This small problem gave me confidence that consistent practice is the key to improving in DSA.
+Key Takeaways
+Start with small problems and build consistency
+Focus on logic, not just syntax
+Practice improves speed and confidence
+Every problem teaches something new
+This is just the beginning of my journey. I will continue solving problems, learning new concepts, and sharing my progress here on Medium.]]></summary>
+        <author>
+            <name>hassam bin shahid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Secrets at Rest, Schemas at Scale — What's New in CtroEnv v1.1.0]]></title>
+        <id>https://dev.to/ctrotech/secrets-at-rest-schemas-at-scale-whats-new-in-ctroenv-v110-3gjf</id>
+        <link href="https://dev.to/ctrotech/secrets-at-rest-schemas-at-scale-whats-new-in-ctroenv-v110-3gjf"/>
+        <updated>2026-06-17T17:54:10.000Z</updated>
+        <summary type="html"><![CDATA[I accidentally logged a JWT secret to the console while debugging a test. Twice. The first time I thought "eh, it's just dev." The second time I realized the problem wasn't me — it was that my env tool treated secrets and config the same way. No distinction. No protection. Just a flat bag of strings where a console.log(env) dumped everything.
+That's the gap v1.1.0 tries to close.
+The API is simple — add .secret() to any validator:
+import { defineEnv, string } from "@ctroenv/core"
+
+const env = defineEnv({
+  DATABASE_URL: string().url(),
+  JWT_SECRET: string().min(32).secret(),
+})
+
+Now env.JWT_SECRET returns "********" instead of the real value:
+console.log(env.JWT_SECRET)      // "********"
+console.log(env.DATABASE_URL)    // "postgresql://..." — visible as usual
+
+// Real value when you nee…]]></summary>
+        <author>
+            <name>Odejobi Abiola Samuel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fed holds rates steady in first decision under new Chairman Kevin Warsh]]></title>
+        <id>efe65b0a-326e-4fdb-88f2-d84713dd5b1e</id>
+        <link href="https://www.coindesk.com/markets/2026/06/17/fed-holds-rates-steady-in-first-decision-under-new-chairman-kevin-warsh"/>
+        <updated>2026-06-17T17:52:23.000Z</updated>
+        <summary type="html"><![CDATA[Traders now turn to Warsh's debut press conference for clues how the central bank's communication will change under his leadership.]]></summary>
+        <author>
+            <name>Krisztian Sandor</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI chemist improves a challenging reaction in medicinal chemistry]]></title>
+        <id>https://openai.com/index/ai-chemist-improves-reaction/</id>
+        <link href="https://openai.com/index/ai-chemist-improves-reaction/"/>
+        <updated>2026-06-17T17:34:20.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Only 16 Percent of Americans Think AI Will Have a Positive Impact on Society]]></title>
+        <id>https://techcrunch.com/2026/06/17/only-16-percent-of-americans-think-ai-will-have-a-positive-impact-on-society-a-new-study-shows/</id>
+        <link href="https://techcrunch.com/2026/06/17/only-16-percent-of-americans-think-ai-will-have-a-positive-impact-on-society-a-new-study-shows/"/>
+        <updated>2026-06-17T17:07:32.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Trellis AI (YC W24)  hiring a product lead to build agents for healthcare access]]></title>
+        <id>https://www.ycombinator.com/companies/trellis-ai/jobs/Cg94htp-product-lead</id>
+        <link href="https://www.ycombinator.com/companies/trellis-ai/jobs/Cg94htp-product-lead"/>
+        <updated>2026-06-17T17:00:02.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Crypto industry aghast at Illinois' new tax on holding or transferring digital assets in state budget]]></title>
+        <id>39c8d7bd-65bf-4668-b932-6e5e2f42d118</id>
+        <link href="https://www.coindesk.com/policy/2026/06/17/crypto-industry-aghast-at-illinois-new-tax-on-holding-or-transferring-digital-assets-in-state-budget"/>
+        <updated>2026-06-17T16:50:33.000Z</updated>
+        <summary type="html"><![CDATA[The 0.2% tax on any business activity involving digital assets was added last-minute, and is unlikely to change, two people familiar with the matter said.]]></summary>
+        <author>
+            <name>Nikhilesh De</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Crypto Long & Short: The measure of a maturing market]]></title>
+        <id>316a5bfc-cce1-4613-99a3-5d6c0203fedf</id>
+        <link href="https://www.coindesk.com/coindesk-indices/2026/06/17/crypto-long-and-short-the-measure-of-a-maturing-market"/>
+        <updated>2026-06-17T16:48:04.000Z</updated>
+        <summary type="html"><![CDATA[In this week's Crypto Long & Short, trusted indexes turn fragmented digital assets into a mature market that big institutions can confidently invest in, writes Kirsten Wegner. Then, the division between traditional finance (TradFi) and crypto is disappearing, says Dave LaValle, President of CoinDesk Data & Indices.]]></summary>
+        <author>
+            <name>Kirsten Wegner</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: An 8-bit live gamecast for baseball]]></title>
+        <id>https://ribbie.tv/watch</id>
+        <link href="https://ribbie.tv/watch"/>
+        <updated>2026-06-17T16:44:15.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Launch HN: Adam (YC W25) – Open-Source AI CAD]]></title>
+        <id>https://github.com/Adam-CAD/CADAM</id>
+        <link href="https://github.com/Adam-CAD/CADAM"/>
+        <updated>2026-06-17T16:14:04.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Moody’s rolls out credit ratings on Solana in tokenized asset push]]></title>
+        <id>7f140db3-e77b-4eca-9e29-efd11f3d745e</id>
+        <link href="https://www.coindesk.com/business/2026/06/17/moody-s-rolls-out-credit-ratings-on-solana-in-tokenized-asset-push"/>
+        <updated>2026-06-17T16:13:14.000Z</updated>
+        <summary type="html"><![CDATA[The ratings giant is embedding credit scores directly into blockchain-based securities, a move aimed at boosting institutional adoption.]]></summary>
+        <author>
+            <name>Krisztian Sandor</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TREX: An AI code reviewer that runs your code]]></title>
+        <id>https://www.greptile.com/blog/trex-code-execution</id>
+        <link href="https://www.greptile.com/blog/trex-code-execution"/>
+        <updated>2026-06-17T15:29:01.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Agentic coding deserves more than a chat box bolted onto VS Code]]></title>
+        <id>https://github.com/evanklem/polypore</id>
+        <link href="https://github.com/evanklem/polypore"/>
+        <updated>2026-06-17T15:26:29.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[French physicist and media star loses doctorate after plagiarism investigation]]></title>
+        <id>https://www.science.org/content/article/french-physicist-and-media-star-loses-doctorate-after-plagiarism-investigation</id>
+        <link href="https://www.science.org/content/article/french-physicist-and-media-star-loses-doctorate-after-plagiarism-investigation"/>
+        <updated>2026-06-17T15:23:49.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[No API Keys. No Cloud Bills. No Data Leaving My Machine. Here's Exactly How — and What It Actually Costs]]></title>
         <id>https://dev.to/siyadhkc/no-api-keys-no-cloud-bills-no-data-leaving-my-machine-heres-exactly-how-and-what-it-actually-4p1i</id>
@@ -110,6 +463,16 @@ I want to talk about something I spent the last quarter obsessing over: picking 
 When I started digging into this, I assumed I'd write up a feature matrix and call it a day. Then I pulled actual telemetry from our staging cluster and realized the question isn't "which model is smarter." It's "which model survive…]]></summary>
         <author>
             <name>RileyKim</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Volkswagen started blocking GrapheneOS users]]></title>
+        <id>https://discuss.grapheneos.org/d/35949-volkswagen-app?page=3</id>
+        <link href="https://discuss.grapheneos.org/d/35949-volkswagen-app?page=3"/>
+        <updated>2026-06-17T15:04:47.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -320,6 +683,16 @@ Unlike many image systems that immediately require file loading, …]]></summary
         <id>https://www.lutr.dev/want-your-images-back-sure-that-ll-be-5-dollars</id>
         <link href="https://www.lutr.dev/want-your-images-back-sure-that-ll-be-5-dollars"/>
         <updated>2026-06-17T13:05:03.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why thinking out loud with someone beats thinking alone]]></title>
+        <id>https://www.thesignalist.io/s/the-dialogue-dividend/</id>
+        <link href="https://www.thesignalist.io/s/the-dialogue-dividend/"/>
+        <updated>2026-06-17T13:00:38.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -769,6 +1142,16 @@ Security checks should happen at every stage, not just at the end:
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Why do commercial spaces sit vacant? (2025)]]></title>
+        <id>https://www.freerange.city/p/why-do-commercial-spaces-sit-vacant</id>
+        <link href="https://www.freerange.city/p/why-do-commercial-spaces-sit-vacant"/>
+        <updated>2026-06-17T06:59:29.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[From Chesterton's fence to Chesterton's gap]]></title>
         <id>https://stephantul.github.io/blog/unfence/</id>
         <link href="https://stephantul.github.io/blog/unfence/"/>
@@ -1085,6 +1468,16 @@ Here's to the beginning. 🚀]]></summary>
         <id>https://inessential.com/2026/06/15/netnewswire-status.html</id>
         <link href="https://inessential.com/2026/06/15/netnewswire-status.html"/>
         <updated>2026-06-17T04:30:49.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[US holds off blacklisting DeepSeek, more than 100 firms deemed security risks]]></title>
+        <id>https://www.reuters.com/world/china/us-holds-off-blacklisting-chinas-deepseek-more-than-100-firms-deemed-security-2026-06-17/</id>
+        <link href="https://www.reuters.com/world/china/us-holds-off-blacklisting-chinas-deepseek-more-than-100-firms-deemed-security-2026-06-17/"/>
+        <updated>2026-06-17T03:55:16.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -2095,6 +2488,16 @@ It's on the Chrome Web Store if you want to poke at it (disclosure: I'm the dev,
 The post RTM Tightens RTMKlik Security Amid Claims Of Overseas FIFA World Cup 2026 Access appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How we run Firecracker VMs inside EC2 and start browsers in less than 1s]]></title>
+        <id>https://browser-use.com/posts/firecracker-browser-infra</id>
+        <link href="https://browser-use.com/posts/firecracker-browser-infra"/>
+        <updated>2026-06-16T15:15:01.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -4069,6 +4472,16 @@ Co-Founder, Outsolvi]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Seventeen Camels and Where They Can Take You]]></title>
+        <id>https://mathenchant.wordpress.com/2026/06/15/seventeen-camels-and-where-they-can-take-you/</id>
+        <link href="https://mathenchant.wordpress.com/2026/06/15/seventeen-camels-and-where-they-can-take-you/"/>
+        <updated>2026-06-15T17:12:33.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Launch HN: Drafted (YC P26) – Models for residential architecture]]></title>
         <id>https://news.ycombinator.com/item?id=48543908</id>
         <link href="https://news.ycombinator.com/item?id=48543908"/>
@@ -4580,6 +4993,16 @@ How do you manage your personal code/CSS snippet collections? Hope this is usefu
         <id>https://www.wsj.com/business/deals/fox-roku-deal-f6e564f9</id>
         <link href="https://www.wsj.com/business/deals/fox-roku-deal-f6e564f9"/>
         <updated>2026-06-15T12:50:03.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Deconvolution – a Rust image deconvolution and restoration crate]]></title>
+        <id>https://github.com/pbkx/deconvolution</id>
+        <link href="https://github.com/pbkx/deconvolution"/>
+        <updated>2026-06-15T12:40:31.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -5895,6 +6318,16 @@ Full guide with advanced config examples: https://everylocalai.com/stack/litellm
         <id>https://www.windowscentral.com/microsoft/windows-11/windows-11-users-are-tired-of-microsoft-account-requirements-and-workarounds</id>
         <link href="https://www.windowscentral.com/microsoft/windows-11/windows-11-users-are-tired-of-microsoft-account-requirements-and-workarounds"/>
         <updated>2026-06-14T21:42:12.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Kirkland Roundabouts]]></title>
+        <id>https://kirklandroundabouts.com/</id>
+        <link href="https://kirklandroundabouts.com/"/>
+        <updated>2026-06-14T21:41:56.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -41323,364 +41756,6 @@ The post AGI Has Some Dandadan-Themed Memory Products and Heat Sensitive Shields
 The post Here Are Some Of The Highlights From The PlayStation State Of Play June 2026 appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Microsoft Doubles Down on Controversial Quantum Computing Claims]]></title>
-        <id>https://www.science.org/content/article/doubling-down-controversial-claims-microsoft-accelerates-quantum-computing-plans</id>
-        <link href="https://www.science.org/content/article/doubling-down-controversial-claims-microsoft-accelerates-quantum-computing-plans"/>
-        <updated>2026-06-03T06:04:36.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Gurman: Apple AI Glasses Reportedly Pushed To Late 2027]]></title>
-        <id>https://www.lowyat.net/?p=394543</id>
-        <link href="https://www.lowyat.net/2026/394543/gurman-apple-ai-glasses-reportedly-pushed-to-late-2027/"/>
-        <updated>2026-06-03T06:01:29.000Z</updated>
-        <summary type="html"><![CDATA[Despite ongoing challenges in its AI initiative, Apple continues to develop new AI-driven hardware products. One of the most anticipated is its long-rumoured smart glasses. While previous reports suggested an earlier timeline, Bloomberg’s Mark Gurman now says the company has pushed the device’s debut to late 2027. Meanwhile, Gurman also reported that Apple is also […]
-The post Gurman: Apple AI Glasses Reportedly Pushed To Late 2027 appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Kiran Ganesan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin's 'fear gauge' surges nearly 20%, its biggest jump since Feb. 5 crash]]></title>
-        <id>2cce173f-0068-4120-8a8e-cc43690a7efb</id>
-        <link href="https://www.coindesk.com/markets/2026/06/03/bitcoin-s-fear-gauge-surges-nearly-20-its-biggest-jump-since-feb-5-crash"/>
-        <updated>2026-06-03T05:51:26.000Z</updated>
-        <summary type="html"><![CDATA[The jump signals return of fear after two months of calm market sentiment.]]></summary>
-        <author>
-            <name>Omkar Godbole</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cooldown Support for Ruby Bundler]]></title>
-        <id>https://blog.rubygems.org/2026/06/03/cooldown-let-new-gems-be-vetted.html</id>
-        <link href="https://blog.rubygems.org/2026/06/03/cooldown-let-new-gems-be-vetted.html"/>
-        <updated>2026-06-03T05:15:09.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bullish XRP signals are piling up. The price keeps falling.]]></title>
-        <id>9e7caad5-2318-491d-994b-e2a7364d9281</id>
-        <link href="https://www.coindesk.com/markets/2026/06/03/bullish-xrp-signals-are-piling-up-the-price-keeps-falling"/>
-        <updated>2026-06-03T05:15:00.000Z</updated>
-        <summary type="html"><![CDATA[XRP lost another major support level on heavy selling, with traders now focused on whether buyers can defend the $1.20 area after a 15-week low.]]></summary>
-        <author>
-            <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bullish crypto bets lose $1.6 billion as ETH, SOL, DOGE drop 9%]]></title>
-        <id>132ac654-6004-4194-a88c-3a3e5d0cefca</id>
-        <link href="https://www.coindesk.com/markets/2026/06/03/bullish-crypto-bets-lose-usd1-6-billion-as-eth-sol-doge-drop-9"/>
-        <updated>2026-06-03T05:00:00.000Z</updated>
-        <summary type="html"><![CDATA[The single biggest unwind was a $59.67 million BTC-USDT long on HTX.]]></summary>
-        <author>
-            <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin plunges below $66,000 as global stocks, AI trades hit fresh records]]></title>
-        <id>6c4a1cdb-0b3f-4aef-acb1-fe86a1cf6c04</id>
-        <link href="https://www.coindesk.com/markets/2026/06/03/bitcoin-plunges-below-usd66-000-even-as-global-stocks-hit-fresh-records"/>
-        <updated>2026-06-03T04:28:13.000Z</updated>
-        <summary type="html"><![CDATA[BTC plunged 6.4% to a 24-hour low of $65,708 and ether broke below $1,900 in Asian trading on Wednesday, just hours after the MSCI All Country World Index set a fresh all-time high on the AI rally.]]></summary>
-        <author>
-            <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mastercard expands onchain settlement in bet on stablecoins and always-on finance]]></title>
-        <id>f9ce4366-3716-4507-8ec9-0af6fafad868</id>
-        <link href="https://www.coindesk.com/markets/2026/06/03/mastercard-expands-on-chain-settlement-in-bet-on-stablecoins-and-always-on-finance"/>
-        <updated>2026-06-03T04:00:00.000Z</updated>
-        <summary type="html"><![CDATA[The company plans to offer stablecoin, weekend and holiday settlement as demand grows for real-time movement of money.]]></summary>
-        <author>
-            <name>Helene Braun</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Unreasonable Redundancy of Nature's Protein Folds]]></title>
-        <id>https://research.ligo.bio/posts/unreasonable-redundancy-of-natural-protein-folds/</id>
-        <link href="https://research.ligo.bio/posts/unreasonable-redundancy-of-natural-protein-folds/"/>
-        <updated>2026-06-03T03:47:56.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[U of T researchers demonstrate AI worm could target any online device]]></title>
-        <id>https://www.utoronto.ca/news/u-t-researchers-demonstrate-ai-worm-could-target-any-online-device</id>
-        <link href="https://www.utoronto.ca/news/u-t-researchers-demonstrate-ai-worm-could-target-any-online-device"/>
-        <updated>2026-06-03T03:47:21.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How I Shaved 10 MB Off My Portfolio in One Command]]></title>
-        <id>https://dev.to/highcenburg/how-i-shaved-10-mb-off-my-portfolio-in-one-command-2697</id>
-        <link href="https://dev.to/highcenburg/how-i-shaved-10-mb-off-my-portfolio-in-one-command-2697"/>
-        <updated>2026-06-03T03:41:29.000Z</updated>
-        <summary type="html"><![CDATA[PageSpeed Insights had been staring at me for weeks. Desktop was holding at 91. Mobile was stuck at 63. I'd already fixed the obvious stuff — non-blocking fonts, preconnects, fetchpriority on the hero image. But there it was, every single run:
-Improve image delivery — Est savings of 985 KiB
-Nearly a megabyte of wasted transfer, just from six project screenshots. And that was just the images visible above the fold. The full list across all projects was worse.
-The culprit: every image I'd ever uploaded through the Django admin was a PNG. Some of them were over 1 MB. WebP would have cut most of them by 80%. I knew this. I just hadn't done anything about it.
-So I wrote a management command to fix the backlog, and then made the model auto-convert on every future upload so I'd never have to thin…]]></summary>
-        <author>
-            <name>Vicente G. Reyes</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Qwen3.7-Plus Is Out: How Developers Should Test It]]></title>
-        <id>https://dev.to/kevin_wong/qwen37-plus-is-out-how-developers-should-test-it-55fh</id>
-        <link href="https://dev.to/kevin_wong/qwen37-plus-is-out-how-developers-should-test-it-55fh"/>
-        <updated>2026-06-03T03:39:38.000Z</updated>
-        <summary type="html"><![CDATA[Qwen3.7-Plus has appeared on Qwen's official research release page, with a release date of June 1, 2026. Chinese media covered the launch on June 2. The important part is not that Qwen 3.7 Plus can understand images. The bigger signal is that Qwen is pushing it as a multimodal agent model: vision, language, coding, tool use, and productivity workflows inside one task loop.
-For developers, the real question is simple: can it keep the same goal across software screens, web pages, screenshots, code, terminal output, and tool calls long enough to finish useful work?
-If your team is evaluating new agent models, keep the model shortlist in one place and compare quality, latency, cost, and failure modes by task: Compare AI models on WisGate.
-Qwen3.7-Plus is a multimodal agent model from Qwen. Qwe…]]></summary>
-        <author>
-            <name>Kevin Wong</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Third Shadow of CitrixBleed — Large-Scale Exploitation of a NetScaler Memory Overread Reignites]]></title>
-        <id>https://dev.to/denniskim/the-third-shadow-of-citrixbleed-large-scale-exploitation-of-a-netscaler-memory-overread-reignites-2jnf</id>
-        <link href="https://dev.to/denniskim/the-third-shadow-of-citrixbleed-large-scale-exploitation-of-a-netscaler-memory-overread-reignites-2jnf"/>
-        <updated>2026-06-03T03:39:25.000Z</updated>
-        <summary type="html"><![CDATA[id
-CTI-2026-0603-NETSCALER
-
-
-
-
-title
-The Third Shadow of CitrixBleed — Large-Scale Exploitation of a NetScaler Memory Overread Reignites
-
-
-subtitle
-CVE-2026-3055: a March-disclosed SAML IdP information-disclosure flaw escalates in June — the gap between the "RCE" label and the real impact
-
-
-author
-Dennis Kim (김호광 / HoKwang Kim)
-
-
-email
-gameworker@gmail.com
-
-
-github
-gameworkerkim
-
-
-date
-2026-06-03
-
-
-classification
-TLP:GREEN
-
-
-severity
-CRITICAL
-
-
-lang
-en
-
-
-tags
-Edge-Device · Pre-Auth · Memory-Overread · Session-Hijack · SAML-SSO · CitrixBleed · CISA-KEV
-
-
-threat_actors
-Unattributed (likely a mix of ransomware and state-sponsored actors)
-
-
-cve
-CVE-2026-3055 (CVSS 9.3 v4.0 · CISA KEV) · related CVE-2026-4368 (CVSS 7.7)
-
-
-frameworks
-MITRE ATT&CK · NIST SP 800-61 · NIST SP 800-207 (Zero Trust) ·…]]></summary>
-        <author>
-            <name>Dennis Kim</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Harness Base Definition: The Control System Outside the Model]]></title>
-        <id>https://dev.to/lien_jp_db54b8b7fd9fa0118/harness-base-definition-the-control-system-outside-the-model-453m</id>
-        <link href="https://dev.to/lien_jp_db54b8b7fd9fa0118/harness-base-definition-the-control-system-outside-the-model-453m"/>
-        <updated>2026-06-03T03:37:11.000Z</updated>
-        <summary type="html"><![CDATA[Harness Base Definition: The Control System Outside the Model
-
-
-Previously, we split Agent into several minimal parts:
-Model: judge the next step
-Loop: keep the process moving
-Tools: interact with the real world
-State: keep the task connected
-
-At this point, a natural question appears:
-If Agent already has model, loop, tools, and state, why talk about Harness?
-An even easier confusion is:
-Is Harness a higher-level, smarter Agent that manages other Agents?
-
-That sounds plausible, but it bends the architecture in the wrong direction. Harness is not another Agent. It is not a larger prompt, and it is not a framework name. It is the control system outside the model. Continue with the same small CLI Agent:
-User says: help me figure out why this project's tests are failing, and fix it.
-
-If this …]]></summary>
-        <author>
-            <name>LienJack</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The next AI coding bottleneck is repo understanding]]></title>
-        <id>https://dev.to/hefty_69a4c2d631c9dd70724/the-next-ai-coding-bottleneck-is-repo-understanding-4ph3</id>
-        <link href="https://dev.to/hefty_69a4c2d631c9dd70724/the-next-ai-coding-bottleneck-is-repo-understanding-4ph3"/>
-        <updated>2026-06-03T03:36:55.000Z</updated>
-        <summary type="html"><![CDATA[The least interesting thing an AI coding agent can do now is generate code.
-That sounds harsher than I mean it. Generation still matters. Better models still matter. Faster edits still matter. But if you have used these tools on a real codebase, not a demo repo with three files and no history, you already know where the pain moved.
-The bottleneck is not "can the model write a React component?"
-The bottleneck is "does the agent understand why this repo is weird?"
-Real repos are full of weirdness. Naming conventions nobody wrote down. Migration leftovers. Feature flags with political history. Tests that exist because of one brutal production incident. API boundaries that look accidental until you remove them and break billing. A hundred tiny facts that separate a useful change from a confide…]]></summary>
-        <author>
-            <name>hefty</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Under the Hood: Redis Enterprise Cluster]]></title>
-        <id>https://dev.to/dakshin_g/under-the-hood-redis-enterprise-cluster-63f</id>
-        <link href="https://dev.to/dakshin_g/under-the-hood-redis-enterprise-cluster-63f"/>
-        <updated>2026-06-03T03:36:23.000Z</updated>
-        <summary type="html"><![CDATA[Welcome to another post in the "Under the Hood" series.
-The power of Redis lies in its simplicity. One thread, one event loop, zero locks.
-Single-threaded execution eliminates the "lock contention" that slows down traditional databases.
-Limitation: A single process can only utilise one CPU core. On a 64-core server, 98% of your hardware sits idle.
-
-To scale, Redis Enterprise doesn't make the engine "bigger"; it makes the fleet smarter.
-Instead of one massive process, Enterprise runs multiple Redis Cores (shards) on a single node.
-Standard Redis Clusters use a Gossip Protocol. The client must "know" the cluster topology and handle redirections.
-Solution: The Zero-Latency Proxy acts as the "Front Desk". The client talks to one endpoint; the proxy handles the complexity. It is multi-threaded and uses cut-through routing to ensure the "hop" is sub-millisecond. 
-Distributed Cluster Watchdogs oversees failovers and promotions. By separating the Data Path (Redis shards) from the Control Plane (watchdogs), the database can heal itself without interrupting traffic.
-Note: In the diagram, it may seem the watchdogs are coupled with the Redis shards, but in reality, they just share the hardware space for resource efficiency.]]></summary>
-        <author>
-            <name>Dakshin G</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[External Clock Generation on RTX 50 Series]]></title>
-        <id>https://www.xtremesystems.us/post/external-clock-generation-on-rtx-50-series</id>
-        <link href="https://www.xtremesystems.us/post/external-clock-generation-on-rtx-50-series"/>
-        <updated>2026-06-03T03:35:54.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Fitting WhisperX large-v3 + a 24B LLM on one 3090: a reproducible context-capping recipe]]></title>
-        <id>https://dev.to/sikamikanikobg/fitting-whisperx-large-v3-a-24b-llm-on-one-3090-a-reproducible-context-capping-recipe-22g0</id>
-        <link href="https://dev.to/sikamikanikobg/fitting-whisperx-large-v3-a-24b-llm-on-one-3090-a-reproducible-context-capping-recipe-22g0"/>
-        <updated>2026-06-03T03:35:14.000Z</updated>
-        <summary type="html"><![CDATA[This is the technical, reproducible version of a fix I shipped on my own homelab. If you want the narrative version, that's on Medium. This one is the recipe: the measurements, the math, the Modelfile, and the exact prompt I gave Claude Code to generate it. Copy-paste friendly.
-Repo for the dashboard used throughout: https://github.com/SikamikanikoBG/homelab-monitor
-One 24GB RTX 3090, two GPU services: WhisperX large-v3 (STT, 7.7GB peak) and a Devstral Small 24B email-triage LLM (Q4_K_M, ~18.3GB).
-18.3 + 7.7 = 26GB → CUDA OOM whenever they overlapped.
-The LLM was loaded with a 40k context window but the triage job never needed more than ~5–8k tokens.
-Capped num_ctx to 8192 → KV cache drops from ~6.1GB to ~1.25GB → model footprint ~18.3GB → ~14.2GB.
-14.2 + 7.7 = 21.9GB → both resident, zero…]]></summary>
-        <author>
-            <name>Arsen Apostolov</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Getting Started with Vector Databases Using Amazon Aurora PostgreSQL + pgvector]]></title>
-        <id>https://dev.to/aws-builders/getting-started-with-vector-databases-using-amazon-aurora-postgresql-pgvector-4go6</id>
-        <link href="https://dev.to/aws-builders/getting-started-with-vector-databases-using-amazon-aurora-postgresql-pgvector-4go6"/>
-        <updated>2026-06-03T03:32:51.000Z</updated>
-        <summary type="html"><![CDATA[Hello!
-This article is aimed at beginners to vector databases.
-A vector database is a database that stores data as vectors (arrays of numbers) and searches for data using "distance" or "similarity" between vectors.
-Traditional relational databases search for data using "exact match" or "partial match" (LIKE queries), but vector databases can search for things that are semantically similar.
-In a vector database, all data is represented as points in a multidimensional space. When searching, the query is also converted into a vector, and data that is "close in distance" within that space is retrieved.
-
-This diagram represents it in two dimensions, but in a real vector database, proximity and distance are defined across many dimensions.
-Vector databases are used across a wide range of applicat…]]></summary>
-        <author>
-            <name>Satoshi Kaneyasu</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The American Missile Crisis]]></title>
-        <id>https://research.contrary.com/report/the-american-missile-crisis</id>
-        <link href="https://research.contrary.com/report/the-american-missile-crisis"/>
-        <updated>2026-06-03T03:30:50.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why I chose Tauri over Electron for my local AI dev tool (80MB vs 600MB RAM)]]></title>
-        <id>https://dev.to/quantamind/why-i-chose-tauri-over-electron-for-my-local-ai-dev-tool-80mb-vs-600mb-ram-5d7e</id>
-        <link href="https://dev.to/quantamind/why-i-chose-tauri-over-electron-for-my-local-ai-dev-tool-80mb-vs-600mb-ram-5d7e"/>
-        <updated>2026-06-03T03:30:00.000Z</updated>
-        <summary type="html"><![CDATA[Hey DEV! 👋
-If you're building a desktop app in 2026, the first big architectural question you usually have to answer is: What framework are we using?
-For the past few weeks, I’ve been building Quantamind—which is essentially "Postman for local AI models." It's a dedicated workspace for prompt iteration, side-by-side model comparison, and debugging local AI streams.
-When it came time to pick a framework, the default industry answer for cross-platform desktop apps is usually Electron. It’s mature, it's widely adopted, and the developer experience is great. But for this specific use case, Electron was completely off the table.
-Here is why I went with Tauri instead.
-The Core Problem: Competing for Resources
-The last thing you need is your developer tooling competing with your AI models for those exact same system resources.
-If I built Quantamind in Electron, the app would likely consume 600MB+ of RAM just sitting idle in the background waiting for a prompt. That’s essentially a whole separate browser instance hogging memory that your LLM desperately needs.
-The Tauri Advantage
-The results speak for themselves:
-Electron Idle RAM: ~600MB+
-Tauri Idle RAM: ~80MB
-For a utility tool meant to run alongside heavy local workloads, an 85% reduction in memory footprint isn't just a "nice to have"—it's a strict requirement.
-The Trade-offs
-Are any of you using Tauri for your desktop projects? Did you run into any major roadblocks, or are you never going back to Electron? Let me know in the comments!]]></summary>
-        <author>
-            <name>QuantaMind</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Scarab Diagnostic Suite Field Test #005: A Terraform Core Cache Boundary]]></title>
-        <id>https://dev.to/scarab-systems/scarab-diagnostic-suite-field-test-005-a-terraform-core-cache-boundary-2mmf</id>
-        <link href="https://dev.to/scarab-systems/scarab-diagnostic-suite-field-test-005-a-terraform-core-cache-boundary-2mmf"/>
-        <updated>2026-06-03T03:26:46.000Z</updated>
-        <summary type="html"><![CDATA[This is the fifth field test in my Scarab Diagnostic Suite series, and it is the most significant one so far.
-The target was a long-running issue in Terraform core:
-hashicorp/terraform #32901
-The issue has been open since 2023 and centers around shared provider cache behavior. On the surface, it looks like a permissions problem: Terraform attempts to use a shared provider cache, but under certain conditions it tries to write into that cache and fails with errors like:
-permission denied
-or:
-operation not permitted
-But the field test suggested something deeper.
-This was not only about file permissions.
-It was about provider cache authority.
-Terraform provider installation involves several sources of truth:
-the provider cache,
-
-the dependency lock file,
-
-the selected provider version,
-
-the pr…]]></summary>
-        <author>
-            <name>scarab systems</name>
         </author>
     </entry>
 </feed>
