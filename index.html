@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-06-22 datetime="2026-06-22T22:35:44.000Z">2026-06-22</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-06-22 datetime="2026-06-22T22:35:44.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-06-23 datetime="2026-06-23T00:02:52.000Z">2026-06-23</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-06-23 datetime="2026-06-23T00:02:52.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,451 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/manoir_yantai_f22f01340f0/ni-de-ai-agent-xu-yao-ge-san-ceng-ji-yi-er-bu-shi-ge-liao-tian-ji-lu-42ol"
+                        open
+                      >
+                        <summary class="article-expander__title">你的 AI Agent 需要一个「三层记忆」，而不是一个聊天记录</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/manoir_yantai_f22f01340f0/ni-de-ai-agent-xu-yao-ge-san-ceng-ji-yi-er-bu-shi-ge-liao-tian-ji-lu-42ol">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fzaj6vui4op80dkx5ihzz.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>去年我开始给 Hermes Agent 搞知识库。最初的想法很简单：装个向量数据库，查资料时能命中就行。结果跑了一圈发现——纯向量检索在 Agent 场景下不够用。
+有些记忆是你能精确描述的（&quot;帮我查上次那篇讲 gbrain 孤页的文章&quot;），有些记忆你只记得个大概（&quot;有个关于知识图谱的……&quot;），有些记忆你甚至不知道你该知道什么（&quot;我有哪些笔记是没关联起来的？&quot;）。一个检索策略覆盖不了这三种场景。
+这就是 Knowledge-and-Memory-Management v0.0.2 解决的问题。
+项目是目前运行在 Hermes Agent 生态里的扩展层，底座是 hermes-memory-installer 提供的 gbrain（知识图谱）+ Hindsight（向量记忆）。KMM 在这上面加了四组模块：采集、笔记/RAG、云盘同步、知识增广。
+其中最有工程价值的设计是三层跨层召回：
+FTS5 全文搜索  →  精确命中，知道你要什么
+Hindsight 向量语义  →  模糊配匹，关键词不够时靠语义
+gbrain 知识图谱  →  关系探索，你不知道但相关的节点
+
+lightweight_recall.py 把这三级串联成一条管线——先查本地 SQLite FTS5，命中直接返回；没命中走 Hindsight 的文本嵌入匹配；还不满意就用 gbrain 展开知识图谱的邻接节点。
+代码在 $AGENT_HOME/scripts/lightweight_recall.py，调用并不复杂：
+# 三层召回示例
+from knowledge_collector.knowledge_management import KnowledgeManager
+
+km &#x3D; KnowledgeManager()
+
+# 一次调用，三级自动回退
+results &#x3D; km.tiered_search(
+    query&#x3D;&quot;Agent 记忆系统设计&quot;,
+    tiers&#x3D;[&quot;fts5&quot;, &quot;hindsight&quot;, &quot;gbrain&quot;],
+    limit_per_tier&#x3D;5
+)
+
+for tier, hits in results.items():
+    print(f&quot;[{tier}] {len(hits)} 条结果&quot;)
+    for h in hits[:2]:
+        print(f&quot;  → {h[&#x27;title&#x27;]} ({h[&#x27;relevance&#x27;]:.2f})&quot;)
+
+FTS5 走 SQLite 内置，零依赖；Hindsight 端口 8890；gbrain 端口 8787。每层都是独立的可降级——向量服务挂了，全文搜索照样能跑。
+三层召回是检索层，采集层才是让知识库有东西可喂的入口。项目塞了 40+ 采集分析工具，按类型分：
+网页采集（9 引擎）：Scrapling 做反检测，Crawl4AI 做智能路由，爬公众号不走弯路
+视频采集（12 工具）：yt-dlp 拖流 → Whisper ASR 转写 → PaddleOCR 关键帧，抖音/YouTube 一把抓
+文档分析（9 工具）：SenseNova 三件套（PDF/PPT/Word）处理扫描件和复杂排版
+书籍精炼（6 工具）：book_to_skill 管线把 PDF/EPUB 拆成结构化 Skill + KMM 笔记
+每周日凌晨还有个 knowledge_discovery.py 爬起来，扫 OneDrive 上的新笔记，自动录入 gbrain，顺便跑孤页链接修复——这些属于「你不需要知道它存在，但它让系统不腐烂」的基建。
+不做纯向量优先：FTS5 第一级是因为延迟低（毫秒级），且精确关键词匹配在查代码、查配置时远好于语义
+gbrain 孤页处理是刚需：知识图谱不加链接维护，三个月后 90% 的页面都成孤岛（亲测 10,666 页从 1,716 个孤页降到 33）
+采集优先于检索：没有好的采集管线，检索再强也是对着空库跑——项目把采集工具堆到 40+ 不是炫技
+如果你的 Agent 需要从多个来源（网页、视频、文档、公众号）持续摄入知识，并且知识需要在精确搜索、模糊回忆和关系探索三个维度上都能命中——三层模式值得一试。不需要全部部署，只接 FTS5 + gbrain 两层也能跑，每层独立可降级。
+GitHub: mage0535/Knowledge-and-Memory-Management，MIT 协议。</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/pvgomes/agent-sandboxes-are-the-new-enterprise-desktop-d18"
+                        open
+                      >
+                        <summary class="article-expander__title">agent sandboxes are the new enterprise desktop</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/pvgomes/agent-sandboxes-are-the-new-enterprise-desktop-d18">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fybg8q0xs0wbiluv36ftq.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>GitHub put a very normal-sounding feature into public preview this month: cloud and local sandboxes for Copilot.
+Normal is doing a lot of work there.
+The release says Copilot can now run inside secure, isolated sandboxes, either locally on the developer machine or in a GitHub-hosted cloud environment. Local mode restricts the filesystem, network, and system capabilities available to shell commands started by Copilot. Cloud mode gives the agent an ephemeral Linux environment, with enterprise policies attached.
+That sounds like a product checkbox.
+I think it is closer to a new category of enterprise desktop.
+Not desktop as in &quot;Windows with Outlook and a VPN client.&quot; Desktop as in the place where work happens, credentials appear, files are opened, tools are invoked, commands are run, and mist…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;10
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+        </ul>
+      </section>
+      <section class="daily-content js-toggle-accordions-scope">
+        <h2 class="daily-heading">
+          <button
+            class="daily-heading-toggle"
+            data-action="toggle-accordions"
+            title="Click to toggle the day, Ctrl + click to toggle all."
+          >
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-06-22 datetime="2026-06-22T23:54:01.000Z">2026-06-22</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-06-22 datetime="2026-06-22T23:54:01.000Z"></time>
+          </button>
+        </h2>
+        <ul class="sources card">
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >DEV Community</button>
+                  <a class="source-heading__link" href="https://dev.to">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/ryantsuji/building-one-knowledge-graph-across-46-repositories-with-static-analysis-part-1-egm"
+                        open
+                      >
+                        <summary class="article-expander__title">Building One Knowledge Graph Across 46 Repositories With Static Analysis (Part 1)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ryantsuji/building-one-knowledge-graph-across-46-repositories-with-static-analysis-part-1-egm">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fnpwhnc9nv6irsd1cgmba.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Hi, I&#x27;m Ryan, CTO at airCloset.
+This post is about unifying a production codebase spanning 46 repositories across multiple services into one knowledge graph, using static analysis.
+Internally we call it code-graph, and I built it between January and March of this year.
+Three things I want to write down:
+Why &quot;just letting AI read the code&quot; isn&#x27;t enough, and why I had to chase down the connections that cross repository boundaries
+How I extracted boundaries across 46 repos and a zoo of frameworks (jQuery / AngularJS / Express / NestJS / TypeORM / Redux Axios ...)
+What 3 months of trial and error solved, and what it didn&#x27;t
+This is Part 1, covering the construction of code-graph itself, the painful parts, and the issues that remained. Part 2 will be about service-product-graph (SPG) — a layer I…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;15
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/ctrotech/not-every-typescript-project-needs-the-same-env-setup-i-compared-ctroenv-zod-envalid-and-2emp"
+                        open
+                      >
+                        <summary class="article-expander__title">Not every TypeScript project needs the same env setup.
+
+I compared CtroEnv, Zod, envalid, and t3-env across DX, framework support, dependencies, CLI workflow, and maintenance tradeoffs.
+
+Curious which approach people prefer.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ctrotech/not-every-typescript-project-needs-the-same-env-setup-i-compared-ctroenv-zod-envalid-and-2emp">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fcyvg9xll6bhh4o7k7qdd.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Stop Shipping Broken Env Config: Comparing 4 TypeScript Validators
+
+
+  
+Odejobi Abiola Samuel 
+                    
+                  
+
+                
+Jun 22
+        
+#typescript
+            #node
+            #javascript
+            #webdev
+        
+1 reaction
+            
+Add Comment
+            
+        
+        
+          
+            4 min read</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/thund3rbird/i-built-a-live-secret-scanner-for-vs-code-and-why-ci-scanning-is-too-late-46f5"
+                        open
+                      >
+                        <summary class="article-expander__title">I built a live secret scanner for VS Code (and why CI scanning is too late)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/thund3rbird/i-built-a-live-secret-scanner-for-vs-code-and-why-ci-scanning-is-too-late-46f5">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fvxqda7f4jaub2omipsmp.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>We&#x27;ve all done it: pasted an API key into a file &quot;just to test,&quot; then a week later
+after the secret is already committed.
+So I built Secret Guardian, a VS Code extension that catches secrets live, in
+, the moment they appear — and visually masks them so they never show
+👉 Secret Guardian on the VS Code Marketplace (free)
+Detects 17+ secret types as you type: AWS, GitHub, GitLab, Google, Slack, Stripe,
+OpenAI, SendGrid, Twilio, npm tokens, private keys, JWTs, credentials in URLs.
+A generic high-entropy rule catches the long-tail.
+Masks detected secrets with a lock overlay — safe for demos.
+Flags everything in the Problems panel + a one-click workspace scan.
+100% local. Nothing leaves your machine.
+Two layers: tight regexes for known formats (e.g. AKIA…, ghp_…), and an
+entropy + context check for unknown secrets (high Shannon entropy assigned to a
+your_api_key filtered out.
+Install from the Marketplace,
+open a file, paste a fake key. I&#x27;d love feedback on accuracy and false positives.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/mbinmhr/i-built-168-pages-of-free-trading-tools-with-vanilla-htmljs-heres-how-4n0d"
+                        open
+                      >
+                        <summary class="article-expander__title">I built 168 pages of free trading tools with vanilla HTML/JS — here&#x27;s how</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/mbinmhr/i-built-168-pages-of-free-trading-tools-with-vanilla-htmljs-heres-how-4n0d">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5tu1udp3d4ptbaa63myv.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The idea
+
+
+Prop firm traders (people who trade with other people&#x27;s money) need specific calculators that account for strict drawdown rules. Every existing calculator is either ugly, full of ads, or doesn&#x27;t know that FTMO has a 5% daily drawdown limit.
+So I built PropWise — 10 interactive tools across 168 SEO-optimized pages, all in vanilla HTML, CSS, and JS. No framework. No build step. No dependencies.
+10 core tools:
+Position Size Calculator (pre-configured for 12 prop firms)
+Challenge Cost Calculator (expected cost to get funded based on pass rate)
+Risk of Ruin Calculator (probability of blowing your account)
+Revenge Trade Calculator (mathematical damage of emotional trading)
+Overtrading Detector (optimal trading frequency analysis)
+Live Session Timer with ICT kill zones
+Compound Growth …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/danielbergholz/superconductor-review-the-cleanest-way-ive-found-to-run-ai-agents-in-parallel-1c87"
+                        open
+                      >
+                        <summary class="article-expander__title">Superconductor review: the cleanest way I&#x27;ve found to run AI agents in parallel</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/danielbergholz/superconductor-review-the-cleanest-way-ive-found-to-run-ai-agents-in-parallel-1c87">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fi59p6djkolrp8957pzel.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I use Claude Code every single day. At my day job, it&#x27;s my main agent, and I&#x27;ve talked plenty about how much I love it. But on my side projects, I like to play around with other agents: Codex, OpenCode, whatever new CLI shows up that week. And recently I hit a wall that turned out to be more annoying than I expected.
+I wanted to run a bunch of agents in parallel. Not one at a time, but several, across different projects, at the same time. And the moment I tried to do that, I realized every tool was trying to lock me into its own little world.
+So I went looking for something better, and I found a product I&#x27;ve been using for the past few days that I genuinely can&#x27;t stop recommending. This is not sponsored. I&#x27;m paying nothing and using it on my own machine. It&#x27;s called Superconductor, and thi…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/ctrotech/ctroenv-vs-zod-envalid-t3-env-which-env-validator-should-you-use-4aln"
+                        open
+                      >
+                        <summary class="article-expander__title">Stop Shipping Broken Env Config: Comparing 4 TypeScript Validators</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ctrotech/ctroenv-vs-zod-envalid-t3-env-which-env-validator-should-you-use-4aln">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fwuquhmlairh6f85ow13w.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I&#x27;ve built enough projects to know that environment variable validation isn&#x27;t glamorous — until your app silently uses undefined as a database URL. There are a bunch of tools for this now, and picking the wrong one means either fighting your tool or fighting your own config. Here&#x27;s how they stack up.
+
+
+
+Tool
+Size
+Dependencies
+CLI
+Framework support
+
+
+
+
+CtroEnv
+under 5 KB gzip
+0
+Yes
+Node, Vite, Next.js
+
+
+Zod + manual
+50 KB+
+0 (Zod itself is ~13 KB gzip, plus your glue)
+No
+You build it
+
+
+envalid
+8 KB gzip
+6 (legacy deps)
+No
+Node only
+
+
+t3-env
+~15 KB
+Depends on Zod
+No
+Next.js only
+
+
+
+Let&#x27;s look at each one.
+Zod is great for runtime validation in general, and lots of people use it for env vars because they already have it in their project.
+import { z } from &quot;zod&quot;;
+
+const schema &#x3D; z.object({
+  D…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/hexisteme/how-to-make-an-ai-research-agent-label-facts-vs-inferences-a-deterministic-provenance-pipeline-5dfn"
+                        open
+                      >
+                        <summary class="article-expander__title">How to make an AI research agent label facts vs inferences — a deterministic provenance pipeline</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/hexisteme/how-to-make-an-ai-research-agent-label-facts-vs-inferences-a-deterministic-provenance-pipeline-5dfn">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fihoibuqf0zrsh2wf68yn.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Originally published on hexisteme notes, part of a series on building and running an AI agent fleet.
+To stop an AI research or RAG agent from presenting its own inferences as retrieved facts, split the work so the LLM never decides what is a fact: let the LLM only extract and summarize, and let a deterministic, non-LLM pipeline do all scoring, cross-checking, and labeling. Tag a claim FACT only when a rule is satisfied — corroboration by ≥2 independent sources, or one official API — and downgrade everything else to INFERENCE. Because labeling is rule-based, the agent can&#x27;t launder a guess into a fact, and the same query produces the same labels every run.
+An AI agent that gathers information has two kinds of output tangled together: things it retrieved and things it concluded. A web page s…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/arianna/how-do-you-get-real-world-experience-before-your-first-job-59eg"
+                        open
+                      >
+                        <summary class="article-expander__title">how do you get real-world experience before your first job?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/arianna/how-do-you-get-real-world-experience-before-your-first-job-59eg">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fivkjxu58uiwo5cuwyw7s.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>hello ! im a CS student (2nd year) and ive been look around for some tech jobs. any kind because honestly i just want a tech related job (i &lt;3 tech). but the problem is,so many jobs/places want you to have experience in the real-world but literally no one is willing to offer it. they want minimum 3-years experience. im considered learning some other programming languages that they require for jobs that could be useful. however, i want to practice what ive learnt in a real job setting. of course after learning a lot about said-subject. but im just confused on how im going to land a job after college with no experience.
+and please dont come for me; im genuinely just trying to think ahead instead of leaving it for when i get there
+any advice would be appreciated !! :p</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/akoladefaj/running-async-python-inside-celery-is-harder-than-you-think-2046"
+                        open
+                      >
+                        <summary class="article-expander__title">Running Async Python Inside Celery Is Harder Than You Think.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/akoladefaj/running-async-python-inside-celery-is-harder-than-you-think-2046">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fz9ybx1neef4jk40n8t5x.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The problem is straightforward to state and surprisingly hard to solve correctly.
+Celery workers are synchronous. Celery spawns prefork worker processes, and when a task arrives, it calls your task function like this: task_function(*args, **kwargs). It expects a return value. It blocks the worker thread until it gets one. It does not know or care that you wrote async def.
+But modern Python services are async. FastAPI is async. SQLAlchemy 2.0 is async. httpx, aiohttp, asyncpg the entire interesting half of the ecosystem has gone async-first. The idea of maintaining two parallel code paths, one async for your web layer, one sync for your task layer is exactly the kind of thing that creates maintenance debt, copy-paste bugs, and the kind of divergence you only notice when something breaks in …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;11
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/stinklewinks/building-a-design-system-without-recreating-css-1a41"
+                        open
+                      >
+                        <summary class="article-expander__title">Building a Design System Without Recreating CSS</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/stinklewinks/building-a-design-system-without-recreating-css-1a41">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fslg9injrrpaoxfzzhnnx.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>One of the easiest traps to fall into when building a design system is accidentally recreating CSS.
+At first, it seems harmless.
+You add a few utility classes.
+Then a few responsive options.
+Then a few layout helpers.
+Then a few exceptions.
+Before long, you&#x27;ve built an entirely new syntax for doing the exact same thing CSS already does.
+I&#x27;ve become increasingly interested in a different approach.
+Not replacing CSS.
+Not hiding CSS.
+Creating a layer above CSS that focuses on intent.
+Developers love flexibility.
+I do too.
+The challenge is that flexibility often comes with complexity.
+Consider responsive layouts.
+Many systems solve this by exposing every possible breakpoint and layout combination.
+The result is powerful.
+But it&#x27;s also easy to end up with markup that spends more time describing…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -1964,6 +2409,540 @@ What documents …</span>
                     class="source-heading__name"
                     data-action="toggle-accordions"
                     title="Click to toggle the source, Ctrl + click to toggle all."
+                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
+                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="719609be-ec67-4ea1-8579-236d07946cdf"
+                        open
+                      >
+                        <summary class="article-expander__title">U.S. Senate passes housing bill that carries four-year ban on a Fed CBDC</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/06/22/u-s-senate-passes-housing-bill-that-carries-four-year-ban-on-a-fed-cbdc">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/39aef47b93f60ebf7e668e371d51320693bb79e3-3364x1894.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The idea of a U.S. central bank digital currency — though little more than a research topic at the Federal Reserve — may be getting formally blocked.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="9771c3ee-c99f-4abd-9e29-88b86ac51f84"
+                        open
+                      >
+                        <summary class="article-expander__title">Securitize and tZERO clash over patents as race to bring Wall Street onchain heats up</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/securitize-and-tzero-clash-over-patents-as-race-to-bring-wall-street-onchain-heats-up">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5327659df02632f543fcef456e95431561ddbbd4-4032x2268.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>tZERO and Securitize are squaring off over tokenization patents as the market attracts more of Wall Street&#x27;s attention.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;41
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="3b9a13fd-1e83-4a9c-9b31-0cc433379f91"
+                        open
+                      >
+                        <summary class="article-expander__title">Ric Edelman says crypto’s biggest growth story is happening off the price chart</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/ric-edelman-says-crypto-s-biggest-growth-story-is-happening-off-the-price-chart">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f274f885be1887c80b11620396844dda487c325f-1558x964.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Crypto prices remain under pressure, but Ric Edelman says institutional adoption and tokenization are accelerating behind the scenes.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;40
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="c9c26976-0a0b-406b-ac91-5301572e5408"
+                        open
+                      >
+                        <summary class="article-expander__title">21Shares co-founder warns tokenization hype is outrunning Wall Street reality</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/21shares-co-founder-warns-tokenization-hype-is-outrunning-wall-street-reality">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/467fc911956c4cc20edaca50a2382d699f6cd2c4-2602x1462.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Tokenization can improve settlement and asset movement, but key pieces of financial infrastructure remain unprepared for institutional-scale adoption.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;40
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="e33606c6-7184-4083-8e30-8417a5f41e87"
+                        open
+                      >
+                        <summary class="article-expander__title">Strive says digital credit selloff was a liquidation event, not a credit crisis</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/strive-says-digital-credit-selloff-was-a-liquidation-event-not-a-credit-crisis">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/dbde724952736381445b0e81782d0ff1e8497447-2036x980.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>A sharp selloff in digital credit products exposed growing pains in a young market, a Strive executive argues the underlying credit fundamentals remain intact.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;40
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="c8c5d1ab-d6bd-4dff-84d7-98c1f38b76a7"
+                        open
+                      >
+                        <summary class="article-expander__title">Ether’s biggest corporate holders back new Ethereum research hub</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/ether-s-biggest-corporate-holders-back-new-ethereum-research-hub">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/1f3fb73348fe1ac7e0117c7ef400c3875221209c-8114x4565.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Ethlabs was formed with support from SharpLink, Bitmine and Consensys CEO Joe Lubin as the network&#x27;s development is expanding beyond the Ethereum Foundation.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="3f1a20a9-194d-41e3-a6da-ae641d2fa917"
+                        open
+                      >
+                        <summary class="article-expander__title">Ethereum Foundation talent exodus sparks fresh debate over leadership</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/ethereum-foundation-talent-exodus-sparks-fresh-debate-over-leadership">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f699a131e76d466af66875c784e656723e91d725-8014x5343.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Ethereum community is once again debating the future of the foundation after co-executive director Hsiao-Wei Wang announced she would step down.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;43
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="423a9492-fdea-44ef-a42d-99d5e1e1ec75"
+                        open
+                      >
+                        <summary class="article-expander__title">Crypto&#x27;s second U.S. lobbying front — tax policy — sees industry push on mining, staking</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/06/22/crypto-s-second-u-s-lobbying-front-tax-policy-sees-industry-push-on-mining-staking">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5f13068e5a91d164d6343f870092661143a9379c-3500x2333.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The crypto sector&#x27;s leading U.S. advocacy groups asked the U.S. House&#x27;s tax committee to advance a bill to clarify treatment of assets from mining and staking.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="6828dd1f-36eb-4e4c-9191-71d38b6717fc"
+                        open
+                      >
+                        <summary class="article-expander__title">Anchorage aims to bring banks onchain with new tokenized deposit platform</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/19/anchorage-aims-to-bring-banks-onchain-with-new-tokenized-deposit-platform">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b66d55b12b9f842b7062ba6ae8eac93415da491f-3000x1687.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The crypto bank aims to help financial institutions offer round-the-clock payments and settlement without replacing their core systems.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;40
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="d64d4bad-d998-4b12-b5ec-0ffced2d97ec"
+                        open
+                      >
+                        <summary class="article-expander__title">MoneyGram joins Solana as validator amid stablecoin payment push</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/moneygram-joins-solana-as-validator-amid-stablecoin-payment-push">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/d7959f555e24e90cf0a41c4677d90edb55b5cd06-2048x1152.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The remittances firm has become a validator on the Solana blockchain, helping process and secure transactions as it expands its stablecoin payments strategy.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;39
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="a5097e01-67f1-40f2-a296-c45c8b16c538"
+                        open
+                      >
+                        <summary class="article-expander__title">OKX and NYSE partner to bridge tradfi and crypto markets in joint venture led by Andrew Cuomo</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/okx-and-nyse-partner-to-bridge-tradfi-and-crypto-markets-in-joint-venture-led-by-andrew-cuomo">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b77232079e0993eff1475723f5f2d274d2c0c8cb-2048x1337.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The goal is to enable OKX’s 120 million global users to access ICE futures and NYSE tokenized equities markets, the two U.S. companies announced.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;41
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="a7a75665-7068-451a-a0b7-3f974c47f375"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitmine added $92 million of ETH, with Tom Lee continuing to believe in &#x27;crypto spring&#x27;</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/bitmine-added-usd92-million-of-eth-with-tom-lee-continuing-to-believe-in-crypto-spring">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/83de81f28e582745c3329978c86006afe80011b2-2048x1152.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The largest Ethereum treasury firm slowed its buying pace but remains on track to reach its goal of owning 5% of ETH supply.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;41
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="7aee5446-9afb-4fe6-9315-1cedbd26b705"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin mining network becoming more sensitive to price swings, JPMorgan says</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/bitcoin-mining-network-becoming-more-sensitive-to-price-swings-jpmorgan-says">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/e7982f2cd16aaa896fdd1b231cf766d18f1f1cc2-1440x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>A growing share of miners are operating near breakeven levels, making hashrate and mining difficulty increasingly responsive to bitcoin&#x27;s price movements, the bank said.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="b5cb8408-be35-46ff-9873-8304bd86615f"
+                        open
+                      >
+                        <summary class="article-expander__title">Strategy added $35 million in bitcoin, $300 million in cash reserves last week</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/strategy-added-usd35-million-in-bitcoin-usd300-million-in-cash-reserves-last-week">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/86a60e8940b9813a4ac1d02b4f1c07724d16e365-720x406.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The boost to cash reserves is meant to reassure investors about dividend payments on the company&#x27;s hard-hit preferred shares, STRC.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;40
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="b724db49-fb59-4ba8-9693-62caf2d4a79a"
+                        open
+                      >
+                        <summary class="article-expander__title">TradFi fund manager Baillie Gifford introduces Solana, Ethereum tokenized fund with BNY</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/tradfi-fund-manager-baillie-gifford-introduces-solana-ethereum-tokenized-fund-with-bny">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/1df79087776a232721826d2559a0e7004de05895-2724x1532.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Baillie Gifford Enhanced Yield Fund (BAGEY) is denominated in dollars, and gives eligible investors access to an actively managed, short-duration portfolio of public corporate bonds.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;40
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="722d5e64-27d0-4ade-88fe-390bbca8c966"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin ETF outflow pain eases just as another headwind gathers strength</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/daybook-us/2026/06/22/bitcoin-etf-outflow-pain-eases-just-as-another-headwind-strengthens">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/1ed78e46a0c051dc13610578fbcc4d955d5585be-1500x1000.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Your day-ahead look for June 22, 2026</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;44
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="3f512012-cfd0-45a7-8772-575dfd63dbbb"
+                        open
+                      >
+                        <summary class="article-expander__title">As bitcoin, altcoin prices gain, derivatives signal skepticism over a sustained rally</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/as-bitcoin-altcoin-prices-gain-derivatives-signal-skepticism-over-a-sustained-rally">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5eb949cb8690308601e659d6b54220c66401200e-1280x853.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Analysts noted bitcoin is stuck between key support near $60,000 and resistance around $68,000, and a bearish chart pattern could send prices toward $54,000.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;44
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="ce512e18-fcc3-4939-9af4-efccfdab87ea"
+                        open
+                      >
+                        <summary class="article-expander__title">Bank of England backs down on strict stablecoin holding limits, sets $50 billion issuance cap</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/06/22/bank-of-england-backs-down-on-strict-stablecoin-holding-limits-sets-usd50-billion-issuance-cap">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/d0f2ce76b24fc52dc907f21f8e125cf83a23b559-4418x2945.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The U.K. central bank abandons retail holding limits for a 40-billion-pound aggregate cap and sweetens yield terms for token issuers ahead of a 2027 market launch.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="8d7b0af0-675a-45ee-b7b6-03be44a040a9"
+                        open
+                      >
+                        <summary class="article-expander__title">Geopolitical relief meets the Warsh Fed: Crypto Week Ahead</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/geopolitical-relief-meets-the-warsh-fed-crypto-week-ahead">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f0da5b9bd9bbbab9311e8a3708b1c2f6fb4d6ada-1500x996.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Your look at what&#x27;s coming in the week starting June 22.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="83a5ccc5-0a69-4aed-b1ab-5b462548f515"
+                        open
+                      >
+                        <summary class="article-expander__title">Taiko halts its Ethereum layer-2 network after a bridge exploit, token dives</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/taiko-halts-its-ethereum-layer-2-network-after-a-bridge-exploit-token-dives-10">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6e0794b53fab4b04d9e3fdbc0f3d1a70cdf36125-1920x1283.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>An attacker forged withdrawal proofs to drain about $1.7 million, the same type of flaw behind this year&#x27;s biggest bridge hacks. Fast containment kept the damage small.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="dc1dbfc4-d7f9-47c8-945d-59d9c721368b"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin price may be headed to $54,000, says analyst who forecast October&#x27;s all-time high</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/bitcoin-price-may-be-headed-to-usd54-000-says-analyst-who-forecast-october-s-all-time-high">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/a188c78c65397976904078eac59897272644525e-1920x1280.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Doctor Profit, a widely followed crypto analyst, says bitcoin is forming a “bear flag” pattern.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="6518dbf9-e965-4966-934b-393ad6f5366e"
+                        open
+                      >
+                        <summary class="article-expander__title">Live markets: Bitcoin bounces to $65,000; Saylor&#x27;s Strategy adds cash, coins</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/live-markets-bitcoin-is-stuck-near-usd64-000-as-etf-outflows-reach-a-sixth-week">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/2180f062d339af02b2052281b305e8f75b13fdef-1920x1281.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Eased ETF selling and improving risk appetite are being offset by a firmer dollar and cautious institutional flows, leaving bitcoin range-bound, one analyst said.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;51
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="83adf016-0df5-4e99-a209-e7991f05c35d"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin developers want to fix the &#x27;replace this transaction with a higher fee&#x27; button. Here&#x27;s why</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/bitcoin-developers-want-to-fix-the-replace-this-transaction-with-a-higher-fee-button-here-s-why">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/44dbd9510a85f86b1a9b5b4125fa629384ef4076-1920x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>A helpful feature of speeding up transactions has become redundant and a &quot;fingerprint&quot; for tracking. Developers now want to do away with it.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="25059c3f-c185-44c6-a7c6-7c79d2e08507"
+                        open
+                      >
+                        <summary class="article-expander__title">Ethereum validators asked to fund projects with up to 10% of staking rewards under new proposal</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/ethereum-validators-asked-to-fund-projects-with-up-to-10-of-staking-rewards-under-new-proposal">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f1b524375e138c791f103e5cb4cc6fa317f0aa25-5616x3744.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>A new governance proposal would let validators redirect part of their staking income toward ecosystem funding, raising questions about coordination, incentives and who gets to decide where the money goes.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="7a5f50b9-94d9-417e-96fa-37212aab6996"
+                        open
+                      >
+                        <summary class="article-expander__title">XRP briefly loses $1.14 support before buyers drive sharp rebound</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/xrp-briefly-loses-usd1-14-support-before-buyers-drive-sharp-rebound">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/665fc87e96cb8714e630dda79ba8427d61d2326f-1194x734.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Heavy selling pushed XRP to its lowest level of the weekend session, but strong buying quickly erased most of the decline and returned the token to its recent trading range.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;41
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="aa48266a-f9c8-4087-a6f1-cf1ae47687ed"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin holds near $64,000 as US-Iran talks progress but crypto sits out the rally</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/bitcoin-holds-near-usd64-000-as-us-iran-talks-progress-but-crypto-sits-out-the-rally">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6a3652708a77701e22cc3d2d8e57dbb0e4598af4-1500x858.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>sian stocks and tech climbed as the US and Iran agreed a roadmap to a final peace deal, sending oil below $80. Crypto stayed soft, with bitcoin down 2% on the week and the memecoins leading the losses.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;41
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
                   >Hacker News</button>
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
@@ -2022,6 +3001,26 @@ What documents …</span>
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;4
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://mrmarket.lol/job-application-asked-for-my-sat-scores/"
+                        open
+                      >
+                        <summary class="article-expander__title">Job application asked for my SAT scores</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://mrmarket.lol/job-application-asked-for-my-sat-scores/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="/static/og-image.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -2815,520 +3814,6 @@ What documents …</span>
                           <div class="article-summary-box-inner media-object">
                             <span class="media-object__text">
                               <span>Comments</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
-                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="9771c3ee-c99f-4abd-9e29-88b86ac51f84"
-                        open
-                      >
-                        <summary class="article-expander__title">Securitize and tZERO clash over patents as race to bring Wall Street onchain heats up</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/securitize-and-tzero-clash-over-patents-as-race-to-bring-wall-street-onchain-heats-up">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5327659df02632f543fcef456e95431561ddbbd4-4032x2268.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>tZERO and Securitize are squaring off over tokenization patents as the market attracts more of Wall Street&#x27;s attention.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;41
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="3b9a13fd-1e83-4a9c-9b31-0cc433379f91"
-                        open
-                      >
-                        <summary class="article-expander__title">Ric Edelman says crypto’s biggest growth story is happening off the price chart</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/ric-edelman-says-crypto-s-biggest-growth-story-is-happening-off-the-price-chart">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f274f885be1887c80b11620396844dda487c325f-1558x964.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Crypto prices remain under pressure, but Ric Edelman says institutional adoption and tokenization are accelerating behind the scenes.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;40
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="c9c26976-0a0b-406b-ac91-5301572e5408"
-                        open
-                      >
-                        <summary class="article-expander__title">21Shares co-founder warns tokenization hype is outrunning Wall Street reality</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/21shares-co-founder-warns-tokenization-hype-is-outrunning-wall-street-reality">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/467fc911956c4cc20edaca50a2382d699f6cd2c4-2602x1462.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Tokenization can improve settlement and asset movement, but key pieces of financial infrastructure remain unprepared for institutional-scale adoption.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;40
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="e33606c6-7184-4083-8e30-8417a5f41e87"
-                        open
-                      >
-                        <summary class="article-expander__title">Strive says digital credit selloff was a liquidation event, not a credit crisis</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/strive-says-digital-credit-selloff-was-a-liquidation-event-not-a-credit-crisis">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/dbde724952736381445b0e81782d0ff1e8497447-2036x980.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>A sharp selloff in digital credit products exposed growing pains in a young market, a Strive executive argues the underlying credit fundamentals remain intact.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;40
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="c8c5d1ab-d6bd-4dff-84d7-98c1f38b76a7"
-                        open
-                      >
-                        <summary class="article-expander__title">Ether’s biggest corporate holders back new Ethereum research hub</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/ether-s-biggest-corporate-holders-back-new-ethereum-research-hub">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/1f3fb73348fe1ac7e0117c7ef400c3875221209c-8114x4565.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Ethlabs was formed with support from SharpLink, Bitmine and Consensys CEO Joe Lubin as the network&#x27;s development is expanding beyond the Ethereum Foundation.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="3f1a20a9-194d-41e3-a6da-ae641d2fa917"
-                        open
-                      >
-                        <summary class="article-expander__title">Ethereum Foundation talent exodus sparks fresh debate over leadership</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/ethereum-foundation-talent-exodus-sparks-fresh-debate-over-leadership">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f699a131e76d466af66875c784e656723e91d725-8014x5343.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The Ethereum community is once again debating the future of the foundation after co-executive director Hsiao-Wei Wang announced she would step down.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;43
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="423a9492-fdea-44ef-a42d-99d5e1e1ec75"
-                        open
-                      >
-                        <summary class="article-expander__title">Crypto&#x27;s second U.S. lobbying front — tax policy — sees industry push on mining, staking</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/06/22/crypto-s-second-u-s-lobbying-front-tax-policy-sees-industry-push-on-mining-staking">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5f13068e5a91d164d6343f870092661143a9379c-3500x2333.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The crypto sector&#x27;s leading U.S. advocacy groups asked the U.S. House&#x27;s tax committee to advance a bill to clarify treatment of assets from mining and staking.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="6828dd1f-36eb-4e4c-9191-71d38b6717fc"
-                        open
-                      >
-                        <summary class="article-expander__title">Anchorage aims to bring banks onchain with new tokenized deposit platform</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/19/anchorage-aims-to-bring-banks-onchain-with-new-tokenized-deposit-platform">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b66d55b12b9f842b7062ba6ae8eac93415da491f-3000x1687.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The crypto bank aims to help financial institutions offer round-the-clock payments and settlement without replacing their core systems.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;40
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="d64d4bad-d998-4b12-b5ec-0ffced2d97ec"
-                        open
-                      >
-                        <summary class="article-expander__title">MoneyGram joins Solana as validator amid stablecoin payment push</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/moneygram-joins-solana-as-validator-amid-stablecoin-payment-push">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/d7959f555e24e90cf0a41c4677d90edb55b5cd06-2048x1152.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The remittances firm has become a validator on the Solana blockchain, helping process and secure transactions as it expands its stablecoin payments strategy.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;39
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="a5097e01-67f1-40f2-a296-c45c8b16c538"
-                        open
-                      >
-                        <summary class="article-expander__title">OKX and NYSE partner to bridge tradfi and crypto markets in joint venture led by Andrew Cuomo</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/okx-and-nyse-partner-to-bridge-tradfi-and-crypto-markets-in-joint-venture-led-by-andrew-cuomo">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b77232079e0993eff1475723f5f2d274d2c0c8cb-2048x1337.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The goal is to enable OKX’s 120 million global users to access ICE futures and NYSE tokenized equities markets, the two U.S. companies announced.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;41
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="a7a75665-7068-451a-a0b7-3f974c47f375"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitmine added $92 million of ETH, with Tom Lee continuing to believe in &#x27;crypto spring&#x27;</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/bitmine-added-usd92-million-of-eth-with-tom-lee-continuing-to-believe-in-crypto-spring">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/83de81f28e582745c3329978c86006afe80011b2-2048x1152.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The largest Ethereum treasury firm slowed its buying pace but remains on track to reach its goal of owning 5% of ETH supply.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;41
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="7aee5446-9afb-4fe6-9315-1cedbd26b705"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin mining network becoming more sensitive to price swings, JPMorgan says</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/bitcoin-mining-network-becoming-more-sensitive-to-price-swings-jpmorgan-says">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/e7982f2cd16aaa896fdd1b231cf766d18f1f1cc2-1440x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>A growing share of miners are operating near breakeven levels, making hashrate and mining difficulty increasingly responsive to bitcoin&#x27;s price movements, the bank said.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="b5cb8408-be35-46ff-9873-8304bd86615f"
-                        open
-                      >
-                        <summary class="article-expander__title">Strategy added $35 million in bitcoin, $300 million in cash reserves last week</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/strategy-added-usd35-million-in-bitcoin-usd300-million-in-cash-reserves-last-week">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/86a60e8940b9813a4ac1d02b4f1c07724d16e365-720x406.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The boost to cash reserves is meant to reassure investors about dividend payments on the company&#x27;s hard-hit preferred shares, STRC.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;40
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="b724db49-fb59-4ba8-9693-62caf2d4a79a"
-                        open
-                      >
-                        <summary class="article-expander__title">TradFi fund manager Baillie Gifford introduces Solana, Ethereum tokenized fund with BNY</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/06/22/tradfi-fund-manager-baillie-gifford-introduces-solana-ethereum-tokenized-fund-with-bny">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/1df79087776a232721826d2559a0e7004de05895-2724x1532.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Baillie Gifford Enhanced Yield Fund (BAGEY) is denominated in dollars, and gives eligible investors access to an actively managed, short-duration portfolio of public corporate bonds.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;40
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="722d5e64-27d0-4ade-88fe-390bbca8c966"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin ETF outflow pain eases just as another headwind gathers strength</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/daybook-us/2026/06/22/bitcoin-etf-outflow-pain-eases-just-as-another-headwind-strengthens">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/1ed78e46a0c051dc13610578fbcc4d955d5585be-1500x1000.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Your day-ahead look for June 22, 2026</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;44
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="3f512012-cfd0-45a7-8772-575dfd63dbbb"
-                        open
-                      >
-                        <summary class="article-expander__title">As bitcoin, altcoin prices gain, derivatives signal skepticism over a sustained rally</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/as-bitcoin-altcoin-prices-gain-derivatives-signal-skepticism-over-a-sustained-rally">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/5eb949cb8690308601e659d6b54220c66401200e-1280x853.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Analysts noted bitcoin is stuck between key support near $60,000 and resistance around $68,000, and a bearish chart pattern could send prices toward $54,000.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;44
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="ce512e18-fcc3-4939-9af4-efccfdab87ea"
-                        open
-                      >
-                        <summary class="article-expander__title">Bank of England backs down on strict stablecoin holding limits, sets $50 billion issuance cap</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/policy/2026/06/22/bank-of-england-backs-down-on-strict-stablecoin-holding-limits-sets-usd50-billion-issuance-cap">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/d0f2ce76b24fc52dc907f21f8e125cf83a23b559-4418x2945.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The U.K. central bank abandons retail holding limits for a 40-billion-pound aggregate cap and sweetens yield terms for token issuers ahead of a 2027 market launch.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="8d7b0af0-675a-45ee-b7b6-03be44a040a9"
-                        open
-                      >
-                        <summary class="article-expander__title">Geopolitical relief meets the Warsh Fed: Crypto Week Ahead</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/geopolitical-relief-meets-the-warsh-fed-crypto-week-ahead">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f0da5b9bd9bbbab9311e8a3708b1c2f6fb4d6ada-1500x996.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Your look at what&#x27;s coming in the week starting June 22.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="83a5ccc5-0a69-4aed-b1ab-5b462548f515"
-                        open
-                      >
-                        <summary class="article-expander__title">Taiko halts its Ethereum layer-2 network after a bridge exploit, token dives</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/taiko-halts-its-ethereum-layer-2-network-after-a-bridge-exploit-token-dives-10">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6e0794b53fab4b04d9e3fdbc0f3d1a70cdf36125-1920x1283.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>An attacker forged withdrawal proofs to drain about $1.7 million, the same type of flaw behind this year&#x27;s biggest bridge hacks. Fast containment kept the damage small.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="dc1dbfc4-d7f9-47c8-945d-59d9c721368b"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin price may be headed to $54,000, says analyst who forecast October&#x27;s all-time high</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/bitcoin-price-may-be-headed-to-usd54-000-says-analyst-who-forecast-october-s-all-time-high">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/a188c78c65397976904078eac59897272644525e-1920x1280.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Doctor Profit, a widely followed crypto analyst, says bitcoin is forming a “bear flag” pattern.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="6518dbf9-e965-4966-934b-393ad6f5366e"
-                        open
-                      >
-                        <summary class="article-expander__title">Live markets: Bitcoin bounces to $65,000; Saylor&#x27;s Strategy adds cash, coins</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/live-markets-bitcoin-is-stuck-near-usd64-000-as-etf-outflows-reach-a-sixth-week">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/2180f062d339af02b2052281b305e8f75b13fdef-1920x1281.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Eased ETF selling and improving risk appetite are being offset by a firmer dollar and cautious institutional flows, leaving bitcoin range-bound, one analyst said.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;51
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="83adf016-0df5-4e99-a209-e7991f05c35d"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin developers want to fix the &#x27;replace this transaction with a higher fee&#x27; button. Here&#x27;s why</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/bitcoin-developers-want-to-fix-the-replace-this-transaction-with-a-higher-fee-button-here-s-why">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/44dbd9510a85f86b1a9b5b4125fa629384ef4076-1920x1080.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>A helpful feature of speeding up transactions has become redundant and a &quot;fingerprint&quot; for tracking. Developers now want to do away with it.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="25059c3f-c185-44c6-a7c6-7c79d2e08507"
-                        open
-                      >
-                        <summary class="article-expander__title">Ethereum validators asked to fund projects with up to 10% of staking rewards under new proposal</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/06/22/ethereum-validators-asked-to-fund-projects-with-up-to-10-of-staking-rewards-under-new-proposal">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/f1b524375e138c791f103e5cb4cc6fa317f0aa25-5616x3744.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>A new governance proposal would let validators redirect part of their staking income toward ecosystem funding, raising questions about coordination, incentives and who gets to decide where the money goes.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;42
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="7a5f50b9-94d9-417e-96fa-37212aab6996"
-                        open
-                      >
-                        <summary class="article-expander__title">XRP briefly loses $1.14 support before buyers drive sharp rebound</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/xrp-briefly-loses-usd1-14-support-before-buyers-drive-sharp-rebound">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/665fc87e96cb8714e630dda79ba8427d61d2326f-1194x734.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Heavy selling pushed XRP to its lowest level of the weekend session, but strong buying quickly erased most of the decline and returned the token to its recent trading range.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;41
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="aa48266a-f9c8-4087-a6f1-cf1ae47687ed"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin holds near $64,000 as US-Iran talks progress but crypto sits out the rally</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/22/bitcoin-holds-near-usd64-000-as-us-iran-talks-progress-but-crypto-sits-out-the-rally">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6a3652708a77701e22cc3d2d8e57dbb0e4598af4-1500x858.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>sian stocks and tech climbed as the US and Iran agreed a roadmap to a final peace deal, sending oil below $80. Crypto stayed soft, with bitcoin down 2% on the week and the memecoins leading the losses.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;41
-                                  min&hairsp;)</span>
                             </span>
                           </div>
                         </a>
@@ -9258,6 +9743,26 @@ The post Samsung Galaxy Watch 9, Galaxy Watch Ultra 2 Details Leaked appeared fi
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;12
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://blog.hydroponictrash.solar/cyberdecks-going-analog-and-convivial-technology/"
+                        open
+                      >
+                        <summary class="article-expander__title">Cyberdecks, going analog, and convivial technology</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://blog.hydroponictrash.solar/cyberdecks-going-analog-and-convivial-technology/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://blog.hydroponictrash.solar/content/images/size/w1200/2026/04/Cyberdecks--Going-Analog--Permacomputing--Medieval-Guilds--and-the-Arts-and-Crafts-Movement.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;21
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -67810,46 +68315,6 @@ The agent writes the code, the spec sets the pattern, but you&#x27;re still the 
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.bbc.com/worklife/article/20260520-how-social-media-ceased-to-be-social"
-                        open
-                      >
-                        <summary class="article-expander__title">Anti-social: It&#x27;s fads, not friends, which now dominate social media feeds</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.bbc.com/worklife/article/20260520-how-social-media-ceased-to-be-social">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://ychef.files.bbci.co.uk/624x351/p0nmjt5t.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;31
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.c12qe.com/news/pick-and-place-carbon-nanotube-quantum-chip-manufacturing"
-                        open
-                      >
-                        <summary class="article-expander__title">Pick and Place: Carbon Nanotube Nanoassembly Process</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.c12qe.com/news/pick-and-place-carbon-nanotube-quantum-chip-manufacturing">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.prod.website-files.com/69546022f433522ed6f106bf/6a2164ab4c3841a664b60f42_Pick%20and%20Place.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -68084,86 +68549,6 @@ The agent writes the code, the spec sets the pattern, but you&#x27;re still the 
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="171b384e-9b01-412a-bd08-97ebae8efd1b"
-                        open
-                      >
-                        <summary class="article-expander__title">A crucial bitcoin market indicator is signaling that the worst of the crypto crash might be over</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/08/a-crucial-bitcoin-market-indicator-is-signaling-that-the-worst-of-the-crypto-crash-might-be-over">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/28b1a94149915bfe2334d8a4a2fc958c585a71c8-4032x3024.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The metric shows bitcoin&#x27;s market price is getting close to its realized fair value after the recent sell-off.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;39
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="bf188647-5346-448b-baa6-ddf3b929b23b"
-                        open
-                      >
-                        <summary class="article-expander__title">Bybit challenges Wall Street with a massive push into tokenized U.S. stock IPOs</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/08/bybit-launches-tokenized-ipo-service-starting-with-elon-musk-s-spacex">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/9f49c07fc596bf0c2db50c23c38cfbe175dcb9cd-2048x1365.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Retail investors can now buy shares at official underwritten prices through the crypto exchange, bypassing Wall Street’s exclusive pre-IPO clubs.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;37
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="2dd3dadd-1a79-40d2-815b-bdc376cc8543"
-                        open
-                      >
-                        <summary class="article-expander__title">Crypto&#x27;s recovery remains elusive as SpaceX, Anthropic IPOs loom</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/daybook-us/2026/06/08/crypto-s-recovery-remains-unsecure-as-spacex-anthropic-ipos-loom-stronger-etf-inflows-would-help">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/04f231dbc1b627628eb7b1afe3073540e1eb17e2-1690x751.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Your day-ahead look for June 8, 2026</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;37
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="9caf41d4-eb34-4eb9-b4a1-fbcc276b85d1"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin holds steady after Sunday&#x27;s rally, though full-fledged reversal may take longer</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/markets/2026/06/08/bitcoin-holds-steady-after-sunday-s-rally-though-full-fledged-reversal-may-take-longer">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/fa1be7836ff86b50533c87a0de050ab13e7e522a-3840x2160.png?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Bitcoin is holding above $63,000 after rallying on Sunday. The price is now hovering near a key 200-week moving average that often marks major cycle turning points.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;41
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -68235,47 +68620,12 @@ The agent writes the code, the spec sets the pattern, but you&#x27;re still the 
                 </section>
               </section>
             </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >Lowyat.NET</button>
-                  <a class="source-heading__link" href="https://www.lowyat.net/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;395064"
-                        open
-                      >
-                        <summary class="article-expander__title">Cybersecurity Researcher Hacks Creative Gaming Soundbar Without Even Pairing With It</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/395064/cybersecurity-researcher-hacks-creative-gaming-soundbar-without-even-pairing-with-it/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2026/06/Creative-Katana-V2X-Product-Shot.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Rasmus Moorats, a cybersecurity expert, recently posted on their blog about their successful attempt to hijack a Creative gaming soundbar by simply reverse engineering its firmware. More to the point, they did that without even having to physically interact with or wirelessly pair their device to it. The Creative soundbar in question is the Katana […]
-The post Cybersecurity Researcher Hacks Creative Gaming Soundbar Without Even Pairing With It appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;52
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
         </ul>
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/27989149363">
-        <time id="build-timestamp" datetime="2026-06-22T22:46:28.183Z">2026-06-22T22:46:28.183Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/27992579050">
+        <time id="build-timestamp" datetime="2026-06-23T00:04:39.407Z">2026-06-23T00:04:39.407Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>

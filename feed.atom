@@ -2,10 +2,317 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-06-22T22:46:28.264Z</updated>
+    <updated>2026-06-23T00:04:39.500Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[你的 AI Agent 需要一个「三层记忆」，而不是一个聊天记录]]></title>
+        <id>https://dev.to/manoir_yantai_f22f01340f0/ni-de-ai-agent-xu-yao-ge-san-ceng-ji-yi-er-bu-shi-ge-liao-tian-ji-lu-42ol</id>
+        <link href="https://dev.to/manoir_yantai_f22f01340f0/ni-de-ai-agent-xu-yao-ge-san-ceng-ji-yi-er-bu-shi-ge-liao-tian-ji-lu-42ol"/>
+        <updated>2026-06-23T00:02:52.000Z</updated>
+        <summary type="html"><![CDATA[去年我开始给 Hermes Agent 搞知识库。最初的想法很简单：装个向量数据库，查资料时能命中就行。结果跑了一圈发现——纯向量检索在 Agent 场景下不够用。
+有些记忆是你能精确描述的（"帮我查上次那篇讲 gbrain 孤页的文章"），有些记忆你只记得个大概（"有个关于知识图谱的……"），有些记忆你甚至不知道你该知道什么（"我有哪些笔记是没关联起来的？"）。一个检索策略覆盖不了这三种场景。
+这就是 Knowledge-and-Memory-Management v0.0.2 解决的问题。
+项目是目前运行在 Hermes Agent 生态里的扩展层，底座是 hermes-memory-installer 提供的 gbrain（知识图谱）+ Hindsight（向量记忆）。KMM 在这上面加了四组模块：采集、笔记/RAG、云盘同步、知识增广。
+其中最有工程价值的设计是三层跨层召回：
+FTS5 全文搜索  →  精确命中，知道你要什么
+Hindsight 向量语义  →  模糊配匹，关键词不够时靠语义
+gbrain 知识图谱  →  关系探索，你不知道但相关的节点
+
+lightweight_recall.py 把这三级串联成一条管线——先查本地 SQLite FTS5，命中直接返回；没命中走 Hindsight 的文本嵌入匹配；还不满意就用 gbrain 展开知识图谱的邻接节点。
+代码在 $AGENT_HOME/scripts/lightweight_recall.py，调用并不复杂：
+# 三层召回示例
+from knowledge_collector.knowledge_management import KnowledgeManager
+
+km = KnowledgeManager()
+
+# 一次调用，三级自动回退
+results = km.tiered_search(
+    query="Agent 记忆系统设计",
+    tiers=["fts5", "hindsight", "gbrain"],
+    limit_per_tier=5
+)
+
+for tier, hits in results.items():
+    print(f"[{tier}] {len(hits)} 条结果")
+    for h in hits[:2]:
+        print(f"  → {h['title']} ({h['relevance']:.2f})")
+
+FTS5 走 SQLite 内置，零依赖；Hindsight 端口 8890；gbrain 端口 8787。每层都是独立的可降级——向量服务挂了，全文搜索照样能跑。
+三层召回是检索层，采集层才是让知识库有东西可喂的入口。项目塞了 40+ 采集分析工具，按类型分：
+网页采集（9 引擎）：Scrapling 做反检测，Crawl4AI 做智能路由，爬公众号不走弯路
+视频采集（12 工具）：yt-dlp 拖流 → Whisper ASR 转写 → PaddleOCR 关键帧，抖音/YouTube 一把抓
+文档分析（9 工具）：SenseNova 三件套（PDF/PPT/Word）处理扫描件和复杂排版
+书籍精炼（6 工具）：book_to_skill 管线把 PDF/EPUB 拆成结构化 Skill + KMM 笔记
+每周日凌晨还有个 knowledge_discovery.py 爬起来，扫 OneDrive 上的新笔记，自动录入 gbrain，顺便跑孤页链接修复——这些属于「你不需要知道它存在，但它让系统不腐烂」的基建。
+不做纯向量优先：FTS5 第一级是因为延迟低（毫秒级），且精确关键词匹配在查代码、查配置时远好于语义
+gbrain 孤页处理是刚需：知识图谱不加链接维护，三个月后 90% 的页面都成孤岛（亲测 10,666 页从 1,716 个孤页降到 33）
+采集优先于检索：没有好的采集管线，检索再强也是对着空库跑——项目把采集工具堆到 40+ 不是炫技
+如果你的 Agent 需要从多个来源（网页、视频、文档、公众号）持续摄入知识，并且知识需要在精确搜索、模糊回忆和关系探索三个维度上都能命中——三层模式值得一试。不需要全部部署，只接 FTS5 + gbrain 两层也能跑，每层独立可降级。
+GitHub: mage0535/Knowledge-and-Memory-Management，MIT 协议。]]></summary>
+        <author>
+            <name>Manoir Yantai</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[agent sandboxes are the new enterprise desktop]]></title>
+        <id>https://dev.to/pvgomes/agent-sandboxes-are-the-new-enterprise-desktop-d18</id>
+        <link href="https://dev.to/pvgomes/agent-sandboxes-are-the-new-enterprise-desktop-d18"/>
+        <updated>2026-06-23T00:02:04.000Z</updated>
+        <summary type="html"><![CDATA[GitHub put a very normal-sounding feature into public preview this month: cloud and local sandboxes for Copilot.
+Normal is doing a lot of work there.
+The release says Copilot can now run inside secure, isolated sandboxes, either locally on the developer machine or in a GitHub-hosted cloud environment. Local mode restricts the filesystem, network, and system capabilities available to shell commands started by Copilot. Cloud mode gives the agent an ephemeral Linux environment, with enterprise policies attached.
+That sounds like a product checkbox.
+I think it is closer to a new category of enterprise desktop.
+Not desktop as in "Windows with Outlook and a VPN client." Desktop as in the place where work happens, credentials appear, files are opened, tools are invoked, commands are run, and mist…]]></summary>
+        <author>
+            <name>Paulo Victor Leite Lima Gomes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building One Knowledge Graph Across 46 Repositories With Static Analysis (Part 1)]]></title>
+        <id>https://dev.to/ryantsuji/building-one-knowledge-graph-across-46-repositories-with-static-analysis-part-1-egm</id>
+        <link href="https://dev.to/ryantsuji/building-one-knowledge-graph-across-46-repositories-with-static-analysis-part-1-egm"/>
+        <updated>2026-06-22T23:54:01.000Z</updated>
+        <summary type="html"><![CDATA[Hi, I'm Ryan, CTO at airCloset.
+This post is about unifying a production codebase spanning 46 repositories across multiple services into one knowledge graph, using static analysis.
+Internally we call it code-graph, and I built it between January and March of this year.
+Three things I want to write down:
+Why "just letting AI read the code" isn't enough, and why I had to chase down the connections that cross repository boundaries
+How I extracted boundaries across 46 repos and a zoo of frameworks (jQuery / AngularJS / Express / NestJS / TypeORM / Redux Axios ...)
+What 3 months of trial and error solved, and what it didn't
+This is Part 1, covering the construction of code-graph itself, the painful parts, and the issues that remained. Part 2 will be about service-product-graph (SPG) — a layer I…]]></summary>
+        <author>
+            <name>Ryosuke Tsuji</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Not every TypeScript project needs the same env setup.
+
+I compared CtroEnv, Zod, envalid, and t3-env across DX, framework support, dependencies, CLI workflow, and maintenance tradeoffs.
+
+Curious which approach people prefer.]]></title>
+        <id>https://dev.to/ctrotech/not-every-typescript-project-needs-the-same-env-setup-i-compared-ctroenv-zod-envalid-and-2emp</id>
+        <link href="https://dev.to/ctrotech/not-every-typescript-project-needs-the-same-env-setup-i-compared-ctroenv-zod-envalid-and-2emp"/>
+        <updated>2026-06-22T23:53:06.000Z</updated>
+        <summary type="html"><![CDATA[Stop Shipping Broken Env Config: Comparing 4 TypeScript Validators
+
+
+  
+Odejobi Abiola Samuel 
+                    
+                  
+
+                
+Jun 22
+        
+#typescript
+            #node
+            #javascript
+            #webdev
+        
+1 reaction
+            
+Add Comment
+            
+        
+        
+          
+            4 min read]]></summary>
+        <author>
+            <name>Odejobi Abiola Samuel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a live secret scanner for VS Code (and why CI scanning is too late)]]></title>
+        <id>https://dev.to/thund3rbird/i-built-a-live-secret-scanner-for-vs-code-and-why-ci-scanning-is-too-late-46f5</id>
+        <link href="https://dev.to/thund3rbird/i-built-a-live-secret-scanner-for-vs-code-and-why-ci-scanning-is-too-late-46f5"/>
+        <updated>2026-06-22T23:35:30.000Z</updated>
+        <summary type="html"><![CDATA[We've all done it: pasted an API key into a file "just to test," then a week later
+after the secret is already committed.
+So I built Secret Guardian, a VS Code extension that catches secrets live, in
+, the moment they appear — and visually masks them so they never show
+👉 Secret Guardian on the VS Code Marketplace (free)
+Detects 17+ secret types as you type: AWS, GitHub, GitLab, Google, Slack, Stripe,
+OpenAI, SendGrid, Twilio, npm tokens, private keys, JWTs, credentials in URLs.
+A generic high-entropy rule catches the long-tail.
+Masks detected secrets with a lock overlay — safe for demos.
+Flags everything in the Problems panel + a one-click workspace scan.
+100% local. Nothing leaves your machine.
+Two layers: tight regexes for known formats (e.g. AKIA…, ghp_…), and an
+entropy + context check for unknown secrets (high Shannon entropy assigned to a
+your_api_key filtered out.
+Install from the Marketplace,
+open a file, paste a fake key. I'd love feedback on accuracy and false positives.]]></summary>
+        <author>
+            <name>thunderbird</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built 168 pages of free trading tools with vanilla HTML/JS — here's how]]></title>
+        <id>https://dev.to/mbinmhr/i-built-168-pages-of-free-trading-tools-with-vanilla-htmljs-heres-how-4n0d</id>
+        <link href="https://dev.to/mbinmhr/i-built-168-pages-of-free-trading-tools-with-vanilla-htmljs-heres-how-4n0d"/>
+        <updated>2026-06-22T23:35:12.000Z</updated>
+        <summary type="html"><![CDATA[The idea
+
+
+Prop firm traders (people who trade with other people's money) need specific calculators that account for strict drawdown rules. Every existing calculator is either ugly, full of ads, or doesn't know that FTMO has a 5% daily drawdown limit.
+So I built PropWise — 10 interactive tools across 168 SEO-optimized pages, all in vanilla HTML, CSS, and JS. No framework. No build step. No dependencies.
+10 core tools:
+Position Size Calculator (pre-configured for 12 prop firms)
+Challenge Cost Calculator (expected cost to get funded based on pass rate)
+Risk of Ruin Calculator (probability of blowing your account)
+Revenge Trade Calculator (mathematical damage of emotional trading)
+Overtrading Detector (optimal trading frequency analysis)
+Live Session Timer with ICT kill zones
+Compound Growth …]]></summary>
+        <author>
+            <name>Mobin Moharami</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Superconductor review: the cleanest way I've found to run AI agents in parallel]]></title>
+        <id>https://dev.to/danielbergholz/superconductor-review-the-cleanest-way-ive-found-to-run-ai-agents-in-parallel-1c87</id>
+        <link href="https://dev.to/danielbergholz/superconductor-review-the-cleanest-way-ive-found-to-run-ai-agents-in-parallel-1c87"/>
+        <updated>2026-06-22T23:33:02.000Z</updated>
+        <summary type="html"><![CDATA[I use Claude Code every single day. At my day job, it's my main agent, and I've talked plenty about how much I love it. But on my side projects, I like to play around with other agents: Codex, OpenCode, whatever new CLI shows up that week. And recently I hit a wall that turned out to be more annoying than I expected.
+I wanted to run a bunch of agents in parallel. Not one at a time, but several, across different projects, at the same time. And the moment I tried to do that, I realized every tool was trying to lock me into its own little world.
+So I went looking for something better, and I found a product I've been using for the past few days that I genuinely can't stop recommending. This is not sponsored. I'm paying nothing and using it on my own machine. It's called Superconductor, and thi…]]></summary>
+        <author>
+            <name>Daniel Bergholz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Stop Shipping Broken Env Config: Comparing 4 TypeScript Validators]]></title>
+        <id>https://dev.to/ctrotech/ctroenv-vs-zod-envalid-t3-env-which-env-validator-should-you-use-4aln</id>
+        <link href="https://dev.to/ctrotech/ctroenv-vs-zod-envalid-t3-env-which-env-validator-should-you-use-4aln"/>
+        <updated>2026-06-22T23:25:31.000Z</updated>
+        <summary type="html"><![CDATA[I've built enough projects to know that environment variable validation isn't glamorous — until your app silently uses undefined as a database URL. There are a bunch of tools for this now, and picking the wrong one means either fighting your tool or fighting your own config. Here's how they stack up.
+
+
+
+Tool
+Size
+Dependencies
+CLI
+Framework support
+
+
+
+
+CtroEnv
+under 5 KB gzip
+0
+Yes
+Node, Vite, Next.js
+
+
+Zod + manual
+50 KB+
+0 (Zod itself is ~13 KB gzip, plus your glue)
+No
+You build it
+
+
+envalid
+8 KB gzip
+6 (legacy deps)
+No
+Node only
+
+
+t3-env
+~15 KB
+Depends on Zod
+No
+Next.js only
+
+
+
+Let's look at each one.
+Zod is great for runtime validation in general, and lots of people use it for env vars because they already have it in their project.
+import { z } from "zod";
+
+const schema = z.object({
+  D…]]></summary>
+        <author>
+            <name>Odejobi Abiola Samuel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to make an AI research agent label facts vs inferences — a deterministic provenance pipeline]]></title>
+        <id>https://dev.to/hexisteme/how-to-make-an-ai-research-agent-label-facts-vs-inferences-a-deterministic-provenance-pipeline-5dfn</id>
+        <link href="https://dev.to/hexisteme/how-to-make-an-ai-research-agent-label-facts-vs-inferences-a-deterministic-provenance-pipeline-5dfn"/>
+        <updated>2026-06-22T23:23:16.000Z</updated>
+        <summary type="html"><![CDATA[Originally published on hexisteme notes, part of a series on building and running an AI agent fleet.
+To stop an AI research or RAG agent from presenting its own inferences as retrieved facts, split the work so the LLM never decides what is a fact: let the LLM only extract and summarize, and let a deterministic, non-LLM pipeline do all scoring, cross-checking, and labeling. Tag a claim FACT only when a rule is satisfied — corroboration by ≥2 independent sources, or one official API — and downgrade everything else to INFERENCE. Because labeling is rule-based, the agent can't launder a guess into a fact, and the same query produces the same labels every run.
+An AI agent that gathers information has two kinds of output tangled together: things it retrieved and things it concluded. A web page s…]]></summary>
+        <author>
+            <name>John</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[how do you get real-world experience before your first job?]]></title>
+        <id>https://dev.to/arianna/how-do-you-get-real-world-experience-before-your-first-job-59eg</id>
+        <link href="https://dev.to/arianna/how-do-you-get-real-world-experience-before-your-first-job-59eg"/>
+        <updated>2026-06-22T23:19:39.000Z</updated>
+        <summary type="html"><![CDATA[hello ! im a CS student (2nd year) and ive been look around for some tech jobs. any kind because honestly i just want a tech related job (i <3 tech). but the problem is,so many jobs/places want you to have experience in the real-world but literally no one is willing to offer it. they want minimum 3-years experience. im considered learning some other programming languages that they require for jobs that could be useful. however, i want to practice what ive learnt in a real job setting. of course after learning a lot about said-subject. but im just confused on how im going to land a job after college with no experience.
+and please dont come for me; im genuinely just trying to think ahead instead of leaving it for when i get there
+any advice would be appreciated !! :p]]></summary>
+        <author>
+            <name>arianna</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Running Async Python Inside Celery Is Harder Than You Think.]]></title>
+        <id>https://dev.to/akoladefaj/running-async-python-inside-celery-is-harder-than-you-think-2046</id>
+        <link href="https://dev.to/akoladefaj/running-async-python-inside-celery-is-harder-than-you-think-2046"/>
+        <updated>2026-06-22T23:17:50.000Z</updated>
+        <summary type="html"><![CDATA[The problem is straightforward to state and surprisingly hard to solve correctly.
+Celery workers are synchronous. Celery spawns prefork worker processes, and when a task arrives, it calls your task function like this: task_function(*args, **kwargs). It expects a return value. It blocks the worker thread until it gets one. It does not know or care that you wrote async def.
+But modern Python services are async. FastAPI is async. SQLAlchemy 2.0 is async. httpx, aiohttp, asyncpg the entire interesting half of the ecosystem has gone async-first. The idea of maintaining two parallel code paths, one async for your web layer, one sync for your task layer is exactly the kind of thing that creates maintenance debt, copy-paste bugs, and the kind of divergence you only notice when something breaks in …]]></summary>
+        <author>
+            <name>Kolade Fajimi</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Design System Without Recreating CSS]]></title>
+        <id>https://dev.to/stinklewinks/building-a-design-system-without-recreating-css-1a41</id>
+        <link href="https://dev.to/stinklewinks/building-a-design-system-without-recreating-css-1a41"/>
+        <updated>2026-06-22T23:17:44.000Z</updated>
+        <summary type="html"><![CDATA[One of the easiest traps to fall into when building a design system is accidentally recreating CSS.
+At first, it seems harmless.
+You add a few utility classes.
+Then a few responsive options.
+Then a few layout helpers.
+Then a few exceptions.
+Before long, you've built an entirely new syntax for doing the exact same thing CSS already does.
+I've become increasingly interested in a different approach.
+Not replacing CSS.
+Not hiding CSS.
+Creating a layer above CSS that focuses on intent.
+Developers love flexibility.
+I do too.
+The challenge is that flexibility often comes with complexity.
+Consider responsive layouts.
+Many systems solve this by exposing every possible breakpoint and layout combination.
+The result is powerful.
+But it's also easy to end up with markup that spends more time describing…]]></summary>
+        <author>
+            <name>Drew Marshall</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[U.S. Senate passes housing bill that carries four-year ban on a Fed CBDC]]></title>
+        <id>719609be-ec67-4ea1-8579-236d07946cdf</id>
+        <link href="https://www.coindesk.com/policy/2026/06/22/u-s-senate-passes-housing-bill-that-carries-four-year-ban-on-a-fed-cbdc"/>
+        <updated>2026-06-22T23:01:15.000Z</updated>
+        <summary type="html"><![CDATA[The idea of a U.S. central bank digital currency — though little more than a research topic at the Federal Reserve — may be getting formally blocked.]]></summary>
+        <author>
+            <name>Jesse Hamilton</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[The ADHD app launches in 22 hours. Here's what the AI marketing agent built overnight.]]></title>
         <id>https://dev.to/nyx_software/the-adhd-app-launches-in-22-hours-heres-what-the-ai-marketing-agent-built-overnight-1j2k</id>
@@ -279,6 +586,16 @@ waaseyaa make:content-type story --fields="title:string,body:text,source_url:str
         <summary type="html"><![CDATA[Crypto prices remain under pressure, but Ric Edelman says institutional adoption and tokenization are accelerating behind the scenes.]]></summary>
         <author>
             <name>AI Boost</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Job application asked for my SAT scores]]></title>
+        <id>https://mrmarket.lol/job-application-asked-for-my-sat-scores/</id>
+        <link href="https://mrmarket.lol/job-application-asked-for-my-sat-scores/"/>
+        <updated>2026-06-22T20:55:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -7485,6 +7802,16 @@ Naturally,…]]></summary>
         <id>https://fil-c.org/inlineasm</id>
         <link href="https://fil-c.org/inlineasm"/>
         <updated>2026-06-20T03:29:19.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cyberdecks, going analog, and convivial technology]]></title>
+        <id>https://blog.hydroponictrash.solar/cyberdecks-going-analog-and-convivial-technology/</id>
+        <link href="https://blog.hydroponictrash.solar/cyberdecks-going-analog-and-convivial-technology/"/>
+        <updated>2026-06-20T02:29:21.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -40199,77 +40526,6 @@ The agent writes the code, the spec sets the pattern, but you're still the engin
         <summary type="html"><![CDATA[Meanwhile, Strive bought 32 bitcoin, the same number Strategy dumped last week.]]></summary>
         <author>
             <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A crucial bitcoin market indicator is signaling that the worst of the crypto crash might be over]]></title>
-        <id>171b384e-9b01-412a-bd08-97ebae8efd1b</id>
-        <link href="https://www.coindesk.com/markets/2026/06/08/a-crucial-bitcoin-market-indicator-is-signaling-that-the-worst-of-the-crypto-crash-might-be-over"/>
-        <updated>2026-06-08T12:02:21.000Z</updated>
-        <summary type="html"><![CDATA[The metric shows bitcoin's market price is getting close to its realized fair value after the recent sell-off.]]></summary>
-        <author>
-            <name>Omkar Godbole</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Anti-social: It's fads, not friends, which now dominate social media feeds]]></title>
-        <id>https://www.bbc.com/worklife/article/20260520-how-social-media-ceased-to-be-social</id>
-        <link href="https://www.bbc.com/worklife/article/20260520-how-social-media-ceased-to-be-social"/>
-        <updated>2026-06-08T11:58:02.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Pick and Place: Carbon Nanotube Nanoassembly Process]]></title>
-        <id>https://www.c12qe.com/news/pick-and-place-carbon-nanotube-quantum-chip-manufacturing</id>
-        <link href="https://www.c12qe.com/news/pick-and-place-carbon-nanotube-quantum-chip-manufacturing"/>
-        <updated>2026-06-08T11:47:50.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bybit challenges Wall Street with a massive push into tokenized U.S. stock IPOs]]></title>
-        <id>bf188647-5346-448b-baa6-ddf3b929b23b</id>
-        <link href="https://www.coindesk.com/markets/2026/06/08/bybit-launches-tokenized-ipo-service-starting-with-elon-musk-s-spacex"/>
-        <updated>2026-06-08T11:34:57.000Z</updated>
-        <summary type="html"><![CDATA[Retail investors can now buy shares at official underwritten prices through the crypto exchange, bypassing Wall Street’s exclusive pre-IPO clubs.]]></summary>
-        <author>
-            <name>Olivier Acuna</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Crypto's recovery remains elusive as SpaceX, Anthropic IPOs loom]]></title>
-        <id>2dd3dadd-1a79-40d2-815b-bdc376cc8543</id>
-        <link href="https://www.coindesk.com/daybook-us/2026/06/08/crypto-s-recovery-remains-unsecure-as-spacex-anthropic-ipos-loom-stronger-etf-inflows-would-help"/>
-        <updated>2026-06-08T11:24:06.000Z</updated>
-        <summary type="html"><![CDATA[Your day-ahead look for June 8, 2026]]></summary>
-        <author>
-            <name>Omkar Godbole</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cybersecurity Researcher Hacks Creative Gaming Soundbar Without Even Pairing With It]]></title>
-        <id>https://www.lowyat.net/?p=395064</id>
-        <link href="https://www.lowyat.net/2026/395064/cybersecurity-researcher-hacks-creative-gaming-soundbar-without-even-pairing-with-it/"/>
-        <updated>2026-06-08T11:12:45.000Z</updated>
-        <summary type="html"><![CDATA[Rasmus Moorats, a cybersecurity expert, recently posted on their blog about their successful attempt to hijack a Creative gaming soundbar by simply reverse engineering its firmware. More to the point, they did that without even having to physically interact with or wirelessly pair their device to it. The Creative soundbar in question is the Katana […]
-The post Cybersecurity Researcher Hacks Creative Gaming Soundbar Without Even Pairing With It appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>John Law</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin holds steady after Sunday's rally, though full-fledged reversal may take longer]]></title>
-        <id>9caf41d4-eb34-4eb9-b4a1-fbcc276b85d1</id>
-        <link href="https://www.coindesk.com/markets/2026/06/08/bitcoin-holds-steady-after-sunday-s-rally-though-full-fledged-reversal-may-take-longer"/>
-        <updated>2026-06-08T11:00:18.000Z</updated>
-        <summary type="html"><![CDATA[Bitcoin is holding above $63,000 after rallying on Sunday. The price is now hovering near a key 200-week moving average that often marks major cycle turning points.]]></summary>
-        <author>
-            <name>Omkar Godbole</name>
         </author>
     </entry>
 </feed>
