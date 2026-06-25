@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/manoir_yantai_f22f01340f0/zhi-shi-cai-ji-yu-ji-yi-guan-li-wo-zhong-yu-gei-aizhuang-shang-liao-chang-qi-ji-yi-he-xin-xi-xiao-hua-xi-tong--o45",
+          "author": "Manoir Yantai",
+          "description": "折腾 Agent 的朋友应该都有同感：AI 能记住对话上下文，但跨会话的知识管理是个坑。笔记散落在 OneDrive，公众号文章阅后即焚，抖音视频看了就忘。我花了三周，基于 Hermes Memory Installer 底座搭了一套 Knowledge-and-Memory-Management v0.0.2，解决的就是「知识从哪来、怎么存、如何找」这个闭环。\n先说结论：40+ 采集工具 + 三层记忆检索 + 云盘双向同步，走通了。\n采集层整合了 40+ 引擎，按来源分成 9 组。网页有 Scrapling（可过 Cloudflare）和 Chrome DevTools 协议兜底；视频有 yt-dlp + Whisper ASR + EasyOCR 的多级降级链；文档有新增的 SenseNova 三件套（PDF/PPT/Word 全量提取，扫描件也能吃）。最实用的改进是 book_cache_manager——下载完书自动触发精炼管线，把 PDF 拆成章节、提取知识点、生成 Skill 和笔记，全程无人值守。\n存储层是 Hot（Memory tool 即时注入）+ Warm（Hindsight 向量记忆，10K 节点）+ Cold（gbrain 知识图谱，11K 页）三层。lightweight_recall 自动走 FTS5 → 向量 → 图谱的降级检索，每条结果带来源标识。\n同步层通过 rclone 统一接口，OneDrive 每 4 小时双向增量同步。knowledge_discovery 每周日自动扫云端笔记，发现新文件就录入 gbrain。\n抓一篇公众号文章，自动入库：\nfrom knowledge_collector import collect_web\nfrom notes_rag import create_note\nfrom cloud_sync import sync_to_cloud\n\n# 网页采集 + 智能提取\nresult = collect_web('https://mp.weixin.qq.com/s/xxx')\nprint(f'笔记路径: {result.note_path}')   # → ~/.hermes/knowledge/notes/...\nprint(f'gbrain slug: {result.gbrain_slug}')  # → gbrain 自动建页\n\n# 本地笔记不足时自动回落 AnySearch 垂直搜索\nfrom knowledge_augmentation import AugmentedSearch\ns = AugmentedSearch()\nr = s.search('比亚迪 2026Q1 财报', domain='finance')\n\n整条链路就三行——采集、建笔记、同步。AugmentedSearch 会在本地检索（score < 0.6）时自动走 AnySearch 的 finance/academic/legal 等垂直领域，结果标注来源，可一键导入笔记库。\n目前书籍精炼管线还不够稳定——PDF 图表提取有时会丢数据，双引擎降级（pdfplumber → pdftotext → pdfminer）虽然有兜底，但表格还原率还有提升空间。视频批量转录在 10 条并发时偶现 Whisper 内存 OOM，下一版打算加队列限流。\n项目开源，仓库在这。如果有折腾同类问题的朋友，欢迎提 PR 或 issue。",
+          "link": "https://dev.to/manoir_yantai_f22f01340f0/zhi-shi-cai-ji-yu-ji-yi-guan-li-wo-zhong-yu-gei-aizhuang-shang-liao-chang-qi-ji-yi-he-xin-xi-xiao-hua-xi-tong--o45",
+          "publishedOn": "2026-06-25T00:04:03.000Z",
+          "wordCount": 1364,
+          "title": "知识采集与记忆管理：我终于给AI装上了「长期记忆」和「信息消化系统」",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxmh5vudv1iopgycdyebz.png"
+        },
+        {
+          "id": "https://dev.to/pvgomes/vex-turns-container-scanning-into-queue-discipline-69n",
+          "author": "Paulo Victor Leite Lima Gomes",
+          "description": "The most tiring security dashboard is the one that is technically correct and operationally useless.\nYou know the one.\nThe scanner finds 417 vulnerabilities. Some are real. Some are inherited from a base image. Some affect a package that is present but never reachable. Some are already patched in the image you are actually running. Some are awaiting upstream metadata. Some require a rebuild. Some require nothing except another meeting where everyone agrees that red numbers are bad.\nThen the dashboard sends the whole pile to developers.\nThis is how teams learn to ignore security tools.\nNot because developers hate security. Most do not. They hate being handed a queue where every item has the same color, the same urgency, and a different amount of truth behind it.\nDocker published a useful ex…",
+          "link": "https://dev.to/pvgomes/vex-turns-container-scanning-into-queue-discipline-69n",
+          "publishedOn": "2026-06-25T00:01:58.000Z",
+          "wordCount": 3035,
+          "title": "VEX turns container scanning into queue discipline",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Famqx4toknkt2hqyi3oe6.png"
+        },
+        {
+          "id": "https://dev.to/annalilith/why-every-developer-should-learn-browser-automation-in-2026-2oho",
+          "author": "Anna lilith",
+          "description": "Why Every Developer Should Learn Browser Automation in 2026\n\n\nBrowser automation is the most underrated skill in a developer's toolkit. Here's why you should learn it in 2026.\nBrowser automation means controlling a web browser programmatically — clicking buttons, filling forms, navigating pages, extracting data — all without human intervention.\nfrom selenium import webdriver\nfrom selenium.webdriver.common.by import By\nfrom selenium.webdriver.chrome.options import Options\n\noptions = Options()\noptions.add_argument(\"--headless=new\")\noptions.add_argument(\"--no-sandbox\")\n\ndriver = webdriver.Chrome(options=options)\ndriver.get(\"https://example.com\")\ntitle = driver.find_element(By.TAG_NAME, \"h1\").text\nprint(f\"Page title: {title}\")\ndriver.quit()\n\nUnlike requests, browser automation handles JavaScri…",
+          "link": "https://dev.to/annalilith/why-every-developer-should-learn-browser-automation-in-2026-2oho",
+          "publishedOn": "2026-06-25T00:00:12.000Z",
+          "wordCount": 1642,
+          "title": "Why Every Developer Should Learn Browser Automation in 2026",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fx74sylcg1npasyv005u6.png"
+        },
+        {
+          "id": "https://dev.to/susumun/hub-and-spoke-seo-for-comparison-pages-fielding-alternative-search-intent-from-multiple-angles-3gk",
+          "author": "Susumu Takahashi",
+          "description": "The WordPress maintenance space has several decade-old incumbents — ManageWP, MainWP, WP Umbrella, InfiniteWP. Building a new entrant means inevitably fielding queries like \"ManageWP alternative\" and \"WordPress maintenance tools comparison\" — search intent that names a competitor or the category itself.\nTo handle that intent carefully, the LP runs a hub-and-spoke comparison structure. Here's how it's built and why.\nA hub-and-spoke pattern places one central page (the hub) and multiple related sub-pages (spokes) in a radial arrangement. The naming follows airline hub airports: the hub is the overview, the spokes are the per-item deep dives.\nIn an SEO context, that maps neatly onto search intent: broad overview queries go through the hub, narrow specific queries land on the spokes.\n[ /compar…",
+          "link": "https://dev.to/susumun/hub-and-spoke-seo-for-comparison-pages-fielding-alternative-search-intent-from-multiple-angles-3gk",
+          "publishedOn": "2026-06-24T23:54:13.000Z",
+          "wordCount": 1931,
+          "title": "Hub-and-spoke SEO for comparison pages — fielding \"alternative\" search intent from multiple angles",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fen.wpmm.jp%2Fblog%2Fwp-content%2Fuploads%2Fogp%2Fpost-33-en-20260522020000.png"
+        },
+        {
+          "id": "https://dev.to/matttdamon/you-skipped-figma-and-just-built-it-your-team-still-has-notes-nb8",
+          "author": "MatttDamon",
+          "description": "More teams are starting from a prompt now, not a canvas. You describe the thing, an agent builds it, you ship it. It's faster. But the place your team used to leave feedback, Figma comments, was attached to the canvas you just skipped. So the notes have nowhere to land.\nFigma went public in the summer of 2025. A year on, the stock sits well below where it opened and a long way off its first-month highs (mid-2026). Revenue is still growing. This isn't a \"Figma is dying\" post.\nThe slide tracks one specific worry: tools that let you generate a working UI without opening a canvas at all. Anthropic shipped Claude Design in April 2026. Cursor has design features. The bet the market is making is that fewer projects will start in a design file. That's the same shift you're living if you build stra…",
+          "link": "https://dev.to/matttdamon/you-skipped-figma-and-just-built-it-your-team-still-has-notes-nb8",
+          "publishedOn": "2026-06-24T23:47:34.000Z",
+          "wordCount": 2155,
+          "title": "You skipped Figma and just built it. Your team still has notes.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F3rbhr838qna0zzy08zwi.png"
+        },
+        {
+          "id": "https://dev.to/kie_kejani_001/-2n57",
+          "author": "Kie Kejani 001",
+          "description": "🚀 Day 1 of Learning React: Why React Exists, the Real DOM, Virtual DOM & React Elements\n\n\n  \nBismay.exe\n                    \n                  \n\n                \nJun 22\n        \n#react\n            #javascript\n            #webdev\n            #beginners\n        \n10 reactions\n            \nAdd Comment\n            \n        \n        \n          \n            4 min read",
+          "link": "https://dev.to/kie_kejani_001/-2n57",
+          "publishedOn": "2026-06-24T23:38:38.000Z",
+          "wordCount": 1241,
+          "title": "[Boost]",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fv4ahqxxtg0ci9ylajnfz.png"
+        },
+        {
+          "id": "https://dev.to/realmarcuschen/the-14-seconds-that-werent-on-any-span-483m",
+          "author": "Marcus Chen",
+          "description": "On the morning of June 3rd, a customer on a live call sat through 1.4 seconds of dead air after she finished a sentence, long enough that she said \"hello?\" before the agent answered. I had the trace open in Honeycomb forty seconds later. Every span was green. End-to-end p95 read 980ms, comfortably under our budget, and not one span in that waterfall was longer than 400ms. The dashboard told me everything was fine while the customer was, in fact, talking to silence.\nTL;DR: End-to-end voice latency is not the sum of your spans. The number that kills your UX lives in the unattributed time between spans, most often the gap between turn-end (the moment the user stops talking) and ASR-start (the moment your pipeline begins transcribing). APM-style tracing instruments the work and ignores the wai…",
+          "link": "https://dev.to/realmarcuschen/the-14-seconds-that-werent-on-any-span-483m",
+          "publishedOn": "2026-06-24T23:38:04.000Z",
+          "wordCount": 2821,
+          "title": "The 1.4 Seconds That Weren't on Any Span",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F1uteaw748booxwnl3agj.png"
+        },
+        {
+          "id": "https://dev.to/arafat_islam_8831144b8c8f/exit-intent-that-works-on-mobile-not-just-desktop-3kdn",
+          "author": "Arafat Islam",
+          "description": "Originally published on my site, arafatcro.dev/guides.\nYou copy the exit-intent snippet, it fires nicely when the cursor heads for the close button, and you ship. Then you check the data and half your traffic never triggered it, because they were on phones and a phone has no cursor to chase. Exit intent is not one trick. It is a different signal on each device, fired once, and built so it does not become the thing people leave over.\nThe standard snippet listens for the mouse leaving the top of the page. When the cursor crosses the top edge, heading for the tab bar or the close control, you call it intent to leave and show your overlay. On desktop it works.\nThe problem is that this signal only exists on a device with a pointer. On a phone or tablet there is no cursor, nothing ever leaves th…",
+          "link": "https://dev.to/arafat_islam_8831144b8c8f/exit-intent-that-works-on-mobile-not-just-desktop-3kdn",
+          "publishedOn": "2026-06-24T23:37:37.000Z",
+          "wordCount": 2056,
+          "title": "Exit intent that works on mobile, not just desktop",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Farafatcro.dev%2Fog%2Fexit-intent.png"
+        },
+        {
+          "id": "https://dev.to/renato_marinho/stop-building-custom-wrappers-for-your-ml-models-1bk",
+          "author": "Renato Marinho",
+          "description": "I spent three days last month building a specialized API wrapper for a simple Scikit-learn model. Not because the logic was hard—it wasn't. Because I wanted Cursor to be able to run inference on our churn prediction data without me having to manually copy-paste JSON results into the chat.\nIt is a classic engineering trap: the 'Integration Tax.' You have a working Modelbit workspace, you have your weights deployed, and you have an AI agent that could theoretically use it. But instead of using the model, you find yourself writing FastAPI endpoints, defining Pyders, handling authentication, and then—the worst part—manually updating your Agent's tool definitions every time you change a feature in your training set.\nThis is why I hate 'glue code.' It is brittle, it's boring, and most importantl…",
+          "link": "https://dev.to/renato_marinho/stop-building-custom-wrappers-for-your-ml-models-1bk",
+          "publishedOn": "2026-06-24T23:28:59.000Z",
+          "wordCount": 2086,
+          "title": "Stop building custom wrappers for your ML models.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fqboh1qrvjtyyjixmhyb9.png"
+        },
+        {
+          "id": "https://dev.to/samson_tanimawo/the-sres-guide-to-surviving-tool-sprawl-57ao",
+          "author": "Samson Tanimawo",
+          "description": "14 Tools, Zero Visibility\n\n\nI joined a startup last year that had 14 different monitoring and observability tools. Datadog for infrastructure. New Relic for APM. PagerDuty for alerting. Sentry for errors. Grafana for dashboards. CloudWatch for AWS stuff. The list went on.\nThe monthly bill was $18,000. The team had zero unified visibility.\nNobody wakes up and decides to buy 14 tools. It's gradual:\nBackend team picks Datadog\nFrontend team prefers Sentry\nPlatform team standardizes on Prometheus\nNew CTO brings their favorite APM tool\nAcquisition adds another stack\nBefore you know it, you're running a monitoring zoo.\nThe licensing fees are just the beginning. The hidden costs destroy you:\nDirect costs:\n  Licensing:           $18,000/mo\n  Custom integrations: $4,200/mo (eng time)\n\nHidden costs:\n…",
+          "link": "https://dev.to/samson_tanimawo/the-sres-guide-to-surviving-tool-sprawl-57ao",
+          "publishedOn": "2026-06-24T23:28:30.000Z",
+          "wordCount": 1793,
+          "title": "The SRE's Guide to Surviving Tool Sprawl",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fnovaaiops.com%2Ffac2.png"
+        },
+        {
+          "id": "https://dev.to/realmarcuschen/the-retry-that-booked-mrs-alvarez-twice-2dg0",
+          "author": "Marcus Chen",
+          "description": "Week one of the pilot, our voice agent booked appointments for a dental group. Forty operatories, three locations, one phone line per office that never stopped ringing. The agent took the call, checked the calendar, wrote the slot, read it back. Clean.\nThe 9pm page came on a Thursday. Front desk had found four double-booked slots from that afternoon. Same callers, same times, two rows each in the scheduling table. The agent swore (in the transcript) it booked once. The database swore it booked twice. Both were telling the truth.\nHere is what actually happened. Our booking call went out to the practice management API. That API was slow that day, p95 around 4200ms, sometimes worse. We had a 3000ms timeout on the HTTP client. So the request would land, the booking would commit on their side, …",
+          "link": "https://dev.to/realmarcuschen/the-retry-that-booked-mrs-alvarez-twice-2dg0",
+          "publishedOn": "2026-06-24T23:27:22.000Z",
+          "wordCount": 1730,
+          "title": "The Retry That Booked Mrs. Alvarez Twice",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F2rvpi4khffkbx45ch0ky.png"
+        },
+        {
+          "id": "https://dev.to/matttdamon/collect-client-feedback-on-a-website-without-endless-revision-rounds-jc",
+          "author": "MatttDamon",
+          "description": "Most revision rounds don't spiral because the client is picky. They spiral because the feedback lost context on the way to you. Here's why that happens, what agencies try, and how to make each note clear enough to fix the first time.\nA revision round is supposed to be one loop: client looks at the site, says what's off, you fix it, they look again. The trouble is that most of the feedback you get can't be acted on as-is.\n\"The hero feels cramped on mobile.\" Which phone. Which section. Cramped how. You're looking at the desktop build, they're looking at their phone, and neither of you is looking at the same thing. So you guess, you change something, you redeploy, you wait. They reply \"no, the other one.\" That's a second round, and you still don't know what they meant.\nStack three or four of …",
+          "link": "https://dev.to/matttdamon/collect-client-feedback-on-a-website-without-endless-revision-rounds-jc",
+          "publishedOn": "2026-06-24T23:18:14.000Z",
+          "wordCount": 4078,
+          "title": "Collect client feedback on a website without endless revision rounds",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fhgz76coeic7xdh0nlt4i.png"
+        },
+        {
           "id": "https://dev.to/elvia_jazminmendez_b7afb/maplestory-worlds-announces-global-creator-challenge-3588",
           "author": "Elvia Jazmin Mendez",
           "description": "MapleStory Worlds announced their Global Creator Challenge, which is open for both aspiring and established game developers to design, build, and launch their own World utilizing the MapleStory Worlds platform and each winning team can receive up to $65,000 in total rewards. \nCreators are encouraged to utilize MapleStory's vast library of assets to expand upon the game's core design and create their own unique Worlds. A total of 30 Worlds will be selected globally to compete in the final round. Entries will be judged based on creative use of the MapleStory IP, level of technical completion, and long-term sustainability for stable live service operations.\nTo learn more, check out their website. \nApplications open from:\nUTC: June 4, 2026 at 2:00 until October 7, 2026.\nFinal Round: November 5-25, 2026\nWinners announced: Early December, 2026",
@@ -13542,6 +13662,26 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://gist.github.com/cpursley/c8fb81fe8a7e5df038158bdfe0f06dbb",
+          "author": null,
+          "description": "Comments",
+          "link": "https://gist.github.com/cpursley/c8fb81fe8a7e5df038158bdfe0f06dbb",
+          "publishedOn": "2026-06-24T22:39:37.000Z",
+          "wordCount": 1944,
+          "title": "PostgreSQL Is Enough",
+          "imageUrl": "https://github.githubassets.com/assets/gist-og-image-54fd7dc0713e.png"
+        },
+        {
+          "id": "https://www.elastic.co/blog/ceo-ash-kulkarni-announcement-to-elastic-employees",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.elastic.co/blog/ceo-ash-kulkarni-announcement-to-elastic-employees",
+          "publishedOn": "2026-06-24T21:57:30.000Z",
+          "wordCount": 9222,
+          "title": "Elastic lays off 7% of employees",
+          "imageUrl": "https://static-www.elastic.co/v3/assets/bltefdd0b53724fa2ce/blta938e80fc038a16f/6a3c068485bc9cd31bc21ab7/Elastic-dark-header_(1).png"
+        },
+        {
           "id": "https://statusdude.com/blog/zero-downtime-docker-compose",
           "author": null,
           "description": "Comments",
@@ -14162,6 +14302,16 @@
           "imageUrl": "https://cdn.sanity.io/images/4zrzovbb/website/6d4a0d28992ade92d6fa63646fd9c9d318245c6c-2400x1260.jpg"
         },
         {
+          "id": "https://victorribeiro.com/wordit/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://victorribeiro.com/wordit/",
+          "publishedOn": "2026-06-23T18:57:36.000Z",
+          "wordCount": 484,
+          "title": "Show HN: Wordit – Change One Letter, Keep the Chain Going",
+          "imageUrl": null
+        },
+        {
           "id": "https://hai.stanford.edu/news/ai-hiring-tools-can-yield-racial-bias-and-systemic-rejection",
           "author": null,
           "description": "Comments",
@@ -14490,6 +14640,16 @@
           "wordCount": 3075,
           "title": "The Coming Loop",
           "imageUrl": "https://lucumr.pocoo.org/social/2026-06-23-the-coming-loop-social.png"
+        },
+        {
+          "id": "https://www.markround.com/blog/2026/06/17/25-its-only-when-you-look-back/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.markround.com/blog/2026/06/17/25-its-only-when-you-look-back/",
+          "publishedOn": "2026-06-23T10:52:31.000Z",
+          "wordCount": 6005,
+          "title": "It's Only When You Look Back",
+          "imageUrl": null
         },
         {
           "id": "https://www.stephendiehl.com/posts/bad_place_2026/",
@@ -15610,6 +15770,16 @@
           "wordCount": 1962,
           "title": "8086 Segmented Memory was a good idea",
           "imageUrl": null
+        },
+        {
+          "id": "https://rerun.io/blog/data-layer-tax",
+          "author": null,
+          "description": "Comments",
+          "link": "https://rerun.io/blog/data-layer-tax",
+          "publishedOn": "2026-06-21T12:57:10.000Z",
+          "wordCount": 6759,
+          "title": "Robotics Teams Are Rebuilding the Data Stack from Scratch",
+          "imageUrl": "https://rerun.io/blog/data-layer-tax/og.jpg"
         },
         {
           "id": "https://github.com/paytonjjones/bsharp",
@@ -23210,26 +23380,6 @@
           "wordCount": null,
           "title": "All 9,300 Japanese train station, animated by the year it opened (1872–2026)",
           "imageUrl": null
-        },
-        {
-          "id": "https://lisyarus.github.io/blog/posts/quivers-a-year-of-linear-algebra-by-drawing-arrows.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://lisyarus.github.io/blog/posts/quivers-a-year-of-linear-algebra-by-drawing-arrows.html",
-          "publishedOn": "2026-06-10T11:57:21.000Z",
-          "wordCount": 3306,
-          "title": "Quivers: A year of linear algebra by drawing arrows",
-          "imageUrl": "/blog/media/quivers-a-year-of-linear-algebra-by-drawing-arrows/cover.png"
-        },
-        {
-          "id": "https://ianyepan.github.io/posts/emacs-in-pop-culture/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://ianyepan.github.io/posts/emacs-in-pop-culture/",
-          "publishedOn": "2026-06-10T10:37:45.000Z",
-          "wordCount": 2804,
-          "title": "Emacs appearances in pop culture",
-          "imageUrl": null
         }
       ]
     },
@@ -24697,26 +24847,6 @@
           "wordCount": 16129,
           "title": "Insta360 Luna Ultra Officially Launches In Malaysia",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/06/insta360-luna-ultra-launch-1.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=395380",
-          "author": "John Law",
-          "description": "MEta has deleted a portion of code that essentially activated facial recognition on its smart glasses app. The social network’s action comes a day after a report published by Wired revealed that the owner of Facebook, WhatsApp, and Instagram had quietly embedded the code into Meta AI. The code in question would’ve effectively enabled a […]\nThe post Meta Deletes Facial Recognition Code From Meta AI App But Gives No Explanation appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/395380/meta-deletes-facial-recognition-code-from-meta-ai-app-but-gives-no-explanation/",
-          "publishedOn": "2026-06-10T11:59:49.000Z",
-          "wordCount": 15517,
-          "title": "Meta Deletes Facial Recognition Code From Meta AI App But Gives No Explanation",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/10/meta-ray-ban-display-1.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=395360",
-          "author": "Ian Chee",
-          "description": "It looks like Sea Ltd, the parent company of Shopee and Garena, have also gotten onto the AI bandwagon. Unfortunately, this comes with the old side effect of workers getting laid off. This has affected the e-commerce subsidiary specifically, as reports are pointing at the company cutting staff as AI gets adopted in the workplace. […]\nThe post Shopee Cuts Staff From Roles Like QA While Parent Company Sea Pivots To AI appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/395360/shopee-cuts-staff-while-parent-sea-pivots-ai/",
-          "publishedOn": "2026-06-10T11:35:28.000Z",
-          "wordCount": 15545,
-          "title": "Shopee Cuts Staff From Roles Like QA While Parent Company Sea Pivots To AI",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2020/03/Shopee-services-RMO.webp"
         }
       ]
     },
@@ -25210,16 +25340,6 @@
           "wordCount": 6623,
           "title": "Why China is betting on big nuclear reactors",
           "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/06/AP25249306493046.jpg?resize=1200,600"
-        },
-        {
-          "id": "https://www.technologyreview.com/?p=1138739",
-          "author": "Thomas Macaulay",
-          "description": "This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. The “steroid olympics” were a circus—and a window into our culture —Amit Katwala A couple of weeks ago, at a $50 million arena built in a casino parking lot in Las…",
-          "link": "https://www.technologyreview.com/2026/06/10/1138739/the-download-steroid-olympics-enhanced-games-anthropic-mythos/",
-          "publishedOn": "2026-06-10T12:10:00.000Z",
-          "wordCount": 6308,
-          "title": "The Download: the “steroid olympics” and a safer Mythos",
-          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/06/260524_TechnologyReview_EnhancedGames_276-social.jpg?resize=1200,600"
         }
       ]
     },
@@ -27797,36 +27917,6 @@
           "wordCount": 10792,
           "title": "U.S. inflation meets expectations, reinforcing Fed's higher-for-longer stance",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/196a178af5d22874394e6f1fc7fcf26b9878e0ea-1440x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "744fb071-0ac9-4e27-b6db-308f64428a62",
-          "author": "Jamie Crawley",
-          "description": "\"It did not work,\" Botanix said. \"At lest not in this market and not in this timeline.\"",
-          "link": "https://www.coindesk.com/tech/2026/06/10/a-bitcoin-defi-project-just-shut-down-with-a-brutal-post-mortem-users-just-didn-t-care",
-          "publishedOn": "2026-06-10T12:00:29.000Z",
-          "wordCount": 11249,
-          "title": "A 'Bitcoin DeFi' project just shut down with a brutal post-mortem: Users just didn't care",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/030d61604f4bdf32cd4013015de2ad6a80a15e24-7200x4800.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "95f97510-06ae-456a-a927-cf60bcf617d8",
-          "author": "Omkar Godbole",
-          "description": "Your day-ahead look for June 10, 2026",
-          "link": "https://www.coindesk.com/daybook-us/2026/06/10/the-inflation-scenario-that-could-send-bitcoin-tumbling-below-usd60-000",
-          "publishedOn": "2026-06-10T11:20:23.000Z",
-          "wordCount": 11467,
-          "title": "The inflation scenario that could send bitcoin tumbling below $60,000",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/d687b13ec3ef7b92cad7c07ff5ad6c8a603ecb40-3999x2666.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "fc8c99b1-b400-4d34-9e44-6cb3c5ef1c74",
-          "author": "Omkar Godbole",
-          "description": "Crypto markets are under pressure ahead of key U.S. inflation data due later Wednesday.",
-          "link": "https://www.coindesk.com/markets/2026/06/10/zcash-hyperliquid-tokens-lead-losses-as-traders-bet-against-a-bitcoin-bounce",
-          "publishedOn": "2026-06-10T10:52:54.000Z",
-          "wordCount": 12159,
-          "title": "Zcash, Hyperliquid tokens lead losses as traders bet against a bitcoin bounce",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/3005a1ff5cf6f1c90e49c9a0275a89e7468b0183-1920x1203.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },
