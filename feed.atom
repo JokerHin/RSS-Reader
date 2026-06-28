@@ -2,10 +2,270 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-06-28T07:49:59.710Z</updated>
+    <updated>2026-06-28T10:26:30.900Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[1%]]></title>
+        <id>https://dev.to/pascal_cescato_692b7a8a20/1-15n0</id>
+        <link href="https://dev.to/pascal_cescato_692b7a8a20/1-15n0"/>
+        <updated>2026-06-28T10:22:28.000Z</updated>
+        <summary type="html"><![CDATA[Santa Clara, March 14, 2029.
+Four objects on Jensen's desk.
+An NSA report, face down.
+Kai Chen's badge.
+An iPhone, screen lit: "The White House."
+And on the wall, framed since 2019, a GeForce 256 signed by hand: "The one that started it all — 1999."
+Jensen isn't looking at the frame.
+He's looking at the number on the screen in front of him.
+1%.
+Global inference datacenter market share. One percent.
+12% domestic — captive hyperscalers, federal contracts, enterprise stacks buried too deep in CUDA to move.
+Iran.
+He thinks back to November 2023. The Senate. His own voice: "These restrictions will only accelerate the development of their own chips."
+Nobody listened.
+Neither did he, in the end. He had known. He had chosen silence — the right relationships, the right slice of the pie. The silence…]]></summary>
+        <author>
+            <name>Pascal CESCATO</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Use FFmpeg with Deno (No Installation Required)]]></title>
+        <id>https://dev.to/javidjamae/how-to-use-ffmpeg-with-deno-no-installation-required-54il</id>
+        <link href="https://dev.to/javidjamae/how-to-use-ffmpeg-with-deno-no-installation-required-54il"/>
+        <updated>2026-06-28T10:19:42.000Z</updated>
+        <summary type="html"><![CDATA[Originally published at ffmpeg-micro.com
+You're building something in Deno and you need video processing. Thumbnail generation, format conversion, transcoding user uploads. You search for "ffmpeg deno" and quickly realize the ecosystem isn't like Node.js. There's no fluent-ffmpeg equivalent.
+Deno's security model makes this worse. By default, Deno sandboxes your code. No file system access, no subprocess execution, no network calls unless you explicitly grant permissions.
+There are three realistic paths.
+const command = new Deno.Command("ffmpeg", {
+  args: ["-i", "input.mp4", "-c:v", "libx264", "-crf", "23", "-preset", "medium", "-c:a", "aac", "-b:a", "192k", "output.mp4"],
+  stderr: "piped",
+});
+const process = command.spawn();
+const { code } = await process.status;
+
+You must run this with --allow-run=ffmpeg and --allow-read / --allow-write flags. Works for local scripts but breaks on Deno Deploy.
+import { FFmpeg } from "npm:@ffmpeg/ffmpeg";
+import { fetchFile } from "npm:@ffmpeg/util";
+
+const ffmpeg = new FFmpeg();
+await ffmpeg.load();
+await ffmpeg.writeFile("input.mp4", await fetchFile("./input.mp4"));
+await ffmpeg.exec(["-i", "input.mp4", "-c:v", "libx264", "output.mp4"]);
+const data = await ffmpeg.readFile("output.mp4");
+await Deno.writeFile("output.mp4", data);
+
+No binary needed, but 10-20x slower than native FFmpeg. Fine for lightweight operations only.
+const response = await fetch("https://api.ffmpeg-micro.com/v1/transcodes", {
+  method: "POST",
+  headers: {
+    "Authorization": `Bearer ${Deno.env.get("FFMPEG_MICRO_API_KEY")}`,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    inputs: [{ url: "https://example.com/video.mp4" }],
+    outputFormat: "mp4",
+    preset: { quality: "high", resolution: "1080p" },
+  }),
+});
+const job = await response.json();
+
+No npm packages. No binary dependencies. Works everywhere Deno runs, including Deno Deploy.
+Read the full guide with polling, download, and advanced examples.]]></summary>
+        <author>
+            <name>Javid Jamae</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sorting in Python]]></title>
+        <id>https://dev.to/yasir323/sorting-in-python-mji</id>
+        <link href="https://dev.to/yasir323/sorting-in-python-mji"/>
+        <updated>2026-06-28T10:18:01.000Z</updated>
+        <summary type="html"><![CDATA[Sorting is a fundamental operation in computer science and programming. Whether organizing data for analysis, building efficient algorithms, or enhancing application performance, sorting plays a critical role. Python provides robust tools for sorting and managing sorted data, making it a go-to language for developers. In this article, we’ll explore sorting in Python, covering everything from basics to advanced techniques.
+Python offers two primary methods for sorting collections:
+list.sort(): This method sorts a list in place and modifies the original list.
+sorted(): This function returns a new sorted list without modifying the original.
+Both methods use Timsort, a hybrid sorting algorithm derived from merge sort and insertion sort, ensuring efficiency for real-world data.
+# Using list.sor…]]></summary>
+        <author>
+            <name>Yasir Jafri</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Lossless, But Not Free: The Lossless, But Not Free — When Speculative Decoding Actually Pays Off (and When It Doesn't)]]></title>
+        <id>https://dev.to/zxpmail/lossless-but-not-free-the-lossless-but-not-free-when-speculative-decoding-actually-pays-off-1c2g</id>
+        <link href="https://dev.to/zxpmail/lossless-but-not-free-the-lossless-but-not-free-when-speculative-decoding-actually-pays-off-1c2g"/>
+        <updated>2026-06-28T10:16:44.000Z</updated>
+        <summary type="html"><![CDATA[One of the hottest topics in LLM inference acceleration right now is Speculative Decoding.
+DSpark claims 60%–85% single-user speedup at the same throughput. Google has published a stream of research on it — SpecTr, block verification, SpecRouter, and more.
+Sounds great, right? A small model (draft model) writes a draft, the large model batch-verifies it, and speed goes up.
+But if you're a production engineer looking at this, two questions immediately pop up:
+"Block generation — doesn't that amplify hallucinations?"
+"You're running an extra model regardless of hit or miss — isn't that wasted compute?"
+These two questions hit right at the core of Speculative Decoding's math promise and its engineering cost.
+Let's run the numbers — no hype, no FUD.
+This is the most misunderstood part of Specu…]]></summary>
+        <author>
+            <name>zxpmail</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[V.E.L.O.C.I.T.Y.-OS: NDA – The Birth of an AI-Native Language (Part 2)]]></title>
+        <id>https://dev.to/unitbuilds_cc/velocity-os-nda-the-birth-of-an-ai-native-language-part-2-4o98</id>
+        <link href="https://dev.to/unitbuilds_cc/velocity-os-nda-the-birth-of-an-ai-native-language-part-2-4o98"/>
+        <updated>2026-06-28T10:13:44.000Z</updated>
+        <summary type="html"><![CDATA[After implementing the Gatekeeper security scanner, I ran into a massive economic and architectural bottleneck: context window accumulation. 
+As my agents self-corrected bugs and read multi-file contexts, the token counts surged. GLM 5.2's session cost Pascal $1.73 in token fees, while Kimi cost $0.86. If I wanted to run massive multi-agent systems, loading the entire codebase context for every small modification was a non-starter.
+I needed a way to let agents query the codebase at a high level of detail, fetch only what they needed, modify it, and commit it without bloating the context.
+
+  The V.E.L.O.C.I.T.Y.-OS 12-Part Roadmap
+  
+We are building a bare-metal, self-healing operating system running entirely inside the CPU's L3 cache. Here is the roadmap for this 12-part series:
+Part 1: Th…]]></summary>
+        <author>
+            <name>UnitBuilds</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Detecting AI Content in DeviantArt API Responses]]></title>
+        <id>https://dev.to/paradane/detecting-ai-content-in-deviantart-api-responses-2ooo</id>
+        <link href="https://dev.to/paradane/detecting-ai-content-in-deviantart-api-responses-2ooo"/>
+        <updated>2026-06-28T10:12:34.000Z</updated>
+        <summary type="html"><![CDATA[Working with the DeviantArt API gives developers a reliable way to pull detailed artwork information—titles, descriptions, timestamps, tags, and rich metadata—from one of the largest creative communities on the web. The core purpose of the API is to enable programmatic access for tasks such as building custom galleries, performing content analytics, or integrating art data into third‑party services. As generative AI tools have become mainstream, many creators now share pieces that are fully AI‑generated or augmented, prompting DeviantArt to introduce flags and disclaimers that identify this content. Detecting AI‑generated works directly from API responses is therefore a crucial capability for developers who need to respect platform policies, apply appropriate attribution, or filter content…]]></summary>
+        <author>
+            <name>Paradane</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What Happens When Every Prompt Slot Says Something Different]]></title>
+        <id>https://dev.to/rajkundalia/what-happens-when-every-prompt-slot-says-something-different-33c1</id>
+        <link href="https://dev.to/rajkundalia/what-happens-when-every-prompt-slot-says-something-different-33c1"/>
+        <updated>2026-06-28T10:11:28.000Z</updated>
+        <summary type="html"><![CDATA[A controlled experiment exploring how Claude and Qwen resolve conflicting instructions across system prompts, user messages, and tool descriptions.
+Cross-posting from Medium:
+
+https://medium.com/@rajkundalia/where-you-put-the-instruction-matters-more-than-what-it-says-2d5ffcdd9369
+In the first experiment of the series, Where You Put the Instruction Matters More Than What It Says, I asked a simple question:
+Does it matter where you place an instruction?
+The answer depended entirely on the model.
+For Qwen 2.5-Coder 3B, the answer was yes. The same instruction produced dramatically different compliance rates depending on whether it lived in the system prompt, user message (or task prompt), or tool description.
+For Claude Haiku 4.5 and Claude Sonnet 4.6, the answer appeared to be no. Both mode…]]></summary>
+        <author>
+            <name>Raj Kundalia</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Report: Grand Theft Auto VI Won’t Get A Real Physical Copy]]></title>
+        <id>https://www.lowyat.net/?p=397105</id>
+        <link href="https://www.lowyat.net/2026/397105/grand-theft-auto-vi-wont-get-physical/"/>
+        <updated>2026-06-28T10:09:50.000Z</updated>
+        <summary type="html"><![CDATA[When Grand Theft Auto VI pre-orders opened, dev and publisher Rockstar Games announced that “physical copies” will not contain a disc. Instead, what you get is a code in a disc’s box. There has been plenty of discourse as to why that’s the case, and if that will be just the way it goes for […]
+The post Report: Grand Theft Auto VI Won’t Get A Real Physical Copy appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI didn't kill Tailwind UI. The lifetime license did.]]></title>
+        <id>https://dev.to/adioof/ai-didnt-kill-tailwind-ui-the-lifetime-license-did-26i7</id>
+        <link href="https://dev.to/adioof/ai-didnt-kill-tailwind-ui-the-lifetime-license-did-26i7"/>
+        <updated>2026-06-28T10:08:53.000Z</updated>
+        <summary type="html"><![CDATA[Everyone's saying AI killed Tailwind's business. I think that's the lazy take.
+Recently, about 75% of the Tailwind CSS engineering team was let go. The trendy explanation is that the framework was obviated by AI-generated code. In reality, the rot set in long before ChatGPT could ever write a flex justify-center.
+Tailwind UI was offered with a lifetime access option in exchange for a single payment. This was a fantastic offer for developers, but a very poor one for any business.
+Think about it. You charge someone once. Then you support them forever. Every bug fix, every new component, every compatibility update — that's cost with zero new revenue from existing customers.
+The only way to grow is to acquire new customers. However, your market is limited. All developers who already purchased …]]></summary>
+        <author>
+            <name>Aditya Agarwal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Three Months with Capa-BFF: Can This Zero-Cost BFF Really Fix Your Frontend Pain Points?]]></title>
+        <id>https://dev.to/kevinten10/three-months-with-capa-bff-can-this-zero-cost-bff-really-fix-your-frontend-pain-points-o82</id>
+        <link href="https://dev.to/kevinten10/three-months-with-capa-bff-can-this-zero-cost-bff-really-fix-your-frontend-pain-points-o82"/>
+        <updated>2026-06-28T10:07:36.000Z</updated>
+        <summary type="html"><![CDATA[Three Months with Capa-BFF: Can This Zero-Cost BFF Really Fix Your Frontend Pain Points?
+
+
+Honestly, I didn't have high expectations for another "zero-config" BFF framework before I tried Capa-BFF.
+I've been through enough pain with frontend-backend integration on separated projects, and I know a lot of you have too. The story is always the same: frontend waits for backend to finish APIs, backend says they're busy changing database schemas, then you wait for documentation, then you wait for CORS configuration — by the end of the day, you've spent more time waiting than actually writing code.
+I'd tried a bunch of popular BFF solutions before. Some were so complex it took half a day just to set up the environment. Some had so many bugs I had no clue where to start debugging when something br…]]></summary>
+        <author>
+            <name>KevinTen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What I Learned After Building a Redis Queue Feature in SyncFlow]]></title>
+        <id>https://dev.to/dhruvtechdev/what-i-learned-after-building-a-redis-queue-feature-in-syncflow-c79</id>
+        <link href="https://dev.to/dhruvtechdev/what-i-learned-after-building-a-redis-queue-feature-in-syncflow-c79"/>
+        <updated>2026-06-28T10:07:31.000Z</updated>
+        <summary type="html"><![CDATA[While working on SyncFlow, a Shopify embedded app, I recently completed US-002 — Redis Queue Foundation.
+The purpose of this feature was simple:
+Move inventory sync work away from the main request flow and process it in the background using Redis-backed queues.
+At first, the feature looked complete. The queue files were added, Redis configuration was created, producers and workers were implemented, retry handling was introduced, and logging was added.
+But after reviewing the uncommitted changes properly, I learned something important:
+A feature is not complete when the code is written.
+The goal of US-002 was to create a foundation for background job processing.
+The feature included:
+Redis connection setup
+Queue configuration
+Primary sync queue
+Retry queue
+Dead-letter queue
+Queue producer
+Q…]]></summary>
+        <author>
+            <name>Dhruv Patel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Virtualization & Cloud Models: The Missing Bridge 🌉]]></title>
+        <id>https://dev.to/srsoumyax11/virtualization-cloud-models-the-missing-bridge-f60</id>
+        <link href="https://dev.to/srsoumyax11/virtualization-cloud-models-the-missing-bridge-f60"/>
+        <updated>2026-06-28T10:01:51.000Z</updated>
+        <summary type="html"><![CDATA[Chapter 2 of the AWS Learning Journey. We promised you pure AWS from here. But before we get there — there's one idea that makes everything else make sense. This is it.
+In Chapter 1, we left you with a broken world.
+Expensive servers. Slow scaling. Your problem to maintain.
+And then we said — AWS fixed it.
+But we skipped something important.
+How?
+How does a company like AWS take physical machines sitting in a building somewhere and turn them into something thousands of companies can rent, by the hour, on demand?
+The answer isn't magic. It isn't even that complicated once someone explains it properly.
+It's called virtualization.
+And it's the idea that made cloud computing physically possible.
+Cast your mind back to a data center in 2001.
+A company buys a powerful server. It has 32 cores, 25…]]></summary>
+        <author>
+            <name>Soumya Ranjan 🎖️</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[From Regex Hell to AI: How I Finally Tamed Messy PDF Invoices]]></title>
+        <id>https://dev.to/__c1b9e06dc90a7e0a676b/from-regex-hell-to-ai-how-i-finally-tamed-messy-pdf-invoices-3p64</id>
+        <link href="https://dev.to/__c1b9e06dc90a7e0a676b/from-regex-hell-to-ai-how-i-finally-tamed-messy-pdf-invoices-3p64"/>
+        <updated>2026-06-28T10:00:45.000Z</updated>
+        <summary type="html"><![CDATA[Last month, I spent three days wrestling with 500 PDF invoices. Each one had the same data—vendor name, invoice number, total amount—but the layouts were all over the place. Different fonts, missing headers, tables that somehow broke across pages. I tried regex. I tried OCR with layout analysis. I even tried building a rule-based parser that looked for keywords like "Total:" . 
+Nothing worked reliably. Every time I fixed one pattern, another invoice broke. I was one commit away from throwing my laptop out the window.
+Then I took a step back. I realized I didn't need to understand every layout variation. I just needed to understand the data. And that's where AI came in.
+Let me be clear: I tried the usual suspects first.
+Regex. Classic. I wrote patterns like r"Total\s*:\s*\$?(\d+\.\d{2})". W…]]></summary>
+        <author>
+            <name>zhongqiyue</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LRT3 Shah Alam Line Opens Tomorrow; Free Rides Until 31 July 2026]]></title>
+        <id>https://www.lowyat.net/?p=397096</id>
+        <link href="https://www.lowyat.net/2026/397096/lrt3-shah-alam-line-free-rides-until-31-july-2026/"/>
+        <updated>2026-06-28T08:27:06.000Z</updated>
+        <summary type="html"><![CDATA[The long-awaited LRT3 Shah Alam Line is finally set to open to the public tomorrow on 29 June 2026, with commuters able to travel on the new line free of charge for its first month of operations. Prime Minister Datuk Seri Anwar Ibrahim announced that both the LRT3 service and its accompanying Prasarana feeder buses […]
+The post LRT3 Shah Alam Line Opens Tomorrow; Free Rides Until 31 July 2026 appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Why Your Vibe-Coded Website May Never Rank on Google (2026)]]></title>
         <id>https://dev.to/swapbiswas/why-your-vibe-coded-website-may-never-rank-on-google-2026-c5m</id>
@@ -247,6 +507,16 @@ The free-for-dev repository on GitHub, maintained by Rudi Pienaar, catalogs hund
 The categories alone signal how broad the landscape actually is. Monitoring, CI/CD pipelines, DNS management, secur…]]></summary>
         <author>
             <name>Newzlet</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Armadillo – A DNS Server in Gleam for Homelab Use]]></title>
+        <id>https://github.com/vshakitskiy/armadillo</id>
+        <link href="https://github.com/vshakitskiy/armadillo"/>
+        <updated>2026-06-28T06:00:31.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -4788,6 +5058,16 @@ A sales agent qualifying leads.
 A marketing …]]></summary>
         <author>
             <name>Neweraofcoding</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[From Hallmark to neon signs: A look at Jim Parkinson's career in letter art]]></title>
+        <id>https://typographica.org/on-typography/jim-parkinson-1941-2025/</id>
+        <link href="https://typographica.org/on-typography/jim-parkinson-1941-2025/"/>
+        <updated>2026-06-26T17:32:35.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -11548,6 +11828,16 @@ Let's break it down not to scare you, but to show you exactly…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Experimenting with Random() in CSS]]></title>
+        <id>https://polypane.app/blog/experimenting-with-random-in-css/</id>
+        <link href="https://polypane.app/blog/experimenting-with-random-in-css/"/>
+        <updated>2026-06-24T12:51:21.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Aave could soar to $3,500 by 2030 on DeFi revival, says StanChart]]></title>
         <id>95a63bff-a605-4b46-af62-b57be500eeb1</id>
         <link href="https://www.coindesk.com/markets/2026/06/24/aave-could-soar-to-usd3-500-by-2030-on-defi-revival-says-stanchart"/>
@@ -13082,6 +13372,16 @@ Disks got fast. Redis got optional. Solid Queue is built on the same insight as 
         <id>https://unitedwizardsofthecoast.com/news/2026-06-23-we-have-a-union</id>
         <link href="https://unitedwizardsofthecoast.com/news/2026-06-23-we-have-a-union"/>
         <updated>2026-06-23T21:57:32.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A stray "j" ruined my evening]]></title>
+        <id>https://napkins.mtmn.name/posts/stray-jay.html</id>
+        <link href="https://napkins.mtmn.name/posts/stray-jay.html"/>
+        <updated>2026-06-23T21:56:33.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -40409,444 +40709,6 @@ Our model, all-MiniLM-L6-v2, turns any text into 384 numbers. It runs
 Tran…]]></summary>
         <author>
             <name>Devanshu Biswas</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Context Compression Before the LLM: Cutting Tokens Without Cutting Recall]]></title>
-        <id>https://dev.to/gabrielanhaia/context-compression-before-the-llm-cutting-tokens-without-cutting-recall-9hh</id>
-        <link href="https://dev.to/gabrielanhaia/context-compression-before-the-llm-cutting-tokens-without-cutting-recall-9hh"/>
-        <updated>2026-06-13T22:21:50.000Z</updated>
-        <summary type="html"><![CDATA[Book: RAG Pocket Guide: Retrieval, Chunking, and Reranking Patterns for Production
-
-
-Also by me: Thinking in Go (2-book series) — Complete Guide to Go Programming + Hexagonal Architecture in Go
-
-
-My project: Hermes IDE | GitHub — an IDE for developers who ship with Claude Code and other AI coding tools
-Me: xgabriel.com | GitHub
-
-
-
-
-
-
-You retrieve the top 10 chunks, paste them into the prompt, and send it to the model. Each chunk is 400 tokens. That is 4,000 tokens of context for a question whose answer lives in two sentences buried in chunk 6. You pay for all 4,000 on input. You also pay a quieter tax: the model has to find the answer inside a wall of near-miss text, and longer contexts degrade answer quality even when the right fact is present.
-Stanford's "Lost in the Middle" work showed …]]></summary>
-        <author>
-            <name>Gabriel Anhaia</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Query Rewriting Before Retrieval: The Cheap Recall Win Most Skip]]></title>
-        <id>https://dev.to/gabrielanhaia/query-rewriting-before-retrieval-the-cheap-recall-win-most-skip-11g1</id>
-        <link href="https://dev.to/gabrielanhaia/query-rewriting-before-retrieval-the-cheap-recall-win-most-skip-11g1"/>
-        <updated>2026-06-13T22:18:11.000Z</updated>
-        <summary type="html"><![CDATA[Book: RAG Pocket Guide: Retrieval, Chunking, and Reranking Patterns for Production
-
-
-Also by me: Thinking in Go (2-book series) — Complete Guide to Go Programming + Hexagonal Architecture in Go
-
-
-My project: Hermes IDE | GitHub — an IDE for developers who ship with Claude Code and other AI coding tools
-Me: xgabriel.com | GitHub
-
-
-
-
-
-
-A user types "how do I cancel" into your support bot. Your retriever embeds those three words, runs a cosine search, and hands the model five chunks about cancelling a payment, cancelling a meeting invite, and the word "cancel" appearing in a changelog. The chunk about cancelling a subscription, the thing the user actually wanted, ranked seventh. The model answers from what it got. The answer is wrong, and nobody on your team can see why.
-The query was the pro…]]></summary>
-        <author>
-            <name>Gabriel Anhaia</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CRM Enrichment From an Agent-Owned Inbox]]></title>
-        <id>https://dev.to/qasim157/crm-enrichment-from-an-agent-owned-inbox-3k66</id>
-        <link href="https://dev.to/qasim157/crm-enrichment-from-an-agent-owned-inbox-3k66"/>
-        <updated>2026-06-13T22:17:36.000Z</updated>
-        <summary type="html"><![CDATA[The best contact-enrichment vendor you'll ever use is the bottom three lines of the emails already sitting in your inbox. Roughly 82% of business email contains a signature with at least a name and title — job titles, direct phone numbers, LinkedIn URLs, company websites, all volunteered by the sender, all sitting unparsed while teams pay data vendors for stale versions of the same fields.
-Two cookbook pages make the case for treating an inbox as a CRM data feed: the CRM integration overview maps the sync patterns, and the signature enrichment recipe shows the extraction itself. Run the pipeline against an Agent Account — a beta feature giving your app a mailbox it owns outright — and every message that lands at sales@ or partnerships@ becomes a structured enrichment event, no human forwar…]]></summary>
-        <author>
-            <name>Qasim Muhammad</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[E-Commerce Order Support With an Agent Mailbox]]></title>
-        <id>https://dev.to/qasim157/e-commerce-order-support-with-an-agent-mailbox-1gjk</id>
-        <link href="https://dev.to/qasim157/e-commerce-order-support-with-an-agent-mailbox-1gjk"/>
-        <updated>2026-06-13T22:17:27.000Z</updated>
-        <summary type="html"><![CDATA[A helpdesk widget waits for customers to come to you; the support inbox is where they already went. Order status questions, return requests, shipping complaints, fraud alerts, marketing replies — for an online store it all piles into one address, and the e-commerce patterns overview opens with the honest diagnosis: manual triage of that pile doesn't scale.
-The architecture that does scale is an agent-owned mailbox per store. Agent Accounts — Nylas-hosted mailboxes currently in beta — are real addresses your application creates and controls entirely through the API. An AI layer answers the repetitive majority ("where's my order?" has a database answer, not a human one) and escalates anything involving judgment, money, or anger.
-Creating the account is one call against the Bring Your Own Aut…]]></summary>
-        <author>
-            <name>Qasim Muhammad</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Monitor a Support Inbox and Open Tickets Automatically]]></title>
-        <id>https://dev.to/qasim157/monitor-a-support-inbox-and-open-tickets-automatically-2k3n</id>
-        <link href="https://dev.to/qasim157/monitor-a-support-inbox-and-open-tickets-automatically-2k3n"/>
-        <updated>2026-06-13T22:17:17.000Z</updated>
-        <summary type="html"><![CDATA[Before: a customer emails "production is down" at 11pm, the message sits unread until someone opens the shared inbox at 8am, gets forwarded to the wrong team at 9, and reaches on-call by 10. After: the webhook fires within moments of arrival, keyword rules tag it as an incident, the sender's domain bumps the priority, and on-call gets paged while the customer is still typing their follow-up.
-The difference is one webhook subscription and a handler. The inbox monitoring recipe builds that handler end to end, and it's provider-agnostic — the same code serves Google, Microsoft, and IMAP mailboxes. Run it against an Agent Account (beta) and the support address itself is provisioned by your app, with the same message.created events and the option to acknowledge the sender from the very mailbox …]]></summary>
-        <author>
-            <name>Qasim Muhammad</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[W.H. Auden and James Schuyler in life and literature]]></title>
-        <id>https://hedgehogreview.com/web-features/thr/posts/companions-on-parnassus</id>
-        <link href="https://hedgehogreview.com/web-features/thr/posts/companions-on-parnassus"/>
-        <updated>2026-06-13T22:14:53.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What I learned building pipeline-aware content variants in a static Astro directory]]></title>
-        <id>https://dev.to/morinaga/what-i-learned-building-pipeline-aware-content-variants-in-a-static-astro-directory-1op4</id>
-        <link href="https://dev.to/morinaga/what-i-learned-building-pipeline-aware-content-variants-in-a-static-astro-directory-1op4"/>
-        <updated>2026-06-13T22:13:27.000Z</updated>
-        <summary type="html"><![CDATA[Conclusion first: you can encode meaningful editorial differentiation into static Astro pages at build time using a single metadata field — pipeline_tag from HuggingFace — without calling Claude per page. It costs nothing extra at runtime. The tradeoff is a longer page component and imprecise tags for roughly 20–25% of your dataset.
-When I first deployed the AI tools directory at aiappdex.com, each model's detail page used the same structure: a Claude-generated summary, use cases, pros, cons, and a generic Amazon sidebar. The summaries were legitimately different — that's what batch ETL with the shared Claude Haiku client buys you. But everything below the fold was structurally identical.
-That's fine for a zero-traffic launch. It stops being fine once you start thinking about whether a use…]]></summary>
-        <author>
-            <name>MORINAGA</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Coder, Programmer, and Software Developer: Understanding the Journey]]></title>
-        <id>https://dev.to/peter_iregi/coder-programmer-and-software-developer-understanding-the-journey-233m</id>
-        <link href="https://dev.to/peter_iregi/coder-programmer-and-software-developer-understanding-the-journey-233m"/>
-        <updated>2026-06-13T22:13:20.000Z</updated>
-        <summary type="html"><![CDATA[Many people use the terms coder, programmer, and software developer interchangeably. While they overlap, they represent different levels of responsibility and understanding in the software creation process.
-Understanding these differences can help beginners identify where they are today and what skills they need to acquire to move forward.
-A coder focuses primarily on writing code. At this stage the main concern is translating instructions into a programming language. A coder understands syntax, variables, loops, functions, conditionals, and basic data structures. A coder can write the necessary code to complete the task.
-However, coders often rely heavily on detailed instructions. They may know how to implement a feature but struggle to determine what should be built, how different compon…]]></summary>
-        <author>
-            <name>PETER IREGI</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[this is scary (day 0 of learning data engineering)]]></title>
-        <id>https://dev.to/darklyamused/this-is-scary-day-0-of-learning-data-engineering-5653</id>
-        <link href="https://dev.to/darklyamused/this-is-scary-day-0-of-learning-data-engineering-5653"/>
-        <updated>2026-06-13T22:09:24.000Z</updated>
-        <summary type="html"><![CDATA[apparently i need to build in public and create a personal brand to get a job, which tbh is a big big ask from little introvert me, who would rather grind silently and directly post the results. but need must do. i am sorry if the lower case letters are annoying you i have yet to leave the tumblr aesthetic wuwu.
-context: i am learning data engineering, and as @eczackly (who is my idol tbh) (and not on Dev.to so i cant even tag him😭) suggested i should rather post as i go, so here we are. we are on a 100 day data engineering sprint which better end w me getting a goddamn job or maybe an intern (ambitious ik but aim for the moon right??)
-also i will format my next posts better (i promise). if you are someone who is DE already or are learning too, then let's connect. this lowly disciple thanks you! muahhhhh.]]></summary>
-        <author>
-            <name>nain</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[[Hands-on] Guide to Locally Testing Athenz Before Opening a PR]]></title>
-        <id>https://dev.to/mlajkim/hands-on-guide-to-locally-testing-athenz-before-opening-a-pr-al9</id>
-        <link href="https://dev.to/mlajkim/hands-on-guide-to-locally-testing-athenz-before-opening-a-pr-al9"/>
-        <updated>2026-06-13T22:02:10.000Z</updated>
-        <summary type="html"><![CDATA[Goal
-
-
-This post provides a guide on how to run unit tests locally before submitting a Pull Request (PR) to the Athenz repository.
-Prerequisite: You must have a local development environment (Java, Maven, etc.) configured to build and run Athenz.
-Goal
-Table of Contents
-1. PR Ground Rules
-2. Local Setup: Clone the Repository
-3. Dependencies Setup
-Test an Entire Component
-Test a Specific Class
-Test a Specific Method
-Coverage Test (Jacoco)
-Troubleshooting: Import Errors
-The following steps outline the process for setting up and testing Athenz locally.
-Please review the following repository rules before submitting a PR:
-Use [skip ci]: If your changes do not require CI testing (e.g., documentation updates or typo fixes), add [skip ci] to your PR title to save CI resources. (Reference)
-Pass form…]]></summary>
-        <author>
-            <name>Jeongwoo Kim</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What every coder should know about Gamma Correction]]></title>
-        <id>https://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/</id>
-        <link href="https://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/"/>
-        <updated>2026-06-13T22:01:29.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Struct Embedding in Go: Composition That Bites When You Reach for Inheritance]]></title>
-        <id>https://dev.to/gabrielanhaia/struct-embedding-in-go-composition-that-bites-when-you-reach-for-inheritance-29le</id>
-        <link href="https://dev.to/gabrielanhaia/struct-embedding-in-go-composition-that-bites-when-you-reach-for-inheritance-29le"/>
-        <updated>2026-06-13T21:54:11.000Z</updated>
-        <summary type="html"><![CDATA[Book: The Complete Guide to Go Programming
-
-
-Also by me: Thinking in Go (2-book series) — Complete Guide to Go Programming + Hexagonal Architecture in Go
-
-
-My project: Hermes IDE | GitHub — an IDE for developers who ship with Claude Code and other AI coding tools
-Me: xgabriel.com | GitHub
-
-
-
-
-
-
-You come to Go from a language with classes. You see struct
-Embedding is not inheritance. It is composition with a syntax that
-Write an embedded field by giving a type with no field name:
-type Engine struct {
-    Horsepower int
-}
-
-func (e Engine) Start() string {
-    return "vroom"
-}
-
-type Car struct {
-    Engine // embedded
-    Brand  string
-}
-
-Car now has a Start method and a Horsepower field, both
-Engine. You can write car.Start() and
-car.Horsepower as if they were declared on Car.
-car := Car{Eng…]]></summary>
-        <author>
-            <name>Gabriel Anhaia</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Human Routers of Machine Words]]></title>
-        <id>https://borretti.me/article/human-routers-of-machine-words</id>
-        <link href="https://borretti.me/article/human-routers-of-machine-words"/>
-        <updated>2026-06-13T21:35:24.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Your First AI Pilot Should Be More Boring Than You Want]]></title>
-        <id>https://dev.to/alexander_iwizard/your-first-ai-pilot-should-be-more-boring-than-you-want-3a7c</id>
-        <link href="https://dev.to/alexander_iwizard/your-first-ai-pilot-should-be-more-boring-than-you-want-3a7c"/>
-        <updated>2026-06-13T21:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Companies rarely fail at their first AI pilots because they have no ideas.
-Usually, the opposite happens.
-There are too many ideas.
-The discussion quickly fills with customer support, internal search, a company assistant, an agent for routine work, chat over all documents, automatic request processing, and a few more directions that look excellent on a slide.
-At that moment, it is easy to feel the pull of opportunity: we will choose a strong case, build a visible pilot, and show that the company is really moving toward AI.
-And that is often where the problem begins.
-The first AI pilot is chosen as if its job is to prove that AI is impressive.
-But it should prove something else.
-It should prove that the company can take a repeatable business process, place AI inside it carefully, check the …]]></summary>
-        <author>
-            <name>Alex Agafonov</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Granular Dependabot groups and getting error attribution right]]></title>
-        <id>https://dev.to/scottmallinson/granular-dependabot-groups-and-getting-error-attribution-right-3334</id>
-        <link href="https://dev.to/scottmallinson/granular-dependabot-groups-and-getting-error-attribution-right-3334"/>
-        <updated>2026-06-13T20:58:37.000Z</updated>
-        <summary type="html"><![CDATA[Dependabot has a default behaviour that doesn't scale well: one pull request per outdated dependency. For a repository with a hundred dependencies, a run generates dozens of individual PRs. Most are low-risk patch bumps a developer approves without reading closely — which means either they pile up unreviewed, or people start rubber-stamping them, which defeats the point of the review.
-Dependency grouping addresses this. Instead of one PR per package, you define groups — "all AWS SDK packages", "all testing libraries", "everything from this upstream source" — and Dependabot combines the relevant updates into a single PR. The result is far fewer PRs, each giving a complete picture of a set of related changes.
-The work was moving several repositories from ungrouped or coarsely grouped configs…]]></summary>
-        <author>
-            <name>Scott Mallinson</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Night I Built Sentinel: A Story of Bots, Breakdowns, and Breaking Through]]></title>
-        <id>https://dev.to/slawekluzny/the-night-i-built-sentinel-a-story-of-bots-breakdowns-and-breaking-through-56bi</id>
-        <link href="https://dev.to/slawekluzny/the-night-i-built-sentinel-a-story-of-bots-breakdowns-and-breaking-through-56bi"/>
-        <updated>2026-06-13T20:54:40.000Z</updated>
-        <summary type="html"><![CDATA[The Night I Built Sentinel: A Story of Bots, Breakdowns, and Breaking Through
-
-
-It was 3am when I woke up to the alert. My server was under attack.
-I opened my laptop, stared at the screen, and felt that familiar sinking feeling in my gut. SSH was timing out. The CPU usage graph looked like a heart attack—flatlining at 100%. Something was wrong.
-This wasn’t the first time my server had been hit by bots. But this wasn’t a casual scan or a low-level probing. This was a full-on assault.
-By the time I got into the hosting panel, the damage was already done. My contact form had been hammered. Emails had been sent out in a matter of hours. My IPs were blacklisted. My server was toast.
-I spent the next week in a fog of exhaustion—days on the construction site, nights trying to salvage what was le…]]></summary>
-        <author>
-            <name>slawekluzny</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A safer OpenConnect workflow for Cisco AnyConnect VPNs on macOS and Linux]]></title>
-        <id>https://dev.to/sorinipate/a-safer-openconnect-workflow-for-cisco-anyconnect-vpns-on-macos-and-linux-5g7o</id>
-        <link href="https://dev.to/sorinipate/a-safer-openconnect-workflow-for-cisco-anyconnect-vpns-on-macos-and-linux-5g7o"/>
-        <updated>2026-06-13T20:53:43.000Z</updated>
-        <summary type="html"><![CDATA[A safer OpenConnect workflow for Cisco AnyConnect VPNs on macOS and Linux
-
-
-If your organization uses Cisco AnyConnect, GlobalProtect, Pulse Secure, Juniper, or another SSL VPN, the official desktop client is often the default option.
-But for developers, consultants, DevOps engineers, and support teams working on macOS or Linux, a terminal-first workflow is often faster, clearer, and easier to automate.
-That is why many technical users rely on OpenConnect.
-OpenConnect is a powerful open-source VPN client, but raw usage can become repetitive when you work across multiple environments.
-A typical command might look like this:
-sudo openconnect --protocol=anyconnect \
-  --authgroup=Employees \
-  --user=your.username \
-  --servercert pin-sha256:... \
-  vpn.example.com
-
-It works, but it is not al…]]></summary>
-        <author>
-            <name>Sorin-Doru Ipate</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Watched a COD Streamer Suffer Through Tournament Admin and Then Spent A Month Fixing It]]></title>
-        <id>https://dev.to/scythe2/-i-watched-a-cod-streamer-suffer-through-tournament-admin-and-then-spent-a-month-fixing-it-k8d</id>
-        <link href="https://dev.to/scythe2/-i-watched-a-cod-streamer-suffer-through-tournament-admin-and-then-spent-a-month-fixing-it-k8d"/>
-        <updated>2026-06-13T20:51:53.000Z</updated>
-        <summary type="html"><![CDATA[I was watching Studyy - one of my favorite Call of Duty players - run a community tournament on stream. And somewhere between watching him alt-tab to update a Challonge bracket, then switch to his Google Form to check signups, then jump back to Discord to announce draft picks, then back to Challonge because he forgot to update something - a very specific thought crossed my mind:
-I am a software developer. I could fix this. Why has no one fixed this?
-The second question answered itself pretty quickly. The first one haunted me for the next few months.
-Here's the thing - this wasn't starting from zero. I'd already helped build the system Studyy was using. Google Forms for signups. Challonge for the bracket. A workflow that worked, as long as "worked" meant one person manually copying data bet…]]></summary>
-        <author>
-            <name>Joe C</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[WWDC 2026 - Apple's new server LLM on Private Cloud Compute: what's in it for developers]]></title>
-        <id>https://dev.to/arshtechpro/wwdc-2026-apples-new-server-llm-on-private-cloud-compute-whats-in-it-for-developers-2edd</id>
-        <link href="https://dev.to/arshtechpro/wwdc-2026-apples-new-server-llm-on-private-cloud-compute-whats-in-it-for-developers-2edd"/>
-        <updated>2026-06-13T20:48:40.000Z</updated>
-        <summary type="html"><![CDATA[Last year Apple gave us an on-device LLM through the Foundation Models framework. This year that on-device model gets better, and Apple adds something many of us asked for: a larger server model you can call directly from your app, running on Private Cloud Compute (PCC).
-A new server-class model is now reachable from the same Foundation Models API you already use.
-Switching from on-device to server is a one-line change.
-You get a 32K context window (vs 4K on-device), reasoning support, and image input.
-No API keys, no auth, no token costs to you. Requests are metered against the user's iCloud account, with a daily per-user limit.
-Eligible for apps with fewer than 2M downloads. You apply on the developer site.
-It works across platforms, including watchOS.
-The on-device model is great for fa…]]></summary>
-        <author>
-            <name>ArshTechPro</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hola Developers, 
-
-Este es mi primer post en dev.to
-Sólo me salen post en inglés, me gustaría saber de la gente hispanohablantes a quien me recomendáis seguir por aquí. 
-
-Y con este post me gustaría saber también si hay gente aquí que hable español]]></title>
-        <id>https://dev.to/johnnyfinchdev/hola-developers-este-es-mi-primer-post-en-devto-solo-me-salen-post-en-ingles-me-gustaria-15p8</id>
-        <link href="https://dev.to/johnnyfinchdev/hola-developers-este-es-mi-primer-post-en-devto-solo-me-salen-post-en-ingles-me-gustaria-15p8"/>
-        <updated>2026-06-13T20:47:56.000Z</updated>
-        <summary type="html"><![CDATA[A post by Johnny Finch - Developers]]></summary>
-        <author>
-            <name>Johnny Finch - Developers</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[My video generation pipeline that built itself]]></title>
-        <id>https://dev.to/hiper2d/my-video-generation-pipeline-that-built-itself-459n</id>
-        <link href="https://dev.to/hiper2d/my-video-generation-pipeline-that-built-itself-459n"/>
-        <updated>2026-06-13T20:46:19.000Z</updated>
-        <summary type="html"><![CDATA[Let me show you something cool. This two-minute video was built by Claude Code from a single prompt.
-  
-  
-
-
-Okay — one prompt and about thirty follow-ups. And then twenty more after Claude Code fumbled a git command and wiped out half of my video-editing material (don't ask). But it's still pretty cool, because I didn't do a single thing by hand. No image editor, no video timeline, no audio software, no clicking around in a tool. It was just a conversation between me and Claude. And all the tools it used along the way — for generating the images, synthesizing the voice, editing the video, the glue code that ties it together — Claude built for itself.
-This is not the greatest video in the world, but I think it does its job — explaining the rules of my side project — quite well. The two of …]]></summary>
-        <author>
-            <name>Aliaksei Zelianouski</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A "switch" for Perl that compiles away: introducing Switch::Declare]]></title>
-        <id>https://dev.to/lnation/a-switch-for-perl-that-compiles-away-introducing-switchdeclare-knl</id>
-        <link href="https://dev.to/lnation/a-switch-for-perl-that-compiles-away-introducing-switchdeclare-knl"/>
-        <updated>2026-06-13T20:45:51.000Z</updated>
-        <summary type="html"><![CDATA[Perl has had a complicated relationship with switch.
-given/when arrived leaning on smartmatch, and smartmatch turned out to be a pit of surprising behaviour — so the whole feature was been experimental, then discouraged, then warned-about for years. Switch::Back.pm is given/when for a post-given/when Perl then there is the old Switch.pm that reached for a source filter, which means it rewrites your program text before Perl ever sees it; and then finally there are a handful of other implementations on cpan including my own Switch::Again.
-So most of us generally just write if/elsif chains and move on. They're honest and fast, but they're also noisy: the scrutinee gets repeated on every branch, and a six way string dispatch turns into six eq comparisons stacked on top of each other.
-Switch::D…]]></summary>
-        <author>
-            <name>LNATION</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Vibe Coding, das man in sechs Monaten noch anfassen kann]]></title>
-        <id>https://dev.to/mgundlach/vibe-coding-das-man-in-sechs-monaten-noch-anfassen-kann-b1j</id>
-        <link href="https://dev.to/mgundlach/vibe-coding-das-man-in-sechs-monaten-noch-anfassen-kann-b1j"/>
-        <updated>2026-06-13T20:42:58.000Z</updated>
-        <summary type="html"><![CDATA[Die erste Version funktioniert fast immer. Das ist der Teil, der alle überrascht, wenn sie mit Vibe Coding anfangen. Du beschreibst in einem Satz, was du brauchst, und nach zwei Minuten läuft ein kleines Tool im Browser. Dieser Moment fühlt sich wie Magie an.
-Der zweite Moment fühlt sich anders an. Du willst eine Kleinigkeit ändern, das Modell schreibt großzügig die halbe Datei um, und plötzlich funktioniert die Stelle nicht mehr, die vorher lief. Genau hier trennt sich brauchbares Vibe Coding von Wegwerf-Code.
-Ich baue seit über einem Jahr kleine bis mittlere Anwendungen größtenteils über natürliche Sprache, meistens auf Next.js mit Supabase im Hintergrund. Was ich in dieser Zeit gelernt habe, lässt sich in einem Satz zusammenfassen: Der Engpass ist nicht mehr das Tippen von Code. Der Eng…]]></summary>
-        <author>
-            <name>Marco Gundlach</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Trace – Offline Mac meeting transcripts you can flag mid-call]]></title>
-        <id>https://traceapp.info/</id>
-        <link href="https://traceapp.info/"/>
-        <updated>2026-06-13T20:41:58.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Digital Trainee Struggles with SQL SELECT Queries and Table Relationships: Targeted Practice and Mentorship Offer Solutions]]></title>
-        <id>https://dev.to/serbyte/digital-trainee-struggles-with-sql-select-queries-and-table-relationships-targeted-practice-and-3c9n</id>
-        <link href="https://dev.to/serbyte/digital-trainee-struggles-with-sql-select-queries-and-table-relationships-targeted-practice-and-3c9n"/>
-        <updated>2026-06-13T20:40:09.000Z</updated>
-        <summary type="html"><![CDATA[Introduction: The SQL Learning Curve
-
-
-For many digital development trainees, the journey into SQL begins with a sense of confidence. Creating tables, adding columns, and populating data feels straightforward—almost intuitive. But then comes the SELECT query, and the ground shifts. Suddenly, the database transforms from a static structure into a dynamic, interconnected system where relationships dictate everything. This is where the frustration begins, and it’s not just you—it’s a universal rite of passage.
-At its core, a SELECT query is a mechanical process of retrieval, but its complexity lies in how it interacts with the database schema. When you write SELECT FROM table1 JOIN table2 ON condition, the database engine doesn’t just fetch data—it parses the query, optimizes the execution pl…]]></summary>
-        <author>
-            <name>Sergey Boyarchuk</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Infrastructure Drift: Detecting and Preventing It]]></title>
-        <id>https://dev.to/samson_tanimawo/infrastructure-drift-detecting-and-preventing-it-29en</id>
-        <link href="https://dev.to/samson_tanimawo/infrastructure-drift-detecting-and-preventing-it-29en"/>
-        <updated>2026-06-13T20:37:49.000Z</updated>
-        <summary type="html"><![CDATA[Your Terraform says the firewall rule is A. The cloud console says it's B. Someone changed it manually and didn't tell anyone. This is infrastructure drift, and it's a reliability killer.
-The emergency edit. At 2 AM, someone clicks a button in the console to fix an outage. They promise to 'put it in Terraform later.' They don't.
-The helpful colleague. Someone from a different team edits a shared resource because it was blocking them. They didn't know it was Terraform-managed.
-The console-first culture. Some teams never adopt IaC. They edit everything manually, and then one day someone runs Terraform plan and sees 200 unexpected changes.
-The partial migration. You migrated some resources to Terraform but not others. Nobody documented which is which.
-The next Terraform apply will either reve…]]></summary>
-        <author>
-            <name>Samson Tanimawo</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Police officer investigated for using AI to 'create evidence' in multiple cases]]></title>
-        <id>https://news.sky.com/story/derbyshire-police-officer-investigated-for-using-ai-to-create-evidence-in-multiple-cases-13553661</id>
-        <link href="https://news.sky.com/story/derbyshire-police-officer-investigated-for-using-ai-to-create-evidence-in-multiple-cases-13553661"/>
-        <updated>2026-06-13T19:54:55.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Reviving an abandoned open-source project: 6 years of Atomic Calendar Revive]]></title>
-        <id>https://totaldebug.uk/posts/reviving-an-abandoned-open-source-project/</id>
-        <link href="https://totaldebug.uk/posts/reviving-an-abandoned-open-source-project/"/>
-        <updated>2026-06-13T19:53:41.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
