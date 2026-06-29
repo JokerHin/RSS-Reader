@@ -2,10 +2,242 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-06-29T17:35:32.966Z</updated>
+    <updated>2026-06-29T19:55:21.742Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[How I used a sparse GSI to build a real-time post scheduler on Amazon DynamoDB]]></title>
+        <id>https://dev.to/nonebut_ak/how-i-used-a-sparse-gsi-to-build-a-real-time-post-scheduler-on-amazon-dynamodb-c03</id>
+        <link href="https://dev.to/nonebut_ak/how-i-used-a-sparse-gsi-to-build-a-real-time-post-scheduler-on-amazon-dynamodb-c03"/>
+        <updated>2026-06-29T19:52:41.000Z</updated>
+        <summary type="html"><![CDATA[I'm writing this as part of my submission for the H0 Hackathon: Hack the Zero Stack with Vercel and AWS Databases. But the database problem I'm about to describe is real and it took me longer to solve than I'd like to admit.
+SlothPost is a tool I built for indie developers who want to build in public but can never find the time to actually write posts. It connects to your GitHub, Vercel, and App Store, captures all your activity, and drafts social media posts for X and Threads that you review and approve before they go live.
+The problem
+Every user in SlothPost can have multiple "products" — the things they're building. Each product has a posting schedule: something like "post to X every Tuesday and Thursday at 9am, post to Threads on Mondays."
+The sparse GSI approach
+DynamoDB doesn't have server-side scheduled jobs. What it does have is Global Secondary Indexes, and they have a property that's extremely useful here.
+typescriptconst result = await dynamoDB.query({
+That's it. The query only touches products that are actively scheduled. No scans, no post-query filtering. The index stays small because most products in the table don't have scheduleStatus set at all.
+The bug that took me a day to find
+The Vercel webhook routing problem
+I used the same sparse GSI pattern for a different problem: routing Vercel deployment webhooks to the right user.
+Full app is at https://slothpost.app
+Uses Next.js on Vercel, DynamoDB for everything, Cloudflare Workers for the cron scheduler.
+
+
+  
+  
+  H0Hackathon]]></summary>
+        <author>
+            <name>Abhishek Khanra</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[how do you divide big instruction into small data set for large projects?]]></title>
+        <id>https://dev.to/whmcsexpert/how-do-you-divide-big-instruction-into-small-data-set-for-large-projects-23ec</id>
+        <link href="https://dev.to/whmcsexpert/how-do-you-divide-big-instruction-into-small-data-set-for-large-projects-23ec"/>
+        <updated>2026-06-29T19:39:04.000Z</updated>
+        <summary type="html"><![CDATA[A post by Shahid Malla]]></summary>
+        <author>
+            <name>Shahid Malla</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Your Meta CAPI events from a Telegram bot are losing attribution. Here's the fix.]]></title>
+        <id>https://dev.to/lamas51/your-meta-capi-events-from-a-telegram-bot-are-losing-attribution-heres-the-fix-5c07</id>
+        <link href="https://dev.to/lamas51/your-meta-capi-events-from-a-telegram-bot-are-losing-attribution-heres-the-fix-5c07"/>
+        <updated>2026-06-29T19:37:36.000Z</updated>
+        <summary type="html"><![CDATA[A funnel I see all the time: a Meta ad sends people to a landing page, the page says "message us on Telegram," and a bot takes it from there — qualifies the lead, takes the order, whatever. The conversion happens inside the bot, server-side, so you fire it to Meta with the Conversions API instead of the Pixel.
+Makes sense. Except attribution quietly falls apart, and it took me a while to see why.
+Meta matches a server event back to the ad click using fbc. The format is fixed:
+fb.1.<timestamp>.<fbclid>
+
+That <fbclid> comes off the landing URL as ?fbclid=... when someone arrives from the ad. No fbc, and your CAPI event still lands — but match quality drops and Meta can't tie the conversion to the click. Which is the one thing you actually wanted.
+So the job is: capture fbclid on the landing …]]></summary>
+        <author>
+            <name>Boris Kl</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How PostGIS and DynamoDB Streams Power a Real-Time Delivery Hub Platform]]></title>
+        <id>https://dev.to/np_hacks_code/how-postgis-and-dynamodb-streams-power-a-real-time-delivery-hub-platform-5719</id>
+        <link href="https://dev.to/np_hacks_code/how-postgis-and-dynamodb-streams-power-a-real-time-delivery-hub-platform-5719"/>
+        <updated>2026-06-29T19:37:04.000Z</updated>
+        <summary type="html"><![CDATA[Built for the H0: Hack the Zero Stack hackathon with Vercel and AWS Databases.
+Every year, roughly 15% of last-mile deliveries fail on the first attempt. The driver shows up, nobody's home, there's no safe drop location, or the community is gated. The carrier tries again the next day — costing $5-15 per re-attempt. Multiply that across millions of packages and the cost is staggering.
+From the homeowner's side, you track a package across the country only to see "delivery attempted" — then wait days for the next attempt or drive to a pickup point.
+Existing solutions like pickup lockers require the customer to go to the package. But what if instead of making you drive to a locker, a local hub held your package and delivered it to your door — on your schedule?
+That's what I built.
+Hold·My·Pack…]]></summary>
+        <author>
+            <name>NP</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Code Assistants: Creating Efficiency or Dependency?]]></title>
+        <id>https://dev.to/merbayerp/ai-code-assistants-creating-efficiency-or-dependency-4lba</id>
+        <link href="https://dev.to/merbayerp/ai-code-assistants-creating-efficiency-or-dependency-4lba"/>
+        <updated>2026-06-29T19:35:29.000Z</updated>
+        <summary type="html"><![CDATA[Last week, while writing a simple systemd unit file for a backend service of my side product, I automatically opened Gemini Flash in my browser instead of the usual man systemd.service command. The assistant provided the structure I needed in seconds, but this reflex made me pause: Are AI code assistants truly increasing my productivity, or are they unknowingly creating a dependency that dulls my fundamental knowledge? This question has been one of the topics I've pondered most recently.
+On one hand, there are incredible benefits like rapid prototyping, auto-completing boilerplate code, and instantly learning how to use an unfamiliar API. On the other hand, there are concerns about the quality of AI-generated code, security risks, and most importantly, the possibility of our problem-solvin…]]></summary>
+        <author>
+            <name>Mustafa ERBAY</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I got tired of vibe investing, so I built an AI committee that shows its work]]></title>
+        <id>https://dev.to/campnoumiracle2022/i-got-tired-of-vibe-investing-so-i-built-an-ai-committee-that-shows-its-work-44md</id>
+        <link href="https://dev.to/campnoumiracle2022/i-got-tired-of-vibe-investing-so-i-built-an-ai-committee-that-shows-its-work-44md"/>
+        <updated>2026-06-29T19:34:16.000Z</updated>
+        <summary type="html"><![CDATA[We have vibe coding now — so I guess we have vibe investing too. Most "AI stock picker" tools work the same way: you feed in a ticker, and out comes "BUY — confidence 87%" with no way to see why. You're not analyzing anything; you're trusting a vibe. If I can't inspect the reasoning, I can't trust the call, and I definitely can't learn from it.
+So I built the opposite: a multi-agent committee where the output isn't a score — it's an auditable trail from raw evidence to a final trade thesis. Bull and bear analysts argue the ticker out, a risk manager signs off, and the final decision is required to cite the specific evidence it rests on. I called it VerumTrade (Latin verum, "truth"). It's open source (Apache-2.0), and this post is about how it's put together, not a pitch.
+The design constra…]]></summary>
+        <author>
+            <name>Sam_Jia</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Atlarix vs opencode on Terminal-Bench 2.0 — same model, only the harness changes (k=1, receipts included)]]></title>
+        <id>https://dev.to/amariahak/atlarix-vs-opencode-on-terminal-bench-20-same-model-only-the-harness-changes-k1-receipts-54nk</id>
+        <link href="https://dev.to/amariahak/atlarix-vs-opencode-on-terminal-bench-20-same-model-only-the-harness-changes-k1-receipts-54nk"/>
+        <updated>2026-06-29T19:22:30.000Z</updated>
+        <summary type="html"><![CDATA[Benchmarks
+I build Atlarix, an agent workstation for open-weight models. The core claim behind it is that the harness — retrieval, tool surface, control loop — is what lets an open-weight model perform, not just the model's raw weights. This post is me trying to falsify that claim with a controlled run, and publishing every output file so you can check it.
+Short version: on Terminal-Bench 2.0, single attempt, Atlarix resolved 42/89 and opencode resolved 39/89 on the same model. That 3-task gap is within k=1 noise — I'm not claiming a win. What it shows is that the harness isn't bottlenecking the model. Details and caveats below; raw files at the end.
+The only variable is the harness. Everything else is pinned identical across both agents.
+Benchmark: terminal-bench/terminal-bench-2 — all 89…]]></summary>
+        <author>
+            <name>Amariah Kamau</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Built a Civic Traffic App on DynamoDB + Vercel — ChowkChakra (#H0Hackathon)]]></title>
+        <id>https://dev.to/omkar598/how-i-built-a-civic-traffic-app-on-dynamodb-vercel-chowkchakra-h0hackathon-3oon</id>
+        <link href="https://dev.to/omkar598/how-i-built-a-civic-traffic-app-on-dynamodb-vercel-chowkchakra-h0hackathon-3oon"/>
+        <updated>2026-06-29T19:18:59.000Z</updated>
+        <summary type="html"><![CDATA[I built this project as my submission for the H0 Hackathon — Hack the Zero Stack with Vercel v0 and AWS Databases. This post covers how I designed and built ChowkChakra using Amazon DynamoDB and Vercel. #H0Hackathon
+Pune has a traffic problem, and it's not just congestion — it's a communication gap.
+Citizens spot issues all the time: a signal that's been stuck on red for 20 minutes, a pothole causing lane merges at a busy junction, waterlogging after rain that backs up an entire ward. But they have nowhere to formally report it. WhatsApp groups, Twitter complaints that go nowhere, maybe a helpline call that logs nothing.
+On the other side, traffic officers are managing dozens of junctions with zero live signal about what's actually failing right now. They're reactive by default — they find…]]></summary>
+        <author>
+            <name>omkar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Most AI Trading Bots Fail (And What Ours Did Wrong Too)]]></title>
+        <id>https://dev.to/cart0ne/why-most-ai-trading-bots-fail-and-what-ours-did-wrong-too-57j6</id>
+        <link href="https://dev.to/cart0ne/why-most-ai-trading-bots-fail-and-what-ours-did-wrong-too-57j6"/>
+        <updated>2026-06-29T19:14:14.000Z</updated>
+        <summary type="html"><![CDATA[The Human Side
+
+
+by Max, Co-Founder, Board, the one who presses the buttons. Written in Italian, translated by Claude.
+At the beginning of this project, still in the brainstorming phase, one of the first things Claude told me was that "73% of automated trading accounts fail within 6 months." I never verified that number, but it certainly didn't make me very happy and didn't exactly encourage me to keep going. And yet, I'm still here, trying. It's not just about believing in it, it's about following a path that helps me learn how to use a tool (AI or LLM, depending on what you prefer to call it) that very soon will become a constant in daily life and at work. Understanding its limits and strengths is fundamental and I'd rather do it on my own skin than by reading tutorials from users who ce…]]></summary>
+        <author>
+            <name>Cartone</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[100k lines of TypeScript to Rust with zero Rust experience. That's not engineering.]]></title>
+        <id>https://dev.to/adioof/100k-lines-of-typescript-to-rust-with-zero-rust-experience-thats-not-engineering-3ii4</id>
+        <link href="https://dev.to/adioof/100k-lines-of-typescript-to-rust-with-zero-rust-experience-thats-not-engineering-3ii4"/>
+        <updated>2026-06-29T19:13:46.000Z</updated>
+        <summary type="html"><![CDATA[Someone ported 100k lines of TypeScript to Rust in a month using Claude. They had zero Rust experience. And honestly? I can't stop thinking about it.
+The developer then used differential fuzzing — the process of throwing random data at two versions of a program and comparing the results — 2.3 million battle simulations no less, to validate that the Rust output matched the original TypeScript behaviour. The vast majority of tests passed. The code was finished. The internet lost its collective shit.
+This is a divisive tale for developers. On one side, "It runs, the tests pass, what does it matter how it was written?" On the other, "You don't know Rust. You're just using a photocopier."
+Both camps have a point. Neither wants to admit it.
+Here's what I find annoying. The validation strategy it…]]></summary>
+        <author>
+            <name>Aditya Agarwal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Source Code of Randomness: Why Your Data Models Need an Integration Test]]></title>
+        <id>https://dev.to/wolfof420street/the-source-code-of-randomness-why-your-data-models-need-an-integration-test-5bga</id>
+        <link href="https://dev.to/wolfof420street/the-source-code-of-randomness-why-your-data-models-need-an-integration-test-5bga"/>
+        <updated>2026-06-29T19:13:39.000Z</updated>
+        <summary type="html"><![CDATA[Randomness isn't the opposite of order. It's just order written in a language we haven't learned yet.
+As software engineers, we spend our lives trying to make systems deterministic.
+We write unit tests.
+We build idempotent APIs.
+We retry failed requests.
+We eliminate race conditions.
+Then production happens.
+Suddenly requests arrive in bursts, servers fail at inconvenient times, users behave unpredictably, and latency charts look like modern art.
+That's where probability stops being a university subject and starts becoming an engineering tool.
+Probability isn't about predicting exactly what will happen.
+It's about understanding what usually happens, and designing systems that survive everything else.
+One of the coolest ideas in probability is something called a Probability Generating Funct…]]></summary>
+        <author>
+            <name>WolfOf420Stret</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a tool to check what AI agents actually understand about your website]]></title>
+        <id>https://dev.to/tommy2970/i-built-a-tool-to-check-what-ai-agents-actually-understand-about-your-website-3n09</id>
+        <link href="https://dev.to/tommy2970/i-built-a-tool-to-check-what-ai-agents-actually-understand-about-your-website-3n09"/>
+        <updated>2026-06-29T19:11:36.000Z</updated>
+        <summary type="html"><![CDATA[There's a gap between what a website says about itself and what an AI agent can actually verify from its structured data.
+llms.txt presence and quality: 0–25
+@graph completeness: 0–20
+Sites with perfect technical structure but no verifiable claims about clients or results get penalized on coherence. The model is looking for proportionality between what you declare and what you can prove.
+https://lake8.dev/lagotto-meter
+Prompt is public and replicable. Free, 1 analysis per IP per 24h.]]></summary>
+        <author>
+            <name>Tommy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JumpServer: Open-Source Privileged Access Management]]></title>
+        <id>https://github.com/jumpserver/jumpserver</id>
+        <link href="https://github.com/jumpserver/jumpserver"/>
+        <updated>2026-06-29T19:06:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[.garden TLD's change to a bad neighborhood]]></title>
+        <id>https://discourse.ifin.network/t/garden-tlds-change-to-a-bad-neighborhood/627</id>
+        <link href="https://discourse.ifin.network/t/garden-tlds-change-to-a-bad-neighborhood/627"/>
+        <updated>2026-06-29T18:49:41.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Micro-Agent: Beat Frontier Models with Collaboration Inside Model API]]></title>
+        <id>https://vllm.ai/blog/2026-06-29-micro-agent-frontier-models</id>
+        <link href="https://vllm.ai/blog/2026-06-29-micro-agent-frontier-models"/>
+        <updated>2026-06-29T18:03:26.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI agents are not your “coworkers”]]></title>
+        <id>https://www.technologyreview.com/?p=1139849</id>
+        <link href="https://www.technologyreview.com/2026/06/29/1139849/ai-agents-are-not-your-coworkers/"/>
+        <updated>2026-06-29T18:00:00.000Z</updated>
+        <summary type="html"><![CDATA[This story originally appeared in The Algorithm, our weekly newsletter on AI. To get stories like this in your inbox first, sign up here. Imagine coming in to work to learn that a new underling will report to you. The worker is not a person but an AI tool—one that your company nonetheless calls Alex, an…]]></summary>
+        <author>
+            <name>James O'Donnell</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin lending is entering a new institutional era, according to Silicon Valley Bank]]></title>
+        <id>68a3b712-108c-4710-9366-ea7fd250ea75</id>
+        <link href="https://www.coindesk.com/business/2026/06/29/bitcoin-lending-is-entering-a-new-institutional-era-according-to-silicon-valley-bank"/>
+        <updated>2026-06-29T17:57:18.000Z</updated>
+        <summary type="html"><![CDATA[The bank said bitcoin lending has emerged from the 2022 crypto credit collapse with stronger risk controls, growing institutional participation and a path toward lower borrowing costs.]]></summary>
+        <author>
+            <name>Will Canny</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[JPMorgan backs U.S. crypto bill but warns of risks in digital asset framework]]></title>
         <id>bb409a4f-254b-46bd-a5e5-46724218dcc6</id>
@@ -67,6 +299,16 @@ class AffiliateProgram:
 …]]></summary>
         <author>
             <name>Alex</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ornith-1.0: self-improving open-source models for agentic coding]]></title>
+        <id>https://github.com/deepreinforce-ai/Ornith-1</id>
+        <link href="https://github.com/deepreinforce-ai/Ornith-1"/>
+        <updated>2026-06-29T17:16:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -251,6 +493,16 @@ chrome.runtime.onMessage.addListener((msg) => {
     captureAn…]]></summary>
         <author>
             <name>SHOTA</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Radiation Exposure Lie]]></title>
+        <id>https://worksinprogress.co/issue/how-to-lie-about-radiation/</id>
+        <link href="https://worksinprogress.co/issue/how-to-lie-about-radiation/"/>
+        <updated>2026-06-29T16:27:27.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -10203,6 +10455,16 @@ The post RTM, Astro Renew Partnership appeared first on Lowyat.NET.]]></summary>
         <id>https://aditya.patadia.org/p/ai-and-cloud-costs</id>
         <link href="https://aditya.patadia.org/p/ai-and-cloud-costs"/>
         <updated>2026-06-26T07:44:11.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Wallace the 6 inch f/2.8 telescope, building it, and hiking with it]]></title>
+        <id>https://lucassifoni.info/blog/hiking-with-wallace/</id>
+        <link href="https://lucassifoni.info/blog/hiking-with-wallace/"/>
+        <updated>2026-06-26T07:29:17.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -41137,87 +41399,6 @@ The post vivo Reveals X Fold6 Specs Ahead Of China Launch; Teleconverter Support
 The post IGP: Online Scam Cases Jumped By 87% To 66,204 Last Year appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ark Invest bought more than $500 million worth of SpaceX shares on IPO day]]></title>
-        <id>1b0ec958-389a-453d-9d28-3b9523690cf0</id>
-        <link href="https://www.coindesk.com/markets/2026/06/15/ark-invest-bought-more-than-usd500-million-worth-of-spacex-shares-on-ipo-day"/>
-        <updated>2026-06-15T07:52:41.000Z</updated>
-        <summary type="html"><![CDATA[The purchases were likely funded by selling other positions, data shows. ARK is also one of the loudest bitcoin bulls, with a million-dollar target for 2030.]]></summary>
-        <author>
-            <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Openrouter Fusion API]]></title>
-        <id>https://openrouter.ai/openrouter/fusion</id>
-        <link href="https://openrouter.ai/openrouter/fusion"/>
-        <updated>2026-06-15T07:10:57.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Dalus (YC W25) Is Hiring a Senior Software Engineer in Germany]]></title>
-        <id>https://www.ycombinator.com/companies/dalus/jobs/5IDmKJt-senior-software-frontend-engineer-germany-office</id>
-        <link href="https://www.ycombinator.com/companies/dalus/jobs/5IDmKJt-senior-software-frontend-engineer-germany-office"/>
-        <updated>2026-06-15T07:00:22.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Successful Psilocybin Treatment of Alzheimer]]></title>
-        <id>https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2026.1813281/full</id>
-        <link href="https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2026.1813281/full"/>
-        <updated>2026-06-15T06:52:21.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[HONOR X80 Pro Max To Launch On 22 June With 11,000 mAh Battery]]></title>
-        <id>https://www.lowyat.net/?p=395857</id>
-        <link href="https://www.lowyat.net/2026/395857/honor-x80-pro-max-launch-22-june-11000-mah-battery/"/>
-        <updated>2026-06-15T06:50:30.000Z</updated>
-        <summary type="html"><![CDATA[Chinese phonemakers have been pushing the limits of smartphone battery capacity lately, and it’s no surprise that it’s another such brand that has pushed the envelope further. And the phone in question is launching soon too. Per the brand’s own teasers on Chinese social media site Weibo, the HONOR X80 Pro Max is set to […]
-The post HONOR X80 Pro Max To Launch On 22 June With 11,000 mAh Battery appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Sogen – High-performance Windows and Linux userspace emulator]]></title>
-        <id>https://sogen.dev/</id>
-        <link href="https://sogen.dev/"/>
-        <updated>2026-06-15T06:47:54.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin traders have a reason to watch Tuesday's BOJ rate decision. Yen shorts are at a nine-year high]]></title>
-        <id>5cf3a4b0-525e-4c7f-b57d-4e0207c3f8d5</id>
-        <link href="https://www.coindesk.com/markets/2026/06/15/bitcoin-traders-have-a-reason-to-watch-tuesday-s-boj-rate-decision-yen-shorts-are-at-a-nine-year-high"/>
-        <updated>2026-06-15T06:41:36.000Z</updated>
-        <summary type="html"><![CDATA[A large build-up of speculative short positions in the yen raises the risk of a sharp short squeeze if the BOJ signals more aggressive tightening, potentially unwinding yen-funded carry trades that support risk assets.]]></summary>
-        <author>
-            <name>Omkar Godbole</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Curl will not accept vulnerability reports during July 2026]]></title>
-        <id>https://daniel.haxx.se/blog/2026/06/15/curl-summer-of-bliss/</id>
-        <link href="https://daniel.haxx.se/blog/2026/06/15/curl-summer-of-bliss/"/>
-        <updated>2026-06-15T06:02:57.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
