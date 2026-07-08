@@ -2,10 +2,274 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-07-08T20:19:13.731Z</updated>
+    <updated>2026-07-08T22:03:55.546Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Did you ever face "stale singleton httpx connection" and "cold-start connection problem" problem, Well I did tonight.]]></title>
+        <id>https://dev.to/raqeeb_26/did-you-ever-face-stale-singleton-httpx-connection-and-cold-start-connection-problem-problem-8i3</id>
+        <link href="https://dev.to/raqeeb_26/did-you-ever-face-stale-singleton-httpx-connection-and-cold-start-connection-problem-problem-8i3"/>
+        <updated>2026-07-08T21:56:34.000Z</updated>
+        <summary type="html"><![CDATA[It is been while I am learning and build around FastAPI. So there is a project where I was thinking how to add this new feature over exiting one. Like what changes I need to make in database which need to be reflected in my backend and frontend. I already lunched the web locally. 
+When I when back to the web and reload it it shows this error:
+ERROR: ConnectTimeout: Unauthorized 401.
+I was like what? Why? I thougth there is some issue with login endpoint or refresh token function. When i did some debugging and found some new information which is:
+"Either Supabase's edge/pooler (or OS, or an intermediate proxy/NAT) silently kills those idle connections server-side after some timeout but client-side pool doesn't know that."
+As I was doing nothing in become idle state so to save the resources server side silently close that particular connection. So I came back and try to connect it give this error.
+First thought come it my mind after this was there should be a way to automatically check this idle state and if user was in ideal state then create a new connection. 
+After a while I come up with these solution:
+Calculate the Idle time: if it is more then server connection timeout then establish new connection.
+Retry logic: retry once on the specific connection errors.
+I thought this will work but This again give me error then this new issue I faced.
+There is something call dual-stack (IPv4 and IPv6) networks and Happy Eyeballs is a network mechanism which automatically move to IPv4 connection if IPv6 fails. 
+But supabase-py uses httpx and it doesn't support Happy Eyeballs. So in first try after the connection time out it try to establish IPv6 connection which is not routeable in most Pakistani ISPs and ultimately it fails and wait for timeout. There is no way to try it again for IPv4. So we have to do it manually. 
+So this error help me to learn many thing in process. 
+Share your thoughts.]]></summary>
+        <author>
+            <name>Raqeeb</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[My favourite zsh/bash shortcuts (functions and aliases)]]></title>
+        <id>https://dev.to/emmadscodes/my-favourite-zshbash-shortcuts-functions-and-aliases-35n8</id>
+        <link href="https://dev.to/emmadscodes/my-favourite-zshbash-shortcuts-functions-and-aliases-35n8"/>
+        <updated>2026-07-08T21:43:31.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+My zsh profile is over 1000 lines at this point. A lot of that is functions I asked AI to generate for me, since it's fast, portable, and saves me a ton of typing.
+Here's the thing though: the shortcuts that save me the most time aren't the clever ones. They're the dumb ones. Things like clone instead of git clone && cd, or dir instead of mkdir -p && cd. Each one only saves a second or two, but I run them so often that it adds up fast.
+These are in no particular order, just the ones I reach for constantly.
+A few one-liners I have set up as plain aliases:
+alias gcp="git cherry-pick"
+alias git-append="git commit --amend --no-edit -a"
+
+gcp is self-explanatory. git-append amends the last commit with your currently staged (and unstaged, thanks to -a) changes without touching the …]]></summary>
+        <author>
+            <name>EmmaDSCodes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I replaced the chat window for my local AI agent with a face]]></title>
+        <id>https://dev.to/ghostvessel/i-replaced-the-chat-window-for-my-local-ai-agent-with-a-face-3e1k</id>
+        <link href="https://dev.to/ghostvessel/i-replaced-the-chat-window-for-my-local-ai-agent-with-a-face-3e1k"/>
+        <updated>2026-07-08T21:41:56.000Z</updated>
+        <summary type="html"><![CDATA[I run a local LLM agent (Hermes) on my own machine. The problem was never the model — it was the interface. I had a Telegram tab open all day just to talk to it: type a command, wait, read a wall of text back, scroll. It felt like texting a very capable stranger.
+So I built Ghost Vessel — a monitor-resident, video-call-style avatar that fronts the agent. The name is the whole idea: the ghost is your agent, the vessel is the body it borrows. It's not a waifu toy; it's a real agent client that happens to have a face.
+Here's what actually turned out to be interesting to build.
+The core idea is an output contract. Instead of treating the agent's reply as text to print, I split every reply into three planes:
+dialogue → spoken via local TTS
+data → code, logs, files → rendered as chat cards, neve…]]></summary>
+        <author>
+            <name>ghostvessel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OpenBSD Privilege Escalation, GitHub AI Agent Leaks, & CDN Supply Chain Risks]]></title>
+        <id>https://dev.to/soytuber/openbsd-privilege-escalation-github-ai-agent-leaks-cdn-supply-chain-risks-c16</id>
+        <link href="https://dev.to/soytuber/openbsd-privilege-escalation-github-ai-agent-leaks-cdn-supply-chain-risks-c16"/>
+        <updated>2026-07-08T21:36:04.000Z</updated>
+        <summary type="html"><![CDATA[OpenBSD Privilege Escalation, GitHub AI Agent Leaks, & CDN Supply Chain Risks
+
+
+
+  
+  
+  Today's Highlights
+
+
+This week's top security news features a critical use-after-free vulnerability in OpenBSD, a novel prompt injection attack leading to private repo leaks from GitHub's AI agent, and an unusual case of obfuscated bash scripts delivered via a CDN on consumer products.
+Source: https://nvd.nist.gov/vuln/detail/cve-2026-57589
+A newly disclosed vulnerability, CVE-2026-57589, impacts OpenBSD, a renowned security-focused operating system. The vulnerability is identified as a use-after-free (UAF) flaw, which typically occurs when a program attempts to use memory after it has been freed, often leading to crashes or arbitrary code execution. In this specific case, the UAF bug allows for local …]]></summary>
+        <author>
+            <name>soy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Try out IsItCrashing.com]]></title>
+        <id>https://dev.to/mahmed74/try-out-isitcrashingcom-31e3</id>
+        <link href="https://dev.to/mahmed74/try-out-isitcrashingcom-31e3"/>
+        <updated>2026-07-08T21:26:02.000Z</updated>
+        <summary type="html"><![CDATA[Hi everyone!
+launched IsItCrashing.com
+How often do you deploy a website only to discover later that:
+❌ A page is returning a 404 or 500 error
+IsItCrashing.com helps you catch these issues before your users do.
+✅ Broken pages (404/500)
+Get a clean, easy-to-read report so you can fix problems quickly and deploy with confidence.
+try out here : 🌐 https://isitcrashing.com]]></summary>
+        <author>
+            <name>Ahmed</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[From Prompts to Pipelines: How I Use Agentic Coding as an Engineering Workflow]]></title>
+        <id>https://dev.to/po8rewq/from-prompts-to-pipelines-how-i-use-agentic-coding-as-an-engineering-workflow-52fh</id>
+        <link href="https://dev.to/po8rewq/from-prompts-to-pipelines-how-i-use-agentic-coding-as-an-engineering-workflow-52fh"/>
+        <updated>2026-07-08T21:25:00.000Z</updated>
+        <summary type="html"><![CDATA[I am interested in agentic coding for the same reason I care about good engineering process in general: I want work to move forward in a way that is inspectable, repeatable, and resilient once the task gets messy.
+A lot of AI-assisted coding still feels like improvisation. You ask for something, get a result, adjust the prompt, try again, and hope the useful reasoning is still somewhere in the scrollback. That can work for tiny edits. It gets much less convincing when the task starts touching architecture, tests, review, or pull requests.
+What I want instead is a workflow where the model helps me think and execute, but inside a structure I can inspect afterwards. I want artifacts, gates, and something I can resume tomorrow without reconstructing the entire mental state from memory.
+That is…]]></summary>
+        <author>
+            <name>Adrien Fischer</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Stop writing a test-data builder for every class in .NET]]></title>
+        <id>https://dev.to/jlamfers2/stop-writing-a-test-data-builder-for-every-class-in-net-4k6n</id>
+        <link href="https://dev.to/jlamfers2/stop-writing-a-test-data-builder-for-every-class-in-net-4k6n"/>
+        <updated>2026-07-08T21:23:13.000Z</updated>
+        <summary type="html"><![CDATA[If you've ever written test data by hand, you know the ritual: a PersonBuilder, an
+OrderBuilder, an AddressBuilder… one hand-written builder per class, each one a wall of
+WithX(...) methods you have to maintain forever. The Test Data Builder and Object Mother
+XModelBuilder gives you a fluent builder for any C# class out of the box. No per-class
+dotnet add package XModelBuilder
+
+You can use it fully standalone (no DI container) through a small static facade:
+using XModelBuilder.Default;
+
+var order = For.Model<Order>()
+    .With(x => x.OrderDate, new DateTime(2026, 7, 1))
+    .With(x => x.Lines[0].Product, "Widget")   // deep paths + indexers just work
+    .With(x => x.Lines[0].Quantity, 3)
+    .Build();
+
+No OrderBuilder, no OrderLineBuilder. The Lines[0].Product path drills into a nested
+Cr…]]></summary>
+        <author>
+            <name>jlamfers2</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Decoding JWT: It's Not Encryption, It's a Signature]]></title>
+        <id>https://dev.to/tanmay_upadhyay_50802a11b/decoding-jwt-its-not-encryption-its-a-signature-2hn0</id>
+        <link href="https://dev.to/tanmay_upadhyay_50802a11b/decoding-jwt-its-not-encryption-its-a-signature-2hn0"/>
+        <updated>2026-07-08T21:17:33.000Z</updated>
+        <summary type="html"><![CDATA[Every API request needs to answer: who is this, and are they allowed? Session auth answers it by having the server remember every login. JWT answers it by making the client carry its own proof — no server memory needed.
+What's inside a token
+Header and payload are just base64-encoded — readable by anyone, not encrypted. The signature is what matters: a hash of the header + payload, made with a secret key only the server knows. Change one character of the payload, the signature breaks, the server rejects it. Trust comes from the math, not from hiding the data.
+Client logs in with credentials
+The trade-off
+Can't instantly revoke a token — it's valid until it expires. Fix: short-lived access tokens + a revocable refresh token.
+Payload is readable, so never put sensitive data in it. Security comes from HTTPS + safe client-side storage, not secrecy.
+One-liner to remember it by
+Session auth: remember who logged in, check memory each time. JWT: remember nothing, verify the proof each time.]]></summary>
+        <author>
+            <name>Tanmay Upadhyay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Internet's First Message Was 'LO']]></title>
+        <id>https://dev.to/fluidwire/the-internets-first-message-was-lo-4g9n</id>
+        <link href="https://dev.to/fluidwire/the-internets-first-message-was-lo-4g9n"/>
+        <updated>2026-07-08T21:14:02.000Z</updated>
+        <summary type="html"><![CDATA[The first message ever sent across the network that became the internet was not a grand declaration. It was two letters: "LO". Not a word anyone chose, not a slogan, just the first half of a login command that never finished because the system crashed. More than fifty years later, that accidental fragment is one of the best origin stories in computing, and it still has something to teach anyone building connected devices today.
+At around 10:30 in the evening on 29 October 1969, a student programmer named Charley Kline sat at a computer in Leonard Kleinrock's lab at UCLA. His job was to log in to a second machine roughly 350 miles away at the Stanford Research Institute (SRI) in Menlo Park, California. The two computers were among the first nodes of ARPANET, the U.S. Defense Department rese…]]></summary>
+        <author>
+            <name>fluidwire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building an E-commerce Backend: Auth, Cart, and Transactional Orders with Prisma]]></title>
+        <id>https://dev.to/chinwuba_jeffrey/building-an-e-commerce-backend-auth-cart-and-transactional-orders-with-prisma-3pp4</id>
+        <link href="https://dev.to/chinwuba_jeffrey/building-an-e-commerce-backend-auth-cart-and-transactional-orders-with-prisma-3pp4"/>
+        <updated>2026-07-08T21:14:02.000Z</updated>
+        <summary type="html"><![CDATA[This is the second stage of my CodeAlpha Full Stack internship — two projects, built in a deliberate order so the patterns from the first carry forward. First was a project management tool (auth + real-time updates with Socket.io). This one is a store: products, cart, orders. Same stack — Express, Prisma, PostgreSQL, JWT — but the interesting part isn't the CRUD, it's the order-placement flow, which is the first genuinely transactional piece of logic in the whole internship.
+I'll walk through the schema decisions, the auth changes from project one, and then spend most of the time on the part that actually matters: making sure an order can never be created without correctly and atomically updating stock and clearing the cart.
+model User {
+  id        String   @id @default(cuid())
+  name    …]]></summary>
+        <author>
+            <name>Chinwuba</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a free tool to scan your package.json for API deprecations]]></title>
+        <id>https://dev.to/ahmed889code/i-built-a-free-tool-to-scan-your-packagejson-for-api-deprecations-3pfp</id>
+        <link href="https://dev.to/ahmed889code/i-built-a-free-tool-to-scan-your-packagejson-for-api-deprecations-3pfp"/>
+        <updated>2026-07-08T21:13:28.000Z</updated>
+        <summary type="html"><![CDATA[While researching API changes I noticed something — Google Maps 
+Most developers won't know until something breaks.
+So I built DepRadar — paste your package.json, it checks your 
+Currently tracks 13 real deprecations across:
+Google Maps (DirectionsService, DistanceMatrixService removed)
+OpenAI (Realtime API Beta sunset)
+AWS SDK v2 (maintenance mode)
+Microsoft Actionable Messages (retired)
+moment.js, request package
+And more
+Free → depradar.netlify.app
+What deprecations am I missing from your stack?]]></summary>
+        <author>
+            <name>Ahmed889-code</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Evolving Agent: How Jean2 Learns Across Sessions]]></title>
+        <id>https://dev.to/danielbilek/the-evolving-agent-how-jean2-learns-across-sessions-2m98</id>
+        <link href="https://dev.to/danielbilek/the-evolving-agent-how-jean2-learns-across-sessions-2m98"/>
+        <updated>2026-07-08T21:12:44.000Z</updated>
+        <summary type="html"><![CDATA[I've been coding with AI agents for about two years. Every major one. Cursor, Copilot, Codex, OpenCode. They're good at generating code. They all share one problem.
+They forget everything.
+You finish a session, close the window, and the agent resets. Next time you open it, you're starting from zero. "We use pnpm, not npm." "The database is SQLite, not Postgres." "Don't touch the migrations folder." You repeat yourself. Every. Single. Time.
+Some tools added memory features. Usually as an afterthought. A pinned file. A custom instruction. A context window that grows until it hits a wall and everything old gets silently dropped.
+I didn't want a bigger context window. I wanted an agent that accumulates knowledge the way a colleague does. Not by being retrained. By taking notes, writing down wh…]]></summary>
+        <author>
+            <name>Daniel Bílek</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Separating signal from noise in coding evaluations]]></title>
+        <id>https://openai.com/index/separating-signal-from-noise-coding-evaluations/</id>
+        <link href="https://openai.com/index/separating-signal-from-noise-coding-evaluations/"/>
+        <updated>2026-07-08T21:03:51.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The classifiers Anthropic puts in front of Fable are too zealous]]></title>
+        <id>https://combine-lab.github.io/blog/2026/07/07/fable-is-not-a-useful-model.html</id>
+        <link href="https://combine-lab.github.io/blog/2026/07/07/fable-is-not-a-useful-model.html"/>
+        <updated>2026-07-08T20:41:33.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Turning a pile of documents into a searchable useable knowledge base]]></title>
+        <id>https://github.com/linuxrebel/DocuBrowser</id>
+        <link href="https://github.com/linuxrebel/DocuBrowser"/>
+        <updated>2026-07-08T20:37:29.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Agentic test processes, LLM benchmarks, and other notes on agentic coding fr]]></title>
+        <id>https://danluu.com/ai-coding/#llm-variance</id>
+        <link href="https://danluu.com/ai-coding/#llm-variance"/>
+        <updated>2026-07-08T20:21:45.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Onboard-CLI, a LLM powered and AST-based tool to visualize codebase]]></title>
+        <id>https://github.com/animesh-94/Onboard-CLI</id>
+        <link href="https://github.com/animesh-94/Onboard-CLI"/>
+        <updated>2026-07-08T20:09:03.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Next.js Law Firm Sites (with Proof)]]></title>
         <id>https://dev.to/techpotions/nextjs-law-firm-sites-with-proof-3clk</id>
@@ -65,6 +329,16 @@ Takeaway: A migration’s SEO risk lives entirely in the redirect gap. If every 
 Most “I lost all my traffic” stories come from migrations that bulk-redirect everything to the homepage, rename slugs for a cleaner look, or drop archives entirely. Zebuck’s …]]></summary>
         <author>
             <name>techpotions</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[FAANG Simulator]]></title>
+        <id>https://www.abeyk.com/escape-the-rat-race/</id>
+        <link href="https://www.abeyk.com/escape-the-rat-race/"/>
+        <updated>2026-07-08T20:05:42.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -242,6 +516,16 @@ building agent workflows, or if I'm missing something obvious — feedback (and 
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Almost Always Unsigned]]></title>
+        <id>https://graphitemaster.github.io/aau/</id>
+        <link href="https://graphitemaster.github.io/aau/"/>
+        <updated>2026-07-08T19:35:07.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Cloudflare Drop]]></title>
         <id>https://www.cloudflare.com/drop/</id>
         <link href="https://www.cloudflare.com/drop/"/>
@@ -249,6 +533,26 @@ building agent workflows, or if I'm missing something obvious — feedback (and 
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Build an MCP Server with FastMCP for Your Local AI Agent]]></title>
+        <id>6a4e9d5a4324feb8efb80026</id>
+        <link href="https://www.freecodecamp.org/news/build-an-mcp-server-with-fastmcp-for-local-ai-agent/"/>
+        <updated>2026-07-08T18:56:26.000Z</updated>
+        <summary type="html"><![CDATA[In this tutorial, I'll show you how to build an MCP server with FastMCP, connect your local AI agent to use tools from the local MCP server that you built, and add support for remote MCP servers. We'l]]></summary>
+        <author>
+            <name>Darsh Shah</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Paper Review: Self-Consistency Improves Chain of Thought Reasoning in Language Models]]></title>
+        <id>6a4e9d39cf634d0e556a13ac</id>
+        <link href="https://www.freecodecamp.org/news/ai-paper-review-self-consistency-improves-chain-of-thought-reasoning-in-language-models/"/>
+        <updated>2026-07-08T18:55:53.000Z</updated>
+        <summary type="html"><![CDATA[When Chain-of-Thought Prompting was introduced, it showed that large language models could solve many difficult reasoning problems simply by thinking step by step before producing an answer. It was a]]></summary>
+        <author>
+            <name>Mohammed Fahd Abrah</name>
         </author>
     </entry>
     <entry>
@@ -7099,6 +7403,16 @@ the occ…]]></summary>
         <id>https://chronicle.software/insights/blogs/why-low-latency-java-still-requires-discipline</id>
         <link href="https://chronicle.software/insights/blogs/why-low-latency-java-still-requires-discipline"/>
         <updated>2026-07-06T13:03:35.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DKIM2 and DMARCbis Have Landed]]></title>
+        <id>https://stalw.art/blog/dkim2-dmarcbis/</id>
+        <link href="https://stalw.art/blog/dkim2-dmarcbis/"/>
+        <updated>2026-07-06T13:02:57.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -43272,149 +43586,6 @@ using System.Net.Http.Head…]]></summary>
 The post U Mobile ULTRA5G: Ultra-fast Speeds Wherever You Go appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Newsdesk</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to burst the AI bubble: Strike at its roots]]></title>
-        <id>https://arstechnica.com/gadgets/2026/06/how-to-burst-the-ai-bubble-strike-at-its-roots/</id>
-        <link href="https://arstechnica.com/gadgets/2026/06/how-to-burst-the-ai-bubble-strike-at-its-roots/"/>
-        <updated>2026-06-24T09:57:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Xiaomi YU7 GT Is The First EV To Set Autonomous Driving Lap At Nürburgring]]></title>
-        <id>https://www.lowyat.net/?p=396680</id>
-        <link href="https://www.lowyat.net/2026/396680/xiaomi-yu7-gt-first-ev-autonomous-driving-lap-nurburgring/"/>
-        <updated>2026-06-24T09:51:03.000Z</updated>
-        <summary type="html"><![CDATA[If you may recall, a spy shot previously captured Xiaomi’s YU7 GT running laps at the Nürburgring Nordschleife, a famous racetrack in Germany. Recently, the tech giant revealed that the car was racing on the track once again, crossing the finish line at 10:29.483. While not the fastest, what makes this record so important is […]
-The post Xiaomi YU7 GT Is The First EV To Set Autonomous Driving Lap At Nürburgring appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Kiran Ganesan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Puzzling Success of Overparameterization: Lottery Tickets or Escape Dimensions?]]></title>
-        <id>https://infoscience.epfl.ch/entities/publication/9a49779b-f9f8-448d-b3d1-737c78455309</id>
-        <link href="https://infoscience.epfl.ch/entities/publication/9a49779b-f9f8-448d-b3d1-737c78455309"/>
-        <updated>2026-06-24T09:50:58.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Runes revival: Bitcoin traffic hits a two-year high as transactions blast past 820,000]]></title>
-        <id>2aba62be-0dc8-4ce7-afbe-9ca76c0161e6</id>
-        <link href="https://www.coindesk.com/markets/2026/06/24/the-runes-revival-bitcoin-traffic-hits-a-two-year-high-as-transactions-blast-past-820-000"/>
-        <updated>2026-06-24T09:47:58.000Z</updated>
-        <summary type="html"><![CDATA[A surge in Rune protocol activity is pushing Bitcoin transaction counts and fee generation to multi year highs.]]></summary>
-        <author>
-            <name>James Van Straten</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Fahmi: Social Media Platforms Could Face Up To RM10 Million Penalty Over Age Verification Requirements]]></title>
-        <id>https://www.lowyat.net/?p=396677</id>
-        <link href="https://www.lowyat.net/2026/396677/fahmi-social-media-platforms-rm10-million-penalty-age-verification/"/>
-        <updated>2026-06-24T09:45:30.000Z</updated>
-        <summary type="html"><![CDATA[As of the beginning of this month, licensed social media providers are obligated to implement measures to ensure the safety of children on their platforms. These requirements, which are outlined in Part III of the Online Safety Act 2025 (Act 866), include the introduction of age verification systems. Under the Act, platforms that fail to […]
-The post Fahmi: Social Media Platforms Could Face Up To RM10 Million Penalty Over Age Verification Requirements appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Suzuki Malaysia Teases Upcoming Launch Of eVitara]]></title>
-        <id>https://www.lowyat.net/?p=396631</id>
-        <link href="https://www.lowyat.net/2026/396631/suzuki-malaysia-teases-launch-evitara/"/>
-        <updated>2026-06-24T09:26:54.000Z</updated>
-        <summary type="html"><![CDATA[Suzuki Malaysia has posted a teaser of an upcoming EV being launched for the local market. Or at least, that’s what the stylised text for “evolution” looks to suggest. The name of the car isn’t mentioned specifically, but from the EV possibility and the headlights shown as part of the teaser, chances are this will […]
-The post Suzuki Malaysia Teases Upcoming Launch Of eVitara appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Deciphering Basmala]]></title>
-        <id>https://blog.plover.com/lang/bismillah.html</id>
-        <link href="https://blog.plover.com/lang/bismillah.html"/>
-        <updated>2026-06-24T09:05:46.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[This flying solar-powered platform could deliver better internet from the air]]></title>
-        <id>https://www.technologyreview.com/?p=1138771</id>
-        <link href="https://www.technologyreview.com/2026/06/24/1138771/solar-powered-platform-delivers-better-internet/"/>
-        <updated>2026-06-24T09:00:00.000Z</updated>
-        <summary type="html"><![CDATA[As soon as August, a giant silver bullet will cut its way through the dry air of the southwestern US and cross the Pacific to reach the coast of Japan.  Once there, the roughly 200-foot-long craft, built by the New Mexico–based company Sceye, will park some 18 kilometers above the ocean’s surface, in a wispy-thin…]]></summary>
-        <author>
-            <name>Rachel Courtland</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[All challenges big and small]]></title>
-        <id>https://www.technologyreview.com/?p=1138853</id>
-        <link href="https://www.technologyreview.com/2026/06/24/1138853/editors-letter-july-2026/"/>
-        <updated>2026-06-24T09:00:00.000Z</updated>
-        <summary type="html"><![CDATA[When I was 18, I skipped my high school graduation and headed to Kuwait. It was 1991, the first Gulf War had just ended, and the country was in complete chaos. There was little to no electricity, aside from generator power. Rubble and unexploded ordnance were everywhere. Massive oil fires lit up the desert and…]]></summary>
-        <author>
-            <name>Mat Honan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[You can't unit test for taste]]></title>
-        <id>https://dev.karltryggvason.com/you-cant-unit-test-for-taste/</id>
-        <link href="https://dev.karltryggvason.com/you-cant-unit-test-for-taste/"/>
-        <updated>2026-06-24T08:54:12.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[We're making Bunny DNS free: because a faster internet won't build itself]]></title>
-        <id>https://bunny.net/blog/were-making-bunny-dns-free/</id>
-        <link href="https://bunny.net/blog/were-making-bunny-dns-free/"/>
-        <updated>2026-06-24T08:50:41.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: WebBase-III – dBASE III rebuilt in the browser with its own interpreter]]></title>
-        <id>https://github.com/DDecoene/WebBaseIII</id>
-        <link href="https://github.com/DDecoene/WebBaseIII"/>
-        <updated>2026-06-24T08:46:16.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[SCC Technical Assistance Program]]></title>
-        <id>https://nerocam.com/scc_tap.asp</id>
-        <link href="https://nerocam.com/scc_tap.asp"/>
-        <updated>2026-06-24T08:46:04.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Grok Build 0.1: Intelligence, Performance and Price Analysis]]></title>
-        <id>https://artificialanalysis.ai/models/grok-build-0-1-06-16</id>
-        <link href="https://artificialanalysis.ai/models/grok-build-0-1-06-16"/>
-        <updated>2026-06-24T08:41:07.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
