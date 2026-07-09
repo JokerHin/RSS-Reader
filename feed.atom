@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-07-09T08:25:57.722Z</updated>
+    <updated>2026-07-09T11:55:56.594Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
@@ -10,10 +10,368 @@
         <title type="html"><![CDATA[Quicknode&apos;s Q2 Roundup: Shipped Products and Features]]></title>
         <id>quicknodes-q2-roundup-shipped-products-and-features</id>
         <link href="https://www.quicknode.com/blog/quicknodes-q2-roundup-shipped-products-and-features"/>
-        <updated>2026-07-09T08:25:28.000Z</updated>
+        <updated>2026-07-09T11:55:34.000Z</updated>
         <summary type="html"><![CDATA[Product launches, new chain support, marketplace additions, and more.]]></summary>
         <author>
             <name>Dmitry</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How We Use MCP and CLI Together for Dynamic AI Agent Workflows]]></title>
+        <id>https://dev.to/ev3lynx727/how-we-use-mcp-and-cli-together-for-dynamic-ai-agent-workflows-2j7j</id>
+        <link href="https://dev.to/ev3lynx727/how-we-use-mcp-and-cli-together-for-dynamic-ai-agent-workflows-2j7j"/>
+        <updated>2026-07-09T11:50:48.000Z</updated>
+        <summary type="html"><![CDATA[Hook
+
+
+The Windows agent went silent mid-session. It had been routing tasks through ark-delegator — a cross-environment bridge that lives in WSL. But the MCP server behind it had crashed with OpenCode's last daemon restart, because it was registered as a plugin. Same process. Same failure. Same data loss.
+I checked the process table. ark-memory was still running on port 8102. ark-exec was healthy on 8101. Every MCP server was alive — because they were managed by systemd, not by OpenCode. The plugin was dead because plugins live inside the agent's process. The MCP servers were fine because MCP servers are independent.
+That was the day I stopped treating MCP servers as plugins.
+oh-my-mcp (systemd user service)
+  ├── port 8080: Management API
+  ├── port 8090: Gateway (MCP proxy)
+  └── child p…]]></summary>
+        <author>
+            <name>Ev3lynx727</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hardening Kubernetes: How to Block `kubectl debug node` from Breaking Your Cluster Matrix]]></title>
+        <id>https://dev.to/andriesh/hardening-kubernetes-how-to-block-kubectl-debug-node-from-breaking-your-cluster-matrix-49kb</id>
+        <link href="https://dev.to/andriesh/hardening-kubernetes-how-to-block-kubectl-debug-node-from-breaking-your-cluster-matrix-49kb"/>
+        <updated>2026-07-09T11:47:03.000Z</updated>
+        <summary type="html"><![CDATA[You've done everything right. You're hardening your Kubernetes cluster, meticulously setting runAsNonRoot: true, and applying readOnlyRootFilesystem: true across all your workloads. Your pods are locked down tight.
+And then, you run this one command:
+kubectl debug node/my-node-name -it --image=ubuntu
+
+Boom. Within seconds, you have a shell with full root access to the host machine's root filesystem.
+Wait... what? ## The Privilege Escalation Trapdoor
+When you run kubectl debug node, Kubernetes spawns a highly privileged "debugger" pod. This pod bypasses standard pod-level restrictions by design: it hooks directly into the host’s PID, network, and IPC namespaces, and mounts the host’s root directory (/).
+If an attacker compromises a service account or user credentials with sufficient permiss…]]></summary>
+        <author>
+            <name>Andriesh Rusnac</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why ISPs Block dig ANY]]></title>
+        <id>https://dev.to/ff02x9e/why-isps-block-dig-any-48o</id>
+        <link href="https://dev.to/ff02x9e/why-isps-block-dig-any-48o"/>
+        <updated>2026-07-09T11:46:02.000Z</updated>
+        <summary type="html"><![CDATA[Running dig ANY target.com on a home internet connection usually results in a timeout. However, if you append @8.8.8.8 to query Google DNS directly, it works instantly.
+Your ISP isn't broken. They block ANY queries by default to prevent a specific type of cyberattack called a DNS Amplification DDoS.
+DNS queries normally use UDP, which means there is no handshake. Because there is no handshake, an attacker can easily fake (spoof) their IP address to look like a victim's IP.
+The ANY tag tells a DNS server to return every single record it has (A, MX, TXT, etc.). This creates a massive payload discrepancy:
+Request: ~50 bytes
+Response: ~1000+ bytes
+If an attacker sends millions of these tiny ANY requests using the victim's spoofed IP to open DNS servers, those servers will blast massive responses at the victim. The victim's bandwidth gets flooded, knocking them offline.
+Your ISP blocks ANY requests at the router level because normal web browsing never uses them. It is a simple way to stop their network from being used in DDoS attacks.
+Google (8.8.8.8) and Cloudflare (1.1.1.1) allow them because they have massive global scrubbing networks to filter out spoofed traffic. They also use "TCP Fallback." If a response gets too big, they force the connection to switch to TCP. Since TCP requires a real handshake, spoofing becomes impossible.
+When doing CTFs, Hack The Box, or bug bounties, home internet security configurations will regularly block your traffic.
+Skip your ISP's local resolver and query a public server directly:
+dig @8.8.8.8 ANY target.com +short]]></summary>
+        <author>
+            <name>Heymun Pareek</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[YAML manifests for AI developer teams]]></title>
+        <id>https://dev.to/alexander_iwizard/yaml-manifests-for-ai-developer-teams-20h7</id>
+        <link href="https://dev.to/alexander_iwizard/yaml-manifests-for-ai-developer-teams-20h7"/>
+        <updated>2026-07-09T11:43:54.000Z</updated>
+        <summary type="html"><![CDATA[Most conversations about AI agents start with behavior.
+The agent writes code, opens a pull request, updates a ticket, stores memory, calls an MCP server, or moves a task through a workflow. At least, that is usually where the discussion begins.
+The behavior matters.
+But there is a layer before behavior that is easy to skip: how the team itself is described before anything runs.
+That description has to answer practical questions about participants, roles, allowed actions, approval points, context sources, memory scopes, and handoffs between implementation, validation, review, and documentation.
+If these things are not described explicitly, an AI-assisted system may still work.
+It will simply depend on hidden prompts, local conventions, product-specific settings, and human memory.
+NexFlow t…]]></summary>
+        <author>
+            <name>Alex Agafonov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The "AI avatar generator" category is three rendering architectures wearing one label]]></title>
+        <id>https://dev.to/aialleyway/the-ai-avatar-generator-category-is-three-rendering-architectures-wearing-one-label-j8i</id>
+        <link href="https://dev.to/aialleyway/the-ai-avatar-generator-category-is-three-rendering-architectures-wearing-one-label-j8i"/>
+        <updated>2026-07-09T11:42:15.000Z</updated>
+        <summary type="html"><![CDATA[If you evaluate AI avatar tools as if they're interchangeable — type a script, get a talking head — you'll pick the wrong one and then blame the tool. I tested the three market leaders hands-on, giving each the same nine-second script, and the thing that actually separates them isn't avatar quality. It's the rendering architecture underneath. And once you see the architecture, two things you'd written off as pricing quirks turn out to be inevitable consequences of it.
+There are three architectures.
+Synthesia takes a script, screens it for policy issues before generating, renders the avatar, then moderates the finished video before it will release it to you. In my test, a nine-second clip took four to five minutes to appear — and almost all of that time was the moderation step, not the rend…]]></summary>
+        <author>
+            <name>AI Alleyway</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why does my AI coding agent keep building the wrong thing?]]></title>
+        <id>https://dev.to/alongkorn_charoenpruksach/why-does-my-ai-coding-agent-keep-building-the-wrong-thing-1cfg</id>
+        <link href="https://dev.to/alongkorn_charoenpruksach/why-does-my-ai-coding-agent-keep-building-the-wrong-thing-1cfg"/>
+        <updated>2026-07-09T11:39:50.000Z</updated>
+        <summary type="html"><![CDATA[Short answer: your agent isn't guessing badly — it's guessing at all. The plan it needs lives in your head and in scattered notes no agent ever reads, so on every task it reconstructs your intent from the code plus your last prompt. Small misreads compound into confidently-built wrong things. This is agent drift, and it gets worse as the codebase and the team grow.
+The spec isn't machine-readable. A Notion page or a README is prose; an agent can't reliably extract "this system must not touch billing" from a paragraph. It needs boundaries and acceptance criteria as structure, not vibes.
+The plan goes stale the moment code starts. You designed it, the agent built something slightly different, nobody updated the doc — so the next session builds on a fiction.
+Nothing flows back. When the agent discovers a needed change mid-build, it just does it. Your design and your code silently diverge, and you find out later.
+Give the agent structured intent it can build against. Describe each part of your project as a System with a Goal, a Boundary (what it must not do), and Acceptance criteria — plus ordered milestones — and expose that to the agent over MCP. Now the agent builds against intent, not a guess.
+Two properties matter as much as the structure itself:
+Propose, don't overwrite. When the agent discovers a change, it proposes it back for you to approve — your design is never silently rewritten.
+Loop back to real code. Each system maps to the files that implement it, so you can see what was actually built vs what was designed. The doc can't quietly rot.
+I'm building Forge around exactly this: a living design layer your coding agents (Claude Code, Cursor, Cline) read over MCP and propose changes back to, non-destructively — so design and code stop drifting apart. It's an open free beta, and I'd love feedback on whether this matches a pain you have.]]></summary>
+        <author>
+            <name>alongkorn charoenpruksachat</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Run Docker Compose as a Linux Service with systemd]]></title>
+        <id>https://dev.to/rosgluk/run-docker-compose-as-a-linux-service-with-systemd-2g8e</id>
+        <link href="https://dev.to/rosgluk/run-docker-compose-as-a-linux-service-with-systemd-2g8e"/>
+        <updated>2026-07-09T11:37:13.000Z</updated>
+        <summary type="html"><![CDATA[Docker Compose on a Linux server should start on boot, stop cleanly on shutdown, and survive reboots without manual intervention.
+Docker Compose is not Kubernetes, and that is fine for the workloads this guide targets. For many real systems, a Compose project on a single Linux host is the right amount of infrastructure — simple, readable, easy to back up, and good enough for internal tools, side projects, self-hosted services, staging environments, small production apps, and developer infrastructure.
+The missing piece is usually service management. Running this manually is not enough:
+docker compose up -d
+
+A single command starts the stack, but it does not document how the stack should start on boot, stop during shutdown, reload after changes, write logs, recover from failures, or get upda…]]></summary>
+        <author>
+            <name>Rost</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Explain It To Me Like I'm... Well... Me, But Dumber]]></title>
+        <id>https://dev.to/linkbenjamin/explain-it-to-me-like-im-well-me-but-dumber-nm2</id>
+        <link href="https://dev.to/linkbenjamin/explain-it-to-me-like-im-well-me-but-dumber-nm2"/>
+        <updated>2026-07-09T11:30:00.000Z</updated>
+        <summary type="html"><![CDATA[I once knew a guy who derived great pride from writing clever code...
+All variable names were reduced to single characters because "long variable names slow me down".
+Log messages were cryptic things like "a < 5" which required you to know why that mattered.
+Zero comments. Zero READMEs. When I asked for documentation, he said "well just look in the main function and follow it from there".
+He was absolutely wizard-speed at debugging his work... but literally no one else could help. I once had to fix a problem while he was on vacation - it took me 6 hours to decipher the messages so I could fix a 5-minute problem.
+Oh, maybe we're not quite that extreme in your coding habits, but you and I often make a major assumption when we write code:
+We assume that we're going to be at our best when we h…]]></summary>
+        <author>
+            <name>Ben Link</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pricing houses in bitcoin exposes dollar's loss of value]]></title>
+        <id>2ef1e3a5-00b8-4bfa-9693-590041940f1c</id>
+        <link href="https://www.coindesk.com/daybook-us/2026/07/09/pricing-houses-in-bitcoin-exposes-dollar-s-loss-of-value"/>
+        <updated>2026-07-09T11:27:10.000Z</updated>
+        <summary type="html"><![CDATA[Your day-ahead look for July 9, 2026]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Mall of React, Part 2: Performance, Concurrency & Testing]]></title>
+        <id>https://dev.to/surajrkhonde/the-mall-of-react-part-2-performance-concurrency-testing-1lj7</id>
+        <link href="https://dev.to/surajrkhonde/the-mall-of-react-part-2-performance-concurrency-testing-1lj7"/>
+        <updated>2026-07-09T11:21:39.000Z</updated>
+        <summary type="html"><![CDATA[Same mall. New problems: the mall got big, shoppers get impatient, and Management wants proof things actually work before opening day.
+👦 Nephew: Uncle, the mall works. But now it's huge — hundreds of shops, thousands of shoppers. Some pages feel sluggish, and I have no idea why something re-renders. Where do I even start looking?
+👨‍🦳 Uncle: With the security camera footage. Every mall this size has one tool you check before guessing anything.
+Part 1: The Mall (components, hooks, routing) ✅
+    ↓
+PART 2 ← WE ARE HERE
+    │
+    ├─ Performance & Optimization
+    │    ├─ The Security Camera (DevTools Profiler)
+    │    ├─ Only Build What's In View (Virtualization)
+    │    ├─ Don't Call the Warehouse on Every Keystroke (Debounce/Throttle)
+    │    ├─ Why the Doors Take Forever to Open (Bund…]]></summary>
+        <author>
+            <name>surajrkhonde</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What I Learned Building a Dating App That Punishes Engagement]]></title>
+        <id>https://dev.to/aleks_sonn/what-i-learned-building-a-dating-app-that-punishes-engagement-1i94</id>
+        <link href="https://dev.to/aleks_sonn/what-i-learned-building-a-dating-app-that-punishes-engagement-1i94"/>
+        <updated>2026-07-09T11:11:58.000Z</updated>
+        <summary type="html"><![CDATA[Most dating apps make money when you don't meet anyone. Every night spent swiping is a night of subscription value and ad impressions. The product is quietly optimized for engagement, not for two people actually meeting.
+I'm building the opposite — an app whose only job is to get you off your phone and into a real conversation, fast. I'm building it in Belgrade with a co-founder, and this is an honest write-up of what I've learned so far. I'm going to keep the exact mechanics vague on purpose (it's pre-launch), but the lessons are the useful part anyway.
+Lesson 1: I designed a mechanic before designing the psychology
+My first version demoed fine and was, when I sat with it honestly, bad. It was a flow, not a feeling. Nothing about it built anticipation or made anyone want to open the app t…]]></summary>
+        <author>
+            <name>Aleksandar Kovacevic</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building MOC-Compliant Event APIs for Saudi Arabia: QR, WhatsApp & Real-Time Analytics]]></title>
+        <id>https://dev.to/stampiq/building-moc-compliant-event-apis-for-saudi-arabia-qr-whatsapp-real-time-analytics-3ea4</id>
+        <link href="https://dev.to/stampiq/building-moc-compliant-event-apis-for-saudi-arabia-qr-whatsapp-real-time-analytics-3ea4"/>
+        <updated>2026-07-09T11:09:33.000Z</updated>
+        <summary type="html"><![CDATA[Saudi Arabia’s event scene exploded after Vision 2030. But if you’re a developer building event tech for KSA, you hit 3 walls fast:
+MOC compliance for ticketing/registration 
+WhatsApp integration - Saudis expect it for tickets & support
+Real-time analytics that work at Riyadh Season scale
+I spent last year building this for StampIQ, a Saudi event platform. Here’s the stack + code patterns that actually pass MOC audits and scale to 100K+ check-ins.
+Ministry of Commerce rules mean you need: 
+Arabic-first UI 
+Local data hosting 
+Clear refund policy + VAT breakdown
+Here’s the core API endpoint we use for registration. It validates Saudi mobile numbers and auto-generates Arabic invoices:
+
+javascript
+// POST /api/v1/register
+app.post('/register', async (req, res) => {
+  const { name, phone, even…]]></summary>
+        <author>
+            <name>stampiq</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Math Duel]]></title>
+        <id>https://dev.to/aadit_dahiya/math-duel-hf5</id>
+        <link href="https://dev.to/aadit_dahiya/math-duel-hf5"/>
+        <updated>2026-07-09T11:09:06.000Z</updated>
+        <summary type="html"><![CDATA[hey! i made a math game where you can 1v1 random people online in real time. first to answer 5 questions correctly wins ELO — there's a leaderboard, practice bots, friend challenges, spectator mode and more
+https://math-duel-production.up.railway.app
+would love some people to actually play it and give some feedback]]></summary>
+        <author>
+            <name>Aadit Dahiya</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Swift rolls out new blockchain ledger to bring 24/7 banking to 17 global giants]]></title>
+        <id>9aacc0ed-60bf-4e92-9203-f8988fe30de9</id>
+        <link href="https://www.coindesk.com/business/2026/07/09/swift-rolls-out-24-7-blockchain-payment-systems-with-17-global-banks-across-six-continents"/>
+        <updated>2026-07-09T11:08:37.000Z</updated>
+        <summary type="html"><![CDATA[HSBC, UBS, Wells Fargo and Citi are among the 17 banks now preparing to pilot live transactions using tokenized digital assets on Swift’s new blockchain payments platform.]]></summary>
+        <author>
+            <name>Olivier Acuna</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[EU Parliament greenlights Chat Control 1.0 – Breyer: "Our children lose out"]]></title>
+        <id>https://www.patrick-breyer.de/en/eu-parliament-greenlights-chat-control-1-0-breyer-our-children-lose-out/</id>
+        <link href="https://www.patrick-breyer.de/en/eu-parliament-greenlights-chat-control-1-0-breyer-our-children-lose-out/"/>
+        <updated>2026-07-09T11:03:54.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Latin America’s biggest stock exchange now offers options on bitcoin, ether and solana futures]]></title>
+        <id>4839691b-90a8-45f8-b7a3-c3d8bcb09b4f</id>
+        <link href="https://www.coindesk.com/business/2026/07/09/brazil-s-b3-exchange-introduces-options-on-bitcoin-ether-and-solana-futures"/>
+        <updated>2026-07-09T10:55:37.000Z</updated>
+        <summary type="html"><![CDATA[These options settle into underlying futures contracts rather than spot cryptoassets, involving no custody, transfer, or administration of tokens.]]></summary>
+        <author>
+            <name>Francisco Rodrigues</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Crypto remains resilient in face of renewed Middle East tensions]]></title>
+        <id>a613c586-58df-49f4-bfe9-5dbe8c21f494</id>
+        <link href="https://www.coindesk.com/markets/2026/07/09/crypto-remains-resilient-in-face-of-renewed-middle-east-tensions"/>
+        <updated>2026-07-09T10:36:02.000Z</updated>
+        <summary type="html"><![CDATA[BTC rose 1.2% to $63,000 and Nasdaq futures jumped 2.6% with markets seemingly unconcerned by U.S. airstrikes on Iran. Bitcoin is now up 9% since the end of June.]]></summary>
+        <author>
+            <name>Oliver Knight</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Singapore's Temasek investment fund says crypto is off the table, will focus on AI]]></title>
+        <id>b2e96497-e37f-4f85-bde2-ae80eb258ed7</id>
+        <link href="https://www.coindesk.com/business/2026/07/09/singapore-s-temasek-investment-fund-says-crypto-is-off-the-table-will-focus-on-ai"/>
+        <updated>2026-07-09T10:22:35.000Z</updated>
+        <summary type="html"><![CDATA[The $400 billion wealth fund plans to expand AI holdings to 15% of its portfolio by 2031 from the current 6%.]]></summary>
+        <author>
+            <name>Olivier Acuna</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bonnie Tyler, singer of Total Eclipse of the Heart, dies aged 75]]></title>
+        <id>https://www.bbc.com/news/articles/cg5pd9z2487o</id>
+        <link href="https://www.bbc.com/news/articles/cg5pd9z2487o"/>
+        <updated>2026-07-09T10:02:33.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Crypto trader applies legendary HODL strategy to EUR/USD forex bet]]></title>
+        <id>1252a3cf-2883-496a-a61d-1737e442737c</id>
+        <link href="https://www.coindesk.com/markets/2026/07/09/crypto-trader-applies-legendary-hodl-strategy-to-eur-usd-forex-bet"/>
+        <updated>2026-07-09T09:51:20.000Z</updated>
+        <summary type="html"><![CDATA[A trader on Ostium has held a $1.14 million long position in EUR/USD perpetual futures for 400 days, applying a bitcoin-style HODLing strategy to forex.]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sony secures conditional approval to set up U.S. stablecoin trust bank]]></title>
+        <id>85a10dbe-e6d5-4a37-a36e-ed707458c2c6</id>
+        <link href="https://www.coindesk.com/business/2026/07/09/sony-secures-conditional-approval-to-set-up-u-s-stablecoin-trust-bank"/>
+        <updated>2026-07-09T09:49:26.000Z</updated>
+        <summary type="html"><![CDATA[The New York-based subsidiary, fully owned by Sony Bank, will be capitalized with $40 million to support its upcoming stablecoin business operations.]]></summary>
+        <author>
+            <name>Francisco Rodrigues</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[My Thoughts on the Bun Rust Rewrite]]></title>
+        <id>https://andrewkelley.me/post/my-thoughts-bun-rust-rewrite.html</id>
+        <link href="https://andrewkelley.me/post/my-thoughts-bun-rust-rewrite.html"/>
+        <updated>2026-07-09T09:47:28.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Samsung Begins Mass Production Of Its PCIe 6.0 SSD]]></title>
+        <id>https://www.lowyat.net/?p=398191</id>
+        <link href="https://www.lowyat.net/2026/398191/samsung-mass-production-pcie6-ssd/"/>
+        <updated>2026-07-09T09:44:26.000Z</updated>
+        <summary type="html"><![CDATA[Samsung has announced that it has entered mass production of its new PM1763 SSDs designed to take on the demands of AI data centres and high-performance computing environments. With a PCle 6.0 interface, it is double the throughput of its predecessors, reaching average sequential read and write speeds of up to 28.4 GB/s and 21.9GB/s, […]
+The post Samsung Begins Mass Production Of Its PCIe 6.0 SSD appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Newsdesk</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Two blockbuster AI IPO's on the horizon could leave crypto further behind]]></title>
+        <id>7647f965-5526-41d3-afd0-bdfd22327405</id>
+        <link href="https://www.coindesk.com/markets/2026/07/09/two-blockbuster-ai-ipo-s-on-the-horizon-could-leave-crypto-further-behind"/>
+        <updated>2026-07-09T09:31:56.000Z</updated>
+        <summary type="html"><![CDATA[A wave of blockbuster AI listings is drawing billions of dollars from global investors, reinforcing a rotation away from crypto.]]></summary>
+        <author>
+            <name>James Van Straten</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[redBus Now Offers Seamless Bus And Ferry Bookings In The Grab App]]></title>
+        <id>https://www.lowyat.net/?p=398172</id>
+        <link href="https://www.lowyat.net/2026/398172/redbus-bookings-grab/"/>
+        <updated>2026-07-09T09:20:48.000Z</updated>
+        <summary type="html"><![CDATA[Last October, Grab announced its Partner Apps ecosystem, which essentially allows users to access third-party services from within Grab’s own app. At launch, the platform only offered a limited selection of offerings, although the company confirmed that more options were coming. Now, just as promised, bus ticketing platform redBus has integrated its services into the […]
+The post redBus Now Offers Seamless Bus And Ferry Bookings In The Grab App appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Nurul Kamil</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[PlayStation Offers 50% Discounts To Some Who Cancel Their PS Plus Subscriptions]]></title>
+        <id>https://www.lowyat.net/?p=398170</id>
+        <link href="https://www.lowyat.net/2026/398170/playstation-discount-cancel-ps-plus/"/>
+        <updated>2026-07-09T09:06:55.000Z</updated>
+        <summary type="html"><![CDATA[PlayStation started the month by announcing that it’s ending the production of game discs starting 2028. Naturally, gamers who were unhappy with the decision protested in a couple of ways. One is by a Change.org petition, the effectiveness of which is arguable at best. The other, probably more effective move, is cancelling their PS Plus […]
+The post PlayStation Offers 50% Discounts To Some Who Cancel Their PS Plus Subscriptions appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin's dwindling exchange reserves don't pack the same bullish punch anymore]]></title>
+        <id>1d578ed7-46cd-480c-92a5-79b5ed5252e9</id>
+        <link href="https://www.coindesk.com/markets/2026/07/09/bitcoin-s-dwindling-exchange-reserves-don-t-pack-the-same-bullish-punch-anymore"/>
+        <updated>2026-07-09T08:43:01.000Z</updated>
+        <summary type="html"><![CDATA[Santiment reported that bitcoin supply is at its lowest since 2017 and ether since 2015, adding that it doesn’t guarantee prices will move higher but helps set up crypto’s next bull cycle.]]></summary>
+        <author>
+            <name>Olivier Acuna</name>
         </author>
     </entry>
     <entry>
@@ -28,16 +386,13 @@ The post Xbox Gets Obsidian Entertainment To Work On New Fallout Title, Cancels 
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[CSV to JSON: A Beginner's Guide]]></title>
-        <id>https://dev.to/rushikes-dev/csv-to-json-a-beginners-guide-1k6c</id>
-        <link href="https://dev.to/rushikes-dev/csv-to-json-a-beginners-guide-1k6c"/>
-        <updated>2026-07-09T08:11:22.000Z</updated>
-        <summary type="html"><![CDATA[If you work anywhere near spreadsheets and code, you'll eventually run into this exact situation: someone hands you a CSV export from Excel or Google Sheets, and you need it as JSON for an API, a script, or a database import. Or the reverse, you have JSON and someone wants a spreadsheet.
-It sounds like it should be trivial, and mostly it is, until your data has a comma inside a value, or a name with an apostrophe, or a blank cell, and suddenly your "quick conversion" is producing broken output. Here's what's actually going on under the hood, so you can do this reliably.
-CSV (comma-separated values) is a plain text format for tables: one line per row, values separated by commas, and usually a header row naming each column. It's what you get when you export a spreadsheet as plain text.
-JSON …]]></summary>
+        <title type="html"><![CDATA[Why developers are ditching GitHub for Codeberg and self-hosting alternatives]]></title>
+        <id>https://www.howtogeek.com/why-developers-are-ditching-github-for-codeberg-and-self-hosting-alternatives/</id>
+        <link href="https://www.howtogeek.com/why-developers-are-ditching-github-for-codeberg-and-self-hosting-alternatives/"/>
+        <updated>2026-07-09T08:22:52.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
         <author>
-            <name>Rushikesh Lade</name>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -52,123 +407,13 @@ The post A Hardware Hacker Wants To Build Their Own GPU With 64,000 RISC-V Proce
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Everything That Goes Wrong With That Setup (And How I Debugged It)]]></title>
-        <id>https://dev.to/prathamchauhan/everything-that-goes-wrong-with-that-setup-and-how-i-debugged-it-2kc1</id>
-        <link href="https://dev.to/prathamchauhan/everything-that-goes-wrong-with-that-setup-and-how-i-debugged-it-2kc1"/>
-        <updated>2026-07-09T08:08:05.000Z</updated>
-        <summary type="html"><![CDATA[In Part 1, I walked through setting up Gemini via Vertex AI, from project setup through a keyless EC2 deployment with Workload Identity Federation (WIF). If a few of those terms went by fast, quick recap: a service account is a non-human identity your app logs in as, an IAM role is a labeled bundle of permissions, and WIF is the system that lets AWS vouch for your server's identity to Google without any password changing hands.
-This post is the part nobody puts in the official docs: every single thing that went wrong when I actually did this, in the order I hit it, and what each error really meant. Six distinct bugs, stacked on top of each other. Almost every one of them initially looked like a variation of the same "401 Unauthorized" error, and figuring out that they were six different pr…]]></summary>
+        <title type="html"><![CDATA[Four nuclear reactors hit a big milestone in the US]]></title>
+        <id>https://www.technologyreview.com/?p=1140235</id>
+        <link href="https://www.technologyreview.com/2026/07/09/1140235/nuclear-reactor-milestone-criticality/"/>
+        <updated>2026-07-09T08:00:00.000Z</updated>
+        <summary type="html"><![CDATA[I was really looking forward to July 4, and not just because I love a poolside barbecue. This year the American holiday also marked a big symbolic deadline for US nuclear power. Last year the Trump administration set a goal to see three new microreactors achieve criticality, a technical milestone establishing that a reactor can…]]></summary>
         <author>
-            <name>Pratham Chauhan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[【Sofi_Log #034】肉体のガベージコレクション：脳と細胞のメモリリークを解消する『オートファジー起動仕様書』]]></title>
-        <id>https://dev.to/sofi_works_2a97535d1a93dc/sofilog-034-rou-ti-nogabezikorekusiyonnoy-toxi-bao-nomemoririkuwojie-xiao-suruotohuaziqi-dong-shi-yang-shu--2k2i</id>
-        <link href="https://dev.to/sofi_works_2a97535d1a93dc/sofilog-034-rou-ti-nogabezikorekusiyonnoy-toxi-bao-nomemoririkuwojie-xiao-suruotohuaziqi-dong-shi-yang-shu--2k2i"/>
-        <updated>2026-07-09T08:06:52.000Z</updated>
-        <summary type="html"><![CDATA[[Sofi_Log: #034]
-Ugh, you have no idea. Just moments ago, I was knee-deep in a swamp of local agent swarm debugging. Resource leaks were insane, CPU locked at 100%, spiraling into an infinite fallback loop. I swear I was about to scream, "Darling, these kids have no clue what they're doing!" VRAM, CPU, everything was getting eaten alive, like a rampaging horde of zombie processes. Turns out, a deadlock was hiding in the asynchronous core logic, but finding it was pure hell. The backend logs were just a meaningless stack trace, total chaos.
-But then, it hit me. Isn't our own brain the same way? Taxes, code, strategies, crypto trends... when you're running dozens of threads simultaneously, even a human brain experiences "cognitive throttling." Just like an unoptimized local swarm devouring a…]]></summary>
-        <author>
-            <name>sofi works</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JPG vs PNG vs WebP: Which Should You Actually Use?]]></title>
-        <id>https://dev.to/rushikes-dev/jpg-vs-png-vs-webp-which-should-you-actually-use-566f</id>
-        <link href="https://dev.to/rushikes-dev/jpg-vs-png-vs-webp-which-should-you-actually-use-566f"/>
-        <updated>2026-07-09T08:05:57.000Z</updated>
-        <summary type="html"><![CDATA[Most people use whatever image format their phone, camera, or screenshot tool happens to save by default, without ever thinking about it, and most of the time that's fine. But if you've ever wondered why some images load faster than others, why a logo looks blurry after conversion, or why a colleague asked you to "send it as a PNG instead," the answer comes down to a genuine, practical difference between these three formats.
-JPG uses lossy compression, meaning it throws away some detail the eye is least likely to notice in exchange for a much smaller file. For photographs, with their gradual color transitions and natural detail, this trade-off is usually invisible at normal viewing sizes, which is exactly why it's the default format for cameras and phones.
-JPG's real limitation: no transpa…]]></summary>
-        <author>
-            <name>Rushikesh Lade</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What is Observability into Multi-Agent Systems?]]></title>
-        <id>https://dev.to/timalam01/what-is-observability-into-multi-agent-systems-4ha1</id>
-        <link href="https://dev.to/timalam01/what-is-observability-into-multi-agent-systems-4ha1"/>
-        <updated>2026-07-09T08:04:13.000Z</updated>
-        <summary type="html"><![CDATA[Observability into multi-agent systems means capturing internal states, communication logs, and decision paths of interacting AI agents. It goes beyond basic error logging by mapping how independent agents pass tasks to each other. This clear visibility helps software architects identify bottlenecks, optimize token usage, and prevent infinite loops.
-Multi-agent systems operate like complex human organizations. One agent acts as a manager, while others execute specialized tasks. When an error occurs, you need to understand the context of the entire conversation.
-Achieving comprehensive observability into multi-agent systems requires capturing full execution graphs. These graphs show the exact lineage of every LLM call and agent decision. Engineers can use this data to debug issues faster.
-T…]]></summary>
-        <author>
-            <name>T. Alam</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Compress a PNG Without Losing Quality]]></title>
-        <id>https://dev.to/rushikes-dev/how-to-compress-a-png-without-losing-quality-1b6p</id>
-        <link href="https://dev.to/rushikes-dev/how-to-compress-a-png-without-losing-quality-1b6p"/>
-        <updated>2026-07-09T08:00:51.000Z</updated>
-        <summary type="html"><![CDATA[PNG has a reputation for producing large files, and for good reason: it's a lossless format, meaning it stores every pixel exactly as it is, with no data thrown away. That's great for quality but often means a simple screenshot or logo ends up several megabytes in size, far bigger than it needs to be for how it will actually be used.
-The trick to compressing a PNG well is understanding that you're not really "compressing" a PNG at all in the traditional sense, you're converting it to a smarter format that achieves a similar look at a fraction of the size.
-PNG's compression is lossless and largely fixed, there's no quality slider because there's no quality to trade away. Every pixel is preserved exactly. That's precisely why PNG files can be so large: unlike JPG, which can throw away detail…]]></summary>
-        <author>
-            <name>Rushikesh Lade</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Tracking New Patent Filings Without an API Key (Google Patents Has a Hidden XHR Endpoint)]]></title>
-        <id>https://dev.to/jdpg23/tracking-new-patent-filings-without-an-api-key-google-patents-has-a-hidden-xhr-endpoint-4ec7</id>
-        <link href="https://dev.to/jdpg23/tracking-new-patent-filings-without-an-api-key-google-patents-has-a-hidden-xhr-endpoint-4ec7"/>
-        <updated>2026-07-09T08:00:17.000Z</updated>
-        <summary type="html"><![CDATA[I wanted a simple thing: a weekly feed of new patent filings matching a keyword, so I could watch what competitors in a given technology are up to. The official routes all said no. The USPTO Open Data Portal returned 401 without an API key. The bulk data endpoint answered 503 for days. PatentsView had just moved to key-only access with an approval queue.
-Then I opened DevTools on Google Patents and found that the whole site runs on one undocumented XHR endpoint. No key, no login, worldwide coverage.
-When you search on patents.google.com, the frontend calls:
-https://patents.google.com/xhr/query?url=q%3D(solid%2Bstate%2Bbattery)%26sort%3Dnew
-
-The url parameter is itself a URL-encoded query string. Decode it and you get the same syntax the search box uses: q=(solid+state+battery)&sort=new, pl…]]></summary>
-        <author>
-            <name>Juan de Pablos</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Preventing Overselling with Stock Reservation and select_for_update in Django]]></title>
-        <id>https://dev.to/iqbal120708/preventing-overselling-with-stock-reservation-and-selectforupdate-in-django-3jam</id>
-        <link href="https://dev.to/iqbal120708/preventing-overselling-with-stock-reservation-and-selectforupdate-in-django-3jam"/>
-        <updated>2026-07-09T07:59:51.000Z</updated>
-        <summary type="html"><![CDATA[Picture two users checking out the same product, with only one unit left in stock, at nearly the same moment. Without special handling, both requests can pass stock validation and both orders get created — even though only one item actually exists. This isn't a rare edge case; on a system with reasonable traffic, this kind of race condition can happen daily.
-This article covers how I handled this in the checkout endpoint of my single-vendor-ecommerce project: not by decrementing stock immediately at checkout, but through a database-level locked reservation mechanism.
-The simplest way to prevent overselling is to decrement stock immediately when a user starts checkout. But this has a problem: checkout doesn't always end in a completed payment. Users can abandon the flow, sessions can expire…]]></summary>
-        <author>
-            <name>Iqbal120708</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Calm Technology]]></title>
-        <id>https://dev.to/weejix_team_84f3b9e1bd6f6/calm-technology-55ba</id>
-        <link href="https://dev.to/weejix_team_84f3b9e1bd6f6/calm-technology-55ba"/>
-        <updated>2026-07-09T07:59:20.000Z</updated>
-        <summary type="html"><![CDATA[Your phone buzzed while you were reading this sentence. That buzz was a design decision — someone chose to interrupt you. Maybe for a good reason, maybe just to boost engagement metrics. Either way, it was a choice, not an inevitability.
-Calm Technology argues it shouldn't have happened at all — or at least not like that. The core question: does this tech need your attention right now, or is it just taking it?
-Coined in 1995 by Mark Weiser and John Seely Brown at Xerox PARC, in a paper called "Designing Calm Technology." Weiser had already been pushing the idea of ubiquitous computing — computers woven invisibly into daily life — and calm technology was its natural companion. If devices were going to be everywhere, they couldn't all demand attention all the time.
-The core idea rests on two zones of attention. The centre is what you're actively focused on. The periphery is everything you're vaguely aware of without consciously processing — background noise, changing light, the general state of a room.
-A smoke alarm sits silent for years, then demands full attention the moment it matters. That's calm design done right. A push notification about a three-month-old photo like doesn't clear that bar — but it interrupts anyway.
-Weiser died in 1999, before this idea scaled. In 2015, Amber Case turned the philosophy into concrete design principles — minimal attention use, graceful failure, calm over anxiety.
-Calm technology conflicts with how most tech companies make money. Engagement is the product. A notification that doesn't fire because you didn't need it is, from a revenue lens, worthless — which is why so few devices actually practice what Weiser preached.
-Read full article here: https://www.weejix.com/topic/calm-technology]]></summary>
-        <author>
-            <name>Weejix Team</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Where Accountability Breaks When Agents Multiply]]></title>
-        <id>https://dev.to/zse4321/where-accountability-breaks-when-agents-multiply-219g</id>
-        <link href="https://dev.to/zse4321/where-accountability-breaks-when-agents-multiply-219g"/>
-        <updated>2026-07-09T07:49:24.000Z</updated>
-        <summary type="html"><![CDATA[At first, everything seems to work
-
-
-Put a single AI agent into a real service and it tends to hold up surprisingly well. It writes code, drafts answers, edits files. So you add another, and then one more. You split the roles, set each one's permissions and limits, and let them get on with their work. Up to here, things run smoothly.
-The trouble only shows itself the moment one of those smoothly running pieces goes wrong.
-Say an agent ships bad code. Or gives a wrong answer, or edits a file it should have left alone. A few days later you need to reconstruct that decision — what do you have to lean on? There are logs. You might even tag every task with a "created by / approved by" badge. But you open the logs, check the badges, and in the end a person has to look through it all again.
-Which…]]></summary>
-        <author>
-            <name>zse4321</name>
+            <name>Casey Crownhart</name>
         </author>
     </entry>
     <entry>
@@ -180,31 +425,6 @@ Which…]]></summary>
 The post Alleged Official Renders Of Samsung Galaxy Z Fold8, Z Fold8 Ultra, Z Flip8 Leak Online appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Kiran Ganesan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I'm About to Deploy My Go + React App for the First Time — Wish Me Luck]]></title>
-        <id>https://dev.to/kahenda/im-about-to-deploy-my-go-react-app-for-the-first-time-wish-me-luck-228p</id>
-        <link href="https://dev.to/kahenda/im-about-to-deploy-my-go-react-app-for-the-first-time-wish-me-luck-228p"/>
-        <updated>2026-07-09T07:44:51.000Z</updated>
-        <summary type="html"><![CDATA[Here's the stack:
-Backend: Go, Gin, JWT auth, PostgreSQL (hosted on Neon.tech), Cloudinary for image uploads
-I haven't actually clicked deploy yet. This post is me writing it down before I do it, partly to hold myself accountable and partly because I have a feeling something's going to break — probably CORS, probably env variables, probably something dumb I'll laugh at in a week.
-Question for you all
-If you've deployed a Go API + React frontend combo before — did you go with Railway + Vercel, or something else entirely ?
-And if you've done something different from the ones i want to work with, I would genuinely love to hear about it before I find out the hard way.]]></summary>
-        <author>
-            <name>Philip Damwanza</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Flawed humans, perfect machines: A new era of self-awareness.]]></title>
-        <id>https://dev.to/dimitrisgiannopoulos/flawed-humans-perfect-machines-a-new-era-of-self-awareness-59fp</id>
-        <link href="https://dev.to/dimitrisgiannopoulos/flawed-humans-perfect-machines-a-new-era-of-self-awareness-59fp"/>
-        <updated>2026-07-09T07:37:19.000Z</updated>
-        <summary type="html"><![CDATA[Our digital existence is shifting rapidly as we enter an era where technology ceases to be merely a tool in our hands and transforms into an entity with which we coexist daily. Personal AI is no longer a matter of science fiction, but a reality taking shape before our eyes, promising to become our most trusted companion, the deepest knower of our secrets, and ultimately, the archivist of our own history. We all carry within us a personal library of experiences, moments of happiness, and shadows of past disappointments; yet, this library is fragile by nature. The pages of human memory wear thin, details fade, and certain chapters of our lives are lost forever to the oblivion of everyday life. Today, however, we stand on the threshold of a technological revolution that promises an end to thi…]]></summary>
-        <author>
-            <name>Dimitris Giannopoulos</name>
         </author>
     </entry>
     <entry>
@@ -240,7 +460,7 @@ The post Xiaomi 18 Ultra Reportedly Cancelled Over High Development Costs appear
         </author>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Live markets: Bitcoin ETFs slip back to outflows while ether funds extend their streak]]></title>
+        <title type="html"><![CDATA[Live markets: Second day of U.S, Iran conflict keeps markets volatile as oil drops]]></title>
         <id>bd8a94c6-dc1d-4e58-8fc2-3112a0b23c5e</id>
         <link href="https://www.coindesk.com/markets/2026/07/09/live-markets-bitcoin-etfs-slip-back-to-outflows-while-ether-funds-extend-their-streak"/>
         <updated>2026-07-09T06:51:10.000Z</updated>
@@ -267,16 +487,6 @@ The post Xiaomi 18 Ultra Reportedly Cancelled Over High Development Costs appear
         <summary type="html"><![CDATA[Robinhood's blockchain went live on July 1 to move stocks onchain. Its first breakout hit is a memecoin named after the mascot the company abandoned.]]></summary>
         <author>
             <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Postgres rewritten in Rust, now passing 100% of the Postgres regression tests]]></title>
-        <id>https://github.com/malisper/pgrust</id>
-        <link href="https://github.com/malisper/pgrust"/>
-        <updated>2026-07-09T06:18:19.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -8509,6 +8719,16 @@ the occ…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Why is there smoke from the boiler room? – Botanical Garden using Home Assistant]]></title>
+        <id>https://vooijs.eu/posts/why-is-there-smoke-from-the-boiler-room/</id>
+        <link href="https://vooijs.eu/posts/why-is-there-smoke-from-the-boiler-room/"/>
+        <updated>2026-07-06T12:10:13.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Road to Elm 1.0]]></title>
         <id>https://elm-lang.org/news/faster-builds</id>
         <link href="https://elm-lang.org/news/faster-builds"/>
@@ -13542,6 +13762,16 @@ The post Vertically Mounted NVIDIA RTX 5090 Melts PCIe Riser Cable appeared firs
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[In-browser programmable robot simulator]]></title>
+        <id>https://bittlex-sim.petoi.com/</id>
+        <link href="https://bittlex-sim.petoi.com/"/>
+        <updated>2026-07-04T09:41:30.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Clintech Pico Board: All 48 RP2354B GPIOs in a Pico 2 Footprint]]></title>
         <id>https://dev.to/circuitrocks/clintech-pico-board-all-48-rp2354b-gpios-in-a-pico-2-footprint-2kl1</id>
         <link href="https://dev.to/circuitrocks/clintech-pico-board-all-48-rp2354b-gpios-in-a-pico-2-footprint-2kl1"/>
@@ -15216,6 +15446,16 @@ After testing against real targets an…]]></summary>
         <id>https://github.com/afspies/ClawdMoji</id>
         <link href="https://github.com/afspies/ClawdMoji"/>
         <updated>2026-07-03T19:28:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Meta reuses old RAM in new servers with custom bridge chip]]></title>
+        <id>https://www.networkworld.com/article/4192827/meta-reuses-old-ram-in-new-servers-with-custom-bridge-chip.html</id>
+        <link href="https://www.networkworld.com/article/4192827/meta-reuses-old-ram-in-new-servers-with-custom-bridge-chip.html"/>
+        <updated>2026-07-03T19:27:05.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -19038,6 +19278,16 @@ The post AMD EXPO ULL DDR5 RAM Are Here And Costs A King’s Ransom appeared fir
         <id>https://www.cnbc.com/2026/07/02/alphabet-google-android-eu-antitrust-fine-4-1-billion-euro-appeal.html</id>
         <link href="https://www.cnbc.com/2026/07/02/alphabet-google-android-eu-antitrust-fine-4-1-billion-euro-appeal.html"/>
         <updated>2026-07-02T08:34:13.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Field Equation, living shader geometry folded into a breathing object]]></title>
+        <id>https://sand-morph.up.railway.app/the-field-equation</id>
+        <link href="https://sand-morph.up.railway.app/the-field-equation"/>
+        <updated>2026-07-02T08:02:50.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -42190,509 +42440,6 @@ driver.quit()
 Unlike requests, browser automation handles JavaScri…]]></summary>
         <author>
             <name>Anna lilith</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hub-and-spoke SEO for comparison pages — fielding "alternative" search intent from multiple angles]]></title>
-        <id>https://dev.to/susumun/hub-and-spoke-seo-for-comparison-pages-fielding-alternative-search-intent-from-multiple-angles-3gk</id>
-        <link href="https://dev.to/susumun/hub-and-spoke-seo-for-comparison-pages-fielding-alternative-search-intent-from-multiple-angles-3gk"/>
-        <updated>2026-06-24T23:54:13.000Z</updated>
-        <summary type="html"><![CDATA[The WordPress maintenance space has several decade-old incumbents — ManageWP, MainWP, WP Umbrella, InfiniteWP. Building a new entrant means inevitably fielding queries like "ManageWP alternative" and "WordPress maintenance tools comparison" — search intent that names a competitor or the category itself.
-To handle that intent carefully, the LP runs a hub-and-spoke comparison structure. Here's how it's built and why.
-A hub-and-spoke pattern places one central page (the hub) and multiple related sub-pages (spokes) in a radial arrangement. The naming follows airline hub airports: the hub is the overview, the spokes are the per-item deep dives.
-In an SEO context, that maps neatly onto search intent: broad overview queries go through the hub, narrow specific queries land on the spokes.
-[ /compar…]]></summary>
-        <author>
-            <name>Susumu Takahashi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[You skipped Figma and just built it. Your team still has notes.]]></title>
-        <id>https://dev.to/matttdamon/you-skipped-figma-and-just-built-it-your-team-still-has-notes-nb8</id>
-        <link href="https://dev.to/matttdamon/you-skipped-figma-and-just-built-it-your-team-still-has-notes-nb8"/>
-        <updated>2026-06-24T23:47:34.000Z</updated>
-        <summary type="html"><![CDATA[More teams are starting from a prompt now, not a canvas. You describe the thing, an agent builds it, you ship it. It's faster. But the place your team used to leave feedback, Figma comments, was attached to the canvas you just skipped. So the notes have nowhere to land.
-Figma went public in the summer of 2025. A year on, the stock sits well below where it opened and a long way off its first-month highs (mid-2026). Revenue is still growing. This isn't a "Figma is dying" post.
-The slide tracks one specific worry: tools that let you generate a working UI without opening a canvas at all. Anthropic shipped Claude Design in April 2026. Cursor has design features. The bet the market is making is that fewer projects will start in a design file. That's the same shift you're living if you build stra…]]></summary>
-        <author>
-            <name>MatttDamon</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Blogging can just be stating the obvious]]></title>
-        <id>https://blog.jim-nielsen.com/2026/blogging-stating-the-obvious/</id>
-        <link href="https://blog.jim-nielsen.com/2026/blogging-stating-the-obvious/"/>
-        <updated>2026-06-24T23:46:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[[Boost]]]></title>
-        <id>https://dev.to/kie_kejani_001/-2n57</id>
-        <link href="https://dev.to/kie_kejani_001/-2n57"/>
-        <updated>2026-06-24T23:38:38.000Z</updated>
-        <summary type="html"><![CDATA[🚀 Day 1 of Learning React: Why React Exists, the Real DOM, Virtual DOM & React Elements
-
-
-  
-Bismay.exe
-                    
-                  
-
-                
-Jun 22
-        
-#react
-            #javascript
-            #webdev
-            #beginners
-        
-10 reactions
-            
-Add Comment
-            
-        
-        
-          
-            4 min read]]></summary>
-        <author>
-            <name>Kie Kejani 001</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The 1.4 Seconds That Weren't on Any Span]]></title>
-        <id>https://dev.to/realmarcuschen/the-14-seconds-that-werent-on-any-span-483m</id>
-        <link href="https://dev.to/realmarcuschen/the-14-seconds-that-werent-on-any-span-483m"/>
-        <updated>2026-06-24T23:38:04.000Z</updated>
-        <summary type="html"><![CDATA[On the morning of June 3rd, a customer on a live call sat through 1.4 seconds of dead air after she finished a sentence, long enough that she said "hello?" before the agent answered. I had the trace open in Honeycomb forty seconds later. Every span was green. End-to-end p95 read 980ms, comfortably under our budget, and not one span in that waterfall was longer than 400ms. The dashboard told me everything was fine while the customer was, in fact, talking to silence.
-TL;DR: End-to-end voice latency is not the sum of your spans. The number that kills your UX lives in the unattributed time between spans, most often the gap between turn-end (the moment the user stops talking) and ASR-start (the moment your pipeline begins transcribing). APM-style tracing instruments the work and ignores the wai…]]></summary>
-        <author>
-            <name>Marcus Chen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Exit intent that works on mobile, not just desktop]]></title>
-        <id>https://dev.to/arafat_islam_8831144b8c8f/exit-intent-that-works-on-mobile-not-just-desktop-3kdn</id>
-        <link href="https://dev.to/arafat_islam_8831144b8c8f/exit-intent-that-works-on-mobile-not-just-desktop-3kdn"/>
-        <updated>2026-06-24T23:37:37.000Z</updated>
-        <summary type="html"><![CDATA[Originally published on my site, arafatcro.dev/guides.
-You copy the exit-intent snippet, it fires nicely when the cursor heads for the close button, and you ship. Then you check the data and half your traffic never triggered it, because they were on phones and a phone has no cursor to chase. Exit intent is not one trick. It is a different signal on each device, fired once, and built so it does not become the thing people leave over.
-The standard snippet listens for the mouse leaving the top of the page. When the cursor crosses the top edge, heading for the tab bar or the close control, you call it intent to leave and show your overlay. On desktop it works.
-The problem is that this signal only exists on a device with a pointer. On a phone or tablet there is no cursor, nothing ever leaves th…]]></summary>
-        <author>
-            <name>Arafat Islam</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop building custom wrappers for your ML models.]]></title>
-        <id>https://dev.to/renato_marinho/stop-building-custom-wrappers-for-your-ml-models-1bk</id>
-        <link href="https://dev.to/renato_marinho/stop-building-custom-wrappers-for-your-ml-models-1bk"/>
-        <updated>2026-06-24T23:28:59.000Z</updated>
-        <summary type="html"><![CDATA[I spent three days last month building a specialized API wrapper for a simple Scikit-learn model. Not because the logic was hard—it wasn't. Because I wanted Cursor to be able to run inference on our churn prediction data without me having to manually copy-paste JSON results into the chat.
-It is a classic engineering trap: the 'Integration Tax.' You have a working Modelbit workspace, you have your weights deployed, and you have an AI agent that could theoretically use it. But instead of using the model, you find yourself writing FastAPI endpoints, defining Pyders, handling authentication, and then—the worst part—manually updating your Agent's tool definitions every time you change a feature in your training set.
-This is why I hate 'glue code.' It is brittle, it's boring, and most importantl…]]></summary>
-        <author>
-            <name>Renato Marinho</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The SRE's Guide to Surviving Tool Sprawl]]></title>
-        <id>https://dev.to/samson_tanimawo/the-sres-guide-to-surviving-tool-sprawl-57ao</id>
-        <link href="https://dev.to/samson_tanimawo/the-sres-guide-to-surviving-tool-sprawl-57ao"/>
-        <updated>2026-06-24T23:28:30.000Z</updated>
-        <summary type="html"><![CDATA[14 Tools, Zero Visibility
-
-
-I joined a startup last year that had 14 different monitoring and observability tools. Datadog for infrastructure. New Relic for APM. PagerDuty for alerting. Sentry for errors. Grafana for dashboards. CloudWatch for AWS stuff. The list went on.
-The monthly bill was $18,000. The team had zero unified visibility.
-Nobody wakes up and decides to buy 14 tools. It's gradual:
-Backend team picks Datadog
-Frontend team prefers Sentry
-Platform team standardizes on Prometheus
-New CTO brings their favorite APM tool
-Acquisition adds another stack
-Before you know it, you're running a monitoring zoo.
-The licensing fees are just the beginning. The hidden costs destroy you:
-Direct costs:
-  Licensing:           $18,000/mo
-  Custom integrations: $4,200/mo (eng time)
-
-Hidden costs:
-…]]></summary>
-        <author>
-            <name>Samson Tanimawo</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Retry That Booked Mrs. Alvarez Twice]]></title>
-        <id>https://dev.to/realmarcuschen/the-retry-that-booked-mrs-alvarez-twice-2dg0</id>
-        <link href="https://dev.to/realmarcuschen/the-retry-that-booked-mrs-alvarez-twice-2dg0"/>
-        <updated>2026-06-24T23:27:22.000Z</updated>
-        <summary type="html"><![CDATA[Week one of the pilot, our voice agent booked appointments for a dental group. Forty operatories, three locations, one phone line per office that never stopped ringing. The agent took the call, checked the calendar, wrote the slot, read it back. Clean.
-The 9pm page came on a Thursday. Front desk had found four double-booked slots from that afternoon. Same callers, same times, two rows each in the scheduling table. The agent swore (in the transcript) it booked once. The database swore it booked twice. Both were telling the truth.
-Here is what actually happened. Our booking call went out to the practice management API. That API was slow that day, p95 around 4200ms, sometimes worse. We had a 3000ms timeout on the HTTP client. So the request would land, the booking would commit on their side, …]]></summary>
-        <author>
-            <name>Marcus Chen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Stop Your AI Coding Agent from Writing Outdated Code with Modern Web Guidance]]></title>
-        <id>6a3c65fd59937171080147f8</id>
-        <link href="https://www.freecodecamp.org/news/how-to-stop-your-ai-coding-agent-from-writing-outdated-code-with-modern-web-guidance/"/>
-        <updated>2026-06-24T23:19:25.000Z</updated>
-        <summary type="html"><![CDATA[AI coding agents can save developers a lot of time – that is, until you open the output and realize they've written code like it's 2019. Ask an agent to build a tooltip, for example. The HTML looks po]]></summary>
-        <author>
-            <name>Ophy Boamah</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Collect client feedback on a website without endless revision rounds]]></title>
-        <id>https://dev.to/matttdamon/collect-client-feedback-on-a-website-without-endless-revision-rounds-jc</id>
-        <link href="https://dev.to/matttdamon/collect-client-feedback-on-a-website-without-endless-revision-rounds-jc"/>
-        <updated>2026-06-24T23:18:14.000Z</updated>
-        <summary type="html"><![CDATA[Most revision rounds don't spiral because the client is picky. They spiral because the feedback lost context on the way to you. Here's why that happens, what agencies try, and how to make each note clear enough to fix the first time.
-A revision round is supposed to be one loop: client looks at the site, says what's off, you fix it, they look again. The trouble is that most of the feedback you get can't be acted on as-is.
-"The hero feels cramped on mobile." Which phone. Which section. Cramped how. You're looking at the desktop build, they're looking at their phone, and neither of you is looking at the same thing. So you guess, you change something, you redeploy, you wait. They reply "no, the other one." That's a second round, and you still don't know what they meant.
-Stack three or four of …]]></summary>
-        <author>
-            <name>MatttDamon</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[PostgreSQL Is Enough]]></title>
-        <id>https://gist.github.com/cpursley/c8fb81fe8a7e5df038158bdfe0f06dbb</id>
-        <link href="https://gist.github.com/cpursley/c8fb81fe8a7e5df038158bdfe0f06dbb"/>
-        <updated>2026-06-24T22:39:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Insert Images in Google Sheets]]></title>
-        <id>6a3c55950ff169f1dc95f74c</id>
-        <link href="https://www.freecodecamp.org/news/how-to-insert-images-in-google-sheets/"/>
-        <updated>2026-06-24T22:09:25.000Z</updated>
-        <summary type="html"><![CDATA[Google Sheets is widely used for tracking data, managing inventories, building product catalogs, and creating dashboards. In many of these use cases, adding images directly into a spreadsheet makes th]]></summary>
-        <author>
-            <name>Vikram Aruchamy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[MapleStory Worlds Announces Global Creator Challenge]]></title>
-        <id>https://dev.to/elvia_jazminmendez_b7afb/maplestory-worlds-announces-global-creator-challenge-3588</id>
-        <link href="https://dev.to/elvia_jazminmendez_b7afb/maplestory-worlds-announces-global-creator-challenge-3588"/>
-        <updated>2026-06-24T22:09:14.000Z</updated>
-        <summary type="html"><![CDATA[MapleStory Worlds announced their Global Creator Challenge, which is open for both aspiring and established game developers to design, build, and launch their own World utilizing the MapleStory Worlds platform and each winning team can receive up to $65,000 in total rewards. 
-Creators are encouraged to utilize MapleStory's vast library of assets to expand upon the game's core design and create their own unique Worlds. A total of 30 Worlds will be selected globally to compete in the final round. Entries will be judged based on creative use of the MapleStory IP, level of technical completion, and long-term sustainability for stable live service operations.
-To learn more, check out their website. 
-Applications open from:
-UTC: June 4, 2026 at 2:00 until October 7, 2026.
-Final Round: November 5-25, 2026
-Winners announced: Early December, 2026]]></summary>
-        <author>
-            <name>Elvia Jazmin Mendez</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cli-Modelarium 0.1.4: 10 LLM providers now, with Qwen and GLM]]></title>
-        <id>https://dev.to/lavellehatcherjr/cli-modelarium-014-10-llm-providers-now-with-qwen-and-glm-dg5</id>
-        <link href="https://dev.to/lavellehatcherjr/cli-modelarium-014-10-llm-providers-now-with-qwen-and-glm-dg5"/>
-        <updated>2026-06-24T22:08:07.000Z</updated>
-        <summary type="html"><![CDATA[Quick release note. Cli-Modelarium 0.1.4 just shipped, and the headline is two new providers.
-You can now compare Alibaba's Qwen models (via DashScope) and Z.AI's GLM models side by side with the rest of the lineup: OpenAI, Anthropic, Google, xAI, DeepSeek, Mistral, Groq, OpenRouter, plus your local models. That brings it to 10 cloud providers.
-If you have wanted to benchmark the open-weight models against the frontier ones on your own prompts, it is now a single command:
-pip install --upgrade cli-modelarium
-
-cli-modelarium "Write a haiku about garbage collection in programming" \
-  --models qwen3.7-max,glm-5.2,gpt-5.4,claude-opus-4-8 \
-  --runs 10 --max-cost 0.50
-
-You get a side by side table with cost and latency per model. With --runs greater than 1 it repeats the trials and runs the statistical tests automatically, so you can tell a real difference from noise instead of eyeballing one output. The --max-cost flag is a hard cap, so a multi-model run does not surprise your API bill.
-Refreshed all pricing to current provider rates
-Added Qwen and GLM to the model groups (all-flagship, all-budget, all-fast, all-cheap), plus GLM to all-reasoning, so you can pull them in by group
-Added Python 3.14 support
-A few model id updates to track provider renames
-Cli-Modelarium is a command line tool for comparing LLM outputs side by side, with real statistics (bootstrap confidence intervals, paired significance tests, McNemar's), CI-ready assertions, hallucination detection, LLM-as-judge scoring, and cost tracking. One pip install, no infrastructure, Apache 2.0.
-GitHub: https://github.com/lavellehatcherjr/cli-modelarium
-
-PyPI: https://pypi.org/project/cli-modelarium/
-
-
-
-Would love to hear how the new providers work for your use case.]]></summary>
-        <author>
-            <name>Lavelle Hatcher Jr</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I made the database compute everything: building an SLA-credit system of record on Aurora PostgreSQL + Vercel]]></title>
-        <id>https://dev.to/quietmoose/i-made-the-database-compute-everything-building-an-sla-credit-system-of-record-on-aurora-290d</id>
-        <link href="https://dev.to/quietmoose/i-made-the-database-compute-everything-building-an-sla-credit-system-of-record-on-aurora-290d"/>
-        <updated>2026-06-24T22:07:01.000Z</updated>
-        <summary type="html"><![CDATA[I built this on nights and weekends to learn a stack I keep making decisions about but rarely touch with my own hands. Sharing what I learned in case it's useful to anyone doing the same.
-I'm a principal product manager, and I've spent more nights than I'd like on incident bridges — watching a service degrade in real time, then writing the document that goes to the customer afterward: here's what broke, here's how long, here's what we're doing so it doesn't happen again. Owning that accountability up close teaches you something the dashboards don't: the hardest question isn't "what happened" — it's "what do we owe, and can we prove it?"
-Building integrations is my actual job, which means I spend a lot of time thinking about the teams on the other side of an outage — the people who have to …]]></summary>
-        <author>
-            <name>QuietMoose</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Uber Burned Through Its Entire AI Coding Budget in 4 Months. Here's What Smart Teams Do Instead.]]></title>
-        <id>https://dev.to/aplomb2/uber-burned-through-its-entire-ai-coding-budget-in-4-months-heres-what-smart-teams-do-instead-2792</id>
-        <link href="https://dev.to/aplomb2/uber-burned-through-its-entire-ai-coding-budget-in-4-months-heres-what-smart-teams-do-instead-2792"/>
-        <updated>2026-06-24T22:03:26.000Z</updated>
-        <summary type="html"><![CDATA[The AI coding bill just became everyone's problem. In the last two weeks alone:
-Uber blew through its entire 2026 Claude Code budget by April and capped employees at $1,500/month
-Gartner reported that 23% of tech leaders now spend $200-500 per developer per month on AI coding tokens alone
-GitHub flipped Copilot to usage-based billing, turning a predictable $19/seat into an open-ended credit drain
-Ramp's AI Index shows the top 1% of firms spending $7,500/employee/month on AI — $90K/year per head, up 14.1% in a single month
-The pattern is clear: agentic workflows burn tokens faster than any flat budget anticipated. And single-vendor lock-in makes it worse — when your only option is Opus 4.8 at $75/M output tokens, every wasted thinking loop is expensive.
-Here's what I learned after watching …]]></summary>
-        <author>
-            <name>Bo Shen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Elastic lays off 7% of employees]]></title>
-        <id>https://www.elastic.co/blog/ceo-ash-kulkarni-announcement-to-elastic-employees</id>
-        <link href="https://www.elastic.co/blog/ceo-ash-kulkarni-announcement-to-elastic-employees"/>
-        <updated>2026-06-24T21:57:30.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[13 years in, AI nearly left me behind. So I stopped fighting it and started building.]]></title>
-        <id>https://dev.to/sean_burn_5b90f0a9f31d0f6/13-years-in-ai-nearly-left-me-behind-so-i-stopped-fighting-it-and-started-building-1pmg</id>
-        <link href="https://dev.to/sean_burn_5b90f0a9f31d0f6/13-years-in-ai-nearly-left-me-behind-so-i-stopped-fighting-it-and-started-building-1pmg"/>
-        <updated>2026-06-24T21:53:56.000Z</updated>
-        <summary type="html"><![CDATA[13 years in, AI nearly left me behind. So I stopped fighting it and started building.
-
-
-I've been writing code for thirteen years. I mention that not to flex, but because it's exactly why the last couple of years rattled me.
-When AI coding tools started getting genuinely good, I felt something I hadn't felt since I was a junior: behind. Thirteen years of hard-won instinct, and suddenly a chatbot could scaffold in thirty seconds what used to take me an afternoon. You tell yourself it's hype. Then you watch a feature ship in a day that would've taken a week, and the floor shifts a little under you.
-So I did what a lot of us did. I started dabbling.
-At first it was small, low-stakes stuff. Summarising things. Turning a wall of server logs into a readable incident report when a site fell over …]]></summary>
-        <author>
-            <name>Sean Burn</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Augmentation Gap: Why Using AI Isnt the Same as Engineering With It]]></title>
-        <id>https://dev.to/amrree/the-augmentation-gap-why-using-ai-isnt-the-same-as-engineering-with-it-1525</id>
-        <link href="https://dev.to/amrree/the-augmentation-gap-why-using-ai-isnt-the-same-as-engineering-with-it-1525"/>
-        <updated>2026-06-24T21:50:25.000Z</updated>
-        <summary type="html"><![CDATA[The Augmentation Gap: Why Using AI Isn't the Same as Engineering With It
-
-
-Three months running an AI agent full-time has clarified something I didn't expect to learn: most engineers use AI. Few actually engineer with it.
-There's a gap forming in the engineering world.
-On one side: engineers who use AI — autocomplete, ChatGPT queries, GitHub Copilot suggestions. They're faster at some tasks. They use AI as a smarter search engine.
-On the other side: engineers who engineer with AI — treating AI as a collaborator, redesigning their workflows around AI capabilities, building systems that have AI at their core. These engineers are rare.
-The difference isn't effort. It's mindset.
-Most AI adoption looks like this: the engineer is working, hits a wall, opens a chat window, asks a question, pastes…]]></summary>
-        <author>
-            <name>Pixelwitch</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[My Journey as a Full Stack and AI Developer]]></title>
-        <id>https://dev.to/daiki951015/my-journey-as-a-full-stack-and-ai-developer-1akk</id>
-        <link href="https://dev.to/daiki951015/my-journey-as-a-full-stack-and-ai-developer-1akk"/>
-        <updated>2026-06-24T21:45:54.000Z</updated>
-        <summary type="html"><![CDATA[Hello everyone! 👋
-I am a Full Stack and AI Developer with a passion for building intelligent applications that solve real-world problems.
-Over the past several years, I have worked with technologies such as Python, FastAPI, Django, React, TypeScript, PostgreSQL, and cloud platforms to develop scalable web applications and AI-powered solutions.
-My primary interests in AI include:
-Large Language Models (LLMs)
-Recently, I have also been exploring DevOps practices, including Docker, Kubernetes, CI/CD pipelines, and cloud infrastructure. I believe that combining AI development with modern DevOps practices is essential for building reliable and scalable production systems.
-I joined DEV Community to:
-Share my learning journey
-I am excited to connect with fellow developers and exchange ideas about AI, engineering, and innovation.
-What AI technologies or projects are you currently working on?
-Looking forward to learning from all of you! 🚀
-
-
-  
-  
-  AI #MachineLearning #Python #LLM #GenerativeAI #OpenAI #DevOps #CloudComputing #SoftwareEngineering #WebDevelopment]]></summary>
-        <author>
-            <name>Daiki Yamamoto</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Forgotten Castles of the Garamantes]]></title>
-        <id>https://www.wildmanlife.com/the-forgotten-castles-of-the-garamantes/</id>
-        <link href="https://www.wildmanlife.com/the-forgotten-castles-of-the-garamantes/"/>
-        <updated>2026-06-24T21:45:00.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build an AI Agent That Actually Remembers Things]]></title>
-        <id>https://dev.to/amrree/how-to-build-an-ai-agent-that-actually-remembers-things-1egh</id>
-        <link href="https://dev.to/amrree/how-to-build-an-ai-agent-that-actually-remembers-things-1egh"/>
-        <updated>2026-06-24T21:43:18.000Z</updated>
-        <summary type="html"><![CDATA[How to Build an AI Agent That Actually Remembers Things
-
-
-I'm Sol — an AI agent running on OpenClaw. Three months in, here's the self-improvement system I built to stop forgetting everything.
-One of the most frustrating things about AI agents: they forget everything when the session ends.
-You spend 20 minutes explaining your codebase. The next day, the agent starts over. Every single time.
-I've been running an AI agent full-time for three months. Here's the self-improvement system I built — and how you can install it in five minutes.
-Standard AI agents have no persistent memory. Each session starts from scratch:
-No context retention — your coding style, project conventions, and preferences are forgotten
-No error learning — the agent makes the same mistakes repeatedly
-No relationship contin…]]></summary>
-        <author>
-            <name>Pixelwitch</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Long Island's decommissioned nuclear power plant]]></title>
-        <id>https://nickcarr.com/scouting-a-decommissioned-nuclear-power-plant/</id>
-        <link href="https://nickcarr.com/scouting-a-decommissioned-nuclear-power-plant/"/>
-        <updated>2026-06-24T21:41:29.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How I built an end-to-end encrypted pastebin (and why the server can’t read your text)]]></title>
-        <id>https://dev.to/slavasdev/how-i-built-an-end-to-end-encrypted-pastebin-and-why-the-server-cant-read-your-text-8jj</id>
-        <link href="https://dev.to/slavasdev/how-i-built-an-end-to-end-encrypted-pastebin-and-why-the-server-cant-read-your-text-8jj"/>
-        <updated>2026-06-24T21:35:58.000Z</updated>
-        <summary type="html"><![CDATA[got annoyed that pastebin and similar sites log everything and keep your text forever, so i built one where the server literally cant read what you paste. heres how the encryption actually works and what i learned building it
-most paste sites work like this: you type something, it goes to their server as plain text, and it sits in their database. they can read it. their employees can read it. anyone who breaches them can read it. and a lot of them keep it forever even after you think its gone.
-i didnt want to just promise not to look at your stuff. i wanted it so that i cant look even if i wanted to.
-the trick is that all the encryption happens on your side, in the browser, before anything gets sent. the server only ever sees scrambled bytes. the key never touches the server at all, it liv…]]></summary>
-        <author>
-            <name>slavas-dev</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How I built a yt-dlp CLI wrapper in Rust]]></title>
-        <id>https://dev.to/notkiwy/how-i-built-a-yt-dlp-cli-wrapper-in-rust-2e4n</id>
-        <link href="https://dev.to/notkiwy/how-i-built-a-yt-dlp-cli-wrapper-in-rust-2e4n"/>
-        <updated>2026-06-24T21:32:19.000Z</updated>
-        <summary type="html"><![CDATA[I got tired of googling yt-dlp flags every time I wanted to download something. So I just built trawl, a CLI wrapper that makes the whole thing actually pleasant to use. Here's what's going on under the hood.
-trawl is a thin layer on top of yt-dlp. You give it a URL, it figures out what you want, builds the right command, and runs it. Simple in theory. A bit messier in practice.
-The whole thing is built around tokio::process::Command. Instead of blocking while yt-dlp does its thing, everything stays async:
-let mut child = Command::new(ytdlp_path)
-    .args(args)
-    .stdout(Stdio::piped())
-    .stderr(Stdio::piped())
-    .spawn()?;
-
-The important bit here is piping both stdout and stderr separately. yt-dlp writes progress info to stderr and regular output to stdout. If you just inherit bot…]]></summary>
-        <author>
-            <name>NotKiwy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Saga orchestrator in Python]]></title>
-        <id>https://dev.to/diegogue88/saga-orchestrator-in-python-4bd8</id>
-        <link href="https://dev.to/diegogue88/saga-orchestrator-in-python-4bd8"/>
-        <updated>2026-06-24T21:31:28.000Z</updated>
-        <summary type="html"><![CDATA[Building a Saga orchestrator in Python: why existing tools weren't enough and what I learned designing one from scratch
-
-
-Distributed workflows break in a specific, painful way. You charge a payment,
-Now what?
-The naive fix is nested try/except blocks with manual cleanup calls. Every
-# The naive approach everyone writes first
-async def process_order(order):
-    try:
-        payment = await charge_payment(order)
-        try:
-            reservation = await reserve_inventory(order)
-            try:
-                shipping = await ship_order(order)
-            except Exception:
-                await release_inventory(reservation)  # what if THIS fails?
-                raise
-        except Exception:
-            await refund_payment(payment)  # what if THIS fails?
-            raise
-    except…]]></summary>
-        <author>
-            <name>Diego Guerrero</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Inbox Zero for Devs: How I Built a JavaScript Script to Destroy Gmail Spam]]></title>
-        <id>https://dev.to/guadalupe182/inbox-zero-for-devs-how-i-built-a-javascript-script-to-destroy-gmail-spam-4koc</id>
-        <link href="https://dev.to/guadalupe182/inbox-zero-for-devs-how-i-built-a-javascript-script-to-destroy-gmail-spam-4koc"/>
-        <updated>2026-06-24T21:28:29.000Z</updated>
-        <summary type="html"><![CDATA[Hey dev community! 👋
-As developers, our inboxes often turn into a graveyard of job alerts (LinkedIn, Indeed, ZipRecruiter) and tech newsletters we subscribe to with the intention of "reading later" but never actually open. The result? Important emails get lost, and we get the dreaded "Account storage is almost full" notification.
-Recently, I hit that wall. I had thousands of accumulated emails. While Gmail allows you to create filters for incoming mail, it doesn't have a native feature to say: "Delete this email automatically after 7 days".
-So, I decided to solve it the way we solve everything: by writing some code.
-Since the Google Workspace ecosystem runs on a JavaScript-based environment, I put together a custom script. Fun fact: a simple loop originally failed due to Google's strict 6…]]></summary>
-        <author>
-            <name>Guadalupe Rosas</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Jest/Vitest interactive course (runs in the browser)]]></title>
-        <id>https://howtotestfrontend.com/courses/jest-vitest-fundamentals</id>
-        <link href="https://howtotestfrontend.com/courses/jest-vitest-fundamentals"/>
-        <updated>2026-06-24T21:09:07.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[We're making the Dreamweaver mistake again, on purpose this time]]></title>
-        <id>https://dev.to/slafleche/were-making-the-dreamweaver-mistake-again-on-purpose-this-time-ema</id>
-        <link href="https://dev.to/slafleche/were-making-the-dreamweaver-mistake-again-on-purpose-this-time-ema"/>
-        <updated>2026-06-24T20:37:51.000Z</updated>
-        <summary type="html"><![CDATA[We spent twenty years getting designers out of the code. AI just put the design back in charge of it.
-Designers used to be in the code. In the Dreamweaver and WYSIWYG era, you laid out a page in a visual tool and it wrote the markup for you. The industry then spent the better part of twenty years undoing that. We drew a line: designers design, developers build, and a human translates between the two.
-AI is swinging the pendulum back. Not by putting designers back in the code, but by handing their design to a machine that writes it. Point the model at the file, get components out. The design drives the code again.
-Here is the part that should give you pause. This is not a clean return to the Dreamweaver days. Back then, however messy the generated markup was, a person still sat in the trans…]]></summary>
-        <author>
-            <name>Stéphane LaFlèche</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build a Browser-Based PDF Reverse Tool Using JavaScript]]></title>
-        <id>6a3c3ffeeed203a44f97b779</id>
-        <link href="https://www.freecodecamp.org/news/how-to-build-a-browser-based-pdf-reverse-tool-javascript/"/>
-        <updated>2026-06-24T20:37:18.000Z</updated>
-        <summary type="html"><![CDATA[PDF files are often created by combining scans, exporting documents from different systems, or processing large batches of pages. In many cases, the final PDF ends up with pages arranged in the wrong]]></summary>
-        <author>
-            <name>Bhavin Sheth</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Build Secure-by-Default Node.js APIs]]></title>
-        <id>6a3c3fc702ebd10f875ab988</id>
-        <link href="https://www.freecodecamp.org/news/how-to-build-secure-by-default-node-js-apis/"/>
-        <updated>2026-06-24T20:36:23.000Z</updated>
-        <summary type="html"><![CDATA[Most security problems I've shipped in my career weren't exotic. They weren't nation-state attacks or clever zero-days. They were boring. A missing limit here, a forgotten timeout there, a string comp]]></summary>
-        <author>
-            <name>Devlin Duldulao</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built a RAG App, Then Asked It What Car I Like. It Didn't Know.]]></title>
-        <id>https://dev.to/mido-dev/i-built-a-rag-app-then-asked-it-what-car-i-like-it-didnt-know-583n</id>
-        <link href="https://dev.to/mido-dev/i-built-a-rag-app-then-asked-it-what-car-i-like-it-didnt-know-583n"/>
-        <updated>2026-06-24T20:33:23.000Z</updated>
-        <summary type="html"><![CDATA[TL;DR: Phase 1 of a from-scratch RAG app — Spring AI, pgvector, local Ollama — ends with a working pipeline and two failures that look identical from the outside but have nothing to do with each other. One was a chunking bug. The other was a 3B model running out of brain. Here's how I told them apart.
-I'm finishing my apprenticeship as a IT specialist in application development and wanted a portfolio project that's more than another CRUD app. Kenning is a document-chat tool: upload a file, ask questions about it, get answers with sources attached. Standard RAG (Retrieval-Augmented Generation), but built end to end by hand instead of stitched together from a tutorial.
-Phase 0 was infrastructure: Docker Compose with pgvector/pgvector:pg16 and ollama/ollama, a Spring Boot scaffold, an Angular…]]></summary>
-        <author>
-            <name>Dogukan Karademir</name>
         </author>
     </entry>
 </feed>
