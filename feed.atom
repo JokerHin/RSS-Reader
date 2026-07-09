@@ -2,10 +2,513 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-07-09T11:55:56.594Z</updated>
+    <updated>2026-07-09T14:56:53.055Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[lapse: Keep Burst Photos in Order on Google Photos]]></title>
+        <id>https://dev.to/minodisk/lapse-keep-burst-photos-in-order-on-google-photos-249e</id>
+        <link href="https://dev.to/minodisk/lapse-keep-burst-photos-in-order-on-google-photos-249e"/>
+        <updated>2026-07-09T14:45:37.000Z</updated>
+        <summary type="html"><![CDATA[I built lapse, a small CLI tool that makes the EXIF timestamps of burst-shot JPEGs unique so that Google Photos displays them in the order they were shot.
+When you shoot a burst, many frames land within the same second. Cameras record the sub-second part in EXIF (SubSecTimeOriginal), but Google Photos ignores it — so photos taken in the same second lose their shooting order after upload.
+lapse walks through the JPEGs in a directory in natural filename order (image_2.jpg before image_10.jpg) and assigns each file:
+new time = max(original time, previous file's new time + 1 second)
+
+The first file keeps its original time. Only frames collapsed into the same second get pushed forward, one second at a time; separate scenes with real time gaps keep their original capture times. The result is monotonically increasing timestamps that match the filename order — which is enough for Google Photos to sort them correctly.
+Files that already have unique timestamps are not touched at all, so re-running is idempotent. It's a destructive operation by nature, so there's a --dry-run flag to preview the rewrites first:
+# Preview (no rewriting)
+lapse --dry-run /path/to/photos
+
+# Run
+lapse /path/to/photos
+
+The part I cared most about: lapse never decodes or rebuilds the JPEG. It patches the date-time tag values (fixed 19 bytes each) in place inside the APP1 segment, so every other byte — including the image scan data, GPS tags, and MakerNote — is bit-identical before and after. Writes go to a temporary file followed by an atomic rename, so a crash mid-write can't corrupt the original.
+This is also why it's a pure Rust implementation with an in-house minimal TIFF/IFD parser instead of depending on ExifTool or EXIF-writing crates: general-purpose writers rebuild segments and risk corrupting MakerNote offsets.
+Prebuilt binaries for Linux, macOS, and Windows are on the Releases page, or build from source with Cargo. If you shoot bursts and organize them in Google Photos, give it a try.]]></summary>
+        <author>
+            <name>Daisuke Mino</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Should I quit IT or just live through the burnout?]]></title>
+        <id>https://dev.to/klaudiagrz/should-i-quit-it-or-just-live-through-the-burnout-1gng</id>
+        <link href="https://dev.to/klaudiagrz/should-i-quit-it-or-just-live-through-the-burnout-1gng"/>
+        <updated>2026-07-09T14:44:40.000Z</updated>
+        <summary type="html"><![CDATA[Some of you may have noticed I disappeared a bit from the community over the last couple of weeks. Well, first of all, I've been on holiday. I was travelling through Iceland, admiring its breathtaking landscapes, enjoying nature (I saw whales, reindeer, and puffins!), trying local food, and bathing in hot lagoons.
+During this road trip, I caught myself thinking that I did not want to go back. That maybe I would feel much more satisfied if I just stayed there and lived a simple life, herding sheep and admiring landscapes that look like the set of The Lord of the Rings, maybe doing some artwork in my spare time.
+Since coming back, I've had this feeling that I do not fit in anymore. That the work I'm coming back to is not the work I used to love. Instead, I'm coming back to the work I started…]]></summary>
+        <author>
+            <name>Klaudia Grzondziel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI & Machine Learning for Developers: A Hands-On Intro]]></title>
+        <id>https://dev.to/muhammad_musadiq_091a400d/ai-machine-learning-for-developers-a-hands-on-intro-4jgc</id>
+        <link href="https://dev.to/muhammad_musadiq_091a400d/ai-machine-learning-for-developers-a-hands-on-intro-4jgc"/>
+        <updated>2026-07-09T14:44:33.000Z</updated>
+        <summary type="html"><![CDATA[Demystifying AI: A Developer's Hands-On Introduction
+
+
+Artificial Intelligence (AI) is no longer a futuristic concept; it's a rapidly evolving field transforming how we build software, solve complex problems, and interact with the world. As developers, understanding AI isn't just an advantage – it's becoming a necessity. But where do you start? This tutorial will cut through the hype and provide a practical, hands-on introduction to AI, focusing on its most prevalent subfield: machine learning.
+By the end of this guide, you'll have a foundational understanding of what AI and machine learning are, how they work, and even build a simple machine learning model yourself using Python.
+At its core, Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are p…]]></summary>
+        <author>
+            <name>MUHAMMAD MUSADIQ</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Thursday Thoughts: Why Anthropic Is the Next AWS, but Potentially Worse]]></title>
+        <id>https://dev.to/carryologist/thursday-thoughts-why-anthropic-is-the-next-aws-but-potentially-worse-4e8i</id>
+        <link href="https://dev.to/carryologist/thursday-thoughts-why-anthropic-is-the-next-aws-but-potentially-worse-4e8i"/>
+        <updated>2026-07-09T14:41:40.000Z</updated>
+        <summary type="html"><![CDATA[A few weeks ago I wrote about how AI-native mirrors cloud-native — lift-and-shift now, real architectural rethink later. The same pattern enterprises went through with the cloud. That post was about workflows and org design. This one pulls on a different, less comfortable thread of the same analogy: Anthropic is starting to look a lot like AWS did a decade ago. Same core move. Much faster clock speed. And I'm not convinced it (or we, startups) survives the difference.
+Quick side rant, then I'll get to the point. Anthropic and the other frontier labs are obviously more than infrastructure companies. They do real research, real alignment work, real science. But strip away the mission statements and look at the balance sheet: the core asset is a giant pile of GPUs with a business model of ren…]]></summary>
+        <author>
+            <name>Rob</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Data Types]]></title>
+        <id>https://dev.to/keerthana_2004/data-types-and-variables-1bk4</id>
+        <link href="https://dev.to/keerthana_2004/data-types-and-variables-1bk4"/>
+        <updated>2026-07-09T14:37:18.000Z</updated>
+        <summary type="html"><![CDATA[Data types
+A data type refers to the kind of value a variable holds.
+JavaScript is a dynamically typed language, meaning the data type is associated with the value, not the variable itself.
+For example, a variable that currently holds a number can later be reassigned to a string or an object.
+JavaScript broadly classifies data types into two categories:
+primitive
+nonprimitives
+Primitives are immutable and stored by value.
+Number: Represents numeric values, whether integer or floating-point. Examples: 42, 3.14, NaN.
+String: Represents text, enclosed in single quotes ' ', double quotes " ", or backticks .
+Boolean: Represents logical truth values — true or false. When coerced to numbers, they become 1 and 0 respectively. Commonly used for conditional checks and control flow.
+Undefined: Indicates a declared variable that has not been assigned a value. Conceptually borrowed from Scheme.
+Null: Represents the intentional absence of any object value (an “empty” reference). Historically inspired by Java’s null.
+BigInt: Used for integers larger than Number.MAX_SAFE_INTEGER (2^53 - 1), declared with an n suffix — e.g., 9007199254740993n.
+Symbol: Represents unique and immutable identifiers, often used as object keys — no two symbols are ever equal.
+Non-primitive types are mutable and stored by reference.
+Object: A collection of key–value pairs, where keys are strings or symbols.
+Example: { name: "Priyasha", age: 25 }
+Array: An ordered list of elements. Arrays in JavaScript are dynamic and actually specialized objects.
+Example: [1, 2, 3]]]></summary>
+        <author>
+            <name>Keerthana M</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Meta-Cognition Is the Future of AI Personalization — A 4-Quadrant Framework to Build It]]></title>
+        <id>https://dev.to/yuhaolin2005/meta-cognition-is-the-future-of-ai-personalization-a-4-quadrant-framework-to-build-it-5fki</id>
+        <link href="https://dev.to/yuhaolin2005/meta-cognition-is-the-future-of-ai-personalization-a-4-quadrant-framework-to-build-it-5fki"/>
+        <updated>2026-07-09T14:35:46.000Z</updated>
+        <summary type="html"><![CDATA[Meta-Cognition Is the Future of AI Personalization
+
+
+
+  
+  
+  The Problem Nobody Is Talking About
+
+
+Every "personalized AI" today works the same way: system prompts + RAG + skills.
+"You are a helpful assistant with X style..."
+"Retrieve relevant documents and answer..."
+"Follow this workflow..."
+
+These are external crutches. The model itself hasn't changed. It's the same generic foundation model, just wearing a different costume each time.
+The problem? External crutches break. System prompts drift. RAG retrieves the wrong documents. Skills conflict. And none of these failures are visible until the output is wrong.
+There's a better way.
+
+
+
+
+External (RAG/Prompt)
+Internal (Weight Training)
+
+
+
+
+Where knowledge lives
+Outside the model
+Inside the weights
+
+
+Inference cost
+Extra tokens + latency
+…]]></summary>
+        <author>
+            <name>YuhaoLin2005</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Unboxable in Tech: The Evidence Locker]]></title>
+        <id>https://dev.to/pascal_cescato_692b7a8a20/unboxable-in-tech-the-evidence-locker-20n4</id>
+        <link href="https://dev.to/pascal_cescato_692b7a8a20/unboxable-in-tech-the-evidence-locker-20n4"/>
+        <updated>2026-07-09T14:35:00.000Z</updated>
+        <summary type="html"><![CDATA[Eleven exhibits, last time. A career that kept refusing to fit inside a single box — trainer, restaurant owner, postal worker, developer, school aide, developer again — and a closing question I didn't have an answer to: whose problem was that, mine or the box's.
+I still don't have a clean answer. But I didn't stop while I was waiting for one. The same refusal to fit a category, applied to code instead of a resume, produced eight more exhibits. Here's what came out of that.
+Exhibit 11 ends with me still standing in a classroom, four days a week, helping a kid who isn't mine focus on work that isn't mine either. That's not a metaphor. That's the actual schedule.
+The other three days, I build.
+At some point I tried to explain this to a recruiter using a normal CV — the linear kind, one line p…]]></summary>
+        <author>
+            <name>Pascal CESCATO</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Secure Authentication System]]></title>
+        <id>https://dev.to/codemaster_121482/building-a-secure-authentication-system-dch</id>
+        <link href="https://dev.to/codemaster_121482/building-a-secure-authentication-system-dch"/>
+        <updated>2026-07-09T14:34:43.000Z</updated>
+        <summary type="html"><![CDATA[This guide details the logic for implementing a secure, session-based user login system using Node.js, Mongoose and Bcrypt. 
+When a user submits their credentials, the system queries MongoDB to locate the user profile.
+Method: findOne({ username }) via Mongoose.
+Security Rule: If the username does not exist, halt execution immediately. Return a 401 Unauthorized status.
+If the user account exists, the system compares the plain-text input password against the hashed password stored in the database.
+Method: await bcrypt.compare(password, user.password).
+Security Rule: If the comparison returns false, halt execution. Return a 401 Unauthorized status.
+Once both checks pass, the system initializes a secure session to keep the user authenticated across subsequent requests.
+State Flags: 
+
+
+req.ses…]]></summary>
+        <author>
+            <name>Seif Ahmed</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Boost]]]></title>
+        <id>https://dev.to/anthonymax/-23jb</id>
+        <link href="https://dev.to/anthonymax/-23jb"/>
+        <updated>2026-07-09T14:33:44.000Z</updated>
+        <summary type="html"><![CDATA[The Best AI Code Review Tool for VS Code: A Hands-On Look at Qodo 🔥
+
+
+  
+
+              
+              
+Anthony Max
+                    
+                  
+
+                
+Jul 9
+        
+#ai
+            #webdev
+            #programming
+            #productivity
+        
+35 reactions
+            
+ comment
+            
+        
+        
+          
+            4 min read]]></summary>
+        <author>
+            <name>Anthony Max</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Scorer Was Silently Dropping Half Its Shot Scores]]></title>
+        <id>https://dev.to/glad_labs/the-scorer-was-silently-dropping-half-its-shot-scores-nm1</id>
+        <link href="https://dev.to/glad_labs/the-scorer-was-silently-dropping-half-its-shot-scores-nm1"/>
+        <updated>2026-07-09T14:31:08.000Z</updated>
+        <summary type="html"><![CDATA[What we shipped on 2026-07-09
+Two alerts fired on the same post -- hero_render_fallback on shots 4 and 8, vision_scorer_unavailable on 5 of 12 shots -- and pulling that thread unraveled into three separate defects in one sitting (PR #2224). shot_vision_qa.score_shot_frame() was calling the vision model with max_tokens=300 and no think= flag. qwen3-vl burns part of that budget on a <think> trace before it ever gets to the JSON answer -- the same failure mode multi_model_qa._check_image_relevance hit and fixed months ago by raising num_predict from 400 to 1024 (poindexter#563). 300 tokens was smaller than an already-proven-insufficient number. This scorer had been quietly dropping something like 42% of shot scores, which lines up almost exactly with the ~45% figure flagged in the video-quali…]]></summary>
+        <author>
+            <name>Matthew Gladding</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Analog Watch]]></title>
+        <id>https://analog.watch/</id>
+        <link href="https://analog.watch/"/>
+        <updated>2026-07-09T14:30:54.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[herdr 评测：一个终端里的 AI Agent 多路复用器，值不值得装？]]></title>
+        <id>https://dev.to/ferryman1980/herdr-ping-ce-ge-zhong-duan-li-de-ai-agent-duo-lu-fu-yong-qi-zhi-bu-zhi-de-zhuang--12bi</id>
+        <link href="https://dev.to/ferryman1980/herdr-ping-ce-ge-zhong-duan-li-de-ai-agent-duo-lu-fu-yong-qi-zhi-bu-zhi-de-zhuang--12bi"/>
+        <updated>2026-07-09T14:29:06.000Z</updated>
+        <summary type="html"><![CDATA[herdr 评测：一个终端里的 AI Agent 多路复用器，值不值得装？
+
+
+30秒结论：herdr 是一个运行在终端里的 AI agent 多路复用器，让你同时调用多个 LLM（如 OpenAI、Claude、本地模型）并对比结果。值得关注，但别抱太高期望。它目前还是早期项目（GitHub 3024 stars），功能简单但理念不错——适合需要同时对比多个模型输出的开发者。如果你日常工作流里经常切换不同 AI 模型，herdr 能省掉手动复制粘贴的麻烦。但它的“agent”能力很有限，更像个多模型 CLI 包装器。
+herdr 的定位很明确：一个终端里的 agent multiplexer。翻译成人话就是——你写一条 prompt，它同时发给多个 AI 模型，然后把所有回复并列展示在终端里。
+核心卖点：
+多模型并行调用：同时问 GPT-4、Claude、本地 Ollama 模型
+终端原生体验：不用离开命令行
+轻量级：Go 写的，单二进制文件
+听起来像什么？像 OpenRouter 的 CLI 版本，但更轻、更本地化。
+# macOS/Linux
+brew install herdr
+
+# 或者从源码
+go install github.com/ogulcancelik/herdr@latest
+
+安装后，运行 herdr --version 验证。我测试时版本是 v0.1.0。
+herdr 需要一个配置文件，默认路径 ~/.herdr/config.yaml：
+models:
+  - name: gpt-4
+    provider: openai
+    api_key: ${OPENAI_API_KEY}
+    model: gpt-4-1106-preview
+
+  - name: claude-3
+    provider: anthropic
+    api…]]></summary>
+        <author>
+            <name>Kang Jian</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Logto 评测：开源身份认证方案，SaaS 和 AI 应用的“门神”]]></title>
+        <id>https://dev.to/ferryman1980/logto-ping-ce-kai-yuan-shen-fen-ren-zheng-fang-an-saas-he-ai-ying-yong-de-men-shen--jg3</id>
+        <link href="https://dev.to/ferryman1980/logto-ping-ce-kai-yuan-shen-fen-ren-zheng-fang-an-saas-he-ai-ying-yong-de-men-shen--jg3"/>
+        <updated>2026-07-09T14:28:31.000Z</updated>
+        <summary type="html"><![CDATA[Logto 评测：开源身份认证方案，SaaS 和 AI 应用的“门神”
+
+
+
+  
+  
+  30 秒结论
+
+
+Logto 是一个开源的身份认证和授权基础设施，基于 OIDC 和 OAuth 2.1 标准，内置多租户、SSO 和 RBAC 功能。如果让我给一个直接的评价：对于需要自建认证系统的中小型团队和独立开发者，Logto 是目前开源方案里最接近“开箱即用”的，但它在企业级功能和文档完善度上还有提升空间。
+适合谁用：
+正在开发 SaaS 产品的后端/全栈开发者
+需要快速集成 OAuth 2.1/OIDC 认证的 AI 应用
+想摆脱 Auth0/Firebase 等第三方服务绑定、又不想从零造轮子的团队
+不适合：
+需要 LDAP/AD 集成的大型企业（目前不支持）
+对认证延迟要求极致的场景（自建 vs 托管服务有差距）
+# 使用 Docker Compose 一键部署
+git clone https://github.com/logto-io/logto.git
+cd logto/docker
+docker compose up -d
+
+# 访问 http://localhost:3001 进入管理控制台
+# 默认账号: admin 密码: (在日志中查找)
+
+部署完成后，控制台的界面风格类似 Auth0，左侧菜单分为：Applications、Users、Roles、API Resources、Sign-in Experience 等模块。
+在控制台创建 Application → 选择 "Traditional Web App"（适合后端渲染的应用）：
+// 后端 Node.js + Express 集成示例
+import { LogtoClient, LogtoConfig } from '@logto/node';
+import express from 'exp…]]></summary>
+        <author>
+            <name>Kang Jian</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[No leap second will be introduced at the end of December 2026]]></title>
+        <id>https://datacenter.iers.org/data/latestVersion/bulletinC.txt</id>
+        <link href="https://datacenter.iers.org/data/latestVersion/bulletinC.txt"/>
+        <updated>2026-07-09T14:16:34.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Maxwell's Equations Were Discovered [video]]]></title>
+        <id>https://www.youtube.com/watch?v=-hua8RWopfw</id>
+        <link href="https://www.youtube.com/watch?v=-hua8RWopfw"/>
+        <updated>2026-07-09T14:16:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Transparency efforts behind the Helium Browser]]></title>
+        <id>https://helium.computer/blog/transparency</id>
+        <link href="https://helium.computer/blog/transparency"/>
+        <updated>2026-07-09T14:11:56.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Introducing Muse Spark 1.1]]></title>
+        <id>https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/?_fb_noscript=1</id>
+        <link href="https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/?_fb_noscript=1"/>
+        <updated>2026-07-09T14:10:22.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A new way to reflect on how you use Claude]]></title>
+        <id>https://www.anthropic.com/news/reflect-with-claude</id>
+        <link href="https://www.anthropic.com/news/reflect-with-claude"/>
+        <updated>2026-07-09T13:30:33.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[US seeks cheaper hunter-killer drones after Iran destroys $1B worth of Reapers]]></title>
+        <id>https://arstechnica.com/gadgets/2026/07/us-seeks-cheaper-hunter-killer-drones-after-iran-destroys-1b-worth-of-reapers/</id>
+        <link href="https://arstechnica.com/gadgets/2026/07/us-seeks-cheaper-hunter-killer-drones-after-iran-destroys-1b-worth-of-reapers/"/>
+        <updated>2026-07-09T13:29:31.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Syria's solar boom is redefining Middle East's energy model]]></title>
+        <id>https://www.thenationalnews.com/business/energy/2026/07/06/syrias-solar-boom-is-redefining-middle-easts-energy-model/</id>
+        <link href="https://www.thenationalnews.com/business/energy/2026/07/06/syrias-solar-boom-is-redefining-middle-easts-energy-model/"/>
+        <updated>2026-07-09T13:27:05.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Glass Backbone: Why the Army's Logistics Will Break in the Next War]]></title>
+        <id>https://mwi.westpoint.edu/the-glass-backbone-why-the-armys-logistics-will-break-in-the-next-war/</id>
+        <link href="https://mwi.westpoint.edu/the-glass-backbone-why-the-armys-logistics-will-break-in-the-next-war/"/>
+        <updated>2026-07-09T13:24:43.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Madison Sq Garden database tracks hundreds. Labels "LGBTQIA," & low/high "risk."]]></title>
+        <id>https://www.wired.com/story/madison-square-garden-celebrity-database-surveillance/</id>
+        <link href="https://www.wired.com/story/madison-square-garden-celebrity-database-surveillance/"/>
+        <updated>2026-07-09T13:24:35.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: FableCut – A browser video editor AI agents can drive (zero deps)]]></title>
+        <id>https://github.com/ronak-create/FableCut</id>
+        <link href="https://github.com/ronak-create/FableCut"/>
+        <updated>2026-07-09T13:23:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Files over tools: how we built our agent with a virtual filesystem and bash]]></title>
+        <id>https://knock.app/blog/how-we-built-the-knock-agent-virtual-filesystem-and-bash</id>
+        <link href="https://knock.app/blog/how-we-built-the-knock-agent-virtual-filesystem-and-bash"/>
+        <updated>2026-07-09T13:19:02.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Just Pay the Subscription]]></title>
+        <id>https://www.uncommonapps.nyc/p/just-pay-the-subscription</id>
+        <link href="https://www.uncommonapps.nyc/p/just-pay-the-subscription"/>
+        <updated>2026-07-09T13:10:18.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Aave rolls out vaults for yield-hungry fintech investors]]></title>
+        <id>61944078-ec34-4f34-abde-df7f120e99e4</id>
+        <link href="https://www.coindesk.com/business/2026/07/09/aave-rolls-out-vaults-for-yield-hungry-fintech-investors"/>
+        <updated>2026-07-09T13:01:38.000Z</updated>
+        <summary type="html"><![CDATA[Aave's new Stable Vaults product lets wallets, exchanges and payment apps offer yields on stablecoin deposits]]></summary>
+        <author>
+            <name>Krisztian Sandor</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Age verification is the surveillance nobody voted for]]></title>
+        <id>b4ddd678-97ac-42a3-922d-9f3fe987b44e</id>
+        <link href="https://www.coindesk.com/opinion/2026/07/09/age-verification-is-the-surveillance-nobody-voted-for"/>
+        <updated>2026-07-09T13:00:00.000Z</updated>
+        <summary type="html"><![CDATA[KOSA and Chat Control both retreated on their most-criticized measures this week, but both kept mandatory age verification, the quiet mechanism that turns anonymous browsing into identified browsing for all of us, argues Billions CEO Evin McMullen.]]></summary>
+        <author>
+            <name>Evin McMullen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Arcaide – Explore code with multi-level call graphs]]></title>
+        <id>https://arcaide.foo/</id>
+        <link href="https://arcaide.foo/"/>
+        <updated>2026-07-09T12:59:44.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: 18 Words]]></title>
+        <id>https://18words.com/</id>
+        <link href="https://18words.com/"/>
+        <updated>2026-07-09T12:48:52.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Version Control Will Evolve for the Agent Boom]]></title>
+        <id>https://entire.io/blog/how-version-control-will-evolve-for-the-agent-boom</id>
+        <link href="https://entire.io/blog/how-version-control-will-evolve-for-the-agent-boom"/>
+        <updated>2026-07-09T12:20:41.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Download: a nuclear landmark, and China eyes Nvidia chips]]></title>
+        <id>https://www.technologyreview.com/?p=1140283</id>
+        <link href="https://www.technologyreview.com/2026/07/09/1140283/the-download-nuclear-power-milestone-nvidia-china-ai-chips/"/>
+        <updated>2026-07-09T12:10:00.000Z</updated>
+        <summary type="html"><![CDATA[This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. Four nuclear reactors hit a big milestone in the US —Casey Crownhart I was really looking forward to July 4, and not just because I love a poolside barbecue. This year…]]></summary>
+        <author>
+            <name>Thomas Macaulay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TrueBiz (YC S22) – Senior Software Engineer – Remote (US) – Full-Time]]></title>
+        <id>https://news.ycombinator.com/item?id=48844517</id>
+        <link href="https://news.ycombinator.com/item?id=48844517"/>
+        <updated>2026-07-09T12:01:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Over $7.2 billion have migrated from LayerZero to Chainlink CCIP as Mantle joins exodus]]></title>
+        <id>c7cc48a6-c64d-43d1-82be-bfcf17c9ed42</id>
+        <link href="https://www.coindesk.com/business/2026/07/09/over-usd7-2-billion-have-migrated-from-layerzero-to-chainlink-ccip-as-mantle-joins-exodus"/>
+        <updated>2026-07-09T12:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Migrations to Chainlink CCIP so far include Kelp and Lombard, both of which brought over $1 billion, as well as Solv Protocol, Virtuals, Re and Kraken’s tokenized assets.]]></summary>
+        <author>
+            <name>Francisco Rodrigues</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Quicknode&apos;s Q2 Roundup: Shipped Products and Features]]></title>
         <id>quicknodes-q2-roundup-shipped-products-and-features</id>
@@ -8884,6 +9387,16 @@ Before the AI, institut…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Vacuum at the Page Level]]></title>
+        <id>https://boringsql.com/posts/vacuum-at-the-page-level/</id>
+        <link href="https://boringsql.com/posts/vacuum-at-the-page-level/"/>
+        <updated>2026-07-06T10:02:08.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Ripple's preliminary crypto asset provider license in Luxembourg upgraded to fully compliant]]></title>
         <id>bdea0368-4b11-4bfa-a294-545d51ff235a</id>
         <link href="https://www.coindesk.com/policy/2026/07/06/ripple-s-preliminary-crypto-asset-provider-license-in-luxembourg-upgraded-to-fully-compliant"/>
@@ -9600,6 +10113,16 @@ location only exists when needed.
 This makes everythi…]]></summary>
         <author>
             <name>Omar Elhaitoum</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Backstory of Jiki]]></title>
+        <id>https://jiki.io/blog/the-backstory-of-jiki</id>
+        <link href="https://jiki.io/blog/the-backstory-of-jiki"/>
+        <updated>2026-07-05T22:36:59.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -13471,6 +13994,16 @@ If you’re a React developer, I highly recommend trying it at least once.]]></s
         <summary type="html"><![CDATA[The region's regulators emphasized that a product's actual function as a derivative matters more than its commercial name or labeling when assessing compliance.]]></summary>
         <author>
             <name>Francisco Rodrigues</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Lead Mines of Galena, Kansas]]></title>
+        <id>https://dustbowlhighway.com/kansas/lead-mines/</id>
+        <link href="https://dustbowlhighway.com/kansas/lead-mines/"/>
+        <updated>2026-07-04T12:15:28.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -42212,234 +42745,6 @@ Here's why: *v = String::from("Hello") is an assignment, so it evaluates to (). 
 The post Sony LYTIA 610 Debuts With New Pixel Structure For Improved Zoom Photography  appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Kiran Ganesan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Unbearable Cheapness of Open Weight Models]]></title>
-        <id>https://jamesoclaire.com/2026/06/25/the-unbearable-cheapness-of-open-weight-models/</id>
-        <link href="https://jamesoclaire.com/2026/06/25/the-unbearable-cheapness-of-open-weight-models/"/>
-        <updated>2026-06-25T02:51:29.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ask HN: Where is our profession (programmer) going?]]></title>
-        <id>https://news.ycombinator.com/item?id=48668199</id>
-        <link href="https://news.ycombinator.com/item?id=48668199"/>
-        <updated>2026-06-25T02:41:47.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OpenAI Unveils First Custom AI Chip Co-Developed With Broadcom]]></title>
-        <id>https://www.lowyat.net/?p=396772</id>
-        <link href="https://www.lowyat.net/2026/396772/openai-unveils-first-custom-ai-chip/"/>
-        <updated>2026-06-25T02:36:33.000Z</updated>
-        <summary type="html"><![CDATA[OpenAI has officially unveiled Jalapeño, its first custom AI accelerator developed in partnership with Broadcom. The chip represents the company’s first major step into designing its own silicon, as it seeks greater control over the hardware infrastructure that powers services such as ChatGPT and its growing portfolio of AI products. According to OpenAI, Jalapeño is […]
-The post OpenAI Unveils First Custom AI Chip Co-Developed With Broadcom appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Medical students are using popular research tool to pump out misleading studies]]></title>
-        <id>https://www.science.org/content/article/medical-students-are-using-popular-research-tool-pump-out-misleading-studies</id>
-        <link href="https://www.science.org/content/article/medical-students-are-using-popular-research-tool-pump-out-misleading-studies"/>
-        <updated>2026-06-25T02:30:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cloudflare launched self-managed OAuth for all]]></title>
-        <id>https://blog.cloudflare.com/oauth-for-all/</id>
-        <link href="https://blog.cloudflare.com/oauth-for-all/"/>
-        <updated>2026-06-25T02:18:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Zombie unicorns are haunting Silicon Valley]]></title>
-        <id>https://www.economist.com/business/2026/06/21/zombie-unicorns-are-haunting-silicon-valley</id>
-        <link href="https://www.economist.com/business/2026/06/21/zombie-unicorns-are-haunting-silicon-valley"/>
-        <updated>2026-06-25T02:16:15.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Remembering the life and artwork of Ron Spears]]></title>
-        <id>https://magic.wizards.com/en/news/feature/remembering-the-life-and-artwork-of-ron-spears</id>
-        <link href="https://magic.wizards.com/en/news/feature/remembering-the-life-and-artwork-of-ron-spears"/>
-        <updated>2026-06-25T01:51:54.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Writers and Drugs]]></title>
-        <id>https://lithub.com/are-writers-intrinsically-vulnerable-to-alcohol-and-drugs/</id>
-        <link href="https://lithub.com/are-writers-intrinsically-vulnerable-to-alcohol-and-drugs/"/>
-        <updated>2026-06-25T01:50:01.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bible as RAG Database]]></title>
-        <id>https://www.crosscanon.com/</id>
-        <link href="https://www.crosscanon.com/"/>
-        <updated>2026-06-25T01:42:55.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Exploring the internal representations of Pangram 3.3.2]]></title>
-        <id>https://www.pangram.com/pangram-space</id>
-        <link href="https://www.pangram.com/pangram-space"/>
-        <updated>2026-06-25T01:36:45.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ending respiratory infections]]></title>
-        <id>https://blog.interceptfund.com/p/ending-respiratory-infections</id>
-        <link href="https://blog.interceptfund.com/p/ending-respiratory-infections"/>
-        <updated>2026-06-25T01:14:23.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Special Wireless-Free Nikon Camera Is Publicly Available for the First Time]]></title>
-        <id>https://petapixel.com/2026/06/24/a-special-wireless-free-nikon-camera-is-publicly-available-for-the-first-time/</id>
-        <link href="https://petapixel.com/2026/06/24/a-special-wireless-free-nikon-camera-is-publicly-available-for-the-first-time/"/>
-        <updated>2026-06-25T01:11:53.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mixing Visual and Textual Code]]></title>
-        <id>https://arxiv.org/abs/2603.15855</id>
-        <link href="https://arxiv.org/abs/2603.15855"/>
-        <updated>2026-06-25T01:11:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What I'm Finding About LLM Code Style and Token Costs]]></title>
-        <id>https://www.jimmont.com/llm-style-token-costs</id>
-        <link href="https://www.jimmont.com/llm-style-token-costs"/>
-        <updated>2026-06-25T00:52:40.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[LuaJIT 3.0 proposed syntax extensions]]></title>
-        <id>https://github.com/LuaJIT/LuaJIT/issues/1475</id>
-        <link href="https://github.com/LuaJIT/LuaJIT/issues/1475"/>
-        <updated>2026-06-25T00:41:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[知识采集与记忆管理：我终于给AI装上了「长期记忆」和「信息消化系统」]]></title>
-        <id>https://dev.to/manoir_yantai_f22f01340f0/zhi-shi-cai-ji-yu-ji-yi-guan-li-wo-zhong-yu-gei-aizhuang-shang-liao-chang-qi-ji-yi-he-xin-xi-xiao-hua-xi-tong--o45</id>
-        <link href="https://dev.to/manoir_yantai_f22f01340f0/zhi-shi-cai-ji-yu-ji-yi-guan-li-wo-zhong-yu-gei-aizhuang-shang-liao-chang-qi-ji-yi-he-xin-xi-xiao-hua-xi-tong--o45"/>
-        <updated>2026-06-25T00:04:03.000Z</updated>
-        <summary type="html"><![CDATA[折腾 Agent 的朋友应该都有同感：AI 能记住对话上下文，但跨会话的知识管理是个坑。笔记散落在 OneDrive，公众号文章阅后即焚，抖音视频看了就忘。我花了三周，基于 Hermes Memory Installer 底座搭了一套 Knowledge-and-Memory-Management v0.0.2，解决的就是「知识从哪来、怎么存、如何找」这个闭环。
-先说结论：40+ 采集工具 + 三层记忆检索 + 云盘双向同步，走通了。
-采集层整合了 40+ 引擎，按来源分成 9 组。网页有 Scrapling（可过 Cloudflare）和 Chrome DevTools 协议兜底；视频有 yt-dlp + Whisper ASR + EasyOCR 的多级降级链；文档有新增的 SenseNova 三件套（PDF/PPT/Word 全量提取，扫描件也能吃）。最实用的改进是 book_cache_manager——下载完书自动触发精炼管线，把 PDF 拆成章节、提取知识点、生成 Skill 和笔记，全程无人值守。
-存储层是 Hot（Memory tool 即时注入）+ Warm（Hindsight 向量记忆，10K 节点）+ Cold（gbrain 知识图谱，11K 页）三层。lightweight_recall 自动走 FTS5 → 向量 → 图谱的降级检索，每条结果带来源标识。
-同步层通过 rclone 统一接口，OneDrive 每 4 小时双向增量同步。knowledge_discovery 每周日自动扫云端笔记，发现新文件就录入 gbrain。
-抓一篇公众号文章，自动入库：
-from knowledge_collector import collect_web
-from notes_rag import create_note
-from cloud_sync import sync_to_cloud
-
-# 网页采集 + 智能提取
-result = collect_web('https://mp.weixin.qq.com/s/xxx')
-print(f'笔记路径: {result.note_path}')   # → ~/.hermes/knowledge/notes/...
-print(f'gbrain slug: {result.gbrain_slug}')  # → gbrain 自动建页
-
-# 本地笔记不足时自动回落 AnySearch 垂直搜索
-from knowledge_augmentation import AugmentedSearch
-s = AugmentedSearch()
-r = s.search('比亚迪 2026Q1 财报', domain='finance')
-
-整条链路就三行——采集、建笔记、同步。AugmentedSearch 会在本地检索（score < 0.6）时自动走 AnySearch 的 finance/academic/legal 等垂直领域，结果标注来源，可一键导入笔记库。
-目前书籍精炼管线还不够稳定——PDF 图表提取有时会丢数据，双引擎降级（pdfplumber → pdftotext → pdfminer）虽然有兜底，但表格还原率还有提升空间。视频批量转录在 10 条并发时偶现 Whisper 内存 OOM，下一版打算加队列限流。
-项目开源，仓库在这。如果有折腾同类问题的朋友，欢迎提 PR 或 issue。]]></summary>
-        <author>
-            <name>Manoir Yantai</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[VEX turns container scanning into queue discipline]]></title>
-        <id>https://dev.to/pvgomes/vex-turns-container-scanning-into-queue-discipline-69n</id>
-        <link href="https://dev.to/pvgomes/vex-turns-container-scanning-into-queue-discipline-69n"/>
-        <updated>2026-06-25T00:01:58.000Z</updated>
-        <summary type="html"><![CDATA[The most tiring security dashboard is the one that is technically correct and operationally useless.
-You know the one.
-The scanner finds 417 vulnerabilities. Some are real. Some are inherited from a base image. Some affect a package that is present but never reachable. Some are already patched in the image you are actually running. Some are awaiting upstream metadata. Some require a rebuild. Some require nothing except another meeting where everyone agrees that red numbers are bad.
-Then the dashboard sends the whole pile to developers.
-This is how teams learn to ignore security tools.
-Not because developers hate security. Most do not. They hate being handed a queue where every item has the same color, the same urgency, and a different amount of truth behind it.
-Docker published a useful ex…]]></summary>
-        <author>
-            <name>Paulo Victor Leite Lima Gomes</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Every Developer Should Learn Browser Automation in 2026]]></title>
-        <id>https://dev.to/annalilith/why-every-developer-should-learn-browser-automation-in-2026-2oho</id>
-        <link href="https://dev.to/annalilith/why-every-developer-should-learn-browser-automation-in-2026-2oho"/>
-        <updated>2026-06-25T00:00:12.000Z</updated>
-        <summary type="html"><![CDATA[Why Every Developer Should Learn Browser Automation in 2026
-
-
-Browser automation is the most underrated skill in a developer's toolkit. Here's why you should learn it in 2026.
-Browser automation means controlling a web browser programmatically — clicking buttons, filling forms, navigating pages, extracting data — all without human intervention.
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.options import Options
-
-options = Options()
-options.add_argument("--headless=new")
-options.add_argument("--no-sandbox")
-
-driver = webdriver.Chrome(options=options)
-driver.get("https://example.com")
-title = driver.find_element(By.TAG_NAME, "h1").text
-print(f"Page title: {title}")
-driver.quit()
-
-Unlike requests, browser automation handles JavaScri…]]></summary>
-        <author>
-            <name>Anna lilith</name>
         </author>
     </entry>
 </feed>

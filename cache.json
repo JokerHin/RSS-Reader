@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/minodisk/lapse-keep-burst-photos-in-order-on-google-photos-249e",
+          "author": "Daisuke Mino",
+          "description": "I built lapse, a small CLI tool that makes the EXIF timestamps of burst-shot JPEGs unique so that Google Photos displays them in the order they were shot.\nWhen you shoot a burst, many frames land within the same second. Cameras record the sub-second part in EXIF (SubSecTimeOriginal), but Google Photos ignores it — so photos taken in the same second lose their shooting order after upload.\nlapse walks through the JPEGs in a directory in natural filename order (image_2.jpg before image_10.jpg) and assigns each file:\nnew time = max(original time, previous file's new time + 1 second)\n\nThe first file keeps its original time. Only frames collapsed into the same second get pushed forward, one second at a time; separate scenes with real time gaps keep their original capture times. The result is monotonically increasing timestamps that match the filename order — which is enough for Google Photos to sort them correctly.\nFiles that already have unique timestamps are not touched at all, so re-running is idempotent. It's a destructive operation by nature, so there's a --dry-run flag to preview the rewrites first:\n# Preview (no rewriting)\nlapse --dry-run /path/to/photos\n\n# Run\nlapse /path/to/photos\n\nThe part I cared most about: lapse never decodes or rebuilds the JPEG. It patches the date-time tag values (fixed 19 bytes each) in place inside the APP1 segment, so every other byte — including the image scan data, GPS tags, and MakerNote — is bit-identical before and after. Writes go to a temporary file followed by an atomic rename, so a crash mid-write can't corrupt the original.\nThis is also why it's a pure Rust implementation with an in-house minimal TIFF/IFD parser instead of depending on ExifTool or EXIF-writing crates: general-purpose writers rebuild segments and risk corrupting MakerNote offsets.\nPrebuilt binaries for Linux, macOS, and Windows are on the Releases page, or build from source with Cargo. If you shoot bursts and organize them in Google Photos, give it a try.",
+          "link": "https://dev.to/minodisk/lapse-keep-burst-photos-in-order-on-google-photos-249e",
+          "publishedOn": "2026-07-09T14:45:37.000Z",
+          "wordCount": 1685,
+          "title": "lapse: Keep Burst Photos in Order on Google Photos",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fswkheq7h0d169z42a50h.png"
+        },
+        {
+          "id": "https://dev.to/klaudiagrz/should-i-quit-it-or-just-live-through-the-burnout-1gng",
+          "author": "Klaudia Grzondziel",
+          "description": "Some of you may have noticed I disappeared a bit from the community over the last couple of weeks. Well, first of all, I've been on holiday. I was travelling through Iceland, admiring its breathtaking landscapes, enjoying nature (I saw whales, reindeer, and puffins!), trying local food, and bathing in hot lagoons.\nDuring this road trip, I caught myself thinking that I did not want to go back. That maybe I would feel much more satisfied if I just stayed there and lived a simple life, herding sheep and admiring landscapes that look like the set of The Lord of the Rings, maybe doing some artwork in my spare time.\nSince coming back, I've had this feeling that I do not fit in anymore. That the work I'm coming back to is not the work I used to love. Instead, I'm coming back to the work I started…",
+          "link": "https://dev.to/klaudiagrz/should-i-quit-it-or-just-live-through-the-burnout-1gng",
+          "publishedOn": "2026-07-09T14:44:40.000Z",
+          "wordCount": 2939,
+          "title": "Should I quit IT or just live through the burnout?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fbghpotfwvru3j6zi2a4w.png"
+        },
+        {
+          "id": "https://dev.to/muhammad_musadiq_091a400d/ai-machine-learning-for-developers-a-hands-on-intro-4jgc",
+          "author": "MUHAMMAD MUSADIQ",
+          "description": "Demystifying AI: A Developer's Hands-On Introduction\n\n\nArtificial Intelligence (AI) is no longer a futuristic concept; it's a rapidly evolving field transforming how we build software, solve complex problems, and interact with the world. As developers, understanding AI isn't just an advantage – it's becoming a necessity. But where do you start? This tutorial will cut through the hype and provide a practical, hands-on introduction to AI, focusing on its most prevalent subfield: machine learning.\nBy the end of this guide, you'll have a foundational understanding of what AI and machine learning are, how they work, and even build a simple machine learning model yourself using Python.\nAt its core, Artificial Intelligence (AI) refers to the simulation of human intelligence in machines that are p…",
+          "link": "https://dev.to/muhammad_musadiq_091a400d/ai-machine-learning-for-developers-a-hands-on-intro-4jgc",
+          "publishedOn": "2026-07-09T14:44:33.000Z",
+          "wordCount": 3241,
+          "title": "AI & Machine Learning for Developers: A Hands-On Intro",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Frv5dsob61fzafyc5zaul.png"
+        },
+        {
+          "id": "https://dev.to/carryologist/thursday-thoughts-why-anthropic-is-the-next-aws-but-potentially-worse-4e8i",
+          "author": "Rob",
+          "description": "A few weeks ago I wrote about how AI-native mirrors cloud-native — lift-and-shift now, real architectural rethink later. The same pattern enterprises went through with the cloud. That post was about workflows and org design. This one pulls on a different, less comfortable thread of the same analogy: Anthropic is starting to look a lot like AWS did a decade ago. Same core move. Much faster clock speed. And I'm not convinced it (or we, startups) survives the difference.\nQuick side rant, then I'll get to the point. Anthropic and the other frontier labs are obviously more than infrastructure companies. They do real research, real alignment work, real science. But strip away the mission statements and look at the balance sheet: the core asset is a giant pile of GPUs with a business model of ren…",
+          "link": "https://dev.to/carryologist/thursday-thoughts-why-anthropic-is-the-next-aws-but-potentially-worse-4e8i",
+          "publishedOn": "2026-07-09T14:41:40.000Z",
+          "wordCount": 2890,
+          "title": "Thursday Thoughts: Why Anthropic Is the Next AWS, but Potentially Worse",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxsz29346nqsf48pw1h90.png"
+        },
+        {
+          "id": "https://dev.to/keerthana_2004/data-types-and-variables-1bk4",
+          "author": "Keerthana M",
+          "description": "Data types\nA data type refers to the kind of value a variable holds.\nJavaScript is a dynamically typed language, meaning the data type is associated with the value, not the variable itself.\nFor example, a variable that currently holds a number can later be reassigned to a string or an object.\nJavaScript broadly classifies data types into two categories:\nprimitive\nnonprimitives\nPrimitives are immutable and stored by value.\nNumber: Represents numeric values, whether integer or floating-point. Examples: 42, 3.14, NaN.\nString: Represents text, enclosed in single quotes ' ', double quotes \" \", or backticks .\nBoolean: Represents logical truth values — true or false. When coerced to numbers, they become 1 and 0 respectively. Commonly used for conditional checks and control flow.\nUndefined: Indicates a declared variable that has not been assigned a value. Conceptually borrowed from Scheme.\nNull: Represents the intentional absence of any object value (an “empty” reference). Historically inspired by Java’s null.\nBigInt: Used for integers larger than Number.MAX_SAFE_INTEGER (2^53 - 1), declared with an n suffix — e.g., 9007199254740993n.\nSymbol: Represents unique and immutable identifiers, often used as object keys — no two symbols are ever equal.\nNon-primitive types are mutable and stored by reference.\nObject: A collection of key–value pairs, where keys are strings or symbols.\nExample: { name: \"Priyasha\", age: 25 }\nArray: An ordered list of elements. Arrays in JavaScript are dynamic and actually specialized objects.\nExample: [1, 2, 3]",
+          "link": "https://dev.to/keerthana_2004/data-types-and-variables-1bk4",
+          "publishedOn": "2026-07-09T14:37:18.000Z",
+          "wordCount": 1533,
+          "title": "Data Types",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fmguyc4tpl5rcmb9l3eg2.png"
+        },
+        {
+          "id": "https://dev.to/yuhaolin2005/meta-cognition-is-the-future-of-ai-personalization-a-4-quadrant-framework-to-build-it-5fki",
+          "author": "YuhaoLin2005",
+          "description": "Meta-Cognition Is the Future of AI Personalization\n\n\n\n  \n  \n  The Problem Nobody Is Talking About\n\n\nEvery \"personalized AI\" today works the same way: system prompts + RAG + skills.\n\"You are a helpful assistant with X style...\"\n\"Retrieve relevant documents and answer...\"\n\"Follow this workflow...\"\n\nThese are external crutches. The model itself hasn't changed. It's the same generic foundation model, just wearing a different costume each time.\nThe problem? External crutches break. System prompts drift. RAG retrieves the wrong documents. Skills conflict. And none of these failures are visible until the output is wrong.\nThere's a better way.\n\n\n\n\nExternal (RAG/Prompt)\nInternal (Weight Training)\n\n\n\n\nWhere knowledge lives\nOutside the model\nInside the weights\n\n\nInference cost\nExtra tokens + latency\n…",
+          "link": "https://dev.to/yuhaolin2005/meta-cognition-is-the-future-of-ai-personalization-a-4-quadrant-framework-to-build-it-5fki",
+          "publishedOn": "2026-07-09T14:35:46.000Z",
+          "wordCount": 2197,
+          "title": "Meta-Cognition Is the Future of AI Personalization — A 4-Quadrant Framework to Build It",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fbtx9f47qr8elovzyq7dl.png"
+        },
+        {
+          "id": "https://dev.to/pascal_cescato_692b7a8a20/unboxable-in-tech-the-evidence-locker-20n4",
+          "author": "Pascal CESCATO",
+          "description": "Eleven exhibits, last time. A career that kept refusing to fit inside a single box — trainer, restaurant owner, postal worker, developer, school aide, developer again — and a closing question I didn't have an answer to: whose problem was that, mine or the box's.\nI still don't have a clean answer. But I didn't stop while I was waiting for one. The same refusal to fit a category, applied to code instead of a resume, produced eight more exhibits. Here's what came out of that.\nExhibit 11 ends with me still standing in a classroom, four days a week, helping a kid who isn't mine focus on work that isn't mine either. That's not a metaphor. That's the actual schedule.\nThe other three days, I build.\nAt some point I tried to explain this to a recruiter using a normal CV — the linear kind, one line p…",
+          "link": "https://dev.to/pascal_cescato_692b7a8a20/unboxable-in-tech-the-evidence-locker-20n4",
+          "publishedOn": "2026-07-09T14:35:00.000Z",
+          "wordCount": 3570,
+          "title": "Unboxable in Tech: The Evidence Locker",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fv5i8ilc5xibh1petp1er.png"
+        },
+        {
+          "id": "https://dev.to/codemaster_121482/building-a-secure-authentication-system-dch",
+          "author": "Seif Ahmed",
+          "description": "This guide details the logic for implementing a secure, session-based user login system using Node.js, Mongoose and Bcrypt. \nWhen a user submits their credentials, the system queries MongoDB to locate the user profile.\nMethod: findOne({ username }) via Mongoose.\nSecurity Rule: If the username does not exist, halt execution immediately. Return a 401 Unauthorized status.\nIf the user account exists, the system compares the plain-text input password against the hashed password stored in the database.\nMethod: await bcrypt.compare(password, user.password).\nSecurity Rule: If the comparison returns false, halt execution. Return a 401 Unauthorized status.\nOnce both checks pass, the system initializes a secure session to keep the user authenticated across subsequent requests.\nState Flags: \n\n\nreq.ses…",
+          "link": "https://dev.to/codemaster_121482/building-a-secure-authentication-system-dch",
+          "publishedOn": "2026-07-09T14:34:43.000Z",
+          "wordCount": 1667,
+          "title": "Building a Secure Authentication System",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fktus2osznnfcw84bj6u8.png"
+        },
+        {
+          "id": "https://dev.to/anthonymax/-23jb",
+          "author": "Anthony Max",
+          "description": "The Best AI Code Review Tool for VS Code: A Hands-On Look at Qodo 🔥\n\n\n  \n\n              \n              \nAnthony Max\n                    \n                  \n\n                \nJul 9\n        \n#ai\n            #webdev\n            #programming\n            #productivity\n        \n35 reactions\n            \n comment\n            \n        \n        \n          \n            4 min read",
+          "link": "https://dev.to/anthonymax/-23jb",
+          "publishedOn": "2026-07-09T14:33:44.000Z",
+          "wordCount": 1295,
+          "title": "[Boost]",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fcyxswmhfh493h9o6f59r.png"
+        },
+        {
+          "id": "https://dev.to/glad_labs/the-scorer-was-silently-dropping-half-its-shot-scores-nm1",
+          "author": "Matthew Gladding",
+          "description": "What we shipped on 2026-07-09\nTwo alerts fired on the same post -- hero_render_fallback on shots 4 and 8, vision_scorer_unavailable on 5 of 12 shots -- and pulling that thread unraveled into three separate defects in one sitting (PR #2224). shot_vision_qa.score_shot_frame() was calling the vision model with max_tokens=300 and no think= flag. qwen3-vl burns part of that budget on a <think> trace before it ever gets to the JSON answer -- the same failure mode multi_model_qa._check_image_relevance hit and fixed months ago by raising num_predict from 400 to 1024 (poindexter#563). 300 tokens was smaller than an already-proven-insufficient number. This scorer had been quietly dropping something like 42% of shot scores, which lines up almost exactly with the ~45% figure flagged in the video-quali…",
+          "link": "https://dev.to/glad_labs/the-scorer-was-silently-dropping-half-its-shot-scores-nm1",
+          "publishedOn": "2026-07-09T14:31:08.000Z",
+          "wordCount": 1898,
+          "title": "The Scorer Was Silently Dropping Half Its Shot Scores",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F7ik71m39c3l5prl57brr.png"
+        },
+        {
+          "id": "https://dev.to/ferryman1980/herdr-ping-ce-ge-zhong-duan-li-de-ai-agent-duo-lu-fu-yong-qi-zhi-bu-zhi-de-zhuang--12bi",
+          "author": "Kang Jian",
+          "description": "herdr 评测：一个终端里的 AI Agent 多路复用器，值不值得装？\n\n\n30秒结论：herdr 是一个运行在终端里的 AI agent 多路复用器，让你同时调用多个 LLM（如 OpenAI、Claude、本地模型）并对比结果。值得关注，但别抱太高期望。它目前还是早期项目（GitHub 3024 stars），功能简单但理念不错——适合需要同时对比多个模型输出的开发者。如果你日常工作流里经常切换不同 AI 模型，herdr 能省掉手动复制粘贴的麻烦。但它的“agent”能力很有限，更像个多模型 CLI 包装器。\nherdr 的定位很明确：一个终端里的 agent multiplexer。翻译成人话就是——你写一条 prompt，它同时发给多个 AI 模型，然后把所有回复并列展示在终端里。\n核心卖点：\n多模型并行调用：同时问 GPT-4、Claude、本地 Ollama 模型\n终端原生体验：不用离开命令行\n轻量级：Go 写的，单二进制文件\n听起来像什么？像 OpenRouter 的 CLI 版本，但更轻、更本地化。\n# macOS/Linux\nbrew install herdr\n\n# 或者从源码\ngo install github.com/ogulcancelik/herdr@latest\n\n安装后，运行 herdr --version 验证。我测试时版本是 v0.1.0。\nherdr 需要一个配置文件，默认路径 ~/.herdr/config.yaml：\nmodels:\n  - name: gpt-4\n    provider: openai\n    api_key: ${OPENAI_API_KEY}\n    model: gpt-4-1106-preview\n\n  - name: claude-3\n    provider: anthropic\n    api…",
+          "link": "https://dev.to/ferryman1980/herdr-ping-ce-ge-zhong-duan-li-de-ai-agent-duo-lu-fu-yong-qi-zhi-bu-zhi-de-zhuang--12bi",
+          "publishedOn": "2026-07-09T14:29:06.000Z",
+          "wordCount": 1879,
+          "title": "herdr 评测：一个终端里的 AI Agent 多路复用器，值不值得装？",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fzszstwft35vzasfplv78.png"
+        },
+        {
+          "id": "https://dev.to/ferryman1980/logto-ping-ce-kai-yuan-shen-fen-ren-zheng-fang-an-saas-he-ai-ying-yong-de-men-shen--jg3",
+          "author": "Kang Jian",
+          "description": "Logto 评测：开源身份认证方案，SaaS 和 AI 应用的“门神”\n\n\n\n  \n  \n  30 秒结论\n\n\nLogto 是一个开源的身份认证和授权基础设施，基于 OIDC 和 OAuth 2.1 标准，内置多租户、SSO 和 RBAC 功能。如果让我给一个直接的评价：对于需要自建认证系统的中小型团队和独立开发者，Logto 是目前开源方案里最接近“开箱即用”的，但它在企业级功能和文档完善度上还有提升空间。\n适合谁用：\n正在开发 SaaS 产品的后端/全栈开发者\n需要快速集成 OAuth 2.1/OIDC 认证的 AI 应用\n想摆脱 Auth0/Firebase 等第三方服务绑定、又不想从零造轮子的团队\n不适合：\n需要 LDAP/AD 集成的大型企业（目前不支持）\n对认证延迟要求极致的场景（自建 vs 托管服务有差距）\n# 使用 Docker Compose 一键部署\ngit clone https://github.com/logto-io/logto.git\ncd logto/docker\ndocker compose up -d\n\n# 访问 http://localhost:3001 进入管理控制台\n# 默认账号: admin 密码: (在日志中查找)\n\n部署完成后，控制台的界面风格类似 Auth0，左侧菜单分为：Applications、Users、Roles、API Resources、Sign-in Experience 等模块。\n在控制台创建 Application → 选择 \"Traditional Web App\"（适合后端渲染的应用）：\n// 后端 Node.js + Express 集成示例\nimport { LogtoClient, LogtoConfig } from '@logto/node';\nimport express from 'exp…",
+          "link": "https://dev.to/ferryman1980/logto-ping-ce-kai-yuan-shen-fen-ren-zheng-fang-an-saas-he-ai-ying-yong-de-men-shen--jg3",
+          "publishedOn": "2026-07-09T14:28:31.000Z",
+          "wordCount": 2160,
+          "title": "Logto 评测：开源身份认证方案，SaaS 和 AI 应用的“门神”",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fbls28o761se85u207fde.png"
+        },
+        {
           "id": "https://dev.to/ev3lynx727/how-we-use-mcp-and-cli-together-for-dynamic-ai-agent-workflows-2j7j",
           "author": "Ev3lynx727",
           "description": "Hook\n\n\nThe Windows agent went silent mid-session. It had been routing tasks through ark-delegator — a cross-environment bridge that lives in WSL. But the MCP server behind it had crashed with OpenCode's last daemon restart, because it was registered as a plugin. Same process. Same failure. Same data loss.\nI checked the process table. ark-memory was still running on port 8102. ark-exec was healthy on 8101. Every MCP server was alive — because they were managed by systemd, not by OpenCode. The plugin was dead because plugins live inside the agent's process. The MCP servers were fine because MCP servers are independent.\nThat was the day I stopped treating MCP servers as plugins.\noh-my-mcp (systemd user service)\n  ├── port 8080: Management API\n  ├── port 8090: Gateway (MCP proxy)\n  └── child p…",
@@ -14046,36 +14166,6 @@
           "wordCount": 1350,
           "title": "Expected Option<String>, Got Option<()> — Here's Why",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ff4nq50qjbvto39sg5bd0.png"
-        },
-        {
-          "id": "https://dev.to/manoir_yantai_f22f01340f0/zhi-shi-cai-ji-yu-ji-yi-guan-li-wo-zhong-yu-gei-aizhuang-shang-liao-chang-qi-ji-yi-he-xin-xi-xiao-hua-xi-tong--o45",
-          "author": "Manoir Yantai",
-          "description": "折腾 Agent 的朋友应该都有同感：AI 能记住对话上下文，但跨会话的知识管理是个坑。笔记散落在 OneDrive，公众号文章阅后即焚，抖音视频看了就忘。我花了三周，基于 Hermes Memory Installer 底座搭了一套 Knowledge-and-Memory-Management v0.0.2，解决的就是「知识从哪来、怎么存、如何找」这个闭环。\n先说结论：40+ 采集工具 + 三层记忆检索 + 云盘双向同步，走通了。\n采集层整合了 40+ 引擎，按来源分成 9 组。网页有 Scrapling（可过 Cloudflare）和 Chrome DevTools 协议兜底；视频有 yt-dlp + Whisper ASR + EasyOCR 的多级降级链；文档有新增的 SenseNova 三件套（PDF/PPT/Word 全量提取，扫描件也能吃）。最实用的改进是 book_cache_manager——下载完书自动触发精炼管线，把 PDF 拆成章节、提取知识点、生成 Skill 和笔记，全程无人值守。\n存储层是 Hot（Memory tool 即时注入）+ Warm（Hindsight 向量记忆，10K 节点）+ Cold（gbrain 知识图谱，11K 页）三层。lightweight_recall 自动走 FTS5 → 向量 → 图谱的降级检索，每条结果带来源标识。\n同步层通过 rclone 统一接口，OneDrive 每 4 小时双向增量同步。knowledge_discovery 每周日自动扫云端笔记，发现新文件就录入 gbrain。\n抓一篇公众号文章，自动入库：\nfrom knowledge_collector import collect_web\nfrom notes_rag import create_note\nfrom cloud_sync import sync_to_cloud\n\n# 网页采集 + 智能提取\nresult = collect_web('https://mp.weixin.qq.com/s/xxx')\nprint(f'笔记路径: {result.note_path}')   # → ~/.hermes/knowledge/notes/...\nprint(f'gbrain slug: {result.gbrain_slug}')  # → gbrain 自动建页\n\n# 本地笔记不足时自动回落 AnySearch 垂直搜索\nfrom knowledge_augmentation import AugmentedSearch\ns = AugmentedSearch()\nr = s.search('比亚迪 2026Q1 财报', domain='finance')\n\n整条链路就三行——采集、建笔记、同步。AugmentedSearch 会在本地检索（score < 0.6）时自动走 AnySearch 的 finance/academic/legal 等垂直领域，结果标注来源，可一键导入笔记库。\n目前书籍精炼管线还不够稳定——PDF 图表提取有时会丢数据，双引擎降级（pdfplumber → pdftotext → pdfminer）虽然有兜底，但表格还原率还有提升空间。视频批量转录在 10 条并发时偶现 Whisper 内存 OOM，下一版打算加队列限流。\n项目开源，仓库在这。如果有折腾同类问题的朋友，欢迎提 PR 或 issue。",
-          "link": "https://dev.to/manoir_yantai_f22f01340f0/zhi-shi-cai-ji-yu-ji-yi-guan-li-wo-zhong-yu-gei-aizhuang-shang-liao-chang-qi-ji-yi-he-xin-xi-xiao-hua-xi-tong--o45",
-          "publishedOn": "2026-06-25T00:04:03.000Z",
-          "wordCount": 1364,
-          "title": "知识采集与记忆管理：我终于给AI装上了「长期记忆」和「信息消化系统」",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxmh5vudv1iopgycdyebz.png"
-        },
-        {
-          "id": "https://dev.to/pvgomes/vex-turns-container-scanning-into-queue-discipline-69n",
-          "author": "Paulo Victor Leite Lima Gomes",
-          "description": "The most tiring security dashboard is the one that is technically correct and operationally useless.\nYou know the one.\nThe scanner finds 417 vulnerabilities. Some are real. Some are inherited from a base image. Some affect a package that is present but never reachable. Some are already patched in the image you are actually running. Some are awaiting upstream metadata. Some require a rebuild. Some require nothing except another meeting where everyone agrees that red numbers are bad.\nThen the dashboard sends the whole pile to developers.\nThis is how teams learn to ignore security tools.\nNot because developers hate security. Most do not. They hate being handed a queue where every item has the same color, the same urgency, and a different amount of truth behind it.\nDocker published a useful ex…",
-          "link": "https://dev.to/pvgomes/vex-turns-container-scanning-into-queue-discipline-69n",
-          "publishedOn": "2026-06-25T00:01:58.000Z",
-          "wordCount": 3035,
-          "title": "VEX turns container scanning into queue discipline",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Famqx4toknkt2hqyi3oe6.png"
-        },
-        {
-          "id": "https://dev.to/annalilith/why-every-developer-should-learn-browser-automation-in-2026-2oho",
-          "author": "Anna lilith",
-          "description": "Why Every Developer Should Learn Browser Automation in 2026\n\n\nBrowser automation is the most underrated skill in a developer's toolkit. Here's why you should learn it in 2026.\nBrowser automation means controlling a web browser programmatically — clicking buttons, filling forms, navigating pages, extracting data — all without human intervention.\nfrom selenium import webdriver\nfrom selenium.webdriver.common.by import By\nfrom selenium.webdriver.chrome.options import Options\n\noptions = Options()\noptions.add_argument(\"--headless=new\")\noptions.add_argument(\"--no-sandbox\")\n\ndriver = webdriver.Chrome(options=options)\ndriver.get(\"https://example.com\")\ntitle = driver.find_element(By.TAG_NAME, \"h1\").text\nprint(f\"Page title: {title}\")\ndriver.quit()\n\nUnlike requests, browser automation handles JavaScri…",
-          "link": "https://dev.to/annalilith/why-every-developer-should-learn-browser-automation-in-2026-2oho",
-          "publishedOn": "2026-06-25T00:00:12.000Z",
-          "wordCount": 1642,
-          "title": "Why Every Developer Should Learn Browser Automation in 2026",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fx74sylcg1npasyv005u6.png"
         }
       ]
     },
@@ -14581,6 +14671,176 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://analog.watch/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://analog.watch/",
+          "publishedOn": "2026-07-09T14:30:54.000Z",
+          "wordCount": 13,
+          "title": "Show HN: Analog Watch",
+          "imageUrl": "https://analog.watch/og.png"
+        },
+        {
+          "id": "https://datacenter.iers.org/data/latestVersion/bulletinC.txt",
+          "author": null,
+          "description": "Comments",
+          "link": "https://datacenter.iers.org/data/latestVersion/bulletinC.txt",
+          "publishedOn": "2026-07-09T14:16:34.000Z",
+          "wordCount": 177,
+          "title": "No leap second will be introduced at the end of December 2026",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.youtube.com/watch?v=-hua8RWopfw",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.youtube.com/watch?v=-hua8RWopfw",
+          "publishedOn": "2026-07-09T14:16:17.000Z",
+          "wordCount": null,
+          "title": "Maxwell's Equations Were Discovered [video]",
+          "imageUrl": null
+        },
+        {
+          "id": "https://helium.computer/blog/transparency",
+          "author": null,
+          "description": "Comments",
+          "link": "https://helium.computer/blog/transparency",
+          "publishedOn": "2026-07-09T14:11:56.000Z",
+          "wordCount": 659,
+          "title": "Transparency efforts behind the Helium Browser",
+          "imageUrl": "https://helium.computer/blog/transparency.jpg"
+        },
+        {
+          "id": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/?_fb_noscript=1",
+          "author": null,
+          "description": "Comments",
+          "link": "https://ai.meta.com/blog/introducing-muse-spark-meta-model-api/?_fb_noscript=1",
+          "publishedOn": "2026-07-09T14:10:22.000Z",
+          "wordCount": 1504,
+          "title": "Introducing Muse Spark 1.1",
+          "imageUrl": "https://scontent-atl3-3.xx.fbcdn.net/v/t39.2365-6/741906678_873652302465180_7764547737953411008_n.png?_nc_cat=1&ccb=1-7&_nc_sid=e280be&_nc_ohc=OlBvaYygvIUQ7kNvwEnKGa7&_nc_oc=Adr3u967UHit2EAOephBiDV8ofxk-aGHovW9Bs-flSvzvwDhE-FIJSz5Oj6Tn7w3kfs&_nc_zt=14&_nc_ht=scontent-atl3-3.xx&_nc_gid=7JzcNsnwHijgQkDp3X6GVw&_nc_ss=7320f&oh=00_AQDZlOVqlPmkCd8zCt_4rIFRHCFna41HR3--ceu0Nhn9RQ&oe=6A69E6A6"
+        },
+        {
+          "id": "https://www.anthropic.com/news/reflect-with-claude",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.anthropic.com/news/reflect-with-claude",
+          "publishedOn": "2026-07-09T13:30:33.000Z",
+          "wordCount": 2053,
+          "title": "A new way to reflect on how you use Claude",
+          "imageUrl": "https://www.anthropic.com/api/opengraph-illustration?name=Hand%20Quill&backgroundColor=cactus"
+        },
+        {
+          "id": "https://arstechnica.com/gadgets/2026/07/us-seeks-cheaper-hunter-killer-drones-after-iran-destroys-1b-worth-of-reapers/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arstechnica.com/gadgets/2026/07/us-seeks-cheaper-hunter-killer-drones-after-iran-destroys-1b-worth-of-reapers/",
+          "publishedOn": "2026-07-09T13:29:31.000Z",
+          "wordCount": 3552,
+          "title": "US seeks cheaper hunter-killer drones after Iran destroys $1B worth of Reapers",
+          "imageUrl": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/Reaper-drone-1152x648.jpg"
+        },
+        {
+          "id": "https://www.thenationalnews.com/business/energy/2026/07/06/syrias-solar-boom-is-redefining-middle-easts-energy-model/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.thenationalnews.com/business/energy/2026/07/06/syrias-solar-boom-is-redefining-middle-easts-energy-model/",
+          "publishedOn": "2026-07-09T13:27:05.000Z",
+          "wordCount": 13628,
+          "title": "Syria's solar boom is redefining Middle East's energy model",
+          "imageUrl": "https://www.thenationalnews.com/resizer/v2/X5MKB4HRPD5DRDF4JXJBN7ZWEU.jpg?smart=true&auth=c7c9f11a83ee972c7732c80c55dae79f4ed064ea89798d09798f6c339e1e505e&width=1200&height=630"
+        },
+        {
+          "id": "https://mwi.westpoint.edu/the-glass-backbone-why-the-armys-logistics-will-break-in-the-next-war/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://mwi.westpoint.edu/the-glass-backbone-why-the-armys-logistics-will-break-in-the-next-war/",
+          "publishedOn": "2026-07-09T13:24:43.000Z",
+          "wordCount": 3560,
+          "title": "The Glass Backbone: Why the Army's Logistics Will Break in the Next War",
+          "imageUrl": "https://mwi.westpoint.edu/wp-content/uploads/2026/06/9522808.jpg?w=1080"
+        },
+        {
+          "id": "https://www.wired.com/story/madison-square-garden-celebrity-database-surveillance/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.wired.com/story/madison-square-garden-celebrity-database-surveillance/",
+          "publishedOn": "2026-07-09T13:24:35.000Z",
+          "wordCount": 31736,
+          "title": "Madison Sq Garden database tracks hundreds. Labels \"LGBTQIA,\" & low/high \"risk.\"",
+          "imageUrl": "https://media.wired.com/photos/6a4ebea5d12b964679cc8443/191:100/w_1280,c_limit/070826-MSG-database-3.jpg"
+        },
+        {
+          "id": "https://github.com/ronak-create/FableCut",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/ronak-create/FableCut",
+          "publishedOn": "2026-07-09T13:23:10.000Z",
+          "wordCount": 3835,
+          "title": "Show HN: FableCut – A browser video editor AI agents can drive (zero deps)",
+          "imageUrl": "https://opengraph.githubassets.com/eb65ffdf5df6d7d4b7fe130726188c4bf708fd577a26ac75c5c52856e9338f7b/ronak-create/FableCut"
+        },
+        {
+          "id": "https://knock.app/blog/how-we-built-the-knock-agent-virtual-filesystem-and-bash",
+          "author": null,
+          "description": "Comments",
+          "link": "https://knock.app/blog/how-we-built-the-knock-agent-virtual-filesystem-and-bash",
+          "publishedOn": "2026-07-09T13:19:02.000Z",
+          "wordCount": 8619,
+          "title": "Files over tools: how we built our agent with a virtual filesystem and bash",
+          "imageUrl": "https://knock.app/assets/blog/how-we-built-the-knock-agent/cover.png"
+        },
+        {
+          "id": "https://www.uncommonapps.nyc/p/just-pay-the-subscription",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.uncommonapps.nyc/p/just-pay-the-subscription",
+          "publishedOn": "2026-07-09T13:10:18.000Z",
+          "wordCount": 3067,
+          "title": "Just Pay the Subscription",
+          "imageUrl": "https://substackcdn.com/image/fetch/$s_!qFM1!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F790a4590-6f90-4ccc-9249-9d1e5a506416_4080x2805.jpeg"
+        },
+        {
+          "id": "https://arcaide.foo/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arcaide.foo/",
+          "publishedOn": "2026-07-09T12:59:44.000Z",
+          "wordCount": 4,
+          "title": "Show HN: Arcaide – Explore code with multi-level call graphs",
+          "imageUrl": null
+        },
+        {
+          "id": "https://18words.com/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://18words.com/",
+          "publishedOn": "2026-07-09T12:48:52.000Z",
+          "wordCount": 5251,
+          "title": "Show HN: 18 Words",
+          "imageUrl": "https://18words.com/og-image.png"
+        },
+        {
+          "id": "https://entire.io/blog/how-version-control-will-evolve-for-the-agent-boom",
+          "author": null,
+          "description": "Comments",
+          "link": "https://entire.io/blog/how-version-control-will-evolve-for-the-agent-boom",
+          "publishedOn": "2026-07-09T12:20:41.000Z",
+          "wordCount": 818,
+          "title": "How Version Control Will Evolve for the Agent Boom",
+          "imageUrl": "https://entire.io/og/blog/how-version-control-will-evolve-for-the-agent-boom.png?v=4"
+        },
+        {
+          "id": "https://news.ycombinator.com/item?id=48844517",
+          "author": null,
+          "description": "Comments",
+          "link": "https://news.ycombinator.com/item?id=48844517",
+          "publishedOn": "2026-07-09T12:01:17.000Z",
+          "wordCount": 266,
+          "title": "TrueBiz (YC S22) – Senior Software Engineer – Remote (US) – Full-Time",
+          "imageUrl": null
+        },
         {
           "id": "https://www.patrick-breyer.de/en/eu-parliament-greenlights-chat-control-1-0-breyer-our-children-lose-out/",
           "author": null,
@@ -16302,6 +16562,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://boringsql.com/posts/vacuum-at-the-page-level/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://boringsql.com/posts/vacuum-at-the-page-level/",
+          "publishedOn": "2026-07-06T10:02:08.000Z",
+          "wordCount": 5311,
+          "title": "Vacuum at the Page Level",
+          "imageUrl": "https://boringsql.com/og-images/vacuum-at-the-page-level-og.jpg"
+        },
+        {
           "id": "https://www.map.signalbox.io/",
           "author": null,
           "description": "Comments",
@@ -16430,6 +16700,16 @@
           "wordCount": 691,
           "title": "Does code cleanliness affect coding agents? A controlled minimal-pair study",
           "imageUrl": "/static/browse/0.3.4/images/arxiv-logo-fb.png"
+        },
+        {
+          "id": "https://jiki.io/blog/the-backstory-of-jiki",
+          "author": null,
+          "description": "Comments",
+          "link": "https://jiki.io/blog/the-backstory-of-jiki",
+          "publishedOn": "2026-07-05T22:36:59.000Z",
+          "wordCount": 11133,
+          "title": "The Backstory of Jiki",
+          "imageUrl": "https://jiki.io/static/content/images/blog/the-backstory-of-jiki-cc2a2cfc0d19.webp"
         },
         {
           "id": "https://github.com/514-labs/dnsglobe",
@@ -17500,6 +17780,16 @@
           "wordCount": 3701,
           "title": "A martian rock has lots of carbon on it, and it's not clear why",
           "imageUrl": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/image-1152x648.png"
+        },
+        {
+          "id": "https://dustbowlhighway.com/kansas/lead-mines/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://dustbowlhighway.com/kansas/lead-mines/",
+          "publishedOn": "2026-07-04T12:15:28.000Z",
+          "wordCount": 1946,
+          "title": "Lead Mines of Galena, Kansas",
+          "imageUrl": "https://dustbowlhighway.com/wp-content/uploads/2026/06/GALENA.jpg"
         },
         {
           "id": "https://peteris.rocks/blog/htop/",
@@ -24150,146 +24440,6 @@
           "wordCount": 4269,
           "title": "GTA 6 Physical Copies Won't Include a Disc, Will Just Be a Code in a Box",
           "imageUrl": "https://assets-prd.ignimgs.com/2026/06/24/ultimate-edition-01-1782295792416.jpg?width=1280&format=jpg&auto=webp&quality=80"
-        },
-        {
-          "id": "https://jamesoclaire.com/2026/06/25/the-unbearable-cheapness-of-open-weight-models/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://jamesoclaire.com/2026/06/25/the-unbearable-cheapness-of-open-weight-models/",
-          "publishedOn": "2026-06-25T02:51:29.000Z",
-          "wordCount": 1255,
-          "title": "The Unbearable Cheapness of Open Weight Models",
-          "imageUrl": null
-        },
-        {
-          "id": "https://news.ycombinator.com/item?id=48668199",
-          "author": null,
-          "description": "Comments",
-          "link": "https://news.ycombinator.com/item?id=48668199",
-          "publishedOn": "2026-06-25T02:41:47.000Z",
-          "wordCount": 3083,
-          "title": "Ask HN: Where is our profession (programmer) going?",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.science.org/content/article/medical-students-are-using-popular-research-tool-pump-out-misleading-studies",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.science.org/content/article/medical-students-are-using-popular-research-tool-pump-out-misleading-studies",
-          "publishedOn": "2026-06-25T02:30:18.000Z",
-          "wordCount": null,
-          "title": "Medical students are using popular research tool to pump out misleading studies",
-          "imageUrl": null
-        },
-        {
-          "id": "https://blog.cloudflare.com/oauth-for-all/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://blog.cloudflare.com/oauth-for-all/",
-          "publishedOn": "2026-06-25T02:18:10.000Z",
-          "wordCount": 2384,
-          "title": "Cloudflare launched self-managed OAuth for all",
-          "imageUrl": "https://cf-assets.www.cloudflare.com/zkvhlag99gkb/6fEPzehWZ8mfroJDIf30mC/636b651767a7cc41dd8b4e7093490a11/OG_Share_2024-2025-2026__40_.png"
-        },
-        {
-          "id": "https://www.economist.com/business/2026/06/21/zombie-unicorns-are-haunting-silicon-valley",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.economist.com/business/2026/06/21/zombie-unicorns-are-haunting-silicon-valley",
-          "publishedOn": "2026-06-25T02:16:15.000Z",
-          "wordCount": null,
-          "title": "Zombie unicorns are haunting Silicon Valley",
-          "imageUrl": null
-        },
-        {
-          "id": "https://magic.wizards.com/en/news/feature/remembering-the-life-and-artwork-of-ron-spears",
-          "author": null,
-          "description": "Comments",
-          "link": "https://magic.wizards.com/en/news/feature/remembering-the-life-and-artwork-of-ron-spears",
-          "publishedOn": "2026-06-25T01:51:54.000Z",
-          "wordCount": 3052,
-          "title": "Remembering the life and artwork of Ron Spears",
-          "imageUrl": "https://images.ctfassets.net/s5n2t79q9icq/4j2KHCavnLq3O0IQnX0Qil/d377eb0792d6fe4620815a83b78ee0c5/RAV_Utopia_Sprawl_1920x1080.jpg"
-        },
-        {
-          "id": "https://lithub.com/are-writers-intrinsically-vulnerable-to-alcohol-and-drugs/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://lithub.com/are-writers-intrinsically-vulnerable-to-alcohol-and-drugs/",
-          "publishedOn": "2026-06-25T01:50:01.000Z",
-          "wordCount": 3255,
-          "title": "Writers and Drugs",
-          "imageUrl": "https://s26162.pcdn.co/wp-content/uploads/2026/06/alcoholics-scaled.jpg"
-        },
-        {
-          "id": "https://www.crosscanon.com/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.crosscanon.com/",
-          "publishedOn": "2026-06-25T01:42:55.000Z",
-          "wordCount": 128,
-          "title": "Bible as RAG Database",
-          "imageUrl": "https://www.crosscanon.com/og-image.png"
-        },
-        {
-          "id": "https://www.pangram.com/pangram-space",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.pangram.com/pangram-space",
-          "publishedOn": "2026-06-25T01:36:45.000Z",
-          "wordCount": 3336,
-          "title": "Exploring the internal representations of Pangram 3.3.2",
-          "imageUrl": "https://www.pangram.com/pangram-space/opengraph-image?f9e55a400f31ebe3"
-        },
-        {
-          "id": "https://blog.interceptfund.com/p/ending-respiratory-infections",
-          "author": null,
-          "description": "Comments",
-          "link": "https://blog.interceptfund.com/p/ending-respiratory-infections",
-          "publishedOn": "2026-06-25T01:14:23.000Z",
-          "wordCount": 8917,
-          "title": "Ending respiratory infections",
-          "imageUrl": "https://substackcdn.com/image/fetch/$s_!mkj9!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F38f963c3-030c-4eeb-9433-3bc3fd644ade_5824x3052.png"
-        },
-        {
-          "id": "https://petapixel.com/2026/06/24/a-special-wireless-free-nikon-camera-is-publicly-available-for-the-first-time/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://petapixel.com/2026/06/24/a-special-wireless-free-nikon-camera-is-publicly-available-for-the-first-time/",
-          "publishedOn": "2026-06-25T01:11:53.000Z",
-          "wordCount": 1878,
-          "title": "A Special Wireless-Free Nikon Camera Is Publicly Available for the First Time",
-          "imageUrl": "https://petapixel.com/assets/uploads/2026/06/nikon-z6-iii-no-wireless.jpg"
-        },
-        {
-          "id": "https://arxiv.org/abs/2603.15855",
-          "author": null,
-          "description": "Comments",
-          "link": "https://arxiv.org/abs/2603.15855",
-          "publishedOn": "2026-06-25T01:11:10.000Z",
-          "wordCount": 710,
-          "title": "Mixing Visual and Textual Code",
-          "imageUrl": "/static/browse/0.3.4/images/arxiv-logo-fb.png"
-        },
-        {
-          "id": "https://www.jimmont.com/llm-style-token-costs",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.jimmont.com/llm-style-token-costs",
-          "publishedOn": "2026-06-25T00:52:40.000Z",
-          "wordCount": 2523,
-          "title": "What I'm Finding About LLM Code Style and Token Costs",
-          "imageUrl": null
-        },
-        {
-          "id": "https://github.com/LuaJIT/LuaJIT/issues/1475",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/LuaJIT/LuaJIT/issues/1475",
-          "publishedOn": "2026-06-25T00:41:43.000Z",
-          "wordCount": 8383,
-          "title": "LuaJIT 3.0 proposed syntax extensions",
-          "imageUrl": "https://opengraph.githubassets.com/c5de50b9a595d7b4589bce668763d1fc06bf528d7c0e4ee403c008ef869f1e5f/LuaJIT/LuaJIT/issues/1475"
         }
       ]
     },
@@ -26077,16 +26227,6 @@
           "wordCount": 15610,
           "title": "Sony LYTIA 610 Debuts With New Pixel Structure For Improved Zoom Photography",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/06/Sony-Xperia-1-VII-Product-Shot-4-scaled-1.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=396772",
-          "author": "Heirul Kamel",
-          "description": "OpenAI has officially unveiled Jalapeño, its first custom AI accelerator developed in partnership with Broadcom. The chip represents the company’s first major step into designing its own silicon, as it seeks greater control over the hardware infrastructure that powers services such as ChatGPT and its growing portfolio of AI products. According to OpenAI, Jalapeño is […]\nThe post OpenAI Unveils First Custom AI Chip Co-Developed With Broadcom appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/396772/openai-unveils-first-custom-ai-chip/",
-          "publishedOn": "2026-06-25T02:36:33.000Z",
-          "wordCount": 15781,
-          "title": "OpenAI Unveils First Custom AI Chip Co-Developed With Broadcom",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/06/openai-Jalapeno-broadcom-ai-chip-1.webp"
         }
       ]
     },
@@ -26101,6 +26241,16 @@
       "feedUrl": "https://www.technologyreview.com/feed/",
       "siteUrl": "https://www.technologyreview.com",
       "articles": [
+        {
+          "id": "https://www.technologyreview.com/?p=1140283",
+          "author": "Thomas Macaulay",
+          "description": "This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. Four nuclear reactors hit a big milestone in the US —Casey Crownhart I was really looking forward to July 4, and not just because I love a poolside barbecue. This year…",
+          "link": "https://www.technologyreview.com/2026/07/09/1140283/the-download-nuclear-power-milestone-nvidia-china-ai-chips/",
+          "publishedOn": "2026-07-09T12:10:00.000Z",
+          "wordCount": 6078,
+          "title": "The Download: a nuclear landmark, and China eyes Nvidia chips",
+          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/07/Aalo_s-completed-Critical-Test-Reactor-facility-1920.jpg?resize=1200,600"
+        },
         {
           "id": "https://www.technologyreview.com/?p=1140235",
           "author": "Casey Crownhart",
@@ -26428,6 +26578,36 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "61944078-ec34-4f34-abde-df7f120e99e4",
+          "author": "Krisztian Sandor",
+          "description": "Aave's new Stable Vaults product lets wallets, exchanges and payment apps offer yields on stablecoin deposits",
+          "link": "https://www.coindesk.com/business/2026/07/09/aave-rolls-out-vaults-for-yield-hungry-fintech-investors",
+          "publishedOn": "2026-07-09T13:01:38.000Z",
+          "wordCount": 12291,
+          "title": "Aave rolls out vaults for yield-hungry fintech investors",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/36f114a53bbcdea37ae44f32f67ff528318e79c3-1280x960.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "b4ddd678-97ac-42a3-922d-9f3fe987b44e",
+          "author": "Evin McMullen",
+          "description": "KOSA and Chat Control both retreated on their most-criticized measures this week, but both kept mandatory age verification, the quiet mechanism that turns anonymous browsing into identified browsing for all of us, argues Billions CEO Evin McMullen.",
+          "link": "https://www.coindesk.com/opinion/2026/07/09/age-verification-is-the-surveillance-nobody-voted-for",
+          "publishedOn": "2026-07-09T13:00:00.000Z",
+          "wordCount": 13976,
+          "title": "Age verification is the surveillance nobody voted for",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/324b3e140076b994f128d054863bc6d3af25ca25-7500x5000.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "c7cc48a6-c64d-43d1-82be-bfcf17c9ed42",
+          "author": "Francisco Rodrigues",
+          "description": "Migrations to Chainlink CCIP so far include Kelp and Lombard, both of which brought over $1 billion, as well as Solv Protocol, Virtuals, Re and Kraken’s tokenized assets.",
+          "link": "https://www.coindesk.com/business/2026/07/09/over-usd7-2-billion-have-migrated-from-layerzero-to-chainlink-ccip-as-mantle-joins-exodus",
+          "publishedOn": "2026-07-09T12:00:00.000Z",
+          "wordCount": 12110,
+          "title": "Over $7.2 billion have migrated from LayerZero to Chainlink CCIP as Mantle joins exodus",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/91da3bd63c2004a35aff872965dcd8d06becfe6d-1920x1280.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "2ef1e3a5-00b8-4bfa-9693-590041940f1c",
           "author": "Omkar Godbole",
