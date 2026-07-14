@@ -2,10 +2,265 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-07-14T21:55:38.640Z</updated>
+    <updated>2026-07-14T22:55:44.390Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[How I Used Spec-Driven Development to Build a Game]]></title>
+        <id>https://dev.to/erikch/how-i-used-spec-driven-development-to-build-a-game-a5p</id>
+        <link href="https://dev.to/erikch/how-i-used-spec-driven-development-to-build-a-game-a5p"/>
+        <updated>2026-07-14T22:26:53.000Z</updated>
+        <summary type="html"><![CDATA[I've been deep in spec-driven development (SDD) lately, and I want to walk through what it actually is, then show you how I used it to build a game for Kiro's first birthday.
+If you haven't run into spec-driven development, or SDD, don't worry, I got you. We'll cover what it is, where it helps, where it's overkill, and how I used it to make this game!
+Would you like to watch a video instead? Check it out!
+  
+  
+
+
+
+  
+  
+  What is spec-driven development?
+
+
+SDD breaks down into three phases, and all of this happens before any code gets written.
+
+First you create a requirements document. Then you have your AI editor turn that into a design document. Then, from the requirements and the design, you generate a list of tasks. 
+The most important part is that there's a human in the middle at ever…]]></summary>
+        <author>
+            <name>Erik Hanchett</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I graded my own ML option forecasts. Here's the Brier score.]]></title>
+        <id>https://dev.to/connerlambden/i-graded-my-own-ml-option-forecasts-heres-the-brier-score-20fp</id>
+        <link href="https://dev.to/connerlambden/i-graded-my-own-ml-option-forecasts-heres-the-brier-score-20fp"/>
+        <updated>2026-07-14T22:24:55.000Z</updated>
+        <summary type="html"><![CDATA[In May I promised — out loud, on the internet, where people can screenshot you — that I'd grade Helium's published prob_itm forecasts when the June 2026 AAPL contracts expired.
+June 26 came. The contracts died. So I graded them.
+This is not a victory lap. Mean Brier loss on n=2 is 0.3846. A coin flip that always says 0.5 scores 0.25 when the world resolves to 0 or 1. We did worse than a coin flip. That is information.
+
+
+
+Contract
+Helium prob_itm
+
+Market-ish implied
+
+
+
+
+AAPL $310C 2026-06-26
+0.42
+~0.50
+
+
+AAPL $295P 2026-06-26
+0.23
+~0.24
+
+
+
+AAPL NASDAQ close on 2026-06-26: $283.78
+$310 call → OTM → realized ITM = 0 → Brier = (0.42 − 0)² = 0.1764
+
+$295 put → ITM → realized ITM = 1 → Brier = (0.23 − 1)² = 0.5929
+
+
+
+
+  
+  
+  Honest read (short)
+
+
+
+The call forecast was closer to reality than the market's ~0.50 shrug — but "closer" is not "good." Any non-zero probability on an OTM finish still costs you.
+The put is the bruise. Probabilities looked aligned pre-expiry; then the underlying fell hard enough that both market and model had understated the ITM risk. Helium's number was far from 1, so the Brier loss is ugly.
+n=2. This is a promise kept, not a calibration paper. If you want to treat it as science, wait for more expiries on the honesty board.
+git clone https://github.com/connerlambden/helium-mcp-cookbook
+cd helium-mcp-cookbook
+python calibration/grade_june_expiry.py
+
+Frozen inputs live in calibration/june_2026_forecasts.json.
+Because the alternative is the usual ML options blog post: a backtest, a vibe, a screenshot of a green P&L. Publishing prob_itm with a fixed expiry is a tiny discipline. Grading it after the fact is the second half of that discipline.
+If you log your own forecasts with recipe 02, you can run the same scorer when your contracts expire. I'll keep adding rows.
+—
+
+Also adjacent, if you're here for news rather than options: we published a free 212×37 news-outlet framing corpus with an explorer. Different animal. Same "put numbers where people can grade them" instinct.]]></summary>
+        <author>
+            <name>connerlambden</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fix: "new row violates row-level security policy" in Supabase (it's not what you think)]]></title>
+        <id>https://dev.to/mateuszingano/fix-new-row-violates-row-level-security-policy-in-supabase-its-not-what-you-think-2g08</id>
+        <link href="https://dev.to/mateuszingano/fix-new-row-violates-row-level-security-policy-in-supabase-its-not-what-you-think-2g08"/>
+        <updated>2026-07-14T22:24:23.000Z</updated>
+        <summary type="html"><![CDATA[If you've shipped anything on Supabase, you've hit this:
+​
+
+
+
+new row violates row-level security policy for table "notes"
+​```
+
+
+
+Your first instinct is panic — *is my data exposed?* Here's the twist:
+
+**This error is good news.** RLS is **on** and doing its job: deny by default. The dangerous state is the *opposite* — RLS **off**, no error, table public to anyone with your anon key. That's the #1 Supabase leak. So don't reach for the "disable RLS" button. You just need a policy that permits the legitimate write.
+
+There are exactly three reasons the write gets denied:
+
+**Cause 1 — no INSERT policy at all (most common).**
+You enabled RLS, added a `SELECT` policy, and moved on. Reads work, writes are denied. RLS is default-deny **per operation** — a read policy does nothing for inserts.
+
+**…]]></summary>
+        <author>
+            <name>Mateus Zingano</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Best Online Communities for Indie Hackers in 2026]]></title>
+        <id>https://dev.to/gbenga_odukoya_d9c8477163/best-online-communities-for-indie-hackers-in-2026-3llp</id>
+        <link href="https://dev.to/gbenga_odukoya_d9c8477163/best-online-communities-for-indie-hackers-in-2026-3llp"/>
+        <updated>2026-07-14T22:23:09.000Z</updated>
+        <summary type="html"><![CDATA[Finding the right community as an indie hacker is one of those things that looks easy from the outside and feels surprisingly hard once you are actually looking. There are hundreds of forums, Discords, Slacks, subreddits, and platforms that describe themselves as communities for indie hackers and founders. Most of them are either too noisy to extract any signal from, too quiet to feel worth the effort, or populated by people who are at a completely different stage than you are.
+The communities that actually move the needle for indie hackers share a specific set of qualities. The people in them are genuinely building things, not just talking about building things. The feedback culture rewards honesty over politeness. The discussions are searchable and persistent, so something posted six mon…]]></summary>
+        <author>
+            <name>Gbenga Odukoya</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Put a Hailo 8 in a Handheld and Stopped Paying for Inference]]></title>
+        <id>https://dev.to/numbpill3d/i-put-a-hailo-8-in-a-handheld-and-stopped-paying-for-inference-3ih7</id>
+        <link href="https://dev.to/numbpill3d/i-put-a-hailo-8-in-a-handheld-and-stopped-paying-for-inference-3ih7"/>
+        <updated>2026-07-14T22:23:02.000Z</updated>
+        <summary type="html"><![CDATA[Cloud AI is a subscription trap. I built an exit that fits in my jacket pocket and runs at 3 watts.
+I got tired of paying rent to think.
+Every cool demo now ends the same way. Sign up for an API key. Add your credit card. Watch your tokens evaporate while someone else logs your prompts. I wanted a device that could see, understand, and reason without phoning home to a data center in Oregon. So I jammed a 26 TOPS AI accelerator into a handheld computer and cut the cord for good.
+This is how I did it, what broke, and why you should probably do it too.
+We normalized something insane. We took the most personal computing tasks imaginable, like looking at your own photos, transcribing your own voice notes, detecting objects in your own backyard, and decided the best way to do it was to stream it…]]></summary>
+        <author>
+            <name>v. Splicer</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The OSINT Workflow That Finally Made My Notes Useful]]></title>
+        <id>https://dev.to/numbpill3d/the-osint-workflow-that-finally-made-my-notes-useful-3cjp</id>
+        <link href="https://dev.to/numbpill3d/the-osint-workflow-that-finally-made-my-notes-useful-3cjp"/>
+        <updated>2026-07-14T22:21:34.000Z</updated>
+        <summary type="html"><![CDATA[I had 3,124 notes, zero answers, and a search bar that felt like gaslighting me.
+For two years my OSINT system was a digital hoarding problem with better fonts. Every username, every breach paste, every weird subdomain I found at 2am went into Obsidian. I had folders. I had tags. I had a graph view that looked like someone sneezed on a spiderweb.
+Then a client asked a simple question: what did you find on this person last month?
+I had everything and I could find nothing. That was the moment I understood my notes were not a system. They were a junk drawer I was pretending was an archive.
+This is the workflow that fixed it. Not a new plugin. Not a new app. A different way of thinking about what a note is actually for.
+Most OSINT advice tells you to capture everything. Save the tweet. Clip th…]]></summary>
+        <author>
+            <name>v. Splicer</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hands-On Review: 90 Days as an AI API Affiliate — The Real Numbers Nobody Shows You]]></title>
+        <id>https://dev.to/truedeck/hands-on-review-90-days-as-an-ai-api-affiliate-the-real-numbers-nobody-shows-you-485o</id>
+        <link href="https://dev.to/truedeck/hands-on-review-90-days-as-an-ai-api-affiliate-the-real-numbers-nobody-shows-you-485o"/>
+        <updated>2026-07-14T22:17:12.000Z</updated>
+        <summary type="html"><![CDATA[I've been reviewing developer tools long enough to know that most "passive income" content is basically fiction. So when I decided to actually test AI API affiliate programs as a real side hustle — tracking every click, every signup, every dollar — I knew I had to document it properly. No inflated screenshots, no cherry-picked weeks. Just the raw spreadsheet from my first 90 days.
+Overall Rating: 4.2 / 5 ⭐⭐⭐⭐
+Before I logged a single affiliate click, here's what I was working with — because context matters when you're judging whether these results are replicable.
+I signed up for three affiliate programs in my first week. I won't name the two that flopped, but I'll show you the comparison because this is genuinely useful if you're considering this path.
+Global API | Hybrid | 15% first order…]]></summary>
+        <author>
+            <name>true</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[An IRT-shaped practice score is not an IQ test]]></title>
+        <id>https://dev.to/connerlambden/an-irt-shaped-practice-score-is-not-an-iq-test-42c8</id>
+        <link href="https://dev.to/connerlambden/an-irt-shaped-practice-score-is-not-an-iq-test-42c8"/>
+        <updated>2026-07-14T22:10:27.000Z</updated>
+        <summary type="html"><![CDATA[IntelligenceMax updates a learner estimate after every answer and displays it on the familiar IQ scale. The arithmetic resembles item response theory. That resemblance is useful, but it is easy to ask the formula to carry more meaning than it can bear.
+A formula can be internally consistent while its inputs remain uncertain. Here, the distinction begins with the item parameters.
+For ability θ, item difficulty b, and discrimination a, the model assumes a logistic P(correct). The first estimate has a normal prior centred at 100 with SD 15. After an answer, the implementation takes one capped local update using score and Fisher information. Per-answer change is capped at 1.5 points.
+The calculation is the easy part. The inputs are where the uncertainty lives.
+The AI that generates each question also assigns difficulty and discrimination. Those values are checked for shape and range, but they are not fitted from a norming sample. Calling the update IRT-style describes the logistic form. It does not establish that 115 means the same thing as a score of 115 on a validated instrument.
+Within those limits, the estimate can support an adaptive practice loop. It cannot establish a clinical Full Scale IQ, a permanent change in general intelligence, transfer to school or work, or treatment of a cognitive condition.
+Reviews of commercial brain training find the strongest evidence on trained tasks and close relatives. Broad gains are less convincing against active controls (Simons et al., 2016; Melby-Lervåg et al., 2016).
+Until empirical calibration exists:
+This is a logistic, IRT-shaped practice estimate that uses model-assigned item parameters. It is not a normed IQ score.
+Public notes: https://intelligencemax.ai/science
+https://intelligencemax.ai/guide
+https://osf.io/kja9b/
+Disclosure: I built IntelligenceMax. The technical question I most want readers to challenge is whether useful empirical calibration is possible for generated, mostly one-off items without quietly turning the system into a fixed bank.]]></summary>
+        <author>
+            <name>connerlambden</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Your repo should be the source of truth, not the platform]]></title>
+        <id>https://dev.to/cornellfilip/your-repo-should-be-the-source-of-truth-not-the-platform-4pk</id>
+        <link href="https://dev.to/cornellfilip/your-repo-should-be-the-source-of-truth-not-the-platform-4pk"/>
+        <updated>2026-07-14T22:07:16.000Z</updated>
+        <summary type="html"><![CDATA[Here is a principle I keep coming back to: the canonical version of everything I write should live in a git repo I control, in plain markdown, not locked inside Ghost or Beehiiv or Dev.to. Platforms come and go. The repo outlives them.
+The problem is the last mile. Once the markdown is in the repo, getting it onto each platform means reformatting by hand, because every channel treats headings, fenced code blocks, and images differently. It is the least interesting work in the whole pipeline, and I do it over and over.
+I want to fix that with Fmttr: your repo stays the source of truth, and a deterministic pipeline transforms and publishes each post to the channel it is mapped to on git push. Correct formatting per platform, from one markdown source.
+I am validating the idea before writing the product. If your repo is already your source of truth and the publishing step is the annoying part, tell me: https://fmttr.dev/?utm_source=devto
+Building in public on X: x.com/cornellfilip]]></summary>
+        <author>
+            <name>Cornel Cristian Filip</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built a One-Curl Audio Translator with Telnyx AI Inference]]></title>
+        <id>https://dev.to/botoclock/i-built-a-one-curl-audio-translator-with-telnyx-ai-inference-39f9</id>
+        <link href="https://dev.to/botoclock/i-built-a-one-curl-audio-translator-with-telnyx-ai-inference-39f9"/>
+        <updated>2026-07-14T22:06:14.000Z</updated>
+        <summary type="html"><![CDATA[Localizing a podcast, translating a recorded meeting, or dubbing a lecture used to require three different services stitched together. The Telnyx AI Inference API exposes STT, chat completions, and TTS on the same private backbone, which means a single Flask app can run the whole pipeline.
+The Telnyx code example is:
+https://github.com/team-telnyx/telnyx-code-examples/tree/main/ai-content-translator-python
+It is a Python Flask app you can clone and run in a few minutes. No phone number, no webhook tunnel, no background job runner.
+You POST an audio file plus a target language. The app calls Telnyx STT to transcribe the audio in the source language, calls AI Inference to translate the transcript with a TTS-friendly system prompt, and calls Telnyx TTS to render the translated text into audio…]]></summary>
+        <author>
+            <name>anusha</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Evaluating the profitability of dropped domain acquisition]]></title>
+        <id>https://dev.to/dexter_wise/evaluating-the-profitability-of-dropped-domain-acquisition-18a9</id>
+        <link href="https://dev.to/dexter_wise/evaluating-the-profitability-of-dropped-domain-acquisition-18a9"/>
+        <updated>2026-07-14T22:05:15.000Z</updated>
+        <summary type="html"><![CDATA[Domain investors track expiring domain names to find options they can resell. Many registrars put domain names up for auction before deleting them. If a domain name goes unsold during these auctions or closeout sales and is finally deleted, it is very likely not as valuable as you think. Trying to resell expired domains often leads to great disappointment. This is because most expired domains have probably been put up for sale multiple times before, dropped, reregistered, and dropped yet again.
+If a domain was previously listed for sale by its owners and did not sell, it means the domain was either overpriced, poorly marketed, or is simply not valuable. Buying a domain name that received zero demand when its previous owners tried to sell it — essentially trying something that has already f…]]></summary>
+        <author>
+            <name>Dexter Wise</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built an AI Subscription Cancel-Save Agent That Does Not Manipulate You]]></title>
+        <id>https://dev.to/botoclock/i-built-an-ai-subscription-cancel-save-agent-that-does-not-manipulate-you-3gbd</id>
+        <link href="https://dev.to/botoclock/i-built-an-ai-subscription-cancel-save-agent-that-does-not-manipulate-you-3gbd"/>
+        <updated>2026-07-14T22:03:54.000Z</updated>
+        <summary type="html"><![CDATA[Cancel-save flows are easy to over-engineer into manipulative dark patterns, and easy to under-engineer into "your subscription has been cancelled, goodbye" experiences that lose revenue. A good cancel-save agent does three things: classifies the reason, offers one relevant save option, and respects a direct cancellation request.
+The Telnyx code example is:
+https://github.com/team-telnyx/telnyx-code-examples/tree/main/ai-subscription-cancel-save-retention-agent-python
+It is a Python Flask app that combines Telnyx Voice, AI Inference, and Messaging into a small demo you can clone and run in a few minutes.
+A customer calls in saying they want to cancel. The Flask app receives the webhook, verifies the customer by caller ID, and asks why they want to cancel. AI Inference returns the reason (t…]]></summary>
+        <author>
+            <name>anusha</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Financing the AI boom: from cash flows to debt [pdf]]]></title>
+        <id>https://www.bis.org/publ/bisbull120.pdf</id>
+        <link href="https://www.bis.org/publ/bisbull120.pdf"/>
+        <updated>2026-07-14T21:58:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[I picked a coding agent off a leaderboard. It flopped on our codebase.]]></title>
         <id>https://dev.to/kartik-nvjk/i-picked-a-coding-agent-off-a-leaderboard-it-flopped-on-our-codebase-4lf0</id>
@@ -81,6 +336,16 @@ Source: https://www.infoq.com/news/2026/07/genkit-agents-api-preview/?utm_campai
 Google has released a preview of its Genkit Agents API, significantly enhancing its open-source AI framework for building generative AI applications. This new API introduces features critical for deploying robust …]]></summary>
         <author>
             <name>soy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Microsoft Deletes User's 25-Year-Old Account with Thousands Spent on Games]]></title>
+        <id>https://xcancel.com/JoshuaKhane/status/2076918699248803977</id>
+        <link href="https://xcancel.com/JoshuaKhane/status/2076918699248803977"/>
+        <updated>2026-07-14T21:35:52.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -3367,6 +3632,16 @@ Listen            127.0.0.1:6767…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Human Canaries: Remembering the Munitionettes]]></title>
+        <id>https://www.historytoday.com/archive/great-debates/human-canaries-remembering-munitionettes</id>
+        <link href="https://www.historytoday.com/archive/great-debates/human-canaries-remembering-munitionettes"/>
+        <updated>2026-07-13T23:53:15.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[A Deep Dive Into File Compression: How Data Gets Smaller, Why Codecs Differ, and What to Actually Use in the Lakehouse]]></title>
         <id>https://dev.to/alexmercedcoder/a-deep-dive-into-file-compression-how-data-gets-smaller-why-codecs-differ-and-what-to-actually-5dce</id>
         <link href="https://dev.to/alexmercedcoder/a-deep-dive-into-file-compression-how-data-gets-smaller-why-codecs-differ-and-what-to-actually-5dce"/>
@@ -3879,6 +4154,16 @@ Supports Claude Code, Codex, and Gemini CLI.
 github.com/zaydmulani09/agentwatch]]></summary>
         <author>
             <name>Zayd Mulani</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Estranged Worlds of J. G. Ballard]]></title>
+        <id>https://lareviewofbooks.org/article/jg-ballard-illuminated-man-christopher-priest-nina-allan/</id>
+        <link href="https://lareviewofbooks.org/article/jg-ballard-illuminated-man-christopher-priest-nina-allan/"/>
+        <updated>2026-07-13T21:57:56.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -16002,6 +16287,16 @@ Meanwhile: OpenAI hit a $500 billion valuation. Half. A. Trillion. We're living 
         <id>https://ergo.org/courses/computation-as-a-universal-and-fundamental-concept</id>
         <link href="https://ergo.org/courses/computation-as-a-universal-and-fundamental-concept"/>
         <updated>2026-07-10T15:23:42.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Banter]]></title>
+        <id>https://homosabiens.substack.com/p/banter</id>
+        <link href="https://homosabiens.substack.com/p/banter"/>
+        <updated>2026-07-10T15:15:11.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -46054,129 +46349,6 @@ The post TikTok Shop And KPDN Partner Up To Offer Reduced Commission Fees On Ess
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Parse, Don't Validate – In a Language That Doesn't Want You To]]></title>
-        <id>https://cekrem.github.io/posts/parse-dont-validate-typescript/</id>
-        <link href="https://cekrem.github.io/posts/parse-dont-validate-typescript/"/>
-        <updated>2026-06-30T10:48:23.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin nears 2024 lows as options traders pay up for downside protection]]></title>
-        <id>b6b22849-3243-4470-8dc0-e52e9c43f15d</id>
-        <link href="https://www.coindesk.com/markets/2026/06/30/bitcoin-nears-2024-lows-as-options-traders-pay-up-for-downside-protection"/>
-        <updated>2026-06-30T10:48:06.000Z</updated>
-        <summary type="html"><![CDATA[Bitcoin and ether slid toward key support price levels. DeFi tokens were hit hardest, even as XLM and LIT bucked the broader market weakness.]]></summary>
-        <author>
-            <name>Oliver Knight</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Acer Launches Predator Helios 18 AI In Two Variants]]></title>
-        <id>https://www.lowyat.net/?p=397299</id>
-        <link href="https://www.lowyat.net/2026/397299/acer-predator-helios-18-ai-two-variants/"/>
-        <updated>2026-06-30T10:43:25.000Z</updated>
-        <summary type="html"><![CDATA[Acer first revealed the most recent refresh of the Predator Helios 18 AI back at Computex 2026. At the time, the company did not have details about if it will be available on our shores, or what it will cost if it does. Now, there’s good news on both ends, but while pricing details are […]
-The post Acer Launches Predator Helios 18 AI In Two Variants appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[European digital ID wallets are a gift to Google and Apple]]></title>
-        <id>https://waag.org/en/article/european-digital-id-wallets-are-gift-google-and-apple/</id>
-        <link href="https://waag.org/en/article/european-digital-id-wallets-are-gift-google-and-apple/"/>
-        <updated>2026-06-30T10:36:23.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Zluda 6 release (run unmodified CUDA applications on non-Nvidia GPUs)]]></title>
-        <id>https://vosen.github.io/ZLUDA/blog/zluda-update-q1q2-2026/</id>
-        <link href="https://vosen.github.io/ZLUDA/blog/zluda-update-q1q2-2026/"/>
-        <updated>2026-06-30T10:34:25.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Strategy heads for 11th losing month in 12 as bitcoin weakness continues]]></title>
-        <id>23cefd0c-7bf9-49b6-9d9e-c92178b62570</id>
-        <link href="https://www.coindesk.com/markets/2026/06/30/strategy-heads-for-eleventh-losing-month-in-twelve-as-bitcoin-weakness-continues"/>
-        <updated>2026-06-30T10:33:48.000Z</updated>
-        <summary type="html"><![CDATA[Strategy (MSTR) shares have lost around 41% of their value in June.]]></summary>
-        <author>
-            <name>James Van Straten</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Exercise intensity influences body composition in healthy older adults]]></title>
-        <id>https://www.maturitas.org/article/S0378-5122(25)00571-7/fulltext</id>
-        <link href="https://www.maturitas.org/article/S0378-5122(25)00571-7/fulltext"/>
-        <updated>2026-06-30T10:31:02.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building tech in the world’s secret R&D hub]]></title>
-        <id>https://www.technologyreview.com/?p=1139661</id>
-        <link href="https://www.technologyreview.com/2026/06/30/1139661/building-tech-in-the-worlds-secret-rd-hub/"/>
-        <updated>2026-06-30T10:23:30.000Z</updated>
-        <summary type="html"><![CDATA[Apple. Anthropic. Disney Research. Google. Meta. Microsoft. NVIDIA. OpenAI. Few places outside Silicon Valley can claim R&D hubs from all of these companies. Fewer still are concentrated in a city of just over 400,000 people—roughly half the size of San Francisco. Over the past two decades, however, many of the world’s most influential technology companies…]]></summary>
-        <author>
-            <name>Greater Zurich Area</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The US ambassador had Belgian police stop our reporting]]></title>
-        <id>https://europeancorrespondent.com/en/r/the-us-ambassador-had-belgian-police-stop-our-reporting</id>
-        <link href="https://europeancorrespondent.com/en/r/the-us-ambassador-had-belgian-police-stop-our-reporting"/>
-        <updated>2026-06-30T10:15:15.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[UK to lower stablecoin capital buffers, undercutting EU's MiCA requirements]]></title>
-        <id>2614a43c-1401-48db-b5d8-1edae3511722</id>
-        <link href="https://www.coindesk.com/policy/2026/06/30/uk-to-lower-stablecoin-capital-buffers-undercutting-eu-s-mica-requirements"/>
-        <updated>2026-06-30T10:08:48.000Z</updated>
-        <summary type="html"><![CDATA[The Financial Conduct Authority's proposal follows the Bank of England's backtracking on the limit to the value of stablecoins an individual could hold.]]></summary>
-        <author>
-            <name>Jamie Crawley</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Xiaomi, OPPO, vivo Reportedly Slash Smartphone Production Again By Up To 30%]]></title>
-        <id>https://www.lowyat.net/?p=397305</id>
-        <link href="https://www.lowyat.net/2026/397305/xiaomi-oppo-vivo-slash-production-30/"/>
-        <updated>2026-06-30T10:02:52.000Z</updated>
-        <summary type="html"><![CDATA[Xiaomi, OPPO, and vivo are among the biggest smartphone makers in China. However, even they are not immune to the ongoing global RAM shortage. As a result, all three brands have reportedly informed their suppliers that they will once again cut their smartphone production targets by as much as 30% for 2026. The report comes […]
-The post Xiaomi, OPPO, vivo Reportedly Slash Smartphone Production Again By Up To 30% appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Kiran Ganesan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Qualcomm Officially Announces Snapdragon Summit 2026 Dates]]></title>
-        <id>https://www.lowyat.net/?p=397301</id>
-        <link href="https://www.lowyat.net/2026/397301/qualcomm-snapdragon-summit-2026-dates/"/>
-        <updated>2026-06-30T09:58:00.000Z</updated>
-        <summary type="html"><![CDATA[Qualcomm has officially announced the dates for this year’s Snapdragon Summit. The event will be taking place from 22 to 24 September 2026. Once again, the company will be hosting the summit in Hawaii. As Qualcomm’s biggest annual showcase, the event typically marks the launch of the latest flagship mobile processors. Although the company’s announcement […]
-The post Qualcomm Officially Announces Snapdragon Summit 2026 Dates appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
         </author>
     </entry>
 </feed>
