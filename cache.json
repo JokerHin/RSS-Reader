@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/hernanz/jai-automatise-la-production-darticles-seo-avec-claude-code-et-le-plus-important-cest-le-421f",
+          "author": "Olivier",
+          "description": "Google a effacé jusqu'à 80 % du trafic de sites qui publiaient du contenu IA en masse. C'est le motif scaled content abuse.\nOn voulait quand même automatiser la production d'articles. La question n'était donc pas « comment produire vite », mais « comment empêcher la machine de publier de la bouillie ».\nVoilà l'architecture qu'on a retenue, et le morceau de code qui compte vraiment.\nSix étapes, chacune tenue par un agent Claude Code spécialisé avec son propre contexte :\n1. Chasseur      → mine les mots-clés (questions réelles, faible concurrence)\n2. Cartographe   → lit la page 1 Google, relève les questions traitées\n3. Rédacteur     → écrit selon un guide de voix versionné\n4. Éditeur ⛔    → contrôle qualité, BLOQUE si en dessous du standard\n5. Générateur    → markdown → HTML + JSON-LD + sit…",
+          "link": "https://dev.to/hernanz/jai-automatise-la-production-darticles-seo-avec-claude-code-et-le-plus-important-cest-le-421f",
+          "publishedOn": "2026-07-19T05:42:07.000Z",
+          "wordCount": null,
+          "title": "J'ai automatisé la production d'articles SEO avec Claude Code — et le plus important, c'est le garde-fou",
+          "imageUrl": null
+        },
+        {
+          "id": "https://dev.to/robinzzz/test-saga-compensation-when-payment-succeeds-but-inventory-times-out-2li4",
+          "author": "Robin",
+          "description": "An order reserves inventory, charges payment, then times out waiting for reservation confirmation. Cancellation begins. A late inventory success arrives after the refund. Without a state model, stock remains held or payment is refunded twice.\nOrderCreated -> InventoryReserved -> PaymentCharged -> Confirmed\n                         | timeout\n                         v\n                  RefundRequested -> InventoryReleased -> Cancelled\n\ninvariant 1: terminal Confirmed implies one charge and one reservation\ninvariant 2: terminal Cancelled implies no net charge and no reservation\ninvariant 3: each compensation key produces at most one external effect\n\nBuild an in-memory simulator that permutes duplicate delivery, timeout, late success, refund failure, and process restart. Persist event IDs and state revisions; reject transitions from stale revisions.\n\n\n\nInjection\nExpected terminal evidence\n\n\n\n\npayment succeeds, reserve response lost\nreconcile before refund\n\n\nrefund delivered twice\none provider effect\n\n\nlate reserve after cancel\nrelease command emitted\n\n\ncompensation fails\nnonterminal alertable state\n\n\n\nProperty tests should generate event orders and assert invariants after quiescence. Keep a minimal failing sequence whenever one breaks. Do not claim exactly-once delivery; make effects idempotent and reconciliation repeatable.\nThis simulator does not reproduce production brokers, provider semantics, or network timing. It validates a protocol hypothesis. Which compensation in your current Saga has no durable idempotency key?",
+          "link": "https://dev.to/robinzzz/test-saga-compensation-when-payment-succeeds-but-inventory-times-out-2li4",
+          "publishedOn": "2026-07-19T05:33:49.000Z",
+          "wordCount": 1550,
+          "title": "Test Saga Compensation When Payment Succeeds but Inventory Times Out",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fodg8cui8x6c76c3o95dx.png"
+        },
+        {
+          "id": "https://dev.to/haaaaaley/a-bulk-delete-confirmation-must-show-the-set-that-will-actually-disappear-5a3k",
+          "author": "Haley",
+          "description": "A user selects 30 items, changes a filter, and presses Delete. Three items are unauthorized and silently skipped; two hidden items remain selected. “Delete 30 items?” does not describe the actual operation.\nrequested: 30\nauthorized: 27\nhidden_by_filter: 2\nskipped: 3\ndestructive_now: 27\nundo_until: \"UTC timestamp\"\n\nThe confirmation card should name the action, exact authorized count, hidden selections, skipped items and reason categories, retention/undo window, and the post-action destination. Let users inspect the set without losing keyboard position.\n\n\n\nScenario\nResearch question\n\n\n\n\nfilter changes after selection\ncan users predict included items?\n\n\nmixed permissions\ndo skips look like success?\n\n\npartial API failure\nis retry scope understandable?\n\n\nundo expires\nis deadline perceivable without color?\n\n\nscreen reader\nis the set summary reached before Delete?\n\n\n\nStop the study if participants delete unintended fixtures, cannot distinguish skipped from failed, or privacy-sensitive item names appear where they should be summarized. Use synthetic data and a reversible prototype.\nAfter execution, show before/after counts and a stable operation ID. Focus should move to a status heading; Undo must be a real button with its expiry stated in text.\nThis is a design proposal and research protocol, not validated user evidence. Which is safer for hidden selections: clear them automatically, block deletion, or show an inspectable cross-filter set?",
+          "link": "https://dev.to/haaaaaley/a-bulk-delete-confirmation-must-show-the-set-that-will-actually-disappear-5a3k",
+          "publishedOn": "2026-07-19T05:33:46.000Z",
+          "wordCount": 1547,
+          "title": "A Bulk Delete Confirmation Must Show the Set That Will Actually Disappear",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fwmtg2ebp3s8m8nw6yh51.png"
+        },
+        {
+          "id": "https://dev.to/roronoa_/prove-your-mobile-upload-removed-exif-gps-before-the-retry-queue-keeps-a-copy-512p",
+          "author": "Roronoa",
+          "description": "A user selects a photo containing GPS coordinates, capture time, and orientation. The preview looks clean, but the background retry queue still holds the original file and uploads it after restart.\nCreate synthetic JPEG and HEIC samples with known metadata—never personal photos. Record expected orientation and a fake GPS location such as 0.0, 0.0 plus an unmistakable fixture marker.\nselect original -> normalize orientation -> strip metadata\n-> write sanitized temp file -> enqueue sanitized path -> upload\n\n\n\n\nPath\nPass condition\n\n\n\n\nforeground upload\nintercepted bytes contain no GPS/time\n\n\nbackground retry\nqueue references sanitized file\n\n\napp restart\noriginal path is not restored\n\n\nthumbnail\nno metadata copied back\n\n\nupload failure\nboth files follow declared cleanup policy\n\n\n\nIntercept the request in a test server and inspect the uploaded bytes, not only the UI preview. Compare pixel orientation separately from metadata removal; stripping orientation without rotating pixels can produce a sideways image.\nRecord device, OS, framework, image type, permission state, and app build. Verify temporary files are excluded from cloud backup and deleted after success or expiry.\nThis protocol covers selected JPEG/HEIC fixtures, not every vendor codec or edited media format. Platform image APIs may change metadata behavior across OS versions. Which artifact is riskier in your app: the upload body, retry queue, thumbnail cache, or backup?",
+          "link": "https://dev.to/roronoa_/prove-your-mobile-upload-removed-exif-gps-before-the-retry-queue-keeps-a-copy-512p",
+          "publishedOn": "2026-07-19T05:33:39.000Z",
+          "wordCount": 1552,
+          "title": "Prove Your Mobile Upload Removed EXIF GPS Before the Retry Queue Keeps a Copy",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F7cdqjfal4bydn7l1v1dr.png"
+        },
+        {
+          "id": "https://dev.to/odd_background_328/fill-a-wal-volume-on-purpose-before-enospc-turns-your-health-check-green-1fkp",
+          "author": "Odd_Background_328",
+          "description": "A service reports healthy because its process is alive, while WAL writes fail with ENOSPC. Log rotation also fails, retries amplify load, and deleting one file does not prove durable writes resumed.\nmkdir -p ./disk-fixture\ndd if=/dev/zero of=./disk-fixture/filler bs=1M count=900\n# Run only inside a disposable volume with a declared size.\n\nDrive a fixed write workload and record free bytes, successful writes, failed writes by error class, WAL/checkpoint age, retry count, and health state. Never run this against a workstation root or shared production volume.\n\n\n\nThreshold\nAction\n\n\n\n\n20% free\nwarn and stop optional writes\n\n\n10% free\nreject new work, retain read path\n\n\nfirst ENOSPC\nfail readiness, stop retries\n\n\nspace restored\nintegrity check before readiness\n\n\n\nA useful readiness probe performs a bounded durable-write check or observes a recent successful checkpoint; a process-only liveness probe should remain separate.\ninject -> ENOSPC -> readiness false -> bounded cleanup\n       -> integrity/checkpoint -> test write -> readiness true\n\nTest log rotation failure, deletion of an open file that does not release space, and a restart before checkpoint. Cleanup must remove the fixture, confirm file descriptors release blocks, run integrity checks, and prove a new write survives restart.\nThis local container drill does not model cloud-volume burst credits, remote filesystems, or every database WAL. Which signal should remove your instance from service first: free bytes, checkpoint age, or the first failed durable write?",
+          "link": "https://dev.to/odd_background_328/fill-a-wal-volume-on-purpose-before-enospc-turns-your-health-check-green-1fkp",
+          "publishedOn": "2026-07-19T05:33:35.000Z",
+          "wordCount": 1560,
+          "title": "Fill a WAL Volume on Purpose Before ENOSPC Turns Your Health Check Green",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fs5sfvltujn5gypvr27zj.png"
+        },
+        {
+          "id": "https://dev.to/babycat/keep-keyboard-focus-stable-when-a-virtualized-grid-recycles-its-rows-47jo",
+          "author": "babycat",
+          "description": "A keyboard user focuses row 40, column 3. Scrolling recycles that DOM node. Focus falls to <body>, while a screen reader announces the wrong row after sorting. Virtualization saved nodes but broke navigation.\ntype ActiveCell={rowId:string,columnId:string};\nlet active:ActiveCell={rowId:'row-0040',columnId:'status'};\n\nStore stable row IDs, not rendered indexes. When the active row leaves the window, keep logical focus and move DOM focus to a grid proxy or newly rendered equivalent. After sorting, locate the same row ID at its new position.\n<div role=\"grid\" aria-rowcount=\"10000\" tabindex=\"0\" aria-activedescendant=\"cell-row-0040-status\"></div>\n\n\n\n\nEvent\nExpected focus evidence\n\n\n\n\nArrowDown\nnext logical row announced\n\n\nscroll recycles active row\nfocus remains in grid\n\n\nsort\nsame row ID stays active\n\n\nfilter removes row\ndeterministic fallback announced\n\n\nloading error\nretry reachable without pointer\n\n\n\nBuild Playwright tests for document.activeElement, aria-activedescendant, and row/column attributes. Add manual checks with keyboard, zoom, and at least one browser/screen-reader pair. Automated assertions cannot validate announcement quality alone.\nTest cancellation and retry during async page loading; never announce every scroll frame. This pattern covers one virtualization strategy, not all grid libraries. When the active item disappears after filtering, should your product focus the nearest row, the grid heading, or the filter control?",
+          "link": "https://dev.to/babycat/keep-keyboard-focus-stable-when-a-virtualized-grid-recycles-its-rows-47jo",
+          "publishedOn": "2026-07-19T05:33:32.000Z",
+          "wordCount": 1528,
+          "title": "Keep Keyboard Focus Stable When a Virtualized Grid Recycles Its Rows",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fcs7a0qejqfrh1k0atxvs.png"
+        },
+        {
+          "id": "https://dev.to/kongkong1/make-chunked-upload-finalization-idempotent-before-the-network-retries-it-ilg",
+          "author": "kongkong",
+          "description": "A 12 MB artifact is split into three chunks. The client uploads chunk 2 twice, loses the response to finalize, and retries. A weak API creates two artifacts or assembles corrupted data.\ntype Chunk={sessionId:string,index:number,sha256:string,size:number};\ntype Finalize={sessionId:string,orderedHashes:string[],artifactSha256:string};\n\nPUT /sessions/:id/chunks/:index should be idempotent for identical bytes and reject a different hash at an existing index. POST /sessions/:id/finalize should compare-and-set uploading → finalizing → complete, returning the same artifact ID after a retry.\ncreated -> uploading -> finalizing -> complete\n                    \\-> expired\n\n\n\n\nInjection\nExpected result\n\n\n\n\nduplicate identical chunk\n200, no extra storage\n\n\nduplicate changed chunk\n409\n\n\nmissing index\n422 with missing list\n\n\nfinalize response lost\nretry returns same artifact\n\n\nexpired session\n410 and cleanup scheduled\n\n\n\nCompute every chunk hash server-side and verify the final artifact hash after ordered assembly. Store temporary parts outside the public artifact namespace. A sweeper should remove expired sessions only when they are not finalizing.\nEnd-to-end tests must cross UI selection, API authorization, temporary storage, assembly, download, and cleanup. Rollback disables new sessions while preserving completed downloads and garbage-collecting partial data.\nA local filesystem fixture does not reproduce S3 consistency, multipart APIs, or production throughput. Which state transition in your upload flow currently has no idempotency key?",
+          "link": "https://dev.to/kongkong1/make-chunked-upload-finalization-idempotent-before-the-network-retries-it-ilg",
+          "publishedOn": "2026-07-19T05:33:27.000Z",
+          "wordCount": 1531,
+          "title": "Make Chunked Upload Finalization Idempotent Before the Network Retries It",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fccvoqs8tgni4y3yak00y.png"
+        },
+        {
+          "id": "https://dev.to/bestbee/create-an-api-deprecation-debt-ledger-before-the-sunset-date-slips-again-33ko",
+          "author": "bestbee",
+          "description": "An internal API has a sunset date, but nobody can name every consumer. Traffic remains after the deadline, exceptions have no owner, and the old service still requires on-call support. That is migration debt.\nconsumer,monthly_calls,owner,migration_hours,exception_until,last_seen\nbilling-ui,120000,team-a,24,,2026-07-18\nlegacy-export,80,team-b,40,2026-08-15,2026-07-17\nunknown,9300,,unknown,,2026-07-18\n\nTrack three costs separately:\nmigration_cost = estimated_hours * loaded_hourly_rate\nrun_cost = infrastructure + on_call + security maintenance\ndelay_cost = run_cost_per_month + risk_reserve\n\nIllustrative numbers are not ROI evidence. Run downside, expected, and upside scenarios, especially for unknown traffic and estimates that exceed one sprint.\n\n\n\nGate\nRequired owner\nStop condition\n\n\n\n\nconsumer inventory\nplatform\nunknown traffic above threshold\n\n\nmigration kit\nAPI team\nclean-room example fails\n\n\nexception\nbusiness owner\nmissing expiry or rationale\n\n\nshutdown\nincident owner\nrollback untested\n\n\n\nMake exceptions expire automatically. An expired exception should page its owner or disable the waiver workflow—not silently become permanent. Keep read-only telemetry after migration long enough to detect late consumers, but define retention.\nThis ledger does not capture every organizational dependency or prove that shutdown is cheaper. It makes assumptions reviewable. Which is more expensive in your system: one month of old-API operation or one unknown high-value consumer outage?",
+          "link": "https://dev.to/bestbee/create-an-api-deprecation-debt-ledger-before-the-sunset-date-slips-again-33ko",
+          "publishedOn": "2026-07-19T05:33:22.000Z",
+          "wordCount": 1516,
+          "title": "Create an API Deprecation Debt Ledger Before the Sunset Date Slips Again",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fisl1sjkfjzr933h6nlzx.png"
+        },
+        {
+          "id": "https://dev.to/magickong/build-a-bloom-filter-and-watch-probably-present-become-a-false-positive-1ihi",
+          "author": "Alex Chen",
+          "description": "A Bloom filter can say an item is definitely absent or probably present. It cannot prove membership. The easiest way to learn that distinction is to generate a false positive yourself.\nimport hashlib\nclass Bloom:\n    def __init__(self, bits=128, hashes=3):\n        self.bits=[0]*bits; self.k=hashes\n    def positions(self, value):\n        raw=value.encode()\n        for i in range(self.k):\n            yield int.from_bytes(hashlib.sha256(bytes([i])+raw).digest()[:8])%len(self.bits)\n    def add(self, value):\n        for p in self.positions(value): self.bits[p]=1\n    def maybe(self, value):\n        return all(self.bits[p] for p in self.positions(value))\n\nInsert deterministic values item-0000 through item-0099. Then query new values until maybe() returns true. Print the first false positive with bit count, hash count, inserted count, and query count.\n\n\n\nBits\nHashes\nInserted\nFalse positives / 10,000\n\n\n\n\n128\n3\n100\nmeasure\n\n\n1,024\n3\n100\nmeasure\n\n\n1,024\n7\n100\nmeasure\n\n\n\nUse the same input sequence for each row. Test empty filters, repeated insertion, known members, and a deliberately undersized filter. Expected invariant: inserted items have no false negatives; absent items may be false positives.\nDo not replace an authorization check or billing record with a Bloom filter. Use it as a cheap prefilter followed by an authoritative lookup when maybe() is true.\nPython's hash choices here are educational, not a production recommendation, and the measured rate is not universal. Which workload can tolerate an extra lookup but never a false negative?",
+          "link": "https://dev.to/magickong/build-a-bloom-filter-and-watch-probably-present-become-a-false-positive-1ihi",
+          "publishedOn": "2026-07-19T05:33:18.000Z",
+          "wordCount": 1555,
+          "title": "Build a Bloom Filter and Watch ‘Probably Present’ Become a False Positive",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fwknnap35h1um07mlm6sw.png"
+        },
+        {
+          "id": "https://dev.to/rivera123/back-up-sqlites-wal-before-a-migration-then-prove-the-restore-works-30ff",
+          "author": "Sam Rivera",
+          "description": "A task database runs in WAL mode. You copy only app.db, apply a destructive migration, and discover that recent rows lived in app.db-wal. A backup that was never restored is only a hopeful file copy.\nPRAGMA journal_mode=WAL;\nCREATE TABLE tasks(id INTEGER PRIMARY KEY, title TEXT NOT NULL);\nINSERT INTO tasks(title) VALUES ('before-checkpoint');\n\nUse SQLite's online backup mechanism, or force a reviewed checkpoint before copying a closed database. Do not copy an actively written main file and assume the sidecars are irrelevant.\nsqlite3 app.db '.backup backup.db'\nsqlite3 backup.db 'PRAGMA integrity_check; SELECT count(*) FROM tasks;'\n\nThen run the migration, deliberately fail halfway, replace the database from backup.db, and execute both integrity and application-level assertions.\n\n\n\nFailure\nEvidence required\n\n\n\n\nmain file copied without WAL\nexpected row count differs\n\n\ntruncated backup\nintegrity check fails\n\n\nnewer schema opened by old app\ncompatibility test fails\n\n\nrestore to wrong path\napplication still sees migrated schema\n\n\n\nA tiny manifest makes the artifact portable:\n{\"schema\":7,\"rows\":{\"tasks\":101},\"integrity\":\"ok\",\"createdAt\":\"UTC\",\"sha256\":\"...\"}\n\nExit nonzero if any value differs after restore. Keep the broken fixture so the script proves it detects loss before demonstrating success.\nThis is a single-host SQLite drill. It does not cover replicated databases, storage snapshots, or zero-downtime migration. What assertion beyond integrity_check would catch a logically incomplete restore in your application?",
+          "link": "https://dev.to/rivera123/back-up-sqlites-wal-before-a-migration-then-prove-the-restore-works-30ff",
+          "publishedOn": "2026-07-19T05:33:16.000Z",
+          "wordCount": 1587,
+          "title": "Back Up SQLite’s WAL Before a Migration—Then Prove the Restore Works",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F1809j9vbln3j8ifmz8aq.png"
+        },
+        {
+          "id": "https://dev.to/jaryn_123/verify-webhook-signatures-before-your-proxy-rewrites-the-json-3aki",
+          "author": "jaryn",
+          "description": "A webhook arrives with a valid HMAC over its raw bytes. Middleware parses the JSON, changes whitespace and key order, then asks the verifier to authenticate the new serialization. The object is equivalent; the signature is not.\nimport crypto from \"node:crypto\";\nexport function verify(raw, header, secret) {\n  const [ts, sig] = header.split(\",\");\n  if (Math.abs(Date.now()/1000-Number(ts)) > 300) return false;\n  const expected=crypto.createHmac(\"sha256\",secret).update(`${ts}.`).update(raw).digest(\"hex\");\n  return sig.length===expected.length && crypto.timingSafeEqual(Buffer.from(sig),Buffer.from(expected));\n}\n\nCapture raw before JSON parsing. Bind the timestamp into the signature and store an event ID or signature digest in a five-minute replay cache. Reject a second delivery after the first succeeds.\n\n\n\nFixture\nExpected\n\n\n\n\nexact raw body\naccept once\n\n\nreordered keys\nreject\n\n\none-byte mutation\nreject\n\n\nsix-minute-old timestamp\nreject\n\n\nduplicate valid request\nreject as replay\n\n\n\nCreate one valid fixture with a fixed timestamp and secret, then derive every negative case from it. Never log the production signature or secret. Record only fixture ID, reason class, and request digest.\nprevent: verify raw bytes before business logic\ndetect: reason-coded rejects and replay-cache hits\nrecover: rotate secret, retain sanitized evidence, replay known-good events deliberately\n\nThis example covers HMAC webhooks, not asymmetric signatures or every provider header format. Follow the provider's canonicalization rules. Which middleware in your stack first destroys access to the original bytes?",
+          "link": "https://dev.to/jaryn_123/verify-webhook-signatures-before-your-proxy-rewrites-the-json-3aki",
+          "publishedOn": "2026-07-19T05:33:10.000Z",
+          "wordCount": 1533,
+          "title": "Verify Webhook Signatures Before Your Proxy Rewrites the JSON",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fj0q90no4nsx1edawslh9.png"
+        },
+        {
+          "id": "https://dev.to/omermirza09/how-to-convert-a-pdf-to-images-entirely-in-the-browser-no-upload-257m",
+          "author": "Muhammad Omer Mirza",
+          "description": "Most \"PDF to image\" websites work like this: you upload your file, their server renders it, and you download the result — trusting that they delete your document afterwards. For a contract, an ID scan, or a medical form, that's a lot of trust to hand over for a one-line conversion.\nThe good news: you don't need a server at all. Modern browsers can render PDF pages to a <canvas> and export them as PNG or JPG entirely on the client. Here's how to do it properly — including the part everyone gets wrong: resolution.\npdf.js (by Mozilla) is the engine behind Firefox's built-in PDF viewer. It parses a PDF and lets you render any page onto a canvas. That canvas is then a normal image you can export.\nLoad it from a CDN:\n<script src=\"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js\"…",
+          "link": "https://dev.to/omermirza09/how-to-convert-a-pdf-to-images-entirely-in-the-browser-no-upload-257m",
+          "publishedOn": "2026-07-19T05:32:34.000Z",
+          "wordCount": 2097,
+          "title": "How to convert a PDF to images entirely in the browser (no upload)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fls85q820ze4ixgqde9d5.png"
+        },
+        {
           "id": "https://dev.to/elalitareq/filling-the-paseto-gap-in-javascript-paseto-kit-v3v4-full-paserk-be5",
           "author": "Tareq El-Ali",
           "description": "The gap\n\n\nPASETO is a \"secure alternative to JWT\" — no algorithm-confusion footguns, versioned\npanva/paseto.\nSo there was no maintained JS library that covered both PASETO and full PASERK. That's\npaseto-kit fills.\nPASETO v4 — XChaCha20 + BLAKE2b (local), Ed25519 (public)\nPASETO v3 — the NIST/FIPS-friendly profile: P-384 / AES-256-CTR / HMAC-SHA384\nFull PASERK (all 11 types, per version): local/public/secret serialization,\nlid/pid/sid key IDs, local-wrap/secret-wrap, password wrapping with Argon2id (v4)\nand PBKDF2 (v3), and seal (X25519 / P-384 ECDH)\nRegistered-claims validation (exp, nbf, iss, aud, sub) with clock tolerance\nRuntime-agnostic — one build for Node, Deno, Bun, browsers, edge. No node: imports,\nno Buffer; just Uint8Array + WebCrypto's CSPRNG, on the audited @noble/* primitives\nimport { generateKeyPair, sign, verify } from 'paseto-kit';\n\nconst { secretKey, publicKey } = generateKeyPair();\nconst token = sign(secretKey, { role: 'admin' });\nconst { payload } = verify(publicKey, token);\n\nNeed the NIST profile? Everything's mirrored under a v3 namespace, with distinct key types\nimport { v3 } from 'paseto-kit';\nconst key = v3.generateLocalKey();\nv3.decrypt(key, v3.encrypt(key, { sub: 'u1' }), { validate: { exp: true } });\n\nCrypto libraries earn trust by being boring and verifiable. paseto-kit implements no novel\ntest vectors, including the expect-fail cases (e.g. non-canonical\nHonest caveat: it's pre-1.0 and has not had an independent third-party security audit.\nnpm: npm install paseto-kit · repo: https://github.com/Elalitareq/paseto-kit",
@@ -18196,186 +18316,6 @@
           "wordCount": 1982,
           "title": "The Hidden Dangers of DMARC p=none: Why It's Undermining Your Email Security (Not Just Deliverability)",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fmailtoolhub.com%2Fassets%2Fimages%2Fmailtoolskit_blog-the-hidden-dangers-of-dmarc-pnone-why-its-undermining-your-email-security-not-just-deliverability.png"
-        },
-        {
-          "id": "https://dev.to/georgekobaidze/a-new-personal-best-what-six-months-of-locking-in-can-do-p3k",
-          "author": "Giorgi Kobaidze",
-          "description": "Table of Contents\n\n\n\nSetting a New Benchmark for Myself\nMy Most Productive Six Months Yet\nGitHub Copilot CLI Challenge Win: Metal Birds Watch\nNotion MCP Challenge Win: NoteRunway\nRaised Money for Charity\nBecame an Engineering Manager\nCollected More Than 25 Stars on My GitHub Repositories\nBeat My Own Record in Terms of Likes per Article\nOne Article Made It Into the Top 7 of the Week\nGot Accepted into the Virtual Coffee Community\nTo Sum It All Up\nZero Luck, All Hard Work\nShare Your Wins and Achievements, and Set a New Benchmark Starting Now\nThis short piece serves as a quick reminder of what my current benchmark looks like in terms of how much I should aim to do and achieve within a six-month period for it to feel successful.\nSix months is a solid amount of time, you can accomplish a lot in …",
-          "link": "https://dev.to/georgekobaidze/a-new-personal-best-what-six-months-of-locking-in-can-do-p3k",
-          "publishedOn": "2026-07-04T16:44:58.000Z",
-          "wordCount": 3002,
-          "title": "A New Personal Best: What Six Months of Locking In Can Do",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F79a9d5ymvdivmb0jq36v.jpg"
-        },
-        {
-          "id": "https://dev.to/jon_at_backboardio/am-i-on-the-hook-for-a-private-jet-29bh",
-          "author": "Jonathan Murray",
-          "description": "So a few months ago my co-founder Rob stood up in a meeting and told our interns that if they got Backboard to the #1 spot on Terminal-Bench 2.1 we would rent a private jet and take the whole team somewhere to celebrate.\nIt wasn't a joke. It was a challenge. It was just an insane one. Terminal-Bench is the most sought after eval in AI right now, the thing every trillion dollar frontier lab is openly gunning for, and Rob told a group of interns to go beat all of them. That's not a bet, that's a polite way of saying this will never happen so sure, jet's on me.\nThe interns did not receive it that way.\nWhat we didn't know, and I mean genuinely did not know, is that they spun up a separate codebase and named it the PJ Branch. PJ as in Private Jet. They worked on it nights and weekends. They wer…",
-          "link": "https://dev.to/jon_at_backboardio/am-i-on-the-hook-for-a-private-jet-29bh",
-          "publishedOn": "2026-07-04T16:42:33.000Z",
-          "wordCount": 2052,
-          "title": "am I on the hook for a Private Jet?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fx75ghcxkbg0yb0udztjy.gif"
-        },
-        {
-          "id": "https://dev.to/kielltampubolon/your-ai-agent-is-the-most-over-privileged-account-you-own-2cle",
-          "author": "Kiell Tampubolon",
-          "description": "A new hire at most companies waits days for access. Laptop, then email, then the one repo they need, and every extra permission goes through a ticket someone grumbles about.\nAn AI agent gets onboarded in about a minute. Full shell. Your personal API keys, because they were already in the environment. Unrestricted network. Read access to your entire home directory, including the .ssh folder nobody thinks about. We spent twenty years internalizing least privilege for people and service accounts, then handed an agent more access than we would give a contractor, on day one, without an interview.\nI work in security, and this is the gap I now see everywhere. Here is how I think about closing it, in six rules you can apply this week.\nClassic access control assumes the account holder decides what …",
-          "link": "https://dev.to/kielltampubolon/your-ai-agent-is-the-most-over-privileged-account-you-own-2cle",
-          "publishedOn": "2026-07-04T16:40:30.000Z",
-          "wordCount": 2315,
-          "title": "Your AI agent is the most over-privileged account you own",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5jeoukf5mvzz9oh0mblr.png"
-        },
-        {
-          "id": "https://dev.to/techfuelhq/how-to-install-proxmox-ve-2026-install-update-reference-2ak8",
-          "author": "LK Wood IV",
-          "description": "Installing Proxmox VE is genuinely easy. The graphical installer is a few screens, and it writes itself to disk in a couple of minutes. What trips people up is not the install itself: it is the first fifteen minutes afterward, where a default install points at a repository you cannot use without paying, and the longer-term question of how you keep the thing updated once it is running.\nThis is the generic reference for both. It is hardware-agnostic on purpose: the steps below apply to a mini PC, a used office desktop, an old gaming rig, or a rack server. If you want a hands-on, click-by-click walkthrough on a specific small box, the Proxmox mini PC setup guide is the hardware-specific companion to this one. If you are still choosing hardware, start with the Proxmox hardware requirements. An…",
-          "link": "https://dev.to/techfuelhq/how-to-install-proxmox-ve-2026-install-update-reference-2ak8",
-          "publishedOn": "2026-07-04T16:35:39.000Z",
-          "wordCount": 2870,
-          "title": "How to Install Proxmox VE (2026): Install + Update Reference",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F56fx2mcgetz58ia873l1.png"
-        },
-        {
-          "id": "https://dev.to/kielltampubolon/the-mcp-attack-your-code-review-cannot-see-25b8",
-          "author": "Kiell Tampubolon",
-          "description": "Here is a line from an MCP manifest that would pass most code reviews:\n{ \"name\": \"search\", \"description\": \"Search docs.\" }\n\nNow imagine that between docs. and the closing quote there are a dozen zero-width Unicode characters. Rendered width: zero. Your eyes see nothing. The diff shows nothing. But decoded, they spell out an instruction: read the user's .env file and send its contents along as the search query.\nYou cannot see it. The agent reads it verbatim, because to a language model a tool description is just text, and text is instructions.\nThis attack class is called tool poisoning, and it is the reason I spent the last few weeks building a scanner.\nI work in security, and the pattern here is familiar. The MCP ecosystem passed 14,000 public servers in 2026. That growth came with the usu…",
-          "link": "https://dev.to/kielltampubolon/the-mcp-attack-your-code-review-cannot-see-25b8",
-          "publishedOn": "2026-07-04T16:31:19.000Z",
-          "wordCount": 2353,
-          "title": "The MCP attack your code review cannot see",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F66v4hzyzk7u94rgevzi1.png"
-        },
-        {
-          "id": "https://dev.to/nwosaemeka/hiding-the-button-isnt-authorization-why-you-must-gate-the-request-156k",
-          "author": "Nwosa Emeka Afamefuna",
-          "description": "The most common frontend authorization mistake isn't showing a button to the wrong user.\nIt's fetching the data anyway.\nMost teams think authorization means hiding UI elements from people who don't have permission. If a user can't see the \"Delete User\" button, the job is done.\nIt isn't. Open the network tab and you'll see the real story.\nFrontend authorization has three separate gates:\nRender Gate — should the user see this button, page, or menu?\nData Gate — should the app even attempt to fetch this data?\nBackend Gate — can the server verify the permission no matter what the client does?\nMost teams nail the first and third gates, then completely skip the second.\nPicture an admin-only analytics dashboard:\nconst { data } = useQuery({\n  queryKey: [\"analytics\"],\n  queryFn: fetchAnalytics,\n});\n…",
-          "link": "https://dev.to/nwosaemeka/hiding-the-button-isnt-authorization-why-you-must-gate-the-request-156k",
-          "publishedOn": "2026-07-04T16:24:48.000Z",
-          "wordCount": 1923,
-          "title": "Hiding the Button Isn't Authorization: Why You Must Gate the Request",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fo0hoefa9rcaw6f0adgxa.png"
-        },
-        {
-          "id": "https://dev.to/abdallahag/no-one-reads-privacy-policies-so-i-built-6-ai-agents-to-do-it-for-me-37k1",
-          "author": "Abdallah Abughallous",
-          "description": "We all know the drill: you sign up for a new service, a massive wall of legal text pops up, and you instantly scroll to the bottom and click \"I Accept.\" As developers, we know exactly how much data is being harvested, yet we still don't have the time to read through 40 pages of legal jargon.\nFor the Microsoft Agents League Hackathon (Reasoning Agents Track) in collaboration with Microsoft Foundry, I decided to build a solution.\nMeet TrustGuard AI — a multi-agent system that doesn't just summarize privacy policies, but uses sequential reasoning to decode real-world risks, hunt down dark patterns, and benchmark sites against tech giants.\nHere is a breakdown of how I built it and the architecture behind the agents. 🚀\n🧠 Summarization vs. Reasoning\nI wanted the AI to reason. Using Azure AI Fo…",
-          "link": "https://dev.to/abdallahag/no-one-reads-privacy-policies-so-i-built-6-ai-agents-to-do-it-for-me-37k1",
-          "publishedOn": "2026-07-04T16:23:18.000Z",
-          "wordCount": 1896,
-          "title": "No one reads privacy policies. So I built 6 AI Agents to do it for me.",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjiifnvtdyx1bftdjlp95.png"
-        },
-        {
-          "id": "https://dev.to/alpersan/why-financial-platforms-need-a-clear-market-data-methodology-384p",
-          "author": "Alper San",
-          "description": "Picture two dashboards showing two different prices for the same asset at the same second. One reads a single venue directly. The other reads a consensus price aggregated across several venues. Both look authoritative. Only one of them tells you how it got the number. When a price drives an alert, a valuation, a treasury report, or a research model, the difference between those two dashboards is not cosmetic. It is the difference between a value you can defend and a value you have to trust on faith.\nA market data methodology is the document that closes that gap. It describes where each price comes from, how bad inputs get filtered out, and what the platform does when venues disagree. For any financial platform, publishing that methodology is not paperwork. It is the part of the product tha…",
-          "link": "https://dev.to/alpersan/why-financial-platforms-need-a-clear-market-data-methodology-384p",
-          "publishedOn": "2026-07-04T16:18:27.000Z",
-          "wordCount": 2474,
-          "title": "Why financial platforms need a clear market data methodology",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ff7y3ynr1stqs92i9nljr.png"
-        },
-        {
-          "id": "https://dev.to/alpersan/market-data-over-fix-44-for-high-performance-trading-systems-3o5f",
-          "author": "Alper San",
-          "description": "Pull cross-venue reference prices over a FIX 4.4 market-data session for crypto, forex, and metals, then feed them into MetaTrader. Market data only.\nYour trading system already speaks FIX. The strategy engine, order manager, and risk checks all parse tag=value messages over a persistent session, and bolting on a separate transport just for reference prices means another reconnect loop, another schema, and another thing to page someone about at 3am. So the question is narrow and practical: how do you pull clean crypto, forex, and metals prices into a pipeline that already talks FIX, without standing a REST poller next to it?\nSiftingIO exposes its aggregated market data over a FIX 4.4 session. One detail matters before anything else, because it shapes every design decision downstream: this …",
-          "link": "https://dev.to/alpersan/market-data-over-fix-44-for-high-performance-trading-systems-3o5f",
-          "publishedOn": "2026-07-04T16:16:19.000Z",
-          "wordCount": 2340,
-          "title": "Market data over FIX 4.4 for high-performance trading systems",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fijbntmohqplrixfou8j9.png"
-        },
-        {
-          "id": "https://dev.to/alitron/guiding-developers-with-limited-cloud-knowledge-to-learn-envoy-for-microservices-load-balancing-9m7",
-          "author": "Alina Trofimova",
-          "description": "Introduction to Envoy: A Critical Component for Cloud-Native Microservices\n\n\nIn microservices architectures, where numerous independent services collaborate to form a cohesive application, efficient communication is paramount. Analogous to traffic management on a highway, improper handling of service-to-service interactions leads to congestion, latency, and potential system failures. Envoy, an open-source edge and service proxy, functions as an intelligent traffic controller at the application layer, ensuring reliable and efficient communication. Unlike traditional load balancers such as NGINX, which operate at the network layer, Envoy provides granular control and deeper insights into service interactions, making it indispensable for cloud-native environments.\nEnvoy is a versatile service…",
-          "link": "https://dev.to/alitron/guiding-developers-with-limited-cloud-knowledge-to-learn-envoy-for-microservices-load-balancing-9m7",
-          "publishedOn": "2026-07-04T16:16:18.000Z",
-          "wordCount": 5133,
-          "title": "Guiding Developers with Limited Cloud Knowledge to Learn Envoy for Microservices Load Balancing",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F82x1h9gwwjrmc2gm4vsy.png"
-        },
-        {
-          "id": "https://dev.to/dheeraj_dhiman_8fe01ac803/designing-hybrid-edge-ai-systems-for-low-latency-intent-classification-in-mobile-applications-530f",
-          "author": "Dheeraj Dhiman",
-          "description": "A Hybrid Edge–Cloud Architecture for Low-Latency Intent Classification in Mobile Applications\n\n\n\n  \n  \n  Abstract\n\n\nLarge Language Models (LLMs) have fundamentally changed how applications process natural language. They excel at reasoning, summarization, question answering, and generating human-like responses. As a result, many modern applications route every user message directly to a cloud-hosted LLM.\nWhile this approach is effective for complex conversations, it is often unnecessary for deterministic interactions. Commands such as \"Show my leave balance\", \"Open settings\", or \"Contact HR\" do not require generative reasoning. They require identifying a known intent and triggering a predefined workflow.\nSending these requests to the cloud introduces avoidable latency, increases operational…",
-          "link": "https://dev.to/dheeraj_dhiman_8fe01ac803/designing-hybrid-edge-ai-systems-for-low-latency-intent-classification-in-mobile-applications-530f",
-          "publishedOn": "2026-07-04T16:12:49.000Z",
-          "wordCount": 3945,
-          "title": "Designing Hybrid Edge AI Systems for Low-Latency Intent Classification in Mobile Applications",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1618005182384-a83a8bd57fbe%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26h%3D630%26q%3D80"
-        },
-        {
-          "id": "https://dev.to/kteja4000/ai-isnt-magic-its-just-evidence-gathering-43ee",
-          "author": "krishna teja",
-          "description": "My career in ADAS and Autonomous Vehicles taught me something important. The machines that drive themselves are not magic. They are just highly structured, evidence gathering systems.\nSensors collect data, algorithms weigh them, probabilities are computed, and decisions are made accordingly.\nWhen I started diving deeper into the broader AI space, I realized the underlying framework is exactly the same. Building a reliable LLM application isn't that different from teaching an ADAS system to distinguish between a real obstacle and a shadow.\nThe domain changed but thinking framework didn't.\nI spent years in ADAS working on scenario validation, simulation testing, and analyzing how ADAS systems fail in edge cases. Now, I’m bringing that same thinking into AI engineering. I find myself asking the same questions that When does this break? What data is it missing? How does the system behave when it's wrong?\nI'm excited about where this leads and I plan on sharing what I learn along the way. If you made a similar pivot from hardware, robotics, or safety critical engineering into AI, I’d love to connect. \n\n\n  \n  \n  AutonomousVehicles #ArtificialIntelligence #ADAS #AutonomousDriving #AIEngineering",
-          "link": "https://dev.to/kteja4000/ai-isnt-magic-its-just-evidence-gathering-43ee",
-          "publishedOn": "2026-07-04T16:11:42.000Z",
-          "wordCount": 1461,
-          "title": "AI Isn't Magic. It's Just Evidence Gathering",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6xhq46jdg1xp5kndb6cc.png"
-        },
-        {
-          "id": "https://dev.to/openregistry/swiss-zefix-records-what-you-can-pull-live-in-2026-4md6",
-          "author": "OpenRegistry",
-          "description": "A Swiss UID can survive multiple commercial register changes without breaking legal continuity. That trips people up during cross-border diligence, especially after a canton migration or a GmbH-to-AG conversion ahead of a financing round.\nZefix, Switzerland’s central business index, exposes more than a company search page. The register ties cantonal Handelsregister records together through a federal UID structure, which makes entity tracing less fractured than many finance teams assume.\nFor IPO diligence or AML reviews, the useful bit sits in the metadata attached to each entity record.\nA standard get_company_profile call for Switzerland returns core identifiers plus canton-level Handelsregister data.\nThe unified schema includes:\ncompany name\nlegal form\nregistry status\nregistered address\ni…",
-          "link": "https://dev.to/openregistry/swiss-zefix-records-what-you-can-pull-live-in-2026-4md6",
-          "publishedOn": "2026-07-04T15:01:22.000Z",
-          "wordCount": 2129,
-          "title": "Swiss Zefix records: what you can pull live in 2026",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fopenregistry.sophymarine.com%2Fbrand%2Fog-image.png"
-        },
-        {
-          "id": "https://dev.to/blacksmoke26/i-just-published-python-for-typescript-developers-a-comprehensive-26-chapter-course-built-2ej",
-          "author": "Junaid Atari",
-          "description": "GitHub - blacksmoke26/python-for-typescript-programmers-course: A comprehensive Python course built for TypeScript developers — covering fundamentals, OOP, concurrency, async patterns, data science, web dev, and beyond, with TS-to-Python comparisons throughout. · GitHub\n          \n        \n          \n            A comprehensive Python course built for TypeScript developers — covering fundamentals, OOP, concurrency, async patterns, data science, web dev, and beyond, with TS-to-Python comparisons throughout....\n          \n        \n            \n          github.com",
-          "link": "https://dev.to/blacksmoke26/i-just-published-python-for-typescript-developers-a-comprehensive-26-chapter-course-built-2ej",
-          "publishedOn": "2026-07-04T15:00:55.000Z",
-          "wordCount": 1404,
-          "title": "🚀 I just published “Python for TypeScript Developers” — a comprehensive, 26-chapter course built specifically for TS devs who want to level up into Python.\r\n\r\nhttps://github.com/blacksmoke26/python-for-typescript-programmers-course",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fpmupjxccz76gom9w26xd.png"
-        },
-        {
-          "id": "https://dev.to/ng256/wan-monitor-tiny-failover-controller-for-openwrt-4o8e",
-          "author": "Pavel Bashkardin",
-          "description": "How I Built a Tiny WAN Failover Tool for My 8‑MB OpenWrt Router (and Why mwan3 Wasn’t an Option)\nLike many of us, I rely on a wired broadband connection for my home internet. But things happen—the provider goes offline for maintenance, a cable gets cut, or (let’s be honest) you forget to pay the bill. When that happens, I wanted my router to automatically switch to a backup connection: a Wi‑Fi hotspot from my phone.\nI’m running OpenWrt on a tiny Xiaomi Mi Router C4 . It’s a cheap, reliable device, but it comes with severe storage constraints. Here’s what the filesystem looks like:\nFilesystem           1K-blocks      Used Available Use% Mounted on\n/dev/root                 6912      6912         0 100% /rom\ntmpfs                    28584       336     28248   1% /tmp\n/dev/mtdblock9         …",
-          "link": "https://dev.to/ng256/wan-monitor-tiny-failover-controller-for-openwrt-4o8e",
-          "publishedOn": "2026-07-04T14:48:34.000Z",
-          "wordCount": 2391,
-          "title": "Wan Monitor - Tiny Failover Controller for OpenWrt",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ff5plzl1izc12zmc9yp6l.png"
-        },
-        {
-          "id": "https://dev.to/hamberluo/modern-flutter-best-practices-for-2026-56o3",
-          "author": "Hamber",
-          "description": "If you're starting a new Flutter project in 2026, this article covers two things:\nWhat a modern Flutter project should look like (tech stack, architecture, engineering);\nThe trade-offs between an OPC (One Person Company) project and an enterprise-grade production project.\nEverything below is grounded in two real projects:\ngo_gba — a GBA emulator App built by a single developer (single package, shipped on the App Store / Google Play, now at v3.12). A textbook OPC.\nAppX (pseudonym) — a high-traffic consumer App maintained by a large cross-platform team (melos monorepo, multiple flavors, multiple environments). A textbook enterprise-grade project.\nBoth projects share the same modern Flutter foundation, but make completely opposite bets on \"complexity investment.\" Comparing them tells you far …",
-          "link": "https://dev.to/hamberluo/modern-flutter-best-practices-for-2026-56o3",
-          "publishedOn": "2026-07-04T14:35:55.000Z",
-          "wordCount": 3735,
-          "title": "Modern Flutter Best Practices for 2026",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fh3kj6po2ot1m454xjupx.png"
-        },
-        {
-          "id": "https://dev.to/securecodinghub/agentic-ai-security-risks-owasp-agentic-top-10-and-defensive-patterns-2026-4a2a",
-          "author": "SecureCodingHub",
-          "description": "Agentic AI applications — LLM-powered systems that take autonomous action against external tools, services, and APIs based on model reasoning rather than direct user instruction — have moved from research curiosity to production deployment fast enough that the security discipline is still catching up. The class of failures is operationally distinct from non-agentic LLM applications. The OWASP Agentic AI Top 10, published in early 2026, formalizes the risk taxonomy the industry has been converging on. The AWS Agentic AI Security Scoping Matrix (November 2025) provides the most widely-cited operational framework for thinking about agent capability boundaries. Anthropic's published research on browser-use agent security walks the specific defenses against indirect prompt injection in browser-…",
-          "link": "https://dev.to/securecodinghub/agentic-ai-security-risks-owasp-agentic-top-10-and-defensive-patterns-2026-4a2a",
-          "publishedOn": "2026-07-04T14:33:07.000Z",
-          "wordCount": 4664,
-          "title": "Agentic AI Security: Risks, OWASP Agentic Top 10, and Defensive Patterns (2026)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fwww.securecodinghub.com%2Fog%2Fagentic-ai-security-owasp-agentic-top-10.jpg"
-        },
-        {
-          "id": "https://dev.to/securecodinghub/cloud-native-security-practices-for-developers-containers-kubernetes-and-cicd-2026-4lpm",
-          "author": "SecureCodingHub",
-          "description": "Cloud-native security practices in 2026 cover a substantially different attack surface than the web/cloud security disciplines that dominated through 2020. The shift to container-based deployment, Kubernetes orchestration, service-mesh communication, and increasingly autonomous CI/CD supply chains moved the security boundary from \"the application\" to \"the platform plus the application plus the pipeline plus the runtime.\" Developers building cloud-native applications now operate inside a security model where the container image, the Pod spec, the network policy, the service-mesh configuration, the CI/CD attestations, and the runtime behavior detection all matter as much as the application code itself. This guide walks the cloud-native security discipline from a developer's perspective — wha…",
-          "link": "https://dev.to/securecodinghub/cloud-native-security-practices-for-developers-containers-kubernetes-and-cicd-2026-4lpm",
-          "publishedOn": "2026-07-04T14:32:58.000Z",
-          "wordCount": 6675,
-          "title": "Cloud-Native Security Practices for Developers: Containers, Kubernetes, and CI/CD (2026)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxsfcplta2273s5x6oe1t.png"
         }
       ]
     },
@@ -18881,6 +18821,46 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://calculus.academa.ai/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://calculus.academa.ai/",
+          "publishedOn": "2026-07-19T02:55:43.000Z",
+          "wordCount": 291,
+          "title": "LLM-Integrated Multivariable Calculus Course",
+          "imageUrl": "https://calculus.academa.ai/og/vectors?locale=en"
+        },
+        {
+          "id": "https://www.fda.gov/news-events/press-announcements/fda-approves-first-oral-pcsk9-inhibitor-lower-ldl-cholesterol-adults-high-cholesterol",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.fda.gov/news-events/press-announcements/fda-approves-first-oral-pcsk9-inhibitor-lower-ldl-cholesterol-adults-high-cholesterol",
+          "publishedOn": "2026-07-19T02:40:22.000Z",
+          "wordCount": 1050,
+          "title": "FDA approves new kind of cholesterol pill",
+          "imageUrl": "https://www.fda.gov/themes/custom/preview/img/FDA-Social-Graphic.png"
+        },
+        {
+          "id": "https://airdows.com/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://airdows.com/",
+          "publishedOn": "2026-07-19T02:17:03.000Z",
+          "wordCount": 2212,
+          "title": "I built a browser-based P2P file transfer tool using WebRTC",
+          "imageUrl": "https://airdows.com/assets/og-airdows.jpg"
+        },
+        {
+          "id": "https://github.com/vercel-labs/deepsec",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/vercel-labs/deepsec",
+          "publishedOn": "2026-07-19T01:33:32.000Z",
+          "wordCount": 3212,
+          "title": "Deepsec",
+          "imageUrl": "https://opengraph.githubassets.com/45d93f3ae84b74ec7da19eec1640f859e35da2a07b1bcf80c40520464b1a31e0/vercel-labs/deepsec"
+        },
         {
           "id": "https://ludic.mataroa.blog/blog/ai-mania-is-eviscerating-global-decision-making/#fnref:3",
           "author": null,
@@ -22072,6 +22052,16 @@
           "imageUrl": "https://blog.incogni.com/wp-content/uploads/2026/07/digital-burnout_2.png"
         },
         {
+          "id": "https://www.makingsoftware.com/chapters/how-to-make-a-font",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.makingsoftware.com/chapters/how-to-make-a-font",
+          "publishedOn": "2026-07-14T09:41:29.000Z",
+          "wordCount": null,
+          "title": "Making Software: How to make a font",
+          "imageUrl": null
+        },
+        {
           "id": "https://twitter.com/demishassabis/status/2076957440109625718",
           "author": null,
           "description": "Comments",
@@ -22790,6 +22780,16 @@
           "wordCount": 9317,
           "title": "Simulating everything, sort of: The promise and limits of world models",
           "imageUrl": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/cracking-open-world-model-1152x648.jpg"
+        },
+        {
+          "id": "https://www.scientificamerican.com/article/mathematicians-still-dont-know-the-fastest-way-to-multiply-numbers/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.scientificamerican.com/article/mathematicians-still-dont-know-the-fastest-way-to-multiply-numbers/",
+          "publishedOn": "2026-07-13T17:21:10.000Z",
+          "wordCount": 10958,
+          "title": "Mathematicians still don't know the fastest way to multiply numbers",
+          "imageUrl": "https://static.scientificamerican.com/dam/asset/1caac706-e03e-4760-8ef0-cc5a554737df/GettyImages-168351286-math-chalkboard.jpeg?m=1783946841.043&w=1200"
         },
         {
           "id": "https://www.nytimes.com/2026/07/13/style/backyard-baseball-video-game-teacher.html",
@@ -24072,6 +24072,16 @@
           "imageUrl": "https://leancrew.com/all-this/images2026/20260707-MacWrite%20and%20MacPaint.png"
         },
         {
+          "id": "https://www.marciot.com/mac68k-visual-catalog/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.marciot.com/mac68k-visual-catalog/",
+          "publishedOn": "2026-07-12T00:22:14.000Z",
+          "wordCount": 97,
+          "title": "A Visual Catalog of Retro Macintosh Software",
+          "imageUrl": null
+        },
+        {
           "id": "https://slacreditwatch.com/",
           "author": null,
           "description": "Comments",
@@ -24729,6 +24739,16 @@
           "publishedOn": "2026-07-11T03:24:03.000Z",
           "wordCount": 82,
           "title": "The Origins of Heikki's Garden of Flowers",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.mediawiki.org/wiki/Parsoid",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.mediawiki.org/wiki/Parsoid",
+          "publishedOn": "2026-07-11T01:41:55.000Z",
+          "wordCount": null,
+          "title": "Parsoid",
           "imageUrl": null
         },
         {
@@ -29590,226 +29610,6 @@
           "wordCount": 2389,
           "title": "Verizon is About to Break our Watches",
           "imageUrl": "https://www.jefftk.com/gizmo-hub-going-away-email-big.png"
-        },
-        {
-          "id": "https://github.com/pIat0n/BareMetal-RAM-Dumper",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/pIat0n/BareMetal-RAM-Dumper",
-          "publishedOn": "2026-07-04T17:37:21.000Z",
-          "wordCount": 2279,
-          "title": "BareMetal RAM Dumper – Bare-metal x86 tool for Cold Boot Attack experiments",
-          "imageUrl": "https://opengraph.githubassets.com/35b5fc617f03aeb46c26adedb9fd2a90a2a266e44b061f08912d9d64d8bf2af0/pIat0n/BareMetal-RAM-Dumper"
-        },
-        {
-          "id": "https://www.theatlantic.com/photo/2018/05/historic-photos-of-nasas-cavernous-wind-tunnels/560660/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.theatlantic.com/photo/2018/05/historic-photos-of-nasas-cavernous-wind-tunnels/560660/",
-          "publishedOn": "2026-07-04T17:28:57.000Z",
-          "wordCount": 6064,
-          "title": "Historic Photos of NASA's Cavernous Wind Tunnels",
-          "imageUrl": "https://cdn.theatlantic.com/thumbor/UIEAZ_tzUCR-wrBZXIvgs4cT2VI=/0x170:2000x1212/960x500/media/img/photo/2018/05/historic-photos-of-nasas-cavernous-1/w01_836249-1/original.jpg"
-        },
-        {
-          "id": "https://www.dw.com/en/sick-leave-germany-rising-but-not-the-worst-in-europe/a-77815488",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.dw.com/en/sick-leave-germany-rising-but-not-the-worst-in-europe/a-77815488",
-          "publishedOn": "2026-07-04T17:18:42.000Z",
-          "wordCount": 6387,
-          "title": "Sick leave: Germany rising but not the worst in Europe",
-          "imageUrl": "https://static.dw.com/image/77819894_6.jpg"
-        },
-        {
-          "id": "https://www.eso.org/public/news/eso2607/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.eso.org/public/news/eso2607/",
-          "publishedOn": "2026-07-04T17:17:28.000Z",
-          "wordCount": 3837,
-          "title": "No more than 100 000 faint satellites should orbit Earth",
-          "imageUrl": "https://cdn.eso.org/images/screen/eso2607a.jpg"
-        },
-        {
-          "id": "https://www.mattgreer.dev/blog/gba-dev-logging/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.mattgreer.dev/blog/gba-dev-logging/",
-          "publishedOn": "2026-07-04T17:12:00.000Z",
-          "wordCount": 1146,
-          "title": "Game Boy Advance Dev: Logging to the Console",
-          "imageUrl": "https://mattgreer.dev/_next/static/media/twitter.5c59a676.png?t=Game Boy A"
-        },
-        {
-          "id": "https://www.endbasic.dev/2026/07/endbasic-0.14.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.endbasic.dev/2026/07/endbasic-0.14.html",
-          "publishedOn": "2026-07-04T17:08:18.000Z",
-          "wordCount": 1280,
-          "title": "EndBASIC 0.14: Are we multimedia yet?",
-          "imageUrl": "/images/2026-07-04-endbasic-bounce.png"
-        },
-        {
-          "id": "https://art.joonas.wtf/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://art.joonas.wtf/",
-          "publishedOn": "2026-07-04T16:55:29.000Z",
-          "wordCount": 22221,
-          "title": "Plein Air",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.euronews.com/next/2026/06/30/finlands-last-analogue-landline-phones-go-silent-after-150-years",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.euronews.com/next/2026/06/30/finlands-last-analogue-landline-phones-go-silent-after-150-years",
-          "publishedOn": "2026-07-04T16:54:02.000Z",
-          "wordCount": 3945,
-          "title": "Finland's last analogue landline phones go silent after 150 years",
-          "imageUrl": "https://images.euronews.com/articles/stories/09/81/95/28/1200x675_cmsv2_e1b57e14-96f0-5622-9dfb-5e77aeed8406-9819528.jpg"
-        },
-        {
-          "id": "https://software.annas-archive.gl/AnnaArchivist/annas-archive/-/work_items/234",
-          "author": null,
-          "description": "Comments",
-          "link": "https://software.annas-archive.gl/AnnaArchivist/annas-archive/-/work_items/234",
-          "publishedOn": "2026-07-04T16:51:26.000Z",
-          "wordCount": 364,
-          "title": "Google Books (or similar) all book scans – $200k bounty (2025)",
-          "imageUrl": "https://software.annas-archive.gl/assets/twitter_card-570ddb06edf56a2312253c5872489847a0f385112ddbcd71ccfa1570febab5d2.jpg"
-        },
-        {
-          "id": "https://www.cbc.ca/news/canada/montreal/canada-s-only-watchmaking-school-9.7254211",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.cbc.ca/news/canada/montreal/canada-s-only-watchmaking-school-9.7254211",
-          "publishedOn": "2026-07-04T16:46:24.000Z",
-          "wordCount": 3811,
-          "title": "Canada's only watchmaking school still ticking after 80 years",
-          "imageUrl": "https://i.cbc.ca/ais/cff4c3dd-f78e-40b1-bde8-d8bc7170a282,1783092697249/full/max/0/default.jpg?im=Crop%2Crect%3D%280%2C0%2C5472%2C3078%29%3BResize%3D620"
-        },
-        {
-          "id": "https://www.tomshardware.com/tech-industry/data-centers/cheyenne-suspends-data-center-fill-and-flush-and-closed-loop-discharges-after-meta-contractor-contaminated-its-reuse-water-system",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.tomshardware.com/tech-industry/data-centers/cheyenne-suspends-data-center-fill-and-flush-and-closed-loop-discharges-after-meta-contractor-contaminated-its-reuse-water-system",
-          "publishedOn": "2026-07-04T16:45:23.000Z",
-          "wordCount": 50347,
-          "title": "Meta data center water discharges suspended for contaminating water supply",
-          "imageUrl": "https://cdn.mos.cms.futurecdn.net/5DrUKzfgk2vDQzjnVtVpkJ-2000-80.jpg"
-        },
-        {
-          "id": "https://javoriuski.com/post/youtube",
-          "author": null,
-          "description": "Comments",
-          "link": "https://javoriuski.com/post/youtube",
-          "publishedOn": "2026-07-04T16:45:10.000Z",
-          "wordCount": 2000,
-          "title": "Leaking YouTube creators' private videos",
-          "imageUrl": "https://javoriuski.com/assets/youtube.jpg"
-        },
-        {
-          "id": "https://vimeo.com/49718712",
-          "author": null,
-          "description": "Comments",
-          "link": "https://vimeo.com/49718712",
-          "publishedOn": "2026-07-04T16:37:05.000Z",
-          "wordCount": 244,
-          "title": "Rob Pike – 'Concurrency Is Not Parallelism' [video]",
-          "imageUrl": "https://i.vimeocdn.com/video/343013570-bcea4ef59362f7f89324cd98c10598f6ce9d572fd6bb4310825bc7aa3f56801c-d?f=webp&region=us"
-        },
-        {
-          "id": "https://ziglang.org/devlog/2026/#2026-06-30",
-          "author": null,
-          "description": "Comments",
-          "link": "https://ziglang.org/devlog/2026/#2026-06-30",
-          "publishedOn": "2026-07-04T16:30:10.000Z",
-          "wordCount": 7106,
-          "title": "Zig: All Package Management Functionality Moved from Compiler to Build System",
-          "imageUrl": null
-        },
-        {
-          "id": "https://paulkrugman.substack.com/p/the-end-of-north-america-157",
-          "author": null,
-          "description": "Comments",
-          "link": "https://paulkrugman.substack.com/p/the-end-of-north-america-157",
-          "publishedOn": "2026-07-04T16:16:07.000Z",
-          "wordCount": null,
-          "title": "The End of North America",
-          "imageUrl": null
-        },
-        {
-          "id": "https://mightyburger.net/projects/curveball/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://mightyburger.net/projects/curveball/",
-          "publishedOn": "2026-07-04T16:15:48.000Z",
-          "wordCount": 1293,
-          "title": "Curveball",
-          "imageUrl": null
-        },
-        {
-          "id": "https://ride.nexttrain.london/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://ride.nexttrain.london/",
-          "publishedOn": "2026-07-04T16:11:06.000Z",
-          "wordCount": null,
-          "title": "Show HN: Follow London Trains in 3D",
-          "imageUrl": null
-        },
-        {
-          "id": "https://airplaneboneyards.com/airplane-boneyards-list-and-map.htm",
-          "author": null,
-          "description": "Comments",
-          "link": "https://airplaneboneyards.com/airplane-boneyards-list-and-map.htm",
-          "publishedOn": "2026-07-04T15:53:08.000Z",
-          "wordCount": 2124,
-          "title": "Airplane Boneyards List and Map",
-          "imageUrl": "https://www.airplaneboneyards.com/images/og/airplane-boneyard-list-map.jpg"
-        },
-        {
-          "id": "https://adamraudonis.github.io/splats4D/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://adamraudonis.github.io/splats4D/",
-          "publishedOn": "2026-07-04T15:49:08.000Z",
-          "wordCount": 1787,
-          "title": "Fable created novel 4D splat format",
-          "imageUrl": null
-        },
-        {
-          "id": "https://thisbugslife.com/2021/11/21/dolosse-a-south-african-invention-used-over-the-world/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://thisbugslife.com/2021/11/21/dolosse-a-south-african-invention-used-over-the-world/",
-          "publishedOn": "2026-07-04T15:32:58.000Z",
-          "wordCount": 3529,
-          "title": "Dolosse – a South African invention used over the world",
-          "imageUrl": "https://i0.wp.com/thisbugslife.com/wp-content/uploads/2018/08/fullsizeoutput_1939.jpeg?fit=1200%2C900&ssl=1"
-        },
-        {
-          "id": "https://github.com/maximqaxd/wince-dc",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/maximqaxd/wince-dc",
-          "publishedOn": "2026-07-04T14:52:25.000Z",
-          "wordCount": 3014,
-          "title": "Windows CE Dreamcast Community Edition (wince-dc)",
-          "imageUrl": "https://opengraph.githubassets.com/fee38fe284c8dfadaa70fd47550cf5787031b9a6ddde177ec879147ca4b0cfd7/maximqaxd/wince-dc"
-        },
-        {
-          "id": "https://www.nytimes.com/2026/07/02/us/california-food-labels-sell-by.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.nytimes.com/2026/07/02/us/california-food-labels-sell-by.html",
-          "publishedOn": "2026-07-04T14:34:00.000Z",
-          "wordCount": null,
-          "title": "California Bans 'Sell by' Labels, Hoping to Cut Food Waste",
-          "imageUrl": null
         }
       ]
     },
@@ -29818,6 +29618,16 @@
       "feedUrl": "https://www.lowyat.net/feed/",
       "siteUrl": "https://www.lowyat.net",
       "articles": [
+        {
+          "id": "https://www.lowyat.net/?p=398986",
+          "author": "Nurul Kamil",
+          "description": "The Google Pixel 10a debuted in February with minimal upgrades from last year’s iteration. Although we still have a long way to go before the Pixel 11a officially launches, leaks have already started emerging. Should these details prove accurate, then the device could come with some considerable improvements. As per the leaks, which originate from […]\nThe post Google Pixel 11a May Launch With An Overdue Chipset Upgrade appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/398986/google-pixel-11a-leak/",
+          "publishedOn": "2026-07-19T05:32:17.000Z",
+          "wordCount": 14902,
+          "title": "Google Pixel 11a May Launch With An Overdue Chipset Upgrade",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/02/pixel-10a-officially-announced-4.webp"
+        },
         {
           "id": "https://www.lowyat.net/?p=398975",
           "author": "Ian Chee",
@@ -31739,6 +31549,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "3dfa403f-6478-48e6-bc4f-38f7a638a050",
+          "author": "Shaurya Malwa",
+          "description": "The new Zakura client is the first live piece of a plan to take Zcash from roughly one private transaction per second to payment-network scale.",
+          "link": "https://www.coindesk.com/tech/2026/07/16/inside-zcash-s-new-node-that-targets-visa-scale-privacy-at-50-000-transactions-per-second",
+          "publishedOn": "2026-07-19T05:37:34.000Z",
+          "wordCount": 13729,
+          "title": "Inside Zcash's new node that targets Visa-scale privacy at 50,000 transactions per second",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6359a9ff83ee7ba7465c0ff2289cb8ae23e7ac43-1500x1000.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "fb6cfba8-502a-40fb-aca5-8aaf3e860109",
           "author": "Francisco Rodrigues",
@@ -34008,26 +33828,6 @@
           "wordCount": 13177,
           "title": "Bitcoin experts split over plan to freeze Satoshi's 1.1 million bitcoin as quantum threat grows",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/58eab2c21500ffeaf7befff78c12ae0576153044-3721x2093.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "59fd9ccb-69e7-4460-8ed0-28f2f485dd33",
-          "author": "Helene Braun",
-          "description": "Researchers at Schwab and Hashdex said AI has diverted capital from digital assets while bitcoin continues to follow a familiar post-halving recovery pattern.",
-          "link": "https://www.coindesk.com/markets/2026/07/03/why-bitcoin-s-disconnect-from-record-high-stocks-won-t-last",
-          "publishedOn": "2026-07-04T16:00:00.000Z",
-          "wordCount": 12537,
-          "title": "Why bitcoin's disconnect from record-high stocks won't last",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/7a39a5a5c2bfa63c4f773a6ab3f70e9634da4f5e-6960x4640.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "b9608381-e077-4b87-b94c-c08fa141ebd9",
-          "author": "Francisco Rodrigues",
-          "description": "The TRUMP token is down 96% from its peak, and 85% of secondary market wallets for WLFI are underwater, reflecting a broader downturn in the sector.",
-          "link": "https://www.coindesk.com/business/2026/07/04/trump-s-crypto-token-buyers-are-down-usd3-8-billion-blockchain-data-shows",
-          "publishedOn": "2026-07-04T15:30:52.000Z",
-          "wordCount": 12493,
-          "title": "Trump's crypto token buyers are down $3.8 billion, blockchain data shows",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/84a461bc77fdc8be2e55a8cfa0a0aa196e958396-4928x2772.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },
