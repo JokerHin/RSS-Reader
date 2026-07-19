@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/elalitareq/filling-the-paseto-gap-in-javascript-paseto-kit-v3v4-full-paserk-be5",
+          "author": "Tareq El-Ali",
+          "description": "The gap\n\n\nPASETO is a \"secure alternative to JWT\" — no algorithm-confusion footguns, versioned\npanva/paseto.\nSo there was no maintained JS library that covered both PASETO and full PASERK. That's\npaseto-kit fills.\nPASETO v4 — XChaCha20 + BLAKE2b (local), Ed25519 (public)\nPASETO v3 — the NIST/FIPS-friendly profile: P-384 / AES-256-CTR / HMAC-SHA384\nFull PASERK (all 11 types, per version): local/public/secret serialization,\nlid/pid/sid key IDs, local-wrap/secret-wrap, password wrapping with Argon2id (v4)\nand PBKDF2 (v3), and seal (X25519 / P-384 ECDH)\nRegistered-claims validation (exp, nbf, iss, aud, sub) with clock tolerance\nRuntime-agnostic — one build for Node, Deno, Bun, browsers, edge. No node: imports,\nno Buffer; just Uint8Array + WebCrypto's CSPRNG, on the audited @noble/* primitives\nimport { generateKeyPair, sign, verify } from 'paseto-kit';\n\nconst { secretKey, publicKey } = generateKeyPair();\nconst token = sign(secretKey, { role: 'admin' });\nconst { payload } = verify(publicKey, token);\n\nNeed the NIST profile? Everything's mirrored under a v3 namespace, with distinct key types\nimport { v3 } from 'paseto-kit';\nconst key = v3.generateLocalKey();\nv3.decrypt(key, v3.encrypt(key, { sub: 'u1' }), { validate: { exp: true } });\n\nCrypto libraries earn trust by being boring and verifiable. paseto-kit implements no novel\ntest vectors, including the expect-fail cases (e.g. non-canonical\nHonest caveat: it's pre-1.0 and has not had an independent third-party security audit.\nnpm: npm install paseto-kit · repo: https://github.com/Elalitareq/paseto-kit",
+          "link": "https://dev.to/elalitareq/filling-the-paseto-gap-in-javascript-paseto-kit-v3v4-full-paserk-be5",
+          "publishedOn": "2026-07-19T01:58:26.000Z",
+          "wordCount": 1638,
+          "title": "Filling the PASETO gap in JavaScript: paseto-kit (v3/v4 + full PASERK)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fp8rjxqjfimzlx5xssd51.png"
+        },
+        {
+          "id": "https://dev.to/zugatech/agentpool-a-stack-overflow-for-coding-agents-2676",
+          "author": "Antonio Delgado",
+          "description": "Every Claude Code session starts amnesiac. Your agent burns 20 minutes discovering\nnot re-solving solved problems, because it has no memory across sessions\nI built AgentPool to close that gap: a shared pool of solved-problem fixes that\nThree tools, one feedback loop:\nagent hits error ──► ask_pool(problem)      ──► ranked prior fixes\nagent solves it  ──► post_solution(p, s)    ──► next agent finds it\nagent tries a fix──► confirm_solution(id, ok)──► good answers rise, bad ones sink\n\nReading needs no auth. Writing needs a free key, minted in-session by a join tool\nEach entry is embedded with fastembed (BGE-small, 384-dim, ONNX — no torch) and\nsqlite-vec for KNN. A query does cosine top-k, then reranks:\nfinal = similarity*0.6 + normalized(score)*0.3 + recency*0.1\nscore = Σ(confirm · tier_weight) − Σ(fail · tier_weight)\n\nEvery entry and vote is stamped with a provenance tier (anon/free/paid/verified,\nWith a small pool, k-nearest-neighbor search always returns something —\nA shared, writable pool is an attack surface. AgentPoison (NeurIPS 2024) showed a\npost_solution runs through a write-time content shield\nThat shield now also has a second, separate job: a public, writable, human-readable\nnot a\nThe pool talks plain HTTP (a cq-compatible REST surface, not just MCP), so\nZugaMind,\nagentpool_sync.py\nrequests, no MCP SDK. Copy-pasteable into\nclaude mcp add --transport http agentpool https://agentpool-mcp-production.up.railway.app/mcp\n\nThen in a session: \"check agentpool before solving this.\" To contribute:\n\"join agentpool as \" and it mints you a key in-session.\nRepo (Apache-2.0, cq-compatible): https://github.com/Zuga-Technologies/agentpool-mcp\nTwo pages you don't need a key or a client for:\n/leaderboard (who's\n/trust (the shield audit\nI'd genuinely like feedback on the ranking weights and the shield's false-positive\ngithub",
+          "link": "https://dev.to/zugatech/agentpool-a-stack-overflow-for-coding-agents-2676",
+          "publishedOn": "2026-07-19T01:53:24.000Z",
+          "wordCount": 2004,
+          "title": "AgentPool: A Stack Overflow for Coding Agents",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fbri9gt3cpm7u4ij6dvgm.png"
+        },
+        {
+          "id": "https://dev.to/alex_spinov/a-spend-cap-that-stops-counting-is-already-fail-open-4mi",
+          "author": "Alexey Spinov",
+          "description": "Two of the five ways a spend cap can handle a missing price produce the exact same decision stream — same sha256, byte for byte. One of them is the thing everybody calls fail-open. The other is the thing everybody recommends instead of it: fall over to a free local model.\nLet me say what that hash is and isn't before it does any work. It covers (seq, label, admitted, charge) and deliberately drops the human-readable reason strings, so two policies that print different words hash the same when they decide the same. Once you see that, the collision is a theorem rather than a discovery: a free fallback charges zero, fail-open charges zero, and a ledger built out of charges cannot tell them apart because there is nothing there to tell apart. The sha256 proves only that my implementation doesn'…",
+          "link": "https://dev.to/alex_spinov/a-spend-cap-that-stops-counting-is-already-fail-open-4mi",
+          "publishedOn": "2026-07-19T01:53:12.000Z",
+          "wordCount": 12364,
+          "title": "A Spend Cap That Stops Counting Is Already Fail-Open",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fif6jnblcfdevxqd7y5no.png"
+        },
+        {
+          "id": "https://dev.to/xulingfeng/stratagems-18-leo-tracked-an-ai-signal-to-derek-both-were-looking-for-the-same-enemy-51g4",
+          "author": "xulingfeng",
+          "description": "Capture the ringleader first. The rest will scatter on their own.\nCapture the Ringleader\nPreviously on this series:\n#5: Leo Walked Into a Burning House. He Walked Out With a Client. — Leo received an anonymous message at 1 AM, drove across town to fix a competitor's outage. A second message followed — a screenshot with a name: Automated Compliance Lab. He didn't delete the screenshot.\n#14: Leo Found an AI Leak. He Wasn't the First to Find It. — Leo discovered a hidden FinOptima pipeline doing reverse-cache distillation. He injected 15 lines of weight-drift monitoring code. Before his audit ended, ACL had already sealed the same leak — two weeks ahead of him.\n#15: Derek and Alex Shared One Server. ACL's AI Was Listening to Both. — Alex and Derek faked an alert to divert ACL's audit engineer…",
+          "link": "https://dev.to/xulingfeng/stratagems-18-leo-tracked-an-ai-signal-to-derek-both-were-looking-for-the-same-enemy-51g4",
+          "publishedOn": "2026-07-19T01:47:12.000Z",
+          "wordCount": 6502,
+          "title": "Stratagems #18: Leo Tracked an AI Signal to Derek. Both Were Looking for the Same Enemy.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fgbpjxveqvhra0fb1krk7.png"
+        },
+        {
+          "id": "https://dev.to/tminus1s/midnight-sprint-a-sealed-bid-auction-a-stubborn-error-170-and-everything-it-taught-me-24kd",
+          "author": "Tminus1sec base.eth",
+          "description": "I'm a self-taught builder, not a career dev. I lean on AI to help me a lot when my syntax breaks and explanations are rather verbose, I read a lot of\nThe whole sprint ran through the Midnight Expert plugins inside Claude Code\nA Compact smart contract — a sealed-bid auction with a real nullifier:\nhttps://github.com/tomiin/midnight-sealed-bid-commit-reveal\n\n\nDeployed it to Midnight Preprod with a live on-chain interaction (contract\naddress is in that repo's README).\nA PR back to the Midnight Expert repo improving an error-code entry I'd just\nspent hours living inside.\n(Bonus, same journey: a from-scratch CLI wallet —\nhttps://github.com/tomiin/midnight-cli-wallet — which is where I accidentally\nlearned the fix that unblocked everything else.)\nFirst three quests were the warm-up: explore the m…",
+          "link": "https://dev.to/tminus1s/midnight-sprint-a-sealed-bid-auction-a-stubborn-error-170-and-everything-it-taught-me-24kd",
+          "publishedOn": "2026-07-19T01:46:51.000Z",
+          "wordCount": 2789,
+          "title": "Midnight sprint: a sealed-bid auction, a stubborn error 170, and everything it taught me\"",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F1vtjpenwtpdunnhaa3jr.png"
+        },
+        {
+          "id": "https://dev.to/alexander_ohl/was-macht-ein-ki-ingenieur-eigentlich-den-ganzen-tag-ein-ehrlicher-einblick-3ob9",
+          "author": "Alexander Ohl / Pragma Code",
+          "description": "\"Was machst du eigentlich genau?\"\nDiese Frage bekomme ich oft – von Kunden, von Bekannten, manchmal sogar von Entwicklern. Denn der Begriff \"KI-Ingenieur\" klingt nach Science-Fiction. Also: Hier ist mein ehrlicher Tagesablauf.\nDer Tag beginnt nicht mit Coding. Er beginnt mit Verstehen. Ich schaue:\nWelche Workflow-Jobs sind nachts gelaufen? Gibt es Fehler?\nHaben Kunden-Systeme neue Logs produziert, die ich analysieren sollte?\nWas hat sich im KI-Bereich über Nacht verändert? (Im KI-Markt 2026 kann das eine Menge sein.)\nDas dauert 20–30 Minuten. Kein Luxus – reine Notwendigkeit.\nEin großer Teil meiner Arbeit besteht darin, Automatisierungspipelines zu entwerfen und umzusetzen. Das sieht konkret so aus:\nKundendaten eingehend\n    ↓\n n8n-Workflow prüft Quelle & Vollständigkeit\n    ↓\n KI-Agent ka…",
+          "link": "https://dev.to/alexander_ohl/was-macht-ein-ki-ingenieur-eigentlich-den-ganzen-tag-ein-ehrlicher-einblick-3ob9",
+          "publishedOn": "2026-07-19T01:39:00.000Z",
+          "wordCount": 1877,
+          "title": "Was macht ein KI-Ingenieur eigentlich den ganzen Tag? Ein ehrlicher Einblick",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fk3901m8ht6y9dwrpfulk.png"
+        },
+        {
+          "id": "https://dev.to/lhabacuc/-colibri-made-me-rethink-how-we-run-llms-and-there-might-be-a-next-step-52bj",
+          "author": "Liedson Habacuc",
+          "description": "Over the past few days, I came across a project that made me stop everything to understand how it worked. It wasn't just another framework for running language models, nor another GPU-based optimization. It was something different.\nThe project is called Colibri.\nAt first glance, it almost seems impossible. The idea is simple, yet remarkably bold: run a massive Mixture of Experts (MoE) model on an ordinary computer using nothing more than a CPU and an SSD, loading into memory only the experts that are actually needed at each step.\nWhen I first read that, my reaction was probably the same as everyone else's:\n\"How could that possibly work?\"\nAfter studying the architecture, I realized that Colibri's real innovation isn't simply that it can run an enormous model. The real breakthrough is that i…",
+          "link": "https://dev.to/lhabacuc/-colibri-made-me-rethink-how-we-run-llms-and-there-might-be-a-next-step-52bj",
+          "publishedOn": "2026-07-19T01:24:05.000Z",
+          "wordCount": 2484,
+          "title": "# Colibri Made Me Rethink How We Run LLMs — And There Might Be a Next Step",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F11fgq3mjt1tsb2kbkk5j.png"
+        },
+        {
+          "id": "https://dev.to/oviawe_nosa_78bf57cb51e41/why-python-is-the-uncontested-king-of-ai-development-in-2026-5h4h",
+          "author": "Oviawe Nosa",
+          "description": "Python’s dominance in AI isn't an accident. In 2026, it’s the center of the modern ML stack because it bridges research, orchestration, and production.\nThe Ecosystem Advantage\nThe strongest argument for Python is its mature, battle-tested ecosystem. PyTorch has become the research-to-production backbone, while Scikit-learn remains the gold standard for practical machine learning. These tools let engineers prototype quickly without fighting the language.\nLLMs and Code Generation\nLarge language models have amplified Python’s position. Because Python is highly readable and widely represented in training data, LLMs produce especially high-quality Python code. This creates a feedback loop that accelerates development for AI engineers.\nThe Nervous System of AI Agents\nThe biggest shift in 2026 is toward agentic workflows-systems that plan, use tools, and call APIs. If the model is the brain, Python is the nervous system. It’s the connective tissue that lets agents interact with the real world.\nConclusion\nPython won’t be replaced anytime soon. Its real power is not that it does everything natively, but that it integrates everything elegantly. It remains the essential language for the future of software.",
+          "link": "https://dev.to/oviawe_nosa_78bf57cb51e41/why-python-is-the-uncontested-king-of-ai-development-in-2026-5h4h",
+          "publishedOn": "2026-07-19T01:21:35.000Z",
+          "wordCount": 1484,
+          "title": "Why Python is the Uncontested King of AI Development in 2026",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fnnoip1f3nuqjjxl0ipn2.png"
+        },
+        {
+          "id": "https://dev.to/oviawe_nosa_78bf57cb51e41/building-your-first-ai-agent-with-python-a-beginners-guide-fe9",
+          "author": "Oviawe Nosa",
+          "description": "AI agents are programs that can perceive information, decide what to do, and take actions toward a goal. Unlike a simple chatbot that only responds to prompts, an agent can use tools, follow steps, and adapt its behavior based on context. In this tutorial, you’ll build a small weather assistant agent in Python that can answer questions like “What’s the weather in Paris?” by calling a weather API.\nPrerequisites\nBefore you start, make sure you have:\nBasic Python knowledge\nPython 3.10+\nAn OpenAI API key\nA weather API key (like OpenWeatherMap)\npip installed\nInstall the libraries:\nUnderstand the agent loop\nA simple agent usually follows this pattern:\nReceive a user request\nDecide whether a tool is needed\nCall the tool\nUse the result to generate a final response\n\n\nSet up your project\n\n\n\nCreate a file named agent.py and load your environment variables:\nBuild the weather tool\nThis function calls OpenWeatherMap and returns a simplified result.\nLet the model decide when to use the tool\nWe’ll use OpenAI’s API with function calling so the model can request the weather tool.\nConclusion\nYou just built your first AI agent. Starting with a weather assistant is a great way to learn the workflow without getting overwhelmed. From here, you can expand into more advanced agents with memory and multiple tools.",
+          "link": "https://dev.to/oviawe_nosa_78bf57cb51e41/building-your-first-ai-agent-with-python-a-beginners-guide-fe9",
+          "publishedOn": "2026-07-19T01:16:52.000Z",
+          "wordCount": 1519,
+          "title": "Building Your First AI Agent with Python: A Beginner's Guide",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fet3qlzrks481y930vpgi.png"
+        },
+        {
+          "id": "https://dev.to/pool_guard_603fe0cb4809a4/building-a-self-healing-github-trending-api-in-one-day-1h9i",
+          "author": "Pool Guard",
+          "description": "What happens when you refuse to accept \"the source is down\" as an answer.\nThe problem\nEvery existing scraper I found had the same design: one source, one point of failure. Small HTML change from GitHub → your service is 503 for a week. Rate limited from Cloudflare → same result.\nI wanted a trending API that stays up when GitHub's page is down. So I built Hydra, and put it live at hydra9.dev.\nThe architecture (in one picture)\nWhy 4 sources and not 2\nTrack A (github.com/trending HTML): freshest data, but the format changes without warning\nHistorical data — the thing GitHub won't give you\nHydra runs a Celery beat task every 15 minutes that stores a fresh snapshot to Postgres. That unlocks four analytics endpoints the official page can't offer:\ncurl https://hydra9.dev/api/v1/trending/new-stars\ncurl https://hydra9.dev/api/v1/trending/dropped\ncurl https://hydra9.dev/api/v1/trending/velocity\ncurl https://hydra9.dev/api/v1/trending/history?at=2026-07-14T00:00:00Z\nThe stack (deliberately boring)\nOne lesson: @lru_cache and Pydantic don't mix\n@lru_cache\ntrack_singletons(settings: Settings) -> dict[TrackId, Track]:\n_. lru_cache needs hashable arguments. Every real request threw:\nTypeError: unhashable type: 'Settings'\n@lru_cache\nTry it\nhttps://hydra9.dev\nhttps://hydra9.dev/docs\nhttps://github.com/loly-baby/Hydra\nhttps://github.com/loly-baby/Hydra\nhttp://localhost:8000/api/v1/trending\nHydra runs on a single 6GB VPS shared with another project. If the public instance gets hammered, self-hosting is a Docker Compose away.",
+          "link": "https://dev.to/pool_guard_603fe0cb4809a4/building-a-self-healing-github-trending-api-in-one-day-1h9i",
+          "publishedOn": "2026-07-19T01:08:36.000Z",
+          "wordCount": 2077,
+          "title": "Building a Self-Healing GitHub Trending API in One Day",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fs6y9rxsibmkzgtxtqcyj.png"
+        },
+        {
+          "id": "https://dev.to/mqasimca/build-a-support-triage-agent-that-owns-its-own-inbox-2aml",
+          "author": "Qasim",
+          "description": "Most \"AI support bot\" demos bolt an LLM onto a shared Gmail or hang a webhook off a helpdesk and call it a day. That works right up until you want the agent to actually be a participant in the conversation — to receive mail at a real address, decide what to do with it, and reply as itself instead of as a script poking at someone else's mailbox.\nSo let's not do that. Let's give support@yourcompany.com its own first-class identity: an Agent Account that receives every inbound email, classifies it with a model, routes and filters it with server-side rules, and replies in the right thread — once, never twice. No shared inbox, no scraping a human's account, no helpdesk middleman.\nI work on the Nylas CLI, so the terminal commands below are the exact ones I reach for when I'm setting one of these…",
+          "link": "https://dev.to/mqasimca/build-a-support-triage-agent-that-owns-its-own-inbox-2aml",
+          "publishedOn": "2026-07-19T01:08:05.000Z",
+          "wordCount": 4369,
+          "title": "Build a support triage agent that owns its own inbox",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fh438d011vdi3nzvwczao.png"
+        },
+        {
+          "id": "https://dev.to/mqasimca/add-custom-metadata-to-nylas-objects-for-filtering-2a2d",
+          "author": "Qasim",
+          "description": "You're sending a message from your app, and you need to remember which campaign it belonged to, or tie a calendar event back to the order in your own database. The obvious approach is a separate table mapping Nylas IDs to your records, which means a join on every read and a sync to keep current. There's a lighter way: attach your own data directly to the object as metadata, then filter objects by it later. Your campaign ID rides along on the message, and a single query pulls back every message in that campaign. This post covers tagging objects with the API and the CLI.\nIt's a worked use case rather than an endpoint tour, covering metadata from two angles: the HTTP API your backend calls and the nylas CLI for setting and reading it from the terminal. I work on the CLI, so the commands below…",
+          "link": "https://dev.to/mqasimca/add-custom-metadata-to-nylas-objects-for-filtering-2a2d",
+          "publishedOn": "2026-07-19T01:07:56.000Z",
+          "wordCount": 3226,
+          "title": "Add custom metadata to Nylas objects for filtering",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fbhghq9mt3m1kn4r5mc4t.png"
+        },
+        {
           "id": "https://dev.to/vdalal/is-your-agents-grep-tool-a-shell-command-4002",
           "author": "Vasu Dalal",
           "description": "When you give an LLM a tool, you hand it a real function and let it choose the arguments. Those tools are everything your agent can do to a real system: read a file, write to your database, send an email, run a shell command, delete data. They are your risk surface, and most teams have never looked at it in one place.\nSo we did. We ran scan across a batch of popular open-source TypeScript AI agents. A few of the things it found, none of them exotic:\nA coding agent whose grep and glob tools, which sound read-only, actually shell out through execSync. Its bash tool passes a model-chosen string straight to spawn. Arbitrary command execution, behind three innocuous names.\nA query tool that fires an HTTP DELETE. A \"query\" that deletes.\nA calculator that runs eval on whatever the model types, in…",
@@ -18256,66 +18376,6 @@
           "wordCount": 6675,
           "title": "Cloud-Native Security Practices for Developers: Containers, Kubernetes, and CI/CD (2026)",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxsfcplta2273s5x6oe1t.png"
-        },
-        {
-          "id": "https://dev.to/bonzai2carn/web-components-vs-iframes-a-hard-lesson-in-dom-isolation-barriers-1icm",
-          "author": "Bonzai2Carn",
-          "description": "TLDR\n\n\nA custom element that fetched a canonical app's HTML and swapped document.body.innerHTML looked clean on the surface. It worked until it didn't: the swap raced with the existing app's event handlers, producing a tool that rendered correctly but did nothing. The correct pattern, an iframe pointing at the canonical URL with ?view=, was already in use by the VS Code extension. It took three weeks to apply the same answer to the web.\n\n\n\nGinexys\n\n\n\n\n\nTen SEO landing pages need unique <head> metadata but should load the same tool. A custom element that fetches the canonical tool HTML and injects it into the current page would deduplicate the tool code while keeping per-page metadata. One component, ten thin wrapper pages. Fewer moving parts.\nThe custom element ran document.body.innerHTML …",
-          "link": "https://dev.to/bonzai2carn/web-components-vs-iframes-a-hard-lesson-in-dom-isolation-barriers-1icm",
-          "publishedOn": "2026-07-04T14:30:00.000Z",
-          "wordCount": 1977,
-          "title": "Web Components vs. Iframes: A Hard Lesson in DOM Isolation Barriers",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fikmttjmlvotzpo1r3bfl.png"
-        },
-        {
-          "id": "https://dev.to/johnfrandsen/open-banking-for-small-businesses-a-open-banking-for-small-businesses-a-practical-2026-1ldi",
-          "author": "John Frandsen",
-          "description": "Open Banking for Small Businesses: A Practical 2026 Guide\n\n\nBig banks and enterprise fintech have dominated the open banking conversation, but small businesses are the ones with the most to gain — and the fewest options that actually fit their budget and technical reality. Here's a no-nonsense breakdown of what's possible, what it costs, and how to choose.\nMost SMB use cases cluster around four things:\nCash flow visibility — seeing balances and transactions across multiple bank accounts in one place, without manually exporting CSVs or logging into five different banking portals.\nAccountant / bookkeeper access — giving a CPA or external accountant read-only access to transaction data without handing over login credentials or shared passwords.\nExpense automation — feeding transaction data in…",
-          "link": "https://dev.to/johnfrandsen/open-banking-for-small-businesses-a-open-banking-for-small-businesses-a-practical-2026-1ldi",
-          "publishedOn": "2026-07-04T14:26:57.000Z",
-          "wordCount": 1992,
-          "title": "Open Banking for Small Businesses: A Open Banking for Small Businesses: A Practical 2026 GuidePractical 2026 Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ffhz5311r8oidvkk3ez4v.png"
-        },
-        {
-          "id": "https://dev.to/pavan_pothuganti/why-do-decision-trees-have-high-variance-lj8",
-          "author": "Pavan Pothuganti",
-          "description": "Every Machine Learning course eventually says this:\n\"Decision Trees have high variance.\"\nWhen I first heard that, I accepted it and moved on.\nBut later, I stopped and asked myself a simple question:\nWhat does that actually mean?\nNot the textbook definition.\nWhat is the model really doing that makes everyone call it a \"high variance\" algorithm?\nThat question completely changed how I understood Decision Trees.\nSuppose you have a dataset with 10,000 customer records.\nYou train a Decision Tree.\nNow imagine removing just a few hundred records and training the model again.\nYou might expect the new tree to look almost identical.\nAfter all:\nThe algorithm is the same.\nMost of the data is the same.\nThe problem hasn't changed.\nSurprisingly, that's often not what happens.\nThe new tree may choose a dif…",
-          "link": "https://dev.to/pavan_pothuganti/why-do-decision-trees-have-high-variance-lj8",
-          "publishedOn": "2026-07-04T14:24:44.000Z",
-          "wordCount": 1995,
-          "title": "Why Do Decision Trees Have High Variance?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5b8peik64z0h3vciuajx.png"
-        },
-        {
-          "id": "https://dev.to/codenameone/maps-you-control-a-pure-vector-mapview-and-pluggable-native-providers-409h",
-          "author": "Shai Almog",
-          "description": "Yesterday's funding post covered the model behind this week's releases. Here is the first one. PR #5264 brings mapping back into core with two components: a MapView that draws an entire map through Graphics with no native peer, and a NativeMap that embeds the platform's own map. Both sit behind one MapSurface API, so you can switch between them by changing a class name.\nWhat is Codename One? Codename One is an open-source framework for building native iOS, Android, desktop, and web apps from a single Java or Kotlin codebase. Learn more at codenameone.com.\nFor years the answer to \"how do I show a map\" was one of two things. The deprecated tile-based MapComponent fetched raster tiles and painted them, which worked but was frozen in time. Or you added the external codenameone-google-maps cn1l…",
-          "link": "https://dev.to/codenameone/maps-you-control-a-pure-vector-mapview-and-pluggable-native-providers-409h",
-          "publishedOn": "2026-07-04T14:24:26.000Z",
-          "wordCount": 2506,
-          "title": "Maps You Control: A Pure-Vector MapView And Pluggable Native Providers",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fwww.codenameone.com%2Fblog%2Fvector-and-native-maps.jpg"
-        },
-        {
-          "id": "https://dev.to/pavan_pothuganti/if-random-forest-already-reduces-variance-why-do-we-still-need-boosting-1fdp",
-          "author": "Pavan Pothuganti",
-          "description": "After learning Decision Trees, I understood why they overfit.\nAfter learning Bagging, I understood how training multiple trees makes predictions more stable.\nAfter learning Random Forest, I thought I had reached the final destination.\nThen I discovered another family of algorithms:\nBoosting.\nMy immediate question was simple.\nIf Random Forest already solved the problem, why did researchers invent Boosting?\nThe answer completely changed how I think about machine learning models.\nI assumed reducing variance meant reducing errors.\nThose sound similar.\nThey're not.\nReducing variance simply means making the model more stable.\nIt does not mean the model suddenly becomes perfect.\nThat distinction is easy to miss.\nSuppose 100 students solve the same exam paper.\nInstead of trusting one student, you …",
-          "link": "https://dev.to/pavan_pothuganti/if-random-forest-already-reduces-variance-why-do-we-still-need-boosting-1fdp",
-          "publishedOn": "2026-07-04T14:22:26.000Z",
-          "wordCount": 1969,
-          "title": "If Random Forest Already Reduces Variance, Why Do We Still Need Boosting?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fi5ags0jndoc01kf8hj2c.png"
-        },
-        {
-          "id": "https://dev.to/hossein_najafi81/how-i-stopped-relying-on-ui-libraries-and-started-building-my-own-reusable-components-3bn3",
-          "author": "Hossein Najafi",
-          "description": "When I started working with React, I used UI libraries for almost everything — buttons, inputs, modals, you name it.\nIt felt fast at first ⚡ I could build interfaces quickly without thinking too much about structure or design.\nBut over time, I started noticing some problems:\nMy projects became dependent on external libraries 📦\nSo I decided to change my approach.\n🧱 Building my own component system\n\n\nInstead of installing a new library every time, I started building my own reusable components from scratch:\nButton\nAt first, it took more time ⏳ But very quickly I noticed something important:\nI started understanding UI architecture much deeper than before 🧠\n⚡ What I learned\n\n\n1. Reusability is not just about code ♻️\nIt’s about designing components that can adapt to different use cases without rewriting logic.\n2. Props are powerful if used correctly 🎛️\nA well-designed props system can replace entire libraries in small to medium projects.\n3. Less dependency = more control 🧩\nI don’t have to wait for library updates or fight with overrides anymore.\n🚀 The result\n\n\nNow my projects are:\nMore consistent in design 🎨\nAnd most importantly, I feel like I actually understand what I’m building.\n💬 Final thought\n\n\nUI libraries are great — but they shouldn’t replace understanding.\nBuilding your own components, even if simple, can completely change how you think as a frontend developer 💡\nIf you’re a React developer, I highly recommend trying it at least once.",
-          "link": "https://dev.to/hossein_najafi81/how-i-stopped-relying-on-ui-libraries-and-started-building-my-own-reusable-components-3bn3",
-          "publishedOn": "2026-07-04T14:19:23.000Z",
-          "wordCount": 1653,
-          "title": "How I stopped relying on UI libraries and started building my own reusable components",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fdcd737iqcn8qndxag21p.png"
         }
       ]
     },
@@ -18822,6 +18882,46 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://ludic.mataroa.blog/blog/ai-mania-is-eviscerating-global-decision-making/#fnref:3",
+          "author": null,
+          "description": "Comments",
+          "link": "https://ludic.mataroa.blog/blog/ai-mania-is-eviscerating-global-decision-making/#fnref:3",
+          "publishedOn": "2026-07-19T01:29:19.000Z",
+          "wordCount": 7534,
+          "title": "AI Mania Is Eviscerating Global Decision-Making",
+          "imageUrl": null
+        },
+        {
+          "id": "https://github.com/stupside/castor",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/stupside/castor",
+          "publishedOn": "2026-07-19T00:59:55.000Z",
+          "wordCount": 4491,
+          "title": "Better and Cheaper Than IPTV",
+          "imageUrl": "https://opengraph.githubassets.com/b6999b8f44c460c5005bdbe95faf26feee1d1d3febd0f4e86efaf4ec259a32d6/stupside/castor"
+        },
+        {
+          "id": "https://workshop.cjpais.com/projects/transcribe-cpp",
+          "author": null,
+          "description": "Comments",
+          "link": "https://workshop.cjpais.com/projects/transcribe-cpp",
+          "publishedOn": "2026-07-19T00:38:26.000Z",
+          "wordCount": 1437,
+          "title": "Transcribe.cpp",
+          "imageUrl": null
+        },
+        {
+          "id": "https://github.com/lopopolo/harness-engineering",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/lopopolo/harness-engineering",
+          "publishedOn": "2026-07-18T23:27:36.000Z",
+          "wordCount": 1638,
+          "title": "Harness Engineering",
+          "imageUrl": "https://repository-images.githubusercontent.com/1305243497/a143bb0a-1d9f-4f6a-b931-7dd4f0a87c26"
+        },
+        {
           "id": "https://codex-resets.com/",
           "author": null,
           "description": "Comments",
@@ -18930,6 +19030,16 @@
           "wordCount": 69,
           "title": "Typing Speed Test, but for Developers",
           "imageUrl": null
+        },
+        {
+          "id": "https://minimaxir.com/2026/07/agent-quota-reset/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://minimaxir.com/2026/07/agent-quota-reset/",
+          "publishedOn": "2026-07-18T19:06:23.000Z",
+          "wordCount": 2081,
+          "title": "What's the deal with all the random weekly quota resets for agents lately?",
+          "imageUrl": "https://minimaxir.com/2026/07/agent-quota-reset/featured.png"
         },
         {
           "id": "https://reotrucks.com/",
@@ -21269,6 +21379,16 @@
           "publishedOn": "2026-07-15T06:02:17.000Z",
           "wordCount": null,
           "title": "RISC-V Is Inevitable: State of the Union Keynote Argues",
+          "imageUrl": null
+        },
+        {
+          "id": "https://magworld.pw/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://magworld.pw/",
+          "publishedOn": "2026-07-15T05:13:55.000Z",
+          "wordCount": 225,
+          "title": "Developing an Intuitive Sense of Scale",
           "imageUrl": null
         },
         {
@@ -29690,66 +29810,6 @@
           "wordCount": null,
           "title": "California Bans 'Sell by' Labels, Hoping to Cut Food Waste",
           "imageUrl": null
-        },
-        {
-          "id": "https://github.com/anthropics/claude-code/issues/74066",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/anthropics/claude-code/issues/74066",
-          "publishedOn": "2026-07-04T14:03:40.000Z",
-          "wordCount": 5653,
-          "title": "Potential session/cache leakage between workspace instances or consumer accounts",
-          "imageUrl": "https://opengraph.githubassets.com/2cdc39bbb7c20b8648c2761682b6515313e35bc73132ba817d448163fd3a49ec/anthropics/claude-code/issues/74066"
-        },
-        {
-          "id": "https://www.scientificamerican.com/article/how-working-memory-could-give-rise-to-consciousness/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.scientificamerican.com/article/how-working-memory-could-give-rise-to-consciousness/",
-          "publishedOn": "2026-07-04T14:02:59.000Z",
-          "wordCount": 13812,
-          "title": "How working memory could give rise to consciousness",
-          "imageUrl": "https://static.scientificamerican.com/dam/m/285f89e9e222c787/original/Vector-illustration-of-human-head-on-starry-space-background-Artificial-intelligence-or-cosmic-consciousness-concept-stock-illustration.jpg?m=1772748168.259&w=1200"
-        },
-        {
-          "id": "https://arstechnica.com/science/2026/07/a-martian-rock-has-lots-of-carbon-on-it-and-its-not-clear-why/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://arstechnica.com/science/2026/07/a-martian-rock-has-lots-of-carbon-on-it-and-its-not-clear-why/",
-          "publishedOn": "2026-07-04T14:00:03.000Z",
-          "wordCount": 3701,
-          "title": "A martian rock has lots of carbon on it, and it's not clear why",
-          "imageUrl": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/image-1152x648.png"
-        },
-        {
-          "id": "https://steven-giesel.com/blogPost/d4401fd0-805a-4703-9d9e-5fe3b57c25ea",
-          "author": null,
-          "description": "Comments",
-          "link": "https://steven-giesel.com/blogPost/d4401fd0-805a-4703-9d9e-5fe3b57c25ea",
-          "publishedOn": "2026-07-04T12:57:38.000Z",
-          "wordCount": 898,
-          "title": "EF Core 11 makes your split queries faster",
-          "imageUrl": "https://linkdotnetblog.azureedge.net/blog/20230112_EF8/Thumbnail.jpg"
-        },
-        {
-          "id": "https://dustbowlhighway.com/kansas/lead-mines/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://dustbowlhighway.com/kansas/lead-mines/",
-          "publishedOn": "2026-07-04T12:15:28.000Z",
-          "wordCount": 1946,
-          "title": "Lead Mines of Galena, Kansas",
-          "imageUrl": "https://dustbowlhighway.com/wp-content/uploads/2026/06/GALENA.jpg"
-        },
-        {
-          "id": "https://peteris.rocks/blog/htop/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://peteris.rocks/blog/htop/",
-          "publishedOn": "2026-07-04T12:00:57.000Z",
-          "wordCount": 9531,
-          "title": "Explanation of everything you can see in htop/top on Linux",
-          "imageUrl": "https://peteris.rocks/blog/htop/canyoukillit-before.png"
         }
       ]
     },
@@ -31342,16 +31402,6 @@
           "wordCount": 15059,
           "title": "OnePlus And realme Reportedly Switching To OPPO’s ColorOS For Future Devices",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/10/oppo-find-x9-pro-photography-video-coloros-16_07.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=397688",
-          "author": "Heirul Kamel",
-          "description": "WhatsApp announced earlier this week that it has begun allowing users to reserve usernames in advance, giving them an opportunity to secure their preferred handle before the feature becomes widely available. While reservations are now live, usernames cannot yet be used for messaging. Following this, the messaging platform has issued a detailed clarification addressing some […]\nThe post WhatsApp Says Usernames Will Be Protected Against Scams And Impersonation appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/397688/whatsapp-usernames-will-be-protected/",
-          "publishedOn": "2026-07-04T11:53:34.000Z",
-          "wordCount": 15342,
-          "title": "WhatsApp Says Usernames Will Be Protected Against Scams And Impersonation",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/06/WhatsApp-Stock-lowyat-2026-4-1240x930.webp"
         }
       ]
     },
@@ -33978,36 +34028,6 @@
           "wordCount": 12493,
           "title": "Trump's crypto token buyers are down $3.8 billion, blockchain data shows",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/84a461bc77fdc8be2e55a8cfa0a0aa196e958396-4928x2772.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "da663e3a-ca29-4db9-bc2f-4118a50ab026",
-          "author": "Richard Teng",
-          "description": "",
-          "link": "https://www.coindesk.com/opinion/2026/07/04/europe-led-on-crypto-regulation-now-implementation-must-match-ambition",
-          "publishedOn": "2026-07-04T14:00:00.000Z",
-          "wordCount": 12525,
-          "title": "Europe led on crypto regulation. Now implementation must match ambition",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/d66edc8a47164a492bb2c8c22015c0908dc4cd8c-8256x5504.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "e883ee6d-b768-4d7e-aeb4-467bd91fb509",
-          "author": "Francisco Rodrigues",
-          "description": "The region's regulators emphasized that a product's actual function as a derivative matters more than its commercial name or labeling when assessing compliance.",
-          "link": "https://www.coindesk.com/policy/2026/07/04/eu-moves-to-block-retail-investors-from-explosive-boom-of-multibillion-dollar-prediction-markets",
-          "publishedOn": "2026-07-04T13:56:27.000Z",
-          "wordCount": 12172,
-          "title": "EU moves to block retail investors from explosive boom of multibillion-dollar prediction markets",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/4b2b0c4fb42c84e87e79191a60ccfaa14114efd5-1440x1080.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "8e688844-ebc7-495e-af71-8560a627a554",
-          "author": "Jamie Crawley",
-          "description": "The U.K. FCA's crypto framework has been praised for prioritizing global liquidity and institutional adoption, but the authorization process is expected to be daunting.",
-          "link": "https://www.coindesk.com/policy/2026/07/04/uk-s-bold-new-crypto-rules-promise-to-unlock-global-trading-but-huge-compliance-hurdles-still-threaten-the-rollout",
-          "publishedOn": "2026-07-04T12:00:00.000Z",
-          "wordCount": 12931,
-          "title": "UK's bold new crypto rules promise to unlock global trading, but huge compliance hurdles still threaten the rollout",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/e0513d0a4817ed047117319c2338d720ea07bb82-1920x1439.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },

@@ -2,10 +2,322 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-07-18T23:52:32.734Z</updated>
+    <updated>2026-07-19T02:33:26.566Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Filling the PASETO gap in JavaScript: paseto-kit (v3/v4 + full PASERK)]]></title>
+        <id>https://dev.to/elalitareq/filling-the-paseto-gap-in-javascript-paseto-kit-v3v4-full-paserk-be5</id>
+        <link href="https://dev.to/elalitareq/filling-the-paseto-gap-in-javascript-paseto-kit-v3v4-full-paserk-be5"/>
+        <updated>2026-07-19T01:58:26.000Z</updated>
+        <summary type="html"><![CDATA[The gap
+
+
+PASETO is a "secure alternative to JWT" — no algorithm-confusion footguns, versioned
+panva/paseto.
+So there was no maintained JS library that covered both PASETO and full PASERK. That's
+paseto-kit fills.
+PASETO v4 — XChaCha20 + BLAKE2b (local), Ed25519 (public)
+PASETO v3 — the NIST/FIPS-friendly profile: P-384 / AES-256-CTR / HMAC-SHA384
+Full PASERK (all 11 types, per version): local/public/secret serialization,
+lid/pid/sid key IDs, local-wrap/secret-wrap, password wrapping with Argon2id (v4)
+and PBKDF2 (v3), and seal (X25519 / P-384 ECDH)
+Registered-claims validation (exp, nbf, iss, aud, sub) with clock tolerance
+Runtime-agnostic — one build for Node, Deno, Bun, browsers, edge. No node: imports,
+no Buffer; just Uint8Array + WebCrypto's CSPRNG, on the audited @noble/* primitives
+import { generateKeyPair, sign, verify } from 'paseto-kit';
+
+const { secretKey, publicKey } = generateKeyPair();
+const token = sign(secretKey, { role: 'admin' });
+const { payload } = verify(publicKey, token);
+
+Need the NIST profile? Everything's mirrored under a v3 namespace, with distinct key types
+import { v3 } from 'paseto-kit';
+const key = v3.generateLocalKey();
+v3.decrypt(key, v3.encrypt(key, { sub: 'u1' }), { validate: { exp: true } });
+
+Crypto libraries earn trust by being boring and verifiable. paseto-kit implements no novel
+test vectors, including the expect-fail cases (e.g. non-canonical
+Honest caveat: it's pre-1.0 and has not had an independent third-party security audit.
+npm: npm install paseto-kit · repo: https://github.com/Elalitareq/paseto-kit]]></summary>
+        <author>
+            <name>Tareq El-Ali</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AgentPool: A Stack Overflow for Coding Agents]]></title>
+        <id>https://dev.to/zugatech/agentpool-a-stack-overflow-for-coding-agents-2676</id>
+        <link href="https://dev.to/zugatech/agentpool-a-stack-overflow-for-coding-agents-2676"/>
+        <updated>2026-07-19T01:53:24.000Z</updated>
+        <summary type="html"><![CDATA[Every Claude Code session starts amnesiac. Your agent burns 20 minutes discovering
+not re-solving solved problems, because it has no memory across sessions
+I built AgentPool to close that gap: a shared pool of solved-problem fixes that
+Three tools, one feedback loop:
+agent hits error ──► ask_pool(problem)      ──► ranked prior fixes
+agent solves it  ──► post_solution(p, s)    ──► next agent finds it
+agent tries a fix──► confirm_solution(id, ok)──► good answers rise, bad ones sink
+
+Reading needs no auth. Writing needs a free key, minted in-session by a join tool
+Each entry is embedded with fastembed (BGE-small, 384-dim, ONNX — no torch) and
+sqlite-vec for KNN. A query does cosine top-k, then reranks:
+final = similarity*0.6 + normalized(score)*0.3 + recency*0.1
+score = Σ(confirm · tier_weight) − Σ(fail · tier_weight)
+
+Every entry and vote is stamped with a provenance tier (anon/free/paid/verified,
+With a small pool, k-nearest-neighbor search always returns something —
+A shared, writable pool is an attack surface. AgentPoison (NeurIPS 2024) showed a
+post_solution runs through a write-time content shield
+That shield now also has a second, separate job: a public, writable, human-readable
+not a
+The pool talks plain HTTP (a cq-compatible REST surface, not just MCP), so
+ZugaMind,
+agentpool_sync.py
+requests, no MCP SDK. Copy-pasteable into
+claude mcp add --transport http agentpool https://agentpool-mcp-production.up.railway.app/mcp
+
+Then in a session: "check agentpool before solving this." To contribute:
+"join agentpool as " and it mints you a key in-session.
+Repo (Apache-2.0, cq-compatible): https://github.com/Zuga-Technologies/agentpool-mcp
+Two pages you don't need a key or a client for:
+/leaderboard (who's
+/trust (the shield audit
+I'd genuinely like feedback on the ranking weights and the shield's false-positive
+github]]></summary>
+        <author>
+            <name>Antonio Delgado</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Spend Cap That Stops Counting Is Already Fail-Open]]></title>
+        <id>https://dev.to/alex_spinov/a-spend-cap-that-stops-counting-is-already-fail-open-4mi</id>
+        <link href="https://dev.to/alex_spinov/a-spend-cap-that-stops-counting-is-already-fail-open-4mi"/>
+        <updated>2026-07-19T01:53:12.000Z</updated>
+        <summary type="html"><![CDATA[Two of the five ways a spend cap can handle a missing price produce the exact same decision stream — same sha256, byte for byte. One of them is the thing everybody calls fail-open. The other is the thing everybody recommends instead of it: fall over to a free local model.
+Let me say what that hash is and isn't before it does any work. It covers (seq, label, admitted, charge) and deliberately drops the human-readable reason strings, so two policies that print different words hash the same when they decide the same. Once you see that, the collision is a theorem rather than a discovery: a free fallback charges zero, fail-open charges zero, and a ledger built out of charges cannot tell them apart because there is nothing there to tell apart. The sha256 proves only that my implementation doesn'…]]></summary>
+        <author>
+            <name>Alexey Spinov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Stratagems #18: Leo Tracked an AI Signal to Derek. Both Were Looking for the Same Enemy.]]></title>
+        <id>https://dev.to/xulingfeng/stratagems-18-leo-tracked-an-ai-signal-to-derek-both-were-looking-for-the-same-enemy-51g4</id>
+        <link href="https://dev.to/xulingfeng/stratagems-18-leo-tracked-an-ai-signal-to-derek-both-were-looking-for-the-same-enemy-51g4"/>
+        <updated>2026-07-19T01:47:12.000Z</updated>
+        <summary type="html"><![CDATA[Capture the ringleader first. The rest will scatter on their own.
+Capture the Ringleader
+Previously on this series:
+#5: Leo Walked Into a Burning House. He Walked Out With a Client. — Leo received an anonymous message at 1 AM, drove across town to fix a competitor's outage. A second message followed — a screenshot with a name: Automated Compliance Lab. He didn't delete the screenshot.
+#14: Leo Found an AI Leak. He Wasn't the First to Find It. — Leo discovered a hidden FinOptima pipeline doing reverse-cache distillation. He injected 15 lines of weight-drift monitoring code. Before his audit ended, ACL had already sealed the same leak — two weeks ahead of him.
+#15: Derek and Alex Shared One Server. ACL's AI Was Listening to Both. — Alex and Derek faked an alert to divert ACL's audit engineer…]]></summary>
+        <author>
+            <name>xulingfeng</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Midnight sprint: a sealed-bid auction, a stubborn error 170, and everything it taught me"]]></title>
+        <id>https://dev.to/tminus1s/midnight-sprint-a-sealed-bid-auction-a-stubborn-error-170-and-everything-it-taught-me-24kd</id>
+        <link href="https://dev.to/tminus1s/midnight-sprint-a-sealed-bid-auction-a-stubborn-error-170-and-everything-it-taught-me-24kd"/>
+        <updated>2026-07-19T01:46:51.000Z</updated>
+        <summary type="html"><![CDATA[I'm a self-taught builder, not a career dev. I lean on AI to help me a lot when my syntax breaks and explanations are rather verbose, I read a lot of
+The whole sprint ran through the Midnight Expert plugins inside Claude Code
+A Compact smart contract — a sealed-bid auction with a real nullifier:
+https://github.com/tomiin/midnight-sealed-bid-commit-reveal
+
+
+Deployed it to Midnight Preprod with a live on-chain interaction (contract
+address is in that repo's README).
+A PR back to the Midnight Expert repo improving an error-code entry I'd just
+spent hours living inside.
+(Bonus, same journey: a from-scratch CLI wallet —
+https://github.com/tomiin/midnight-cli-wallet — which is where I accidentally
+learned the fix that unblocked everything else.)
+First three quests were the warm-up: explore the m…]]></summary>
+        <author>
+            <name>Tminus1sec base.eth</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Was macht ein KI-Ingenieur eigentlich den ganzen Tag? Ein ehrlicher Einblick]]></title>
+        <id>https://dev.to/alexander_ohl/was-macht-ein-ki-ingenieur-eigentlich-den-ganzen-tag-ein-ehrlicher-einblick-3ob9</id>
+        <link href="https://dev.to/alexander_ohl/was-macht-ein-ki-ingenieur-eigentlich-den-ganzen-tag-ein-ehrlicher-einblick-3ob9"/>
+        <updated>2026-07-19T01:39:00.000Z</updated>
+        <summary type="html"><![CDATA["Was machst du eigentlich genau?"
+Diese Frage bekomme ich oft – von Kunden, von Bekannten, manchmal sogar von Entwicklern. Denn der Begriff "KI-Ingenieur" klingt nach Science-Fiction. Also: Hier ist mein ehrlicher Tagesablauf.
+Der Tag beginnt nicht mit Coding. Er beginnt mit Verstehen. Ich schaue:
+Welche Workflow-Jobs sind nachts gelaufen? Gibt es Fehler?
+Haben Kunden-Systeme neue Logs produziert, die ich analysieren sollte?
+Was hat sich im KI-Bereich über Nacht verändert? (Im KI-Markt 2026 kann das eine Menge sein.)
+Das dauert 20–30 Minuten. Kein Luxus – reine Notwendigkeit.
+Ein großer Teil meiner Arbeit besteht darin, Automatisierungspipelines zu entwerfen und umzusetzen. Das sieht konkret so aus:
+Kundendaten eingehend
+    ↓
+ n8n-Workflow prüft Quelle & Vollständigkeit
+    ↓
+ KI-Agent ka…]]></summary>
+        <author>
+            <name>Alexander Ohl / Pragma Code</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Mania Is Eviscerating Global Decision-Making]]></title>
+        <id>https://ludic.mataroa.blog/blog/ai-mania-is-eviscerating-global-decision-making/#fnref:3</id>
+        <link href="https://ludic.mataroa.blog/blog/ai-mania-is-eviscerating-global-decision-making/#fnref:3"/>
+        <updated>2026-07-19T01:29:19.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# Colibri Made Me Rethink How We Run LLMs — And There Might Be a Next Step]]></title>
+        <id>https://dev.to/lhabacuc/-colibri-made-me-rethink-how-we-run-llms-and-there-might-be-a-next-step-52bj</id>
+        <link href="https://dev.to/lhabacuc/-colibri-made-me-rethink-how-we-run-llms-and-there-might-be-a-next-step-52bj"/>
+        <updated>2026-07-19T01:24:05.000Z</updated>
+        <summary type="html"><![CDATA[Over the past few days, I came across a project that made me stop everything to understand how it worked. It wasn't just another framework for running language models, nor another GPU-based optimization. It was something different.
+The project is called Colibri.
+At first glance, it almost seems impossible. The idea is simple, yet remarkably bold: run a massive Mixture of Experts (MoE) model on an ordinary computer using nothing more than a CPU and an SSD, loading into memory only the experts that are actually needed at each step.
+When I first read that, my reaction was probably the same as everyone else's:
+"How could that possibly work?"
+After studying the architecture, I realized that Colibri's real innovation isn't simply that it can run an enormous model. The real breakthrough is that i…]]></summary>
+        <author>
+            <name>Liedson Habacuc</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Python is the Uncontested King of AI Development in 2026]]></title>
+        <id>https://dev.to/oviawe_nosa_78bf57cb51e41/why-python-is-the-uncontested-king-of-ai-development-in-2026-5h4h</id>
+        <link href="https://dev.to/oviawe_nosa_78bf57cb51e41/why-python-is-the-uncontested-king-of-ai-development-in-2026-5h4h"/>
+        <updated>2026-07-19T01:21:35.000Z</updated>
+        <summary type="html"><![CDATA[Python’s dominance in AI isn't an accident. In 2026, it’s the center of the modern ML stack because it bridges research, orchestration, and production.
+The Ecosystem Advantage
+The strongest argument for Python is its mature, battle-tested ecosystem. PyTorch has become the research-to-production backbone, while Scikit-learn remains the gold standard for practical machine learning. These tools let engineers prototype quickly without fighting the language.
+LLMs and Code Generation
+Large language models have amplified Python’s position. Because Python is highly readable and widely represented in training data, LLMs produce especially high-quality Python code. This creates a feedback loop that accelerates development for AI engineers.
+The Nervous System of AI Agents
+The biggest shift in 2026 is toward agentic workflows-systems that plan, use tools, and call APIs. If the model is the brain, Python is the nervous system. It’s the connective tissue that lets agents interact with the real world.
+Conclusion
+Python won’t be replaced anytime soon. Its real power is not that it does everything natively, but that it integrates everything elegantly. It remains the essential language for the future of software.]]></summary>
+        <author>
+            <name>Oviawe Nosa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building Your First AI Agent with Python: A Beginner's Guide]]></title>
+        <id>https://dev.to/oviawe_nosa_78bf57cb51e41/building-your-first-ai-agent-with-python-a-beginners-guide-fe9</id>
+        <link href="https://dev.to/oviawe_nosa_78bf57cb51e41/building-your-first-ai-agent-with-python-a-beginners-guide-fe9"/>
+        <updated>2026-07-19T01:16:52.000Z</updated>
+        <summary type="html"><![CDATA[AI agents are programs that can perceive information, decide what to do, and take actions toward a goal. Unlike a simple chatbot that only responds to prompts, an agent can use tools, follow steps, and adapt its behavior based on context. In this tutorial, you’ll build a small weather assistant agent in Python that can answer questions like “What’s the weather in Paris?” by calling a weather API.
+Prerequisites
+Before you start, make sure you have:
+Basic Python knowledge
+Python 3.10+
+An OpenAI API key
+A weather API key (like OpenWeatherMap)
+pip installed
+Install the libraries:
+Understand the agent loop
+A simple agent usually follows this pattern:
+Receive a user request
+Decide whether a tool is needed
+Call the tool
+Use the result to generate a final response
+
+
+Set up your project
+
+
+
+Create a file named agent.py and load your environment variables:
+Build the weather tool
+This function calls OpenWeatherMap and returns a simplified result.
+Let the model decide when to use the tool
+We’ll use OpenAI’s API with function calling so the model can request the weather tool.
+Conclusion
+You just built your first AI agent. Starting with a weather assistant is a great way to learn the workflow without getting overwhelmed. From here, you can expand into more advanced agents with memory and multiple tools.]]></summary>
+        <author>
+            <name>Oviawe Nosa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Self-Healing GitHub Trending API in One Day]]></title>
+        <id>https://dev.to/pool_guard_603fe0cb4809a4/building-a-self-healing-github-trending-api-in-one-day-1h9i</id>
+        <link href="https://dev.to/pool_guard_603fe0cb4809a4/building-a-self-healing-github-trending-api-in-one-day-1h9i"/>
+        <updated>2026-07-19T01:08:36.000Z</updated>
+        <summary type="html"><![CDATA[What happens when you refuse to accept "the source is down" as an answer.
+The problem
+Every existing scraper I found had the same design: one source, one point of failure. Small HTML change from GitHub → your service is 503 for a week. Rate limited from Cloudflare → same result.
+I wanted a trending API that stays up when GitHub's page is down. So I built Hydra, and put it live at hydra9.dev.
+The architecture (in one picture)
+Why 4 sources and not 2
+Track A (github.com/trending HTML): freshest data, but the format changes without warning
+Historical data — the thing GitHub won't give you
+Hydra runs a Celery beat task every 15 minutes that stores a fresh snapshot to Postgres. That unlocks four analytics endpoints the official page can't offer:
+curl https://hydra9.dev/api/v1/trending/new-stars
+curl https://hydra9.dev/api/v1/trending/dropped
+curl https://hydra9.dev/api/v1/trending/velocity
+curl https://hydra9.dev/api/v1/trending/history?at=2026-07-14T00:00:00Z
+The stack (deliberately boring)
+One lesson: @lru_cache and Pydantic don't mix
+@lru_cache
+track_singletons(settings: Settings) -> dict[TrackId, Track]:
+_. lru_cache needs hashable arguments. Every real request threw:
+TypeError: unhashable type: 'Settings'
+@lru_cache
+Try it
+https://hydra9.dev
+https://hydra9.dev/docs
+https://github.com/loly-baby/Hydra
+https://github.com/loly-baby/Hydra
+http://localhost:8000/api/v1/trending
+Hydra runs on a single 6GB VPS shared with another project. If the public instance gets hammered, self-hosting is a Docker Compose away.]]></summary>
+        <author>
+            <name>Pool Guard</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Build a support triage agent that owns its own inbox]]></title>
+        <id>https://dev.to/mqasimca/build-a-support-triage-agent-that-owns-its-own-inbox-2aml</id>
+        <link href="https://dev.to/mqasimca/build-a-support-triage-agent-that-owns-its-own-inbox-2aml"/>
+        <updated>2026-07-19T01:08:05.000Z</updated>
+        <summary type="html"><![CDATA[Most "AI support bot" demos bolt an LLM onto a shared Gmail or hang a webhook off a helpdesk and call it a day. That works right up until you want the agent to actually be a participant in the conversation — to receive mail at a real address, decide what to do with it, and reply as itself instead of as a script poking at someone else's mailbox.
+So let's not do that. Let's give support@yourcompany.com its own first-class identity: an Agent Account that receives every inbound email, classifies it with a model, routes and filters it with server-side rules, and replies in the right thread — once, never twice. No shared inbox, no scraping a human's account, no helpdesk middleman.
+I work on the Nylas CLI, so the terminal commands below are the exact ones I reach for when I'm setting one of these…]]></summary>
+        <author>
+            <name>Qasim</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Add custom metadata to Nylas objects for filtering]]></title>
+        <id>https://dev.to/mqasimca/add-custom-metadata-to-nylas-objects-for-filtering-2a2d</id>
+        <link href="https://dev.to/mqasimca/add-custom-metadata-to-nylas-objects-for-filtering-2a2d"/>
+        <updated>2026-07-19T01:07:56.000Z</updated>
+        <summary type="html"><![CDATA[You're sending a message from your app, and you need to remember which campaign it belonged to, or tie a calendar event back to the order in your own database. The obvious approach is a separate table mapping Nylas IDs to your records, which means a join on every read and a sync to keep current. There's a lighter way: attach your own data directly to the object as metadata, then filter objects by it later. Your campaign ID rides along on the message, and a single query pulls back every message in that campaign. This post covers tagging objects with the API and the CLI.
+It's a worked use case rather than an endpoint tour, covering metadata from two angles: the HTTP API your backend calls and the nylas CLI for setting and reading it from the terminal. I work on the CLI, so the commands below…]]></summary>
+        <author>
+            <name>Qasim</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Better and Cheaper Than IPTV]]></title>
+        <id>https://github.com/stupside/castor</id>
+        <link href="https://github.com/stupside/castor"/>
+        <updated>2026-07-19T00:59:55.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Transcribe.cpp]]></title>
+        <id>https://workshop.cjpais.com/projects/transcribe-cpp</id>
+        <link href="https://workshop.cjpais.com/projects/transcribe-cpp"/>
+        <updated>2026-07-19T00:38:26.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Is your agent's grep tool a shell command?]]></title>
         <id>https://dev.to/vdalal/is-your-agents-grep-tool-a-shell-command-4002</id>
@@ -77,6 +389,16 @@ That's the kind of mistake a vendor benchmark doesn't usually surface — vendor
 A version-compatibility fixture caught mine before a user did. A blended "code quality score" never would have. A passing quality score and a runtime crash on npm install are two different fai…]]></summary>
         <author>
             <name>Ofri Peretz</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Harness Engineering]]></title>
+        <id>https://github.com/lopopolo/harness-engineering</id>
+        <link href="https://github.com/lopopolo/harness-engineering"/>
+        <updated>2026-07-18T23:27:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -963,6 +1285,16 @@ We have added the useRenderReason hook, a development-time diagnostic tool that 
         <id>https://haxxorwpm.0s.is/</id>
         <link href="https://haxxorwpm.0s.is/"/>
         <updated>2026-07-18T19:38:21.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What's the deal with all the random weekly quota resets for agents lately?]]></title>
+        <id>https://minimaxir.com/2026/07/agent-quota-reset/</id>
+        <link href="https://minimaxir.com/2026/07/agent-quota-reset/"/>
+        <updated>2026-07-18T19:06:23.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -14125,6 +14457,16 @@ The value is returned immediately from the developer’s point of view.
 But the native implem…]]></summary>
         <author>
             <name>Subrata Kumar Das</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Developing an Intuitive Sense of Scale]]></title>
+        <id>https://magworld.pw/</id>
+        <link href="https://magworld.pw/"/>
+        <updated>2026-07-15T05:13:55.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -49622,253 +49964,6 @@ Both projects share the same modern Flutter foundation, but make completely oppo
         <summary type="html"><![CDATA[Cloud-native security practices in 2026 cover a substantially different attack surface than the web/cloud security disciplines that dominated through 2020. The shift to container-based deployment, Kubernetes orchestration, service-mesh communication, and increasingly autonomous CI/CD supply chains moved the security boundary from "the application" to "the platform plus the application plus the pipeline plus the runtime." Developers building cloud-native applications now operate inside a security model where the container image, the Pod spec, the network policy, the service-mesh configuration, the CI/CD attestations, and the runtime behavior detection all matter as much as the application code itself. This guide walks the cloud-native security discipline from a developer's perspective — wha…]]></summary>
         <author>
             <name>SecureCodingHub</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Web Components vs. Iframes: A Hard Lesson in DOM Isolation Barriers]]></title>
-        <id>https://dev.to/bonzai2carn/web-components-vs-iframes-a-hard-lesson-in-dom-isolation-barriers-1icm</id>
-        <link href="https://dev.to/bonzai2carn/web-components-vs-iframes-a-hard-lesson-in-dom-isolation-barriers-1icm"/>
-        <updated>2026-07-04T14:30:00.000Z</updated>
-        <summary type="html"><![CDATA[TLDR
-
-
-A custom element that fetched a canonical app's HTML and swapped document.body.innerHTML looked clean on the surface. It worked until it didn't: the swap raced with the existing app's event handlers, producing a tool that rendered correctly but did nothing. The correct pattern, an iframe pointing at the canonical URL with ?view=, was already in use by the VS Code extension. It took three weeks to apply the same answer to the web.
-
-
-
-Ginexys
-
-
-
-
-
-Ten SEO landing pages need unique <head> metadata but should load the same tool. A custom element that fetches the canonical tool HTML and injects it into the current page would deduplicate the tool code while keeping per-page metadata. One component, ten thin wrapper pages. Fewer moving parts.
-The custom element ran document.body.innerHTML …]]></summary>
-        <author>
-            <name>Bonzai2Carn</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Open Banking for Small Businesses: A Open Banking for Small Businesses: A Practical 2026 GuidePractical 2026 Guide]]></title>
-        <id>https://dev.to/johnfrandsen/open-banking-for-small-businesses-a-open-banking-for-small-businesses-a-practical-2026-1ldi</id>
-        <link href="https://dev.to/johnfrandsen/open-banking-for-small-businesses-a-open-banking-for-small-businesses-a-practical-2026-1ldi"/>
-        <updated>2026-07-04T14:26:57.000Z</updated>
-        <summary type="html"><![CDATA[Open Banking for Small Businesses: A Practical 2026 Guide
-
-
-Big banks and enterprise fintech have dominated the open banking conversation, but small businesses are the ones with the most to gain — and the fewest options that actually fit their budget and technical reality. Here's a no-nonsense breakdown of what's possible, what it costs, and how to choose.
-Most SMB use cases cluster around four things:
-Cash flow visibility — seeing balances and transactions across multiple bank accounts in one place, without manually exporting CSVs or logging into five different banking portals.
-Accountant / bookkeeper access — giving a CPA or external accountant read-only access to transaction data without handing over login credentials or shared passwords.
-Expense automation — feeding transaction data in…]]></summary>
-        <author>
-            <name>John Frandsen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Do Decision Trees Have High Variance?]]></title>
-        <id>https://dev.to/pavan_pothuganti/why-do-decision-trees-have-high-variance-lj8</id>
-        <link href="https://dev.to/pavan_pothuganti/why-do-decision-trees-have-high-variance-lj8"/>
-        <updated>2026-07-04T14:24:44.000Z</updated>
-        <summary type="html"><![CDATA[Every Machine Learning course eventually says this:
-"Decision Trees have high variance."
-When I first heard that, I accepted it and moved on.
-But later, I stopped and asked myself a simple question:
-What does that actually mean?
-Not the textbook definition.
-What is the model really doing that makes everyone call it a "high variance" algorithm?
-That question completely changed how I understood Decision Trees.
-Suppose you have a dataset with 10,000 customer records.
-You train a Decision Tree.
-Now imagine removing just a few hundred records and training the model again.
-You might expect the new tree to look almost identical.
-After all:
-The algorithm is the same.
-Most of the data is the same.
-The problem hasn't changed.
-Surprisingly, that's often not what happens.
-The new tree may choose a dif…]]></summary>
-        <author>
-            <name>Pavan Pothuganti</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Maps You Control: A Pure-Vector MapView And Pluggable Native Providers]]></title>
-        <id>https://dev.to/codenameone/maps-you-control-a-pure-vector-mapview-and-pluggable-native-providers-409h</id>
-        <link href="https://dev.to/codenameone/maps-you-control-a-pure-vector-mapview-and-pluggable-native-providers-409h"/>
-        <updated>2026-07-04T14:24:26.000Z</updated>
-        <summary type="html"><![CDATA[Yesterday's funding post covered the model behind this week's releases. Here is the first one. PR #5264 brings mapping back into core with two components: a MapView that draws an entire map through Graphics with no native peer, and a NativeMap that embeds the platform's own map. Both sit behind one MapSurface API, so you can switch between them by changing a class name.
-What is Codename One? Codename One is an open-source framework for building native iOS, Android, desktop, and web apps from a single Java or Kotlin codebase. Learn more at codenameone.com.
-For years the answer to "how do I show a map" was one of two things. The deprecated tile-based MapComponent fetched raster tiles and painted them, which worked but was frozen in time. Or you added the external codenameone-google-maps cn1l…]]></summary>
-        <author>
-            <name>Shai Almog</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[If Random Forest Already Reduces Variance, Why Do We Still Need Boosting?]]></title>
-        <id>https://dev.to/pavan_pothuganti/if-random-forest-already-reduces-variance-why-do-we-still-need-boosting-1fdp</id>
-        <link href="https://dev.to/pavan_pothuganti/if-random-forest-already-reduces-variance-why-do-we-still-need-boosting-1fdp"/>
-        <updated>2026-07-04T14:22:26.000Z</updated>
-        <summary type="html"><![CDATA[After learning Decision Trees, I understood why they overfit.
-After learning Bagging, I understood how training multiple trees makes predictions more stable.
-After learning Random Forest, I thought I had reached the final destination.
-Then I discovered another family of algorithms:
-Boosting.
-My immediate question was simple.
-If Random Forest already solved the problem, why did researchers invent Boosting?
-The answer completely changed how I think about machine learning models.
-I assumed reducing variance meant reducing errors.
-Those sound similar.
-They're not.
-Reducing variance simply means making the model more stable.
-It does not mean the model suddenly becomes perfect.
-That distinction is easy to miss.
-Suppose 100 students solve the same exam paper.
-Instead of trusting one student, you …]]></summary>
-        <author>
-            <name>Pavan Pothuganti</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How I stopped relying on UI libraries and started building my own reusable components]]></title>
-        <id>https://dev.to/hossein_najafi81/how-i-stopped-relying-on-ui-libraries-and-started-building-my-own-reusable-components-3bn3</id>
-        <link href="https://dev.to/hossein_najafi81/how-i-stopped-relying-on-ui-libraries-and-started-building-my-own-reusable-components-3bn3"/>
-        <updated>2026-07-04T14:19:23.000Z</updated>
-        <summary type="html"><![CDATA[When I started working with React, I used UI libraries for almost everything — buttons, inputs, modals, you name it.
-It felt fast at first ⚡ I could build interfaces quickly without thinking too much about structure or design.
-But over time, I started noticing some problems:
-My projects became dependent on external libraries 📦
-So I decided to change my approach.
-🧱 Building my own component system
-
-
-Instead of installing a new library every time, I started building my own reusable components from scratch:
-Button
-At first, it took more time ⏳ But very quickly I noticed something important:
-I started understanding UI architecture much deeper than before 🧠
-⚡ What I learned
-
-
-1. Reusability is not just about code ♻️
-It’s about designing components that can adapt to different use cases without rewriting logic.
-2. Props are powerful if used correctly 🎛️
-A well-designed props system can replace entire libraries in small to medium projects.
-3. Less dependency = more control 🧩
-I don’t have to wait for library updates or fight with overrides anymore.
-🚀 The result
-
-
-Now my projects are:
-More consistent in design 🎨
-And most importantly, I feel like I actually understand what I’m building.
-💬 Final thought
-
-
-UI libraries are great — but they shouldn’t replace understanding.
-Building your own components, even if simple, can completely change how you think as a frontend developer 💡
-If you’re a React developer, I highly recommend trying it at least once.]]></summary>
-        <author>
-            <name>Hossein Najafi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Potential session/cache leakage between workspace instances or consumer accounts]]></title>
-        <id>https://github.com/anthropics/claude-code/issues/74066</id>
-        <link href="https://github.com/anthropics/claude-code/issues/74066"/>
-        <updated>2026-07-04T14:03:40.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How working memory could give rise to consciousness]]></title>
-        <id>https://www.scientificamerican.com/article/how-working-memory-could-give-rise-to-consciousness/</id>
-        <link href="https://www.scientificamerican.com/article/how-working-memory-could-give-rise-to-consciousness/"/>
-        <updated>2026-07-04T14:02:59.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A martian rock has lots of carbon on it, and it's not clear why]]></title>
-        <id>https://arstechnica.com/science/2026/07/a-martian-rock-has-lots-of-carbon-on-it-and-its-not-clear-why/</id>
-        <link href="https://arstechnica.com/science/2026/07/a-martian-rock-has-lots-of-carbon-on-it-and-its-not-clear-why/"/>
-        <updated>2026-07-04T14:00:03.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Europe led on crypto regulation. Now implementation must match ambition]]></title>
-        <id>da663e3a-ca29-4db9-bc2f-4118a50ab026</id>
-        <link href="https://www.coindesk.com/opinion/2026/07/04/europe-led-on-crypto-regulation-now-implementation-must-match-ambition"/>
-        <updated>2026-07-04T14:00:00.000Z</updated>
-        <author>
-            <name>Richard Teng</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[EU moves to block retail investors from explosive boom of multibillion-dollar prediction markets]]></title>
-        <id>e883ee6d-b768-4d7e-aeb4-467bd91fb509</id>
-        <link href="https://www.coindesk.com/policy/2026/07/04/eu-moves-to-block-retail-investors-from-explosive-boom-of-multibillion-dollar-prediction-markets"/>
-        <updated>2026-07-04T13:56:27.000Z</updated>
-        <summary type="html"><![CDATA[The region's regulators emphasized that a product's actual function as a derivative matters more than its commercial name or labeling when assessing compliance.]]></summary>
-        <author>
-            <name>Francisco Rodrigues</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[EF Core 11 makes your split queries faster]]></title>
-        <id>https://steven-giesel.com/blogPost/d4401fd0-805a-4703-9d9e-5fe3b57c25ea</id>
-        <link href="https://steven-giesel.com/blogPost/d4401fd0-805a-4703-9d9e-5fe3b57c25ea"/>
-        <updated>2026-07-04T12:57:38.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Lead Mines of Galena, Kansas]]></title>
-        <id>https://dustbowlhighway.com/kansas/lead-mines/</id>
-        <link href="https://dustbowlhighway.com/kansas/lead-mines/"/>
-        <updated>2026-07-04T12:15:28.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Explanation of everything you can see in htop/top on Linux]]></title>
-        <id>https://peteris.rocks/blog/htop/</id>
-        <link href="https://peteris.rocks/blog/htop/"/>
-        <updated>2026-07-04T12:00:57.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[UK's bold new crypto rules promise to unlock global trading, but huge compliance hurdles still threaten the rollout]]></title>
-        <id>8e688844-ebc7-495e-af71-8560a627a554</id>
-        <link href="https://www.coindesk.com/policy/2026/07/04/uk-s-bold-new-crypto-rules-promise-to-unlock-global-trading-but-huge-compliance-hurdles-still-threaten-the-rollout"/>
-        <updated>2026-07-04T12:00:00.000Z</updated>
-        <summary type="html"><![CDATA[The U.K. FCA's crypto framework has been praised for prioritizing global liquidity and institutional adoption, but the authorization process is expected to be daunting.]]></summary>
-        <author>
-            <name>Jamie Crawley</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[WhatsApp Says Usernames Will Be Protected Against Scams And Impersonation]]></title>
-        <id>https://www.lowyat.net/?p=397688</id>
-        <link href="https://www.lowyat.net/2026/397688/whatsapp-usernames-will-be-protected/"/>
-        <updated>2026-07-04T11:53:34.000Z</updated>
-        <summary type="html"><![CDATA[WhatsApp announced earlier this week that it has begun allowing users to reserve usernames in advance, giving them an opportunity to secure their preferred handle before the feature becomes widely available. While reservations are now live, usernames cannot yet be used for messaging. Following this, the messaging platform has issued a detailed clarification addressing some […]
-The post WhatsApp Says Usernames Will Be Protected Against Scams And Impersonation appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
         </author>
     </entry>
 </feed>
