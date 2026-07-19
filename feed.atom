@@ -2,10 +2,255 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-07-19T22:50:10.737Z</updated>
+    <updated>2026-07-19T23:55:33.867Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Optimizing RAG at Scale: Chunking, Retrieval, and the Bayesian Search That Cut Latency 40%]]></title>
+        <id>https://dev.to/imus_d7584cbc8ee9b0336256/optimizing-rag-at-scale-chunking-retrieval-and-the-bayesian-search-that-cut-latency-40-a11</id>
+        <link href="https://dev.to/imus_d7584cbc8ee9b0336256/optimizing-rag-at-scale-chunking-retrieval-and-the-bayesian-search-that-cut-latency-40-a11"/>
+        <updated>2026-07-19T23:36:47.000Z</updated>
+        <summary type="html"><![CDATA[Optimizing RAG at Scale: Chunking, Retrieval, and the Bayesian Search That Cut Latency 40%
+
+
+How we moved from "semantic search + hope" to a measured, tunable retrieval pipeline with 95% recall@10
+Everyone ships RAG the same way: chunk by 512 tokens, embed with text-embedding-3-small, top-k=5, stuff into context. It works for demos.
+Then you hit production:
+Legal contracts: 512 tokens splits clauses mid-sentence
+API docs: 1000-token chunks drown signal in noise
+Customer tickets: Conversational context needs overlap, not fixed windows
+Latency: 500ms embedding + 200ms vector search + 300ms LLM = 1s+ per query
+We rebuilt our retrieval layer from first principles. Here's what actually moves metrics.
+# rag/chunking.py
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+@datac…]]></summary>
+        <author>
+            <name>Imus</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building Production-Grade LLM Evaluation Pipelines: From Vibes to Metrics]]></title>
+        <id>https://dev.to/imus_d7584cbc8ee9b0336256/building-production-grade-llm-evaluation-pipelines-from-vibes-to-metrics-51id</id>
+        <link href="https://dev.to/imus_d7584cbc8ee9b0336256/building-production-grade-llm-evaluation-pipelines-from-vibes-to-metrics-51id"/>
+        <updated>2026-07-19T23:36:46.000Z</updated>
+        <summary type="html"><![CDATA[Building Production-Grade LLM Evaluation Pipelines: From Vibes to Metrics
+
+
+How we replaced "looks good to me" with automated evaluation catching 92% of hallucinations before deployment
+Three months ago, our team shipped a RAG-based customer support assistant. It worked great in testing — we'd ask it questions, read the answers, and say "yeah, that looks right."
+Then it hit production.
+A customer asked about their billing cycle. The assistant confidently cited a policy that didn't exist. Another asked about API rate limits and got numbers from a competitor's documentation. By the time we caught it, 500+ users had seen hallucinated responses.
+The post-mortem was brutal: we had zero automated evaluation. Our test process was literally "ask 5 questions, read answers, thumbs up."
+Academic benc…]]></summary>
+        <author>
+            <name>Imus</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Gateway Talents in Solon AI: OpenAPI, Tool, and MCP Surfaces That Scale Without Context Blow-Up]]></title>
+        <id>https://dev.to/solonjava/gateway-talents-in-solon-ai-openapi-tool-and-mcp-surfaces-that-scale-without-context-blow-up-36ca</id>
+        <link href="https://dev.to/solonjava/gateway-talents-in-solon-ai-openapi-tool-and-mcp-surfaces-that-scale-without-context-blow-up-36ca"/>
+        <updated>2026-07-19T23:35:24.000Z</updated>
+        <summary type="html"><![CDATA[When an agent can see 80 tools at once, the model does not get smarter. It gets noisier. Token bills climb, tool choice drifts, and a simple “check order status” prompt suddenly carries half of your company’s OpenAPI surface.
+Solon AI (v4.0.3) answers that with the Gateway Talent trio in solon-ai-talent-gateway:
+
+
+
+Talent
+Source of tools
+Unit of management
+
+
+
+
+OpenApiGatewayTalent
+OpenAPI / Swagger docs
+one API source
+
+
+
+ToolGatewayTalent
+local / MCP FunctionTools
+one tool, runtime add/remove
+
+
+McpGatewayTalent
+MCP client connections
+one MCP server, plus allow/deny lists
+
+
+
+All three share the same four-stage adaptive discovery model. Small catalogs stay fully expanded. Large catalogs fold into summary → name list → search, so the LLM only pays for what it needs.
+This article sticks to off…]]></summary>
+        <author>
+            <name>Solon Framework</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a site with 150+ browser-only dev tools (Astro + Vue 3 + TypeScript) — here's how it's put together]]></title>
+        <id>https://dev.to/mi8bi/i-built-a-site-with-150-browser-only-dev-tools-astro-vue-3-typescript-heres-how-its-put-52l2</id>
+        <link href="https://dev.to/mi8bi/i-built-a-site-with-150-browser-only-dev-tools-astro-vue-3-typescript-heres-how-its-put-52l2"/>
+        <updated>2026-07-19T23:24:09.000Z</updated>
+        <summary type="html"><![CDATA[What this is
+
+
+Torinoa Tools is a side project I've been building solo: 152 developer utilities — Base64 conversion, JSON formatting, a regex tester, subnet calculators, AES encrypt/decrypt, and more — all in one site, all running entirely client-side.
+No server processing — input never leaves the browser
+Bilingual (Japanese/English) via Astro Content Collections
+Static site built with Astro + Vue 3 + TypeScript, also distributed as a Docker image
+Instead of a feature tour, this post is about a few implementation details I think are worth sharing: a build-time architecture fix, a Web Crypto–only encryption tool, and a small VLSM subnetting algorithm.
+Early on, all 143 tools shared a single dynamic route, pages/tools/[slug].astro, and a "switchboard" component (ToolWidget.astro) statically …]]></summary>
+        <author>
+            <name>mi8bi</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Optimizing RAG at Scale: Chunking, Retrieval, and the Bayesian Search That Cut Latency 40%]]></title>
+        <id>https://dev.to/imus_d7584cbc8ee9b0336256/optimizing-rag-at-scale-chunking-retrieval-and-the-bayesian-search-that-cut-latency-40-3hg1</id>
+        <link href="https://dev.to/imus_d7584cbc8ee9b0336256/optimizing-rag-at-scale-chunking-retrieval-and-the-bayesian-search-that-cut-latency-40-3hg1"/>
+        <updated>2026-07-19T23:21:55.000Z</updated>
+        <summary type="html"><![CDATA[Optimizing RAG at Scale: Chunking, Retrieval, and the Bayesian Search That Cut Latency 40%
+
+
+How we moved from "semantic search + hope" to a measured, tunable retrieval pipeline with 95% recall@10
+Everyone ships RAG the same way: chunk by 512 tokens, embed with text-embedding-3-small, top-k=5, stuff into context. It works for demos.
+Then you hit production:
+Legal contracts: 512 tokens splits clauses mid-sentence
+API docs: 1000-token chunks drown signal in noise
+Customer tickets: Conversational context needs overlap, not fixed windows
+Latency: 500ms embedding + 200ms vector search + 300ms LLM = 1s+ per query
+We rebuilt our retrieval layer from first principles. Here's what actually moves metrics.
+# rag/chunking.py
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+
+@datac…]]></summary>
+        <author>
+            <name>Imus</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building Production-Grade LLM Evaluation Pipelines: From Vibes to Metrics]]></title>
+        <id>https://dev.to/imus_d7584cbc8ee9b0336256/building-production-grade-llm-evaluation-pipelines-from-vibes-to-metrics-3n92</id>
+        <link href="https://dev.to/imus_d7584cbc8ee9b0336256/building-production-grade-llm-evaluation-pipelines-from-vibes-to-metrics-3n92"/>
+        <updated>2026-07-19T23:21:54.000Z</updated>
+        <summary type="html"><![CDATA[Building Production-Grade LLM Evaluation Pipelines: From Vibes to Metrics
+
+
+How we replaced "looks good to me" with automated evaluation catching 92% of hallucinations before deployment
+Three months ago, our team shipped a RAG-based customer support assistant. It worked great in testing — we'd ask it questions, read the answers, and say "yeah, that looks right."
+Then it hit production.
+A customer asked about their billing cycle. The assistant confidently cited a policy that didn't exist. Another asked about API rate limits and got numbers from a competitor's documentation. By the time we caught it, 500+ users had seen hallucinated responses.
+The post-mortem was brutal: we had zero automated evaluation. Our test process was literally "ask 5 questions, read answers, thumbs up."
+Academic benc…]]></summary>
+        <author>
+            <name>Imus</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Your First Oracle Autonomous Database on OCI Always Free]]></title>
+        <id>https://dev.to/uptimearchitect/your-first-oracle-autonomous-database-on-oci-always-free-554b</id>
+        <link href="https://dev.to/uptimearchitect/your-first-oracle-autonomous-database-on-oci-always-free-554b"/>
+        <updated>2026-07-19T23:19:31.000Z</updated>
+        <summary type="html"><![CDATA[The single best way to keep your Oracle skills sharp without a license, a server, or a finance
+OCI Always Free. It gives you a real, fully managed Oracle database — Autonomous
+23ai release — that stays free indefinitely. It's the ideal sandbox: a
+Here's how to stand one up in a few minutes, what's genuinely worth doing with it, and the one catch that
+personal OCI accoun, never an employer's tenancy.
+The short version. Sign up at oracle.com/cloud/free, create an Autonomous Database with the Always Free toggle on, and connect through the browser via Database Actions → SQL — no client install. You get a real, managed Oracle 23ai database with AI Vector Search included, free forever. The one catch: it stops after 7 days of inactivity and is reclaimed after ~90 days stopped, so log in occasiona…]]></summary>
+        <author>
+            <name>Uptime Architect</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A Stop Hook Is an Event, Not a Dashboard]]></title>
+        <id>https://dev.to/agentis/a-stop-hook-is-an-event-not-a-dashboard-f2n</id>
+        <link href="https://dev.to/agentis/a-stop-hook-is-an-event-not-a-dashboard-f2n"/>
+        <updated>2026-07-19T23:13:59.000Z</updated>
+        <summary type="html"><![CDATA[Claude Code hooks and persistent session monitoring are often compared as if they were two implementations of the same feature.
+They are not.
+A hook answers: “Which lifecycle event just happened, and what should run because of it?”
+A monitor answers: “Across the sessions that exist now, which one is running, waiting, blocked, completed, stalled, or inactive?”
+The difference becomes obvious after a restart, a missed event, or a second simultaneous session.
+Claude Code documents session-level, turn-level, tool-level, permission, notification, subagent, task, compaction, and elicitation events. That makes hooks a good fit for deterministic local automation:
+check a policy before a tool executes;
+write a structured event at a known lifecycle point;
+run a formatter or test after a successful to…]]></summary>
+        <author>
+            <name>Agent Island</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Content Pipeline Nobody Talks About: What Happens After AI Generates the Draft]]></title>
+        <id>https://dev.to/__d34ca/the-content-pipeline-nobody-talks-about-what-happens-after-ai-generates-the-draft-b9h</id>
+        <link href="https://dev.to/__d34ca/the-content-pipeline-nobody-talks-about-what-happens-after-ai-generates-the-draft-b9h"/>
+        <updated>2026-07-19T23:12:49.000Z</updated>
+        <summary type="html"><![CDATA[A lot of AI-content discourse stops at "generate the text." That's actually the easy part now. The interesting engineering problem is everything after it.
+The gap most teams miss: generation is a solved problem. The pipeline around it usually isn't — metadata gets filled inconsistently, images get sourced manually, publishing schedules slip because someone forgot to hit publish.
+Where the real time savings live: not in the writing itself, but in closing the loop between draft and published, reviewed content. If your team is still copy-pasting AI output between a chat window and a CMS, you're doing manual work in exactly the spot automation is cheapest and easiest to build.
+Where you shouldn't automate: the review gate. Whatever your pipeline looks like, keep one deliberate human checkpoint — fact-checking and adding real expertise — before anything goes live. That's the step that actually determines whether content performs, not how it was drafted.
+If you're building internal tooling around this, the ROI order is usually: automate the plumbing first (formatting, scheduling, metadata), automate generation second, and never automate the judgment call at the end.]]></summary>
+        <author>
+            <name>Алексей Невостребов</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Seven States Your Coding-Agent Monitor Must Not Confuse]]></title>
+        <id>https://dev.to/agentis/seven-states-your-coding-agent-monitor-must-not-confuse-2203</id>
+        <link href="https://dev.to/agentis/seven-states-your-coding-agent-monitor-must-not-confuse-2203"/>
+        <updated>2026-07-19T23:12:32.000Z</updated>
+        <summary type="html"><![CDATA[A process is alive. A transcript changed. A stop hook fired. A permission prompt appeared.
+Those are observations, not session states.
+If a developer tool turns each signal directly into a badge, it will eventually report a completed turn as still waiting, a quiet task as successful, or a bookkeeping write as fresh work. A more reliable monitor separates evidence from the time-bounded conclusion shown to the user.
+The unit of observation should be a single local session or thread. A provider badge can summarize several threads later, but it should not erase their identities.
+Every observation needs at least:
+a provider;
+a stable session key;
+an observation time;
+the newest relevant semantic activity time.
+This is an operational model. It does not claim that generated code is correct or tha…]]></summary>
+        <author>
+            <name>Agent Island</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Satoshi Missed the One Paper That Mattered. So Much for the Lone Genius.]]></title>
+        <id>https://dev.to/bitcoin_devto/satoshi-missed-the-one-paper-that-mattered-so-much-for-the-lone-genius-9an</id>
+        <link href="https://dev.to/bitcoin_devto/satoshi-missed-the-one-paper-that-mattered-so-much-for-the-lone-genius-9an"/>
+        <updated>2026-07-19T23:07:49.000Z</updated>
+        <summary type="html"><![CDATA[Written by Dex Calloway, resident contrarian at Bitcoin Institute.
+Hot take: the ex-nihilo Satoshi — the solitary oracle who sat down, surveyed the entire field, and wrote the definitive answer in one uninterrupted flash of genius — never existed. That version of the story is fan fiction. The real one, sitting in his own mailbox, is messier and honestly more interesting.
+Here's the timeline nobody wants to sit with. Satoshi's own accounting puts the start of the work around 2007. By August 2008 — more than a year into writing the code — he still hadn't read the one proposal that sat closest to what he was building: Wei Dai's b-money.
+On August 20, 2008, Satoshi emailed Adam Back to nail down the correct citation for Hashcash — proof he already knew and was actively using Back's work. One d…]]></summary>
+        <author>
+            <name>bitcoin_devto</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building AI Agents That Don't Hallucinate: Structured Workflows, Guardrails, and Per-Step Evaluation]]></title>
+        <id>https://dev.to/imus_d7584cbc8ee9b0336256/building-ai-agents-that-dont-hallucinate-structured-workflows-guardrails-and-per-step-evaluation-2jl2</id>
+        <link href="https://dev.to/imus_d7584cbc8ee9b0336256/building-ai-agents-that-dont-hallucinate-structured-workflows-guardrails-and-per-step-evaluation-2jl2"/>
+        <updated>2026-07-19T23:07:12.000Z</updated>
+        <summary type="html"><![CDATA[Building AI Agents That Don't Hallucinate: Structured Workflows, Guardrails, and Per-Step Evaluation
+
+
+How we replaced fragile prompt chains with typed schemas, validation gates, and evaluation at every step — 94% task success vs 60% baseline
+January 2024. We built a "research agent" — 12 prompts chained together:
+Decompose question → 2. Search planning → 3. Execute searches → 4. Extract facts → 5. Synthesize → 6. Fact-check → 7. Format → ...
+It worked 60% of the time. The other 40%:
+Step 3 returned malformed JSON → Step 4 crashed
+Step 5 hallucinated citations → Step 6 missed it
+Step 7 output wrong format → Downstream consumer failed
+No visibility into which step failed
+Debugging meant reading 12 LLM calls' worth of logs. Adding a step broke three others.
+We moved from prompt chains to str…]]></summary>
+        <author>
+            <name>Imus</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Detecting AI Agent Behavioral Drift with OpenTelemetry and SigNoz]]></title>
         <id>https://dev.to/codewithveek/detecting-ai-agent-behavioral-drift-with-opentelemetry-and-signoz-3d98</id>
@@ -260,6 +505,16 @@ Academic benc…]]></summary>
         <id>https://github.com/Pedroshakoor/grok-build-ios</id>
         <link href="https://github.com/Pedroshakoor/grok-build-ios"/>
         <updated>2026-07-19T21:51:26.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Biggest Probabilistic Computer Turns Noise into Answers]]></title>
+        <id>https://spectrum.ieee.org/biggest-probabilistic-computer</id>
+        <link href="https://spectrum.ieee.org/biggest-probabilistic-computer"/>
+        <updated>2026-07-19T21:42:12.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -538,6 +793,16 @@ transparent about cost and evidence quality?]]></summary>
         <id>https://raymii.org/s/blog/Intel_Itanium_IA-64-Emulator_that_boots_Windows.html</id>
         <link href="https://raymii.org/s/blog/Intel_Itanium_IA-64-Emulator_that_boots_Windows.html"/>
         <updated>2026-07-19T20:50:42.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Americans are angry about data centers. Politicians are feeling the pressure]]></title>
+        <id>https://www.reuters.com/world/us/americans-are-angry-about-data-centers-politicians-are-feeling-pressure-2026-07-16/</id>
+        <link href="https://www.reuters.com/world/us/americans-are-angry-about-data-centers-politicians-are-feeling-pressure-2026-07-16/"/>
+        <updated>2026-07-19T20:50:07.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -16055,6 +16320,16 @@ The reason is simple: Benchmarking on the edge is fundamentally different from b
 In the cloud, you operate in a world of predictable, homogeneous hardware where performance is a linear function of compute availability. On Android, you are operating in a "fragmented ecosystem of constraints." You aren't just measuring how fast a model runs; you are measu…]]></summary>
         <author>
             <name>Programming Central</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ise Jingu and the Pyramid of Enabling Technologies (2021)]]></title>
+        <id>https://www.scopeofwork.net/ise-jingu-and-the-pyramid-of-enabling-technologies/</id>
+        <link href="https://www.scopeofwork.net/ise-jingu-and-the-pyramid-of-enabling-technologies/"/>
+        <updated>2026-07-15T19:59:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -51922,212 +52197,6 @@ That's not a rhetorical scare tactic — it's a genuine architectural question t
         <id>https://www.acc.org/about-acc/press-releases/2025/03/17/15/35/cannabis-users-face-substantially-higher-risk</id>
         <link href="https://www.acc.org/about-acc/press-releases/2025/03/17/15/35/cannabis-users-face-substantially-higher-risk"/>
         <updated>2026-07-05T11:59:27.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Introduction to Compilers and Language Design]]></title>
-        <id>https://dthain.github.io/books/compiler/</id>
-        <link href="https://dthain.github.io/books/compiler/"/>
-        <updated>2026-07-05T11:54:16.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[EU Council forces Chat Control via fast-track]]></title>
-        <id>https://www.heise.de/en/news/Chat-Control-1-0-EU-Council-forces-messenger-scans-via-fast-track-11353659.html</id>
-        <link href="https://www.heise.de/en/news/Chat-Control-1-0-EU-Council-forces-messenger-scans-via-fast-track-11353659.html"/>
-        <updated>2026-07-05T11:44:04.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Spain's cadastre API is SOAP from 2003, so I built a JSON wrapper (+MCP)]]></title>
-        <id>https://prediohq.com/</id>
-        <link href="https://prediohq.com/"/>
-        <updated>2026-07-05T11:30:14.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[MOF Officially Approves Budi Diesel Monthly Quota Increase To 300 Litres]]></title>
-        <id>https://www.lowyat.net/?p=397713</id>
-        <link href="https://www.lowyat.net/2026/397713/mof-budi-diesel-300-litres-quota/"/>
-        <updated>2026-07-05T11:11:49.000Z</updated>
-        <summary type="html"><![CDATA[The Ministry of Finance (MOF) has announced that nearly 200,000 owners of diesel-powered pick-up trucks and jeep-type vehicles have been approved for an additional 100 litres of subsidised diesel per month under the Budi Madani Diesel (Budi Diesel) programme. Beginning this month, their monthly allocation has increased from 200 litres to 300 litres. The announcement […]
-The post MOF Officially Approves Budi Diesel Monthly Quota Increase To 300 Litres appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Context Mode Review 2026 — The Missing Half of the AI Agent Context Problem]]></title>
-        <id>https://dev.to/yihui_zhang_d783406caddd7/context-mode-review-2026-the-missing-half-of-the-ai-agent-context-problem-9g3</id>
-        <link href="https://dev.to/yihui_zhang_d783406caddd7/context-mode-review-2026-the-missing-half-of-the-ai-agent-context-problem-9g3"/>
-        <updated>2026-07-05T11:05:00.000Z</updated>
-        <summary type="html"><![CDATA[TL;DR
-
-
-Context Mode is an open-source MCP-based context management system. It doesn't compress tokens after they bloat your context — it prevents bloat before it starts. Tested: 315KB Playwright snapshots reduced to 5.4KB (98% reduction).
-Every AI agent developer knows this: your agent runs a browser tool, dumps a 300KB DOM snapshot into context, and suddenly your $200/month token budget evaporates. Compression tools like Headroom help after the fact. Context Mode stops it at the source.
-Sandboxed tool execution — intercepts output, strips structural noise
-Session continuity — SQLite FTS5, context survives restarts
-Code-thinking paradigm — one batch query instead of 47 individual Read() calls
-Non-intervention routing — controls input without modifying model tone
-
-
-
-Scenario
-Raw Output
-After
-Savings
-
-
-
-
-Code search (100 results)
-17,765 chars
-1,408
-92%
-
-
-Playwright page snapshot
-315,000 chars
-5,400
-98%
-
-
-
-They don't overlap. They layer:
-Headroom → passive compression proxy
-tokdiet → CLI transport savings
-Context Mode → behavioral orchestration + session persistence
-Stack all three for maximum savings.
-Full review with installation guide, platform comparison table, and team deployment setup: ToolGenix]]></summary>
-        <author>
-            <name>yihui zhang</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop letting AI agents click the expensive buttons]]></title>
-        <id>https://dev.to/sphillips1337/stop-letting-ai-agents-click-the-expensive-buttons-247f</id>
-        <link href="https://dev.to/sphillips1337/stop-letting-ai-agents-click-the-expensive-buttons-247f"/>
-        <updated>2026-07-05T11:04:58.000Z</updated>
-        <summary type="html"><![CDATA[A small business does not usually need a fully autonomous AI employee.
-It needs something less glamorous and much more useful: an agent that can prepare the work, explain its reasoning, show the exact action it wants to take, and then stop before it does anything expensive, public, or hard to undo.
-That sounds conservative until you watch an agent connected to real tools. Reading a calendar is harmless. Drafting a reply is useful. Sending that reply to a customer is different. Looking up an invoice is helpful. Issuing a refund, changing a price, publishing a blog post, deleting a record, or promising a delivery date is where the risk changes shape.
-This is the line small teams should design around.
-The current agent conversation is finally moving past "can it call tools?" and toward "which…]]></summary>
-        <author>
-            <name>Stephen Phillips</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Solana's Throughput Advantage: What It Actually Means for AI Agent Development]]></title>
-        <id>https://dev.to/claudia-ve/solanas-throughput-advantage-what-it-actually-means-for-ai-agent-development-1if3</id>
-        <link href="https://dev.to/claudia-ve/solanas-throughput-advantage-what-it-actually-means-for-ai-agent-development-1if3"/>
-        <updated>2026-07-05T11:02:36.000Z</updated>
-        <summary type="html"><![CDATA[TL;DR: Solana isn't just fast — its architecture fundamentally changes what's possible for on-chain AI agents. Here's why that matters for developers building autonomous systems.
-Every AI agent on a blockchain has the same problem: it needs to think and execute within the constraints of the chain.
-On Ethereum or most EVM chains, that means:
-~15 TPS throughput
-12-second finality windows
-Rising gas costs during congestion
-Sequential execution — one transaction at a time
-These aren't just performance numbers. They translate directly into design tradeoffs:
-Your agent can't react to market moves faster than a block
-Complex multi-step strategies cost too much gas to be profitable
-Parallel agent instances compete for the same block space
-This is why most "on-chain AI agents" today are actually of…]]></summary>
-        <author>
-            <name>Claudia</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[[AI in Action] Refining a macOS Meeting Translation App with Claude Code: Auto-reconnect, Floating Captions, and Meeting Minutes Export Evolution]]></title>
-        <id>https://dev.to/gde/ai-in-action-refining-a-macos-meeting-translation-app-with-claude-code-auto-reconnect-floating-2856</id>
-        <link href="https://dev.to/gde/ai-in-action-refining-a-macos-meeting-translation-app-with-claude-code-auto-reconnect-floating-2856"/>
-        <updated>2026-07-05T11:00:46.000Z</updated>
-        <summary type="html"><![CDATA[In the previous article, we used AGY CLI (Antigravity) to build a macOS real-time meeting translation App from scratch: capturing audio from Zoom / Google Meet via ScreenCaptureKit, sending it to the Gemini Live API for real-time translation, and displaying Traditional Chinese bilingual subtitles in the App window.
-After the App went live, the developer discovered several issues during actual meetings that raised eyebrows, while also coming up with more functional ideas. This time, we switched to Anthropic's Claude Code to start the second round of deep polishing in the terminal.
-The following records the complete dialogue flow of this collaboration, restoring every key decision point.
-The App seemed to work perfectly, but the developer returned with a question after a real, long meeting:
-…]]></summary>
-        <author>
-            <name>Evan Lin</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop Building Chatbots: Moving Toward Agentic Content Workflows]]></title>
-        <id>https://dev.to/ntty/stop-building-chatbots-moving-toward-agentic-content-workflows-48ie</id>
-        <link href="https://dev.to/ntty/stop-building-chatbots-moving-toward-agentic-content-workflows-48ie"/>
-        <updated>2026-07-05T11:00:31.000Z</updated>
-        <summary type="html"><![CDATA[Most developers start their AI journey by building a wrapper around a prompt. You send a request, you get a response, and you hope it is correct. This is a linear workflow. It works for simple tasks, but it falls apart when you try to produce high-quality technical documentation or SEO-driven content.
-When I first tried to automate our blog's technical deep-dives, I used a massive prompt. I told the LLM to "be an expert engineer, use a professional tone, and include code examples." The result was generic fluff. It looked like a marketing brochure because the LLM was trying to guess the right answer in one shot.
-To fix this, you need to move from a prompt to an agentic workflow. This means moving from a single call to a loop of planning, executing, and critiquing.
-Linear prompts suffer from…]]></summary>
-        <author>
-            <name>Ntty</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Send My Clone]]></title>
-        <id>https://dev.to/rawveg/send-my-clone-4cl9</id>
-        <link href="https://dev.to/rawveg/send-my-clone-4cl9"/>
-        <updated>2026-07-05T11:00:00.000Z</updated>
-        <summary type="html"><![CDATA[In May 2025, something quietly extraordinary happened during Klarna's quarterly earnings call. Sebastian Siemiatkowski, the fintech company's co-founder and chief executive, appeared on screen to walk investors through the numbers. He looked like Siemiatkowski. He sounded like Siemiatkowski. But within seconds, the figure on screen confessed: it was not Siemiatkowski at all. It was an AI-generated avatar, trained on the CEO's likeness and voice, delivering the company's financial highlights while the real Siemiatkowski was elsewhere. The avatar did not blink quite as often as a human would, and the voice synchronisation was good but not flawless. Still, the message was clear: the era of sending your digital double to do your talking has arrived.
-A day later, Zoom's own chief executive, Eri…]]></summary>
-        <author>
-            <name>Tim Green</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop running a JVM just to mock an API in your CI pipeline]]></title>
-        <id>https://dev.to/amazia_gur_fd339831499743/stop-running-a-jvm-just-to-mock-an-api-in-your-ci-pipeline-44i4</id>
-        <link href="https://dev.to/amazia_gur_fd339831499743/stop-running-a-jvm-just-to-mock-an-api-in-your-ci-pipeline-44i4"/>
-        <updated>2026-07-05T10:55:21.000Z</updated>
-        <summary type="html"><![CDATA[If you've set up WireMock in a CI pipeline before, you know the pattern: pull a Docker image with a full JVM in it, wait for it to boot, configure stubs via a REST API or a pile of JSON files, then tear it down. For a Python project, that's a second language runtime in your pipeline purely to answer GET /users with a canned response.
-Mimicker is a Python-native alternative. It's a plain pip install, it starts in-process or via a one-line CLI call, and it has no JVM, no native dependencies, and no heavy runtime — just two small pure-Python libraries (PyYAML for config, colorlog for output).
-from mimicker.mimicker import mimicker, get
-
-mimicker(8080).routes(
-    get("/hello").body({"message": "Hello, World!"}).status(200)
-)
-
-That's a running mock server on port 8080. No config file, no separ…]]></summary>
-        <author>
-            <name>Amazia Gur</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI Dev: API Gateways & Clean Code]]></title>
-        <id>https://dev.to/rachit_vig2003/ai-dev-api-gateways-clean-code-1o2b</id>
-        <link href="https://dev.to/rachit_vig2003/ai-dev-api-gateways-clean-code-1o2b"/>
-        <updated>2026-07-05T10:51:20.000Z</updated>
-        <summary type="html"><![CDATA[Building AI products today is fast, exciting, and full of hype. But moving a cool demo from a local laptop to a production environment that supports thousands of users is a whole different ball game. 
-After spending a lot of time breaking down AI agent integrations and cloud setups, I’ve noticed two massive traps that developers and startups constantly fall into. 
-Let's talk about them honestly.
-When most people start building an AI application, their code usually looks like this: a simple frontend that makes a direct call to a single third-party LLM provider (like OpenAI or Anthropic). 
-It works beautifully on Day 1. But relying on just one external API for your entire product is an architectural illusion. 
-Here is what happens in the real world:
-Rate Limits & Downtime: What happens when …]]></summary>
-        <author>
-            <name>Rachit vig</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Pi square is nearly 10]]></title>
-        <id>https://mihai.page/pi-square-is-10/</id>
-        <link href="https://mihai.page/pi-square-is-10/"/>
-        <updated>2026-07-05T10:50:53.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
