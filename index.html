@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-07-19 datetime="2026-07-19T11:47:43.000Z">2026-07-19</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-07-19 datetime="2026-07-19T11:47:43.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-07-19 datetime="2026-07-19T13:13:59.000Z">2026-07-19</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-07-19 datetime="2026-07-19T13:13:59.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,411 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/hchsu/argo-workflows-14615-3koo"
+                        open
+                      >
+                        <summary class="article-expander__title">argo-workflows #14615</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/hchsu/argo-workflows-14615-3koo">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F17mwl8gdlmtajc3s1bd7.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>解析 #14615 這個 issue: Workflow 用 spec.workflowTemplateRef 指向一個還不存在或 informer cache 還沒同步到的 WorkflowTemplate 時，controller 直接呈現最終 Error 的狀態。
+xyz-init-workflow   Error    2m3s   workflowtemplates.argoproj.io &quot;xyz-workflow-template&quot; not found
+
+User 在 issue 中有提到的細節內容:
+This is because the workflow is deployed before the workflowtemplate. But even if we deploy it in the correct order, ArgoWF actually takes some time to process the workflowtemplate and know about it. 
+而且 User 直覺的表示是「retryStrategy 邏輯壞了」，因為配置的 retryStrategy 完全沒有觸發:
+Naturally, the retryStrategy should make the workflow retry in such scenarios. But it doesn&#x27;t do retries.
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  name: xyz-init-workflow
+spec:
+  workflowTemplateRef:
+    name: xyz-workflow-template
+  retryStrategy:
+    lim…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/wszgrcy/angular-selectorless-support-1gai"
+                        open
+                      >
+                        <summary class="article-expander__title">Angular Selectorless Support</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/wszgrcy/angular-selectorless-support-1gai">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fp69gdpq9ou2uviynf4uf.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Preface
+
+
+
+Recently, while implementing the Angular adapter for opentui, the special mechanism of opentui made it necessary to rewrite the renderer. This led to the discovery that virtual nodes can reduce the rendering of custom component tags. Therefore, I attempted to extract this approach for standalone use in the browser.
+Install @cyia/ngx-common/service
+
+Configuration
+
+
+
+
+import { ApplicationConfig, provideBrowserGlobalErrorListeners, RendererFactory2 } from &#x27;@angular/core&#x27;;
+import { provideRouter } from &#x27;@angular/router&#x27;;
+
+import { routes } from &#x27;./app.routes&#x27;;
+import { DomRendererFactory2 } from &#x27;@cyia/ngx-common/service&#x27;;
+export const appConfig: ApplicationConfig &#x3D; {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes),
+    // Add this configuration
+    { provide: RendererFactory2, useClass: DomRendererFactory2 },
+  ],
+};
+
+Implementing styles inside components is forbidden, because styles require an outermost element with attributes to define the scope, while selectorless components have no outermost element.
+Elements must be manually marked as selectorless because the implementation operates at the application layer, and element rendering is decoupled from component binding, so manual specification is required.
+
+
+
+
+import { selectorlessExcludeTag } from &#x27;@cyia/ngx-common/service&#x27;;
+selectorlessExcludeTag(&#x27;app-t1&#x27;);
+
+Directives that bind to and manipulate the DOM cannot be implemented. Normal directive binding still works, but if a directive internally performs operations that involve obtaining an ElementRef, they cannot be realized.
+cyia-ngx-common</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/jsdevspace/i-built-a-chrome-extension-that-reads-ai-usage-limits-and-mv3-cookies-nearly-broke-me-3fce"
+                        open
+                      >
+                        <summary class="article-expander__title">I built a Chrome extension that reads AI usage limits, and MV3 cookies nearly broke me</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/jsdevspace/i-built-a-chrome-extension-that-reads-ai-usage-limits-and-mv3-cookies-nearly-broke-me-3fce">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6x8l3fdr8zlkyjpdyvdv.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I use six AI tools every day. Claude, ChatGPT, Codex, Cursor, Grok, Perplexity. Each one has limits, and each one hides them somewhere different. So I built a Chrome extension to pull all of it into one view.
+The idea was trivial. The implementation taught me three things about Manifest V3 that I wish someone had put in a blog post. So here is that post.
+The extension is called AI Karma Tracker. This is not a sales pitch, it is a build log. The link is at the bottom if you want it.
+My first mental model was simple. A service worker wakes up on an alarm, fetches each provider&#x27;s usage endpoint, parses the JSON, updates storage. Clean, centralized, easy to test.
+Here is roughly what I wrote:
+// background.ts (the version that did not work)
+async function pollCursor() {
+  const res &#x3D; await fet…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/booyaka101/reading-a-rust-crates-capabilities-out-of-its-compiled-symbols-58pb"
+                        open
+                      >
+                        <summary class="article-expander__title">Reading a Rust crate&#x27;s capabilities out of its compiled symbols</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/booyaka101/reading-a-rust-crates-capabilities-out-of-its-compiled-symbols-58pb">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fx0v7883xeeooq9wcac5f.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Cargo tells you once_cell 1.19.0 → 1.20.2. It doesn&#x27;t tell you whether the new
+I kept chewing on this after xz. Not the specific attack so much as its shape: the
+do?
+You can get further than I expected just by reading what the compiler emits.
+Rust&#x27;s v0 symbol mangling demangles back to real paths. Build a crate, look at
+RUSTFLAGS&#x3D;&quot;-C symbol-mangling-version&#x3D;v0&quot; cargo build --release
+nm target/release/deps/libnetcap-*.rlib \
+  | awk &#x27;{print $NF}&#x27; | grep &#x27;^_R&#x27; | rustfilt | sort -u
+
+For a crate that opens a socket and spawns a process, some of what falls out:
+::spawn
+::connect::inner
+::to_socket_addrs
+
+My first cut used nm --defined-only, and it found nothing. Took me longer than
+…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/zhihu_wu_dea1d82af01a04d7/stop-using-password123-a-developers-guide-to-strong-passwords-1on1"
+                        open
+                      >
+                        <summary class="article-expander__title">Stop Using &#x27;password123&#x27;: A Developer&#x27;s Guide to Strong Passwords</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/zhihu_wu_dea1d82af01a04d7/stop-using-password123-a-developers-guide-to-strong-passwords-1on1">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fyz86by5fotkf62jnfopz.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Every developer knows the drill: create an account, type a &quot;temporary&quot; password, and promise to change it later. Months go by, and that password — often something painfully predictable — is still protecting your production database, your CI/CD pipeline, or your cloud console.
+Let&#x27;s fix that. Here&#x27;s what actually makes a password strong, and how to generate one you can trust.
+People obsess over adding symbols and uppercase letters, but length is the single biggest factor in password strength. A 16-character all-lowercase password takes centuries to brute-force with today&#x27;s hardware. An 8-character password with symbols takes hours.
+Every additional character multiplies the search space exponentially. A 12-character password using only lowercase letters has 26¹² ≈ 95 quadrillion combinations…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/baolin_tikool_43da6f2b56f/orchestrating-16-cursor-subagents-in-a-single-session-what-actually-stuck-546m"
+                        open
+                      >
+                        <summary class="article-expander__title">Orchestrating 16 Cursor subagents in a single session — what actually stuck</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/baolin_tikool_43da6f2b56f/orchestrating-16-cursor-subagents-in-a-single-session-what-actually-stuck-546m">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fmgbwsx93ludwhuhv0rck.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I did a count that afternoon. From 2pm to 8pm — six hours — I opened 16 subagents in Cursor. Four waves of four each, all running in parallel. Combined output: about 500 KB of documentation, roughly the size of a novella.
+On the product side, a Cloudflare Worker upgraded from Stripe-only to Stripe + Creem parallel checkout. Four real products live in production. All 12 webhook event types verified end-to-end.
+I did all of this by myself. But I didn&#x27;t do it alone.
+Cursor (also Claude Code, Cline, Aider) can spawn subagents from a main agent. Each subagent gets an independent task prompt, independent context window, independent model instance. It can call tools, read files, write files.
+When done, it returns the result to the main agent, which integrates.
+The critical property is parallelism…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;10
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/baolin_tikool_43da6f2b56f/sending-gmail-from-behind-chinas-great-firewall-six-attempts-that-failed-1khf"
+                        open
+                      >
+                        <summary class="article-expander__title">Sending Gmail from behind China&#x27;s Great Firewall — six attempts that failed</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/baolin_tikool_43da6f2b56f/sending-gmail-from-behind-chinas-great-firewall-six-attempts-that-failed-1khf">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F4nzgxsknkvxzuq5m0v91.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Last night I needed to send one email to support@creem.io from Guangzhou, China. Simple email — 15 minutes to draft. Sending it took over an hour.
+Here&#x27;s what I learned about the six most common ways to send Gmail from mainland China programmatically, and what finally worked.
+Habitual first try — Python smtplib with the Gmail app password:
+import smtplib, ssl
+s &#x3D; smtplib.SMTP_SSL(&#x27;smtp.gmail.com&#x27;, 465, context&#x3D;ssl.create_default_context())
+s.login(user, app_password)
+s.send_message(msg)
+
+ssl.SSLEOFError: EOF occurred in violation of protocol
+Switched to 587 STARTTLS. SMTPServerDisconnected: Connection unexpectedly closed.
+Not surprising. China Telecom / China Unicom / China Mobile backbone routers have been doing deep packet inspection on smtp.gmail.com for years across all three SMTP port…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/andr_diasmoreiraprol_b/advanced-prompt-engineering-techniques-that-transform-ai-response-quality-47m6"
+                        open
+                      >
+                        <summary class="article-expander__title">Advanced Prompt Engineering: Techniques That Transform AI Response Quality</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/andr_diasmoreiraprol_b/advanced-prompt-engineering-techniques-that-transform-ai-response-quality-47m6">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6wk5g0tptc1spiz3mo80.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>After two decades leading technology teams and, more recently, integrating AI into blockchain forensics workflows, I&#x27;ve noticed something counterintuitive: the gap between a mediocre AI output and a brilliant one rarely lies in the model itself. It lies in how we talk to it. The same GPT-4 or Claude instance can produce vague generalities or surgical precision—the difference is engineering.
+Let me share the techniques that have measurably transformed response quality in my own projects, from tokenization audits on Stellar to automated incident reports.
+The single biggest quality lever I&#x27;ve found is treating the prompt as a data structure, not a sentence. Models respond dramatically better when context is compartmentalized with explicit delimiters.
+In one Soroban smart contract review pipel…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/secondlastsleep/removing-duplicates-from-a-integer-list-easy-leetcode-practice-7-35l6"
+                        open
+                      >
+                        <summary class="article-expander__title">Removing Duplicates from a integer list (Easy) | LeetCode Practice #7</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/secondlastsleep/removing-duplicates-from-a-integer-list-easy-leetcode-practice-7-35l6">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fnlv0pxt5zuppbi79g19w.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Remove Duplicates From Sorted Array
+
+
+
+Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Consider the number of unique elements in nums to be k​​​​​​​​​​​​​​. After removing duplicates, return the number of unique elements k.
+The first k elements of nums should contain the unique numbers in sorted order. The remaining elements beyond index k - 1 can be ignored.
+####Pop Elements(Runtime: 57ms, Memory: 13MB)
+    #DECLARE nums: ARRAY of INTEGER
+class Solution(object):
+    def removeDuplicates(self, nums):
+        i &#x3D; 1
+        while i &lt; len(nums):
+            if nums[i] &#x3D;&#x3D; nums[i-1]:
+                nums.pop(i)
+            else:
+                i +&#x3D; 1
+        return len(nums)
+
+
+
+####Insert to Head(Runtime: 7ms, Memory: 13.7MB)
+    #DECLARE nums: ARRAY of INTEGER
+class Solution(object):
+    def removeDuplicates(self, nums):
+        head_pointer &#x3D; 1
+        for i in range(1, len(nums)):
+            if nums[i] !&#x3D; nums[i-1]:
+                nums[head_pointer] &#x3D; nums[i]
+                head_pointer +&#x3D; 1
+        return head_pointer
+
+The question is simple. The only catch: we need to accept that the array can become messy, because after moving the unique elements to the front, anything after index k will be unorganized. However, since the question already states that &quot;anything beyond index k-1 will not be considered&quot;, I think LeetCode is hinting at this approach.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/neolle/from-a-simple-javascript-calculator-to-a-useful-real-world-tool-16jn"
+                        open
+                      >
+                        <summary class="article-expander__title">From a Simple JavaScript Calculator to a Useful Real-World Tool</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/neolle/from-a-simple-javascript-calculator-to-a-useful-real-world-tool-16jn">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fttn84bksqlymcbw39j4k.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Most developers build a calculator while learning JavaScript.
+The first version usually accepts two numbers, performs an operation, and displays the result. That is useful for practising functions, events, and DOM manipulation.
+But what changes when a calculator is expected to solve a real problem?
+A practical calculator needs more than arithmetic. It must also deal with:
+clear and validated inputs
+incomplete or invalid data
+rules that change according to the user’s circumstances
+partial periods
+calculation limits
+an understandable result breakdown
+links to reliable sources
+A useful example is a UAE end-of-service gratuity calculator.
+For a standard mainland private-sector calculation, the tool may need the employee’s basic monthly salary, employment dates and unpaid-leave period.
+A simpli…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/abdulm/i-built-a-fully-autonomous-ai-reverse-engineering-agent-in-go-257k"
+                        open
+                      >
+                        <summary class="article-expander__title">I Built a Fully Autonomous AI Reverse-Engineering Agent in Go</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/abdulm/i-built-a-fully-autonomous-ai-reverse-engineering-agent-in-go-257k">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fpixg4q328paas3g4h733.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Jurig (Sundanese: ghost) — an autonomous AI agent that haunts your binaries.
+ .-.         ██ ██    ██ ██████  ██  ██████
+(o o)        ██ ██    ██ ██   ██ ██ ██
+| u |        ██ ██    ██ ██████  ██ ██   ███
+|   |   ██   ██ ██    ██ ██   ██ ██ ██    ██
+&#x27;~-~&#x27;    █████   ██████  ██   ██ ██  ██████
+        autonomous reverse-engineering agent · android · binary · frida
+
+Point it at an APK, XAPK, or native binary and it plans, decompiles, searches,
+13,367
+, grepped the sources, and surfaced a hardcoded AES key with a
+ plus the full API endpoint map — then asked me whether it should go
+This post is the build story: the architecture, the design bets, and the three
+Repo: https://github.com/ReverserID/JURIG
+Existing &quot;AI reverse engineering&quot; is mostly a pile of MCP servers you wire into a
+Autonomous, …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;9
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/dietly/python-quickstart-nutrition-data-in-10-lines-5ff4"
+                        open
+                      >
+                        <summary class="article-expander__title">Python quickstart: nutrition data in 10 lines</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/dietly/python-quickstart-nutrition-data-in-10-lines-5ff4">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fotd2lpnmbh7uzid12lov.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Python quickstart: nutrition data in 10 lines
+
+
+You can search Dietly&#x27;s public nutrition catalog with one GET request to https://api.getdietly.com/search. The response is a JSON array of foods, not an object with a results property. Install requests, run the example below, and you have a working nutrition lookup. The rest of this page turns that single call into something dependable: a client class, correct field handling, and retries that respect the rate limit.
+The only required parameter is q (minimum two characters). Use limit to cap results between 1 and 50. Ten is plenty while you explore.
+import requests
+
+r &#x3D; requests.get(&quot;https://api.getdietly.com/search&quot;,
+    params&#x3D;{&quot;q&quot;: &quot;greek yogurt&quot;, &quot;limit&quot;: 5}, timeout&#x3D;10)
+r.raise_for_status()
+foods &#x3D; r.json()
+for food in foods:
+    print(fo…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -2135,10 +2540,259 @@ It&#x27;s a worked use case rather than an endpoint tour, covering metadata from
                     class="source-heading__name"
                     data-action="toggle-accordions"
                     title="Click to toggle the source, Ctrl + click to toggle all."
+                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
+                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="51d3706f-2393-423a-bbc4-159b58ec26c4"
+                        open
+                      >
+                        <summary class="article-expander__title">Tether&#x27;s USDT hits 2-year countdown threatening its position on U.S. crypto platforms</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/news-analysis/2026/07/17/tether-s-usdt-hits-2-year-countdown-threatening-its-position-on-u-s-crypto-platforms">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/54596c79d7b42f98aafbe2f421c7c7531529e5fd-4032x2268.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The GENIUS Act has hit its first anniversary without U.S. regulators yet meeting deadlines to write regulations, though rules will be in full effect by July 2028.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;49
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="942db68a-41e3-48bf-98d8-68c68c391f68"
+                        open
+                      >
+                        <summary class="article-expander__title">Kraken says simpler options can unlock crypto&#x27;s next derivatives market</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/business/2026/07/19/kraken-says-simpler-options-can-unlock-crypto-s-next-derivatives-market">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/b5ae4fb4478c42b7ccde14b1283bce493cf7f8de-3324x1870.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Wyoming-based firm launched USD-settled bitcoin and ether options, saying product design, not demand, has held back adoption.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;44
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="6b52c985-25f5-4866-aec9-2c496ade9682"
+                        open
+                      >
+                        <summary class="article-expander__title">Bitcoin’s quantum problem gets a recovery tool, but not for Satoshi’s 1.1 million coins</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/07/19/bitcoin-s-quantum-problem-gets-a-recovery-tool-but-not-for-satoshi-s-1-1-million-coin">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/a0a7940835c9275731c2adf69015343cc4a850ac-1024x683.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Project Eleven says it has funded a proof that lets a wallet&#x27;s own key-derivation path stand in as ownership after quantum computers can forge its signatures. It runs in 243 milliseconds on a laptop.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;45
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="3dfa403f-6478-48e6-bc4f-38f7a638a050"
+                        open
+                      >
+                        <summary class="article-expander__title">Inside Zcash&#x27;s new node that targets Visa-scale privacy at 50,000 transactions per second</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/07/16/inside-zcash-s-new-node-that-targets-visa-scale-privacy-at-50-000-transactions-per-second">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6359a9ff83ee7ba7465c0ff2289cb8ae23e7ac43-1500x1000.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The new Zakura client is the first live piece of a plan to take Zcash from roughly one private transaction per second to payment-network scale.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;46
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >Lowyat.NET</button>
+                  <a class="source-heading__link" href="https://www.lowyat.net">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;399010"
+                        open
+                      >
+                        <summary class="article-expander__title">LG And Dell Monitors Caught Silently Installing Malware On User PCs</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/399010/lg-dell-monitors-malware/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2024/12/UltraGear-GX9-45GX950A-2-1024x724.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Gamers Nexus’ Steve Burke recently posted a video, cautioning consumers about purchasing specific LG monitors, along with those that own them, as they would have installed unwanted programs into your PC, silently and without your consent.  Gamers Nexus says that they were able to replicate the silent software installation on multiple LG monitors, with the LG UltraGear 34GX900A-B they had in their lab for it. Here’s what […]
+The post LG And Dell Monitors Caught Silently Installing Malware On User PCs appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;49
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;399000"
+                        open
+                      >
+                        <summary class="article-expander__title">PM Anwar Ibrahim Launches PMX.AI WhatsApp Chatbot</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/399000/anwar-ibrahim-pmx-ai-whatsapp-chatbot/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/07/anwar-ibrahim-pmx-ai-whatsapp-chatbot-2.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Prime Minister Datuk Seri Anwar Ibrahim has officially launched PMX.AI, an artificial intelligence-powered digital twin that allows Malaysians to interact with a virtual version of him through WhatsApp. Amusingly, the Prime Minister’s initials are also “AI”, although in this case, it stands for both Anwar Ibrahim and Artificial Intelligence.  Announced through Anwar’s social media channels […]
+The post PM Anwar Ibrahim Launches PMX.AI WhatsApp Chatbot appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;50
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;398997"
+                        open
+                      >
+                        <summary class="article-expander__title">Xbox Commits To More Permanent Exclusives</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/398997/xbox-commits-to-permanent-exclusives/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/06/New-Xbox-Logo.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Things are shaking up violently over at Xbox land, what with the new leader of the division doing a major reset. One part of this is laying off a total of 3,200 workers over the course of the fiscal year, as well as letting go of four studios, fortunately without shutting them down. Another is […]
+The post Xbox Commits To More Permanent Exclusives appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;49
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;398986"
+                        open
+                      >
+                        <summary class="article-expander__title">Google Pixel 11a May Launch With An Overdue Chipset Upgrade</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/398986/google-pixel-11a-leak/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/02/pixel-10a-officially-announced-4.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Google Pixel 10a debuted in February with minimal upgrades from last year’s iteration. Although we still have a long way to go before the Pixel 11a officially launches, leaks have already started emerging. Should these details prove accurate, then the device could come with some considerable improvements. As per the leaks, which originate from […]
+The post Google Pixel 11a May Launch With An Overdue Chipset Upgrade appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;50
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
                   >Hacker News</button>
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://quesma.com/blog/custom-deep-research-pipeline/"
+                        open
+                      >
+                        <summary class="article-expander__title">I burned all my tokens researching how to save tokens</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://quesma.com/blog/custom-deep-research-pipeline/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://quesma.com/_astro/wiki-preview.Ds4TSUAH.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.minecraft.net/en-us/article/minecraft-26-3-snapshot-4"
+                        open
+                      >
+                        <summary class="article-expander__title">Minecraft: Java Edition now uses SDL3</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.minecraft.net/en-us/article/minecraft-26-3-snapshot-4">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://en.andros.dev/blog/0b8e451e/i-joined-the-indieweb-heres-what-i-learned/"
+                        open
+                      >
+                        <summary class="article-expander__title">I joined the IndieWeb, here&#x27;s what I learned</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://en.andros.dev/blog/0b8e451e/i-joined-the-indieweb-heres-what-i-learned/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://img.andros.dev/yzCsfEYO8dKYjakeL7mkshKOE7o&#x3D;/600x0/filters:format(avif):quality(85)/https://andros.dev/media/thumbnails/jurian-kersten-nZI4q-nmzjU-unsplash.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;14
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -2502,137 +3156,6 @@ It&#x27;s a worked use case rather than an endpoint tour, covering metadata from
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >CoinDesk: Bitcoin, Ethereum, Crypto News and Price Data</button>
-                  <a class="source-heading__link" href="https://www.coindesk.com/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="6b52c985-25f5-4866-aec9-2c496ade9682"
-                        open
-                      >
-                        <summary class="article-expander__title">Bitcoin’s quantum problem gets a recovery tool, but not for Satoshi’s 1.1 million coins</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/07/19/bitcoin-s-quantum-problem-gets-a-recovery-tool-but-not-for-satoshi-s-1-1-million-coin">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/a0a7940835c9275731c2adf69015343cc4a850ac-1024x683.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Project Eleven says it has funded a proof that lets a wallet&#x27;s own key-derivation path stand in as ownership after quantum computers can forge its signatures. It runs in 243 milliseconds on a laptop.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;45
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="3dfa403f-6478-48e6-bc4f-38f7a638a050"
-                        open
-                      >
-                        <summary class="article-expander__title">Inside Zcash&#x27;s new node that targets Visa-scale privacy at 50,000 transactions per second</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.coindesk.com/tech/2026/07/16/inside-zcash-s-new-node-that-targets-visa-scale-privacy-at-50-000-transactions-per-second">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://cdn.sanity.io/images/s3y3vcno/production/6359a9ff83ee7ba7465c0ff2289cb8ae23e7ac43-1500x1000.jpg?auto&#x3D;format&amp;w&#x3D;960&amp;h&#x3D;540&amp;crop&#x3D;focalpoint&amp;fit&#x3D;clip&amp;q&#x3D;75&amp;fm&#x3D;jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The new Zakura client is the first live piece of a plan to take Zcash from roughly one private transaction per second to payment-network scale.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;46
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >Lowyat.NET</button>
-                  <a class="source-heading__link" href="https://www.lowyat.net">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;399000"
-                        open
-                      >
-                        <summary class="article-expander__title">PM Anwar Ibrahim Launches PMX.AI WhatsApp Chatbot</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/399000/anwar-ibrahim-pmx-ai-whatsapp-chatbot/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2026/07/anwar-ibrahim-pmx-ai-whatsapp-chatbot-2.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Prime Minister Datuk Seri Anwar Ibrahim has officially launched PMX.AI, an artificial intelligence-powered digital twin that allows Malaysians to interact with a virtual version of him through WhatsApp. Amusingly, the Prime Minister’s initials are also “AI”, although in this case, it stands for both Anwar Ibrahim and Artificial Intelligence.  Announced through Anwar’s social media channels […]
-The post PM Anwar Ibrahim Launches PMX.AI WhatsApp Chatbot appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;50
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;398997"
-                        open
-                      >
-                        <summary class="article-expander__title">Xbox Commits To More Permanent Exclusives</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/398997/xbox-commits-to-permanent-exclusives/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2026/06/New-Xbox-Logo.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Things are shaking up violently over at Xbox land, what with the new leader of the division doing a major reset. One part of this is laying off a total of 3,200 workers over the course of the fiscal year, as well as letting go of four studios, fortunately without shutting them down. Another is […]
-The post Xbox Commits To More Permanent Exclusives appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;49
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;398986"
-                        open
-                      >
-                        <summary class="article-expander__title">Google Pixel 11a May Launch With An Overdue Chipset Upgrade</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/398986/google-pixel-11a-leak/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2026/02/pixel-10a-officially-announced-4.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The Google Pixel 10a debuted in February with minimal upgrades from last year’s iteration. Although we still have a long way to go before the Pixel 11a officially launches, leaks have already started emerging. Should these details prove accurate, then the device could come with some considerable improvements. As per the leaks, which originate from […]
-The post Google Pixel 11a May Launch With An Overdue Chipset Upgrade appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;50
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -22262,6 +22785,26 @@ The post Apple Reportedly Looking To Buy Chip Startups To Boost AI Infrastructur
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://github.com/loopgain-ai/loopgain"
+                        open
+                      >
+                        <summary class="article-expander__title">Show HN: LoopGain – Stop agent loops with control theory, not max_iterations</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/loopgain-ai/loopgain">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://opengraph.githubassets.com/8878593d795eabffc2a2b77a20c402172647820bacca012f7ccb944a1c3e7671/loopgain-ai/loopgain" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;42
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://jiga.io/about-us/"
                         open
                       >
@@ -31910,6 +32453,26 @@ Listen            127.0.0.1:6767…</span>
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.blender.org/download/releases/5-2/"
+                        open
+                      >
+                        <summary class="article-expander__title">Blender 5.2 LTS</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.blender.org/download/releases/5-2/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.blender.org/wp-content/uploads/2026/06/splash5_2.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;25
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -83895,26 +84458,6 @@ For a hobby project, 5% of a small bill is nothing and the convenience wins. For
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://writerbeware.blog/2025/09/19/return-of-the-nigerian-prince-redux-beware-book-club-and-book-review-scams/"
-                        open
-                      >
-                        <summary class="article-expander__title">Return of the Nigerian Prince Redux: Beware Book Club and Book Review Scams (2025)</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://writerbeware.blog/2025/09/19/return-of-the-nigerian-prince-redux-beware-book-club-and-book-review-scams/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://writerbeware.blog/wp-content/uploads/2014/11/Blog-images-scam-3-scaled.jpg" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;62
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -84154,8 +84697,8 @@ The post OnePlus And realme Reportedly Switching To OPPO’s ColorOS For Future 
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/29686033831">
-        <time id="build-timestamp" datetime="2026-07-19T11:56:23.168Z">2026-07-19T11:56:23.168Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/29688586028">
+        <time id="build-timestamp" datetime="2026-07-19T13:17:44.441Z">2026-07-19T13:17:44.441Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>

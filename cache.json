@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/hchsu/argo-workflows-14615-3koo",
+          "author": "Gary Hsu",
+          "description": "解析 #14615 這個 issue: Workflow 用 spec.workflowTemplateRef 指向一個還不存在或 informer cache 還沒同步到的 WorkflowTemplate 時，controller 直接呈現最終 Error 的狀態。\nxyz-init-workflow   Error    2m3s   workflowtemplates.argoproj.io \"xyz-workflow-template\" not found\n\nUser 在 issue 中有提到的細節內容:\nThis is because the workflow is deployed before the workflowtemplate. But even if we deploy it in the correct order, ArgoWF actually takes some time to process the workflowtemplate and know about it. \n而且 User 直覺的表示是「retryStrategy 邏輯壞了」，因為配置的 retryStrategy 完全沒有觸發:\nNaturally, the retryStrategy should make the workflow retry in such scenarios. But it doesn't do retries.\napiVersion: argoproj.io/v1alpha1\nkind: Workflow\nmetadata:\n  name: xyz-init-workflow\nspec:\n  workflowTemplateRef:\n    name: xyz-workflow-template\n  retryStrategy:\n    lim…",
+          "link": "https://dev.to/hchsu/argo-workflows-14615-3koo",
+          "publishedOn": "2026-07-19T13:13:59.000Z",
+          "wordCount": 2381,
+          "title": "<InSource> argo-workflows #14615",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F17mwl8gdlmtajc3s1bd7.png"
+        },
+        {
+          "id": "https://dev.to/wszgrcy/angular-selectorless-support-1gai",
+          "author": "wszgrcy",
+          "description": "Preface\n\n\n\nRecently, while implementing the Angular adapter for opentui, the special mechanism of opentui made it necessary to rewrite the renderer. This led to the discovery that virtual nodes can reduce the rendering of custom component tags. Therefore, I attempted to extract this approach for standalone use in the browser.\nInstall @cyia/ngx-common/service\n\nConfiguration\n\n\n\n\nimport { ApplicationConfig, provideBrowserGlobalErrorListeners, RendererFactory2 } from '@angular/core';\nimport { provideRouter } from '@angular/router';\n\nimport { routes } from './app.routes';\nimport { DomRendererFactory2 } from '@cyia/ngx-common/service';\nexport const appConfig: ApplicationConfig = {\n  providers: [\n    provideBrowserGlobalErrorListeners(),\n    provideRouter(routes),\n    // Add this configuration\n    { provide: RendererFactory2, useClass: DomRendererFactory2 },\n  ],\n};\n\nImplementing styles inside components is forbidden, because styles require an outermost element with attributes to define the scope, while selectorless components have no outermost element.\nElements must be manually marked as selectorless because the implementation operates at the application layer, and element rendering is decoupled from component binding, so manual specification is required.\n\n\n\n\nimport { selectorlessExcludeTag } from '@cyia/ngx-common/service';\nselectorlessExcludeTag('app-t1');\n\nDirectives that bind to and manipulate the DOM cannot be implemented. Normal directive binding still works, but if a directive internally performs operations that involve obtaining an ElementRef, they cannot be realized.\ncyia-ngx-common",
+          "link": "https://dev.to/wszgrcy/angular-selectorless-support-1gai",
+          "publishedOn": "2026-07-19T13:10:14.000Z",
+          "wordCount": 1494,
+          "title": "Angular Selectorless Support",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fp69gdpq9ou2uviynf4uf.png"
+        },
+        {
+          "id": "https://dev.to/jsdevspace/i-built-a-chrome-extension-that-reads-ai-usage-limits-and-mv3-cookies-nearly-broke-me-3fce",
+          "author": "JSDev Space",
+          "description": "I use six AI tools every day. Claude, ChatGPT, Codex, Cursor, Grok, Perplexity. Each one has limits, and each one hides them somewhere different. So I built a Chrome extension to pull all of it into one view.\nThe idea was trivial. The implementation taught me three things about Manifest V3 that I wish someone had put in a blog post. So here is that post.\nThe extension is called AI Karma Tracker. This is not a sales pitch, it is a build log. The link is at the bottom if you want it.\nMy first mental model was simple. A service worker wakes up on an alarm, fetches each provider's usage endpoint, parses the JSON, updates storage. Clean, centralized, easy to test.\nHere is roughly what I wrote:\n// background.ts (the version that did not work)\nasync function pollCursor() {\n  const res = await fet…",
+          "link": "https://dev.to/jsdevspace/i-built-a-chrome-extension-that-reads-ai-usage-limits-and-mv3-cookies-nearly-broke-me-3fce",
+          "publishedOn": "2026-07-19T13:09:22.000Z",
+          "wordCount": 2360,
+          "title": "I built a Chrome extension that reads AI usage limits, and MV3 cookies nearly broke me",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6x8l3fdr8zlkyjpdyvdv.png"
+        },
+        {
+          "id": "https://dev.to/booyaka101/reading-a-rust-crates-capabilities-out-of-its-compiled-symbols-58pb",
+          "author": "Christo",
+          "description": "Cargo tells you once_cell 1.19.0 → 1.20.2. It doesn't tell you whether the new\nI kept chewing on this after xz. Not the specific attack so much as its shape: the\ndo?\nYou can get further than I expected just by reading what the compiler emits.\nRust's v0 symbol mangling demangles back to real paths. Build a crate, look at\nRUSTFLAGS=\"-C symbol-mangling-version=v0\" cargo build --release\nnm target/release/deps/libnetcap-*.rlib \\\n  | awk '{print $NF}' | grep '^_R' | rustfilt | sort -u\n\nFor a crate that opens a socket and spawns a process, some of what falls out:\n<std::process::Command>::spawn\n<std::sys::net::connection::socket::TcpStream>::connect::inner\n<str as std::net::socket_addr::ToSocketAddrs>::to_socket_addrs\n\nMy first cut used nm --defined-only, and it found nothing. Took me longer than\n…",
+          "link": "https://dev.to/booyaka101/reading-a-rust-crates-capabilities-out-of-its-compiled-symbols-58pb",
+          "publishedOn": "2026-07-19T13:05:51.000Z",
+          "wordCount": 2190,
+          "title": "Reading a Rust crate's capabilities out of its compiled symbols",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fx0v7883xeeooq9wcac5f.png"
+        },
+        {
+          "id": "https://dev.to/zhihu_wu_dea1d82af01a04d7/stop-using-password123-a-developers-guide-to-strong-passwords-1on1",
+          "author": "zhihu wu",
+          "description": "Every developer knows the drill: create an account, type a \"temporary\" password, and promise to change it later. Months go by, and that password — often something painfully predictable — is still protecting your production database, your CI/CD pipeline, or your cloud console.\nLet's fix that. Here's what actually makes a password strong, and how to generate one you can trust.\nPeople obsess over adding symbols and uppercase letters, but length is the single biggest factor in password strength. A 16-character all-lowercase password takes centuries to brute-force with today's hardware. An 8-character password with symbols takes hours.\nEvery additional character multiplies the search space exponentially. A 12-character password using only lowercase letters has 26¹² ≈ 95 quadrillion combinations…",
+          "link": "https://dev.to/zhihu_wu_dea1d82af01a04d7/stop-using-password123-a-developers-guide-to-strong-passwords-1on1",
+          "publishedOn": "2026-07-19T13:05:44.000Z",
+          "wordCount": 1722,
+          "title": "Stop Using 'password123': A Developer's Guide to Strong Passwords",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fyz86by5fotkf62jnfopz.png"
+        },
+        {
+          "id": "https://dev.to/baolin_tikool_43da6f2b56f/orchestrating-16-cursor-subagents-in-a-single-session-what-actually-stuck-546m",
+          "author": "Baolin Tikool",
+          "description": "I did a count that afternoon. From 2pm to 8pm — six hours — I opened 16 subagents in Cursor. Four waves of four each, all running in parallel. Combined output: about 500 KB of documentation, roughly the size of a novella.\nOn the product side, a Cloudflare Worker upgraded from Stripe-only to Stripe + Creem parallel checkout. Four real products live in production. All 12 webhook event types verified end-to-end.\nI did all of this by myself. But I didn't do it alone.\nCursor (also Claude Code, Cline, Aider) can spawn subagents from a main agent. Each subagent gets an independent task prompt, independent context window, independent model instance. It can call tools, read files, write files.\nWhen done, it returns the result to the main agent, which integrates.\nThe critical property is parallelism…",
+          "link": "https://dev.to/baolin_tikool_43da6f2b56f/orchestrating-16-cursor-subagents-in-a-single-session-what-actually-stuck-546m",
+          "publishedOn": "2026-07-19T13:02:31.000Z",
+          "wordCount": 2850,
+          "title": "Orchestrating 16 Cursor subagents in a single session — what actually stuck",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fmgbwsx93ludwhuhv0rck.png"
+        },
+        {
+          "id": "https://dev.to/baolin_tikool_43da6f2b56f/sending-gmail-from-behind-chinas-great-firewall-six-attempts-that-failed-1khf",
+          "author": "Baolin Tikool",
+          "description": "Last night I needed to send one email to support@creem.io from Guangzhou, China. Simple email — 15 minutes to draft. Sending it took over an hour.\nHere's what I learned about the six most common ways to send Gmail from mainland China programmatically, and what finally worked.\nHabitual first try — Python smtplib with the Gmail app password:\nimport smtplib, ssl\ns = smtplib.SMTP_SSL('smtp.gmail.com', 465, context=ssl.create_default_context())\ns.login(user, app_password)\ns.send_message(msg)\n\nssl.SSLEOFError: EOF occurred in violation of protocol\nSwitched to 587 STARTTLS. SMTPServerDisconnected: Connection unexpectedly closed.\nNot surprising. China Telecom / China Unicom / China Mobile backbone routers have been doing deep packet inspection on smtp.gmail.com for years across all three SMTP port…",
+          "link": "https://dev.to/baolin_tikool_43da6f2b56f/sending-gmail-from-behind-chinas-great-firewall-six-attempts-that-failed-1khf",
+          "publishedOn": "2026-07-19T13:02:29.000Z",
+          "wordCount": 2482,
+          "title": "Sending Gmail from behind China's Great Firewall — six attempts that failed",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F4nzgxsknkvxzuq5m0v91.png"
+        },
+        {
+          "id": "https://dev.to/andr_diasmoreiraprol_b/advanced-prompt-engineering-techniques-that-transform-ai-response-quality-47m6",
+          "author": "André Dias Moreira Prol",
+          "description": "After two decades leading technology teams and, more recently, integrating AI into blockchain forensics workflows, I've noticed something counterintuitive: the gap between a mediocre AI output and a brilliant one rarely lies in the model itself. It lies in how we talk to it. The same GPT-4 or Claude instance can produce vague generalities or surgical precision—the difference is engineering.\nLet me share the techniques that have measurably transformed response quality in my own projects, from tokenization audits on Stellar to automated incident reports.\nThe single biggest quality lever I've found is treating the prompt as a data structure, not a sentence. Models respond dramatically better when context is compartmentalized with explicit delimiters.\nIn one Soroban smart contract review pipel…",
+          "link": "https://dev.to/andr_diasmoreiraprol_b/advanced-prompt-engineering-techniques-that-transform-ai-response-quality-47m6",
+          "publishedOn": "2026-07-19T13:01:29.000Z",
+          "wordCount": 2021,
+          "title": "Advanced Prompt Engineering: Techniques That Transform AI Response Quality",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6wk5g0tptc1spiz3mo80.png"
+        },
+        {
+          "id": "https://dev.to/secondlastsleep/removing-duplicates-from-a-integer-list-easy-leetcode-practice-7-35l6",
+          "author": "睡觉",
+          "description": "Remove Duplicates From Sorted Array\n\n\n\nGiven an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Consider the number of unique elements in nums to be k​​​​​​​​​​​​​​. After removing duplicates, return the number of unique elements k.\nThe first k elements of nums should contain the unique numbers in sorted order. The remaining elements beyond index k - 1 can be ignored.\n####Pop Elements(Runtime: 57ms, Memory: 13MB)\n    #DECLARE nums: ARRAY of INTEGER\nclass Solution(object):\n    def removeDuplicates(self, nums):\n        i = 1\n        while i < len(nums):\n            if nums[i] == nums[i-1]:\n                nums.pop(i)\n            else:\n                i += 1\n        return len(nums)\n\n\n\n####Insert to Head(Runtime: 7ms, Memory: 13.7MB)\n    #DECLARE nums: ARRAY of INTEGER\nclass Solution(object):\n    def removeDuplicates(self, nums):\n        head_pointer = 1\n        for i in range(1, len(nums)):\n            if nums[i] != nums[i-1]:\n                nums[head_pointer] = nums[i]\n                head_pointer += 1\n        return head_pointer\n\nThe question is simple. The only catch: we need to accept that the array can become messy, because after moving the unique elements to the front, anything after index k will be unorganized. However, since the question already states that \"anything beyond index k-1 will not be considered\", I think LeetCode is hinting at this approach.",
+          "link": "https://dev.to/secondlastsleep/removing-duplicates-from-a-integer-list-easy-leetcode-practice-7-35l6",
+          "publishedOn": "2026-07-19T12:56:21.000Z",
+          "wordCount": 1528,
+          "title": "Removing Duplicates from a integer list (Easy) | LeetCode Practice #7",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fnlv0pxt5zuppbi79g19w.png"
+        },
+        {
+          "id": "https://dev.to/neolle/from-a-simple-javascript-calculator-to-a-useful-real-world-tool-16jn",
+          "author": "Neolle",
+          "description": "Most developers build a calculator while learning JavaScript.\nThe first version usually accepts two numbers, performs an operation, and displays the result. That is useful for practising functions, events, and DOM manipulation.\nBut what changes when a calculator is expected to solve a real problem?\nA practical calculator needs more than arithmetic. It must also deal with:\nclear and validated inputs\nincomplete or invalid data\nrules that change according to the user’s circumstances\npartial periods\ncalculation limits\nan understandable result breakdown\nlinks to reliable sources\nA useful example is a UAE end-of-service gratuity calculator.\nFor a standard mainland private-sector calculation, the tool may need the employee’s basic monthly salary, employment dates and unpaid-leave period.\nA simpli…",
+          "link": "https://dev.to/neolle/from-a-simple-javascript-calculator-to-a-useful-real-world-tool-16jn",
+          "publishedOn": "2026-07-19T12:54:41.000Z",
+          "wordCount": 1782,
+          "title": "From a Simple JavaScript Calculator to a Useful Real-World Tool",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fttn84bksqlymcbw39j4k.png"
+        },
+        {
+          "id": "https://dev.to/abdulm/i-built-a-fully-autonomous-ai-reverse-engineering-agent-in-go-257k",
+          "author": "Taqin",
+          "description": "Jurig (Sundanese: ghost) — an autonomous AI agent that haunts your binaries.\n .-.         ██ ██    ██ ██████  ██  ██████\n(o o)        ██ ██    ██ ██   ██ ██ ██\n| u |        ██ ██    ██ ██████  ██ ██   ███\n|   |   ██   ██ ██    ██ ██   ██ ██ ██    ██\n'~-~'    █████   ██████  ██   ██ ██  ██████\n        autonomous reverse-engineering agent · android · binary · frida\n\nPoint it at an APK, XAPK, or native binary and it plans, decompiles, searches,\n13,367\n, grepped the sources, and surfaced a hardcoded AES key with a\n plus the full API endpoint map — then asked me whether it should go\nThis post is the build story: the architecture, the design bets, and the three\nRepo: https://github.com/ReverserID/JURIG\nExisting \"AI reverse engineering\" is mostly a pile of MCP servers you wire into a\nAutonomous, …",
+          "link": "https://dev.to/abdulm/i-built-a-fully-autonomous-ai-reverse-engineering-agent-in-go-257k",
+          "publishedOn": "2026-07-19T12:53:09.000Z",
+          "wordCount": 2611,
+          "title": "I Built a Fully Autonomous AI Reverse-Engineering Agent in Go",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fpixg4q328paas3g4h733.png"
+        },
+        {
+          "id": "https://dev.to/dietly/python-quickstart-nutrition-data-in-10-lines-5ff4",
+          "author": "Dietly",
+          "description": "Python quickstart: nutrition data in 10 lines\n\n\nYou can search Dietly's public nutrition catalog with one GET request to https://api.getdietly.com/search. The response is a JSON array of foods, not an object with a results property. Install requests, run the example below, and you have a working nutrition lookup. The rest of this page turns that single call into something dependable: a client class, correct field handling, and retries that respect the rate limit.\nThe only required parameter is q (minimum two characters). Use limit to cap results between 1 and 50. Ten is plenty while you explore.\nimport requests\n\nr = requests.get(\"https://api.getdietly.com/search\",\n    params={\"q\": \"greek yogurt\", \"limit\": 5}, timeout=10)\nr.raise_for_status()\nfoods = r.json()\nfor food in foods:\n    print(fo…",
+          "link": "https://dev.to/dietly/python-quickstart-nutrition-data-in-10-lines-5ff4",
+          "publishedOn": "2026-07-19T12:52:34.000Z",
+          "wordCount": 2149,
+          "title": "Python quickstart: nutrition data in 10 lines",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fotd2lpnmbh7uzid12lov.png"
+        },
+        {
           "id": "https://dev.to/1shubham7/how-i-spotted-a-slow-release-in-signoz-using-one-otel-attribute-3nb",
           "author": "Shubham Singh",
           "description": "Every deploy is a small bet. You push a new version, the rollout goes green, and then you move on. If that version is 40% slower than the one before it, the usual way to find out is a customer complaining or someone happening to look at multiple dashboards at the right moment.\nI spent an afternoon on a question I'd never actually sat down and answered: can I put version N and version N-1 of the same service side by side and see which one is slower?\nTurns out yes, and it needs one OpenTelemetry resource attribute plus one Query Builder feature with Signoz. No custom tooling, no extra pipeline. This article is the exact setup, running locally on kind, including the bits that cost me time.\nMy investigation was on my company's dev cluster, but since I can't share that environment, we will recr…",
@@ -18702,6 +18822,36 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://quesma.com/blog/custom-deep-research-pipeline/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://quesma.com/blog/custom-deep-research-pipeline/",
+          "publishedOn": "2026-07-19T12:01:53.000Z",
+          "wordCount": 2455,
+          "title": "I burned all my tokens researching how to save tokens",
+          "imageUrl": "https://quesma.com/_astro/wiki-preview.Ds4TSUAH.png"
+        },
+        {
+          "id": "https://www.minecraft.net/en-us/article/minecraft-26-3-snapshot-4",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.minecraft.net/en-us/article/minecraft-26-3-snapshot-4",
+          "publishedOn": "2026-07-19T11:48:18.000Z",
+          "wordCount": null,
+          "title": "Minecraft: Java Edition now uses SDL3",
+          "imageUrl": null
+        },
+        {
+          "id": "https://en.andros.dev/blog/0b8e451e/i-joined-the-indieweb-heres-what-i-learned/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://en.andros.dev/blog/0b8e451e/i-joined-the-indieweb-heres-what-i-learned/",
+          "publishedOn": "2026-07-19T11:14:38.000Z",
+          "wordCount": 4196,
+          "title": "I joined the IndieWeb, here's what I learned",
+          "imageUrl": "https://img.andros.dev/yzCsfEYO8dKYjakeL7mkshKOE7o=/600x0/filters:format(avif):quality(85)/https://andros.dev/media/thumbnails/jurian-kersten-nZI4q-nmzjU-unsplash.jpg"
+        },
+        {
           "id": "https://sgt.hootr.club/blog/home-server-rebirth/",
           "author": null,
           "description": "Comments",
@@ -21202,6 +21352,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://github.com/loopgain-ai/loopgain",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/loopgain-ai/loopgain",
+          "publishedOn": "2026-07-15T12:07:48.000Z",
+          "wordCount": 12594,
+          "title": "Show HN: LoopGain – Stop agent loops with control theory, not max_iterations",
+          "imageUrl": "https://opengraph.githubassets.com/8878593d795eabffc2a2b77a20c402172647820bacca012f7ccb944a1c3e7671/loopgain-ai/loopgain"
+        },
+        {
           "id": "https://jiga.io/about-us/",
           "author": null,
           "description": "Comments",
@@ -21630,6 +21790,16 @@
           "wordCount": 1574,
           "title": "Speech Recognition and TTS in less than 500kb",
           "imageUrl": "https://repository-images.githubusercontent.com/867866058/0fd49719-61f4-4a3d-bb6f-eda467526a0c"
+        },
+        {
+          "id": "https://www.blender.org/download/releases/5-2/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.blender.org/download/releases/5-2/",
+          "publishedOn": "2026-07-14T18:22:47.000Z",
+          "wordCount": 7507,
+          "title": "Blender 5.2 LTS",
+          "imageUrl": "https://www.blender.org/wp-content/uploads/2026/06/splash5_2.webp"
         },
         {
           "id": "https://www.blender.org/download/releases/5-2-lts/",
@@ -29530,16 +29700,6 @@
           "wordCount": 5067,
           "title": "Record-breaking solo rower Kelsey Pfendler arrives in Hawaii",
           "imageUrl": "https://gray-khnl-prod.gtv-cdn.com/resizer/v2/THZ7NVPHNNARTKPV23JAQU3VFA.jpg?auth=761ea0ffe3f5f70ba2d1e195a716c34579a6315beb3bee42493fe68e6f2db80e&width=1200&height=600&smart=true"
-        },
-        {
-          "id": "https://writerbeware.blog/2025/09/19/return-of-the-nigerian-prince-redux-beware-book-club-and-book-review-scams/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://writerbeware.blog/2025/09/19/return-of-the-nigerian-prince-redux-beware-book-club-and-book-review-scams/",
-          "publishedOn": "2026-07-05T00:22:25.000Z",
-          "wordCount": 18666,
-          "title": "Return of the Nigerian Prince Redux: Beware Book Club and Book Review Scams (2025)",
-          "imageUrl": "https://writerbeware.blog/wp-content/uploads/2014/11/Blog-images-scam-3-scaled.jpg"
         }
       ]
     },
@@ -29548,6 +29708,16 @@
       "feedUrl": "https://www.lowyat.net/feed/",
       "siteUrl": "https://www.lowyat.net",
       "articles": [
+        {
+          "id": "https://www.lowyat.net/?p=399010",
+          "author": "John Law",
+          "description": "Gamers Nexus’ Steve Burke recently posted a video, cautioning consumers about purchasing specific LG monitors, along with those that own them, as they would have installed unwanted programs into your PC, silently and without your consent.  Gamers Nexus says that they were able to replicate the silent software installation on multiple LG monitors, with the LG UltraGear 34GX900A-B they had in their lab for it. Here’s what […]\nThe post LG And Dell Monitors Caught Silently Installing Malware On User PCs appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/399010/lg-dell-monitors-malware/",
+          "publishedOn": "2026-07-19T12:32:20.000Z",
+          "wordCount": 14848,
+          "title": "LG And Dell Monitors Caught Silently Installing Malware On User PCs",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2024/12/UltraGear-GX9-45GX950A-2-1024x724.webp"
+        },
         {
           "id": "https://www.lowyat.net/?p=399000",
           "author": "Heirul Kamel",
@@ -31499,6 +31669,26 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "51d3706f-2393-423a-bbc4-159b58ec26c4",
+          "author": "Jesse Hamilton",
+          "description": "The GENIUS Act has hit its first anniversary without U.S. regulators yet meeting deadlines to write regulations, though rules will be in full effect by July 2028.",
+          "link": "https://www.coindesk.com/news-analysis/2026/07/17/tether-s-usdt-hits-2-year-countdown-threatening-its-position-on-u-s-crypto-platforms",
+          "publishedOn": "2026-07-19T13:00:00.000Z",
+          "wordCount": 14741,
+          "title": "Tether's USDT hits 2-year countdown threatening its position on U.S. crypto platforms",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/54596c79d7b42f98aafbe2f421c7c7531529e5fd-4032x2268.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
+        {
+          "id": "942db68a-41e3-48bf-98d8-68c68c391f68",
+          "author": "Will Canny",
+          "description": "The Wyoming-based firm launched USD-settled bitcoin and ether options, saying product design, not demand, has held back adoption.",
+          "link": "https://www.coindesk.com/business/2026/07/19/kraken-says-simpler-options-can-unlock-crypto-s-next-derivatives-market",
+          "publishedOn": "2026-07-19T13:00:00.000Z",
+          "wordCount": 13276,
+          "title": "Kraken says simpler options can unlock crypto's next derivatives market",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/b5ae4fb4478c42b7ccde14b1283bce493cf7f8de-3324x1870.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
+        },
         {
           "id": "6b52c985-25f5-4866-aec9-2c496ade9682",
           "author": "Shaurya Malwa",
