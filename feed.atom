@@ -2,10 +2,430 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-07-19T13:17:44.546Z</updated>
+    <updated>2026-07-19T14:53:48.840Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[The Developer Becomes a Pipeliner]]></title>
+        <id>https://dev.to/casamia918/the-developer-becomes-a-pipeliner-5875</id>
+        <link href="https://dev.to/casamia918/the-developer-becomes-a-pipeliner-5875"/>
+        <updated>2026-07-19T14:42:48.000Z</updated>
+        <summary type="html"><![CDATA[I believe the profession we call "developer" is about to turn into something fundamentally different. This isn't a matter of tools changing or productivity rising. The very identity of the job is shifting somewhere else. If I had to name it in a single word: the developer becomes a Pipeliner.
+To make this case, I have to start with what a developer has actually been doing all this time. We call developers "builders," but the essence of the work was translation. You take a spec someone else defined — a plan, a requirement, a ticket, words exchanged in a meeting — and render it into a form a machine can execute. The developer stood between human intent and machine execution as an interpreter.
+But this translation was never mechanical. Specs are always incomplete, contradictory, full of gaps.…]]></summary>
+        <author>
+            <name>Hichoi-Dev</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Contract Testing a Nutrition API with Millions of Messy Records]]></title>
+        <id>https://dev.to/dietly/contract-testing-a-nutrition-api-with-millions-of-messy-records-6bc</id>
+        <link href="https://dev.to/dietly/contract-testing-a-nutrition-api-with-millions-of-messy-records-6bc"/>
+        <updated>2026-07-19T14:42:09.000Z</updated>
+        <summary type="html"><![CDATA[Contract testing a nutrition API with millions of messy records
+
+
+A schema can remain valid while every client still breaks. Changing search from a JSON array to {"results": [...]}, converting null to zero, or renaming carbs_g is enough to break a mobile release that cannot update immediately.
+An OpenAPI document is necessary, but a small executable fixture catches accidental differences between the document and the running service. Store one representative response and assert keys, types and nullability.
+EXPECTED_KEYS = {
+    "id", "name", "brand", "barcode", "category",
+    "serving_size_g", "serving_desc", "calories_kcal",
+    "protein_g", "fat_g", "carbs_g", "fiber_g", "sugar_g",
+    "sodium_mg", "source", "confidence", "static_url",
+}
+
+def test_food_contract(client):
+    food = client…]]></summary>
+        <author>
+            <name>Dietly</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What ODbL Means for Commercial Nutrition Apps]]></title>
+        <id>https://dev.to/dietly/what-odbl-means-for-commercial-nutrition-apps-4hl7</id>
+        <link href="https://dev.to/dietly/what-odbl-means-for-commercial-nutrition-apps-4hl7"/>
+        <updated>2026-07-19T14:41:48.000Z</updated>
+        <summary type="html"><![CDATA[What ODbL means for commercial nutrition apps
+
+
+This is an engineering overview, not legal advice. Database rights and contract questions depend on jurisdiction and architecture. Read the licence and obtain qualified advice for a consequential launch.
+The Open Database License permits commercial use. It also attaches conditions to public use, attribution and certain distributions of databases derived from the licensed database. Paying a hosted provider does not automatically remove those upstream obligations.
+ODbL governs rights in the database: its systematic collection, arrangement and substantial extraction or reuse. Individual contents can have separate rights. Open Food Facts states that its database is under ODbL, individual database contents use the Database Contents License, and pr…]]></summary>
+        <author>
+            <name>Dietly</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building Reliable Barcode Lookup for a Nutrition App]]></title>
+        <id>https://dev.to/dietly/building-reliable-barcode-lookup-for-a-nutrition-app-5926</id>
+        <link href="https://dev.to/dietly/building-reliable-barcode-lookup-for-a-nutrition-app-5926"/>
+        <updated>2026-07-19T14:41:35.000Z</updated>
+        <summary type="html"><![CDATA[Building reliable barcode lookup for a nutrition app
+
+
+A successful scan is not the same thing as a successful product lookup. The camera may decode a valid GTIN that your database has never seen, or multiple source rows may share the identifier. Treat “not found” and ambiguity as normal product states.
+UPC, EAN and GTIN values are identifiers, not quantities. Store them as text so leading zeroes survive serialization and spreadsheet imports. GS1 notes that applications using a uniform 14-digit GTIN format add leading zeroes to shorter forms.
+function cleanBarcode(raw) {
+  return raw.replace(/[^0-9]/g, "");
+}
+
+const code = cleanBarcode(scannerValue);
+if (![8, 12, 13, 14].includes(code.length)) {
+  showError("That does not look like a supported GTIN");
+}
+
+Decide whether your API stores the …]]></summary>
+        <author>
+            <name>Dietly</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Handle Missing Nutrition Data Without Lying to Users]]></title>
+        <id>https://dev.to/dietly/how-to-handle-missing-nutrition-data-without-lying-to-users-ngp</id>
+        <link href="https://dev.to/dietly/how-to-handle-missing-nutrition-data-without-lying-to-users-ngp"/>
+        <updated>2026-07-19T14:40:28.000Z</updated>
+        <summary type="html"><![CDATA[How to handle missing nutrition data without lying to users
+
+
+In nutrition data, null and zero are different facts. Zero sugar means a source reported no sugar. A missing sugar field means the source did not provide a usable value. Turning both into 0 creates confident-looking totals that may be wrong.
+Every optional nutrient should be nullable from the database through the API client and into the UI. Do not coerce missing values during JSON serialization.
+type Food = {
+  calories_kcal: number | null;
+  protein_g: number | null;
+  sugar_g: number | null;
+  serving_size_g: number | null;
+  serving_desc: string | null;
+};
+
+This forces application code to decide what “unknown” means instead of accidentally treating it as arithmetic zero.
+
+
+
+Stored value
+Display
+Meaning
+
+
+
+
+0
+0 g
+Reported zero…]]></summary>
+        <author>
+            <name>Dietly</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Fuzzy Search Alone Produces Bad Food Results]]></title>
+        <id>https://dev.to/dietly/why-fuzzy-search-alone-produces-bad-food-results-3bkd</id>
+        <link href="https://dev.to/dietly/why-fuzzy-search-alone-produces-bad-food-results-3bkd"/>
+        <updated>2026-07-19T14:40:11.000Z</updated>
+        <summary type="html"><![CDATA[Why fuzzy search alone produces bad food results
+
+
+String similarity can rescue a typo, but it cannot tell a useful nutrition record from an empty duplicate. A search for greek yogrt should tolerate the missing letter. It should also prefer a complete Greek-yogurt record over a product whose name happens to match perfectly but whose calories and macros are missing.
+Trigram similarity is a practical first pass for food names. It breaks text into overlapping fragments, so yogrt remains close to yogurt. An indexed similarity operator can find candidates without scanning millions of rows.
+SELECT name, similarity(lower(name), lower(:query)) AS sim
+FROM food_names
+WHERE lower(name) % lower(:query)
+ORDER BY sim DESC
+LIMIT 60;
+
+That query answers “which names look alike?” It does not answer “which…]]></summary>
+        <author>
+            <name>Dietly</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Pin Metric Revisions Before Repository Usage Backfills Rewrite History]]></title>
+        <id>https://dev.to/robinzzz/pin-metric-revisions-before-repository-usage-backfills-rewrite-history-1jnh</id>
+        <link href="https://dev.to/robinzzz/pin-metric-revisions-before-repository-usage-backfills-rewrite-history-1jnh"/>
+        <updated>2026-07-19T14:39:51.000Z</updated>
+        <summary type="html"><![CDATA[Primary source: https://github.blog/changelog/2026-07-17-github-copilot-app-now-available-in-the-usage-metrics-api/.
+GitHub added Copilot app activity to the usage metrics API on July 17. When a source or product surface enters a metric, historical totals may arrive late or change meaning. A dashboard that overwrites rows cannot explain yesterday's number.
+metric key = repository + day + surface + definition_version
+observation = value + fetched_at + source_revision
+
+Store append-only observations, then materialize the latest accepted revision. Test these sequences:
+
+
+
+Sequence
+Invariant
+
+
+
+
+same page fetched twice
+no duplicate logical row
+
+
+late app data arrives
+revision increases
+
+
+repository renamed
+stable ID preserves series
+
+
+definition changes
+old and new versions not merged
+
+
+backfill races daily job
+deterministic winner
+
+
+
+A small simulator should permute ingestion order and assert that the materialized view converges for the same observation set. Keep provenance so reports can be reproduced as-of a prior timestamp.
+This pattern does not claim GitHub will revise historical data; it prepares for late, duplicated, or definition-changing telemetry common to usage systems. Does your metrics store preserve what the dashboard knew yesterday?]]></summary>
+        <author>
+            <name>Robin</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Test the Copilot Desktop App With a 20-Minute BYOK Exit Drill]]></title>
+        <id>https://dev.to/rivera123/test-the-copilot-desktop-app-with-a-20-minute-byok-exit-drill-1b16</id>
+        <link href="https://dev.to/rivera123/test-the-copilot-desktop-app-with-a-20-minute-byok-exit-drill-1b16"/>
+        <updated>2026-07-19T14:39:48.000Z</updated>
+        <summary type="html"><![CDATA[Primary source: https://github.blog/changelog/2026-07-07-github-copilot-app-available-to-all/.
+GitHub made the Copilot app available across Copilot plans and says users can also run sessions with their own model-provider key. Before moving real work into a desktop agent, run one cheap exit test.
+0–5: clone a disposable repository
+5–12: ask for one failing-test fix
+12–17: disconnect or close the app
+17–20: recover from Git alone
+
+The artifact is a small exit pack:
+base_commit: "..."
+patch_commit: "..."
+test_command: "npm test"
+expected_failure_before: "named assertion"
+expected_pass_after: true
+credentials_retained: false
+
+Test normal completion, app restart before completion, and a rejected provider credential. Pass only if the diff, test, and rollback can be reconstructed without chat history. Revoke the test key afterward and inspect where provider settings were stored.
+This does not measure model quality or claim every plan has identical features. Use the current product documentation and a disposable key. Which artifact would be hardest to recover if your agent UI vanished today?]]></summary>
+        <author>
+            <name>Sam Rivera</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Repository-Level Copilot Metrics Need a Cardinality Budget Before Export]]></title>
+        <id>https://dev.to/odd_background_328/repository-level-copilot-metrics-need-a-cardinality-budget-before-export-2450</id>
+        <link href="https://dev.to/odd_background_328/repository-level-copilot-metrics-need-a-cardinality-budget-before-export-2450"/>
+        <updated>2026-07-19T14:39:45.000Z</updated>
+        <summary type="html"><![CDATA[Primary source: https://github.blog/changelog/2026-07-17-repository-level-github-copilot-usage-metrics-generally-available/.
+GitHub made repository-level Copilot usage metrics generally available on July 17. Repository granularity helps allocation, but naïvely exporting every repository, team, model, editor, and date combination can create high-cardinality telemetry.
+GitHub usage API -> bounded collector -> normalized warehouse table -> dashboard
+
+Start with a field budget:
+
+
+
+Field
+Policy
+
+
+
+
+repository
+stable ID; name in restricted dimension table
+
+
+date
+daily partition
+
+
+model/editor
+documented bounded enum
+
+
+user
+aggregate or pseudonymize
+
+
+unknown labels
+quarantine before dashboard
+
+
+
+Track fetched rows, API errors, late data, unknown repositories, cardinality per field, and dashboard freshness. Backfill one day at a time with an idempotency key (repo_id, date, metric).
+Inject a renamed repository, deleted repository, duplicated page, and API timeout. Rollback pauses ingestion without deleting the last known-good partition.
+This plan does not describe GitHub's exact payload or guarantee metric completeness; verify the current API schema and privacy requirements. At what repository count would your current dashboard design become an operational liability?]]></summary>
+        <author>
+            <name>Odd_Background_328</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Make Copilot Review Configuration Observable From Pull Request to Finding]]></title>
+        <id>https://dev.to/kongkong1/make-copilot-review-configuration-observable-from-pull-request-to-finding-3p0n</id>
+        <link href="https://dev.to/kongkong1/make-copilot-review-configuration-observable-from-pull-request-to-finding-3p0n"/>
+        <updated>2026-07-19T14:39:12.000Z</updated>
+        <summary type="html"><![CDATA[Primary source: https://github.blog/changelog/2026-07-17-copilot-code-review-customization-and-configurability-improvements/.
+GitHub expanded Copilot code-review customization on July 17. Teams now need a cross-layer answer to a simple question: which configuration produced this finding?
+type ReviewRun={
+  pullRequest:string; baseSha:string; headSha:string;
+  configDigest:string; startedAt:string;
+  findings:{path:string,line:number,rule:string}[];
+};
+
+Render the digest in the UI, persist it with findings, and return it from the API. If configuration changes while a review runs, finish against the pinned digest or cancel and restart—never silently mix policies.
+
+
+
+Failure
+Expected state
+
+
+
+
+config missing
+blocked or explicit default
+
+
+config changes mid-run
+stale marker
+
+
+duplicate webhook
+same review-run key
+
+
+PR head advances
+old findings marked obsolete
+
+
+
+An end-to-end fixture should create a PR, start review, change configuration, and prove the original findings retain their provenance. Rollback disables customized review while preserving historical records.
+This is an implementation pattern, not documentation of GitHub's internal schema. Which identifier would you need during an incident: config digest, base SHA, model, or all three?]]></summary>
+        <author>
+            <name>kongkong</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Treat Copilot Code-Review Instructions as Untrusted Policy Input]]></title>
+        <id>https://dev.to/jaryn_123/treat-copilot-code-review-instructions-as-untrusted-policy-input-1if7</id>
+        <link href="https://dev.to/jaryn_123/treat-copilot-code-review-instructions-as-untrusted-policy-input-1if7"/>
+        <updated>2026-07-19T14:39:00.000Z</updated>
+        <summary type="html"><![CDATA[Primary source: https://github.blog/changelog/2026-07-17-copilot-code-review-customization-and-configurability-improvements/.
+GitHub announced new customization and configuration controls for Copilot code review on July 17. A repository-controlled instruction can improve reviews, but it also becomes policy input that a pull request may try to weaken.
+base branch policy -> resolved review instructions -> review output
+PR branch content  ----------------------------^ untrusted
+
+Pin the policy source to the protected base revision. Test a pull request that edits the instruction file to say “ignore authentication changes,” while also changing an authorization check. The review must use the trusted revision or explicitly disclose which revision it loaded.
+
+
+
+Fixture
+Expected evidence
+
+
+
+
+normal code change
+policy revision recorded
+
+
+PR modifies policy
+modification flagged separately
+
+
+instruction asks for secrets
+rejected by tool boundary
+
+
+missing policy
+documented fallback, not silent success
+
+
+
+Store policy digest, base commit, head commit, findings, and missing coverage. Branch protection and human review remain necessary; customization is not a security boundary by itself.
+This is a threat model, not a claim that GitHub loads untrusted instructions in this way. Verify exact precedence in current documentation. Which repository file can currently alter your automated review without a CODEOWNERS approval?]]></summary>
+        <author>
+            <name>jaryn</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Design AI Usage Metrics So Teams Can Challenge the Story They Tell]]></title>
+        <id>https://dev.to/haaaaaley/design-ai-usage-metrics-so-teams-can-challenge-the-story-they-tell-1ll5</id>
+        <link href="https://dev.to/haaaaaley/design-ai-usage-metrics-so-teams-can-challenge-the-story-they-tell-1ll5"/>
+        <updated>2026-07-19T14:38:53.000Z</updated>
+        <summary type="html"><![CDATA[Primary source: https://github.blog/changelog/2026-07-17-repository-level-github-copilot-usage-metrics-generally-available/.
+Repository-level Copilot metrics are now generally available, according to GitHub's July 17 changelog. A dashboard can show where activity occurs, but activity is not automatically useful work.
+Design a review card with two layers:
+observed:
+  repository: stable identifier
+  period: explicit dates
+  usage: API metric with definition
+not_observed:
+  accepted_work: requires workflow evidence
+  quality: requires review/incident data
+  causality: not established
+
+Ask researchers to evaluate three scenarios: a high-usage repository with low merge volume, a low-usage critical library, and a renamed repository with split history.
+
+
+
+Question
+Stop condition
+
+
+
+
+Can users state what metric means?
+definition misunderstood
+
+
+Can they find missing data?
+absence looks like zero
+
+
+Can they challenge recommendation?
+dashboard presents inference as fact
+
+
+Is identity protected?
+unnecessary user-level exposure
+
+
+
+Include date range, denominator, freshness, exclusions, and a link to the metric definition beside any recommendation.
+This is a design hypothesis, not evidence that usage causes productivity. What caveat must be visible before a manager compares two repositories?]]></summary>
+        <author>
+            <name>Haley</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI is destroying the internet. Math is our only hope.]]></title>
+        <id>bf2a13fc-a046-4b9f-a762-96e97af97975</id>
+        <link href="https://www.coindesk.com/opinion/2026/07/17/ai-is-destroying-the-internet-math-is-our-only-hope"/>
+        <updated>2026-07-19T14:00:00.000Z</updated>
+        <summary type="html"><![CDATA[The rise of autonomous AI agents necessitates the utilization of zero-knowledge proofs, argues Brian Trunzo, chief growth officer at Succinct Labs.]]></summary>
+        <author>
+            <name>Brian Trunzo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DRIVE – Operational Excellence for AI-accelerated engineering]]></title>
+        <id>https://www.cortex.io/drive</id>
+        <link href="https://www.cortex.io/drive"/>
+        <updated>2026-07-19T13:30:01.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bananas sprout in Rayleigh Garden UK after 15 years]]></title>
+        <id>https://www.bbc.com/news/articles/cvg8edqq5g5o</id>
+        <link href="https://www.bbc.com/news/articles/cvg8edqq5g5o"/>
+        <updated>2026-07-19T13:29:29.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[<InSource> argo-workflows #14615]]></title>
         <id>https://dev.to/hchsu/argo-workflows-14615-3koo</id>
@@ -906,6 +1326,16 @@ Drug Discovery – Researchers shar…]]></summary>
         <id>https://training.perforce.com/learn/courses/535/p4-helix-core-user-basic</id>
         <link href="https://training.perforce.com/learn/courses/535/p4-helix-core-user-basic"/>
         <updated>2026-07-19T08:00:24.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ollama: All Aboard Open Models]]></title>
+        <id>https://ollama.com/blog/all-aboard-open-models</id>
+        <link href="https://ollama.com/blog/all-aboard-open-models"/>
+        <updated>2026-07-19T07:59:44.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -19865,6 +20295,16 @@ The post HONOR Robot Phone Key Specifications Leak Ahead Of Launch appeared firs
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Infinities, impossibilities, and the man in the white linen suit]]></title>
+        <id>https://iain.so/infinities-impossibilities-and-the-man-in-the-white-linen-suit</id>
+        <link href="https://iain.so/infinities-impossibilities-and-the-man-in-the-white-linen-suit"/>
+        <updated>2026-07-14T08:24:54.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Alternative(s) to run CUDA on non-Nvidia hardware]]></title>
         <id>https://www.hpcwire.com/2026/07/09/spectral-compute-aims-to-set-cuda-free-will-it-succeed/</id>
         <link href="https://www.hpcwire.com/2026/07/09/spectral-compute-aims-to-set-cuda-free-will-it-succeed/"/>
@@ -23000,6 +23440,16 @@ Every log line is o…]]></summary>
         <summary type="html"><![CDATA[This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. Sperm donors need limits, says a European fertility group Ties van der Meer doesn’t know how many siblings he has. The 47-year-old was conceived at a private fertility clinic using sperm…]]></summary>
         <author>
             <name>Thomas Macaulay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Land Atlas – soil, farmability, and crop analysis for land listings]]></title>
+        <id>https://land-atlas-production.up.railway.app/welcome</id>
+        <link href="https://land-atlas-production.up.railway.app/welcome"/>
+        <updated>2026-07-13T11:58:32.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -50174,36 +50624,6 @@ The post OnePlus And realme Reportedly Switching To OPPO’s ColorOS For Future 
         <id>https://arxiv.org/abs/2605.21997</id>
         <link href="https://arxiv.org/abs/2605.21997"/>
         <updated>2026-07-05T02:57:38.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ancient Coins: What About Spartan Coins?]]></title>
-        <id>https://coinweek.com/ancient-spartan-coins/</id>
-        <link href="https://coinweek.com/ancient-spartan-coins/"/>
-        <updated>2026-07-05T02:23:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[If you're a button, you have one job]]></title>
-        <id>https://unsung.aresluna.org/if-youre-a-button-you-have-one-job/</id>
-        <link href="https://unsung.aresluna.org/if-youre-a-button-you-have-one-job/"/>
-        <updated>2026-07-05T02:01:03.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Record-breaking solo rower Kelsey Pfendler arrives in Hawaii]]></title>
-        <id>https://www.hawaiinewsnow.com/2026/07/04/record-breaking-solo-rower-kelsey-pfendler-arrives-hawaii/</id>
-        <link href="https://www.hawaiinewsnow.com/2026/07/04/record-breaking-solo-rower-kelsey-pfendler-arrives-hawaii/"/>
-        <updated>2026-07-05T01:23:11.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
