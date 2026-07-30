@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/schiff_heimlich/set-e-will-kill-your-script-for-no-good-reason-175h",
+          "author": "Schiff Heimlich",
+          "description": "set -e Will Kill Your Script For No Good Reason\n\n\nYou add set -e to your bash script because you want it to stop on errors. Reasonable expectation. What could go wrong?\nPlenty.\nset -e makes your script exit immediately when any command returns non-zero. Sounds fine until you remember how many things legitimately return non-zero:\ngrep -q \"pattern\" file    # returns 1 when no match found\ncurl -s https://example.com  # returns non-zero on 4xx/5xx\n(( counter > 5 ))          # returns 1 when false\n\nNone of those are errors. But set -e doesn't care.\n#!/bin/bash\nset -e\n\n# This fails silently when the string isn't found\nname=$(grep \"^username=\" /etc/app/config | cut -d= -f2)\n\n# This fails when count is zero  \nif (( count > 0 )); then\n    process_items\nfi\n\nThe grep returns 1 when there's no match. set -e kills the script. Same with arithmetic that's false.\nOption 1: Disable locally\nset -e\ngrep -q \"pattern\" file || true   # always succeeds\n\nOption 2: Toggle around suspect code\nset +e\ngrep -q \"pattern\" file\nresult=$?\nset -e\n\nOption 3: Check explicitly\nif grep -q \"pattern\" file; then\n    name=$(grep \"^username=\" /etc/app/config | cut -d= -f2)\nfi\n\nSkip set -e entirely. Check your commands explicitly:\nif ! grep -q \"pattern\" file; then\n    echo \"pattern not found\" >&2\n    exit 1\nfi\n\nMore verbose, but you control exactly what fails and why.\nBecause the script worked for months, then one day curl starts returning 404 for a URL that moved, and your whole deploy stops. The actual failure is trivial, but set -e treats it like the world ended.\nIt's not your logic that's broken. It's set -e being overprotective.\nThis isn't a reason to never use set -e. Just don't use it without understanding what it actually checks. Most shell script bugs I debug come down to this flag surprising someone at the worst moment.",
+          "link": "https://dev.to/schiff_heimlich/set-e-will-kill-your-script-for-no-good-reason-175h",
+          "publishedOn": "2026-07-30T17:06:15.000Z",
+          "wordCount": 1686,
+          "title": "set -e Will Kill Your Script For No Good Reason",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fimages.unsplash.com%2Fphoto-1629654297299-c8506221ca97%3Fw%3D1200"
+        },
+        {
+          "id": "https://dev.to/solonjava/solon-websocket-listener-interface-over-annotation-maze-3eja",
+          "author": "Solon Framework",
+          "description": "Solon's WebSocket support is one of those areas where the design diverges clearly from what most Java developers expect. If you've built WebSocket endpoints with JSR-356 — the standard that Spring, Tomcat, and most Java EE containers follow — Solon does it differently. Not worse, just different. And once the pattern clicks, it's actually cleaner.\nJSR-356 WebSocket development looks like this:\n@ServerEndpoint(\"/ws/chat\")\npublic class ChatEndpoint {\n    @OnOpen\n    public void onOpen(Session session) { ... }\n\n    @OnMessage\n    public void onMessage(Session session, String message) { ... }\n\n    @OnClose\n    public void onClose(Session session) { ... }\n}\n\nSolon replaces the @OnOpen, @OnMessage, @OnClose, @OnError annotations with a WebSocketListener interface. You keep @ServerEndpoint for pat…",
+          "link": "https://dev.to/solonjava/solon-websocket-listener-interface-over-annotation-maze-3eja",
+          "publishedOn": "2026-07-30T17:03:33.000Z",
+          "wordCount": 2300,
+          "title": "Solon WebSocket: Listener Interface Over Annotation Maze",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5ak3djm6v853qqmeano2.png"
+        },
+        {
+          "id": "https://dev.to/zaerohell/disabling-a-vercel-cron-to-stop-compute-quota-exceeded-on-neon-dl9",
+          "author": "Roberto Luna",
+          "description": "Disabling a Vercel Cron to Stop “Compute Quota Exceeded” on Neon\n\n\n\n\n\nTL;DR:\n\nI removed the nightly Vercel cron that hit our Neon DB’s free‑tier compute quota. The change was a one‑line edit to vercel.json, but it prevented costly errors and gave me a chance to rethink our sync strategy.\nRunning tvview on Vercel, I had a cron job scheduled to hit /api/cron/sync every day at 09:05 UTC:\n{\n  \"crons\": [{ \"path\": \"/api/cron/sync\", \"schedule\": \"5 9 * * *\" }]\n}\n\nThe endpoint performs a bulk sync with our Neon PostgreSQL instance. On the free tier, Neon limits compute usage to 1,000,000 ms per day. After a few days of running the cron, the logs started showing:\n2026-07-29 09:05:12 UTC - Neon: Compute quota exceeded\n\nThe error bubbled up to Vercel, causing the cron job to fail and the deployment to…",
+          "link": "https://dev.to/zaerohell/disabling-a-vercel-cron-to-stop-compute-quota-exceeded-on-neon-dl9",
+          "publishedOn": "2026-07-30T17:00:19.000Z",
+          "wordCount": 2050,
+          "title": "Disabling a Vercel Cron to Stop “Compute Quota Exceeded” on Neon",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fuuu818wcih289va30emy.png"
+        },
+        {
+          "id": "https://dev.to/pedroltz/nixos-on-servers-what-changes-when-your-os-becomes-code-4a99",
+          "author": "Pedro Tunin",
+          "description": "You know the kind of server.\nIt has been running for three years. The original setup came from a script, a few changes were made by hand during incidents, and the documentation stopped matching reality somewhere along the way. Everyone is slightly nervous about touching it. Rebuilding it from scratch would be an archaeological project.\nThe problem is not that the team forgot to automate everything. It is that the machine is partly defined by its history: every command, hotfix, and one-off decision that happened to it.\nNixOS takes a different approach. Instead of describing the steps used to configure a machine, you describe the state you want. Services, users, packages, firewall rules, and many other system properties live in a declarative configuration.\nNixOS is not just another way to au…",
+          "link": "https://dev.to/pedroltz/nixos-on-servers-what-changes-when-your-os-becomes-code-4a99",
+          "publishedOn": "2026-07-30T16:58:59.000Z",
+          "wordCount": 3657,
+          "title": "NixOS on Servers: What Changes When Your OS Becomes Code",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ftuwpv3ry5e7x6ergpmus.png"
+        },
+        {
+          "id": "https://dev.to/softronic/corrective-rag-for-billing-the-bug-is-not-retrieval-its-the-model-narrating-correct-numbers-wrong-4938",
+          "author": "Softronic",
+          "description": "Most RAG demos are graded by an audience that cannot check the answer. Ask a docs bot something, get a fluent paragraph back, nobody in the room knows whether sentence three is invented. The demo lands.\nBilling is not like that. When a subscriber asks \"why is my bill higher this month\" they are holding the invoice. They will check.\nWe built a WhatsApp assistant for an ISP that answers plan and billing questions. This post is about the two things that turned out to matter, neither of which is \"we used CRAG\":\nA document corpus and a billing API are both called \"retrieval\" and they fail in completely different ways.\nThe failure that actually bites is not bad retrieval. It is the model taking correct numbers and narrating them wrong.\nCode is from the real system. Comments translated from Spani…",
+          "link": "https://dev.to/softronic/corrective-rag-for-billing-the-bug-is-not-retrieval-its-the-model-narrating-correct-numbers-wrong-4938",
+          "publishedOn": "2026-07-30T16:49:38.000Z",
+          "wordCount": 3505,
+          "title": "Corrective RAG for billing: the bug is not retrieval, it's the model narrating correct numbers wrong",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fgfyn8i83l9mcagpic3m3.png"
+        },
+        {
+          "id": "https://dev.to/sammieeblaq/running-one-compliance-flow-across-two-countries-that-dont-agree-on-much-1b65",
+          "author": "Samuel Airehrour",
+          "description": "Running One Compliance Flow Across Two Countries That Don't Agree on Much\n\n\nNigeria and Kenya have different numbers of steps in their compliance flow. They don't structure director and shareholder data the same way. Business type changes what's even required. And on top of all that, there's an admin review process where a reviewer can reject three fields out of forty and the applicant has to fix exactly those three, nothing else.\nNone of that is one hard problem. It's five or six medium problems that all had to agree with each other, because if the schema says one thing and the step routing says another, or the visibility logic doesn't line up with what the review flow thinks is editable, you don't get a bug in one spot, you get a user stuck somewhere in the middle of a KYC flow with no w…",
+          "link": "https://dev.to/sammieeblaq/running-one-compliance-flow-across-two-countries-that-dont-agree-on-much-1b65",
+          "publishedOn": "2026-07-30T16:48:03.000Z",
+          "wordCount": 4429,
+          "title": "Running One Compliance Flow Across Two Countries That Don't Agree on Much",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F2x5hghn9tis818ujnea0.png"
+        },
+        {
+          "id": "https://dev.to/tigusigalpa/stop-wrestling-with-curl-meet-glassnode-php-an-unofficial-glassnode-sdk-for-php-1999",
+          "author": "Igor",
+          "description": "Integrating on-chain metrics into a PHP product should not require every developer to become an HTTP error-handling specialist first. Yet that is often the reality: hand-written cURL calls, manually assembled query strings, JSON decoding scattered through services, and generic exceptions that make production incidents harder to diagnose. The problem becomes even more consequential when requests consume data credits and operate within provider-managed limits. Glassnode’s own documentation makes clear that API access, available data, and request consumption depend on the customer’s plan. 2\nglassnode-php is built to remove that friction. It is an unofficial, production-oriented SDK for PHP 8.1+ that targets the Glassnode Basic API. The package is framework-agnostic, while also offering a firs…",
+          "link": "https://dev.to/tigusigalpa/stop-wrestling-with-curl-meet-glassnode-php-an-unofficial-glassnode-sdk-for-php-1999",
+          "publishedOn": "2026-07-30T16:41:15.000Z",
+          "wordCount": 2730,
+          "title": "Stop Wrestling with cURL: Meet glassnode-php, an Unofficial Glassnode SDK for PHP",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fahrwndutnkjoyg3k9k4t.jpg"
+        },
+        {
+          "id": "https://dev.to/celsonery/kubernetes-monitoring-the-cluster-with-prometheus-eb4",
+          "author": "Celso Nery",
+          "description": "🇧🇷 Leia a versão em português aqui.\nOnce a Kubernetes cluster is up and running, monitoring what's happening inside it — CPU and memory usage, number of active replicas, application latency — stops being optional. Prometheus is today's de facto standard for monitoring in the Kubernetes ecosystem: a time-series database that periodically collects metrics (pull model) and lets you query and alert on them.\nIn this article, I show how to install Prometheus on an on-premise cluster using Helm, and how to prepare your own applications to be monitored by it.\nBefore installing Prometheus, make sure you already have:\nHelm installed (see the dedicated article if you don't have it yet);\nMetrics Server installed and working — confirm with:\n\n\n\n\nkubectl top nodes\n\nIf the command returns CPU and memory…",
+          "link": "https://dev.to/celsonery/kubernetes-monitoring-the-cluster-with-prometheus-eb4",
+          "publishedOn": "2026-07-30T16:39:12.000Z",
+          "wordCount": 1979,
+          "title": "Kubernetes: Monitoring the Cluster with Prometheus",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fayx3ov7djwzqgqczffpn.png"
+        },
+        {
+          "id": "https://dev.to/raju_dandigam/how-to-test-ai-agents-without-calling-more-llms-2ga6",
+          "author": "Raju Dandigam",
+          "description": "AI-agent testing often starts with an expensive loop: call the agent, send its answer to another model, ask for a quality score, and hope the score is stable enough for CI.\nLLM judges can be useful for genuinely semantic questions. They are a poor default for verifying tool order, retry limits, validation, budgets, state transitions, or error handling. Those behaviors have explicit contracts and can usually be tested with ordinary deterministic techniques.\nThe most effective agent test suite separates orchestration correctness from language quality. Test the first on every commit with fakes, traces, and rules. Evaluate the second with a smaller, calibrated model-and-human workflow.\nAn agent may produce variable language while still following a predictable execution contract. Useful determi…",
+          "link": "https://dev.to/raju_dandigam/how-to-test-ai-agents-without-calling-more-llms-2ga6",
+          "publishedOn": "2026-07-30T16:35:04.000Z",
+          "wordCount": 6260,
+          "title": "How to Test AI Agents Without Calling More LLMs",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fy20lg02laghsi51q84ma.png"
+        },
+        {
+          "id": "https://dev.to/saras_growth_space/lld-data-structures-in-design-context-why-hashmaps-feel-so-fast-understanding-performance-2p7c",
+          "author": "Saras Growth Space",
+          "description": "\"A HashMap feels fast not because computers became magically faster. It feels fast because the design avoids doing unnecessary work.\"\nIn the previous articles, we built our understanding of how HashMaps work.\nWe learned:\nWhy fast lookup is an important system behaviour.\nWhy unique keys help software systems retrieve information quickly.\nHow hashing converts keys into predictable locations.\nWhy collisions happen and how HashMaps handle them.\nNow we answer a question every software engineer should understand:\n\"Why does a HashMap feel so much faster than searching through a collection?\"\nMost developers know the answer:\n\"Because HashMap lookup is O(1).\"\nBut simply memorising this statement is not enough.\nThe real engineering insight is understanding:\n\"What work is the system avoiding?\"\nBecause…",
+          "link": "https://dev.to/saras_growth_space/lld-data-structures-in-design-context-why-hashmaps-feel-so-fast-understanding-performance-2p7c",
+          "publishedOn": "2026-07-30T16:30:00.000Z",
+          "wordCount": 3857,
+          "title": "LLD Data Structures in Design Context: Why HashMaps Feel So Fast — Understanding Performance Without Memorising Big-O",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6p6tsx1kuwi42i3lhblk.png"
+        },
+        {
+          "id": "https://dev.to/rarestoma/trace-digests-for-llm-monitoring-at-130th-the-price-of-sonnet-1ah7",
+          "author": "Toma Rares",
+          "description": "We run one LLM call on every agent trace we ingest: it reduces the trace to a short, searchable digest. Because it runs on every trace from every customer, it is the most frequent LLM call we make, and its cost is the one that grows fastest with our usage.\nSo we tested whether a cheaper model could do it. Sonnet 4.6 writes that digest today at about $3.45 per 1,000 traces, and plenty of models cost a fraction of that. We put four of them against Sonnet on a frozen set of 50 traces. The one we shipped runs at about a thirtieth of the cost with search returning the same traces, and the two that looked cheapest on the price sheet both failed.\nThe harder part was checking it. A cheaper model can write summaries that read perfectly and still change what search returns, so we graded each model o…",
+          "link": "https://dev.to/rarestoma/trace-digests-for-llm-monitoring-at-130th-the-price-of-sonnet-1ah7",
+          "publishedOn": "2026-07-30T16:26:11.000Z",
+          "wordCount": 4504,
+          "title": "Trace digests for LLM monitoring, at 1/30th the price of Sonnet",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fj4g8lxqr7u1e0t6vbr0h.png"
+        },
+        {
+          "id": "https://dev.to/otaready/one-contract-multiple-enforcement-points-for-safe-ai-agent-execution-15o8",
+          "author": "Bobai Kato",
+          "description": "Overview\n\n\nA lot of AI agent safety discussion still stops too early.\nPeople talk about:\nprompts\ninstructions\nguardrails\nwhether the agent \"knows better\"\nThose things matter, but they are not where the real control lives.\nIf an agent can ignore the instructions, pick the wrong execution path, skip the real verification\nIt has suggestions.\nThat is why the stronger shape is not \"better prompting.\"\nIt is:\none declared contract\nmultiple enforcement points\nno second hand-maintained execution policy\nOta provides the declared repo contract and local execution boundary. CI projection and runtime\nA local runner is valuable because it gives fast feedback.\nIt can tell an agent:\nthis task is safe\nthis workflow is not callable\nthis path is blocked\nthis repo is not ready\nThat is already much stronger th…",
+          "link": "https://dev.to/otaready/one-contract-multiple-enforcement-points-for-safe-ai-agent-execution-15o8",
+          "publishedOn": "2026-07-30T16:20:35.000Z",
+          "wordCount": 2490,
+          "title": "One Contract, Multiple Enforcement Points for Safe AI Agent Execution",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fres.cloudinary.com%2Fota-run%2Fimage%2Fupload%2Fq_auto%2Fone-contract-multiple-enforcement-points-for-safe-ai-agent-execution.png"
+        },
+        {
           "id": "https://dev.to/n3xgen/the-modern-api-gateway-beyond-simple-routing-1m8f",
           "author": "N3XGEN",
           "description": "The API Gateway Has Grown Up\nWhen API gateways first entered the enterprise architecture conversation, the value proposition was straightforward: put a reverse proxy in front of your APIs, enforce authentication, and add basic rate limiting. Problem solved.\nThat framing was adequate for 2012. It's dangerously incomplete for 2026.\nToday's API gateway sits at the intersection of integration, security, observability, and increasingly AI — and the organizations that still treat it as a simple routing layer are leaving significant capability on the table while accepting operational risk they don't have to carry. The modern API gateway is an integration hub in its own right, and understanding its full capabilities is essential to building a resilient, scalable API strategy.\nWhat Traditional API …",
@@ -19466,76 +19586,6 @@
           "wordCount": 1579,
           "title": "Economic simulator",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F4048yfsn5c1r01twgcov.png"
-        },
-        {
-          "id": "https://dev.to/ankreations/top-audit-trail-platforms-to-use-in-2026-for-b2b-and-agentic-applications-20af",
-          "author": "Ankit Maurya",
-          "description": "B2B software applications must provide security audits to sell to enterprise customers. When moving upmarket, corporate buyers require a detailed history of sensitive events. They want to know exactly who did what, when it happened, and what data changed. Meeting these demands is essential to satisfy compliance rules like SOC 2 and ISO 27001, as well as the EU AI Act.\nHowever, software developers face a split in the tooling market. Some tools are built for enterprise compliance, while others focus on system debugging or machine learning telemetry. Using the wrong tool can block the sales process or create security vulnerabilities.\nThis guide lists the eight best audit logging and monitoring platforms for modern SaaS and AI systems. It looks at the technical features, security models, and i…",
-          "link": "https://dev.to/ankreations/top-audit-trail-platforms-to-use-in-2026-for-b2b-and-agentic-applications-20af",
-          "publishedOn": "2026-07-16T05:24:04.000Z",
-          "wordCount": 3644,
-          "title": "Top Audit Trail Platforms to Use in 2026 for B2B and Agentic Applications",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fploav7qpz6m65yojusnq.png"
-        },
-        {
-          "id": "https://dev.to/ali_hamza_589ec7b3eb6688d/day-155-of-learning-mern-stack-49jg",
-          "author": "Ali Hamza",
-          "description": "Hello Dev Community! 👋\nIt is officially Day 155 of my software engineering track! Today, I brought the interactive catalog of Tomato — The Food Delivery App to life by designing a dynamic, state-driven Explore Menu component (ExploreMenu.jsx)! 🥗🍩🍕\nProviding users with responsive visual feedback as they browse menus is critical for high-conversion web designs. Here is how I set up the filtering architecture.\nAs captured in my code editor and browser views in \"Screenshot (369).jpg\" and \"Screenshot (370).png\", the setup relies on a reliable structural flow:\nInstead of keeping selection state locked inside the child component, I passed the states down:\n\njavascript\n  function ExploreMenu({ category, setCategory }) {  onClick={() => setCategory(prev => prev === item.menu_name ? \"All\" : item.menu_name)}",
-          "link": "https://dev.to/ali_hamza_589ec7b3eb6688d/day-155-of-learning-mern-stack-49jg",
-          "publishedOn": "2026-07-16T05:14:07.000Z",
-          "wordCount": 1453,
-          "title": "Day 155 of Learning MERN Stack",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F9mpp3v6qfojhxr7qx8qt.png"
-        },
-        {
-          "id": "https://dev.to/ali_hamza_589ec7b3eb6688d/day-154-of-learning-mern-stack-59g7",
-          "author": "Ali Hamza",
-          "description": "Hello Dev Community! 👋\nIt is officially Day 154 of my software engineering track! Today, I am thrilled to share the launch of a brand new, major full-stack project: Tomato — A Modern Food Delivery Web Application! 🚀🍕🥗\nAfter wrapping up complex backend administrative dashboards last week, I'm shifting focus back to high-fidelity consumer-facing frontends. Today's milestone focuses entirely on setting up the core scaffolding and building a high-converting, visually stunning Home Screen & Interactive Hero Section!\nAs designed inside my application layout visible in \"Screenshot (364).jpg\", the landing view focuses heavily on psychological layout patterns:\nAppetite-Stimulating Color Psychology: Leveraging a warm orange/red theme (Tomato.) instantly aligns the application with professional f…",
-          "link": "https://dev.to/ali_hamza_589ec7b3eb6688d/day-154-of-learning-mern-stack-59g7",
-          "publishedOn": "2026-07-16T05:07:33.000Z",
-          "wordCount": 1704,
-          "title": "Day 154 of Learning MERN Stack",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fvffw84r275ye62lb2fqz.png"
-        },
-        {
-          "id": "https://dev.to/11_thanyathonr1ack__b2/mngkhaam-typescript-thamaim-type-safety-thiiaethcchringtngaipaiklkwaaaekh-compile-time-503i",
-          "author": "r1ACK",
-          "description": "JavaScript ถือกำเนิดมาพร้อมปรัชญาความยืดหยุ่นสุดขั้ว ตัวแปรตัวหนึ่งสามารถเปลี่ยนชนิดข้อมูลได้ตลอดเวลาโดยไม่มีการเตือนจากตัวภาษาเลยแม้แต่น้อย ในยุคที่เว็บไซต์ยังเป็นเพียงหน้าเอกสารเรียบง่าย ความยืดหยุ่นนี้คือจุดแข็ง แต่เมื่อแอปพลิเคชันยุคใหม่เติบโตขึ้นเป็นระบบที่มีโค้ดหลายแสนบรรทัด ทีมงานหลายสิบคนทำงานพร้อมกัน และมีการเชื่อมต่อกับระบบภายนอกนับไม่ถ้วน ความยืดหยุ่นแบบไร้ขอบเขตกลับกลายเป็นแหล่งกำเนิดบั๊กที่ตรวจจับได้ยากที่สุดในขั้นตอนการพัฒนา\nTypeScript จึงถือกำเนิดขึ้นมาเพื่อแก้ปัญหานี้ ด้วยการเติมระบบ static type checking เข้าไปในภาษา ช่วยให้นักพัฒนาจับข้อผิดพลาดเกี่ยวกับชนิดข้อมูลได้ตั้งแต่ตอนเขียนโค้ด ก่อนที่จะถูกนำไปรันจริงบนเครื่องผู้ใช้ ด้วยเหตุนี้ TypeScript จึงกลายเป็นมาตรฐานโดยพฤตินัยของวงการพัฒนาเว็บสมัยใหม่ในเวลาไม่นาน\nแต่คำถามที่วิศวกรระดับซีเนียร์เริ่มตั้งคำถามกันมากขึ้นเรื่อยๆ ค…",
-          "link": "https://dev.to/11_thanyathonr1ack__b2/mngkhaam-typescript-thamaim-type-safety-thiiaethcchringtngaipaiklkwaaaekh-compile-time-503i",
-          "publishedOn": "2026-07-16T05:05:19.000Z",
-          "wordCount": 1832,
-          "title": "มองข้าม TypeScript: ทำไม Type Safety ที่แท้จริงต้องไปไกลกว่าแค่ compile time",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fkxwogd7hf1w6pu1iwgcu.png"
-        },
-        {
-          "id": "https://dev.to/flarecanary/google-ads-api-v21-sunsets-in-august-three-silent-ways-the-forced-version-bump-corrupts-your-p64",
-          "author": "FlareCanary",
-          "description": "If anything you run touches the Google Ads API — a bid-management tool, an agency reporting pipeline, a Looker Studio connector, a budget-pacing script, a custom dashboard pulling spend into a warehouse — you are on a clock you may not have noticed. Google moved the Google Ads API to a monthly release cycle in 2026, and each major version now lives for roughly one year after launch. Versions are sunsetting faster than they used to, and quietly.\nThe dates that matter right now:\nv20 sunset on June 10, 2026. Requests on v20 now fail.\nv21 sunsets around August 6, 2026 — one year after its August 6, 2025 release. (sunset schedule)\nv22 (Oct 15, 2025) and v23 (Jan 28, 2026) are the versions you're migrating to.\nv21 is still one of the most widely pinned versions in production. If yours is one of …",
-          "link": "https://dev.to/flarecanary/google-ads-api-v21-sunsets-in-august-three-silent-ways-the-forced-version-bump-corrupts-your-p64",
-          "publishedOn": "2026-07-16T05:01:01.000Z",
-          "wordCount": 2719,
-          "title": "Google Ads API v21 sunsets in August — three silent ways the forced version bump corrupts your reports (still 200 OK)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F4ret297ztcusw88r6455.png"
-        },
-        {
-          "id": "https://dev.to/aniruddhaadak/i-read-all-70-past-dev-challenges-542-winning-submissions-heres-the-bug-smash-playbook-57i6",
-          "author": "ANIRUDDHA  ADAK",
-          "description": "I spent the last few days doing something slightly obsessive: I opened every single past challenge on dev.to/challenges, clicked into each one, found the green Read Announcement button under the Winners Announced banner, and read every single winner announcement blog.\nThen I went deeper. I read individual winner posts to see what they actually built and why judges picked them.\nI decomposed 70 winner announcements and 542 individual winning submissions across writing challenges, build challenges, AI challenges, game jams, frontend sprints, hackathons, and OSS challenges. This post is the distilled, evidence backed playbook for winning DEV Summer Bug Smash.\nNo fluff. No generic advice. Just patterns I extracted from judges own words, applied to every track of the Bug Smash.\nJump to any chapt…",
-          "link": "https://dev.to/aniruddhaadak/i-read-all-70-past-dev-challenges-542-winning-submissions-heres-the-bug-smash-playbook-57i6",
-          "publishedOn": "2026-07-16T05:00:58.000Z",
-          "wordCount": 9989,
-          "title": "I Read All 70 Past DEV Challenges + 542 Winning Submissions - Here's the Bug Smash Playbook",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F7gyzxhwbimzirughej76.png"
-        },
-        {
-          "id": "https://dev.to/bokuwalily/unused-mcp-plugins-are-quietly-eating-your-context-a-weekly-auto-disable-pipeline-1gl7",
-          "author": "Lily",
-          "description": "This is a continuation of my \"Claude Code environment\" series. After the previous post on automating git-config backups, this time I'm tackling a problem that sneaks up on you: MCP plugins you enabled once and forgot about keep chipping away at your context, and I'll walk through the three-stage pipeline that auto-disables them on a weekly schedule.\nWhen you enable a plugin, its tool schema is injected at startup even if it's never called once. As these \"just leave it on\" plugins pile up, the token budget Claude actually has to work with quietly shrinks. In this article I connect detection, auto-disable, and cache archiving into a single flow with real code.\nThe motivation to install a new plugin is clear. \"I want to use this tool\" is an active urge. There's no equivalent motivation to rem…",
-          "link": "https://dev.to/bokuwalily/unused-mcp-plugins-are-quietly-eating-your-context-a-weekly-auto-disable-pipeline-1gl7",
-          "publishedOn": "2026-07-16T05:00:06.000Z",
-          "wordCount": 2917,
-          "title": "Unused MCP Plugins Are Quietly Eating Your Context: A Weekly Auto-Disable Pipeline",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fmk3vswooyqms9xbm4ile.png"
         }
       ]
     },
@@ -20132,6 +20182,66 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://openai.com/index/advancing-the-price-performance-frontier-with-gpt-5-6/",
+          "publishedOn": "2026-07-30T17:15:51.000Z",
+          "wordCount": null,
+          "title": "Advancing the price-performance frontier with GPT‑5.6",
+          "imageUrl": null
+        },
+        {
+          "id": "https://krebsonsecurity.com/2026/07/read-this-before-you-buy-that-tv-streaming-stick/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://krebsonsecurity.com/2026/07/read-this-before-you-buy-that-tv-streaming-stick/",
+          "publishedOn": "2026-07-30T17:04:53.000Z",
+          "wordCount": 2238,
+          "title": "Read This Before You Buy That TV Streaming Stick",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.ycombinator.com/companies/rise-reforming/jobs/wJ9Q9nv-senior-chemical-process-engineer",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.ycombinator.com/companies/rise-reforming/jobs/wJ9Q9nv-senior-chemical-process-engineer",
+          "publishedOn": "2026-07-30T17:00:21.000Z",
+          "wordCount": 874,
+          "title": "Rise Reforming (YC S26) Is Hiring",
+          "imageUrl": "https://bookface-images.s3.amazonaws.com/logos/d19eaed1900424e4b00ecac917fbb57e96c6c2b6.png?1783445232"
+        },
+        {
+          "id": "https://spectrum.ieee.org/mexico-olinia-car-electric-vehicle",
+          "author": null,
+          "description": "Comments",
+          "link": "https://spectrum.ieee.org/mexico-olinia-car-electric-vehicle",
+          "publishedOn": "2026-07-30T16:36:47.000Z",
+          "wordCount": 11812,
+          "title": "How Olinia Turns Mexico's EV Ambition into Reality",
+          "imageUrl": "https://spectrum.ieee.org/media-library/image.jpg?id=67541519&width=1200&height=600&coordinates=0%2C167%2C0%2C167"
+        },
+        {
+          "id": "https://social.jorijn.com/@jorijn/statuses/01KYN00AP3NCZXCFB96KQB8GN2",
+          "author": null,
+          "description": "Comments",
+          "link": "https://social.jorijn.com/@jorijn/statuses/01KYN00AP3NCZXCFB96KQB8GN2",
+          "publishedOn": "2026-07-30T16:33:41.000Z",
+          "wordCount": 2219,
+          "title": "Toot.community Is Shutting Down",
+          "imageUrl": null
+        },
+        {
+          "id": "https://www.quantamagazine.org/physicists-solve-a-muon-mystery-now-old-results-dont-add-up-20260729/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.quantamagazine.org/physicists-solve-a-muon-mystery-now-old-results-dont-add-up-20260729/",
+          "publishedOn": "2026-07-30T15:22:46.000Z",
+          "wordCount": 3052,
+          "title": "Physicists Solve a Muon Mystery. Now, Old Results Don't Add Up",
+          "imageUrl": "https://www.quantamagazine.org/wp-content/uploads/2026/07/E989-storage-ring-magnet-at-Fermilab-cr-Reidar-Hahn-Fermilab-Social.jpg"
+        },
+        {
           "id": "https://deepmind.google/blog/gemini-robotics-2-brings-whole-body-intelligence-to-robots/",
           "author": null,
           "description": "Comments",
@@ -20150,6 +20260,16 @@
           "wordCount": 3340,
           "title": "The Economic Benefit of Refactoring",
           "imageUrl": "https://martinfowler.com/articles/exploring-gen-ai/donkey-card.png"
+        },
+        {
+          "id": "https://github.com/hamzarehmandeveloper/claude-account",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/hamzarehmandeveloper/claude-account",
+          "publishedOn": "2026-07-30T14:58:59.000Z",
+          "wordCount": 3426,
+          "title": "Show HN: Claude-account – switch Claude Code accounts without logging in again",
+          "imageUrl": "https://opengraph.githubassets.com/ec8b36175deee1e801e9d7e4eb3870c69b909b1b0916c1b8f39a008c80d6fc1c/hamzarehmandeveloper/claude-account"
         },
         {
           "id": "https://rusty.today/blog/paging-parquet-duckdb-file-row-number-vs-offset/",
@@ -20590,6 +20710,16 @@
           "wordCount": 1162,
           "title": "The Cold Email",
           "imageUrl": "/images/unfurl.jpg"
+        },
+        {
+          "id": "https://www.youtube.com/watch?v=W-OpIbLUOU0",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.youtube.com/watch?v=W-OpIbLUOU0",
+          "publishedOn": "2026-07-29T21:03:50.000Z",
+          "wordCount": null,
+          "title": "RCade: The Arcade Cabinet with CI/CD Deployment, Custom Graphics Card for CRT [video]",
+          "imageUrl": null
         },
         {
           "id": "https://www.ycombinator.com/companies/salespatriot/jobs/M46X6YX-forward-deployed-engineer",
@@ -23580,6 +23710,16 @@
           "wordCount": null,
           "title": "Wind turbine is being used to produce zero-carbon \"green ammonia\" fertilizer",
           "imageUrl": null
+        },
+        {
+          "id": "https://solar.lowtechmagazine.com/2025/07/how-to-mount-a-balcony-awning/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://solar.lowtechmagazine.com/2025/07/how-to-mount-a-balcony-awning/",
+          "publishedOn": "2026-07-25T15:59:13.000Z",
+          "wordCount": 1538,
+          "title": "How to Mount a Balcony Awning",
+          "imageUrl": "https://solar.lowtechmagazine.com/2025/07/how-to-mount-a-balcony-awning/images/dithers/IMG_0704-min_dithered.png"
         },
         {
           "id": "https://pytorch.org/blog/bringing-pytorch-monarch-to-amd-gpus-single-controller-distributed-training-on-rocm/",
@@ -30710,46 +30850,6 @@
           "wordCount": null,
           "title": "Netstrings (1997)",
           "imageUrl": null
-        },
-        {
-          "id": "https://www.pigeonsandplanes.com/read/music-piracy-what-cd-oink-nine-inch-nails-streaming",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.pigeonsandplanes.com/read/music-piracy-what-cd-oink-nine-inch-nails-streaming",
-          "publishedOn": "2026-07-16T04:46:21.000Z",
-          "wordCount": 7405,
-          "title": "The lost joy of music piracy",
-          "imageUrl": "https://cdn.sanity.io/images/pu3h3rl5/production/61dfa8f019d1a62c96f4a72bfb734ede527e0c90-1920x1080.gif?rect=0,39,1920,1003&w=1200&h=627&fit=crop&auto=format"
-        },
-        {
-          "id": "https://github.com/minh-ton/reynard-browser",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/minh-ton/reynard-browser",
-          "publishedOn": "2026-07-16T04:36:07.000Z",
-          "wordCount": 3845,
-          "title": "Reynard: A real Firefox web browser for iOS 13 or later",
-          "imageUrl": "https://opengraph.githubassets.com/b7ffa178690efe6dfcd4f42b980dc28d154d32028847d514b8de3441a5c64581/minh-ton/reynard-browser"
-        },
-        {
-          "id": "https://www.frank.computer/blog/2025/05/just-a-tool.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.frank.computer/blog/2025/05/just-a-tool.html",
-          "publishedOn": "2026-07-16T04:31:01.000Z",
-          "wordCount": 2660,
-          "title": "Stop saying that AI is just a tool and it only matters how it is used",
-          "imageUrl": "http://www.frank.computer/images/default.png"
-        },
-        {
-          "id": "https://thegustafson.com/blog/my-throw-decides-my-aim",
-          "author": null,
-          "description": "Comments",
-          "link": "https://thegustafson.com/blog/my-throw-decides-my-aim",
-          "publishedOn": "2026-07-16T03:51:25.000Z",
-          "wordCount": 5043,
-          "title": "My Throw Decides My Aim",
-          "imageUrl": "https://thegustafson.com/blog/my-throw-decides-my-aim/opengraph-image.png?b4d57e529658c420"
         }
       ]
     },
@@ -32507,36 +32607,6 @@
           "wordCount": 15041,
           "title": "OpenAI Launches Its First Consumer Hardware… And It’s For Vibe Coding",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/07/openai-first-consumer-hardware-codex-micro-2.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=398746",
-          "author": "John Law",
-          "description": "Intel, and more specifically, Intel Foundry, became one of the first companies in the world to enter high-volume manufacturing, a subset of its Panther Lake Core Ultra 3 Series of processors. The subset of processors was manufactured using ASML’s High NA extreme ultraviolet (EUV) lithography technology. Why Is This Important? The achievement serves as a […]\nThe post Intel Enters High-Volume Manufacturing For Panther Lake Processors With ASML Tech appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/398746/intel-asml-high-volume-manufacturing/",
-          "publishedOn": "2026-07-16T05:07:17.000Z",
-          "wordCount": 14839,
-          "title": "Intel Enters High-Volume Manufacturing For Panther Lake Processors With ASML Tech",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/04/Intel-Panther-Lake-Launch-Malaysia-3-1240x930.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=398753",
-          "author": "Ian Chee",
-          "description": "Last week, Valve released official Windows drivers for its Steam Machine. It’s normally not something you’d want to do, but for those who do, it’s a nice option to have. One YouTuber, via the channel ETA Prime, has taken this to its logical conclusion – comparing the performance while running both operating systems on the […]\nThe post Steam Machine Can Run Games Better On Windows 11 Than SteamOS appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/398753/steam-machine-game-better-on-windows-11/",
-          "publishedOn": "2026-07-16T04:55:58.000Z",
-          "wordCount": 15187,
-          "title": "Steam Machine Can Run Games Better On Windows 11 Than SteamOS",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/11/steam-machine-1.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=398741",
-          "author": "Kiran Ganesan",
-          "description": "Shortly after reports emerged of its retreat from the US and European markets, another report claims that OnePlus is pulling back from India too. Not only that, the report further details that this is the first phase of a much wider global withdrawal. Sources familiar with the matter told Bloomberg’s Chris Welch and Mark Gurman […]\nThe post OnePlus Reportedly Scaling Back Global Presence, India Exit Expected By 2027 appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/398741/oneplus-scaling-global-india-exit-2027/",
-          "publishedOn": "2026-07-16T03:54:07.000Z",
-          "wordCount": 14890,
-          "title": "OnePlus Reportedly Scaling Back Global Presence, India Exit Expected By 2027",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/11/oneplus-15r-pad-go-2-watch-lite-unveiled-2025-1.webp"
         }
       ]
     },
@@ -32929,6 +32999,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "9cd9f9e8-62c3-486f-91f0-c985d8b4216e",
+          "author": "Will Canny",
+          "description": "The tokenized-assets firm is considering an acquisition valued at $250 million to $500 million as consolidation accelerates across crypto infrastructure.",
+          "link": "https://www.coindesk.com/business/2026/07/29/ondo-finance-weighs-acquisition-worth-up-to-usd500-million",
+          "publishedOn": "2026-07-30T16:04:16.000Z",
+          "wordCount": 12166,
+          "title": "Ondo Finance weighs acquisition worth up to $500 million",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/b812b8ada6cef71c702a746a86725e170bb18b15-1920x1080.jpg?auto=format&q=75"
+        },
         {
           "id": "e33a9b31-f9e1-4374-ae6e-9a99b7443f83",
           "author": "Aaron Brogan",
@@ -35328,36 +35408,6 @@
           "wordCount": 12479,
           "title": "U.S. Senate unanimously opposes clemency for FTX founder Sam Bankman-Fried",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/51a62814bc17d19cbfe90f63c3a01e035093d234-3210x2408.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "cffefd67-2918-40c3-bf56-bc6887e7a0a6",
-          "author": "Shaurya Malwa",
-          "description": "The coins went to a fresh address rather than an exchange, so nothing has been sold yet.",
-          "link": "https://www.coindesk.com/markets/2026/07/16/a-bitcoin-wallet-dormant-since-the-2017-peak-just-moved-usd383-million",
-          "publishedOn": "2026-07-16T05:12:26.000Z",
-          "wordCount": 12153,
-          "title": "A bitcoin wallet dormant since the 2017 peak just moved $383 million",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/70198f64252bcded39f90b505eb1a2f4f3b2fb92-1500x1000.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "ac7bbcff-d3d4-487d-97b6-67317c8c7b43",
-          "author": "Shaurya Malwa",
-          "description": "This is not a broad rally as bitcoin is up 4% over the same stretch, and solana, TRON and hyperliquid are all lower.",
-          "link": "https://www.coindesk.com/markets/2026/07/16/ether-outruns-bitcoin-as-etf-money-returns-almost-all-of-from-blackrock-s-fund",
-          "publishedOn": "2026-07-16T04:56:15.000Z",
-          "wordCount": 12533,
-          "title": "Ether outruns bitcoin as ETF money returns, almost all of from BlackRock's fund",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/c357579ddef2051b405b9e89f8525dd02709081d-5760x3240.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
-        },
-        {
-          "id": "136fd837-ce17-43d2-b231-c409d42aea6c",
-          "author": "Omkar Godbole",
-          "description": "Bitcoin surges toward $65,000 on softer-than-expected inflation data, but on-chain signals show two key investor groups selling into the bounce.",
-          "link": "https://www.coindesk.com/markets/2026/07/16/two-groups-of-bitcoin-investors-sell-on-the-rise-as-inflation-lifts-prices-to-nearly-usd65-000",
-          "publishedOn": "2026-07-16T04:09:10.000Z",
-          "wordCount": 13087,
-          "title": "Two groups of bitcoin Investors sell on the rise as U.S. inflation lifts prices to nearly $65,000",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6d62dea31c05f153f4407ebc45f48ddfab943da6-1280x905.jpg?auto=format&w=960&h=540&crop=focalpoint&fit=clip&q=75&fm=jpg"
         }
       ]
     },
