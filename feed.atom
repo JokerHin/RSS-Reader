@@ -2,10 +2,335 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-08-04T21:10:58.488Z</updated>
+    <updated>2026-08-04T23:01:30.863Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[A API de terceiro caiu e derrubou seu app junto]]></title>
+        <id>https://dev.to/denisgusto1/a-api-de-terceiro-caiu-e-derrubou-seu-app-junto-1366</id>
+        <link href="https://dev.to/denisgusto1/a-api-de-terceiro-caiu-e-derrubou-seu-app-junto-1366"/>
+        <updated>2026-08-04T22:56:07.000Z</updated>
+        <summary type="html"><![CDATA[A API deles caiu. Por que o SEU app caiu junto?
+
+
+O fornecedor de frete teve um problema. A API deles ficou lenta — respondendo em 40 segundos em vez de 200 milissegundos.
+Do lado deles, um incidente. Do seu lado? Caos.
+Cada requisição que seu app fez pra calcular o frete ficou pendurada esperando. Os workers da fila entupiram. As conexões do PHP-FPM esgotaram. Em poucos minutos, seu app inteiro parou de responder — não só o checkout, tudo.
+Um problema que era deles virou seu problema. E o pior: era evitável com três linhas.
+Chamada de API é um ato de fé. Você pede algo pra um servidor que não é seu e espera que ele responda rápido, sempre, sem erro. Spoiler: ele não vai.
+// Confiança cega: espera pra sempre, e reza pra dar certo
+$response = Http::get('https://api-frete.com/cotacao', [
+   …]]></summary>
+        <author>
+            <name>Denis Augusto</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[N+1: o bug silencioso que trava seu Laravel em produção]]></title>
+        <id>https://dev.to/denisgusto1/n1-o-bug-silencioso-que-trava-seu-laravel-em-producao-4olp</id>
+        <link href="https://dev.to/denisgusto1/n1-o-bug-silencioso-que-trava-seu-laravel-em-producao-4olp"/>
+        <updated>2026-08-04T22:56:06.000Z</updated>
+        <summary type="html"><![CDATA[Sua tela demora 8 segundos e o servidor não tem culpa
+
+
+O cliente manda a mensagem: "o painel tá travando".
+Você abre em produção. Conta os segundos. Um... dois... oito. A tela de listagem de pedidos, que tem 50 linhas, demora uma eternidade pra carregar.
+Primeiro palpite: servidor fraco. Você já tá quase abrindo um chamado pra subir o plano da VPS.
+Segura o dedo. Na esmagadora maioria das vezes, não é o servidor. É o N+1 query — o bug mais silencioso e mais comum do Eloquent. Ele não quebra nada, não estoura erro, não aparece no log. Só deixa tudo lento e finge que a culpa é de outro.
+Olha esse trecho. Aposto que tem um igualzinho no seu projeto agora:
+$pedidos = Pedido::all(); // 1 query pra buscar os pedidos
+
+foreach ($pedidos as $pedido) {
+    // e aqui... +1 query POR pedido, toda vez…]]></summary>
+        <author>
+            <name>Denis Augusto</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MCP Servers: Por Qué Tu SaaS Necesita Uno (Y Cómo Implementarlo en Python)]]></title>
+        <id>https://dev.to/pivelcode/mcp-servers-por-que-tu-saas-necesita-uno-y-como-implementarlo-en-python-3ip8</id>
+        <link href="https://dev.to/pivelcode/mcp-servers-por-que-tu-saas-necesita-uno-y-como-implementarlo-en-python-3ip8"/>
+        <updated>2026-08-04T22:51:47.000Z</updated>
+        <summary type="html"><![CDATA[Hace 6 meses: ¿Qué es MCP?
+Hoy: ¿Tu SaaS ya tiene un MCP server?
+Si tu respuesta es "no", este artículo es para ti.
+MCP = Model Context Protocol. Es el estándar que permite que cualquier modelo de AI se conecte a tus herramientas, datos y APIs de forma segura y estandarizada.
+Piénsalo como "el USB para AI". Así como el USB te permite conectar cualquier dispositivo a cualquier computadora sin adaptadores especiales, MCP te permite conectar cualquier modelo de AI (Claude, GPT, Gemini) a cualquier fuente de datos o herramienta sin integraciones custom para cada uno.
+[Tu SaaS] ←→ [MCP Client] ←→ [MCP Server] ←→ [Herramientas/Datos]
+              ↕️                        ↕️
+         [Modelo AI]              [APIs, DB, Files]
+
+Cada SaaS está agregando features de AI. Los modelos necesitan acced…]]></summary>
+        <author>
+            <name>Felipe</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[A JSON Schema Safety Harness for Choosing a Text-to-Image API]]></title>
+        <id>https://dev.to/jasperflint6947/a-json-schema-safety-harness-for-choosing-a-text-to-image-api-4cp3</id>
+        <link href="https://dev.to/jasperflint6947/a-json-schema-safety-harness-for-choosing-a-text-to-image-api-4cp3"/>
+        <updated>2026-08-04T22:50:17.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR
+
+
+Short answer: choose an image generation API only after your own prompt-safety eval passes, and use a chat model with a strict JSON Schema when the runtime has no dedicated moderation endpoint. I would use Infrai when I expect the app to grow into several backend capabilities under one consistent REST contract; I would choose a provider-specific stack when moderation must be a native, independently managed product or when every extra preflight call is unacceptable.
+The deciding metric isn't image aesthetics alone. For a Python product that accepts user prompts, I measure unsafe-prompt recall, false blocks, schema-valid response rate, end-to-end latency, and tokens spent on the gate before I compare generated images.
+I start with a small evaluation set, not a vendor matrix. Mine has…]]></summary>
+        <author>
+            <name>JasperFlint6947</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Cómo creé mi portafolio como Desarrolladora Full-Stack y Mobile (y lo desplegué gratis en Vercel)]]></title>
+        <id>https://dev.to/lizzie_montesi_5215707f04/como-cree-mi-portafolio-como-desarrolladora-full-stack-y-mobile-y-lo-desplegue-gratis-en-vercel-2543</id>
+        <link href="https://dev.to/lizzie_montesi_5215707f04/como-cree-mi-portafolio-como-desarrolladora-full-stack-y-mobile-y-lo-desplegue-gratis-en-vercel-2543"/>
+        <updated>2026-08-04T22:44:49.000Z</updated>
+        <summary type="html"><![CDATA[¡Hola a todos! 👋 
+Quiero compartirles el proceso de desarrollo de mi portafolio profesional como desarrolladora Full-Stack y Mobile. El objetivo principal fue crear una plataforma moderna, rápida y adaptable que muestre de forma clara mis proyectos y habilidades.
+Frontend: React, HTML5, CSS3, JavaScript
+Despliegue & Hosting: Vercel
+Diseño enfocado en experiencia de usuario: Estructurar la información de manera que un reclutador o cliente pueda ver mis proyectos principales en pocos segundos.
+Despliegue continuo con Vercel: Configurar el proyecto desde GitHub hacia Vercel para mantener publicaciones automáticas con cada cambio.
+Optimización responsiva: Asegurar que el sitio funcione sin problemas tanto en pantallas móviles como en monitores de escritorio.
+Explora mi portafolio
+Ver mi Portafolio en Vivo
+¡Cualquier comentario, sugerencia o feedback sobre el diseño o el código es súper bienvenido! Gracias por leer. 🙌]]></summary>
+        <author>
+            <name>Lizzie Montesi</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The problem was never intelligence, it was continuity.]]></title>
+        <id>https://dev.to/jarrodcabarubio/the-problem-was-never-intelligence-it-was-continuity-4170</id>
+        <link href="https://dev.to/jarrodcabarubio/the-problem-was-never-intelligence-it-was-continuity-4170"/>
+        <updated>2026-08-04T22:40:37.000Z</updated>
+        <summary type="html"><![CDATA[Building an AI Operating Layer
+Somewhere along the way I realized I had been asking the wrong question.
+It seemed obvious. If the models kept getting smarter, everything else would fall into place.
+None of that matters if the next conversation has to start over.
+Think about that for a second.
+Then a new model jumps in.
+And everyone starts rebuilding the same understanding all over again.
+That felt crazy to me.
+I thought memory was the answer.
+Those ideas help, but they don't solve the deeper problem.
+Memory stores information.
+That was the turning point.
+I stopped thinking about memory and started thinking about continuity.
+What if the important thing wasn't remembering everything?
+That single question quietly changed the architecture.
+That has led us into knowledge models, governed context, project reconstruction, and architectural boundaries.
+Some of those ideas will survive.
+That's okay.
+Where I am today
+I think the harder problem is making sure understanding survives.
+Maybe every project gets a little wiser than the last.
+But I think that's a question worth chasing.]]></summary>
+        <author>
+            <name>Jarrod Cabarubio</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Added a Tag in AWS. Terraform Removed It Automatically.]]></title>
+        <id>https://dev.to/lbagga/i-added-a-tag-in-aws-terraform-removed-it-automatically-1467</id>
+        <link href="https://dev.to/lbagga/i-added-a-tag-in-aws-terraform-removed-it-automatically-1467"/>
+        <updated>2026-08-04T22:30:26.000Z</updated>
+        <summary type="html"><![CDATA[I opened the AWS console, selected an EC2 instance, added a tag, and saved it.
+The tag did not exist in Terraform. The deployed infrastructure now said one thing while the code said another.
+That was the test.
+My drift detector already knew how to find the difference and classify the EC2 update as LOW. The missing part was closing the loop: once the system understood that the change was low severity, it needed to restore the infrastructure without waiting for me to run Terraform manually.
+So I added a separate remediation pipeline.
+Manual EC2 tag added in AWS
+        ↓
+Drift CodeBuild runs terraform plan
+        ↓
+SNS publishes the structured change
+        ↓
+Lambda classifies the update as LOW
+        ↓
+Remediation CodeBuild runs terraform apply
+        ↓
+Terraform removes the unmanaged t…]]></summary>
+        <author>
+            <name>Lalit Bagga</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Compared the Free Tiers of Google Flow, Kling AI, and Hailuo So You Don't Have To]]></title>
+        <id>https://dev.to/just_a_side_project/i-compared-the-free-tiers-of-google-flow-kling-ai-and-hailuo-so-you-dont-have-to-2737</id>
+        <link href="https://dev.to/just_a_side_project/i-compared-the-free-tiers-of-google-flow-kling-ai-and-hailuo-so-you-dont-have-to-2737"/>
+        <updated>2026-08-04T22:28:21.000Z</updated>
+        <summary type="html"><![CDATA[In my last post, I mentioned pivoting away from AI-generated video after digging into the free tiers of the big three tools. Here's the actual digging — what each one gives you for free, and where the fine print gets in the way.
+I'm not affiliated with any of these tools. I just wanted a straight answer to "can I use this for a monetized channel without paying," and it took longer to find than it should have.
+The short version
+
+
+
+Tool
+Free credits
+Renewal
+Max clip length (free)
+Watermark
+Commercial use on free tier
+
+
+Google Flow (Veo 3.1)
+~50
+Daily
+8 seconds
+"Made with Veo" visible
+Unclear — see below
+
+
+Kling AI
+~66
+Daily
+~5 seconds per generation
+Visible
+Explicitly excluded
+
+
+Hailuo / MiniMax
+200
+
+One-time (new account bonus)
+~6 seconds (768p)
+Visible
+Explicitly excluded
+
+
+
+Google Flow (V…]]></summary>
+        <author>
+            <name>Just a Side Project</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[[Advanced Rust] 2.4. API Design Principles of Unsurprising Pt.4 - Ergonomic Trait Implementations, Wrapper Types, and Borrow Tr…]]></title>
+        <id>https://dev.to/someb1oody/advanced-rust-24-api-design-principles-of-unsurprising-pt4-ergonomic-trait-implementations-3aek</id>
+        <link href="https://dev.to/someb1oody/advanced-rust-24-api-design-principles-of-unsurprising-pt4-ergonomic-trait-implementations-3aek"/>
+        <updated>2026-08-04T22:26:38.000Z</updated>
+        <summary type="html"><![CDATA[Full title: [Advanced Rust] 2.4. API Design Principles of Unsurprising Pt.4 - Ergonomic Trait Implementations, Wrapper Types, and Borrow Trait
+Rust does not automatically provide implementations for references to a type that implements a given trait.
+For example, if Bar implements Trait, you still cannot pass &Bar to fn foo<T: Trait>(t: T). That is because implementing Trait for Bar does not automatically implement Trait for &Bar.
+Example:
+trait Trait {
+    fn name(&self) -> &'static str;
+}
+
+struct Bar;
+
+impl Trait for Bar {
+    fn name(&self) -> &'static str {
+        "Bar"
+    }
+}
+
+fn foo<T: Trait>(t: T) {
+    println!("{}", t.name());
+}
+
+fn main() {
+    let bar = Bar;
+    foo(bar); // OK
+
+    let bar_ref = &Bar;
+    foo(bar_ref); // error[E0277]: the trait bound `&Bar: Trait` is not sat…]]></summary>
+        <author>
+            <name>SomeB1oody</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building Fast with Claude Code Is Easy. Securing the App Is the Hard Part]]></title>
+        <id>https://dev.to/mihirshaik270/building-fast-with-claude-code-is-easy-securing-the-app-is-the-hard-part-52nk</id>
+        <link href="https://dev.to/mihirshaik270/building-fast-with-claude-code-is-easy-securing-the-app-is-the-hard-part-52nk"/>
+        <updated>2026-08-04T22:23:42.000Z</updated>
+        <summary type="html"><![CDATA[Disclosure
+
+
+Full disclosure: I currently intern at Perfai Security, the authorization and access control testing platform mentioned later in this article. This isn't a sponsored post—I genuinely built FlashDraft as a personal project, and because I work at Perfai, I naturally used it as part of my release process. If you think either the app or Perfai could be improved, I'd genuinely appreciate your honest feedback.
+AI coding tools make it possible to generate dashboards, databases, authentication flows, and API routes faster than ever.
+But a working application is not automatically a secure application.
+This becomes especially important when an app has multiple users, private data, ownership rules, and different permission levels. A user may be signed in correctly but still gain access t…]]></summary>
+        <author>
+            <name>Mihir Shaik</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Git Diff for Human Reasoning]]></title>
+        <id>https://dev.to/gnomeman4201/-git-diff-for-human-reasoning-c17</id>
+        <link href="https://dev.to/gnomeman4201/-git-diff-for-human-reasoning-c17"/>
+        <updated>2026-08-04T22:23:27.000Z</updated>
+        <summary type="html"><![CDATA[Every investigation eventually reaches the same moment.
+Two competent people look at the same evidence and walk away believing different things.
+That isn't unusual. What's unusual is what happens next. We compare their conclusions. Not their reasoning. We argue over who is right. We almost never ask where they first began thinking differently.
+That struck me as backwards.
+Every investigation leaves behind artifacts. Logs. Disk images. Photographs. Witness statements. Source code. Those artifacts become part of the permanent record, indexed, hashed, preserved for years.
+Ironically, the reasoning that connected them usually disappears. The assumptions made along the way. The alternative explanations that were considered and rejected. The moment someone's confidence changed. Those things typi…]]></summary>
+        <author>
+            <name>GnomeMan4201</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Do Not Hire an AI Test Agent From Its Demo]]></title>
+        <id>https://dev.to/orbitpickle307/do-not-hire-an-ai-test-agent-from-its-demo-28fk</id>
+        <link href="https://dev.to/orbitpickle307/do-not-hire-an-ai-test-agent-from-its-demo-28fk"/>
+        <updated>2026-08-04T22:22:08.000Z</updated>
+        <summary type="html"><![CDATA[AI testing demos are almost unfairly persuasive.
+You describe a workflow in plain English. The agent opens a browser, finds the correct elements, completes the flow, and produces a passing test.
+Five minutes later, it feels as if test maintenance has been solved.
+The problem is that a demo shows the happy path for the agent, not the operating model for your team.
+The real evaluation begins when the application changes, the locator is ambiguous, the environment is partially broken, or the agent makes the wrong decision with high confidence.
+I would not give a new employee broad production access simply because they completed one task successfully in an interview.
+I would first want to know:
+How they explain their decisions
+What they do when information is missing
+Whether they escalate uncer…]]></summary>
+        <author>
+            <name>Simon Gerber</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DuckDB – Data power tools for your laptop, now in Clojure (2023)]]></title>
+        <id>https://techascent.com/blog/just-ducking-around.html</id>
+        <link href="https://techascent.com/blog/just-ducking-around.html"/>
+        <updated>2026-08-04T22:09:43.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI fuels more than half of cybercrime in Africa as scams surge – Interpol]]></title>
+        <id>https://www.africanews.com/2026/08/04/ai-fuels-more-than-half-of-cybercrime-in-africa-as-digital-scams-surge-interpol/</id>
+        <link href="https://www.africanews.com/2026/08/04/ai-fuels-more-than-half-of-cybercrime-in-africa-as-digital-scams-surge-interpol/"/>
+        <updated>2026-08-04T22:01:41.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Third-party cyber evaluations involving OpenAI models]]></title>
+        <id>https://openai.com/index/third-party-cyber-evaluations-involving-openai-models/</id>
+        <link href="https://openai.com/index/third-party-cyber-evaluations-involving-openai-models/"/>
+        <updated>2026-08-04T21:14:19.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Thanks FedEx, This Is Why We Keep Getting Phished (2024)]]></title>
+        <id>https://www.troyhunt.com/thanks-fedex-this-is-why-we-keep-getting-phished/</id>
+        <link href="https://www.troyhunt.com/thanks-fedex-this-is-why-we-keep-getting-phished/"/>
+        <updated>2026-08-04T21:09:39.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How I cut my Chromatic bill 10x (works on any visual testing tool)]]></title>
         <id>https://dev.to/igrlk/how-i-cut-my-chromatic-bill-10x-works-on-any-visual-testing-tool-28an</id>
@@ -220,6 +545,16 @@ Competition vs Engineering: Recognized that high leaderboard scores often rely o
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Gwern reties from fulltime writing to launch Guardian Angel Inc]]></title>
+        <id>https://twitter.com/i/status/2084739205071343837</id>
+        <link href="https://twitter.com/i/status/2084739205071343837"/>
+        <updated>2026-08-04T20:48:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[I built a 126-page site optimised to be quoted by LLMs. Here is everything I shipped.]]></title>
         <id>https://dev.to/lucian_tudor_303e1e12b9e5/i-built-a-126-page-site-optimised-to-be-quoted-by-llms-here-is-everything-i-shipped-38lp</id>
         <link href="https://dev.to/lucian_tudor_303e1e12b9e5/i-built-a-126-page-site-optimised-to-be-quoted-by-llms-here-is-everything-i-shipped-38lp"/>
@@ -322,6 +657,16 @@ The goal is narrow: turn a list of scene descriptions into a folder of finished 
         <id>https://electrek.co/2026/08/04/waymo-co-ceo-camera-only-self-driving-tesla/</id>
         <link href="https://electrek.co/2026/08/04/waymo-co-ceo-camera-only-self-driving-tesla/"/>
         <updated>2026-08-04T20:11:15.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Maple-Preview – ternary 20B MoE running at 120 tok/s on a iPhone]]></title>
+        <id>https://deepgrove.ai/maple-preview</id>
+        <link href="https://deepgrove.ai/maple-preview"/>
+        <updated>2026-08-04T19:44:55.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -604,6 +949,16 @@ recalcula el
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[What Modern QA Engineers Actually Do: It's More Than Finding Bugs]]></title>
+        <id>6a722e60649a71090a9c2307</id>
+        <link href="https://www.freecodecamp.org/news/what-does-a-modern-qa-engineer-do/"/>
+        <updated>2026-08-04T18:24:32.000Z</updated>
+        <summary type="html"><![CDATA[Ask someone what a QA engineer does, and you'll probably hear a familiar answer: "They test software and find bugs." It's a common perception, and to be fair, finding bugs is an important part of the]]></summary>
+        <author>
+            <name>GAYATHRI BOLINENI</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[como encontrar grupos de WhatsApp públicos com segurança]]></title>
         <id>https://dev.to/gustavoschroderofc/como-encontrar-grupos-de-whatsapp-publicos-com-seguranca-5eb1</id>
         <link href="https://dev.to/gustavoschroderofc/como-encontrar-grupos-de-whatsapp-publicos-com-seguranca-5eb1"/>
@@ -615,6 +970,16 @@ Neste guia, você vai aprender como encontrar grupos de WhatsApp públicos com s
 Uma das formas mais simples de encontrar comunidades públicas é utilizar sites especializados em reunir e organiz…]]></summary>
         <author>
             <name>Gustavo Schroder</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Sound of Inevitability]]></title>
+        <id>https://www.panoptica.com/the-sound-of-inevitability/</id>
+        <link href="https://www.panoptica.com/the-sound-of-inevitability/"/>
+        <updated>2026-08-04T18:12:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -7860,6 +8225,16 @@ Mình vẫn đang tiếp tục cải thiện tốc độ website, tối ưu SEO 
         <id>https://medium.com/pinterest-engineering/finding-zombies-in-our-systems-a-real-world-story-of-cpu-bottlenecks-ea4722e552eb</id>
         <link href="https://medium.com/pinterest-engineering/finding-zombies-in-our-systems-a-real-world-story-of-cpu-bottlenecks-ea4722e552eb"/>
         <updated>2026-08-02T14:50:48.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Video2NAND – Abusing video codecs for great computational power]]></title>
+        <id>https://sharedobject.blog/posts/vp8-combinatorial-logic/</id>
+        <link href="https://sharedobject.blog/posts/vp8-combinatorial-logic/"/>
+        <updated>2026-08-02T14:29:01.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -51109,247 +51484,6 @@ The post BYD Certified Pre-Owned EV Programme Launches In Malaysia appeared firs
         <summary type="html"><![CDATA[Speculation that President Donald Trump agreed to a crucial ethics provision for the crypto market structure bill underpinned the gains.]]></summary>
         <author>
             <name>Omkar Godbole</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ADATA Chairman: Memory Shortage To Last Over The Next Decade]]></title>
-        <id>https://www.lowyat.net/?p=399231</id>
-        <link href="https://www.lowyat.net/2026/399231/memory-shortage-to-over-next-decade/"/>
-        <updated>2026-07-21T10:59:19.000Z</updated>
-        <summary type="html"><![CDATA[Remember when earlier in the year SK Group chairman Chey Tae-won said that the memory shortage could last until 2030? As it turns out, compared to other people in the industry, he may have been a bit optimistic. This is because another opinion, this time coming from ADATA founder, chairman and CEO Simon Chen, claims […]
-The post ADATA Chairman: Memory Shortage To Last Over The Next Decade appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Touch ‘n Go Launches Enhanced RFID Lane For Seamless Tolling]]></title>
-        <id>https://www.lowyat.net/?p=399241</id>
-        <link href="https://www.lowyat.net/2026/399241/touch-n-go-enhanced-rfid-lane/"/>
-        <updated>2026-07-21T10:44:00.000Z</updated>
-        <summary type="html"><![CDATA[Touch ‘n Go has rolled out its new Enhanced RFID lane at the Ampang-Kuala Lumpur Elevated Highway (AKLEH) Dato’ Keramat toll plaza. Identified through a gold star symbol on the RFID signage, the lane promises a smoother and more seamless tolling experience for motorists. The Enhanced RFID lane leverages the homegrown Titan Flow technology, which […]
-The post Touch ‘n Go Launches Enhanced RFID Lane For Seamless Tolling appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Advancing next-gen AI with materials science innovation]]></title>
-        <id>https://www.technologyreview.com/?p=1140602</id>
-        <link href="https://www.technologyreview.com/2026/07/21/1140602/advancing-next-gen-ai-with-materials-science-innovation/"/>
-        <updated>2026-07-21T10:37:34.000Z</updated>
-        <summary type="html"><![CDATA[The conversation about AI often centers on algorithms, computing power, or huge investments in new semiconductor fabrication plants and hyperscale data centers. But beneath each of these advances is another layer of innovation that makes them possible: advanced materials. Every new generation of AI technology demands more processing power, more memory, greater energy efficiency, and…]]></summary>
-        <author>
-            <name>Christine McGuiness and Devang Khariwala</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AirBorneo To Expand Operations Across ASEAN Soon]]></title>
-        <id>https://www.lowyat.net/?p=399238</id>
-        <link href="https://www.lowyat.net/2026/399238/airborneo-to-expand-operations-asean/"/>
-        <updated>2026-07-21T10:16:17.000Z</updated>
-        <summary type="html"><![CDATA[AirBorneo is set to expand its international network further, with Jakarta expected to become its next overseas destination, according to Sarawak Premier Tan Sri Abang Johari Tun Openg. The move is aimed at strengthening Sarawak’s connectivity with the wider ASEAN region. According to Abang Johari, the airline’s international services are intended to strengthen economic and people-to-people […]
-The post AirBorneo To Expand Operations Across ASEAN Soon appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Kiran Ganesan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CCIP Doesn't Run Two DONs Anymore. Here's What v1.6 Actually Changed.]]></title>
-        <id>https://dev.to/0xramprasad/ccip-doesnt-run-two-dons-anymore-heres-what-v16-actually-changed-63a</id>
-        <link href="https://dev.to/0xramprasad/ccip-doesnt-run-two-dons-anymore-heres-what-v16-actually-changed-63a"/>
-        <updated>2026-07-21T10:12:29.000Z</updated>
-        <summary type="html"><![CDATA[The thing most content gets wrong about CCIP
-
-
-Search for "CCIP architecture" today and most of what you find still describes two separate oracle networks: a Committing DON and an Executing DON, two distinct networks with different node sets, each responsible for a different phase of cross-chain message delivery.
-That description was accurate before v1.6. It isn't anymore.
-As of CCIP v1.6, the architecture changed to a single DON called the Role DON that includes all participating nodes. Two OCR plugins run on these nodes: one for committing and one for executing. They are not separate networks. They are subsets of the same node set, distinguished solely by their assigned roles.
-This distinction matters more than it sounds. The security model, the trust assumptions, and the way you should …]]></summary>
-        <author>
-            <name>Ramprasad Edigi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I REBUILT MY SITE WITH ASTRO & SANITY]]></title>
-        <id>https://dev.to/mjblount_design/i-rebuilt-my-site-with-astro-sanity-1b7c</id>
-        <link href="https://dev.to/mjblount_design/i-rebuilt-my-site-with-astro-sanity-1b7c"/>
-        <updated>2026-07-21T10:11:22.000Z</updated>
-        <summary type="html"><![CDATA[A couple of years ago, when I was deciding which platform to use for web development projects, I was very keen on the idea of using Webflow. It felt like the perfect bridge between the beginner-friendly page builders I'd been using, like Elementor, and the more professional development tools that followed the genuine web development principles I was learning at the time.
-To get started, I used it to build my first portfolio website. There was a slightly steeper learning curve than I was used to, but it quickly became a solid tool to work with. Its component and class systems encouraged a much more structured approach to building websites, and many of those principles have stuck with me ever since.
-At the time, I intended it to be a site I would update regularly. I'm sure this will sound fa…]]></summary>
-        <author>
-            <name>Matt Blount</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop Using Generic AI Review. Build Your Own Board of Experts.]]></title>
-        <id>https://dev.to/yuhaolin2005/stop-using-generic-ai-review-build-your-own-board-of-experts-196n</id>
-        <link href="https://dev.to/yuhaolin2005/stop-using-generic-ai-review-build-your-own-board-of-experts-196n"/>
-        <updated>2026-07-21T10:07:42.000Z</updated>
-        <summary type="html"><![CDATA[You finish a piece of work. You ask AI to review it. It says "looks good." You publish.
-It wasn't good. You had no way to know.
-That's the problem with adversarial review. You tell the AI to "act as a security reviewer" or "play the skeptic." It gives you feedback. Some is useful. Most of it you can't trust — not because the AI is malicious, but because you have no idea why it said what it said.
-"Your experiment design looks solid." Based on what?
-"Consider adding error handling." Which errors? Why here? Is this real analysis, or did the model just pattern-match "code review → suggest error handling"?
-When you work alone — no team, no code review, no second set of eyes — this is worse than no review. Generic review gives you confidence without knowing if you should be confident. You think …]]></summary>
-        <author>
-            <name>YuhaoLin2005</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Shipped 5 Products Using These 11 AI Prompts (Open-Sourced, With Outputs)]]></title>
-        <id>https://dev.to/draftkit/i-shipped-5-products-using-these-11-ai-prompts-open-sourced-with-outputs-3k3c</id>
-        <link href="https://dev.to/draftkit/i-shipped-5-products-using-these-11-ai-prompts-open-sourced-with-outputs-3k3c"/>
-        <updated>2026-07-21T10:04:54.000Z</updated>
-        <summary type="html"><![CDATA[I've launched five digital products in the last two months. Every launch artifact — the launch tweet, the Show HN post, the changelog entry, the cold outreach DM, the README intro, the PR description template — was drafted by an AI prompt I'd written, tested, and refined.
-This post is those prompts. Not a teaser. The actual prompts, with the actual outputs they produced, and a short note on why each one works. If they're useful, steal them. If you want the full set of 30+ tested prompts covering the entire product lifecycle, I link to it at the bottom.
-Every AI prompt list I've read has the same problem: the prompts are vague. "Write a launch tweet" produces generic SaaS-speak. "Write a cold email" produces a wall of buzzwords. The model isn't broken — you've given it nothing specific to o…]]></summary>
-        <author>
-            <name>draftkit</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Escape IntelliJ: Scala and Kotlin LSPs on Emacs Eglot]]></title>
-        <id>https://jointhefreeworld.org/blog/articles/emacs/emacs-eglot-scala-kotlin/index.html</id>
-        <link href="https://jointhefreeworld.org/blog/articles/emacs/emacs-eglot-scala-kotlin/index.html"/>
-        <updated>2026-07-21T10:04:20.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Docker for the Developer Who Actually Has to Ship: Secrets, Multi-Stage Builds, Live Reload, and Why Your Container Just Died]]></title>
-        <id>https://dev.to/surajrkhonde/docker-for-the-developer-who-actually-has-to-ship-secrets-multi-stage-builds-live-reload-and-57m7</id>
-        <link href="https://dev.to/surajrkhonde/docker-for-the-developer-who-actually-has-to-ship-secrets-multi-stage-builds-live-reload-and-57m7"/>
-        <updated>2026-07-21T10:01:56.000Z</updated>
-        <summary type="html"><![CDATA[Nephew has Docker basics down now — images, containers, volumes, networks, Compose. But the real world keeps handing him things the fundamentals didn't cover: a container that dies the instant it starts, a database password sitting in plain sight in an image layer, a build that takes four minutes for a one-line change. Uncle sits him down again, this time for the stuff that actually shows up in PRs and on-call pages.
-👦 Nephew: Uncle, I need to pass my database password into a container. The easiest thing seems to be just writing it straight into the Dockerfile. What's actually wrong with that?
-👨‍🦳 Uncle: Let's find out the hard way, on purpose, so you never forget it. Suppose you write this:
-# DON'T DO THIS
-FROM node:20
-ENV DB_PASSWORD=super_secret_123
-WORKDIR /app
-COPY . .
-CMD ["npm", …]]></summary>
-        <author>
-            <name>surajrkhonde</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Snappt Alternative: A Self-Serve PDF Fraud Detection API for Rental & Beyond]]></title>
-        <id>https://dev.to/iurii_rogulia/snappt-alternative-a-self-serve-pdf-fraud-detection-api-for-rental-beyond-4m98</id>
-        <link href="https://dev.to/iurii_rogulia/snappt-alternative-a-self-serve-pdf-fraud-detection-api-for-rental-beyond-4m98"/>
-        <updated>2026-07-21T10:00:36.000Z</updated>
-        <summary type="html"><![CDATA[Originally published at htpbe.tech. The version on htpbe.tech stays in sync with the latest detection algorithm — refer to it for the canonical text.
-If you are searching for a Snappt alternative, you are usually in one of two situations. Either you run a property-management or leasing operation that wants document fraud detection without committing to a full screening platform, or you are building something — a tenant-screening product, a lending pipeline, an HR onboarding flow — and you want the structural PDF fraud layer that Snappt does well, but as an API you control. This article is written for the second case, and it is honest about the first.
-HTPBE is not a drop-in replacement for everything Snappt does. Snappt is a multifamily-rental platform with a leasing-team dashboard, income …]]></summary>
-        <author>
-            <name>Iurii Rogulia</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Six UI Testing Problems That Expose Weak Automation]]></title>
-        <id>https://dev.to/orbitpickle307/six-ui-testing-problems-that-expose-weak-automation-2bpa</id>
-        <link href="https://dev.to/orbitpickle307/six-ui-testing-problems-that-expose-weak-automation-2bpa"/>
-        <updated>2026-07-21T09:59:15.000Z</updated>
-        <summary type="html"><![CDATA[Most browser automation demos use a familiar workflow: open a page, fill in a form, click Submit, and verify a success message.
-Real products are rarely that cooperative.
-The difficult parts are usually the workflows with multiple identities, temporary UI layers, asynchronous decisions, browser-controlled surfaces, files, or layouts that change across locales. These are also the areas where a test setup that looked elegant in a proof of concept starts accumulating exceptions.
-Here are six categories that reveal whether a browser automation approach is ready for production use.
-Localization testing is not just checking translated strings.
-A language change can alter text length, layout direction, date formats, decimal separators, sorting rules, keyboard behavior, and which content is visibl…]]></summary>
-        <author>
-            <name>Simon Gerber</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Preventing Focus Loss From Launching a Charged Jump in a Three.js Arcade Game]]></title>
-        <id>https://dev.to/sunnhappy/preventing-focus-loss-from-launching-a-charged-jump-in-a-threejs-arcade-game-415p</id>
-        <link href="https://dev.to/sunnhappy/preventing-focus-loss-from-launching-a-charged-jump-in-a-threejs-arcade-game-415p"/>
-        <updated>2026-07-21T09:58:56.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for DEV's Summer Bug Smash: Clear the Lineup powered by Sentry.
-Solstice Leap is a small Three.js arcade game where the player holds a control to charge a jump and releases it to launch. That makes the distinction between an intentional release and an interrupted input important: a jump can spend daylight, break a streak, or end a run.
-I found a bug in that distinction. While charging, switching browser tabs, using Alt + Tab, or otherwise moving focus away from the game caused the character to jump automatically. The game treated the browser's blur event as though the player had deliberately released the jump control.
-I recorded the bug in Issue #1 and fixed it in PR #2.
-Start a run.
-Hold Leap, the game button, or Space to begin charging.
-Before releasing the input, sw…]]></summary>
-        <author>
-            <name>george</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Optimizing RAG at Scale: Chunking, Retrieval, and the Bayesian Search That Cut Latency 40%]]></title>
-        <id>https://dev.to/imus_d7584cbc8ee9b0336256/optimizing-rag-at-scale-chunking-retrieval-and-the-bayesian-search-that-cut-latency-40-11g0</id>
-        <link href="https://dev.to/imus_d7584cbc8ee9b0336256/optimizing-rag-at-scale-chunking-retrieval-and-the-bayesian-search-that-cut-latency-40-11g0"/>
-        <updated>2026-07-21T09:55:18.000Z</updated>
-        <summary type="html"><![CDATA[Optimizing RAG at Scale: Chunking, Retrieval, and the Bayesian Search That Cut Latency 40%
-
-
-How we moved from "semantic search + hope" to a measured, tunable retrieval pipeline with 95% recall@10
-Everyone ships RAG the same way: chunk by 512 tokens, embed with text-embedding-3-small, top-k=5, stuff into context. It works for demos.
-Then you hit production:
-Legal contracts: 512 tokens splits clauses mid-sentence
-API docs: 1000-token chunks drown signal in noise
-Customer tickets: Conversational context needs overlap, not fixed windows
-Latency: 500ms embedding + 200ms vector search + 300ms LLM = 1s+ per query
-We rebuilt our retrieval layer from first principles. Here's what actually moves metrics.
-# rag/chunking.py
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
-
-@datac…]]></summary>
-        <author>
-            <name>Imus</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building Production-Grade LLM Evaluation Pipelines: From Vibes to Metrics]]></title>
-        <id>https://dev.to/imus_d7584cbc8ee9b0336256/building-production-grade-llm-evaluation-pipelines-from-vibes-to-metrics-h8</id>
-        <link href="https://dev.to/imus_d7584cbc8ee9b0336256/building-production-grade-llm-evaluation-pipelines-from-vibes-to-metrics-h8"/>
-        <updated>2026-07-21T09:55:17.000Z</updated>
-        <summary type="html"><![CDATA[Building Production-Grade LLM Evaluation Pipelines: From Vibes to Metrics
-
-
-How we replaced "looks good to me" with automated evaluation catching 92% of hallucinations before deployment
-Three months ago, our team shipped a RAG-based customer support assistant. It worked great in testing — we'd ask it questions, read the answers, and say "yeah, that looks right."
-Then it hit production.
-A customer asked about their billing cycle. The assistant confidently cited a policy that didn't exist. Another asked about API rate limits and got numbers from a competitor's documentation. By the time we caught it, 500+ users had seen hallucinated responses.
-The post-mortem was brutal: we had zero automated evaluation. Our test process was literally "ask 5 questions, read answers, thumbs up."
-Academic benc…]]></summary>
-        <author>
-            <name>Imus</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[LingBot-Map runs 10,000 frames on monocular video — no]]></title>
-        <id>https://dev.to/creeta/lingbot-map-runs-10000-frames-on-monocular-video-no-bi9</id>
-        <link href="https://dev.to/creeta/lingbot-map-runs-10000-frames-on-monocular-video-no-bi9"/>
-        <updated>2026-07-21T09:54:46.000Z</updated>
-        <summary type="html"><![CDATA[Ant Group's embodied-AI unit open-sourced a monocular 3D reconstruction model that keeps mapping while the video is still streaming — no LiDAR, no offline batch pass. The interesting part is the memory design that lets it run past 10,000 frames without the KV cache exploding.
-LingBot-Map is a streaming, feed-forward model that takes an ordinary RGB video stream and estimates camera pose plus scene geometry frame by frame, released by Robbyant under Apache 2.0 on April 16, 2026. It processes monocular input at roughly 20 FPS at 518×378 using a paged KV-cache via FlashInfer, versus 10.5 FPS for a comparable PyTorch contiguous-cache baseline on 1,000-image sequences. That throughput is what makes "see-as-you-go" reconstruction usable instead of a lab demo.
-The mechanism behind it is the Geome…]]></summary>
-        <author>
-            <name>Creeta</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Browser Tests Fail Everywhere Except Your Laptop]]></title>
-        <id>https://dev.to/mellowthunder735/why-browser-tests-fail-everywhere-except-your-laptop-53jh</id>
-        <link href="https://dev.to/mellowthunder735/why-browser-tests-fail-everywhere-except-your-laptop-53jh"/>
-        <updated>2026-07-21T09:54:30.000Z</updated>
-        <summary type="html"><![CDATA[A browser test that fails everywhere is usually easy to diagnose.
-A browser test that passes on your laptop, passes when you open DevTools, and then fails in CI is much more dangerous. It encourages the team to blame timing, rerun the job, add another sleep, and move on.
-That is how flaky suites become permanent infrastructure.
-The problem is rarely that CI is “random.” More often, CI is exposing a difference that your local workflow hides: a different build, a different dependency tree, a different network sequence, a different browser lifecycle, or a different rendering path.
-Here is how I approach those failures without immediately reaching for longer timeouts.
-Preview deployments often look identical to production while behaving differently underneath.
-They may use:
-a different API bas…]]></summary>
-        <author>
-            <name>Markus Gasser</name>
         </author>
     </entry>
 </feed>
