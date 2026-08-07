@@ -2,10 +2,191 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-08-07T21:36:53.778Z</updated>
+    <updated>2026-08-07T22:32:47.731Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Audio Input: Speech-to-Text vs Native Audio Models]]></title>
+        <id>https://dev.to/multigrid/audio-input-speech-to-text-vs-native-audio-models-51he</id>
+        <link href="https://dev.to/multigrid/audio-input-speech-to-text-vs-native-audio-models-51he"/>
+        <updated>2026-08-07T22:21:47.000Z</updated>
+        <summary type="html"><![CDATA[You can send audio to a speech recogniser and the resulting text to a language model, or send the audio to a model that ingests it directly. The second is newer and usually described as simply faster. The more useful framing is that the first one deletes information, and whether you needed that information decides the choice.
+pipeline
+  mic -> VAD -> ASR -> text -> LLM -> text -> TTS -> speaker
+                       ^
+                       everything not in the words dies here
+
+native audio
+  mic -> audio tokens -> model -> audio or text tokens -> speaker
+
+A native audio model discretises the waveform into tokens with a neural codec and puts them in the same sequence as text tokens — the same trick as images, applied to sound. There is no intermediate string, so nothing has to be represe…]]></summary>
+        <author>
+            <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Audio Fingerprinting and Deduplicating a Media Library]]></title>
+        <id>https://dev.to/multigrid/audio-fingerprinting-and-deduplicating-a-media-library-3a2</id>
+        <link href="https://dev.to/multigrid/audio-fingerprinting-and-deduplicating-a-media-library-3a2"/>
+        <updated>2026-08-07T22:21:44.000Z</updated>
+        <summary type="html"><![CDATA[Audio fingerprinting identifies a recording from a short, noisy excerpt of it. The published algorithm behind the best-known implementation is twenty years old, simple enough to describe completely, and its cost is entirely an indexing problem — which is the part nobody derives.
+The requirement is exact-recording identification under severe degradation. Ten seconds of audio recorded on a phone in a bar, through a lossy codec, with conversation over it, must find the exact master recording in a library of millions. It must not match a different performance of the same song, and it must return nothing rather than something for audio that is not in the library.
+That set of requirements rules out most of what people first try:
+  Cryptographic hashing is exact-file matching. One re-encode and i…]]></summary>
+        <author>
+            <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Attention Is All You Need, Explained Section by Section]]></title>
+        <id>https://dev.to/multigrid/attention-is-all-you-need-explained-section-by-section-ih7</id>
+        <link href="https://dev.to/multigrid/attention-is-all-you-need-explained-section-by-section-ih7"/>
+        <updated>2026-08-07T22:21:09.000Z</updated>
+        <summary type="html"><![CDATA[This paper is cited constantly and read rarely, which is a shame, because it is short, unusually clear, and contains an ablation table that teaches more about the architecture than the diagram everyone reproduces.
+Read in 2026 the title sounds like a slogan. In 2017 it was a specific rebuttal. Sequence transduction — translation, summarisation — was done with recurrent networks, which process a sequence one position at a time, and the state of the art added an attention mechanism on top of the recurrence to let the decoder look back at encoder positions. Attention was an accessory. The paper’s claim is in its title: remove the recurrence, keep only the attention, and the model gets better and trains far faster.
+The speed argument is the one that mattered most and it is a parallelism argume…]]></summary>
+        <author>
+            <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Attention Maps: What They Show and What They Do Not]]></title>
+        <id>https://dev.to/multigrid/attention-maps-what-they-show-and-what-they-do-not-31gp</id>
+        <link href="https://dev.to/multigrid/attention-maps-what-they-show-and-what-they-do-not-31gp"/>
+        <updated>2026-08-07T22:21:05.000Z</updated>
+        <summary type="html"><![CDATA[An attention map shows how much each position attended to each other position. It does not show why the model produced its output, and treating it as an explanation has been shown to be unsafe in a specific, reproducible way. This page is about that gap.
+In one head, for one query position, the model computes a score against every key position, softmaxes those scores into weights that sum to one, and takes the weighted sum of the value vectors. The attention map is that weight matrix — per head, per layer, per example. In a model with 32 layers and 32 heads you have 1,024 of these matrices for a single forward pass, which is the first thing people underestimate.
+The weight tells you the coefficient on a value vector. It does not tell you the magnitude of that value vector, what the head do…]]></summary>
+        <author>
+            <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Your Supabase service_role key is probably in your browser bundle]]></title>
+        <id>https://dev.to/cekuu35/your-supabase-servicerole-key-is-probably-in-your-browser-bundle-4j49</id>
+        <link href="https://dev.to/cekuu35/your-supabase-servicerole-key-is-probably-in-your-browser-bundle-4j49"/>
+        <updated>2026-08-07T22:18:51.000Z</updated>
+        <summary type="html"><![CDATA[Row Level Security is the part everyone talks about. The service_role key is the part that makes all of it irrelevant, and it leaks more often than RLS does.
+The key bypasses RLS completely. That is its job — it is the admin key for server-side work. So if it is reachable from anything the browser downloads, every policy you wrote is decoration.
+Here is how it actually gets there. None of these look like mistakes while you are writing them.
+You had a working server call. It broke in a client component. The fastest fix that makes the error go away:
+NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY=eyJ...
+
+That prefix is not a naming convention. It is an instruction to Next.js to inline the value into the client bundle at build time. The error goes away because the key is now genuinely available in the …]]></summary>
+        <author>
+            <name>Cenk KURTOĞLU</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ARC-AGI: The Test Built to Resist Memorisation]]></title>
+        <id>https://dev.to/multigrid/arc-agi-the-test-built-to-resist-memorisation-4fjo</id>
+        <link href="https://dev.to/multigrid/arc-agi-the-test-built-to-resist-memorisation-4fjo"/>
+        <updated>2026-08-07T22:18:37.000Z</updated>
+        <summary type="html"><![CDATA[ARC-AGI is a set of coloured-grid puzzles where each task follows a rule you have never seen, demonstrated by two or three example pairs, and you must apply it to a new input. It was designed so that scaling training data does not help — and the two mechanisms that make that design stick are a genuinely private test set and a published compute budget.
+The Abstraction and Reasoning Corpus was introduced by François Chollet in the 2019 paper On the Measure of Intelligence. The paper’s argument is that a test of intelligence should measure skill acquisition efficiency — how well a system handles a task it has not been prepared for — rather than skill at tasks it was prepared for. Most benchmarks measure the second thing. ARC was built to measure the first.
+Concretely, each task is a handful o…]]></summary>
+        <author>
+            <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[On-Device AI on Android: Delegates, NPUs and Fragmentation]]></title>
+        <id>https://dev.to/multigrid/on-device-ai-on-android-delegates-npus-and-fragmentation-2o2p</id>
+        <link href="https://dev.to/multigrid/on-device-ai-on-android-delegates-npus-and-fragmentation-2o2p"/>
+        <updated>2026-08-07T22:16:42.000Z</updated>
+        <summary type="html"><![CDATA[The hard part of on-device AI on Android is not writing the inference call. It is that the same call runs on thousands of system-on-chip and driver combinations, some of which will accelerate your model beautifully, some will fall back to CPU without telling you, and a few will produce wrong numbers. The strategy that works is to find out at runtime and remember the answer.
+On iOS you target a handful of silicon generations from one vendor. On Android you target several chip vendors, many generations each, with driver stacks shipped by device manufacturers on their own schedules. Two phones with the same headline chip can behave differently because one has an older GPU driver.
+The consequence is a rule: never decide acceleration from a device model string. Allowlists by device name go stal…]]></summary>
+        <author>
+            <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What Happens Between Your Request and the First Token]]></title>
+        <id>https://dev.to/multigrid/what-happens-between-your-request-and-the-first-token-b0e</id>
+        <link href="https://dev.to/multigrid/what-happens-between-your-request-and-the-first-token-b0e"/>
+        <updated>2026-08-07T22:16:38.000Z</updated>
+        <summary type="html"><![CDATA[“The API is slow” is never a diagnosis. Between your process calling fetch and the first byte of content arriving there are seven or eight distinct hops, they fail and stall for unrelated reasons, and only about half of them are the model’s. This page names them all so you can say which one is slow.
+Assume a normal chat completion over HTTPS to a hosted provider. In order:
+  Serialisation and DNS/TCP/TLS. Building the JSON body, resolving the host, the TCP handshake and the TLS handshake. On a warm connection pool this is nearly free; on a cold one, TLS alone is a round trip or two, which on a transatlantic path is not noise.
+  Network to the edge. One one-way trip of your request bytes. Bounded below by the speed of light in fibre, so no amount of engineering removes it — only moving clos…]]></summary>
+        <author>
+            <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Air-Gapped and Offline Deployments]]></title>
+        <id>https://dev.to/multigrid/air-gapped-and-offline-deployments-2mc3</id>
+        <link href="https://dev.to/multigrid/air-gapped-and-offline-deployments-2mc3"/>
+        <updated>2026-08-07T22:14:08.000Z</updated>
+        <summary type="html"><![CDATA[An air-gapped AI deployment is not a normal deployment with the network switched off. Roughly half of a standard stack assumes an outbound connection somewhere — a package index, a model hub, a licence check, a telemetry endpoint, a certificate revocation lookup — and each of those has to be replaced rather than removed. This page is the inventory and the transfer protocol.
+Enumerate this first, because the list is longer than expected and finding items one at a time is what turns a two-week project into a two-month one.
+
+
+
+Dependency
+Description
+
+
+
+
+Package installs
+Every language package manager reaches out by default, including at container build time and inside a test suite that installs a plugin. Needs an internal mirror or a vendored bundle.
+
+
+Model and dataset downloads
+Libraries th…]]></summary>
+        <author>
+            <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Automating End-to-End PR Workflows with Claude Task Master]]></title>
+        <id>https://dev.to/developerzai/automating-end-to-end-pr-workflows-with-claude-task-master-474n</id>
+        <link href="https://dev.to/developerzai/automating-end-to-end-pr-workflows-with-claude-task-master-474n"/>
+        <updated>2026-08-07T22:10:04.000Z</updated>
+        <summary type="html"><![CDATA[Automating End-to-End PR Workflows with Claude Task Master
+
+
+
+  
+  
+  Introduction
+
+
+Developers spend a lot of time moving code from a local change to a merged pull request. The repetitive steps include creating a branch, writing code, running tests, committing, pushing, opening a PR, waiting for CI, fixing failures, addressing review comments, and finally merging. Claude Task Master (CLI claudetm) removes this friction by keeping Claude working until a goal is achieved. It follows a PR-based workflow, persists state across interruptions, and can run multiple isolated instances via profiles.
+The tool operates as a closed loop that moves through four stages: planning, working, PR lifecycle, and verification. In the planning stage it reads the repository, creates a task list, and defines suc…]]></summary>
+        <author>
+            <name>developerz.ai</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Down the Rabbit Hole: My Deep Dive into Crypto Prediction Markets Chapter 1: Discovered the Rabbit Hole]]></title>
+        <id>https://dev.to/orionscodemonkey/down-the-rabbit-hole-my-deep-dive-into-crypto-prediction-markets-chapter-1-discovered-the-rabbit-1kjj</id>
+        <link href="https://dev.to/orionscodemonkey/down-the-rabbit-hole-my-deep-dive-into-crypto-prediction-markets-chapter-1-discovered-the-rabbit-1kjj"/>
+        <updated>2026-08-07T22:07:17.000Z</updated>
+        <summary type="html"><![CDATA[It all started on a not-so-good day. I didn't get much sleep the previous night, and I had a laboratory class to attend the next day. When I was about to leave for home, my friend called and said, 'I want you to work on the prediction market BTC-15M.' I didn't know what the prediction market was, so I did my research and was fascinated that something like this existed. Little did I know, this was the beginning of a really deep dive into a rabbit hole and it was not a good hole to have fallen into. Let me explain.
+The first strategy I explored let us call it 'Sub-Candle Based Bias’.
+I'm really bad when it comes to naming things, so yeah, deal with it :). The idea was to pick a timeframe for example, the 5M on BTC and check if the market ended up in a given direction matching that of the sub…]]></summary>
+        <author>
+            <name>TheCodeMonkey</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why your Wix site feels slow: 4.9 MB of HTML before a single image, and which half you can actually fix]]></title>
+        <id>https://dev.to/smirnovartur/why-your-wix-site-feels-slow-49-mb-of-html-before-a-single-image-and-which-half-you-can-actually-1o8o</id>
+        <link href="https://dev.to/smirnovartur/why-your-wix-site-feels-slow-49-mb-of-html-before-a-single-image-and-which-half-you-can-actually-1o8o"/>
+        <updated>2026-08-07T22:07:06.000Z</updated>
+        <summary type="html"><![CDATA[A store owner posted that his Wix site took about six seconds before it responded to anything. He had already done the obvious: converted images to webp, shrunk them to size. It changed nothing. His question was the honest version of a question a lot of people have:
+"Once you have already made those changes, and the site is still slow — is there anything else we can do? Or just suffer?"
+Three days, no replies. And the replies he would eventually get were predictable: compress your images. Which, in his case, was both wrong and slightly insulting, because he'd done it.
+The interesting thing is that this question is answerable — precisely, with a number — and almost nobody answers it, because doing so requires an experiment rather than an opinion.
+Before looking for a culprit I checked the t…]]></summary>
+        <author>
+            <name>Artur Smirnov</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[I built an OKLCH palette generator for pixel art and UI]]></title>
         <id>https://dev.to/ivan_kulkin_1522025957eee/i-built-an-oklch-palette-generator-for-pixel-art-and-ui-27id</id>
@@ -123,6 +304,16 @@ BAD    Traceback (most recent call last):
   …]]></summary>
         <author>
             <name>Multigrid</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Water system controllers don't belong on the internet, says ex-NSA chief]]></title>
+        <id>https://www.theregister.com/security/2026/08/07/water-system-controllers-dont-belong-on-the-internet-says-ex-nsa-chief-after-suspected-iran-attacks/5285070</id>
+        <link href="https://www.theregister.com/security/2026/08/07/water-system-controllers-dont-belong-on-the-internet-says-ex-nsa-chief-after-suspected-iran-attacks/5285070"/>
+        <updated>2026-08-07T21:19:57.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -19398,6 +19589,16 @@ I was recently looking at how we could bridge the gap between low-code environme
         <id>https://peterneufeld.wordpress.com/2025/03/04/esp32-c3-supermini-antenna-modification/</id>
         <link href="https://peterneufeld.wordpress.com/2025/03/04/esp32-c3-supermini-antenna-modification/"/>
         <updated>2026-08-02T06:56:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why are all the amounts values negative?]]></title>
+        <id>https://bankstatementconverter.com/blog/posts/2026-08-02-why-are-all-amounts-negative/</id>
+        <link href="https://bankstatementconverter.com/blog/posts/2026-08-02-why-are-all-amounts-negative/"/>
+        <updated>2026-08-02T05:53:50.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -51051,66 +51252,6 @@ The post boAt Announces Nirvana Eutopia 2 ANC Headphones appeared first on Lowya
 The post Gigabyte Z890 Aorus Elite Duo X Review: Mid-Range Board With Lots Of Connectivity appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>John Law</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Measuring developer productivity with the DX Core 4]]></title>
-        <id>https://getdx.com/research/measuring-developer-productivity-with-the-dx-core-4/</id>
-        <link href="https://getdx.com/research/measuring-developer-productivity-with-the-dx-core-4/"/>
-        <updated>2026-07-24T10:28:33.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Game of Trees – Git-based version control from OpenBSD folks]]></title>
-        <id>https://www.gameoftrees.org/</id>
-        <link href="https://www.gameoftrees.org/"/>
-        <updated>2026-07-24T10:15:29.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How Do We Stop Vibe Coding?]]></title>
-        <id>https://alexklos.ca/blog/how-do-we-stop-vibe-coding</id>
-        <link href="https://alexklos.ca/blog/how-do-we-stop-vibe-coding"/>
-        <updated>2026-07-24T10:12:39.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[India orders takedown of Jack Dorsey’s bitcoin-linked messaging app Bitchat]]></title>
-        <id>2bd5d216-aae6-4a1e-a82f-a7766d785665</id>
-        <link href="https://www.coindesk.com/tech/2026/07/24/india-orders-takedown-of-jack-dorsey-s-bitcoin-linked-messaging-app-bitchat"/>
-        <updated>2026-07-24T10:10:42.000Z</updated>
-        <summary type="html"><![CDATA[The order targets Bitchat, an offline Bluetooth mesh app built to relay encrypted messages and bitcoin transactions, as 'Cockroach Janta Party' protesters in Delhi use mesh tools to communicate through internet shutdowns.]]></summary>
-        <author>
-            <name>Shaurya Malwa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[BitMEX faces proposed class-action suit for theft, insider trading as crypto exchange shuts down]]></title>
-        <id>9f3a0791-94c8-4ea9-a508-dc7f4dd1adbf</id>
-        <link href="https://www.coindesk.com/business/2026/07/24/bitmex-faces-proposed-class-action-suit-for-theft-insider-trading-as-crypto-exchange-shuts-down"/>
-        <updated>2026-07-24T09:54:00.000Z</updated>
-        <summary type="html"><![CDATA[The complaint claims BitMEX designed a system to retain customer collateral and alleges an internal desk accessed private user data during server freezes.]]></summary>
-        <author>
-            <name>Francisco Rodrigues</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[IRGC Claims It Destroyed Amazon's Bahrain Data Center]]></title>
-        <id>https://houseofsaud.com/irgc-claims-destroyed-amazon-bahrain-data-center/</id>
-        <link href="https://houseofsaud.com/irgc-claims-destroyed-amazon-bahrain-data-center/"/>
-        <updated>2026-07-24T09:52:58.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
