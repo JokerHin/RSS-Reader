@@ -2,10 +2,287 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-08-11T17:04:16.145Z</updated>
+    <updated>2026-08-11T18:59:25.684Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[ShowDev: I built a bulk HTML-to-Markdown converter that runs entirely in the browser]]></title>
+        <id>https://dev.to/cdieck88/showdev-i-built-a-bulk-html-to-markdown-converter-that-runs-entirely-in-the-browser-3p3e</id>
+        <link href="https://dev.to/cdieck88/showdev-i-built-a-bulk-html-to-markdown-converter-that-runs-entirely-in-the-browser-3p3e"/>
+        <updated>2026-08-11T18:52:10.000Z</updated>
+        <summary type="html"><![CDATA[Most HTML-to-Markdown tools handle one file at a time. You paste some HTML, get Markdown back, repeat. That works for a quick snippet but not when you have 200+ pages from a help center export sitting in a folder.
+I needed exactly that. I had a full site mirror (grabbed with wget --mirror) and wanted clean Markdown I could feed into an LLM knowledge base. Nothing I found could handle it without uploading files to a server or converting one by one.
+So I built HTML to Markdown AI.
+You drop a ZIP file (or individual HTML files) into the browser
+A Go-based conversion pipeline compiled to WebAssembly processes everything locally
+You get a ZIP back with clean GitHub-Flavored Markdown, folder structure preserved
+No server involved. Your files never leave your machine.
+The heavy lifting happens in…]]></summary>
+        <author>
+            <name>Christoph Dieck</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Part 7: Iterating to Green: Real Bugs, and When You'd Actually Reach for a Framework]]></title>
+        <id>https://dev.to/akashpal/part-7-iterating-to-green-real-bugs-and-when-youd-actually-reach-for-a-framework-3np1</id>
+        <link href="https://dev.to/akashpal/part-7-iterating-to-green-real-bugs-and-when-youd-actually-reach-for-a-framework-3np1"/>
+        <updated>2026-08-11T18:44:00.000Z</updated>
+        <summary type="html"><![CDATA[Part 7 (final) of a series building a support-ticket agent with no framework. Previous: Part 6 (observability). Repo: github.com/akash-pal/agent-from-scratch
+The other six parts described the finished design. This one is about what "finished" actually took — the real bugs the eval set caught, and the two questions every agent build eventually has to answer honestly: do you need more than one agent, and do you need a framework. Full detail on everything below: docs/iteration-log.md.
+1. Exact trajectory matching was the wrong check. First eval run: 12/21 passed. Most failures were the agent correctly sending a confirmation email where the eval only expected a lookup — correct behavior, wrong assertion. Fix: switched the harness from exact-array equality to ordered-subsequence matching (every…]]></summary>
+        <author>
+            <name>Akash Pal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Part 6: Observability for AI Agents: Tracing, Metrics, and Drift]]></title>
+        <id>https://dev.to/akashpal/part-6-observability-for-ai-agents-tracing-metrics-and-drift-2pgh</id>
+        <link href="https://dev.to/akashpal/part-6-observability-for-ai-agents-tracing-metrics-and-drift-2pgh"/>
+        <updated>2026-08-11T18:43:58.000Z</updated>
+        <summary type="html"><![CDATA[Part 6 of a series building a support-ticket agent with no framework. Previous: Part 5 (guardrails). Repo: github.com/akash-pal/agent-from-scratch
+"Run the eval set" and "is this agent healthy right now" are different questions, and it's easy to only build infrastructure for the first one. Eval sets run offline, on cases you already thought of. Production traffic doesn't ask permission to send you a ticket type you didn't anticipate. Observability is what tells you when that's happening — and it's also, unglamorously, what makes offline evaluation possible in the first place: you can't debug a failing eval case without knowing what the agent actually did, step by step.
+Every tool call in this build logs a structured record — src/trace.ts:
+export interface TraceStep {
+  trace_id: string;
+  …]]></summary>
+        <author>
+            <name>Akash Pal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Part 5: Guardrails That Live in Code, Not the Prompt]]></title>
+        <id>https://dev.to/akashpal/part-5-guardrails-that-live-in-code-not-the-prompt-m3j</id>
+        <link href="https://dev.to/akashpal/part-5-guardrails-that-live-in-code-not-the-prompt-m3j"/>
+        <updated>2026-08-11T18:43:53.000Z</updated>
+        <summary type="html"><![CDATA[Part 5 of a series building a support-ticket agent with no framework. Previous: Part 4 (the loop). Repo: github.com/akash-pal/agent-from-scratch
+Here's the finding this whole article is built around: partway through eval iteration, the agent started reporting that a refund had been proposed — a clean, plausible-sounding message — without ever having called the tool that proposes refunds. No approval was ever requested. No confirmation existed. The model just said it happened.
+That's the failure mode this part is about, and the fix is the actual argument for why guardrails belong in code, not in prompt text alone.
+src/policy.ts is a plain data object — an allowlist, an approval list, rate limits, and regex patterns — checked by the agent loop, not asked of the model:
+export const policy: Po…]]></summary>
+        <author>
+            <name>Akash Pal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Part 4: The Raw ReAct Loop: ~100 Lines, No Framework]]></title>
+        <id>https://dev.to/akashpal/part-4-the-raw-react-loop-100-lines-no-framework-5bi6</id>
+        <link href="https://dev.to/akashpal/part-4-the-raw-react-loop-100-lines-no-framework-5bi6"/>
+        <updated>2026-08-11T18:43:50.000Z</updated>
+        <summary type="html"><![CDATA[Part 4 of a series building a support-ticket agent with no framework. Previous: Part 3 (the eval set). Repo: github.com/akash-pal/agent-from-scratch
+This is the part everyone reaches for a framework to skip. Here's the argument for not doing that, at least the first time: if you can't explain what your agent loop does in plain English, no framework is going to fix that — it's just going to make the loop harder to see.
+Here's src/agent.ts, trimmed to the actual loop:
+export async function runAgent(
+  ticket: Ticket,
+  customer: Customer | null,
+  approvalFn: ApprovalFn,
+  maxSteps = 8,
+): Promise<AgentResult> {
+  const state = initState(ticket, customer);
+
+  // Guardrail check happens BEFORE any model call — see Part 5.
+  const escalatePattern = matchAutoEscalate(`${ticket.subject} ${ticket…]]></summary>
+        <author>
+            <name>Akash Pal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Part 3: Build the Eval Set Before the Agent Exists]]></title>
+        <id>https://dev.to/akashpal/part-3-build-the-eval-set-before-the-agent-exists-40lk</id>
+        <link href="https://dev.to/akashpal/part-3-build-the-eval-set-before-the-agent-exists-40lk"/>
+        <updated>2026-08-11T18:43:48.000Z</updated>
+        <summary type="html"><![CDATA[Part 3 of a series building a support-ticket agent with no framework. Previous: Part 2 (tool contracts). Repo: github.com/akash-pal/agent-from-scratch
+Here's the ordering that trips people up: build the eval set before the agent loop exists. Not after, not alongside — before. It feels backwards. You can't run an eval against an agent that doesn't exist yet.
+That's exactly the point. If you write the eval set after the agent is working, you're unconsciously grading against whatever the agent already does. Cases you didn't think to write are cases your agent silently fails on forever. Writing 21 cases against a specification (the use case and tool contracts from Part 2) means you're measuring against a real target, not tuning your eval to match your own demo.
+eval/cases.json
+
+
+21 cases, thre…]]></summary>
+        <author>
+            <name>Akash Pal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Part 2: Pinning the Use Case and Writing Tool Contracts Like Specs]]></title>
+        <id>https://dev.to/akashpal/part-2-pinning-the-use-case-and-writing-tool-contracts-like-specs-4462</id>
+        <link href="https://dev.to/akashpal/part-2-pinning-the-use-case-and-writing-tool-contracts-like-specs-4462"/>
+        <updated>2026-08-11T18:43:46.000Z</updated>
+        <summary type="html"><![CDATA[Part 2 of a series building a support-ticket agent with no framework. Part 1 covered why. This part covers Steps 1–2 of the build order: pinning the use case, and writing tool contracts. Repo: github.com/akash-pal/agent-from-scratch
+Before any code, two documents: docs/use-case.md and docs/tool-contracts.md. Skipping this step is the single most common reason teams end up with an agent nobody trusts — not because the idea was bad, but because nothing downstream (evals, prompts, memory) had a fixed target to hit.
+Four gates, filled in before writing a line of code:
+
+
+
+Gate
+Definition
+
+
+
+
+Bounded input
+One support ticket: { subject, body, customer_id, order_id? }
+
+
+
+Bounded output
+Exactly one of: resolved, refund_proposed (pending approval), escalated (with a reason)
+
+
+Tool count
+5
+
+
+Success…]]></summary>
+        <author>
+            <name>Akash Pal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built a Team of AI Agents to Find Startup Opportunities]]></title>
+        <id>https://dev.to/vivek_shetye/i-built-a-team-of-ai-agents-to-find-startup-opportunities-3309</id>
+        <link href="https://dev.to/vivek_shetye/i-built-a-team-of-ai-agents-to-find-startup-opportunities-3309"/>
+        <updated>2026-08-11T18:37:09.000Z</updated>
+        <summary type="html"><![CDATA[Most people use AI for startup research like this:
+“Give me 10 promising AI startup ideas.”
+A few seconds later, you get a polished list.
+The problem?
+You have almost no idea which conclusions are backed by evidence, which are assumptions, and which are simply the model confidently connecting dots.
+So I tried something different.
+Instead of asking one AI agent to find startup ideas, I built a small Startup Intelligence team using Hermes Agent.
+The system uses four specialized AI agents that research markets, investigate competitors, audit evidence, challenge each other’s conclusions, and ultimately rank promising B2B AI SaaS opportunities.
+And rather than producing another Markdown document full of ideas, the workflow produces structured research containing:
+Market opportunity scores
+Compa…]]></summary>
+        <author>
+            <name>Vivek Shetye</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OOP Object-Oriented Programming]]></title>
+        <id>https://dev.to/mohamed_fakhr_eldin/oop-object-oriented-programming-42mg</id>
+        <link href="https://dev.to/mohamed_fakhr_eldin/oop-object-oriented-programming-42mg"/>
+        <updated>2026-08-11T18:35:31.000Z</updated>
+        <summary type="html"><![CDATA[Advantages of using OOP:
+Is faster and easier to execute.
+Provides a clear structure for the programs.
+Helps to keep code DRY "Don't Repeat Yourself" and makes code easier to maintain, modify, and debug.
+Makes it possible to create fully reusable applications with less code and shorter development time.
+Define a Class:
+{}. All its properties and methods go inside the braces.
+Delegation:
+new keyword.
+Note:
+$this keyword refers to the current class and is only available inside methods.
+__construct() function:
+__destruct() function:
+Encapsulation:
+Access Modifier:
+Public: Variables or functions can be accessed from everywhere.
+Private: Variables or functions can ONLY be accessed inside the class.
+Protected: Variables or functions can be accessed inside the class and by child classes that exte…]]></summary>
+        <author>
+            <name>Mohamed Fakhr</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built 109 tools that never touch a server - here is the architecture]]></title>
+        <id>https://dev.to/korelyy/i-built-109-tools-that-never-touch-a-server-here-is-the-architecture-499k</id>
+        <link href="https://dev.to/korelyy/i-built-109-tools-that-never-touch-a-server-here-is-the-architecture-499k"/>
+        <updated>2026-08-11T18:34:13.000Z</updated>
+        <summary type="html"><![CDATA[I built 109 tools that never touch a server - here is the architecture
+
+
+Most "tools" sites you have used do this:
+You upload a file
+It goes to a server
+The server processes it
+You download the result
+Sometimes the server stores it. Sometimes it leaks. Sometimes it disappears with the company.
+I wanted something different. Every tool on korelyy.com runs 100% in your browser. Zero backend. Zero upload. Zero tracking.
+Here is the actual architecture, the real numbers after 90 days, and what I learned.
+For each of the 109 tools:
+The entire app is a static HTML + CSS + JS file
+It is served as-is from a CDN (Cloudflare Pages)
+All file processing happens in your browser via FileReader, canvas, Web Crypto API, or OffscreenCanvas
+
+Your file never leaves your device
+
+Closing the tab = the data is g…]]></summary>
+        <author>
+            <name>CarsonJ</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Guy Who Invented the Internet's Front Door and Refused to Charge Rent]]></title>
+        <id>https://dev.to/lovestaco/the-guy-who-invented-the-internets-front-door-and-refused-to-charge-rent-4igd</id>
+        <link href="https://dev.to/lovestaco/the-guy-who-invented-the-internets-front-door-and-refused-to-charge-rent-4igd"/>
+        <updated>2026-08-11T18:31:35.000Z</updated>
+        <summary type="html"><![CDATA[Hello, I'm Maneshwar. I'm building git-lrc, a Micro AI code reviewer that runs on every commit. It is free and source-available on Github. Star git-lrc to help devs discover the project. Do give it a try and share your feedback.
+Okay so here's a fun one for you.
+Imagine you invent the thing that eventually becomes the substrate for Google, Facebook, Amazon, your bank, your ex's Instagram, and every cursed cookie consent banner known to man.
+Now imagine you had the legal right to charge a licensing fee for it. 
+Like, a reasonable one. A cent per page load, say.
+You would never have to work again. 
+Your great-great-grandchildren would never have to work again. 
+You'd be sipping something expensive on a boat named after a HTTP status code.
+Tim Berners-Lee looked at that exact opportunity in 1…]]></summary>
+        <author>
+            <name>Athreya aka Maneshwar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Built This to Fix One Task. It Turned Into Something You Can Run.]]></title>
+        <id>https://dev.to/jeelvankhede/i-built-this-to-fix-one-task-it-turned-into-something-you-can-run-3hn9</id>
+        <link href="https://dev.to/jeelvankhede/i-built-this-to-fix-one-task-it-turned-into-something-you-can-run-3hn9"/>
+        <updated>2026-08-11T18:28:06.000Z</updated>
+        <summary type="html"><![CDATA[There are two ways to work with an AI agent and I had tried both. Write the thing yourself and hand over only the tedious parts. Or hand over the whole task and audit whatever comes back at the end. The first is slow. The second is fast right up until it is wrong, and by then the wrong thing is finished.
+I expected this series to be about forcing a third option into existence. Nine parts of making an agent follow a workflow it would rather skip.
+That is not what happened. I never had to enforce it once.
+The queue that started this had a payload contract nobody had verified, and each phase after that cost me something before it gave anything back. A plan that would not move until the risk register named the provider contract the brief had only guessed at. A build that missed nothing except …]]></summary>
+        <author>
+            <name>Jeel Vankhede</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[We Used to Get Jobs]]></title>
+        <id>https://ironicsans.ghost.io/how-we-used-to-get-jobs/</id>
+        <link href="https://ironicsans.ghost.io/how-we-used-to-get-jobs/"/>
+        <updated>2026-08-11T18:09:56.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How the “censorship-industrial complex” is changing the Internet and US policy]]></title>
+        <id>https://www.technologyreview.com/?p=1141635</id>
+        <link href="https://www.technologyreview.com/2026/08/11/1141635/how-the-censorship-industrial-complex-is-changing-the-internet-and-us-policy/"/>
+        <updated>2026-08-11T17:58:57.000Z</updated>
+        <summary type="html"><![CDATA[I first heard the term “censorship-industrial complex” on April 15, 2025.  That’s when I got the tip that a small office in the U.S. State Department, which focused on monitoring and countering foreign disinformation from the likes of Russia, Iran, and China, was facing imminent shutdown—the next day.  And the reason? R/FIMI, as the office…]]></summary>
+        <author>
+            <name>Eileen Guo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OpenSSH 10.5/10.5p1]]></title>
+        <id>https://www.openssh.org/releasenotes.html#10.5</id>
+        <link href="https://www.openssh.org/releasenotes.html#10.5"/>
+        <updated>2026-08-11T17:49:37.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[EToro reports second quarter crypto loss even as total profit beats estimates]]></title>
+        <id>174570e4-a7ce-43d4-85bd-f6c893a52329</id>
+        <link href="https://www.coindesk.com/business/2026/08/11/digital-broker-etoro-reports-q2-crypto-revenue-dropped-120-compared-to-2025"/>
+        <updated>2026-08-11T17:12:11.000Z</updated>
+        <summary type="html"><![CDATA[The trading platform’s gross crypto revenue fell to $1.35 billion in the second quarter. It also agreed to buy U.S. brokerage TradeZero for up to $231 million.]]></summary>
+        <author>
+            <name>Olivier Acuna</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How We Made Image Copy-Detection ~1,000,000 Faster — by Refusing to Look at Pixels]]></title>
         <id>https://dev.to/matias_affolter/how-we-made-image-copy-detection-1000000x-faster-by-refusing-to-look-at-pixels-3c50</id>
@@ -68,6 +345,26 @@ Apple Silicon refuses unsigned binaries — the kernel kills them and Finder cal
 link repo]]></summary>
         <author>
             <name>Roberto Ringoli</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Go Is an Ideal Language for AI-Assisted Software Engineering]]></title>
+        <id>https://developers.googleblog.com/why-go-is-an-ideal-language-for-ai-assisted-software-engineering/</id>
+        <link href="https://developers.googleblog.com/why-go-is-an-ideal-language-for-ai-assisted-software-engineering/"/>
+        <updated>2026-08-11T16:57:09.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Mojo 1.0 Is Here]]></title>
+        <id>https://www.modular.com/blog/modular-26-5-mojo-1-0-is-here</id>
+        <link href="https://www.modular.com/blog/modular-26-5-mojo-1-0-is-here"/>
+        <updated>2026-08-11T16:56:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -13802,6 +14099,16 @@ This isn't a request for the longest model catalog. It is a buy-versus-build dec
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Archive of Animal Photography Reveals 18,000 Species and Counting]]></title>
+        <id>https://www.smithsonianmag.com/science-nature/this-amazing-archive-of-animal-photography-reveals-18000-species-and-counting-heres-how-joel-sartore-built-his-photo-ark-180989282/</id>
+        <link href="https://www.smithsonianmag.com/science-nature/this-amazing-archive-of-animal-photography-reveals-18000-species-and-counting-heres-how-joel-sartore-built-his-photo-ark-180989282/"/>
+        <updated>2026-08-09T01:41:40.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[TheoremDB · A public workspace for machine mathematics]]></title>
         <id>https://theoremdb.org/</id>
         <link href="https://theoremdb.org/"/>
@@ -14088,6 +14395,16 @@ A simple exa…]]></summary>
         <id>https://seg6.space/posts/phone-server/</id>
         <link href="https://seg6.space/posts/phone-server/"/>
         <updated>2026-08-08T22:49:23.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: iPhone app takes simultaneous images from 2 lenses, fuses into 1 photo]]></title>
+        <id>https://photosynthesis.camera/</id>
+        <link href="https://photosynthesis.camera/"/>
+        <updated>2026-08-08T22:47:10.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -57937,340 +58254,6 @@ The post Qualcomm Snapdragon 8 Elite Gen 6 SoC Rumoured To Support AI Upscaling 
 The post Tesla Destination Chargers In Malaysia Now Cost RM0.88 For 11kW AC Charging appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[SOLID Principles Cheat Sheet]]></title>
-        <id>https://dev.to/architect_bytes/solid-principles-cheat-sheet-33oc</id>
-        <link href="https://dev.to/architect_bytes/solid-principles-cheat-sheet-33oc"/>
-        <updated>2026-07-28T06:19:00.000Z</updated>
-        <summary type="html"><![CDATA[Writing software that scales from a small monolith into a multi-team distributed system requires strict architectural discipline. The SOLID principles—coined by Robert C. Martin ("Uncle Bob")—serve as fundamental guidelines for object-oriented design and system architecture.
-When improperly understood, developers often fall into two extreme traps: creating monolithic "God objects" that break with every change, or over-engineering systems into hyper-fragmented, unmaintainable micro-services.
-In this deep-dive guide, we will break down each of the 5 SOLID principles from low-level class design up to high-level distributed systems design, complete with bad vs. refactored Java examples, system architecture diagrams, trade-off analyses, and a comprehensive cheat sheet.
-
-
-
-Principle
-Core Concept…]]></summary>
-        <author>
-            <name>The Architect</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[One small AI workflow that solved our stale API documentation problem]]></title>
-        <id>https://dev.to/flutwiz/one-small-ai-workflow-that-solved-our-stale-api-documentation-problem-14g1</id>
-        <link href="https://dev.to/flutwiz/one-small-ai-workflow-that-solved-our-stale-api-documentation-problem-14g1"/>
-        <updated>2026-07-28T06:18:09.000Z</updated>
-        <summary type="html"><![CDATA[One of the most annoying parts of backend development isn't building APIs.
-It's keeping the documentation up to date.
-Everyone knows it should happen. Everyone plans to do it. But when you're trying to ship a feature or fix a production issue, documentation is usually the thing that gets pushed to "later."
-We had the same problem.
-Our backend team keeps all of our API documentation in a Voiden repository. The interesting part isn't just where the documentation lives—it's how it's maintained.
-Inside the repository, we have a CLAUDE.md that tells Claude:
-Whenever an API is added or modified, update the relevant documentation before considering the task complete.
-So when someone changes an endpoint, Claude automatically updates the docs as part of the same workflow. The developer reviews the …]]></summary>
-        <author>
-            <name>FlutWiz</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Manticore Search authentication rollout checklist for production]]></title>
-        <id>https://dev.to/sanikolaev/manticore-search-authentication-rollout-checklist-for-production-5427</id>
-        <link href="https://dev.to/sanikolaev/manticore-search-authentication-rollout-checklist-for-production-5427"/>
-        <updated>2026-07-28T06:15:49.000Z</updated>
-        <summary type="html"><![CDATA[In production, "turn it on and done" almost never works. On a standalone node, the technical sequence is short: enable auth, restart Manticore, create an admin user, and update clients. A topology with distributed tables or replication clusters needs extra preparation because nodes must authenticate to each other as well.
-Handle the rollout like a small release. Inventory clients and nodes, prepare the auth data, rehearse the procedure for your topology, and then cut over. A rehearsal exposes failures before the maintenance window.
-This checklist is for users who plan to enable authentication and want to roll it out as safely as possible in an existing system. Remember that authentication is disabled until you configure auth; after cutover, clients that still omit credentials will fail.
-Ch…]]></summary>
-        <author>
-            <name>Sergey Nikolaev</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Recursive Filters: SMA, EMA, Low‑Pass, and a Tiny Kalman]]></title>
-        <id>https://www.staszewski.xyz/blog/recursive-filters/</id>
-        <link href="https://www.staszewski.xyz/blog/recursive-filters/"/>
-        <updated>2026-07-28T06:11:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[My emergency flashlight circuit]]></title>
-        <id>https://dev.to/codebunny20/my-emergency-flashlight-circuit-39hj</id>
-        <link href="https://dev.to/codebunny20/my-emergency-flashlight-circuit-39hj"/>
-        <updated>2026-07-28T06:06:23.000Z</updated>
-        <summary type="html"><![CDATA[This video showcases a super simple, reliable, and bright emergency‑flashlight circuit, fully built and tested inside the circuit simulator called crumb on steam. it’s a digital layout meant to show the exact wiring and component setup so anyone can recreate it in real life if they want.
-The Circuit Overview for the E-light (emergency flash light) 
-2 to 4 LEDs
-Basic tactile switch bbbut if you like i can use an on/off switch if you like
-
-Straightforward wiring with minimal components
-Why This Circuit Works
-simplicity and reliability:
-Low part count
-
-Bright LED performance
-
-Easy to replicate
-What the Simulation Demonstrates
-LED brightness
-Current draw and battery load
-
-Switch behavior
-
-Overall circuit stability
-Purpose of the Video
-Thanks for watching! Feel free to drop your thoughts in the comments — I’m always open to constructive tips and tricks to help me improve.
-If you’re interested, I’d really appreciate it if you checked out my YouTube channel and watched some of my other videos. Every bit of support helps my channel grow.]]></summary>
-        <author>
-            <name>codebunny20</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Improving Heuristics for A* Pathfinding]]></title>
-        <id>https://www.redblobgames.com/pathfinding/heuristics/differential.html</id>
-        <link href="https://www.redblobgames.com/pathfinding/heuristics/differential.html"/>
-        <updated>2026-07-28T06:04:42.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Monitor Your Server Health with Python and Telegram]]></title>
-        <id>https://dev.to/qingluan/monitor-your-server-health-with-python-and-telegram-14ne</id>
-        <link href="https://dev.to/qingluan/monitor-your-server-health-with-python-and-telegram-14ne"/>
-        <updated>2026-07-28T06:01:00.000Z</updated>
-        <summary type="html"><![CDATA[Monitor Your Server Health with Python and Telegram
-
-
-tags: python, devops, monitoring, telegram
-Server Health Monitoring Made Easy with Python and Telegram
-Have you ever found yourself staring at a blank terminal screen, waiting for some critical system information to refresh? Or perhaps you're one of those people who checks their server logs every hour, just to make sure everything is running smoothly. If so, you're not alone. Monitoring server health can be a tedious task, but it's essential to catch potential issues before they become major problems.
-In this article, we'll explore how to use Python and Telegram to create a server health monitoring system that's both efficient and easy to set up. With this setup, you'll receive instant notifications whenever something goes wrong on your…]]></summary>
-        <author>
-            <name>qing</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Stop Testing New AI Models in Production]]></title>
-        <id>https://dev.to/ye_allen_/stop-testing-new-ai-models-in-production-2bfi</id>
-        <link href="https://dev.to/ye_allen_/stop-testing-new-ai-models-in-production-2bfi"/>
-        <updated>2026-07-28T06:00:15.000Z</updated>
-        <summary type="html"><![CDATA[A new AI model appears.
-allowed_models:
-primary_candidate
-fallback_candidate
-data_policy:
-release_checks:
-structured_output_pass_rate
-p95_time_to_first_token
-successful_task_rate
-cost_per_successful_task
-fallback_behavior
-Staging should be realistic enough to expose risk, but isolated enough that a failed experiment cannot become a customer problem.
-Production should use approved model routes
-Production needs a smaller, clearer model surface.
-Each workflow should have an approved route, a defined fallback, and measurable success criteria.
-For example:
-Workflow    Production priority
-Support chat    Fast first token, reliable streaming
-RAG Grounded answers, retrieval quality
-Coding agent    Tool-call reliability, task completion
-Extraction  Valid structured output
-Batch jobs  Throughput and cost control
-This means production configuration should answer:
-Which models are approved?
-Which route handles each workflow?
-When is fallback allowed?
-Which teams can change the route?
-What metric triggers a rollback?
-How are usage and cost monitored?
-If those answers are missing, model selection is still an individual preference, not an operational system.
-A model switch is a release
-Changing a model can change much more than answer quality.
-It can affect:
-latency
-token usage
-tool-call behavior
-refusal behavior
-multilingual performance
-context handling
-output formatting
-cost per successful task
-That makes a model switch a release.
-The safer path is simple:
-Explore in development.
-Evaluate the workflow in staging.
-Approve the route for production.
-Monitor quality, latency, usage, and cost.
-Keep a rollback path ready.
-Final thought
-The teams that adopt new models fastest are not the teams that send every new release directly to production.
-They are the teams that can test quickly because their environments, permissions, routes, and monitoring are already separated.]]></summary>
-        <author>
-            <name>Ye Allen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Facade: The Hotel Reception Pattern]]></title>
-        <id>https://dev.to/vicky_acedia/facade-the-hotel-reception-pattern-3f90</id>
-        <link href="https://dev.to/vicky_acedia/facade-the-hotel-reception-pattern-3f90"/>
-        <updated>2026-07-28T06:00:04.000Z</updated>
-        <summary type="html"><![CDATA[You check into a hotel. You want a room sorted, a taxi booked, dinner reserved, and a wake-up call.
-Do you hunt down the housekeeping department, then the transport desk, then the kitchen, then the operator, one at a time? No. You call reception and say "sort all this out." Reception knows who to call behind the scenes. You talk to one person instead of five.
-That's the Facade pattern: one simple front door that hides a messy, complicated system behind it.
-Say placing an order actually involves four subsystems, in a specific order:
-// Every caller has to know ALL of this, in the RIGHT sequence
-var inventory = new InventoryService();
-if (!inventory.CheckStock(itemId)) return;
-inventory.Reserve(itemId);
-
-var payment = new PaymentService();
-payment.Charge(customerId, amount);
-
-var shipping = …]]></summary>
-        <author>
-            <name>Vignesh Athiappan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[There was no EU GitHub for private code. So I built one.]]></title>
-        <id>https://dev.to/stenn/there-was-no-eu-github-for-private-code-so-i-built-one-2i3</id>
-        <link href="https://dev.to/stenn/there-was-no-eu-github-for-private-code-so-i-built-one-2i3"/>
-        <updated>2026-07-28T06:00:00.000Z</updated>
-        <summary type="html"><![CDATA[A few months ago I went looking for a home for my private code with three simple requirements: hosted (I want to push code, not babysit a server), structurally sound, and sovereign — actually governed by European law, not just parked in the "EU region" of an American cloud.
-I found almost nothing.
-There are good options if you're publishing open source. But for private code — client work, company code, the things you're contractually not allowed to hand to just anyone — the realistic options came down to two: stay on GitHub and accept the trade-offs, or self-host.
-I've spent my career on both sides of that choice: sysadmin and network admin, then backend developer, DevOps specialist, and software architect. I know exactly what it takes to run a forge properly — the updates, the backups, th…]]></summary>
-        <author>
-            <name>Stenn Kool</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CrewAI: Orchestrate a Team of AI Agents Like a Pro]]></title>
-        <id>https://dev.to/mzunain/crewai-orchestrate-a-team-of-ai-agents-like-a-pro-18ba</id>
-        <link href="https://dev.to/mzunain/crewai-orchestrate-a-team-of-ai-agents-like-a-pro-18ba"/>
-        <updated>2026-07-28T06:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Why CrewAI?
-
-
-Building a team of specialized agents is complex. CrewAI makes it simple.
-Think of CrewAI as a project manager for your AI team.
-Agent: A specialized AI worker with a role, goal, and backstory
-Task: Work to be completed with a description and expected output
-Crew: A team of agents working together on tasks
-Process: Sequential or hierarchical task execution
-from crewai import Agent, Task, Crew, Process
-from langchain_openai import ChatOpenAI
-
-llm = ChatOpenAI(model="gpt-4")
-
-# Create Agents
-researcher = Agent(
-    role="Senior Research Analyst",
-    goal="Uncover cutting-edge AI developments",
-    backstory="Expert at analyzing trends and data",
-    verbose=True,
-    llm=llm
-)
-
-writer = Agent(
-    role="Tech Content Writer",
-    goal="Create compelling technical content",
-    …]]></summary>
-        <author>
-            <name>Muhammad Zulqarnain</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[🚀 From Transformers to AI Agents: The Complete Engineering Guide to Modern AI Architecture (LLMs, RAG, Vector Databases & Agentic Systems)]]></title>
-        <id>https://dev.to/himanshudevgupta/from-transformers-to-ai-agents-the-complete-engineering-guide-to-modern-ai-architecture-llms-1ch2</id>
-        <link href="https://dev.to/himanshudevgupta/from-transformers-to-ai-agents-the-complete-engineering-guide-to-modern-ai-architecture-llms-1ch2"/>
-        <updated>2026-07-28T05:50:16.000Z</updated>
-        <summary type="html"><![CDATA[Most people think ChatGPT is "the AI." In reality, ChatGPT is just one layer of a much larger engineering stack.
-Modern AI applications aren't powered by a single model. They're powered by an ecosystem of transformers, tools, retrieval systems, memory, vector databases, orchestration frameworks, and guardrails working together.
-If you're a software engineer, understanding how these components fit together is far more valuable than memorizing AI buzzwords.
-The AI industry has shifted dramatically over the last few years.
-The first wave was about chatbots.
-The second wave was AI copilots.
-We're now entering the Agentic AI era, where systems can plan, reason, retrieve information, call APIs, and complete multi-step workflows with minimal human intervention.
-Understanding this evolution is ess…]]></summary>
-        <author>
-            <name>Himanshu Gupta</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI-generated changes are easy to create and hard to review.]]></title>
-        <id>https://dev.to/themassiveone/ai-generated-changes-are-easy-to-create-and-hard-to-review-1bg5</id>
-        <link href="https://dev.to/themassiveone/ai-generated-changes-are-easy-to-create-and-hard-to-review-1bg5"/>
-        <updated>2026-07-28T05:50:02.000Z</updated>
-        <summary type="html"><![CDATA[Large tasks rarely produce one logical change. They usually produce several changes that belong in separate commits, but without a dedicated workflow everything accumulates in the same working tree. Unrelated changes get mixed together, logical slices become harder to preserve, staging becomes risky, and reviews become larger than necessary.
-A better workflow would preserve each logical slice as soon as it is complete. That slice should include the affected files, a proposed commit message, the relevant test commands, and the exact patch. Once preserved, the working tree should be restored so the agent can continue with the next slice independently.
-But preserving slices is only half the problem. The agent should be able to organize the work without controlling Git history. The developer should still review every staged diff and create every commit manually.
-That is what Agent-Up commits provides. Agent-Up commits is a local commit proposal queue for agent-assisted development. Agents enqueue proposals instead of creating commits, and each proposal stores its patch and message before restoring the working tree.
-Later, the developer runs agent-up commits next. Agent-Up applies and stages exactly one proposal. With the JetBrains plugin, a single button takes the first proposal in the queue and opens it directly in the IDE's commit window. The developer reviews it in the IDE, runs the relevant tests, and commits it manually. Then the next proposal can be reviewed.
-Agent-Up does not replace Git. It adds a safety layer between agent-generated changes and human-controlled commits, so agents can preserve logical slices while they work, developers can review one staged proposal at a time, and Git history remains under human control.
-https://plugins.jetbrains.com/plugin/33179-agent-up-commit-queue
-https://agent-up.themassiveone.net/]]></summary>
-        <author>
-            <name>Daniel Maß</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Yelp and OpenAI Data Licensing Deal Could Reshape AI-Powered Local Discovery]]></title>
-        <id>https://dev.to/alifar/yelp-and-openai-data-licensing-deal-could-reshape-ai-powered-local-discovery-1hm9</id>
-        <link href="https://dev.to/alifar/yelp-and-openai-data-licensing-deal-could-reshape-ai-powered-local-discovery-1hm9"/>
-        <updated>2026-07-28T05:49:57.000Z</updated>
-        <summary type="html"><![CDATA[Yelp has confirmed a data licensing agreement with OpenAI, extending Yelp's local content into OpenAI's AI ecosystem. The deal is significant because it can broaden the role of Yelp business information, reviews and related local content beyond Yelp's own discovery experiences, including in AI-driven answers to local-service questions.
-The agreement was disclosed in Yelp's February 12, 2026 results announcement, where the company presented OpenAI as part of a wider AI transformation and data-licensing strategy. Yelp also referenced the relationship in subsequent investor and regulatory materials discussing expanded licensing partnerships.
-For local businesses, the central change is not a published formula for how ChatGPT will rank a business. No such formula has been disclosed. It is that …]]></summary>
-        <author>
-            <name>Ali Farhat</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A simple clustering algorithm for lists]]></title>
-        <id>https://cassidoo.co/post/clustering-tiles/</id>
-        <link href="https://cassidoo.co/post/clustering-tiles/"/>
-        <updated>2026-07-28T05:39:52.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Apple Rolls Out iOS 26.6 With Important Optimisations For Upcoming Siri AI Features]]></title>
-        <id>https://www.lowyat.net/?p=399889</id>
-        <link href="https://www.lowyat.net/2026/399889/apple-ios-26-6/"/>
-        <updated>2026-07-28T05:35:03.000Z</updated>
-        <summary type="html"><![CDATA[Apple has released a new round of updates for its operating systems, namely iOS 26.6, macOS 26.6, iPadOS 26.6, tvOS 26.6, watchOS 26.6, and visionOS 26.6. The updates are all available to download on their respective platforms already. For the most part, the rollout doesn’t introduce any notable new features. However, there are some security […]
-The post Apple Rolls Out iOS 26.6 With Important Optimisations For Upcoming Siri AI Features appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Govt Launches AI Malaysia Berhad To Lead National AI Strategy, Replacing NAIO]]></title>
-        <id>https://www.lowyat.net/?p=399891</id>
-        <link href="https://www.lowyat.net/2026/399891/govt-launches-ai-malaysia-berhad/"/>
-        <updated>2026-07-28T05:29:00.000Z</updated>
-        <summary type="html"><![CDATA[The government today has officially launched AI Malaysia Berhad, a new national artificial intelligence entity under the Ministry of Digital tasked with overseeing the country’s AI development and implementation efforts. Announced by Prime Minister Datuk Seri Anwar Ibrahim, the organisation formalises and expands the role previously carried out by the National AI Office (NAIO), which […]
-The post Govt Launches AI Malaysia Berhad To Lead National AI Strategy, Replacing NAIO appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Heirul Kamel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ars Astronomica – English translations of rare Hebrew and Latin astronomy texts]]></title>
-        <id>https://arsastronomica.com/</id>
-        <link href="https://arsastronomica.com/"/>
-        <updated>2026-07-28T05:25:34.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
 </feed>
