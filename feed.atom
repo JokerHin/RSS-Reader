@@ -2,10 +2,267 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-08-14T22:20:11.572Z</updated>
+    <updated>2026-08-14T23:19:24.653Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Writing evidence-linked docs exposed two missing regression tests]]></title>
+        <id>https://dev.to/shikiyusuke/writing-evidence-linked-docs-exposed-two-missing-regression-tests-3524</id>
+        <link href="https://dev.to/shikiyusuke/writing-evidence-linked-docs-exposed-two-missing-regression-tests-3524"/>
+        <updated>2026-08-14T23:15:18.000Z</updated>
+        <summary type="html"><![CDATA[This is a crosspost of the canonical version on GitHub.
+I run agent-cost, a small open-source CLI that reads local Claude Code / Codex CLI usage logs and estimates token cost. I wanted documentation for it more trustworthy than a hand-written README: not prose claiming "the reader handles the TTL cache-write breakdown correctly," but claims that each point at the exact test or source line backing them, checked against real git history so the pointer can't silently go stale.
+To do that I used a second tool I've been building, evidence-docs, to build a claim corpus against agent-cost: 17 individual observations grouped into 5 topics (pricing-catalog validation rules, the cache-write lower-bound behavior, unpriced-fact handling, decimal arithmetic for money, and the measure command's v1 contr…]]></summary>
+        <author>
+            <name>Yusuke Shiki</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a tool that tells me if readers actually understood my articles]]></title>
+        <id>https://dev.to/autoshiftops/i-built-a-tool-that-tells-me-if-readers-actually-understood-my-articles-44d5</id>
+        <link href="https://dev.to/autoshiftops/i-built-a-tool-that-tells-me-if-readers-actually-understood-my-articles-44d5"/>
+        <updated>2026-08-14T23:09:44.000Z</updated>
+        <summary type="html"><![CDATA[After publishing 66 technical articles on DevOps and AI infrastructure, I realised I had a blind spot.
+I knew how many people visited my articles. I had no idea how many people understood them.
+Page views, bounce rates, time on page — none of these tell you whether your explanation of Kubernetes state management actually made sense to the reader.
+So I built QuizOps.
+What it does
+You paste your article URL. GPT-4o reads it and generates 10 multiple-choice questions streamed in real time. You review, edit, and publish. Your readers get a quiz link.
+You see who passed, who failed, and which specific questions tripped people up.
+The technical bits
+The generation uses OpenAI's streaming API with NDJSON output — each question is a complete JSON object on its own line. The frontend reads the ReadableStream line by line and renders questions as they arrive with a fade-in animation. It genuinely looks like the AI is thinking in real time.
+
+
+
+Stack:
+Next.js 14 (App Router)
+Supabase (auth + DB with RLS)
+OpenAI API (gpt-4o-mini, streaming)
+Vercel (hosting + serverless)
+Resend (email notifications)
+Playwright (E2E test suite)
+Sentry (error monitoring)
+Content moderation
+Before generating questions, the API runs two classification checks:
+Domain intent check — is this URL likely to contain inappropriate content?
+Content check — is the fetched article appropriate for educational quiz generation?
+Both use a lightweight GPT-4o-mini call before the main generation request.
+Community quiz banks
+Beyond publisher quizzes, there are community quiz banks (JSON files in the repo) covering: Prompt Engineering, LLM APIs, AI Agents, RAG & Vectors, Kubernetes, Terraform, GitHub Actions, Python for AI Engineers, Cloud Native, and AI Security.
+Anyone can add a new bank by dropping a JSON file — no code changes needed.
+Try it
+quiz.autoshiftops.com — free, no credit card.
+Would love feedback from other technical writers on what's missing.]]></summary>
+        <author>
+            <name>Sajja Sudhakararao</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[interlace.sh: Why We Built a Unified Abstraction]]></title>
+        <id>https://dev.to/5c4989ca297ed/interlacesh-why-we-built-a-unified-abstraction-c66</id>
+        <link href="https://dev.to/5c4989ca297ed/interlacesh-why-we-built-a-unified-abstraction-c66"/>
+        <updated>2026-08-14T23:07:02.000Z</updated>
+        <summary type="html"><![CDATA[Consider what a data engineer has to learn before writing a single useful transformation on a typical 2026 data stack.
+dbt, for SQL models, sources, tests and macros. Airflow or Dagster, for scheduling, sensors and retry logic. dlt, Airbyte or Fivetran, for ingestion. Python scripts for anything SQL cannot express. Then YAML to configure all of it, and a growing pile of glue to hold the pieces together.
+Each of those tools is good. dbt genuinely standardised SQL transformation. Airflow's operator ecosystem is unmatched. dlt does schema inference and incremental loading better than most hand-written extractors. The problem is not the tools.
+The problem is the seams.
+Your ingestion layer writes to a landing zone. Your transformation layer reads from it. Nothing in either tool knows that this…]]></summary>
+        <author>
+            <name>Mark Alford</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why console.log Isn't Enough When Building AI Agents]]></title>
+        <id>https://dev.to/raju_dandigam/why-consolelog-isnt-enough-when-building-ai-agents-17o5</id>
+        <link href="https://dev.to/raju_dandigam/why-consolelog-isnt-enough-when-building-ai-agents-17o5"/>
+        <updated>2026-08-14T23:04:50.000Z</updated>
+        <summary type="html"><![CDATA[An AI agent fails, so you add a few log statements:
+console.log('starting agent');
+console.log('tool result', result);
+console.log('final answer', answer);
+
+That works until the agent calls tools in parallel, retries one of them, falls back to cached data, and makes several model calls for different purposes. The terminal still contains the events, but it no longer explains the run.
+The limitation is not console.log() itself. The limitation is flat, uncorrelated events. Agent debugging needs identity, parent-child relationships, lifecycle, and safe metadata. Without those, more log lines often create more noise rather than more understanding.
+Consider this output:
+10:00:01 search started
+10:00:01 search started
+10:00:02 model started
+10:00:02 search completed
+10:00:03 search timed out
+10:0…]]></summary>
+        <author>
+            <name>Raju Dandigam</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Automatically Secure Your Livewire 4 Components From Client-Side Tampering]]></title>
+        <id>https://dev.to/janecodelife/how-to-automatically-secure-your-livewire-4-components-from-client-side-tampering-5c77</id>
+        <link href="https://dev.to/janecodelife/how-to-automatically-secure-your-livewire-4-components-from-client-side-tampering-5c77"/>
+        <updated>2026-08-14T23:01:51.000Z</updated>
+        <summary type="html"><![CDATA[Livewire Secure Properties 🔒
+
+
+👉 View on GitHub: janecodelife/livewire-secure-properties
+An elegant, zero-configuration security package for Laravel Livewire 4 that automatically locks all public component properties from client-side manipulation, unless explicitly marked as unlocked.
+✅ Auto-lock properties
+✅ Zero configuration
+✅ Protects against client-side tampering
+✅ Unlock specific properties with #[Unlocked]
+✅ Supports Livewire 4 (Single & Multiple File)
+Livewire ^4.0
+You can install the package via composer:
+composer require janecodelife/livewire-secure-properties
+
+If you are using Livewire 4's native Single File Components layout, you can safely use the #[Unlocked] attribute inside the anonymous class block:
+<?php
+
+use Livewire\Component;
+use JaneCodeLife\LivewireSecureProperties\…]]></summary>
+        <author>
+            <name>Jane Code Life</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why Making AI Answer Faster Is Worth $1.5 Billion]]></title>
+        <id>https://dev.to/alexanderkopylkov/why-making-ai-answer-faster-is-worth-15-billion-1ph9</id>
+        <link href="https://dev.to/alexanderkopylkov/why-making-ai-answer-faster-is-worth-15-billion-1ph9"/>
+        <updated>2026-08-14T23:01:08.000Z</updated>
+        <summary type="html"><![CDATA[Keeping an AI model fast enough to use is turning out to be the expensive part of building one.
+
+
+Fireworks AI just raised $1.5 billion at a $17.5 billion valuation. The company doesn't build AI models. It takes other companies' models and makes them run faster and cheaper. That round is a clear signal about where the money in AI is actually moving right now: not just toward smarter models, but toward making the models that already exist usable at scale.
+Most people size up an AI company by how smart its model seems. That's the wrong first question.
+Fireworks is now doing more than $1 billion a year in revenue, up five times from last year. It moves more than 40 trillion tokens (roughly, pieces of text) through its systems every day, nearly triple what it was moving a year earlier. Its inv…]]></summary>
+        <author>
+            <name>Alexander Kopylkov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SkipLink: A Python Tool That Bypasses Ad-Driven URL Shorteners in One Click]]></title>
+        <id>https://dev.to/akashmark8cloud/skiplink-a-python-tool-that-bypasses-ad-driven-url-shorteners-in-one-click-111f</id>
+        <link href="https://dev.to/akashmark8cloud/skiplink-a-python-tool-that-bypasses-ad-driven-url-shorteners-in-one-click-111f"/>
+        <updated>2026-08-14T22:57:33.000Z</updated>
+        <summary type="html"><![CDATA[SkipLink: Bypass ad-driven URL shorteners in one click
+
+
+We've all been there: someone sends you adf.ly/xyz or earn4link.in/FLf1Y1,
+before you reach the actual destination. That's the "shorten-and-earn"
+you
+SkipLink is a free, open-source tool that unwraps those links straight to
+Follows HTTP redirect chains and interstitial pages — a shortener pointing
+at another shortener keeps resolving.
+Recognizes 1,537 shortener domains out of the box.
+Decodes the usual tricks shortener pages use to hide the real link.
+Detects the walls it can't climb — Google reCAPTCHA gates, safelink
+verification pages, and ad-farm "money pages" — and says so honestly,
+instead of guessing.
+Ships as a one-click GUI, a CLI, and prebuilt executables for Windows + Linux.
+The core is 100% Python standard library — zero d…]]></summary>
+        <author>
+            <name>KENNY</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show Dev: The Ghost in the Machine: Navigating Connection Errors in Distributed AI Systems]]></title>
+        <id>https://dev.to/sunverseai/the-ghost-in-the-machine-navigating-connection-errors-in-distributed-ai-systems-6oe</id>
+        <link href="https://dev.to/sunverseai/the-ghost-in-the-machine-navigating-connection-errors-in-distributed-ai-systems-6oe"/>
+        <updated>2026-08-14T22:51:18.000Z</updated>
+        <summary type="html"><![CDATA[In the first few days hours of launching Lawyie, I learned a hard lesson about the cloud: Your code can be perfect, but if the "road" between your servers is blocked, your app is broken.
+Today, I encountered a httpx.ConnectError in my admin dashboard (The Vault). In this post, I’ll break down why distributed systems fail and how I’m "hardening" Sunverse AI’s infrastructure to handle the chaos of the live web.
+The Problem: The "Silent" Handshake
+Lawyie is a distributed system. 
+The Brain is on Groq.
+The Interface is on Streamlit Cloud.
+The Memory is on Supabase (PostgreSQL).
+When I tried to access my revenue metrics today, the "Interface" tried to shake hands with the "Memory," but the request timed out. This resulted in a raw Python traceback—the dreaded "Red Screen of Death" for any found…]]></summary>
+        <author>
+            <name>SunverseAI</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Creating an AI Agent that curates images for ML datasets (Google All Things Agentic Hackathon)]]></title>
+        <id>https://dev.to/hackaprende/creating-an-ai-agent-for-curating-images-for-ml-datasets-google-all-things-agentic-hackathon-55fh</id>
+        <link href="https://dev.to/hackaprende/creating-an-ai-agent-for-curating-images-for-ml-datasets-google-all-things-agentic-hackathon-55fh"/>
+        <updated>2026-08-14T22:49:51.000Z</updated>
+        <summary type="html"><![CDATA[The last months I have been working on an app that is like Pokemon GO but for real dogs: a person takes a photo of a dog, the app recognizes the breed and adds it to a dog collection, you can get achievements and participate on seasonal challenges, among other fun stuff. The app's name is Todogs and it's available on Android and iOS
+This is how the app looks:
+
+
+
+
+A big challenge was to make the app work in real time, with no delays, and without needing internet connection to perform the recognition, so for that I needed to train my own Machine Learning model, for what I used Tensorflow (And TFLite to run it), I trained a model with 117 breeds and worked like a charm!.
+Now, in order to train an image model like this you need a big enough dataset for the model accuracy to be good enough for …]]></summary>
+        <author>
+            <name>Jesus Almaral</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How I Built 172 Guards After My AI Agent Tried to Delete Production Data]]></title>
+        <id>https://dev.to/frederikvonderheyden/how-i-built-172-guards-after-my-ai-agent-tried-to-delete-production-data-3664</id>
+        <link href="https://dev.to/frederikvonderheyden/how-i-built-172-guards-after-my-ai-agent-tried-to-delete-production-data-3664"/>
+        <updated>2026-08-14T22:45:01.000Z</updated>
+        <summary type="html"><![CDATA[2:47 AM, one DELETE, 23 databases
+
+
+My AI coding agent was debugging a slow query. It found the table, decided the data looked stale, and ran:
+DELETE FROM profiles
+
+No WHERE clause. That table exists in 23 separate customer databases on the server this agent had shell access to. One command, every user record, gone.
+Except it wasn't gone. A guard caught the command before it reached the database, blocked it, and handed the agent an error explaining exactly why. The agent adjusted its approach and went back to fixing the actual performance problem — the thing it was supposed to be doing in the first place.
+That's the incident that got me to stop trusting prompts alone and start blocking commands directly. This post is about the system that came out of it: GuardRail, 172 guards running in pr…]]></summary>
+        <author>
+            <name>Frederik von der Heyden</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The file existed, so I assumed the check passed]]></title>
+        <id>https://dev.to/hammad4june1999/the-file-existed-so-i-assumed-the-check-passed-46h5</id>
+        <link href="https://dev.to/hammad4june1999/the-file-existed-so-i-assumed-the-check-passed-46h5"/>
+        <updated>2026-08-14T22:44:18.000Z</updated>
+        <summary type="html"><![CDATA[A user sent me two clips and a screenshot. My video merge tool had run to 100%, said "Applying transitions…", and then thrown:
+FS error: readFile 'merged.mp4'
+
+The error is honest and useless. merged.mp4 does not exist. It does not say why, because by the time you ask, the thing that should have made it has already finished and moved on.
+The cause turned out to be four functions upstream, and the shape of the mistake is one I keep meeting: a check that tests whether something exists when the question was whether it has a particular property.
+Merging clips with different sizes and formats means normalising them first — same dimensions, same frame rate, same codecs — and only then joining. If the user asked for a transition, the join is an xfade for the picture and an acrossfade for the soun…]]></summary>
+        <author>
+            <name>Hammad Shams Uddin</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Moderation Report Triage: Node.js LLM API JSON Contracts for Portable Summaries]]></title>
+        <id>https://dev.to/darianreed1254/moderation-report-triage-nodejs-llm-api-json-contracts-for-portable-summaries-3j55</id>
+        <link href="https://dev.to/darianreed1254/moderation-report-triage-nodejs-llm-api-json-contracts-for-portable-summaries-3j55"/>
+        <updated>2026-08-14T22:40:32.000Z</updated>
+        <summary type="html"><![CDATA[Fintech moderation reports should not enter a human-review queue as a blob of model prose. The portable design is a narrow JSON contract at the Node.js API boundary: title, summary, bullets, and action items, with an explicit result for uncertainty. Keep the model provider behind one adapter, then test that contract against several providers before choosing a default.
+Short answer: define the JSON shape first, validate it after every LLM call, and make provider replacement an adapter change rather than an application rewrite. This is slower to sketch than response.text, but much faster to operate once reports feed queues, dashboards, and audit records.
+
+
+
+Integration shape
+Use it when
+The catch
+
+
+
+
+One provider SDK throughout the service
+A provider-specific capability is the product requir…]]></summary>
+        <author>
+            <name>DarianReed1254</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[RISC-V: They should have known better]]></title>
+        <id>https://dmitry.gr/?r=06.%20Thoughts&amp;proj=12.%20RV</id>
+        <link href="https://dmitry.gr/?r=06.%20Thoughts&amp;proj=12.%20RV"/>
+        <updated>2026-08-14T22:38:34.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[How to Enable Entire]]></title>
         <id>https://dev.to/entire/how-to-enable-entire-4h9l</id>
@@ -1232,6 +1489,16 @@ None of this replaces judgment. It feeds judgment with facts. The measurements t
 Originally published on the INTFRAME engineering blog. The companion code lives at github.com/intframe/scroll-qa.]]></summary>
         <author>
             <name>INTFRAME</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Racket v9.3]]></title>
+        <id>https://blog.racket-lang.org/2026/08/racket-v9-3.html</id>
+        <link href="https://blog.racket-lang.org/2026/08/racket-v9-3.html"/>
+        <updated>2026-08-14T18:14:48.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -35295,6 +35562,16 @@ Instant Trust fo…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Super Mario Derivations]]></title>
+        <id>https://fzakaria.com/2026/08/05/super-mario-derivations</id>
+        <link href="https://fzakaria.com/2026/08/05/super-mario-derivations"/>
+        <updated>2026-08-07T20:16:10.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[AI Search Measurement Gap: Why Brand Influence Can Matter More Than Clicks]]></title>
         <id>https://dev.to/alifar/ai-search-measurement-gap-why-brand-influence-can-matter-more-than-clicks-2imc</id>
         <link href="https://dev.to/alifar/ai-search-measurement-gap-why-brand-influence-can-matter-more-than-clicks-2imc"/>
@@ -62244,99 +62521,6 @@ That distinction is important for technology leaders assessing robotics AI. Prod
 Google DeepMind’s published materials describe a Gemini Robotics family rather than a Gemini Robotics 2 release. The available references point to several separately n…]]></summary>
         <author>
             <name>Ali Farhat</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Your Data Warehouse Is Not Your Data Pipeline]]></title>
-        <id>https://dev.to/andrew_tan_layline/your-data-warehouse-is-not-your-data-pipeline-4n6</id>
-        <link href="https://dev.to/andrew_tan_layline/your-data-warehouse-is-not-your-data-pipeline-4n6"/>
-        <updated>2026-07-31T11:14:14.000Z</updated>
-        <summary type="html"><![CDATA[Teams keep forcing their warehouse to do integration work it was never designed for. The result is ballooning costs, opaque failures, and architectures that become harder to maintain the more they ‘succeed.’ Here’s the case for separating data movement from analytics storage.
-Spend enough time around data platform teams and you hear the same story. A company builds out its "modern data stack" — warehouse, processing layer, orchestrator — and everything looks clean on the architecture diagram. Then the warehouse bill starts to climb. Ingestion jobs fail more often than anyone expected. And every time something breaks, it takes half a day to figure out whether the problem is in the load, the reshape, the orchestrator, or the warehouse itself.
-At some point, someone on the team says the quiet…]]></summary>
-        <author>
-            <name>Andrew Tan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A user spent four days designing a feature for my project. The right answer was zero lines of code.]]></title>
-        <id>https://dev.to/achiya-automation/a-user-spent-four-days-designing-a-feature-for-my-project-the-right-answer-was-zero-lines-of-code-bff</id>
-        <link href="https://dev.to/achiya-automation/a-user-spent-four-days-designing-a-feature-for-my-project-the-right-answer-was-zero-lines-of-code-bff"/>
-        <updated>2026-07-31T11:12:44.000Z</updated>
-        <summary type="html"><![CDATA[Last week I got the best feature request my open-source project has ever received. It was detailed, technically literate, fail-closed by design, and came from someone who clearly runs the tool harder than I do.
-I'm not going to build it. And the person who asked for it agrees — because the conversation ended with him shipping the fix, in his own layer, as a package other people can now use.
-I want to walk through how that happened, because the whole arc is a case study in a question I think we ask too rarely: not "how do I implement this?" but "where does this concern actually live?"
-My project is safari-mcp, an MCP server that lets AI coding agents drive the real Safari on macOS — your session, your logins, your tabs. Which is exactly what makes concurrency dangerous: if two agents share …]]></summary>
-        <author>
-            <name>אחיה כהן</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bitcoin, ether fall, equities rally with broader crypto market on track for best month in a year]]></title>
-        <id>34436fc8-fb6c-480c-92a4-a9fef783a576</id>
-        <link href="https://www.coindesk.com/markets/2026/07/31/bitcoin-ether-fall-equities-rally-with-broader-crypto-market-on-track-for-best-month-in-a-year"/>
-        <updated>2026-07-31T11:07:52.000Z</updated>
-        <summary type="html"><![CDATA[BTC fell as July drew to a close, even as stocks gained in Asia and U.S. index futures advanced. The CoinDesk 20 index is set to post its biggest gain since July 2025.]]></summary>
-        <author>
-            <name>Oliver Knight</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How BrowserAct Fixed the Stale-Selector Failures Breaking My Browser Tasks]]></title>
-        <id>https://dev.to/dannwaneri/how-browseract-fixed-the-stale-selector-failures-breaking-my-browser-tasks-52b5</id>
-        <link href="https://dev.to/dannwaneri/how-browseract-fixed-the-stale-selector-failures-breaking-my-browser-tasks-52b5"/>
-        <updated>2026-07-31T11:06:54.000Z</updated>
-        <summary type="html"><![CDATA[Disclosure: BrowserAct sponsored this piece. The BrowserAct links below are affiliate-tracked — I get credit if you sign up through them.
-I keep hitting the same failure building agent workflows in Claude Code: the agent captures a selector once, the page re-renders with a new build hash, and the next run breaks on an element that's still right there on the screen — just under a different id. BrowserAct is a browser automation platform built for AI agents — real browser control, persistent browser identity, task sessions, verification handling, and human handoff, all behind one CLI. This test is about one narrow slice of that: how it handles a page whose ids and classes change under you, using Claude Code to drive it.
-I tested that against a page I built myself, compared directly against r…]]></summary>
-        <author>
-            <name>Daniel Nwaneri</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Consent-First Phone Privacy Triage Flow for Support Teams]]></title>
-        <id>https://dev.to/davidplaha/a-consent-first-phone-privacy-triage-flow-for-support-teams-4ego</id>
-        <link href="https://dev.to/davidplaha/a-consent-first-phone-privacy-triage-flow-for-support-teams-4ego"/>
-        <updated>2026-07-31T11:06:10.000Z</updated>
-        <summary type="html"><![CDATA[Privacy incidents on personal phones often begin with a vague report: battery drain, unfamiliar login alerts, a device listed in a messaging account, or an app with permissions that do not match its purpose. Support teams need a repeatable way to respond without escalating fear or encouraging unauthorized access.
-This article presents a consent-first triage flow that developers, help-desk teams, and security educators can adapt for user-facing support.
-Before collecting screenshots, logs, or account details, establish who owns or is authorized to manage the device. The workflow should stop when authorization is unclear.
-A simple intake model can make that boundary explicit:
-{
-  "device_authorized": true,
-  "account_owner_present": true,
-  "immediate_safety_risk": false,
-  "symptoms": [
-   …]]></summary>
-        <author>
-            <name>David Plaha</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Create a Marketing Landing Page Using shadcn/ui]]></title>
-        <id>6a6c8095409fd0bcb0afd1c6</id>
-        <link href="https://www.freecodecamp.org/news/how-to-create-a-marketing-landing-page-using-shadcn-ui/"/>
-        <updated>2026-07-31T11:01:41.000Z</updated>
-        <summary type="html"><![CDATA[Most marketing landing pages start with the same problem: you're staring at a blank screen and rebuilding sections you've already created countless times. A hero section, feature grid, testimonials, p]]></summary>
-        <author>
-            <name>Vaibhav Gupta</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Your RAG copilot can't count — stop letting it try]]></title>
-        <id>https://dev.to/rdiegoss/your-rag-copilot-cant-count-stop-letting-it-try-2ie3</id>
-        <link href="https://dev.to/rdiegoss/your-rag-copilot-cant-count-stop-letting-it-try-2ie3"/>
-        <updated>2026-07-31T11:00:29.000Z</updated>
-        <summary type="html"><![CDATA[Your RAG copilot can't count — stop letting it try
-
-
-A user asked our document-search copilot a completely reasonable question: how many documents a specific person authored. The copilot answered with a number. Confidently. With a nice sentence around it.
-The real answer, computed by the database, was 84. The copilot said — because it did what every RAG system does when you ask it an aggregation question: it counted what it could see.
-Here's the claim I want to defend, because I think a lot of us are shipping this bug right now:
-💡 An LLM should never compute an aggregate. Not counts, not sums, not "most recent". If the question is arithmetic over the corpus, the answer comes from the system of record — the model's only job is to phrase it.
-This is a multi-agent document-search copilot for…]]></summary>
-        <author>
-            <name>Rodrigo Diego</name>
         </author>
     </entry>
 </feed>
