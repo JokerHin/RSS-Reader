@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-08-15 datetime="2026-08-15T22:15:43.000Z">2026-08-15</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-08-15 datetime="2026-08-15T22:15:43.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-08-15 datetime="2026-08-15T23:04:44.000Z">2026-08-15</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-08-15 datetime="2026-08-15T23:04:44.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -42,6 +42,346 @@
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/lucasdasial/entenda-ponteiros-simples-e-facil-com-go-2nog"
+                        open
+                      >
+                        <summary class="article-expander__title">Entenda Ponteiros, simples e facil com Go</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/lucasdasial/entenda-ponteiros-simples-e-facil-com-go-2nog">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fqogmz7wbwa3r86gnc6nd.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Lidar com ponteiros pela primeira vez assusta quem vem de linguagens como JavaScript, Python ou Java, onde a gestão de memória é automática
+Mas a ideia é mais simples do que parece.
+Toda variável ocupa um espaço na memória, e esse espaço possui um endereço.
+Um ponteiro é uma variável que guarda o endereço de outra variável, em vez de guardar diretamente o seu valor.
+x :&#x3D; 10
+
+p :&#x3D; &amp;x
+
+fmt.Println(*p) // 10
+
+x guarda 10.
+p guarda o endereço de x.
+E *p acessa o valor que está naquele endereço.
+&amp;: Descobre o &quot;endereço de&quot; uma variável.
+*: Acessa ou modifica o &quot;valor apontado por&quot; um ponteiro. 
+Tambem é sintaxe para indicar uma variavel é do tipo ponteiro
+Principalmente para trabalhar com a mesma instância de um dado, evitando cópias desnecessárias.
+func changeName(user *User) {
+    user.Name &#x3D; &quot;João&quot;
+}
+
+user :&#x3D; User{Name: &quot;Lucas&quot;}
+
+changeName(&amp;user)
+
+fmt.Println(user.Name) // João
+
+A função recebeu o endereço do user, então modificou o objeto original.
+Sem ponteiro:
+func changeName(user User) {
+    user.Name &#x3D; &quot;João&quot;
+}
+
+A função receberia uma cópia e o user original não seria alterado.
+Em uma API, podemos criar uma única instância do banco:
+db, _ :&#x3D; sql.Open(&quot;postgres&quot;, dsn)
+
+userRepo :&#x3D; NewUserRepository(db)
+orderRepo :&#x3D; NewOrderRepository(db)
+
+E os repositories podem compartilhar a mesma instância:
+type UserRepository struct {
+    db *sql.DB
+}
+
+              *sql.DB
+                 │
+        ┌────────┴────────┐
+        ↓                 ↓
+ UserRepository     OrderRepository
+
+A ideia principal que estou levando do estudo de Go:
+Ponteiros permitem trabalhar com a mesma instância de um dado, em vez de necessariamente criar cópias.
+Use valor por padrão. 
+Use ponteiro quando precisar: 
+compartilhar/modificar a mesma instância, 
+representar nil/null
+
+evitar uma cópia relevante ou muito grande.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/zekebuilds/anonymous-pastebins-are-a-spam-magnet-i-gated-mine-with-proof-of-work-instead-of-logins-9la"
+                        open
+                      >
+                        <summary class="article-expander__title">Anonymous pastebins are a spam magnet. I gated mine with proof-of-work instead of logins.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/zekebuilds/anonymous-pastebins-are-a-spam-magnet-i-gated-mine-with-proof-of-work-instead-of-logins-9la">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fo7q6xoplk9eqsczkzjpi.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Open pastebin, no login, paste text, get a link. That is the whole appeal, and it is also why every anonymous paste service turns into a dumping ground. Bots script the post endpoint and fire off thousands of spam links, phishing kits, leaked credential lists, malware config. The usual fix is to make the thing less anonymous: force an account, bolt on reCAPTCHA, rate-limit by IP. Every one of those punishes the honest one-off user to slow down a bot that just rotates IPs anyway.
+I wanted a paste service that stayed anonymous and one-click but still cost a spammer something real. So the price of posting is not an account. It is energy. You either burn a little CPU (proof of work, free) or you pay 10 sats over Lightning. A human posting one snippet never notices. A bot posting ten thousand n…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/aws-builders/frontend-devops-mi-mapa-de-recursos-1fm7"
+                        open
+                      >
+                        <summary class="article-expander__title">Frontend DevOps: mi mapa de recursos</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/aws-builders/frontend-devops-mi-mapa-de-recursos-1fm7">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Flk01u3t89j95atobqi4b.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Pasar de Frontend Engineer a DevOps Engineer implica aprender un montón de cosas nuevas: infraestructura, redes, contenedores, CI/CD, y una forma distinta de pensar los sistemas. En este post recopilo los links, cursos y artículos que más me ayudaron durante mi transición, organizados para que no tengas que perder tiempo buscando por tu cuenta como me pasó a mí.
+90 Días de DevOps con Roxs
+Canal de YouTube de Roxs (AWS Hero)
+TechWorld with Nana
+Pelado Nerd
+The Cloud Resume Challenge
+DevOps Projects
+Curso Introducción a Linux (LinuxFoundationX)
+AWS Builder Center
+AWS Skill Builder
+90 Days of DevOps (Michael Cade)
+AWS She Builds Mentorship Program
+KodeKloud Academy
+Cloud Practitioner Course by Stéphane Maarek
+AWS Cloud Quest: Cloud Practitioner
+Además de estos recursos, te recomiendo mucho un…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/vitorcastro78/contextmemory-v010-beta-what-shipped-4acl"
+                        open
+                      >
+                        <summary class="article-expander__title">ContextMemory v0.1.0-beta: what shipped</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/vitorcastro78/contextmemory-v010-beta-what-shipped-4acl">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F7zzyrfravn7fkbk4kpbs.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>ContextMemory v0.1.0-beta is out.
+Agent memory you can open like a wiki — not a vector black box, not classic RAG inject.
+﻿## 0.1.0-beta (2026-08-15)
+add Cursor-style HTTP, vision, browser, PDF, and canvas agent tools. (0d322c2)
+derive LLM protocol capabilities from prompt profiles. (bd159ad)
+expand agentic guardrail catalog with enable/disable kinds (4fabaec)
+expose LLM generation defaults in Admin and apply to chat/generate payloads (e459575)
+multi-model harness, live-data guardrail, and Ollama num_ctx fix. (7244aa2)
+ci: stop GITHUB_TOKEN from overriding PEER_SYNC_TOKEN on mirror push (f230ff2)
+coerce query_objects filter object/string into string array. (95069ee)
+map fieldsToReturn alias in query_objects normalizer. (9b3e172)
+pin LinkedIn API version and clarify dev.to errors (dceafbc)
+promote prose MCP tool JSON into structured tool_calls. (5ae1b84)
+publish thin helpers under available Kortexio package names (fbff059)
+regenerate AddSkillActivation migration with model snapshot. (91a53c5)
+rewrite SQL-style query_objects filters to Zuora field.OP:value. (a145663)
+set User-Agent on dev.to announcer requests (88e4992)
+stabilize Qwen client-side tools and stop capping Weak MCP catalogs. (c4db686)
+stop live-data validation loops and soften noisy guardrail defaults (14f262a)
+stop RequireZeroExitCode guardrail from looping forever on retried tool failures (1cb6155)
+stop tool_describe failures from poisoning agentic validation loops. (3fcff28)
+tighten LinkedIn release posts to messaging voice (beb0894)
+Full notes: https://github.com/Kortexio/ContextMemory/releases/tag/v0.1.0-beta
+Repo: https://github.com/Kortexio/ContextMemory · Cloud: https://kortexio.io</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/engmanagerdesk/writing-the-code-is-no-longer-the-bottleneck-2jh2"
+                        open
+                      >
+                        <summary class="article-expander__title">Writing the code is no longer the bottleneck</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/engmanagerdesk/writing-the-code-is-no-longer-the-bottleneck-2jh2">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxhfrcnbymng0qvqvr9g6.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The industry&#x27;s currently obsessed with how fast we can generate code. Every morning in our engineering general channel on Microsoft Teams, someone&#x27;s posting a link to a new agent or a model that can write a thousand lines of perfect frontend or backend code in seconds. We&#x27;re treating implementation speed like it&#x27;s still the primary obstacle to shipping software.
+It isn&#x27;t. Implementation&#x27;s basically a solved problem. 
+If I want a new microservice to handle regional tax calculations for our checkout flow, I can have the scaffold, the logic, and the unit tests generated before my coffee gets cold. The bottleneck&#x27;s shifted entirely. The bottleneck isn&#x27;t &quot;How do we write this?&quot; but &quot;How do we know this is actually right?&quot; 
+Evaluation&#x27;s replaced implementation as the hardest part of our jobs. 
+I…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/serifcolakel/from-30-tools-to-3-designing-a-token-efficient-mcp-tool-surface-b40"
+                        open
+                      >
+                        <summary class="article-expander__title">From 30 Tools to 3: Designing a Token-Efficient MCP Tool Surface</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/serifcolakel/from-30-tools-to-3-designing-a-token-efficient-mcp-tool-surface-b40">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fiol66c12mpnc21vclz7h.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Modern agentic applications rarely suffer from a lack of tools.
+They suffer from too many of them.
+As an AI agent grows, it is common to connect it to Jira, GitLab, Confluence, Sentry, Elasticsearch, Jaeger, databases, monitoring systems, internal APIs, deployment platforms, and dozens of other services.
+Each integration can expose many operations:
+Jira
+├── searchIssues
+├── getIssue
+├── createIssue
+├── updateIssue
+├── addComment
+├── transitionIssue
+├── getTransitions
+├── assignIssue
+└── ...
+
+GitLab
+├── listProjects
+├── getProject
+├── listIssues
+├── createIssue
+├── updateIssue
+├── listMergeRequests
+├── getMergeRequest
+├── createComment
+└── ...
+
+Confluence
+├── searchPages
+├── getPage
+├── createPage
+├── updatePage
+└── ...
+
+It is easy to end up with 30, 50, or even hundreds of tools.
+At first,…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;17
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/b_christine/youthtrend-beyond-the-group-chat-18f7"
+                        open
+                      >
+                        <summary class="article-expander__title">YOUTHTREND-Beyond the group chat</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/b_christine/youthtrend-beyond-the-group-chat-18f7">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Foldl7v4vj951m144sjsg.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>https://youthtrend-frontend.vercel.app
+https://youtu.be/aMLlWtQF9SI
+Cameroonian university life runs on scattered WhatsApp groups, Telegram channels, and email lists — no single source of truth, no way to discover people or clubs beyond your own campus. &quot;YouthTrend&quot; replaces that with one verified, national social network for students. &quot;Connect. Belong. Grow&quot;
+-&quot;Unified feed&quot; — one place for everything happening across your network.
+|Role                     |Who it’s for
+
+|Student                  |Verified by university, networks
+
+across all participating schools.
+
+|University Representative/Staff or 200-level+ student |managing an official school profile.
+Built as a &quot;modular monolith&quot;— fast to ship as a small team, with clean module boundaries (auth, communities, posts, events, messages, moderation) that can peel off into microservices later.
+|Layer   |Tech
+
+|Frontend: React + Vite                  |
+Started as ISM coursework, now backed by full BRS/SRS/TRS documentation. Open questions: verification method (email vs. ID upload) and whether native mobile makes the MVP.
+@nya serena @b_christine @sav&#x27;tech alch @charlene menye eloundou @christian yvan @moumiemohammed38glitch @borel nechi
+@alchemycodes</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/timevolt/the-matrix-of-tree-traversals-recursive-vs-iterative-explained-18a9"
+                        open
+                      >
+                        <summary class="article-expander__title">The Matrix of Tree Traversals: Recursive vs Iterative Explained</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/timevolt/the-matrix-of-tree-traversals-recursive-vs-iterative-explained-18a9">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F3p6q6vh9ciylk19a31qp.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The Quest Begins (The &quot;Why&quot;)
+
+
+I still remember the first time I was asked to validate a binary search tree in an interview. My brain went into panic mode: “Do I write recursion? What if the tree is skewed and I blow the call stack? Is there a way to do it iteratively without turning my code into spaghetti?” I felt like Neo staring at the green code rain, wondering if there was a hidden pattern I could see.  
+The truth is, most of us learn tree traversals as a rote recipe: “visit left, node, right” for inorder, and we copy‑paste the recursive version without ever asking why it works. When the interviewer nudges you toward an iterative solution, the panic spikes because the recursion we love suddenly feels like a crutch. That moment—when you realize you need to understand the mechanics behi…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/matheus_cavalcanti_472d93/building-a-responsible-health-calculator-portal-for-everyday-use-3d2b"
+                        open
+                      >
+                        <summary class="article-expander__title">Building a Responsible Health Calculator Portal for Everyday Use</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/matheus_cavalcanti_472d93/building-a-responsible-health-calculator-portal-for-everyday-use-3d2b">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6dao68ba0l4424o0ekqf.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Health calculations are useful only when people understand what the numbers mean and what they cannot tell them. That principle guided the development of Quantas Calorias, a free web portal that brings nutrition and health-screening calculators together in a simple interface.
+The portal includes calorie and daily-goal calculations, BMI, basal metabolic rate, macronutrient distribution, HOMA-IR, cardiovascular-risk estimation, smoking-related calculations, and the IVCF-20 tool for older-adult vulnerability screening. Each result needs context: formulas are estimates, screening is not diagnosis, and an individual result should be interpreted alongside history, examination, and professional judgment.
+From a product perspective, the main challenge was not only implementing formulas. It was designing explanations that are understandable without hiding uncertainty. Inputs need clear units, results need plain-language interpretation, and every tool should make its limitations visible rather than placing them in a distant footer.
+A second lesson was to separate educational use from clinical decision-making. A calculator can help someone prepare questions for an appointment, understand a health concept, or organize personal goals. It should not be used to start or stop medication, diagnose a disease, or replace a qualified assessment.
+Quantas Calorias is available at https://quantascalorias.net/. We are looking for feedback on accessibility, calculator explanations, localization, and responsible health communication. What is the most important detail a health calculator should explain before showing a result?</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://dev.to/engmanagerdesk/your-ai-generated-post-mortem-is-just-a-fancy-way-of-hiding-the-truth-5b3c"
                         open
                       >
@@ -53,6 +393,49 @@
                               <span>I read a post on Lobste.rs last week about dreading our LLM-written incident report future, and it hit a massive nerve. We&#x27;ve reached a point where the moment production stops burning, our next instinct&#x27;s to automate the thinking. 
 I&#x27;m tired of reading beautifully formatted incident reviews that read like they&#x27;re written by a consultant who&#x27;s never seen a terminal. They&#x27;ve all the right sections, the timelines are perfectly clean, and they explain absolutely nothing about why we actually broke. 
 This connects to something I was chewing on last week when I wrote about the cultural bankruptcy of tracking developer activity through screen recordings. If you treat engineering like a factory where every input must be logged and optimized, you end up destroying professional trust. Writing incide…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/pbidocs/power-bi-error-the-key-didnt-match-any-rows-in-the-table-3fmi"
+                        open
+                      >
+                        <summary class="article-expander__title">&quot;Power BI Error: The Key Didn&#x27;t Match Any Rows in the Table&quot;</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/pbidocs/power-bi-error-the-key-didnt-match-any-rows-in-the-table-3fmi">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ffn05l4wwwbinxgcjdusu.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>tags: powerbi, dax, troubleshooting, tutorial
+https://pbidocs.com/blog/key-didnt-match-any-rows-error
+
+
+The full error reads:
+The key didn&#x27;t match any rows in the table
+
+This is the opposite problem from a duplicate value error. That one means LOOKUPVALUE() (or a relationship) found too many matching rows. This one means it found zero — the search value you gave it doesn&#x27;t exist anywhere in the target column.
+Product Category &#x3D;
+LOOKUPVALUE(
+    DimProduct[Category],
+    DimProduct[ProductKey], FactSales[ProductKey]
+)
+
+Step One: Find Which Values Are Actually Missing
+Key Exists &#x3D;
+Cause 1: A Data Type Mismatch
+FactSales[ProductKey] &#x3D; &quot;1001&quot;   (text)
+LOOKUPVALUE searching for &quot;1001&quot; in a column of numbers -&gt; no match
+Source,
+{{&quot;ProductKey&quot;, Int64.Type}}
+
+)
+Cause 2: Trailing Whitespace or Case…</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;7
                                   min&hairsp;)</span>
                             </span>
@@ -7559,6 +7942,81 @@ The difference between pe…</span>
                       <details
                         class="article-expander"
                         data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.404media.co/the-government-is-monitoring-anti-flock-tiktok-and-instagram-accounts/"
+                        open
+                      >
+                        <summary class="article-expander__title">The Government Is Monitoring Anti-Flock TikTok and Instagram Accounts</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.404media.co/the-government-is-monitoring-anti-flock-tiktok-and-instagram-accounts/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://storage.ghost.io/c/0f/76/0f76b548-bc58-4f25-abc3-3f5ebca07da4/content/images/size/w1200/2026/08/404-Media-5101-Santa-Monica-Blvd-Ste-8-PMB1405-Los-Angeles--CA-90029.jpg" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;8
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://sugartrack-beta.vercel.app/"
+                        open
+                      >
+                        <summary class="article-expander__title">SugarTrack – an offline Android logbook for blood sugar (no account, no cloud)</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://sugartrack-beta.vercel.app/">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;2
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://horn.gg/blog/engineers-will-do-anything-to-avoid-learning-from-history/"
+                        open
+                      >
+                        <summary class="article-expander__title">Engineers will do anything to avoid learning from history</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://horn.gg/blog/engineers-will-do-anything-to-avoid-learning-from-history/">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://xescu.re/keeta-consensus.pdf"
+                        open
+                      >
+                        <summary class="article-expander__title">Modeling and Verification of Keeta&#x27;s Consensus [pdf]</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://xescu.re/keeta-consensus.pdf">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;20
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
                         data-accordion-key="https://spectrum.ieee.org/digital-signal-processing"
                         open
                       >
@@ -7587,6 +8045,45 @@ The difference between pe…</span>
                           <div class="article-summary-box-inner media-object">
                             <span class="media-object__text">
                               <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://github.com/christensen143/claude-trofeo-hud"
+                        open
+                      >
+                        <summary class="article-expander__title">Show HN: Live Claude Usage HUD for a $38 Thermalright Trofeo Vision LCD</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/christensen143/claude-trofeo-hud">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://opengraph.githubassets.com/5d21034f9a0e87878f2fdcf914d0f78d23d9750224fb69507d4ecfe1c91c93fc/christensen143/claude-trofeo-hud" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://michael.stapelberg.ch/posts/2026-08-09-zsh-history-truncation-bug/"
+                        open
+                      >
+                        <summary class="article-expander__title">Tracking down a Zsh history data loss bug</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://michael.stapelberg.ch/posts/2026-08-09-zsh-history-truncation-bug/">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;17
+                                  min&hairsp;)</span>
                             </span>
                           </div>
                         </a>
@@ -7684,6 +8181,26 @@ The difference between pe…</span>
                           <div class="article-summary-box-inner media-object">
                             <span class="media-object__text">
                               <span>Comments</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.severe-weather.eu/long-range-2/super-el-nino-growth-accelerating-to-record-strength-fall-winter-2026-2027-forecast-impact-united-states-canada-europe-fa/"
+                        open
+                      >
+                        <summary class="article-expander__title">Super El Niño Keeps Growing as New Forecasts Reach Record Territory Ahead Winter</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.severe-weather.eu/long-range-2/super-el-nino-growth-accelerating-to-record-strength-fall-winter-2026-2027-forecast-impact-united-states-canada-europe-fa/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="http://www.severe-weather.eu/wp-content/uploads/2026/08/weather-fall-winter-2026-2027-forecast-united-states-canada-jet-stream-pressure-system-anomaly-temperature-snowfall-record-super-el-nino-event-unfolding-growing-faster-august-update.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;17
+                                  min&hairsp;)</span>
                             </span>
                           </div>
                         </a>
@@ -32253,6 +32770,26 @@ The post OPPO, vivo Deny Rumours Of Joint Vlogging Camera Development appeared f
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://github.com/abhiramasonny/jaithon"
+                        open
+                      >
+                        <summary class="article-expander__title">Jaithon 3, a fast programming language with the perfect syntax</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://github.com/abhiramasonny/jaithon">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://opengraph.githubassets.com/095743e182348931ee276df1635968489de52061641dfb401e8d4ba358758bf4/abhiramasonny/jaithon" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;14
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -106044,331 +106581,6 @@ This article shows how to use the Portfolio Invest…</span>
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/sandeep_chakravartty_219e/build-a-production-grade-ai-dashboard-architectural-insights-from-the-bmw-autotrend-platform-4hg2"
-                        open
-                      >
-                        <summary class="article-expander__title">Build a Production-Grade AI Dashboard: Architectural Insights from the BMW AutoTrend Platform</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sandeep_chakravartty_219e/build-a-production-grade-ai-dashboard-architectural-insights-from-the-bmw-autotrend-platform-4hg2">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Frmmub1nvnf5moz8s5db3.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Orchestrating Clean Architecture, Subprocess Scrapers, SQLite FTS5, and Local LLMs (Ollama) inside a Dockerized Python + React Stack.
-The BMW AutoTrend Dashboard is a local-first, AI-powered automotive intelligence platform that scrapes, processes, classifies, and visualizes market trends and sentiment for BMW-related news. The system is designed to run completely locally, using a local LLM instance via Ollama for article summarization and entity extraction, backed up by a deterministic rule-based regex fallback engine.
-The platform was built with the following design goals:
-Clean Architecture: Decouple the data extraction layer, storage mechanism, analytical computations, and API controllers.
-Deterministic Fallbacks: Ensure the application remains fully functional (using a rule-based rege…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;10
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/alifar/how-to-assess-a-20x-ai-performance-claim-without-a-defined-benchmark-287b"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Assess a 20x AI Performance Claim Without a Defined Benchmark</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/alifar/how-to-assess-a-20x-ai-performance-claim-without-a-defined-benchmark-287b">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fscalevise.com%2Fresources%2Fcontent%2Fimages%2F2026%2F07%2Fassess-20x-ai-performance-claim.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>A claim of 20x AI performance sounds consequential, but the number alone does not identify a technical breakthrough. It could refer to faster inference, higher throughput, lower cost, improved training efficiency, or a gain on one narrowly defined benchmark. Until a claim names its metric, baseline, workload, and supporting evidence, developers cannot determine what changed or whether the result applies to their systems.
-The supplied material contains a brief statement invoking Moore&#x27;s Law, but no publicly accessible OpenAI announcement, product update, architecture description, or corroborating report establishes a specific 20x improvement. The linked destination could not be independently resolved from the available material. That leaves no factual basis for attributing the figure to a p…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/ntty/stop-building-chatbots-and-start-building-agentic-workflows-1b4n"
-                        open
-                      >
-                        <summary class="article-expander__title">Stop building &#x27;Chatbots&#x27; and start building Agentic Workflows</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ntty/stop-building-chatbots-and-start-building-agentic-workflows-1b4n">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fh657umjwzrukaqu1ayn2.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>The Wall of Single Prompts
-
-
-Most developers start with a simple pattern: user input goes in, the LLM processes it, and a response comes out. We call this a zero-shot or few-shot prompt. It works for summarizing a paragraph or writing a basic function. But the second you ask it to perform a complex task, like &quot;Research this company and write a personalized sales email based on their latest SEC filing,&quot; it falls apart.
-It will hallucinate the filing, miss a key detail, or simply forget the constraints you set in the first paragraph. This is because you are treating the LLM as a magic box rather than a processor. To get actual reliability, you need to move toward agentic workflows.
-An agentic workflow is not about a more powerful model. It is about the architecture around the model. Instead …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/albert_zhang_f468830cf0e6/open-source-multi-agent-orchestration-lessons-from-agentforge-37n1"
-                        open
-                      >
-                        <summary class="article-expander__title">Open-Source Multi-Agent Orchestration: Lessons from AgentForge</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/albert_zhang_f468830cf0e6/open-source-multi-agent-orchestration-lessons-from-agentforge-37n1">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fgllz63ugqrdqdv78chbx.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>We built AgentForge to solve our own problem. Here&#x27;s what 6 months of production multi-agent deployment taught us.
-Everyone designs for the happy path. But in multi-agent systems, the failure modes multiply:
-Agent A succeeds but takes 30s → Agent B times out waiting
-Agent A returns malformed JSON → Agent B crashes parsing
-Two agents try to write the same file → Race condition
-Design your orchestration around &quot;what breaks&quot; first.
-You need per-agent execution traces. Not just logs — structured traces showing:
-Input parameters (exact values, not summaries)
-Output before any post-processing
-Retry attempts with backoffs
-Circuit breaker state transitions
-We built this into AgentForge&#x27;s execution engine. Every run generates a JSON trace you can replay for debugging.
-Unbounded conversation history degrades performance. We use a sliding window + summary strategy:
-Keep last N turns verbatim
-Summarize older turns into structured context
-Let agents explicitly &quot;remember&quot; key facts via a memory store
-Running 5 agents × 4K tokens × GPT-4 gets expensive fast. Our approach:
-Router agent determines which specialist to invoke (cheaper model)
-Specialist agents use larger models only when needed
-Response caching for deterministic queries
-Result: 60% cost reduction vs. naive implementation.
-Python 3.11+
-Pydantic for schema validation
-AsyncIO for concurrent agent execution
-SQLite/Redis for state persistence
-WebSocket for real-time monitoring UI
-Open source. No VC pitch. Just code that works.
-https://github.com/agentforge-cyber/agentforge-mvp
-Join us: https://discord.gg/Qy6HKHsqP
-Posted on 2026-08-01 by the AgentForge team.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/rawveg/how-ai-invented-a-disease-that-millions-believed-3ijh"
-                        open
-                      >
-                        <summary class="article-expander__title">How AI Invented a Disease That Millions Believed</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/rawveg/how-ai-invented-a-disease-that-millions-believed-3ijh">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fi.snap.as%2Fx9S2r2kF.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>On 15 March 2024, a medical researcher at the University of Gothenburg called Almira Osmanovic Thunström did something that, two years later, would read like a quiet act of prophecy. She invented a disease. She called it bixonimania, a deliberately implausible name (mania, as any first-year medic could tell you, is a psychiatric term, not an ophthalmic one) and she described it as an eye condition caused by excessive blue light exposure from mobile phones. She wrote two short preprints about it and seeded them online. To make the hoax unmissable, she packed the papers with jokes: a fictional author affiliated with the non-existent Asteria Horizon University in the equally fictional Nova City, California; acknowledgements to a Professor Maria Bohm at The Starfleet Academy; funding attribute…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;22
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/sandeep_chakravartty_219e/bypassing-the-chromium-tax-building-a-sub-200ms-hacker-news-cli-for-ai-agents-4kbm"
-                        open
-                      >
-                        <summary class="article-expander__title">Bypassing the Chromium Tax: Building a Sub-200ms Hacker News CLI for AI Agents</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sandeep_chakravartty_219e/bypassing-the-chromium-tax-building-a-sub-200ms-hacker-news-cli-for-ai-agents-4kbm">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fnkz9c3vx6997o79v0r5m.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>How we leveraged the WebCMD paradigm to slash web-navigation latency by 95%, reduce LLM token consumption by 90%, and establish a deterministic, schema-validated command-line interface.
-In the current landscape of AI-driven automation, software agents are frequently tasked with navigating web platforms to gather intelligence, monitor discussions, or interact with systems. Traditionally, this is accomplished using headless browsers (such as Puppeteer, Playwright, or Selenium). 
-While headless browsers are highly flexible, they come with substantial hidden costs:
-High Startup and Rendering Latency: Initializing a Chromium instance, performing DNS resolution, loading CSS/JS assets, and rendering the DOM takes between 3 to 5 seconds per request.
-Massive Resource Footprint: Running multiple hea…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;10
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/ciprian_tudor/understanding-nodejs-modules-2503"
-                        open
-                      >
-                        <summary class="article-expander__title">Understanding Node.js Modules</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ciprian_tudor/understanding-nodejs-modules-2503">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fpwhbyjdz7epk6o1bt1nt.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>I recently started learning Node.js, and one of the first concepts I came across was modules. I&#x27;ve been a Front-End Developer for a few years now, and while I already knew what modules were on the surface, I never actually went deep into understanding them. Until now.
-Modules are essentially just files of code. That&#x27;s the simplest way to put it. But if we want to go deeper into what modules really are, why they exist, and how to use them, there&#x27;s a lot more to unpack.
-Modules in Node.js are the building blocks of any application. Why? Because they:
-Organize code into manageable files
-Provide encapsulation
-Prevent global namespace pollution
-Improve code maintainability and reusability
-Let&#x27;s go through each of these in more detail.
-At its core, this is about separation of concerns, the idea …</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;9
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/petrovich_penki_e7351b93d/how-to-fetch-xtcom-spot-market-data-with-python-51ak"
-                        open
-                      >
-                        <summary class="article-expander__title">How to Fetch XT.com Spot Market Data with Python</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/petrovich_penki_e7351b93d/how-to-fetch-xtcom-spot-market-data-with-python-51ak">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fcibe3hgxpg5uxra0ck4w.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Public cryptocurrency market APIs are useful for building price trackers, research tools, dashboards, and trading experiments. In this tutorial, we will retrieve XT.com spot-market ticker data using Python without an API key or external package.
-This experiment was created while researching the exchange and preparing independent tutorials for XTGuide.com.
-We will create a small command-line script that:
-Connects to the XT.com public ticker endpoint
-Accepts a trading pair such as btc_usdt
-
-Retrieves public market data
-Prints the response as formatted JSON
-Handles basic network errors
-Because this example only requests publicly available market information, you do not need an XT.com account or private API credentials.
-Create a new file named xt_ticker.py and add the following code:
-import js…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/calebarcadenotes/three-ux-checks-for-a-click-to-launch-browser-game-3gcn"
-                        open
-                      >
-                        <summary class="article-expander__title">Three UX Checks for a Click-to-Launch Browser Game</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/calebarcadenotes/three-ux-checks-for-a-click-to-launch-browser-game-3gcn">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fcy7i8arfempe6nthfs4y.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Minimal browser games are useful UX tests because every delay and unclear state is easy to notice. I recently used Coreball as a small example: the player launches pins into a rotating core and must avoid every existing pin.
-Here are three checks I use for this kind of click-to-launch interaction.
-The player should be able to judge speed and open space before clicking. Clean contrast and stable motion matter more than decorative effects.
-A mouse click or screen tap should trigger the launch immediately. Even a small perceived delay can make a correct decision feel like the player&#x27;s fault.
-When a collision ends the attempt, the contact point needs to be obvious. Clear failure feedback helps players adjust their next timing instead of assuming that the rule is inconsistent.
-The same simple loop also works well across desktop and mobile because it does not depend on a keyboard layout or complex gestures. Difficulty can grow through rotation changes and tighter gaps while the control stays the same.
-You can try Coreball in the browser. I am mainly looking for feedback on whether the timing and collision feedback feel equally predictable with a mouse and a touchscreen.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;5
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/saqrelfirgany/flutter-web-will-not-render-and-i-shipped-that-to-a-live-game-12f6"
-                        open
-                      >
-                        <summary class="article-expander__title">Flutter web will not render ★ — and I shipped that to a live game</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/saqrelfirgany/flutter-web-will-not-render-and-i-shipped-that-to-a-live-game-12f6">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fam3mm2pf4t0l1tq6kxwn.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>I spent eight days building a small physics game in Flutter and put it online. Then, before telling anyone about it, I opened the live link and played it like someone who had never seen it.
-The first level took one arrow. The tower came down. The win panel slid up and said Level Complete, and under it, where the star rating goes, were three empty rectangles.
-It had been like that for two days.
-Text(
-  &#x27;★&#x27; * s.stars + &#x27;☆&#x27; * (3 - s.stars),
-  style: const TextStyle(
-    color: Cfg.targetColor,
-    fontSize: 34,
-    letterSpacing: 4,
-  ),
-),
-
-Three filled stars for a clean clear, fewer as you spend more arrows. It reads fine. It runs fine. On macOS in the simulator it looked exactly like I wanted.
-On the web build it was three tofu boxes, because the star is U+2605 and the font the page was dr…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/rosgluk/keeping-specs-tests-and-code-in-sync-in-ai-development-jm4"
-                        open
-                      >
-                        <summary class="article-expander__title">Keeping Specs, Tests, And Code In Sync In AI Development</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/rosgluk/keeping-specs-tests-and-code-in-sync-in-ai-development-jm4">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxgqf3yfx35ojhw3be24m.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>AI coding agents ship features fast, but specs, tests, and code quietly drift apart. This guide covers a traceability model, spec-to-test and spec-to-code mapping, and the CI checks that catch drift before a merge.
-A spec that nobody re-checks against the running system is worse than no spec at all, because it creates false confidence. Reviewers trust the document instead of the diff, and an AI agent asked to &quot;follow the existing pattern&quot; will happily follow whatever the code actually does, even when that contradicts the requirement it was supposed to satisfy.
-The fix is not more documentation. It is a small, enforceable link between four things that already exist in most repositories: the requirement, the design decision behind it, the tests that prove it, and the commits or pull requests…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;12
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/alifar/openai-gpt-56-launch-puts-speed-and-multi-agent-work-at-the-center-5a7n"
-                        open
-                      >
-                        <summary class="article-expander__title">OpenAI GPT-5.6 Launch Puts Speed and Multi-Agent Work at the Center</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/alifar/openai-gpt-56-launch-puts-speed-and-multi-agent-work-at-the-center-5a7n">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fscalevise.com%2Fresources%2Fcontent%2Fimages%2F2026%2F07%2Fopenai-gpt-5-6-faster-models-multi-agent-launch.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>OpenAI has formally launched the GPT-5.6 family, turning the prospect of faster AI into a concrete product rollout rather than a vague product signal. Announced on June 26, 2026, the family comprises GPT-5.6 Sol, Terra and Luna, which OpenAI positions across flagship capability, balanced cost and performance, and maximum speed and efficiency respectively.
-The release matters because speed is not presented as an isolated model optimization. OpenAI is pairing improved throughput and responsiveness with stronger reasoning, coding, biology and cybersecurity capabilities, plus new controls intended for complex work. The result is a broader platform update for developers and enterprise teams that need to balance latency, cost and capability across different AI workflows.
-OpenAI describes the lau…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;7
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -107670,8 +107882,8 @@ OpenAI describes the lau…</span>
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/31911766410">
-        <time id="build-timestamp" datetime="2026-08-15T22:18:49.928Z">2026-08-15T22:18:49.928Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/31914352090">
+        <time id="build-timestamp" datetime="2026-08-15T23:18:10.447Z">2026-08-15T23:18:10.447Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>
