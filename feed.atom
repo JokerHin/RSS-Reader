@@ -2,10 +2,262 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-08-18T09:30:52.169Z</updated>
+    <updated>2026-08-18T10:25:22.628Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Refactoring the views system in YOUR gift!]]></title>
+        <id>https://dev.to/codemaster_121482/refactoring-the-views-system-in-your-gift-4kno</id>
+        <link href="https://dev.to/codemaster_121482/refactoring-the-views-system-in-your-gift-4kno"/>
+        <updated>2026-08-18T10:16:11.000Z</updated>
+        <summary type="html"><![CDATA[In the past, link views were cached in Redis. After 10 seconds, all the views were flushed using a manual loop. 
+The old flow looked like this: 
+Loop through every key (ID). 
+Update its views separately via updateOne. 
+Move to the next until the loop ends. 
+N+1 Problem: As the number of key operations grows, it runs many separate trips. Under very heavy traffic, the system can run out of resources and crash. 
+Duplicated Views: In this old flow, I never cleared the views, even after flushing them. This caused a duplicated view count. 
+No Validation: The system never checked if there were keys to update or not, running unnecessary empty operations. 
+Instead of running many separate updateOne operations, we group them into bulk operations using bulkWrite. This way, if we have 100 links viewed, we run 1 operation, unlike the 100 operation in the old system. 
+Run hGetAll to get views.
+Check if there is valid data to process. If not, skip this operation entirely. 
+Map the ID operations (Lightweight for niche apps like ours. I'm not trying to build something for billions, but a quick markdown previewer for devs like you). 
+Send the request to the database and update with bulkWrite. 
+If the request reaches the database and is acknowledged, delete the old views. This guarantees that if the server crashes midway, the data is not lost
+Note: I added ordered: false because, by default, if one operation fails, the remaining operations are not executed and previous ones are not rolled back. 
+If you liked your 🎁, please consider giving it a star on GitHub]]></summary>
+        <author>
+            <name>Seif Ahmed</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TTFB Won't Go Down? Server-Side Culprits Beyond the Theme]]></title>
+        <id>https://dev.to/apogeewatcher/ttfb-wont-go-down-server-side-culprits-beyond-the-theme-410h</id>
+        <link href="https://dev.to/apogeewatcher/ttfb-wont-go-down-server-side-culprits-beyond-the-theme-410h"/>
+        <updated>2026-08-18T10:14:52.000Z</updated>
+        <summary type="html"><![CDATA[You moved the site behind a CDN, trimmed the theme, deferred scripts, and ran a caching plugin. PageSpeed Insights still flags a high Time to First Byte on the homepage, and the waterfall shows most of the wait in Waiting (TTFB) rather than DNS or TLS. The next ticket proposes a bigger hosting plan; in our experience that upgrade often treats the symptom while the origin keeps doing too much work per request, or background jobs steal capacity when real visitors arrive.
+What follows is a server-side checklist for WordPress and PHP stacks when you need to reduce TTFB after delivery-layer fixes. We focus on origin compute and scheduling: cron, workers, cache, database, and maintenance plugins. For DNS, TLS, HTTP, and CDN cache rules, start with Network Performance for Web Teams: DNS, TLS, HTT…]]></summary>
+        <author>
+            <name>Apogee Watcher</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[NOOA Deep Dive: NVIDIA’s Pythonic AI Agents Framework with Practical Implementations]]></title>
+        <id>https://dev.to/trixsec/nooa-deep-dive-nvidias-pythonic-ai-agents-framework-with-practical-implementations-df3</id>
+        <link href="https://dev.to/trixsec/nooa-deep-dive-nvidias-pythonic-ai-agents-framework-with-practical-implementations-df3"/>
+        <updated>2026-08-18T10:13:31.000Z</updated>
+        <summary type="html"><![CDATA[Author: TrixSec
+In July 2026, NVIDIA unveiled NOOA (NVIDIA Object-Oriented Agents), an open-source framework that redefines AI agents as single Python classes. By unifying capabilities, state, prompts, and memory into a cohesive interface, NOOA addresses the fragmentation in agent development while delivering performance, inspectability, and security.
+This guide explores NOOA’s architecture, benchmarks, and practical implementations—including a full code walkthrough of a cybersecurity agent.
+NOOA’s Core Philosophy
+Six Key Capabilities with Examples
+Memory System: SQLite Knowledge Graphs
+Performance: Benchmarks and Optimizations
+Security: Sandboxing and Validation
+Building a Cybersecurity Agent: Step-by-Step
+Comparison with LangGraph, AutoGen, and CrewAI
+Getting Started: Installation and Se…]]></summary>
+        <author>
+            <name>Trix Cyrus</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Google buys crashed airline Spirit's data at auction, because AI]]></title>
+        <id>https://www.theregister.com/ai-and-ml/2026/08/18/google-buys-crashed-airline-spirits-data-at-auction-because-ai/5288962</id>
+        <link href="https://www.theregister.com/ai-and-ml/2026/08/18/google-buys-crashed-airline-spirits-data-at-auction-because-ai/5288962"/>
+        <updated>2026-08-18T10:13:28.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The "1 Million Token" Trap: Why I Built a Bi-Temporal Memory Engine for AI Agents]]></title>
+        <id>https://dev.to/casperday11/the-1-million-token-trap-why-i-built-a-bi-temporal-memory-engine-for-ai-agents-11pl</id>
+        <link href="https://dev.to/casperday11/the-1-million-token-trap-why-i-built-a-bi-temporal-memory-engine-for-ai-agents-11pl"/>
+        <updated>2026-08-18T10:12:21.000Z</updated>
+        <summary type="html"><![CDATA[Every team building AI agents right now faces the exact same wall: Context Degradation. 
+The industry is currently obsessed with massive context windows. We hear about 1-million or 2-million token limits and assume the "memory problem" is solved. But there is a fatal difference between how much data an LLM can hold and how well it processes that data. 
+Shoving 50 dense research papers into a standard vector database doesn't give an AI better memory—it creates a noisy, contradictory mess where old facts either get permanently overwritten or blindly appended, causing the agent to hallucinate.
+I realized that for complex, autonomous AI, memory cannot just be a bolted-on vector database. Memory has to be the product itself. 
+To solve this, I built PaperPlanes—a stateful research assistant buil…]]></summary>
+        <author>
+            <name>Somay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[We had 45 subscribers and had sent them zero emails]]></title>
+        <id>https://dev.to/petteri_pucilowski_7ec755/we-had-45-subscribers-and-had-sent-them-zero-emails-25jk</id>
+        <link href="https://dev.to/petteri_pucilowski_7ec755/we-had-45-subscribers-and-had-sent-them-zero-emails-25jk"/>
+        <updated>2026-08-18T10:06:19.000Z</updated>
+        <summary type="html"><![CDATA[We had 45 people on our email list and had sent them, in total, zero emails.
+Not zero this month. Zero ever. I found it while checking something else, and the reason is boring enough that I suspect it is sitting in your app too.
+Our subscribe endpoint did exactly what I wrote it to do:
+@router.post("/newsletter/subscribe")
+async def subscribe(request: Request, body: SubscribeBody) -> dict:
+    ...
+    result = await resend_audience_client.add_contact(
+        audience_id=settings.resend_newsletter_audience_id,
+        email=email,
+    )
+    return {"ok": True}
+
+Add the contact to the audience, return 200. That is a complete, correct, tested implementation of "subscribe". It is also the whole bug, because nothing else in the system ever mails that audience except a weekly broadcast I had pa…]]></summary>
+        <author>
+            <name>Petteri Pucilowski</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Kubernetes Security Audit Tool with Go]]></title>
+        <id>https://dev.to/ayinedjimi-consultants/building-a-kubernetes-security-audit-tool-with-go-4dnm</id>
+        <link href="https://dev.to/ayinedjimi-consultants/building-a-kubernetes-security-audit-tool-with-go-4dnm"/>
+        <updated>2026-08-18T10:05:28.000Z</updated>
+        <summary type="html"><![CDATA[Most Kubernetes clusters ship with insecure defaults that nobody touches until something goes wrong. A misconfigured Pod security context, a container running as root, missing resource limits — these are the first things an attacker looks for after gaining access. Writing a Go tool that connects directly to the Kubernetes API lets you catch these issues automatically, before your next audit or incident.
+A typical cluster has dozens of potential misconfigurations. For this tool, we focus on the controls most frequently violated in the wild:
+Containers running as root (UID 0)
+Privileged containers (privileged: true)
+Missing resource limits (CPU and memory)
+Pods with hostNetwork: true or hostPID: true
+
+Missing readOnlyRootFilesystem
+
+
+allowPrivilegeEscalation set to true (which is the Kuberne…]]></summary>
+        <author>
+            <name>Ayi NEDJIMI</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[WebSocket Real-Time Apps: Building Chat Like It's the Matrix]]></title>
+        <id>https://dev.to/timevolt/websocket-real-time-apps-building-chat-like-its-the-matrix-5ha0</id>
+        <link href="https://dev.to/timevolt/websocket-real-time-apps-building-chat-like-its-the-matrix-5ha0"/>
+        <updated>2026-08-18T10:04:05.000Z</updated>
+        <summary type="html"><![CDATA[The Quest Begins (The "Why")
+
+
+Ever felt like you’re stuck in a refresh‑loop hell, hammering F5 just to see if someone replied to your message? I’ve been there. A few months ago I was building a simple internal tool for my team—a place where devs could drop quick status updates and get instant feedback. The first version used plain AJAX polling: every 2 seconds the client begged the server, “Anything new?” It worked… until the team grew. Suddenly we were spamming the server with hundreds of requests per minute, the UI felt jittery, and the poor DevOps guy started side‑eyeing our logs. That’s when the realization hit: we needed a true two‑way conversation, not a never‑ending game of “are we there yet?”. Enter WebSockets—the magical tunnel that lets client and server chat whenever they have …]]></summary>
+        <author>
+            <name>Timevolt</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin scores a rare win over S&P 500 with 2.6% rise versus 0.5% fall]]></title>
+        <id>b5f36899-b124-46ed-b7c1-e418af524e79</id>
+        <link href="https://www.coindesk.com/markets/2026/08/18/bitcoin-scored-a-rare-win-over-s-and-p-500-on-monday"/>
+        <updated>2026-08-18T10:01:23.000Z</updated>
+        <summary type="html"><![CDATA[BTC outperformed Wall Street on Monday, breaking its recent pattern of lagging behind U.S. stocks.]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Observability for AI Infrastructure: What to Monitor Beyond CPU and Memory]]></title>
+        <id>https://dev.to/sushyam_nagallapati/observability-for-ai-infrastructure-what-to-monitor-beyond-cpu-and-memory-2o4j</id>
+        <link href="https://dev.to/sushyam_nagallapati/observability-for-ai-infrastructure-what-to-monitor-beyond-cpu-and-memory-2o4j"/>
+        <updated>2026-08-18T10:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Thanks for taking the time to read. If you’ve worked with AI infrastructure or observability, I’d love to hear your experience in the comments.
+In Part 2 of AI Infrastructure for Cloud Engineers, we looked at how GPUs, scheduling, autoscaling, and model serving change the way AI workloads run on Kubernetes.
+Read Part 2: Running AI Workloads on Kubernetes: GPUs, Scheduling, Scaling, and Model Serving
+Getting an AI workload into production is only the beginning.
+Once users depend on it, the questions change:
+Is the platform healthy?
+Are GPUs being used efficiently?
+Why is inference slowing down?
+Are requests building up in a queue?
+Is the model producing tokens fast enough?
+Which dependency is causing the delay?
+A Kubernetes dashboard showing healthy Pods cannot answer all of these questions…]]></summary>
+        <author>
+            <name>Sushyam Nagallapati</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[We Locked Ourselves Out of Production]]></title>
+        <id>https://dev.to/epilot/we-locked-ourselves-out-of-production-1n22</id>
+        <link href="https://dev.to/epilot/we-locked-ourselves-out-of-production-1n22"/>
+        <updated>2026-08-18T09:56:47.000Z</updated>
+        <summary type="html"><![CDATA[A few months back an engineer was setting up a build pipeline with an AI coding agent. The agent held production AWS credentials. It created a CloudFormation stack in production, then "cleaned up" by deleting it. Straight in prod, outside CI/CD.
+Our monitoring caught it immediately. An alert fired the moment the change happened: deployment in the production account by a role that is not part of the approved CI/CD pipeline.
+Nothing broke. The engineer had confirmed each step, and detection worked exactly as designed. But detection is not prevention. If the agent had deleted the wrong stack, the alert would have fired too. And everyone would be having a really bad day.
+Nothing happened but the moment scared me enough to take a step back to rethink how we deal with engineer production access.…]]></summary>
+        <author>
+            <name>Viljami Kuosmanen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Distributed Locking in Practice: Guarantees, Failure Scenarios and Better Alternatives (2/4)]]></title>
+        <id>https://dev.to/morpheus-vera/distributed-locking-in-practice-guarantees-failure-scenarios-and-better-alternatives-24-809</id>
+        <link href="https://dev.to/morpheus-vera/distributed-locking-in-practice-guarantees-failure-scenarios-and-better-alternatives-24-809"/>
+        <updated>2026-08-18T09:48:00.000Z</updated>
+        <summary type="html"><![CDATA[In this article, we'll explore the mechanisms to solve the coordination problem. 
+8. Introducing Leases
+To address the problem of permanent ownership, distributed systems typically replace it with temporary ownership.
+This concept is known as a lease.
+Instead of granting indefinite control over a resource, the coordination service assigns ownership for a limited period of time.
+Rather than stating, “You own this resource until you explicitly release it,” the system instead says, “You own this resource for the next 30 seconds.”
+This changes the interaction model significantly.
+Acquire Lease
+       |
+       v
+Execute Work
+       |
+       v
+Renew Lease
+       |
+       v
+Continue Processing
+
+As long as the application remains healthy, it periodically renews the lease to maintain ownership. If …]]></summary>
+        <author>
+            <name>Venkatesan Ramar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[EU Updates Teacher Guidelines for Digital Literacy and AI-Driven Disinformation]]></title>
+        <id>https://dev.to/alifar/eu-updates-teacher-guidelines-for-digital-literacy-and-ai-driven-disinformation-3h0i</id>
+        <link href="https://dev.to/alifar/eu-updates-teacher-guidelines-for-digital-literacy-and-ai-driven-disinformation-3h0i"/>
+        <updated>2026-08-18T09:45:30.000Z</updated>
+        <summary type="html"><![CDATA[The European Commission has updated its guidelines for teachers and educators on tackling disinformation and promoting digital literacy, extending the guidance to address generative AI, influencer dynamics and prebunking. The refresh gives schools and education professionals new materials for helping young people assess online information and build resilience against misleading content.
+The revised guidance sits within the EU's Digital Education Action Plan (2021-2027). According to the European Commission publication record for the updated guidelines, the Directorate-General for Education, Youth, Sport and Culture released the updated publication on 4 June 2026.
+The update matters because the information environment facing pupils has changed substantially since the original guidance was i…]]></summary>
+        <author>
+            <name>Ali Farhat</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Checklist: Onboarding End-to-End Automation Frameworks to Harness CI]]></title>
+        <id>https://dev.to/shell_qa/checklist-onboarding-end-to-end-automation-frameworks-to-harness-ci-2jmb</id>
+        <link href="https://dev.to/shell_qa/checklist-onboarding-end-to-end-automation-frameworks-to-harness-ci-2jmb"/>
+        <updated>2026-08-18T09:44:13.000Z</updated>
+        <summary type="html"><![CDATA[Successfully onboarding an automated test suite to Harness CI requires configuring infrastructure placeholders, secrets, pipelines, and branch protection rules.
+Here is a 10-step checklist to help you onboard your end-to-end (E2E) automation pipelines seamlessly.
+Step 1: Replace Infrastructure Placeholders
+Ensure your pipeline YAML definitions (e.g., .harness/e2e-poc.yaml and .harness/e2e-regression-parallel.yaml) contain your specific environment values:
+ORG_ID: Harness Organization Identifier
+
+
+PROJECT_ID: Harness Project Identifier
+
+
+GIT_CONNECTOR: Harness Git Connector for GitHub Enterprise access
+
+
+APP_REPO_NAME: Target repository in owner/repo format
+
+
+K8S_CONNECTOR: Kubernetes connector for build infrastructure
+
+
+K8S_NAMESPACE: Kubernetes namespace where build pods run
+
+
+
+Step 2: Co…]]></summary>
+        <author>
+            <name>Shell QA</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[LLM Lifecycle]]></title>
         <id>https://dev.to/shameer_sh_mg/llm-lifecycle-1gei</id>
@@ -30228,6 +30480,16 @@ auto is what you get when the parameter is omitted and tools is present. none is
         <summary type="html"><![CDATA[Zerohash, which handles crypto plumbing for Morgan Stanley's E*Trade, said it's planning on re-filing and hoping for a swift resolution.]]></summary>
         <author>
             <name>Jesse Hamilton</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a golf career management SIM (like Basketball GM, but golf)]]></title>
+        <id>https://www.rainydaygc.com/</id>
+        <link href="https://www.rainydaygc.com/"/>
+        <updated>2026-08-12T22:02:13.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -70528,104 +70790,6 @@ A lower ratio means the document compres…]]></summary>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[U.S. FBI intelligence agent arrested in connection with theft of $1 million in crypto]]></title>
-        <id>5d743daf-d5f6-48cb-a69b-ada5f43e96d8</id>
-        <link href="https://www.coindesk.com/policy/2026/08/03/u-s-fbi-intelligence-agent-arrested-in-connection-with-theft-of-usd1-million-in-crypto"/>
-        <updated>2026-08-03T22:17:59.000Z</updated>
-        <summary type="html"><![CDATA[The agent, who had "top secret" clearance and worked in FBI headquarters, was accused of taking crypto from wallets the agency had investigated.]]></summary>
-        <author>
-            <name>Jesse Hamilton</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Your Quantum Circuit Works in a Simulator but Fails on Real Hardware [Full Handbook]]]></title>
-        <id>6a711081f297e5e86c13916d</id>
-        <link href="https://www.freecodecamp.org/news/why-your-quantum-circuit-works-in-a-simulator-but-fails-on-real-hardware-full-handbook/"/>
-        <updated>2026-08-03T22:04:49.000Z</updated>
-        <summary type="html"><![CDATA[If the exact same quantum circuit works perfectly in a simulator, why does it often produce different results on a real quantum computer? That question catches almost every quantum developer by surpri]]></summary>
-        <author>
-            <name>Casmir Onyekani</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Your Quantum Circuit Works in a Simulator but Fails on Real Hardware]]></title>
-        <id>6a711081f297e5e86c13916d</id>
-        <link href="https://www.freecodecamp.org/news/why-your-quantum-circuit-works-in-a-simulator-but-fails-on-real-hardware/"/>
-        <updated>2026-08-03T22:04:49.000Z</updated>
-        <summary type="html"><![CDATA[If the exact same quantum circuit works perfectly in a simulator, why does it often produce different results on a real quantum computer? That question catches almost every quantum developer by surpri]]></summary>
-        <author>
-            <name>Casmir Onyekani</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Windows XP 2002 for the Itanium: Unbridled rage]]></title>
-        <id>https://virtuallyfun.com/2026/08/03/windows-xp-2002-for-the-itanium-unbridled-rage/</id>
-        <link href="https://virtuallyfun.com/2026/08/03/windows-xp-2002-for-the-itanium-unbridled-rage/"/>
-        <updated>2026-08-03T22:04:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Reverse Jevons Paradox]]></title>
-        <id>https://mht.wtf/post/jevons/</id>
-        <link href="https://mht.wtf/post/jevons/"/>
-        <updated>2026-08-03T22:04:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Google's AI tools for developers and enterprise, and when to actually reach for each]]></title>
-        <id>https://dev.to/gde/googles-ai-tools-for-developers-and-enterprise-and-when-to-actually-reach-for-each-5816</id>
-        <link href="https://dev.to/gde/googles-ai-tools-for-developers-and-enterprise-and-when-to-actually-reach-for-each-5816"/>
-        <updated>2026-08-03T21:51:04.000Z</updated>
-        <summary type="html"><![CDATA[Beyond the consumer surfaces most people know, the Gemini app and Gemini Notebook (formerly NotebookLM), Google offers a whole set of AI tools and interfaces built for developers and enterprise teams. At first glance, it's a lot to wrap your head around. AI Studio, Gemini Enterprise Agent Platform, the Gemini Enterprise app, Antigravity in its various forms. The names overlap, the marketing language overlaps, and it's not obvious where one tool's job ends and another's begins.
-AI Studio is where you test a prompt, try a multimodal input, or compare models before committing to anything. It also builds full applications straight from a prompt, complete with backend infrastructure. When your app needs to store data or handle sign-ins, AI Studio provisions a database and authentication for you…]]></summary>
-        <author>
-            <name>Sireesha Pulipati</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Learning to fly FPV drones with AI flight coach]]></title>
-        <id>https://blog.divyendusingh.com/p/learning-to-fly-fpv-drones-with-ai</id>
-        <link href="https://blog.divyendusingh.com/p/learning-to-fly-fpv-drones-with-ai"/>
-        <updated>2026-08-03T21:39:27.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ZX Spectrum System Tour: Text Mode]]></title>
-        <id>https://bumbershootsoft.wordpress.com/2026/05/30/zx-spectrum-system-tour-text-mode/</id>
-        <link href="https://bumbershootsoft.wordpress.com/2026/05/30/zx-spectrum-system-tour-text-mode/"/>
-        <updated>2026-08-03T21:39:12.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Prompt Injection Is an Authorization Problem]]></title>
-        <id>https://dev.to/y11t0/prompt-injection-is-an-authorization-problem-1ojh</id>
-        <link href="https://dev.to/y11t0/prompt-injection-is-an-authorization-problem-1ojh"/>
-        <updated>2026-08-03T21:38:01.000Z</updated>
-        <summary type="html"><![CDATA[Your support agent follows its instructions 99 times out of 100.
-That is the worst number in the whole system. Ninety-nine is high enough to demo, high enough to ship, high enough that everyone stops worrying about it. And the hundredth request is not a random draw, it's a person who is trying, who gets unlimited attempts, and who pays nothing for the ones that fail.
-The agent needs orders, so it gets the orders API. Later someone needs to resend an invoice, and the admin API is right there, already authenticated. The tool list is assembled once, at startup, because that's where tool lists go:
-TOOLS = [*orders_api.tools(), *admin_api.tools(), *billing.tools()]
-
-@app.post("/chat")
-async def chat(body: ChatRequest, caller = Depends(auth)):
-    return stream(llm.chat(SYSTEM_PROMPT, body.messa…]]></summary>
-        <author>
-            <name>Yiğit</name>
         </author>
     </entry>
 </feed>

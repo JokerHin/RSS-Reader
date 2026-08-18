@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/codemaster_121482/refactoring-the-views-system-in-your-gift-4kno",
+          "author": "Seif Ahmed",
+          "description": "In the past, link views were cached in Redis. After 10 seconds, all the views were flushed using a manual loop. \nThe old flow looked like this: \nLoop through every key (ID). \nUpdate its views separately via updateOne. \nMove to the next until the loop ends. \nN+1 Problem: As the number of key operations grows, it runs many separate trips. Under very heavy traffic, the system can run out of resources and crash. \nDuplicated Views: In this old flow, I never cleared the views, even after flushing them. This caused a duplicated view count. \nNo Validation: The system never checked if there were keys to update or not, running unnecessary empty operations. \nInstead of running many separate updateOne operations, we group them into bulk operations using bulkWrite. This way, if we have 100 links viewed, we run 1 operation, unlike the 100 operation in the old system. \nRun hGetAll to get views.\nCheck if there is valid data to process. If not, skip this operation entirely. \nMap the ID operations (Lightweight for niche apps like ours. I'm not trying to build something for billions, but a quick markdown previewer for devs like you). \nSend the request to the database and update with bulkWrite. \nIf the request reaches the database and is acknowledged, delete the old views. This guarantees that if the server crashes midway, the data is not lost\nNote: I added ordered: false because, by default, if one operation fails, the remaining operations are not executed and previous ones are not rolled back. \nIf you liked your 🎁, please consider giving it a star on GitHub",
+          "link": "https://dev.to/codemaster_121482/refactoring-the-views-system-in-your-gift-4kno",
+          "publishedOn": "2026-08-18T10:16:11.000Z",
+          "wordCount": 1544,
+          "title": "Refactoring the views system in YOUR gift!",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Feayd2ubp9dn0x3a2ceyt.png"
+        },
+        {
+          "id": "https://dev.to/apogeewatcher/ttfb-wont-go-down-server-side-culprits-beyond-the-theme-410h",
+          "author": "Apogee Watcher",
+          "description": "You moved the site behind a CDN, trimmed the theme, deferred scripts, and ran a caching plugin. PageSpeed Insights still flags a high Time to First Byte on the homepage, and the waterfall shows most of the wait in Waiting (TTFB) rather than DNS or TLS. The next ticket proposes a bigger hosting plan; in our experience that upgrade often treats the symptom while the origin keeps doing too much work per request, or background jobs steal capacity when real visitors arrive.\nWhat follows is a server-side checklist for WordPress and PHP stacks when you need to reduce TTFB after delivery-layer fixes. We focus on origin compute and scheduling: cron, workers, cache, database, and maintenance plugins. For DNS, TLS, HTTP, and CDN cache rules, start with Network Performance for Web Teams: DNS, TLS, HTT…",
+          "link": "https://dev.to/apogeewatcher/ttfb-wont-go-down-server-side-culprits-beyond-the-theme-410h",
+          "publishedOn": "2026-08-18T10:14:52.000Z",
+          "wordCount": 3547,
+          "title": "TTFB Won't Go Down? Server-Side Culprits Beyond the Theme",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fcdn.apogeewatcher.com%2Fstorage%2Fblog-images%2F5ydVxHdurjatyquQ.png"
+        },
+        {
+          "id": "https://dev.to/trixsec/nooa-deep-dive-nvidias-pythonic-ai-agents-framework-with-practical-implementations-df3",
+          "author": "Trix Cyrus",
+          "description": "Author: TrixSec\nIn July 2026, NVIDIA unveiled NOOA (NVIDIA Object-Oriented Agents), an open-source framework that redefines AI agents as single Python classes. By unifying capabilities, state, prompts, and memory into a cohesive interface, NOOA addresses the fragmentation in agent development while delivering performance, inspectability, and security.\nThis guide explores NOOA’s architecture, benchmarks, and practical implementations—including a full code walkthrough of a cybersecurity agent.\nNOOA’s Core Philosophy\nSix Key Capabilities with Examples\nMemory System: SQLite Knowledge Graphs\nPerformance: Benchmarks and Optimizations\nSecurity: Sandboxing and Validation\nBuilding a Cybersecurity Agent: Step-by-Step\nComparison with LangGraph, AutoGen, and CrewAI\nGetting Started: Installation and Se…",
+          "link": "https://dev.to/trixsec/nooa-deep-dive-nvidias-pythonic-ai-agents-framework-with-practical-implementations-df3",
+          "publishedOn": "2026-08-18T10:13:31.000Z",
+          "wordCount": 2835,
+          "title": "NOOA Deep Dive: NVIDIA’s Pythonic AI Agents Framework with Practical Implementations",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fzgyfd3xox32k0ibru94k.png"
+        },
+        {
+          "id": "https://dev.to/casperday11/the-1-million-token-trap-why-i-built-a-bi-temporal-memory-engine-for-ai-agents-11pl",
+          "author": "Somay",
+          "description": "Every team building AI agents right now faces the exact same wall: Context Degradation. \nThe industry is currently obsessed with massive context windows. We hear about 1-million or 2-million token limits and assume the \"memory problem\" is solved. But there is a fatal difference between how much data an LLM can hold and how well it processes that data. \nShoving 50 dense research papers into a standard vector database doesn't give an AI better memory—it creates a noisy, contradictory mess where old facts either get permanently overwritten or blindly appended, causing the agent to hallucinate.\nI realized that for complex, autonomous AI, memory cannot just be a bolted-on vector database. Memory has to be the product itself. \nTo solve this, I built PaperPlanes—a stateful research assistant buil…",
+          "link": "https://dev.to/casperday11/the-1-million-token-trap-why-i-built-a-bi-temporal-memory-engine-for-ai-agents-11pl",
+          "publishedOn": "2026-08-18T10:12:21.000Z",
+          "wordCount": 1841,
+          "title": "The \"1 Million Token\" Trap: Why I Built a Bi-Temporal Memory Engine for AI Agents",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ffo275nhs8ucey1ekyrsx.png"
+        },
+        {
+          "id": "https://dev.to/petteri_pucilowski_7ec755/we-had-45-subscribers-and-had-sent-them-zero-emails-25jk",
+          "author": "Petteri Pucilowski",
+          "description": "We had 45 people on our email list and had sent them, in total, zero emails.\nNot zero this month. Zero ever. I found it while checking something else, and the reason is boring enough that I suspect it is sitting in your app too.\nOur subscribe endpoint did exactly what I wrote it to do:\n@router.post(\"/newsletter/subscribe\")\nasync def subscribe(request: Request, body: SubscribeBody) -> dict:\n    ...\n    result = await resend_audience_client.add_contact(\n        audience_id=settings.resend_newsletter_audience_id,\n        email=email,\n    )\n    return {\"ok\": True}\n\nAdd the contact to the audience, return 200. That is a complete, correct, tested implementation of \"subscribe\". It is also the whole bug, because nothing else in the system ever mails that audience except a weekly broadcast I had pa…",
+          "link": "https://dev.to/petteri_pucilowski_7ec755/we-had-45-subscribers-and-had-sent-them-zero-emails-25jk",
+          "publishedOn": "2026-08-18T10:06:19.000Z",
+          "wordCount": 2499,
+          "title": "We had 45 subscribers and had sent them zero emails",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6m7nl51f5ycw2g9huw1h.png"
+        },
+        {
+          "id": "https://dev.to/ayinedjimi-consultants/building-a-kubernetes-security-audit-tool-with-go-4dnm",
+          "author": "Ayi NEDJIMI",
+          "description": "Most Kubernetes clusters ship with insecure defaults that nobody touches until something goes wrong. A misconfigured Pod security context, a container running as root, missing resource limits — these are the first things an attacker looks for after gaining access. Writing a Go tool that connects directly to the Kubernetes API lets you catch these issues automatically, before your next audit or incident.\nA typical cluster has dozens of potential misconfigurations. For this tool, we focus on the controls most frequently violated in the wild:\nContainers running as root (UID 0)\nPrivileged containers (privileged: true)\nMissing resource limits (CPU and memory)\nPods with hostNetwork: true or hostPID: true\n\nMissing readOnlyRootFilesystem\n\n\nallowPrivilegeEscalation set to true (which is the Kuberne…",
+          "link": "https://dev.to/ayinedjimi-consultants/building-a-kubernetes-security-audit-tool-with-go-4dnm",
+          "publishedOn": "2026-08-18T10:05:28.000Z",
+          "wordCount": 2406,
+          "title": "Building a Kubernetes Security Audit Tool with Go",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fynqytkaapac2lqcaaxqa.png"
+        },
+        {
+          "id": "https://dev.to/timevolt/websocket-real-time-apps-building-chat-like-its-the-matrix-5ha0",
+          "author": "Timevolt",
+          "description": "The Quest Begins (The \"Why\")\n\n\nEver felt like you’re stuck in a refresh‑loop hell, hammering F5 just to see if someone replied to your message? I’ve been there. A few months ago I was building a simple internal tool for my team—a place where devs could drop quick status updates and get instant feedback. The first version used plain AJAX polling: every 2 seconds the client begged the server, “Anything new?” It worked… until the team grew. Suddenly we were spamming the server with hundreds of requests per minute, the UI felt jittery, and the poor DevOps guy started side‑eyeing our logs. That’s when the realization hit: we needed a true two‑way conversation, not a never‑ending game of “are we there yet?”. Enter WebSockets—the magical tunnel that lets client and server chat whenever they have …",
+          "link": "https://dev.to/timevolt/websocket-real-time-apps-building-chat-like-its-the-matrix-5ha0",
+          "publishedOn": "2026-08-18T10:04:05.000Z",
+          "wordCount": 2462,
+          "title": "WebSocket Real-Time Apps: Building Chat Like It's the Matrix",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fo9ml18sgp6ir1vw6j6nc.png"
+        },
+        {
+          "id": "https://dev.to/sushyam_nagallapati/observability-for-ai-infrastructure-what-to-monitor-beyond-cpu-and-memory-2o4j",
+          "author": "Sushyam Nagallapati",
+          "description": "Thanks for taking the time to read. If you’ve worked with AI infrastructure or observability, I’d love to hear your experience in the comments.\nIn Part 2 of AI Infrastructure for Cloud Engineers, we looked at how GPUs, scheduling, autoscaling, and model serving change the way AI workloads run on Kubernetes.\nRead Part 2: Running AI Workloads on Kubernetes: GPUs, Scheduling, Scaling, and Model Serving\nGetting an AI workload into production is only the beginning.\nOnce users depend on it, the questions change:\nIs the platform healthy?\nAre GPUs being used efficiently?\nWhy is inference slowing down?\nAre requests building up in a queue?\nIs the model producing tokens fast enough?\nWhich dependency is causing the delay?\nA Kubernetes dashboard showing healthy Pods cannot answer all of these questions…",
+          "link": "https://dev.to/sushyam_nagallapati/observability-for-ai-infrastructure-what-to-monitor-beyond-cpu-and-memory-2o4j",
+          "publishedOn": "2026-08-18T10:00:00.000Z",
+          "wordCount": 3233,
+          "title": "Observability for AI Infrastructure: What to Monitor Beyond CPU and Memory",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fifxagl3a7yp7mchgxsco.png"
+        },
+        {
+          "id": "https://dev.to/epilot/we-locked-ourselves-out-of-production-1n22",
+          "author": "Viljami Kuosmanen",
+          "description": "A few months back an engineer was setting up a build pipeline with an AI coding agent. The agent held production AWS credentials. It created a CloudFormation stack in production, then \"cleaned up\" by deleting it. Straight in prod, outside CI/CD.\nOur monitoring caught it immediately. An alert fired the moment the change happened: deployment in the production account by a role that is not part of the approved CI/CD pipeline.\nNothing broke. The engineer had confirmed each step, and detection worked exactly as designed. But detection is not prevention. If the agent had deleted the wrong stack, the alert would have fired too. And everyone would be having a really bad day.\nNothing happened but the moment scared me enough to take a step back to rethink how we deal with engineer production access.…",
+          "link": "https://dev.to/epilot/we-locked-ourselves-out-of-production-1n22",
+          "publishedOn": "2026-08-18T09:56:47.000Z",
+          "wordCount": 2711,
+          "title": "We Locked Ourselves Out of Production",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Frw1xzhoicwklbq8z5o8g.png"
+        },
+        {
+          "id": "https://dev.to/morpheus-vera/distributed-locking-in-practice-guarantees-failure-scenarios-and-better-alternatives-24-809",
+          "author": "Venkatesan Ramar",
+          "description": "In this article, we'll explore the mechanisms to solve the coordination problem. \n8. Introducing Leases\nTo address the problem of permanent ownership, distributed systems typically replace it with temporary ownership.\nThis concept is known as a lease.\nInstead of granting indefinite control over a resource, the coordination service assigns ownership for a limited period of time.\nRather than stating, “You own this resource until you explicitly release it,” the system instead says, “You own this resource for the next 30 seconds.”\nThis changes the interaction model significantly.\nAcquire Lease\n       |\n       v\nExecute Work\n       |\n       v\nRenew Lease\n       |\n       v\nContinue Processing\n\nAs long as the application remains healthy, it periodically renews the lease to maintain ownership. If …",
+          "link": "https://dev.to/morpheus-vera/distributed-locking-in-practice-guarantees-failure-scenarios-and-better-alternatives-24-809",
+          "publishedOn": "2026-08-18T09:48:00.000Z",
+          "wordCount": 3361,
+          "title": "Distributed Locking in Practice: Guarantees, Failure Scenarios and Better Alternatives (2/4)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Famakihq479rkdsc3q6ge.png"
+        },
+        {
+          "id": "https://dev.to/alifar/eu-updates-teacher-guidelines-for-digital-literacy-and-ai-driven-disinformation-3h0i",
+          "author": "Ali Farhat",
+          "description": "The European Commission has updated its guidelines for teachers and educators on tackling disinformation and promoting digital literacy, extending the guidance to address generative AI, influencer dynamics and prebunking. The refresh gives schools and education professionals new materials for helping young people assess online information and build resilience against misleading content.\nThe revised guidance sits within the EU's Digital Education Action Plan (2021-2027). According to the European Commission publication record for the updated guidelines, the Directorate-General for Education, Youth, Sport and Culture released the updated publication on 4 June 2026.\nThe update matters because the information environment facing pupils has changed substantially since the original guidance was i…",
+          "link": "https://dev.to/alifar/eu-updates-teacher-guidelines-for-digital-literacy-and-ai-driven-disinformation-3h0i",
+          "publishedOn": "2026-08-18T09:45:30.000Z",
+          "wordCount": 2258,
+          "title": "EU Updates Teacher Guidelines for Digital Literacy and AI-Driven Disinformation",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fscalevise.com%2Fresources%2Fcontent%2Fimages%2F2026%2F08%2Feu-updates-digital-literacy-disinformation-guidelines-teachers.webp"
+        },
+        {
+          "id": "https://dev.to/shell_qa/checklist-onboarding-end-to-end-automation-frameworks-to-harness-ci-2jmb",
+          "author": "Shell QA",
+          "description": "Successfully onboarding an automated test suite to Harness CI requires configuring infrastructure placeholders, secrets, pipelines, and branch protection rules.\nHere is a 10-step checklist to help you onboard your end-to-end (E2E) automation pipelines seamlessly.\nStep 1: Replace Infrastructure Placeholders\nEnsure your pipeline YAML definitions (e.g., .harness/e2e-poc.yaml and .harness/e2e-regression-parallel.yaml) contain your specific environment values:\nORG_ID: Harness Organization Identifier\n\n\nPROJECT_ID: Harness Project Identifier\n\n\nGIT_CONNECTOR: Harness Git Connector for GitHub Enterprise access\n\n\nAPP_REPO_NAME: Target repository in owner/repo format\n\n\nK8S_CONNECTOR: Kubernetes connector for build infrastructure\n\n\nK8S_NAMESPACE: Kubernetes namespace where build pods run\n\n\n\nStep 2: Co…",
+          "link": "https://dev.to/shell_qa/checklist-onboarding-end-to-end-automation-frameworks-to-harness-ci-2jmb",
+          "publishedOn": "2026-08-18T09:44:13.000Z",
+          "wordCount": 1546,
+          "title": "Checklist: Onboarding End-to-End Automation Frameworks to Harness CI",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F6914qo6tzoz9ts88nfqy.png"
+        },
+        {
           "id": "https://dev.to/shameer_sh_mg/llm-lifecycle-1gei",
           "author": "Shameer Sh",
           "description": "This LLM life cycle is an easy reading for an Infra admin comparing to Deployment life cycle of an OS. \n1. Pretraining — building the golden image\ngolden Windows Server image: a huge, centralized effort to bake in a broad, general-purpose baseline that many teams will later build on top of. You don't do this yourself — you consume it, the same way you don't build your own base OS image from source, you pull the vendor-provided baseline.\n2. Fine-Tuning — customizing the image for your environment\ncustomizing a golden image for a specific business unit — installing department-specific software, applying tailored GPOs, baking in your org's configuration standards. The deck's distinction between Vanilla (retrain most of the model's weights — slow, expensive) vs. T-Few (only touch a tiny ~0.01%…",
@@ -29066,26 +29186,6 @@
           "wordCount": 2295,
           "title": "How to Let gzip Find the Signal in a Pile of Documents",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F4jufsfivsg2df99j3slc.png"
-        },
-        {
-          "id": "https://dev.to/gde/googles-ai-tools-for-developers-and-enterprise-and-when-to-actually-reach-for-each-5816",
-          "author": "Sireesha Pulipati",
-          "description": "Beyond the consumer surfaces most people know, the Gemini app and Gemini Notebook (formerly NotebookLM), Google offers a whole set of AI tools and interfaces built for developers and enterprise teams. At first glance, it's a lot to wrap your head around. AI Studio, Gemini Enterprise Agent Platform, the Gemini Enterprise app, Antigravity in its various forms. The names overlap, the marketing language overlaps, and it's not obvious where one tool's job ends and another's begins.\nAI Studio is where you test a prompt, try a multimodal input, or compare models before committing to anything. It also builds full applications straight from a prompt, complete with backend infrastructure. When your app needs to store data or handle sign-ins, AI Studio provisions a database and authentication for you…",
-          "link": "https://dev.to/gde/googles-ai-tools-for-developers-and-enterprise-and-when-to-actually-reach-for-each-5816",
-          "publishedOn": "2026-08-03T21:51:04.000Z",
-          "wordCount": 2176,
-          "title": "Google's AI tools for developers and enterprise, and when to actually reach for each",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fl0dm27io681f8bhcsgv1.png"
-        },
-        {
-          "id": "https://dev.to/y11t0/prompt-injection-is-an-authorization-problem-1ojh",
-          "author": "Yiğit",
-          "description": "Your support agent follows its instructions 99 times out of 100.\nThat is the worst number in the whole system. Ninety-nine is high enough to demo, high enough to ship, high enough that everyone stops worrying about it. And the hundredth request is not a random draw, it's a person who is trying, who gets unlimited attempts, and who pays nothing for the ones that fail.\nThe agent needs orders, so it gets the orders API. Later someone needs to resend an invoice, and the admin API is right there, already authenticated. The tool list is assembled once, at startup, because that's where tool lists go:\nTOOLS = [*orders_api.tools(), *admin_api.tools(), *billing.tools()]\n\n@app.post(\"/chat\")\nasync def chat(body: ChatRequest, caller = Depends(auth)):\n    return stream(llm.chat(SYSTEM_PROMPT, body.messa…",
-          "link": "https://dev.to/y11t0/prompt-injection-is-an-authorization-problem-1ojh",
-          "publishedOn": "2026-08-03T21:38:01.000Z",
-          "wordCount": 2948,
-          "title": "Prompt Injection Is an Authorization Problem",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fldcw2mrviu709hz00h5h.png"
         }
       ]
     },
@@ -29503,26 +29603,6 @@
           "wordCount": 2835,
           "title": "How to Implement Privacy by Design in Modern APIs – A Developer's Practical Guide",
           "imageUrl": "https://cdn.hashnode.com/uploads/covers/5fc16e412cae9c5b190b6cdd/2c0c5da0-cf2d-4414-9486-40be7a04f727.png"
-        },
-        {
-          "id": "6a711081f297e5e86c13916d",
-          "author": "Casmir Onyekani",
-          "description": "If the exact same quantum circuit works perfectly in a simulator, why does it often produce different results on a real quantum computer? That question catches almost every quantum developer by surpri",
-          "link": "https://www.freecodecamp.org/news/why-your-quantum-circuit-works-in-a-simulator-but-fails-on-real-hardware-full-handbook/",
-          "publishedOn": "2026-08-03T22:04:49.000Z",
-          "wordCount": 6707,
-          "title": "Why Your Quantum Circuit Works in a Simulator but Fails on Real Hardware [Full Handbook]",
-          "imageUrl": "https://cdn.hashnode.com/uploads/covers/5fc16e412cae9c5b190b6cdd/8e79825e-752f-4667-88fd-548e3687455d.png"
-        },
-        {
-          "id": "6a711081f297e5e86c13916d",
-          "author": "Casmir Onyekani",
-          "description": "If the exact same quantum circuit works perfectly in a simulator, why does it often produce different results on a real quantum computer? That question catches almost every quantum developer by surpri",
-          "link": "https://www.freecodecamp.org/news/why-your-quantum-circuit-works-in-a-simulator-but-fails-on-real-hardware/",
-          "publishedOn": "2026-08-03T22:04:49.000Z",
-          "wordCount": 6701,
-          "title": "Why Your Quantum Circuit Works in a Simulator but Fails on Real Hardware",
-          "imageUrl": "https://cdn.hashnode.com/uploads/covers/5fc16e412cae9c5b190b6cdd/8e79825e-752f-4667-88fd-548e3687455d.png"
         }
       ]
     },
@@ -29531,6 +29611,16 @@
       "feedUrl": "https://news.ycombinator.com/rss",
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
+        {
+          "id": "https://www.theregister.com/ai-and-ml/2026/08/18/google-buys-crashed-airline-spirits-data-at-auction-because-ai/5288962",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.theregister.com/ai-and-ml/2026/08/18/google-buys-crashed-airline-spirits-data-at-auction-because-ai/5288962",
+          "publishedOn": "2026-08-18T10:13:28.000Z",
+          "wordCount": 7380,
+          "title": "Google buys crashed airline Spirit's data at auction, because AI",
+          "imageUrl": "https://image.theregister.com/5273664.jpg?imageId=5273664&x=0&y=0&cropw=100&croph=100&panox=0&panoy=0&panow=100&panoh=100&width=1200&height=683"
+        },
         {
           "id": "https://pixelcluster.dev/VRAM-Overcommit/",
           "author": null,
@@ -33260,6 +33350,16 @@
           "wordCount": 10319,
           "title": "Archie G. Norcross' Maine Forest Fire Maps (1918–22)",
           "imageUrl": "https://pdr-assets.b-cdn.net/collections/maine-forest-fire-maps/BRM3549-Norcross-View-from-Double-Top_detail-2-1985x2000-thumb.jpg"
+        },
+        {
+          "id": "https://www.rainydaygc.com/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.rainydaygc.com/",
+          "publishedOn": "2026-08-12T22:02:13.000Z",
+          "wordCount": 221,
+          "title": "I built a golf career management SIM (like Basketball GM, but golf)",
+          "imageUrl": "https://www.rainydaygc.com/tournaments/signature-tournament.png"
         },
         {
           "id": "https://bengodfrey.dev/blog/process/",
@@ -40270,46 +40370,6 @@
           "wordCount": null,
           "title": "Interviewing Engineers in the AI Era: Lessons from a Year of Rebuilding",
           "imageUrl": null
-        },
-        {
-          "id": "https://virtuallyfun.com/2026/08/03/windows-xp-2002-for-the-itanium-unbridled-rage/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://virtuallyfun.com/2026/08/03/windows-xp-2002-for-the-itanium-unbridled-rage/",
-          "publishedOn": "2026-08-03T22:04:49.000Z",
-          "wordCount": null,
-          "title": "Windows XP 2002 for the Itanium: Unbridled rage",
-          "imageUrl": null
-        },
-        {
-          "id": "https://mht.wtf/post/jevons/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://mht.wtf/post/jevons/",
-          "publishedOn": "2026-08-03T22:04:18.000Z",
-          "wordCount": 543,
-          "title": "Reverse Jevons Paradox",
-          "imageUrl": null
-        },
-        {
-          "id": "https://blog.divyendusingh.com/p/learning-to-fly-fpv-drones-with-ai",
-          "author": null,
-          "description": "Comments",
-          "link": "https://blog.divyendusingh.com/p/learning-to-fly-fpv-drones-with-ai",
-          "publishedOn": "2026-08-03T21:39:27.000Z",
-          "wordCount": 4505,
-          "title": "Learning to fly FPV drones with AI flight coach",
-          "imageUrl": "https://substackcdn.com/image/youtube/w_728,c_limit/FUvLI5v0o2g"
-        },
-        {
-          "id": "https://bumbershootsoft.wordpress.com/2026/05/30/zx-spectrum-system-tour-text-mode/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://bumbershootsoft.wordpress.com/2026/05/30/zx-spectrum-system-tour-text-mode/",
-          "publishedOn": "2026-08-03T21:39:12.000Z",
-          "wordCount": 6848,
-          "title": "ZX Spectrum System Tour: Text Mode",
-          "imageUrl": "https://bumbershootsoft.wordpress.com/wp-content/uploads/2026/05/zx_mechanic_title.png"
         }
       ]
     },
@@ -42378,6 +42438,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "b5f36899-b124-46ed-b7c1-e418af524e79",
+          "author": "Omkar Godbole",
+          "description": "BTC outperformed Wall Street on Monday, breaking its recent pattern of lagging behind U.S. stocks.",
+          "link": "https://www.coindesk.com/markets/2026/08/18/bitcoin-scored-a-rare-win-over-s-and-p-500-on-monday",
+          "publishedOn": "2026-08-18T10:01:23.000Z",
+          "wordCount": 12916,
+          "title": "Bitcoin scores a rare win over S&P 500 with 2.6% rise versus 0.5% fall",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/536d7d5e6cfaca6de1f092a21de7b4cf4d742687-1500x750.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
+        },
         {
           "id": "07f1db98-902f-422c-9c8b-8164dc64e498",
           "author": "Shaurya Malwa",
@@ -44877,16 +44947,6 @@
           "wordCount": 12871,
           "title": "A bitcoin wallet dormant since 2013 moved $31 million, and it's not the only one",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/8779265b47c9dddde904c03a5d98623bc8b64d37-2379x1154.png?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
-        },
-        {
-          "id": "5d743daf-d5f6-48cb-a69b-ada5f43e96d8",
-          "author": "Jesse Hamilton",
-          "description": "The agent, who had \"top secret\" clearance and worked in FBI headquarters, was accused of taking crypto from wallets the agency had investigated.",
-          "link": "https://www.coindesk.com/policy/2026/08/03/u-s-fbi-intelligence-agent-arrested-in-connection-with-theft-of-usd1-million-in-crypto",
-          "publishedOn": "2026-08-03T22:17:59.000Z",
-          "wordCount": 12408,
-          "title": "U.S. FBI intelligence agent arrested in connection with theft of $1 million in crypto",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/a0c13b7deea6c73a86b897a2bf954b83652f60c5-3200x1800.jpg?auto=format&fit=crop&crop=focalpoint&fp-x=0.3034&fp-y=0.3856&w=1920&h=1080&q=75"
         }
       ]
     },
