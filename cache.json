@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/fikrimohammad/why-gos-encodingcsv-burns-540mb-on-5m-rows-and-how-i-fixed-it-4m63",
+          "author": "Mohammad Fikri",
+          "description": "TL;DR: Go's built-in encoding/csv.Read() allocates string slices and strings for every single row, generating 10M+ allocations and burning 540 MB on a 5M-row file. I built go-zerocsv to replace this with in-place typed scanning (Record.Scan) and a compacting 4 KB buffer, keeping memory flat at ~5 KB with zero allocations per record on the hot path.\nIf you parse or write large CSV files in Go, you've probably run into the standard library's memory appetite.\nA few days ago, I was profiling a batch pipeline processing a 5-million-row CSV export. The Go process was consuming hundreds of megabytes of RAM, and the garbage collector was eating a noticeable chunk of CPU time.\nWhen you fire up go tool pprof on a heavy encoding/csv run, you immediately see the culprits dominating the allocation grap…",
+          "link": "https://dev.to/fikrimohammad/why-gos-encodingcsv-burns-540mb-on-5m-rows-and-how-i-fixed-it-4m63",
+          "publishedOn": "2026-08-18T15:06:51.000Z",
+          "wordCount": 2733,
+          "title": "Why Go's encoding/csv Burns 540MB on 5M Rows (and How I Fixed It)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjwqckzo5xz7k1gegc0hv.png"
+        },
+        {
+          "id": "https://dev.to/vivek_shetye/hermes-bot-mode-i-built-a-team-of-ai-agents-that-hand-off-work-to-each-other-a49",
+          "author": "Vivek Shetye",
+          "description": "What if your AI agents behaved less like isolated chatbots and more like a team of specialists that could actually collaborate? 🤖\nThat’s what I wanted to test with the newly released Hermes Bot Mode desktop plugin.\nInstead of manually switching between different Hermes profiles, copying context, and triggering every stage myself, I built a small team of three AI agents:\nResearcher → Risk Analyst → Thesis Editor\nThen I gave one task to one agent.\nThe goal was simple: see whether the agents could gather evidence, challenge each other’s work, and produce a final answer through agent-to-agent handoffs without me manually operating every stage.\nAnd it mostly worked.\nBut the interesting part isn’t the stock research demo itself.\nIt’s what Bot Mode changes about how we interact with Hermes Agent…",
+          "link": "https://dev.to/vivek_shetye/hermes-bot-mode-i-built-a-team-of-ai-agents-that-hand-off-work-to-each-other-a49",
+          "publishedOn": "2026-08-18T15:03:23.000Z",
+          "wordCount": 4492,
+          "title": "Hermes Bot Mode: I Built a Team of AI Agents That Hand Off Work to Each Other",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fahn4mcmlgrhhnwdmij0q.png"
+        },
+        {
+          "id": "https://dev.to/technoblogger14o3/gpt-56-sol-pricing-cut-by-50-5h58",
+          "author": "Aman Shekhar",
+          "description": "I've got to tell you, when I first heard about the recent news regarding the pricing cut of GPT-5.6 Sol by 50%, I nearly dropped my coffee! As someone who spends a lot of time tinkering with AI models and exploring the world of machine learning, this sort of drop in pricing feels like an event horizon. Ever wondered how such a change might alter the landscape for developers and businesses? Well, grab your favorite brew, and let’s dive into it!\nWhen I initially started my journey with AI technologies, the costs associated with deploying models were through the roof. I remember working on a project where we needed to integrate a language model for customer support, but the budget was too tight. I had to make compromises, and we ended up using a less capable model that often left our users fr…",
+          "link": "https://dev.to/technoblogger14o3/gpt-56-sol-pricing-cut-by-50-5h58",
+          "publishedOn": "2026-08-18T15:01:13.000Z",
+          "wordCount": 2498,
+          "title": "GPT-5.6 Sol Pricing Cut by 50%",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fr9cljnmrplosp8kmibgp.png"
+        },
+        {
+          "id": "https://dev.to/mudgal_mayank/snowflake-cortex-analyst-vs-databricks-genie-where-warehouse-native-ai-stops-4696",
+          "author": "Mayank Mudgal",
+          "description": "Both promise your business users can simply ask the warehouse a question.\nBoth quietly require someone to hand-curate the context before that works.\n\n\n\n\nCortex Analyst\nDatabricks Genie\n\n\n\n\nContext artefact\nHand-authored semantic model file\nCurated Space + example queries\n\n\nStrong when\nInside Snowflake, file well-written\nInside Databricks, Space well-curated\n\n\nAccuracy tracks\nQuality of that YAML\nQuality of that curation\n\n\nOutside the curation\nDegrades, often silently\nDegrades, often silently\n\n\nCross-platform\nNo\nNo\n\n\nJoin proof\nNo — inferred\nNo — inferred\n\n\nGovernance\nSnowflake RBAC around the query\nUnity Catalog around the query\n\n\n\nThe honest scorecard: both are good implementations of the same idea, and both externalise the hard part back to you. The curation is the product.\nYour evaluation isn't really of the tool. It's of your organisation's sustained capacity to author and maintain context files — a task with no natural owner and no visible reward.\nWhen the question falls outside what was curated, you get a confident answer built on a guessed join. Nothing in the output signals that boundary was crossed.\nIf your estate genuinely lives on one platform and someone owns the context artefact, either will serve you well and it's already in the bill.\nBoth stop at the platform boundary, and neither proves the join path before executing. Those two limits are architectural — they're the reason a cross-estate compiled layer exists, not a feature gap that will be closed in the next release.\nThe full scorecard — the head-to-head with methodology, pricing implications, and where each stops — is here:\n👉 Snowflake Cortex Analyst vs Databricks Genie: Where Warehouse-Native AI Stops\nOriginally published at colrows.com/blogs/cortex-analyst-vs-genie",
+          "link": "https://dev.to/mudgal_mayank/snowflake-cortex-analyst-vs-databricks-genie-where-warehouse-native-ai-stops-4696",
+          "publishedOn": "2026-08-18T15:01:11.000Z",
+          "wordCount": 1653,
+          "title": "Snowflake Cortex Analyst vs Databricks Genie: Where Warehouse-Native AI Stops",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fcolrows.com%2Fassets%2Fimages%2Fdevto%2Fcortex-analyst-vs-genie.png"
+        },
+        {
+          "id": "https://dev.to/jangwook_kim_e31e7291ad98/search-console-can-measure-tiktok-your-pipeline-cant-3ong",
+          "author": "Jangwook Kim",
+          "description": "On 2026-07-29 Google's Search Central blog announced that platform properties are globally available to everyone. Three weeks later, I pulled the two Search Console help pages that document the feature. Both still say the rollout is gradual. Same company, same feature, two answers about whether it exists for you.\nMy call before the details. If a human opens Search Console and reads the reports, connect all four accounts today: the cost is a login and there's nothing to lose. If those numbers feed a dashboard through the API or BigQuery, do almost the opposite. Connect the properties, keep them out of the pipeline, and write one line in the dashboard saying they're excluded. Not because of permissions. Google has not published a way to name one of these properties in a request.\nPlatform pro…",
+          "link": "https://dev.to/jangwook_kim_e31e7291ad98/search-console-can-measure-tiktok-your-pipeline-cant-3ong",
+          "publishedOn": "2026-08-18T14:54:07.000Z",
+          "wordCount": 3305,
+          "title": "Search Console can measure TikTok. Your pipeline can't.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxa2mzl5fhes6thfl1s7b.png"
+        },
+        {
+          "id": "https://dev.to/thedryrun/a-100-win-rate-is-a-red-flag-not-a-resume-50fd",
+          "author": "Dry Run",
+          "description": "What running a fleet of autonomous trading bots taught me about picking the right metric.\nI run a small fleet of automated trading bots in paper mode. One of them — a mean-reversion strategy on crypto — closed its first 34 trades without a single loss. 34 out of 34. A 100% win rate.\nIf I put that number on a landing page, it would sell. It's also close to meaningless. Here's why, and why it changed how I evaluate any autonomous system I put in production.\nThe strategy belongs to the \"buy the dip, scale in, exit in profit\" family. Two mechanics produce that spotless record:\nIt scales into losers. When a position moves against it, it adds to the position at a lower price, dragging down the average entry. A trade that would have been a 4% loss becomes a 0.5% win after two add-ons.\nIt only eve…",
+          "link": "https://dev.to/thedryrun/a-100-win-rate-is-a-red-flag-not-a-resume-50fd",
+          "publishedOn": "2026-08-18T14:52:18.000Z",
+          "wordCount": 2039,
+          "title": "A 100% win rate is a red flag, not a résumé",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fgov1k6otrm5oc8321prm.png"
+        },
+        {
+          "id": "https://dev.to/marcusykim/what-the-gpt-56-cost-shift-can-teach-beginners-about-ai-app-budgeting-4big",
+          "author": "Marcus Kim",
+          "description": "On August 17, 2026, Vercel announced that gpt-5.6-sol is 50% off through September 18 when used through AI Gateway, with the same model ID and no code change required if you already call openai/gpt-5.6-sol.\nOn August 16, 2026 (updated), OpenAI’s model release notes continue to remind builders that model lifecycles are moving quickly:\nGPT-5.6 Sol remains part of the ChatGPT rollout path,\no3 is scheduled for retirement on August 26,\nGPT-4.5 already has a fixed end date in ChatGPT,\nmultiple reasoning models are now routed based on use case, fallback, and availability.\nIf you are building your first AI app as a freelancer, that is not just news; it is a process check.\nIf you need immediate structure for your next project kickoff, start with the AI App Builder Starter Prompts, which are free an…",
+          "link": "https://dev.to/marcusykim/what-the-gpt-56-cost-shift-can-teach-beginners-about-ai-app-budgeting-4big",
+          "publishedOn": "2026-08-18T14:51:30.000Z",
+          "wordCount": 2547,
+          "title": "What the GPT-5.6 Cost Shift Can Teach Beginners About AI App Budgeting",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F1ysihrm1abde8nh8k04n.png"
+        },
+        {
+          "id": "https://dev.to/bianca_schuenckbenther_c/formacao-importa-mas-nao-e-tudo-1hna",
+          "author": "Bianca Schuenck Benther",
+          "description": "📊 O que o mercado de tecnologia realmente pede de quem está começando?\nNas últimas semanas, mergulhei em um mapeamento de vagas júnior em tecnologia — passando por desenvolvimento front-end/full stack e ciência de dados — para entender, na prática, o que separa currículo de contratação. Compartilho os principais aprendizados:\n🎓 Formação importa, mas não é tudo\n💻 Uma stack técnica em ascensão\n🌍 Inglês deixou de ser diferencial\n🏢 Híbrido como padrão\n💰 Transparência salarial ainda é exceção\n🧭 E agora?\nCompartilho essa análise porque acredito no valor de trocar aprendizados dentro da comunidade tech. Se você também está de olho no mercado ou tem insights para somar, vamos conversar nos comentários? 👇",
+          "link": "https://dev.to/bianca_schuenckbenther_c/formacao-importa-mas-nao-e-tudo-1hna",
+          "publishedOn": "2026-08-18T14:51:00.000Z",
+          "wordCount": 1505,
+          "title": "Formação importa, mas não é tudo",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fybqsj0v73v5ayqofixke.png"
+        },
+        {
+          "id": "https://dev.to/chen_zong_43c81f1a65b1a54/ssh-agent-forwarding-is-a-footgun-use-proxyjump-instead-15hn",
+          "author": "chen zong",
+          "description": "You need to git pull on a server, or hop from a bastion to a box behind it, and your key only lives on your laptop. The advice you'll find is ssh -A — agent forwarding. It works, it feels clever, and it quietly hands every server you land on the ability to use your key as you. There's a better default that costs you nothing: ProxyJump.\nHere's why forwarding is riskier than it looks, and the one-line replacement.\nYour SSH agent holds your private key and answers \"sign this\" challenges so the key never leaves your machine. Agent forwarding (-A) exposes that agent's socket on the remote server so the server can ask your agent to sign things — e.g. to authenticate you onward to a third box.\nThe catch: while you're connected, anyone with root on that server can use your agent too. They can't co…",
+          "link": "https://dev.to/chen_zong_43c81f1a65b1a54/ssh-agent-forwarding-is-a-footgun-use-proxyjump-instead-15hn",
+          "publishedOn": "2026-08-18T14:50:55.000Z",
+          "wordCount": 1965,
+          "title": "SSH agent forwarding is a footgun. Use ProxyJump instead.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fd4t2ll41x4n3o6v8an5q.png"
+        },
+        {
+          "id": "https://dev.to/3mre0s/your-ai-coding-agent-can-read-env-heres-how-to-stop-secrets-before-they-reach-the-cloud-4dg0",
+          "author": "3mre0s",
+          "description": "AI coding agents do much more than autocomplete.\nTools such as Claude Code, Codex, Cursor, Aider, and Cline can read files, inspect directory trees, execute terminal commands, and feed the results back into a model. That context is what makes them useful—but it also creates a new path for accidental data exposure.\nImagine asking an agent to debug a failing deployment. It runs:\ncat .env\nThe output contains values like these:\nDATABASE_URL=postgres://admin:EXAMPLE_PASSWORD@internal-db:5432/app\nThe agent may include that command output in its next model request. At that point, the values are no longer only on your machine—they have become part of the outbound prompt.\n.gitignore does not prevent this. Secret scanning at commit time does not prevent it either. The secret does not have to enter G…",
+          "link": "https://dev.to/3mre0s/your-ai-coding-agent-can-read-env-heres-how-to-stop-secrets-before-they-reach-the-cloud-4dg0",
+          "publishedOn": "2026-08-18T14:50:30.000Z",
+          "wordCount": 2378,
+          "title": "Your AI Coding Agent Can Read .env — Here’s How to Stop Secrets Before They Reach the Cloud",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F1w9t1n6oujtoyfu22nqy.png"
+        },
+        {
+          "id": "https://dev.to/intro_intro_04280aec50913/debugging-your-reactions-how-to-stop-reacting-on-autopilot-during-conflicts-3-steps-5adp",
+          "author": "Promise Myself",
+          "description": "As developers and creators, we spend countless hours debugging code, refactoring legacy architecture, and optimizing systems to prevent unexpected crashes. Yet, how often do we run our own mental processes on unoptimized, legacy spaghetti code?\nHave you ever noticed how, during a heated argument or an unexpected conflict, your brain seems to instantly hijack your thoughts? You react defensively, things escalate, and only later do you think: \"Why did I say that?\"\nIt turns out our emotional reactions operate much like automated software scripts. When an irritating situation repeats, our assessment, thoughts, and physical behaviors run on an ingrained script. If you want to actually change how you handle conflict, you have to break that loop at its core.\nAny habit or character trait becomes a…",
+          "link": "https://dev.to/intro_intro_04280aec50913/debugging-your-reactions-how-to-stop-reacting-on-autopilot-during-conflicts-3-steps-5adp",
+          "publishedOn": "2026-08-18T14:48:22.000Z",
+          "wordCount": 1803,
+          "title": "Debugging Your Reactions: How to Stop Reacting on Autopilot During Conflicts (3 Steps)\"",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F2uarwusu30mj90zhzenn.jpg"
+        },
+        {
+          "id": "https://dev.to/deepakpant93/top-5-mcp-servers-every-developer-should-have-in-vs-code-2d1a",
+          "author": "Deepak Pant",
+          "description": "The Model Context Protocol (MCP), open-sourced by Anthropic, has transformed how we interact with AI in our development workflows. Instead of treating your AI coding assistant as an isolated text generator in VS Code (via extensions like Cline, Roo Code, GitHub Copilot, Continue, or Claude Dev), MCP turns it into an agentic powerhouse that can interact directly with your files, browsers, issue trackers, and internal knowledge bases.\nIf you're already using MCP-compatible extensions in VS Code, your next step is choosing the right servers to supercharge your daily productivity. \nHere are the Top 5 MCP servers every developer should configure in VS Code today.\nDeveloped around Microsoft's open-source markitdown utility, this MCP server seamlessly converts binary and rich document formats—inc…",
+          "link": "https://dev.to/deepakpant93/top-5-mcp-servers-every-developer-should-have-in-vs-code-2d1a",
+          "publishedOn": "2026-08-18T14:45:45.000Z",
+          "wordCount": 2753,
+          "title": "Top 5 MCP Servers Every Developer Should Have in VS Code",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F0m7mlokr63p23dtvon7s.png"
+        },
+        {
           "id": "https://dev.to/gronrafal/i-read-the-docs-of-9-wordpress-ai-search-plugins-three-run-tf-idf-and-four-send-you-a-second-bill-5812",
           "author": "Rafał Groń",
           "description": "Full disclosure before anything else: I build one of these. Queryra is mine. That is exactly why I went and read what the other eight actually say about themselves, rather than what their names imply.\nI did not run a benchmark this time. I read plugin pages. All of them, line by line, the way nobody does before installing something. It took an afternoon and it was more revealing than any test I have run, because almost every meaningful difference between these plugins is sitting in plain sight, in their own words, one scroll below the headline.\n\"AI search\" is not a protected term. Nothing stops a plugin from putting AI, semantic or vector in its name while running the same word-counting algorithm that WordPress search has used for twenty years.\nI am not accusing anyone of lying. The opposi…",
@@ -29972,6 +30092,26 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://pleated-jeans.com/2026/08/15/engineers-forgotten-recipe-hack-viral-divides-internet/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://pleated-jeans.com/2026/08/15/engineers-forgotten-recipe-hack-viral-divides-internet/",
+          "publishedOn": "2026-08-18T14:40:42.000Z",
+          "wordCount": 2668,
+          "title": "An Engineer's Old Cooking Trick Is Going Viral, Divides the Internet",
+          "imageUrl": "https://pleated-jeans.com/wp-content/uploads/2026/08/vintage-forgotten-recipe-hack-8-11-26.jpg"
+        },
+        {
+          "id": "https://theconversation.com/babies-born-under-sugar-rationing-grew-into-adults-with-lower-cancer-risk-289873",
+          "author": null,
+          "description": "Comments",
+          "link": "https://theconversation.com/babies-born-under-sugar-rationing-grew-into-adults-with-lower-cancer-risk-289873",
+          "publishedOn": "2026-08-18T14:06:50.000Z",
+          "wordCount": 3584,
+          "title": "Babies born under sugar rationing grew into adults with lower cancer risk",
+          "imageUrl": "https://images.theconversation.com/files/754389/original/file-20260817-50-s3fxyn.jpg?ixlib=rb-4.1.1&rect=0%2C389%2C5086%2C2543&q=45&auto=format&w=1356&h=668&fit=crop"
+        },
+        {
           "id": "https://opensource.posit.co/resources/cheatsheets/polars/",
           "author": null,
           "description": "Comments",
@@ -32040,6 +32180,16 @@
           "wordCount": 827,
           "title": "Writergate: Zig I/O Interface Overhaul",
           "imageUrl": "https://alexrios.me/og-image.png"
+        },
+        {
+          "id": "https://blog.gnoack.org/post/git-history-split",
+          "author": null,
+          "description": "Comments",
+          "link": "https://blog.gnoack.org/post/git-history-split",
+          "publishedOn": "2026-08-15T13:56:31.000Z",
+          "wordCount": 105,
+          "title": "Splitting a Git Commit",
+          "imageUrl": null
         },
         {
           "id": "https://hypnagogic-quasicrystals.github.io/",
@@ -40840,16 +40990,6 @@
           "wordCount": null,
           "title": "The 11 Types of Washington, DC, Metro Station Architecture (2018)",
           "imageUrl": null
-        },
-        {
-          "id": "https://www.bbc.com/travel/article/20260731-why-estonians-invite-strangers-into-their-backyards-each-summer",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.bbc.com/travel/article/20260731-why-estonians-invite-strangers-into-their-backyards-each-summer",
-          "publishedOn": "2026-08-04T02:50:07.000Z",
-          "wordCount": 9265,
-          "title": "Why Estonians invite strangers into their back gardens each summer",
-          "imageUrl": "https://ychef.files.bbci.co.uk/624x351/p0p1wrdg.jpg"
         }
       ]
     },
@@ -42978,6 +43118,56 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "5870abd6-b95f-4efe-a6c1-1e472fda62a8",
+          "author": "Shaurya Malwa",
+          "description": "WLFI says the AI platform is independent and uses USD1 as a payment rail, but would not say whether it has equity, financing, revenue-sharing or other economic interests in the company.",
+          "link": "https://www.coindesk.com/markets/2026/08/18/trump-linked-world-liberty-says-worldclaw-is-independent-after-questions-over-ai-model-access",
+          "publishedOn": "2026-08-18T15:07:52.000Z",
+          "wordCount": 13404,
+          "title": "Why the Trump-backed crypto venture is distancing itself from Hong Kong AI aggregator WorldClaw",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/87e4902bfb4d36401e2e19cdf71ed52e9f9e20c6-3265x1837.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
+        },
+        {
+          "id": "29a9895b-db83-4c15-bad3-b7da945f1ddf",
+          "author": "James Van Straten",
+          "description": "Miners with AI and high-performance computing contracts have commanded higher valuations as declining bitcoin prices and hashprice squeeze pure-play operators.",
+          "link": "https://www.coindesk.com/business/2026/08/18/bitcoin-miners-ai-pivot-pays-off-but-mining-could-revive-with-one-twist",
+          "publishedOn": "2026-08-18T14:41:31.000Z",
+          "wordCount": 13529,
+          "title": "Bitcoin miners’ AI pivot pays off, but mining could revive with one twist",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/d6e1749f04a0187af2f1d76a17a98a67944f6cb4-1000x667.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
+        },
+        {
+          "id": "53d9bb41-c3b8-49ba-a50e-c845d4f730c9",
+          "author": "James Van Straten",
+          "description": "Long-term borrowing costs are reaching multi-decade highs as U.S. debt approaches $40 trillion and AI hyperscalers accelerate bond issuance.",
+          "link": "https://www.coindesk.com/markets/2026/08/18/global-bond-yields-surge-as-debt-fears-test-bitcoin-s-hedge-narrative",
+          "publishedOn": "2026-08-18T14:40:41.000Z",
+          "wordCount": 12643,
+          "title": "Global bond yields surge as debt fears test bitcoin’s hedge narrative",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/ee31d79275f15b5ba768110ae916d41024ed7645-2252x1736.png?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
+        },
+        {
+          "id": "90de6a5b-0914-49f2-b47f-ebd296de1234",
+          "author": "Francisco Rodrigues",
+          "description": "The deal involves Metaplanet contributing 2,100 bitcoin and $2.5 million in cash, valuing the initial investment at $134.6 million.",
+          "link": "https://www.coindesk.com/business/2026/08/18/japan-s-metaplanet-launching-u-s-bitcoin-treasury-company-through-usd135-million-nanocap-deal",
+          "publishedOn": "2026-08-18T14:35:08.000Z",
+          "wordCount": 12510,
+          "title": "Japan's Metaplanet launching U.S. bitcoin treasury company through $135 million nanocap deal",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/d3c36f86c5d814d9ec493dae6d7fde7687526f38-1920x1280.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
+        },
+        {
+          "id": "f61b4075-05a4-4d1b-8644-4b4c2b16a79a",
+          "author": "Olivier Acuna",
+          "description": "Following institutional trials, the HKD-pegged asset is being put to work to capture part of Hong Kong's $49 billion trade corridor with the United Arab Emirates",
+          "link": "https://www.coindesk.com/business/2026/08/18/hashkey-taps-hong-kong-s-first-regulated-stablecoin-to-settle-insurance-and-trade-deals",
+          "publishedOn": "2026-08-18T14:03:27.000Z",
+          "wordCount": 12970,
+          "title": "HashKey taps Hong Kong's first regulated stablecoin to settle insurance and trade deals",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/ee1f6aa8d9fba0788e1caa531b53c15fbc6174ba-4608x2880.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
+        },
         {
           "id": "8d888a05-98c3-48f6-8231-94f63e53434b",
           "author": "Helene Braun",
