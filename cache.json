@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/d_edu_eebba6de1155fe/3-problems-i-hit-connecting-an-ai-agent-to-financial-data-and-how-i-fixed-them-ed9",
+          "author": "edu",
+          "description": "I've been wiring AI assistants into things that have to be correct, and financial data is where the wheels come off fastest. \"Roughly right\" is fine for a chatbot; it is not fine for a number someone files a tax return on.\nHere are three problems I actually hit, in order, and what fixed each. None of the fixes are exotic — but the order matters, because each one exposes the next.\nThe first version just asked the model. \"What's the GST on $4,180?\" It answered instantly and looked right. It was subtly wrong about the threshold, and — worse — it had no idea it was wrong.\nThis is the base failure of using a raw LLM for facts: it answers from training data with a cut-off date, and it cannot tell you how current that data is. For anything regulated, that disqualifies it on its own.\nFix: stop ask…",
+          "link": "https://dev.to/d_edu_eebba6de1155fe/3-problems-i-hit-connecting-an-ai-agent-to-financial-data-and-how-i-fixed-them-ed9",
+          "publishedOn": "2026-08-19T04:31:06.000Z",
+          "wordCount": 1967,
+          "title": "3 problems I hit connecting an AI agent to financial data (and how I fixed them)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F4c2ud1na3siw9p4kw0oj.png"
+        },
+        {
+          "id": "https://dev.to/abhijeet_singh_4577af3ef9/notion-ai-agents-in-2026-what-they-can-replace-and-cant-3cmb",
+          "author": "Abhijeet Singh",
+          "description": "Notion spent most of its life as a place to write documents and organize databases. In 2026 it repositioned itself as something closer to an operating layer: a workspace where AI agents read your data, write your files, and complete tasks alongside your team. If you run operations for a small or mid-size business, the Notion AI agents rollout this year is worth understanding on its own terms, not through the marketing copy, because it changes a real question you'll eventually face: which parts of your automation stack belong inside a knowledge tool, and which belong in a dedicated automation platform.\nThis matters more than it sounds. Founders keep asking whether Notion, Cursor, or Linear can now do what n8n or a CRM implementation does. The honest answer is: partly, and only for certain j…",
+          "link": "https://dev.to/abhijeet_singh_4577af3ef9/notion-ai-agents-in-2026-what-they-can-replace-and-cant-3cmb",
+          "publishedOn": "2026-08-19T04:30:58.000Z",
+          "wordCount": 2641,
+          "title": "Notion AI Agents in 2026: What They Can Replace (and Can't)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdrive.google.com%2Fuc%3Fexport%3Dview%26id%3D1mlgppD0G4I6o6QbEE5wn4sFmCiTfzoLF"
+        },
+        {
+          "id": "https://dev.to/carllowman/keyword-research-across-countries-volume-cpc-seo-difficulty-1i78",
+          "author": "Carllowman",
+          "description": "Building a Multi-Country Keyword Research CLI with Node.js\nKeyword research looks simple when you're viewing a dashboard.\nEnter a keyword, choose a country, and you get search volume, CPC, competition, and difficulty.\nBut building a lightweight keyword research CLI with Node.js changed the way I look at SEO data.\nThe difficult part isn't fetching the numbers.\nIt's understanding what those numbers actually mean across different markets.\nWhy Country-Level Keyword Data Matters\nConsider a keyword like:\nbest running shoes\nSuppose an API returns:\nUS: 50,000 searches/month\nLooking only at total search volume might make this look like a global opportunity.\nBut the distribution tells a different story.\nThe US is clearly driving most of the demand.\nNow imagine another keyword with:\nUS: 12,000\nThat's…",
+          "link": "https://dev.to/carllowman/keyword-research-across-countries-volume-cpc-seo-difficulty-1i78",
+          "publishedOn": "2026-08-19T04:27:35.000Z",
+          "wordCount": 3406,
+          "title": "Keyword Research Across Countries: Volume, CPC & SEO Difficulty",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fbd2llao0hcx98nf1pcdc.png"
+        },
+        {
+          "id": "https://dev.to/d_edu_eebba6de1155fe/grounding-an-llm-in-real-tax-data-with-a-public-mcp-server-5h58",
+          "author": "edu",
+          "description": "We all know the failure mode: ask an LLM for a tax rate and it'll hand you a confident number with zero provenance. Fine for a demo, useless for anything you'd ship. The interesting question is how you ground the model in a source of truth — and MCP has quietly made that a one-liner.\nQuick recap for anyone who missed it: Model Context Protocol is an open standard (Anthropic, late 2024) for connecting an assistant to external tools and data. Client support is now broad — Claude Desktop, Claude Code, ChatGPT, Cursor, VS Code, Windsurf.\n2Fin runs a free public MCP server for tax at taxmcp.ai2fin.com. No key, no auth. Point any MCP client at it:\n{\n  \"mcpServers\": {\n    \"tax\": { \"url\": \"https://taxmcp.ai2fin.com\" }\n  }\n}\n\nYou get eight tools: tax_rate_lookup, compute_gst_vat, income_tax_estimate, company_tax_estimate, cgt_estimate, superannuation_estimate, student_loan_repayment, compare_countries — across 88 countries.\nEvery response includes its source authority and a dataVerifiedOn date. That's the part most \"AI + data\" integrations skip, and it's exactly what makes the output auditable instead of vibes. A wrong or stale number is visible rather than hidden inside a confident sentence.\n> income_tax_estimate { country: \"AU\", income: 95000 }\n< { incomeTax: ..., medicareLevy: ..., takeHome: ...,\n    source: \"ATO — ato.gov.au\", dataVerifiedOn: \"2026-06-01\" }\n\nThe same engine backs their web calculators, so the MCP answers and the site can't drift apart — which, if you've ever maintained two copies of the same rate table, you'll appreciate.\nGood worked example of the pattern: don't make the model remember facts, give it a tool that fetches them with a citation attached. The tax domain just makes the stakes obvious — but the same design applies to any data your assistant has no business memorising.\nIf you want to poke at it, it's free and needs no account: taxmcp.ai2fin.com.",
+          "link": "https://dev.to/d_edu_eebba6de1155fe/grounding-an-llm-in-real-tax-data-with-a-public-mcp-server-5h58",
+          "publishedOn": "2026-08-19T04:26:39.000Z",
+          "wordCount": 1556,
+          "title": "Grounding an LLM in real tax data with a public MCP server",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ffbkxrvhhjkaf3au6rg6i.png"
+        },
+        {
+          "id": "https://dev.to/toohsk/can-we-stop-running-recurring-analysis-as-a-scheduled-llm-prompt-5eo9",
+          "author": "Atsushi Hara",
+          "description": "Every major assistant now ships some version of scheduled prompts. You write \"every Monday at 9am, analyze last week's signup funnel and tell me what changed,\" pick a cadence, and it runs.\nFor a news briefing, this is great. For analysis, I think it's a mistake — and not a small one. I want to argue that the problem isn't the scheduler. It's where the LLM sits relative to it.\nNobody schedules an analysis because they want a report. They schedule it because they want to know what changed.\nThat's the whole purpose. A one-off analysis answers \"what is the state of things.\" A recurring analysis answers \"is the state of things moving, and in which direction.\" The second question is the only reason the cadence exists.\nAnd detecting change requires one thing above all else: the instrument has to …",
+          "link": "https://dev.to/toohsk/can-we-stop-running-recurring-analysis-as-a-scheduled-llm-prompt-5eo9",
+          "publishedOn": "2026-08-19T04:25:34.000Z",
+          "wordCount": 2902,
+          "title": "Can We Stop Running Recurring Analysis as a Scheduled LLM Prompt?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fq4r8hp4wcice5mgrbv23.png"
+        },
+        {
+          "id": "https://dev.to/finnianfox8297/6-nodejs-tenant-guardrails-for-cheap-invoice-rag-count-embeddings-and-llm-spend-570g",
+          "author": "FinnianFox8297",
+          "description": "Short answer: make every indexing and retrieval decision attributable to a tenant before the Node.js service sends text to an embedding model or an LLM. Count with the model's tokenizer, reject unbudgeted work, and record actual usage after each call. Batching helps scheduling; it does not make unowned tokens disappear.\nI've been paged by missed jobs and duplicate deliveries. The durable lesson from those incidents applies directly to supplier-invoice indexing: a queue acknowledgment is not proof that an invoice was indexed once, and a provider response is not enough to explain which property manager paid for it. The invariant is stronger: one canonical document version gets one committed indexing result, while every attempted and completed unit of usage carries a tenant ID.\nThis matters i…",
+          "link": "https://dev.to/finnianfox8297/6-nodejs-tenant-guardrails-for-cheap-invoice-rag-count-embeddings-and-llm-spend-570g",
+          "publishedOn": "2026-08-19T04:23:44.000Z",
+          "wordCount": 3200,
+          "title": "6 Node.js Tenant Guardrails for Cheap Invoice RAG (Count Embeddings and LLM Spend)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fdsf9c1jobyesyto9cmwo.png"
+        },
+        {
+          "id": "https://dev.to/saurav_tb_pandey/demystifying-dependency-injection-writing-code-that-doesnt-break-when-things-change-1mnd",
+          "author": "Saurav Pandey",
+          "description": "What is Dependency Injection?\n\n\nDependency Injection is a software design pattern where a program component receives the external resources or tools it needs to function from the outside, rather than creating them itself. In simpler terms, instead of a program hardcoding its own helpers internally, those helpers are 'injected' or passed into it when it starts up. This simple shift in responsibility makes your code incredibly flexible, highly reusable, and easy to modify without breaking existing features.\nTo understand this concept, imagine you are building a modern hybrid car. If you permanently solder a proprietary brand of battery directly to the car's frame and engine, you have a tightly coupled system. If that battery eventually degrades, or if a cheaper, more efficient battery is man…",
+          "link": "https://dev.to/saurav_tb_pandey/demystifying-dependency-injection-writing-code-that-doesnt-break-when-things-change-1mnd",
+          "publishedOn": "2026-08-19T04:23:23.000Z",
+          "wordCount": 1869,
+          "title": "Demystifying Dependency Injection: Writing Code That Doesn't Break When Things Change",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjp42spjqskxncq6p0g52.png"
+        },
+        {
+          "id": "https://dev.to/susiewang/make-the-ai-wait-build-explicit-floor-control-for-a-tencent-rtc-voice-companion-467d",
+          "author": "LunarDrift",
+          "description": "A real-time voice companion can produce an answer quickly and still be exhausting to use.\nThe problem appears when a user pauses to think. Automatic endpoint detection interprets the silence as the end of a turn, sends an incomplete thought to the LLM, and starts speaking just as the user finds the next sentence.\nFor developers using AI as a rubber duck, tutor, or creative companion, this creates a surprisingly personal tension: the machine's fluency starts setting the pace. A pause feels like a mistake even though pausing is often where the useful reasoning happens.\nThe counterintuitive fix is not to make every stage faster. It is to give the user explicit control of the conversational floor.\nIn this tutorial, we'll build a TypeScript coordinator with two input modes:\nAutomatic: an endpoi…",
+          "link": "https://dev.to/susiewang/make-the-ai-wait-build-explicit-floor-control-for-a-tencent-rtc-voice-companion-467d",
+          "publishedOn": "2026-08-19T04:16:29.000Z",
+          "wordCount": 4240,
+          "title": "Make the AI Wait: Build Explicit Floor Control for a Tencent RTC Voice Companion",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fngrsuvakv0ztzll00prp.png"
+        },
+        {
+          "id": "https://dev.to/timevolt/big-o-notation-stop-guessing-start-calculating-a-jedis-guide-2l2o",
+          "author": "Timevolt",
+          "description": "The Quest Begins (The \"Why\")\n\n\nI still remember the first time I felt like I was stuck in a swamp of slow code. I was building a simple utility that checked whether an array contained any duplicate values. The function looked innocent enough — two nested loops, a couple of if‑statements, and a return true the moment a match was found. I ran it on a modest dataset of 10 000 items, and it finished in a blink. Confident, I shipped it.  \nA week later, the product team threw a million‑record CSV at the same function for a nightly batch job. What should have been a few seconds turned into a painful minutes‑long freeze. The servers started to complain, the monitoring lights flashed red, and I got that dreaded Slack message: “Hey, the nightly job is taking forever again.” I opened the profiler, an…",
+          "link": "https://dev.to/timevolt/big-o-notation-stop-guessing-start-calculating-a-jedis-guide-2l2o",
+          "publishedOn": "2026-08-19T04:11:24.000Z",
+          "wordCount": 2246,
+          "title": "Big-O Notation: Stop Guessing, Start Calculating — A Jedi's Guide",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F7otxzzou0j0b1umwbz5s.png"
+        },
+        {
+          "id": "https://dev.to/suign/fulltrailer-as-a-real-gui-monad-app-live-over-http-and-ws-through-netget-4d8c",
+          "author": "Sui Gn",
+          "description": "Context\n\n\nFullTrailer (/Users/suign/Desktop/Neuroverse/apps/FullTrailer, outside the all.this\nthis.gui — 7 views, all using\nthis.gui/atoms/this.gui/molecules/this.gui/react. Two things keep it from being a\napp/src/runtime.tsx reimplements mountApp()/declareApp()/\nserver/index.js, Samsara fuel API +\n.me state today is purely client-side/ephemeral.\nThe direction, confirmed in conversation: FullTrailer gets its own monad (the\nmodules/monad/Typescript daemon, run as its own process, not forked), which\nnetget gateway. netget only resolves\nhost:port and reverse-proxies — it does no app logic — so the frontend\n.me/NRP contract. Confirmed via 3 parallel explorations this\nnetget's gateway config already passes WebSocket upgrades through cleanly on\nevery monad/surface route (proxy_http_version 1.1 +…",
+          "link": "https://dev.to/suign/fulltrailer-as-a-real-gui-monad-app-live-over-http-and-ws-through-netget-4d8c",
+          "publishedOn": "2026-08-19T04:10:53.000Z",
+          "wordCount": 2554,
+          "title": "FullTrailer as a real GUI + monad app, live over HTTP and WS through netget",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fb5e7a8s82365ahal4g1z.png"
+        },
+        {
+          "id": "https://dev.to/yuvaraj_radhakrishnan_224/i-built-59-free-browser-based-dev-tools-in-vanilla-js-heres-what-i-learned-3db6",
+          "author": "Yuva",
+          "description": "I've been quietly building Antigravity Tools — a collection of 59 free, browser-based developer utilities — and today I'm sharing everything I built and learned.\nThe main constraint I set for myself: zero dependencies, zero server, zero telemetry.\nWhen you paste your JWT token into jwt.io, it goes to their server. When you use an online regex tester, your test strings are logged. I built Antigravity Tools so every operation runs inside your browser, using native APIs.\nNo Node.js backend\nNo npm packages\nNo webpack/vite/parcel\nNo Google Analytics\nNo cookies\n\nEverything runs on Web Crypto API, Canvas API, Web Audio API, and IndexedDB — all native to modern browsers.\nJWT Inspector — decode JWT header, payload, and check expiry locally\nRSA & ECC Key Generator — generate 2048-bit key pairs via SubtleCrypto\nHash & Password Generator — SHA-256/SHA-512 via Web Crypto\nPII Masker — strip emails, credit cards, SSNs, IPs from text\nUniversal Encoder/Decoder — Base64, URL, Hex, HTML entities, Unicode\nAI Token Counter — estimate cost across GPT-4o, Claude 3.5, Gemini 2.0, DeepSeek R1\nSystem Prompt Builder — structure agent instructions with XML tags and tool definitions\nAI Text Humanizer — rephrase robotic AI output into natural writing\nPrompt Cost Trimmer — compress prompts by 30–50% to reduce API costs\nJSON Workbench — beautify, validate, convert to TypeScript, Python, Go types\ncURL Converter — cURL → JS fetch, Python requests, Go, PHP\nRegex Tester — real-time match highlighting with capture group display\nCron Builder — visual cron expression editor with plain-English output\nGit Command Helper — build undo/squash/cherry-pick commands visually\n👉 https://antigravitytools.app",
+          "link": "https://dev.to/yuvaraj_radhakrishnan_224/i-built-59-free-browser-based-dev-tools-in-vanilla-js-heres-what-i-learned-3db6",
+          "publishedOn": "2026-08-19T04:08:52.000Z",
+          "wordCount": 1597,
+          "title": "I built 59 free browser-based dev tools in vanilla JS — here's what I learned",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fantigravitytools.app%2Fog-image.png"
+        },
+        {
+          "id": "https://dev.to/jamesanderson3589/media-password-reset-template-explained-6-controls-for-localized-html-email-delivery-2bbc",
+          "author": "jamesanderson3589",
+          "description": "For a media account, the best password reset email template approach starts with a hard operational constraint: a beautifully rendered message that arrives after its short-lived link expires is a failed delivery.\nShort answer: keep localized HTML templates in application-owned, versioned source; compile preview and send output through the same renderer; then put a narrow transactional email API adapter behind an outbox with idempotency, delivery-event handling, and expiry-aware retry limits.\nThe API vendor matters less than that boundary. A provider-hosted editor can be convenient, but it creates a second source of truth unless preview, review, deployment, and rollback all address the exact template revision used for a send. For a media service serving many locales and account types, the s…",
+          "link": "https://dev.to/jamesanderson3589/media-password-reset-template-explained-6-controls-for-localized-html-email-delivery-2bbc",
+          "publishedOn": "2026-08-19T04:06:30.000Z",
+          "wordCount": 3063,
+          "title": "Media Password Reset Template Explained: 6 Controls for Localized HTML Email Delivery",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ffjpd3o0t8b716b33brrw.png"
+        },
+        {
           "id": "https://dev.to/enjoy_kumawat/a-2-token-prompt-and-a-39966-token-bill-measuring-what-my-agent-actually-costs-445b",
           "author": "Enjoy Kumawat",
           "description": "There is a small cluster of posts going around right now about auditing your LLM invoice, and about how cost calculators get the numbers wrong. I went to check mine and hit a problem before I got to the arithmetic: my pipeline doesn't produce an invoice, and the plumbing I built two months ago is the reason why.\nThis project has a script, git_commit.py, that turns a staged git diff into a Conventional Commit message. It shells out to the Claude CLI. There is no ANTHROPIC_API_KEY anywhere in the project, on purpose — an early version used urllib against the API directly and broke immediately for anyone running on an OAuth session instead of a raw key, so every AI call in the repo goes through a claude -p subprocess instead.\nThat decision is still right. It also means there is no API key, so…",
@@ -33712,6 +33832,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://www.youtube.com/watch?v=Co57SfcT-h0",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.youtube.com/watch?v=Co57SfcT-h0",
+          "publishedOn": "2026-08-15T00:18:08.000Z",
+          "wordCount": null,
+          "title": "Supersonic Trebuchet [video]",
+          "imageUrl": null
+        },
+        {
           "id": "https://arxiv.org/abs/1811.03459",
           "author": null,
           "description": "Comments",
@@ -41820,76 +41950,6 @@
           "wordCount": 1355,
           "title": "Mistral's Shieldstral: 3B open-weights model for multimodal moderation",
           "imageUrl": "https://mistral.ai/cms-media/api/media/file/Thumbnail-Model%3DShieldstral.jpg"
-        },
-        {
-          "id": "https://travelandtannins.com/workers-drilling-in-romania-broke-into-a-cave-sealed-for-5-5-million-years-and-found-an-entire-living-world-that-has-never-seen-the-sun/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://travelandtannins.com/workers-drilling-in-romania-broke-into-a-cave-sealed-for-5-5-million-years-and-found-an-entire-living-world-that-has-never-seen-the-sun/",
-          "publishedOn": "2026-08-04T16:32:08.000Z",
-          "wordCount": 4339,
-          "title": "Workers Drilling in Romania Broke into a Cave Sealed for 5.5M Years",
-          "imageUrl": "https://travelandtannins.com/wp-content/uploads/2026/08/image-67.png"
-        },
-        {
-          "id": "https://www.reuters.com/science/webb-telescope-finds-signs-ancient-disaster-neptunes-moons-2026-08-03/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.reuters.com/science/webb-telescope-finds-signs-ancient-disaster-neptunes-moons-2026-08-03/",
-          "publishedOn": "2026-08-04T16:29:02.000Z",
-          "wordCount": null,
-          "title": "Webb telescope finds signs of ancient disaster for Neptune's moons",
-          "imageUrl": null
-        },
-        {
-          "id": "https://github.com/MariaDB/server/pull/4262",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/MariaDB/server/pull/4262",
-          "publishedOn": "2026-08-04T16:21:02.000Z",
-          "wordCount": 3252,
-          "title": "MariaDB: Promote getting to 10k GitHub stars in server log and client prompt",
-          "imageUrl": "https://opengraph.githubassets.com/d045bedcc5ecc036af514e4e0223e7b2252daf7bfcad88b7d51759d30a3409ba/MariaDB/server/pull/4262"
-        },
-        {
-          "id": "https://arxiv.org/abs/2602.16763",
-          "author": null,
-          "description": "Comments",
-          "link": "https://arxiv.org/abs/2602.16763",
-          "publishedOn": "2026-08-04T16:10:39.000Z",
-          "wordCount": 676,
-          "title": "When AI Benchmarks Plateau: A Systematic Study of Benchmark Saturation",
-          "imageUrl": "/static/browse/0.3.4/images/arxiv-logo-fb.png"
-        },
-        {
-          "id": "https://www.not-ship.com/not-ship-summer-vacation/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.not-ship.com/not-ship-summer-vacation/",
-          "publishedOn": "2026-08-04T16:06:59.000Z",
-          "wordCount": 2047,
-          "title": "Most countries provide between 20 and 40 paid days off",
-          "imageUrl": "https://storage.ghost.io/c/f0/60/f060ef3f-d4e0-4af4-9255-1373fbf0a44f/content/images/size/w1200/2026/07/Artboard-6-copy@2x-80-1.jpg"
-        },
-        {
-          "id": "https://www.the-hinternet.com/p/the-dynamics-of-the-egg",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.the-hinternet.com/p/the-dynamics-of-the-egg",
-          "publishedOn": "2026-08-04T16:00:51.000Z",
-          "wordCount": 11881,
-          "title": "The Dynamics of the Egg",
-          "imageUrl": "https://substackcdn.com/image/fetch/$s_!J3Ex!,w_1200,h_675,c_fill,f_jpg,q_auto:good,fl_progressive:steep,g_auto/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Faad0a9b8-ece3-4bc5-b77a-f4847f5db072_1002x1752.png"
-        },
-        {
-          "id": "https://www.wheresyoured.at/the-ai-demand-bubble/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.wheresyoured.at/the-ai-demand-bubble/",
-          "publishedOn": "2026-08-04T15:51:51.000Z",
-          "wordCount": 9269,
-          "title": "The AI Demand Bubble",
-          "imageUrl": "https://storage.ghost.io/c/24/d8/24d8fcec-dfba-4f40-a467-823d2941ae46/content/images/2024/01/wyea--1.jpeg"
         }
       ]
     },
@@ -41898,6 +41958,26 @@
       "feedUrl": "https://www.lowyat.net/feed/",
       "siteUrl": "https://www.lowyat.net",
       "articles": [
+        {
+          "id": "https://www.lowyat.net/?p=401941",
+          "author": "Ian Chee",
+          "description": "Last year, PlayStation announced the Pulse Elevate wireless speakers, adding them to a line of products that consists primarily of headsets, plus a pair of TWS buds. At the time, the Sony videogames subsidiary only announced that it will be available sometime in 2026, without a specific release date. That has changed, as the company […]\nThe post PlayStation Pulse Elevate Wireless Speakers Get RM1,099 Price Tag appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/401941/playstation-pulse-elevate-rm1099-price/",
+          "publishedOn": "2026-08-19T04:19:00.000Z",
+          "wordCount": 14074,
+          "title": "PlayStation Pulse Elevate Wireless Speakers Get RM1,099 Price Tag",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2025/09/sony-playstation-pulse-elevate-2.webp"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=401934",
+          "author": "Kiran Ganesan",
+          "description": "Carousell Malaysia has officially announced that it has partnered up with SPX Express Malaysia (SPX) to help expand delivery. According to the e-commerce company, this partnership will make sending and receiving items easier for its user base. Through this partnership, buyers will benefit from doorstep delivery, while sellers will gain access to more than 1,000 […]\nThe post Carousell Malaysia Partners With SPX Express To Expand Delivery Options appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/401934/carousell-spx-express-expand-delivery/",
+          "publishedOn": "2026-08-19T03:53:09.000Z",
+          "wordCount": 14011,
+          "title": "Carousell Malaysia Partners With SPX Express To Expand Delivery Options",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/08/Carousell-SPX-Express-partnership-1.webp"
+        },
         {
           "id": "https://www.lowyat.net/?p=401930",
           "author": "John Law",
@@ -43928,6 +44008,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "69f7a22f-1474-4889-aab2-54d4163ca46b",
+          "author": "Shaurya Malwa",
+          "description": "Bitcoin held near $64,000 and every major except BNB gained, while Korean semiconductor stocks fell more than 7% and Fed minutes are due at 2 p.m. ET.",
+          "link": "https://www.coindesk.com/markets/2026/08/19/solana-leads-bitcoin-and-ether-higher-while-korean-chip-stocks-slide-7",
+          "publishedOn": "2026-08-19T04:25:42.000Z",
+          "wordCount": null,
+          "title": "Solana leads bitcoin and ether higher while Korean chip stocks slide 7%",
+          "imageUrl": null
+        },
         {
           "id": "65dcf94a-7204-4125-ac4d-f61f0e469600",
           "author": "Helene Braun",
@@ -46417,26 +46507,6 @@
           "wordCount": 13487,
           "title": "Samsung is poised to become a dominant stablecoin distributor, analysts say",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/8ffb119f24565b1ba8025dd612346b51fd6b5dc3-6000x4500.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
-        },
-        {
-          "id": "8dce15af-63de-4559-b40e-4c45b12b1c7e",
-          "author": "Jesse Hamilton",
-          "description": "Senators Elizabeth Warren and Richard Blumenthal requested the U.S. Securities and Exchange Commission probe Trump's memecoin.",
-          "link": "https://www.coindesk.com/policy/2026/08/04/clarity-act-sits-idle-over-trump-ethics-question-as-warren-asks-sec-to-investigate-him",
-          "publishedOn": "2026-08-04T16:21:59.000Z",
-          "wordCount": 12944,
-          "title": "Clarity Act sits idle over Trump ethics question as Warren asks SEC to investigate him",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/95723a31d1edeac729277890d08a21ea5bae38f0-1692x952.jpg?auto=format&q=75"
-        },
-        {
-          "id": "b8755bcc-e054-415d-8a88-3eef2a76160a",
-          "author": "Francisco Rodrigues",
-          "description": "Payments will run on the bank’s proprietary blockchain and be routed automatically through its existing client interface.",
-          "link": "https://www.coindesk.com/business/2026/08/04/wells-fargo-to-offer-tokenized-deposits-for-24-7-corporate-payments",
-          "publishedOn": "2026-08-04T15:47:05.000Z",
-          "wordCount": 12080,
-          "title": "Wells Fargo joins JPMorgan and Citi in the race to tokenize Wall Street’s settlement rails",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/21526e2b03174760b5362a6b9c761c3e24ae28be-1500x852.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
         }
       ]
     },
