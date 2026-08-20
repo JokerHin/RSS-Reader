@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/codepy_1473/the-free-model-was-slow-the-gateway-gave-up-and-my-webhook-ran-twice-3l64",
+          "author": "Taylor Wang",
+          "description": "Last week I wired a small webhook to a free model on a free server, mostly to see how far the pair could carry real work. I built the summarizer on MonkeyCode's free model access, deployed it to the free server option, and let an external service send events into it. The idea was simple: parse the payload, ask the model for a one-line summary, and store the result in SQLite. The next morning the database had two rows for the same event, and the summaries differed enough that I almost blamed the model.\nDisclosure: This article was prepared as part of MonkeyCode's product outreach.\nIt took me a while to realize the model was innocent, the server was fine, and the bug was in the shape of my request path. This is the story of that debugging session, plus the idempotency fix that ended it. Alon…",
+          "link": "https://dev.to/codepy_1473/the-free-model-was-slow-the-gateway-gave-up-and-my-webhook-ran-twice-3l64",
+          "publishedOn": "2026-08-20T10:17:43.000Z",
+          "wordCount": 2541,
+          "title": "The Free Model Was Slow, the Gateway Gave Up, and My Webhook Ran Twice",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fuj090v8dast0llixt248.png"
+        },
+        {
+          "id": "https://dev.to/gitlab_3188/i-tested-4-retry-strategies-against-a-free-model-server-naive-retries-made-it-worse-2io6",
+          "author": "Jordan Huang",
+          "description": "Your request just failed. What does your client do next?\nMost retry logic panics. It fires the same request again instantly. That panic can break a free model server for everyone.\nI spent an afternoon testing this. Four retry strategies. One free model server. Two hundred requests per strategy. The results changed how I write clients.\nFree model servers share capacity. Your retry is not isolated. It competes with every other user's retry.\nWhen one client panics, it's noise. When fifty clients panic, it's a thundering herd. The server gets hammered while it's already struggling.\nSo I designed a small experiment. No tuning. No special cases. Just real failure behavior under real traffic.\nThe server was a free model endpoint from MonkeyCode's free server option. Defaults everywhere. Nothing o…",
+          "link": "https://dev.to/gitlab_3188/i-tested-4-retry-strategies-against-a-free-model-server-naive-retries-made-it-worse-2io6",
+          "publishedOn": "2026-08-20T10:17:36.000Z",
+          "wordCount": 2472,
+          "title": "I Tested 4 Retry Strategies Against a Free Model Server. Naive Retries Made It Worse.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5avlty9k8u8erhu17n4m.png"
+        },
+        {
+          "id": "https://dev.to/kevariable/igbinary-half-the-redis-memory-for-one-line-of-config-3o13",
+          "author": "kevariable",
+          "description": "Everything PHP stores in Redis gets serialized first: sessions, cache entries, queued jobs. PHP's native serialize() produces a verbose text format, and most of us never think about it. igbinary is a PHP extension that swaps in a compact binary format instead, and you enable it with one config line, your code does not change.\nI benchmarked it properly on a Laravel app (PHP 8.4, phpredis 6.3, Redis 7), and one of the results confused me enough that figuring it out taught me more than the benchmark itself.\nphpredis:\n$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_IGBINARY);\n\nLaravel, one line in config/database.php:\n'redis' => [\n    'options' => [\n        'serializer' => Redis::SERIALIZER_IGBINARY,\n    ],\n],\n\nNative PHP sessions and APCu, in php.ini:\nsession.serialize_handler = ig…",
+          "link": "https://dev.to/kevariable/igbinary-half-the-redis-memory-for-one-line-of-config-3o13",
+          "publishedOn": "2026-08-20T10:13:08.000Z",
+          "wordCount": 2060,
+          "title": "igbinary: half the Redis memory for one line of config",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fdyz6m0avixvup84muubd.png"
+        },
+        {
+          "id": "https://dev.to/kevariable/php-fpm-vs-frankenphp-classic-vs-octane-worker-59oj",
+          "author": "kevariable",
+          "description": "The same Laravel app, served three ways. Same code, same database, same box.\nPHP-FPM (processes)\nrequest -> nginx -> FastCGI -> a worker PROCESS picks it up\n        -> execute index.php from opcache\n        -> boot Laravel (container, providers, config, routes)\n        -> your controller\n        -> throw the app state away, worker waits for next request\n\nOne process = one request at a time. The pool grows and shrinks\nFrankenPHP classic (threads)\nrequest -> Caddy (same binary) -> a THREAD picks it up\n        -> execute index.php from opcache\n        -> boot Laravel        <- still pays this\n        -> your controller\n        -> throw the app state away\n\nThreads instead of processes: no fork cost, shared opcache, one binary with\nOctane worker (kept-warm)\nboot ONCE: Laravel container, provide…",
+          "link": "https://dev.to/kevariable/php-fpm-vs-frankenphp-classic-vs-octane-worker-59oj",
+          "publishedOn": "2026-08-20T10:12:17.000Z",
+          "wordCount": 1842,
+          "title": "PHP-FPM vs FrankenPHP classic vs Octane worker",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Firsprcr6tvmtezcymrky.png"
+        },
+        {
+          "id": "https://dev.to/alex_majale_d64efa6d81883/my-first-github-project-from-a-local-folder-to-github-using-git-and-ssh-8e8",
+          "author": "Alex Majale",
+          "description": "Introduction\n\n\nWhen I first heard the words Git and GitHub, I actually thought that git was the short form of GitHub, only to realise that they are two different things.\nA GitHub account\nGit installed on the Computer\nAn SSH Key configured with GitHub\nVisual Studio Code installed on the Computer \nI started by opening GitBash on my desktop, then typed ls to see what my desktop contained.\nls command means list, and it is used to list the contents of a directory.\nmkdir \"My First Project\"\nmkdirmeans make directory and is used to create a new folder.\ncd \"My First Project\" to enter the folder.\ncd means change directory and is used to open folders.\nData.\nmkdir Data\ntouch README.md\ntouch is used to create an empty file\necho \"# My First Project\"> README.md\necho means to output or display text, data,…",
+          "link": "https://dev.to/alex_majale_d64efa6d81883/my-first-github-project-from-a-local-folder-to-github-using-git-and-ssh-8e8",
+          "publishedOn": "2026-08-20T10:09:58.000Z",
+          "wordCount": 1869,
+          "title": "My First GitHub Project: From a Local Folder to Github Using Git and SSH",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fimj50xev42848i2ys0sx.png"
+        },
+        {
+          "id": "https://dev.to/pablodevrel/how-to-set-up-email-on-vercel-with-amelu-free-tier-34oe",
+          "author": "PabloDevRel",
+          "description": "Vercel is great for deploying web apps. But there's one thing it doesn't do: email.\nIf you have a side project on a custom domain and want a professional address like hello@yourdomain.com, you need an external mail provider. I went through the options — Cloudflare only forwards (no sending), Zoho locks you into their web client, and Migadu killed their free tier.\nThen I found Amelu. Free tier, 3 mailboxes, full IMAP/SMTP support, hosted in Europe. Here's how I set it up for moviekombat.app.",
+          "link": "https://dev.to/pablodevrel/how-to-set-up-email-on-vercel-with-amelu-free-tier-34oe",
+          "publishedOn": "2026-08-20T10:03:46.000Z",
+          "wordCount": 1315,
+          "title": "So... Vercel doesn't have built-in email?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fkt0mp6tf1vfyy15xoqb6.png"
+        },
+        {
+          "id": "https://dev.to/jishnusaha89/how-does-a-database-actually-store-your-data-17f1",
+          "author": "Jishnu Saha",
+          "description": "Every backend engineer has run SELECT * FROM users WHERE id = 42 a thousand times.\nhttps://jishnusaha.me/blog/database/how-db-store-data",
+          "link": "https://dev.to/jishnusaha89/how-does-a-database-actually-store-your-data-17f1",
+          "publishedOn": "2026-08-20T10:00:32.000Z",
+          "wordCount": 1374,
+          "title": "How Does a Database Actually Store Your Data?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F543uc7zn7uc8szg7yojr.png"
+        },
+        {
+          "id": "https://dev.to/zephyr2026/beta-testing-api-gateway-for-chinese-origin-llms-free-test-quota-for-feedback-19oi",
+          "author": "zephyr",
+          "description": "Hello, I have built an OpenAI‑compatible API gateway for Chinese‑origin open‑source large language models. This is a closed‑beta test, and I am offering limited free token quota to overseas developers in exchange for real‑world usage feedback and bug reports.\nThis quota is for prototyping & beta evaluation only. No commercial production usage, no mass‑batch scraping allowed.\nFeedback we hope to collect：\nHow to join：\nDo NOT send confidential or private business data.\nTest keys will be revoked immediately for abuse, mass requests or commercial workloads.\nBackend models are Chinese‑origin LLMs, not OpenAI models.",
+          "link": "https://dev.to/zephyr2026/beta-testing-api-gateway-for-chinese-origin-llms-free-test-quota-for-feedback-19oi",
+          "publishedOn": "2026-08-20T10:00:27.000Z",
+          "wordCount": 1413,
+          "title": "Beta‑testing API Gateway for Chinese‑origin LLMs — Free Test Quota for Feedback",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fdkbvsp2idcy8qfp5ng3c.png"
+        },
+        {
+          "id": "https://dev.to/dt14/i-built-flutterauditor-a-zero-config-cli-tool-to-audit-flutter-apps-for-permissions-dead-149n",
+          "author": "Dipali Thakare",
+          "description": "Shipping a Flutter app without auditing native permissions, release keystores, or asset bloat? \nTo help Flutter developers catch hidden production risks before App Store/Play Store review, I built flutter_auditor — an open-source, zero-config CLI health and security inspector for Flutter & Dart.\nIn just one terminal command (dart run flutter_auditor), it scans your project for:\n🔒 17+ Automated Audits:\nHardcoded API secrets & exposed .jks keystores\nMissing iOS Info.plist privacy description strings\nUnused heavy assets & broken 2.0x/3.0x image variant paths\nDangerous manifest flags (android:debuggable=\"true\", allowed cleartext traffic)\nUnused & transitive package dependencies\nGive it a try locally on your project and let me know what audits you'd like to see next! 👇\npub.dev: https://pub.dev/packages/flutter_auditor\nhttps://github.com/thakaredipali/flutter_auditor",
+          "link": "https://dev.to/dt14/i-built-flutterauditor-a-zero-config-cli-tool-to-audit-flutter-apps-for-permissions-dead-149n",
+          "publishedOn": "2026-08-20T09:51:28.000Z",
+          "wordCount": 1401,
+          "title": "I built flutter_auditor — a zero-config CLI tool to audit Flutter apps for permissions, dead assets, security risks, and package hygiene",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjydvcltdnxwl31blt5wh.png"
+        },
+        {
+          "id": "https://dev.to/dyod/hands-on-dedicated-lumpcode-daemon-5c38",
+          "author": "Daniel Saadia",
+          "description": "Lumpcode is a git-first loop manager: a small CLI that runs long agent campaigns over your own repo, in reviewable slices. Git is the gate (one PR at a time) and the source of truth (what is left is read from remote history, not a distant database). You describe the campaign once, merge what is good, and the next tick continues with the rest.\nA lump is one campaign under .lumpcode/lumps/<name>/. Each context is one isolated unit of work: one branch, one PR. You can run a tick by hand, or leave a daemon on a machine that stays on.\nThis article is that dedicated-daemon path. You author on your laptop. A second clone, that you do not develop in, runs the scheduler. When a lump lands on the primary branch, the worker picks it up.\nThe argument for why loops should plug into git is Codemods grew…",
+          "link": "https://dev.to/dyod/hands-on-dedicated-lumpcode-daemon-5c38",
+          "publishedOn": "2026-08-20T09:41:23.000Z",
+          "wordCount": 2249,
+          "title": "Hands-on: dedicated Lumpcode daemon",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fiq42v4g87rduvpt4qvaz.png"
+        },
+        {
+          "id": "https://dev.to/zxpmail/the-forked-history-byzantine-witness-and-the-3-of-4-quorum-tested-53hc",
+          "author": "zxpmail",
+          "description": "The Forked History: Byzantine Witness and the 3-of-4 Quorum — Tested\n\n\nAgent Determinism Illusions (Part 19)\n2026-08-20\nWhere this fits: Part 18 closed the runtime face of C3's boundary at capability isolation — the oracle reads from a surface the producer cannot write. Part 18's §6 named the residual this part answers: Byzantine authority. Sealing one honest oracle's history says nothing about whose view is the truth when a compromised authority can present forked views to different observers. This part maps the witness layer — the answer is not a stronger single authority, but a witness set with three separable properties, an explicit fault bound, and a governed membership surface.\nPart 18 ended with the oracle isolated from the producer's writable surface. Isolation answers \"can the pro…",
+          "link": "https://dev.to/zxpmail/the-forked-history-byzantine-witness-and-the-3-of-4-quorum-tested-53hc",
+          "publishedOn": "2026-08-20T09:38:41.000Z",
+          "wordCount": 3208,
+          "title": "The Forked History: Byzantine Witness and the 3-of-4 Quorum — Tested",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxjmlnii2qb92i9c9o3ge.png"
+        },
+        {
+          "id": "https://dev.to/ronak_sharma_913570f6e215/business-continuity-planning-for-cloud-infrastructure-5662",
+          "author": "Ronak Sharma",
+          "description": "Most companies think of a security audit as something that happens to them  a compliance requirement, an insurance mandate, something a client's procurement team demanded before signing a contract. That framing produces exactly the kind of audit you'd expect from an obligation nobody actually wanted: a checklist gets completed, a report gets filed, and nothing operationally changes, because the audit was oriented toward satisfying a requirement rather than toward actually finding and fixing real gaps. \nHere's the reframe I'd actually argue for: a good audit isn't a compliance exercise you survive. It's the single best opportunity most organizations get to find out what's actually wrong before an attacker finds it for them, at a moment of your own choosing rather than theirs. Treated that w…",
+          "link": "https://dev.to/ronak_sharma_913570f6e215/business-continuity-planning-for-cloud-infrastructure-5662",
+          "publishedOn": "2026-08-20T09:38:02.000Z",
+          "wordCount": 2758,
+          "title": "Infrastructure Security Audits: What Businesses Should Check",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Frjxrqh82sntbcjivzrlv.png"
+        },
+        {
           "id": "https://dev.to/_leesam_ded8ba7b9a7e/driving-davinci-resolves-free-edition-with-claude-from-inside-the-app-4h19",
           "author": "이영준 (leesam)",
           "description": "The wall\nThe one door left open\nClaude Code ──HTTP JSON-RPC (MCP)──▶  127.0.0.1:8765/mcp\n                                          │   server runs INSIDE Resolve\n                                          │   (Workspace > Scripts > Utility)\n                                          ▼\n                              command queue → main script thread\n                                          ▼\n                              global `resolve` object → Resolve API\n\nWhat it gets you\nTry it\ngit clone https://github.com/2sem/davinci-resolve-lite-mcp.git\ncd davinci-resolve-lite-mcp\n./install.sh\n\nmacOS only for now. Full tools reference and demo video in the repo.",
@@ -32166,36 +32286,6 @@
           "wordCount": 4175,
           "title": "Ahrefs MCP Server: Setup for Claude, Codex and the Rest",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fstudiomeyer.io%2Fblog%2Fahrefs-mcp-server-setup.webp"
-        },
-        {
-          "id": "https://dev.to/dixitgurv/github-stacked-pr-l26",
-          "author": "Gaurav",
-          "description": "🎯 What a “Stacked PR” Is (and Why You’ll Want One)\n\n\nA stacked pull request (sometimes called a stacked PR, stacked diff, or dependent PR) is a series of PRs that build on top of each other, each one containing a small, logically‑isolated change.\nmain ──► A ──► B ──► C\n          │      │      │\n          │      │      └─ PR‑C (depends on B)\n          │      └─ PR‑B (depends on A)\n          └─ PR‑A (directly on main)\n\nA is based on main.\n\n\nB is based on A (its head).\n\n\nC is based on B, etc.\nWhen you eventually merge the stack in order (A → B → C), each change lands cleanly, and reviewers can focus on one cohesive piece at a time.\n\n\n\nProblem\nStacked PR Solution\n\n\n\n\n\nHuge, monolithic PRs that are hard to review & cause long CI times\nBreak the work into bite‑size PRs (e.g., “feature flag”, “d…",
-          "link": "https://dev.to/dixitgurv/github-stacked-pr-l26",
-          "publishedOn": "2026-08-05T21:53:57.000Z",
-          "wordCount": 3503,
-          "title": "Github Stacked PR",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F3vt56s3pmyd3rghxudl3.png"
-        },
-        {
-          "id": "https://dev.to/lockhead/taking-feedback-so-essential-for-aws-every-other-tech-company-or-startups-53ho",
-          "author": "Johannes Koch",
-          "description": "August 3, 2026Lockhead\n#culture#aws#devops#aws#building#oss#build-in-public\nThere’s a reason for this post: Last week I gave feedback to a good friend. It was something around “this thing doesn’t work for me, can you fix this?”\nWithin hours, Ran had taken my feedback and incorporated it into his website.\nThis little story motivated me to write this blog as in our industry we start to forget the importance of human interactions and the power of feedback.\nFeedback is a gift. Every content creator and startup developer will agree: Any piece of feedback you can get helps to shape your future as a creator or builder.\nIt’s a gift that too many of us have stopped giving in 2026 - either because we’re busy building our own SaaS or because we’re too distracted by AI in our day to day job.\nThe gift …",
-          "link": "https://dev.to/lockhead/taking-feedback-so-essential-for-aws-every-other-tech-company-or-startups-53ho",
-          "publishedOn": "2026-08-05T21:49:58.000Z",
-          "wordCount": 2761,
-          "title": "Taking feedback - so essential for AWS every other tech company or startups",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fmvbr27zanuz3ef7vyp1u.png"
-        },
-        {
-          "id": "https://dev.to/anthonymax/-28h6",
-          "author": "Anthony Max",
-          "description": "Enterprise MCP Gateway with Built-In Security: OAuth 2.0, RBAC, and Tool Access Control\n\n\n  \n\n              \n              \nAnthony Max\n                    \n                  \n\n                \nAug 5\n        \n#ai\n            #webdev\n            #programming\n            #opensource\n        \n21 reactions\n            \n comments\n            \n        \n        \n          \n            8 min read",
-          "link": "https://dev.to/anthonymax/-28h6",
-          "publishedOn": "2026-08-05T21:38:18.000Z",
-          "wordCount": 1310,
-          "title": "[Boost]",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ftw0wnvv79t94jplrwyu8.png"
         }
       ]
     },
@@ -35240,6 +35330,16 @@
           "wordCount": 5458,
           "title": "RAPx: A static analysis tool for Rust programs",
           "imageUrl": "https://opengraph.githubassets.com/44c533ffaed34d512d8bbe21a6ef9cd59ac42994f655e203850a35b309fec95e/safer-rust/RAPx"
+        },
+        {
+          "id": "https://v4-frontend.netiter.com/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://v4-frontend.netiter.com/",
+          "publishedOn": "2026-08-16T08:13:22.000Z",
+          "wordCount": 194,
+          "title": "Free v4 front end for your v6 site",
+          "imageUrl": null
         },
         {
           "id": "https://littlelearner-ll.github.io/",
@@ -43200,46 +43300,6 @@
           "wordCount": null,
           "title": "The Essential Question: \"What should I read next?\"",
           "imageUrl": null
-        },
-        {
-          "id": "https://www.wired.com/story/no-one-can-afford-to-make-myst-games-anymore/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.wired.com/story/no-one-can-afford-to-make-myst-games-anymore/",
-          "publishedOn": "2026-08-05T22:09:46.000Z",
-          "wordCount": 29067,
-          "title": "No One Can Afford to Make Myst Games Anymore",
-          "imageUrl": "https://media.wired.com/photos/6a710474676aed0a72807008/191:100/w_1280,c_limit/Culture_Anglerfish's%20Failure%20and%20the%20Collapse%20of%20Gaming%E2%80%99s%20Middle%20Market_v3.jpg"
-        },
-        {
-          "id": "https://www.thedial.world/articles/news/seven-literary-sins",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.thedial.world/articles/news/seven-literary-sins",
-          "publishedOn": "2026-08-05T22:00:43.000Z",
-          "wordCount": 16223,
-          "title": "Literary Sins",
-          "imageUrl": "http://static1.squarespace.com/static/6317a497832bf15c3b30f236/t/6a6a180f2863cf53bc4c71c5/1785337871003/August2026_7+Literary+Sins_banner.png?format=1500w"
-        },
-        {
-          "id": "https://everythingmachine.io/phone/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://everythingmachine.io/phone/",
-          "publishedOn": "2026-08-05T21:49:25.000Z",
-          "wordCount": 3677,
-          "title": "Let’s take apart your phone",
-          "imageUrl": "https://everythingmachine.io/phone/img/og.jpg"
-        },
-        {
-          "id": "https://www.runnersworld.com/news/a73355106/hamster-wheel-strava-running/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.runnersworld.com/news/a73355106/hamster-wheel-strava-running/",
-          "publishedOn": "2026-08-05T21:44:42.000Z",
-          "wordCount": 26830,
-          "title": "Physicist Rigged His Pet Hamster's Wheel to Strava. It Runs Far Every Night",
-          "imageUrl": "https://hips.hearstapps.com/hmg-prod/images/88dcdb12-99d6-4f27-b6f5-c55b47133641.jpg?crop=1xw:1.0xh;center,top&resize=1200:*"
         }
       ]
     },
@@ -45033,6 +45093,16 @@
       "siteUrl": "https://www.technologyreview.com",
       "articles": [
         {
+          "id": "https://www.technologyreview.com/?p=1142070",
+          "author": "MIT Technology Review Insights",
+          "description": "Each day, an airline transports tens of thousands of passengers on hundreds of flights. Often these are not straightforward point-to-point routes, with passengers requiring multiple connections. The airline can consider potentially hundreds of variables to price each of these journeys: demand, season, time of day, current events, global markets, and competitor airline activity to name…",
+          "link": "https://www.technologyreview.com/2026/08/20/1142070/unlocking-hidden-revenue-streams-with-market-models/",
+          "publishedOn": "2026-08-20T09:47:22.000Z",
+          "wordCount": 5213,
+          "title": "Unlocking hidden revenue streams with market models",
+          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/08/MITTR2026_Fetcherr_1200CovrevSocV1.png?resize=1200,600"
+        },
+        {
           "id": "https://www.technologyreview.com/?p=1141686",
           "author": "Sarah Scoles",
           "description": "Sometime in the late 2000s, Pim Sullivan-Tailyour was sitting in the back of a car, headed toward her great-grandmother’s tiny town in the south of Thailand. She watched big mountains pass by out the window. She was just six years old but was about to be hit by an adult-size realization. “They were just quarried…",
@@ -45389,6 +45459,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "d45965a2-9d6d-42e7-acc8-4a6d97f2f93f",
+          "author": "Ian Allison",
+          "description": "Conversations with X are ongoing, according to a person who also works with other social media platforms testing stablecoins to pay influencers.",
+          "link": "https://www.coindesk.com/business/2026/08/20/elon-musk-s-x-is-exploring-stablecoins-to-pay-influencers-and-content-providers",
+          "publishedOn": "2026-08-20T09:40:25.000Z",
+          "wordCount": null,
+          "title": "Elon Musk's X is exploring stablecoins to pay influencers and content providers",
+          "imageUrl": null
+        },
         {
           "id": "49b8acf1-6f2d-43b2-94de-a2b61832ff62",
           "author": "Olivier Acuna",
@@ -47938,16 +48018,6 @@
           "wordCount": 13251,
           "title": "Here are the possible outcomes for Clarity right now",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/0615c820bc3ebcfa10bf4c09cfc6078f828a1a6e-3830x2154.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
-        },
-        {
-          "id": "71871c29-f7ae-4634-8b49-ede26744ed63",
-          "author": "Olivier Acuna",
-          "description": "Binance alleged RedotPay poached customers from the crypto exchange in a lawsuit filed in Hong Kong.",
-          "link": "https://www.coindesk.com/business/2026/08/05/binance-sues-redotpay-for-usd470-million-claiming-it-diverted-users",
-          "publishedOn": "2026-08-05T21:40:33.000Z",
-          "wordCount": 12401,
-          "title": "Crypto firm RedotPay says it will defend itself ‘vigorously’ against Binance lawsuit",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/7863e30b8c5511b68b91043a228ce3b5235c6c49-5616x3744.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
         }
       ]
     },

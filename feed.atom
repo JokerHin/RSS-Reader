@@ -2,10 +2,238 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-08-20T09:32:16.244Z</updated>
+    <updated>2026-08-20T10:27:35.991Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[The Free Model Was Slow, the Gateway Gave Up, and My Webhook Ran Twice]]></title>
+        <id>https://dev.to/codepy_1473/the-free-model-was-slow-the-gateway-gave-up-and-my-webhook-ran-twice-3l64</id>
+        <link href="https://dev.to/codepy_1473/the-free-model-was-slow-the-gateway-gave-up-and-my-webhook-ran-twice-3l64"/>
+        <updated>2026-08-20T10:17:43.000Z</updated>
+        <summary type="html"><![CDATA[Last week I wired a small webhook to a free model on a free server, mostly to see how far the pair could carry real work. I built the summarizer on MonkeyCode's free model access, deployed it to the free server option, and let an external service send events into it. The idea was simple: parse the payload, ask the model for a one-line summary, and store the result in SQLite. The next morning the database had two rows for the same event, and the summaries differed enough that I almost blamed the model.
+Disclosure: This article was prepared as part of MonkeyCode's product outreach.
+It took me a while to realize the model was innocent, the server was fine, and the bug was in the shape of my request path. This is the story of that debugging session, plus the idempotency fix that ended it. Alon…]]></summary>
+        <author>
+            <name>Taylor Wang</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Tested 4 Retry Strategies Against a Free Model Server. Naive Retries Made It Worse.]]></title>
+        <id>https://dev.to/gitlab_3188/i-tested-4-retry-strategies-against-a-free-model-server-naive-retries-made-it-worse-2io6</id>
+        <link href="https://dev.to/gitlab_3188/i-tested-4-retry-strategies-against-a-free-model-server-naive-retries-made-it-worse-2io6"/>
+        <updated>2026-08-20T10:17:36.000Z</updated>
+        <summary type="html"><![CDATA[Your request just failed. What does your client do next?
+Most retry logic panics. It fires the same request again instantly. That panic can break a free model server for everyone.
+I spent an afternoon testing this. Four retry strategies. One free model server. Two hundred requests per strategy. The results changed how I write clients.
+Free model servers share capacity. Your retry is not isolated. It competes with every other user's retry.
+When one client panics, it's noise. When fifty clients panic, it's a thundering herd. The server gets hammered while it's already struggling.
+So I designed a small experiment. No tuning. No special cases. Just real failure behavior under real traffic.
+The server was a free model endpoint from MonkeyCode's free server option. Defaults everywhere. Nothing o…]]></summary>
+        <author>
+            <name>Jordan Huang</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[igbinary: half the Redis memory for one line of config]]></title>
+        <id>https://dev.to/kevariable/igbinary-half-the-redis-memory-for-one-line-of-config-3o13</id>
+        <link href="https://dev.to/kevariable/igbinary-half-the-redis-memory-for-one-line-of-config-3o13"/>
+        <updated>2026-08-20T10:13:08.000Z</updated>
+        <summary type="html"><![CDATA[Everything PHP stores in Redis gets serialized first: sessions, cache entries, queued jobs. PHP's native serialize() produces a verbose text format, and most of us never think about it. igbinary is a PHP extension that swaps in a compact binary format instead, and you enable it with one config line, your code does not change.
+I benchmarked it properly on a Laravel app (PHP 8.4, phpredis 6.3, Redis 7), and one of the results confused me enough that figuring it out taught me more than the benchmark itself.
+phpredis:
+$redis->setOption(Redis::OPT_SERIALIZER, Redis::SERIALIZER_IGBINARY);
+
+Laravel, one line in config/database.php:
+'redis' => [
+    'options' => [
+        'serializer' => Redis::SERIALIZER_IGBINARY,
+    ],
+],
+
+Native PHP sessions and APCu, in php.ini:
+session.serialize_handler = ig…]]></summary>
+        <author>
+            <name>kevariable</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[PHP-FPM vs FrankenPHP classic vs Octane worker]]></title>
+        <id>https://dev.to/kevariable/php-fpm-vs-frankenphp-classic-vs-octane-worker-59oj</id>
+        <link href="https://dev.to/kevariable/php-fpm-vs-frankenphp-classic-vs-octane-worker-59oj"/>
+        <updated>2026-08-20T10:12:17.000Z</updated>
+        <summary type="html"><![CDATA[The same Laravel app, served three ways. Same code, same database, same box.
+PHP-FPM (processes)
+request -> nginx -> FastCGI -> a worker PROCESS picks it up
+        -> execute index.php from opcache
+        -> boot Laravel (container, providers, config, routes)
+        -> your controller
+        -> throw the app state away, worker waits for next request
+
+One process = one request at a time. The pool grows and shrinks
+FrankenPHP classic (threads)
+request -> Caddy (same binary) -> a THREAD picks it up
+        -> execute index.php from opcache
+        -> boot Laravel        <- still pays this
+        -> your controller
+        -> throw the app state away
+
+Threads instead of processes: no fork cost, shared opcache, one binary with
+Octane worker (kept-warm)
+boot ONCE: Laravel container, provide…]]></summary>
+        <author>
+            <name>kevariable</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[My First GitHub Project: From a Local Folder to Github Using Git and SSH]]></title>
+        <id>https://dev.to/alex_majale_d64efa6d81883/my-first-github-project-from-a-local-folder-to-github-using-git-and-ssh-8e8</id>
+        <link href="https://dev.to/alex_majale_d64efa6d81883/my-first-github-project-from-a-local-folder-to-github-using-git-and-ssh-8e8"/>
+        <updated>2026-08-20T10:09:58.000Z</updated>
+        <summary type="html"><![CDATA[Introduction
+
+
+When I first heard the words Git and GitHub, I actually thought that git was the short form of GitHub, only to realise that they are two different things.
+A GitHub account
+Git installed on the Computer
+An SSH Key configured with GitHub
+Visual Studio Code installed on the Computer 
+I started by opening GitBash on my desktop, then typed ls to see what my desktop contained.
+ls command means list, and it is used to list the contents of a directory.
+mkdir "My First Project"
+mkdirmeans make directory and is used to create a new folder.
+cd "My First Project" to enter the folder.
+cd means change directory and is used to open folders.
+Data.
+mkdir Data
+touch README.md
+touch is used to create an empty file
+echo "# My First Project"> README.md
+echo means to output or display text, data,…]]></summary>
+        <author>
+            <name>Alex Majale</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[So... Vercel doesn't have built-in email?]]></title>
+        <id>https://dev.to/pablodevrel/how-to-set-up-email-on-vercel-with-amelu-free-tier-34oe</id>
+        <link href="https://dev.to/pablodevrel/how-to-set-up-email-on-vercel-with-amelu-free-tier-34oe"/>
+        <updated>2026-08-20T10:03:46.000Z</updated>
+        <summary type="html"><![CDATA[Vercel is great for deploying web apps. But there's one thing it doesn't do: email.
+If you have a side project on a custom domain and want a professional address like hello@yourdomain.com, you need an external mail provider. I went through the options — Cloudflare only forwards (no sending), Zoho locks you into their web client, and Migadu killed their free tier.
+Then I found Amelu. Free tier, 3 mailboxes, full IMAP/SMTP support, hosted in Europe. Here's how I set it up for moviekombat.app.]]></summary>
+        <author>
+            <name>PabloDevRel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Does a Database Actually Store Your Data?]]></title>
+        <id>https://dev.to/jishnusaha89/how-does-a-database-actually-store-your-data-17f1</id>
+        <link href="https://dev.to/jishnusaha89/how-does-a-database-actually-store-your-data-17f1"/>
+        <updated>2026-08-20T10:00:32.000Z</updated>
+        <summary type="html"><![CDATA[Every backend engineer has run SELECT * FROM users WHERE id = 42 a thousand times.
+https://jishnusaha.me/blog/database/how-db-store-data]]></summary>
+        <author>
+            <name>Jishnu Saha</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Beta‑testing API Gateway for Chinese‑origin LLMs — Free Test Quota for Feedback]]></title>
+        <id>https://dev.to/zephyr2026/beta-testing-api-gateway-for-chinese-origin-llms-free-test-quota-for-feedback-19oi</id>
+        <link href="https://dev.to/zephyr2026/beta-testing-api-gateway-for-chinese-origin-llms-free-test-quota-for-feedback-19oi"/>
+        <updated>2026-08-20T10:00:27.000Z</updated>
+        <summary type="html"><![CDATA[Hello, I have built an OpenAI‑compatible API gateway for Chinese‑origin open‑source large language models. This is a closed‑beta test, and I am offering limited free token quota to overseas developers in exchange for real‑world usage feedback and bug reports.
+This quota is for prototyping & beta evaluation only. No commercial production usage, no mass‑batch scraping allowed.
+Feedback we hope to collect：
+How to join：
+Do NOT send confidential or private business data.
+Test keys will be revoked immediately for abuse, mass requests or commercial workloads.
+Backend models are Chinese‑origin LLMs, not OpenAI models.]]></summary>
+        <author>
+            <name>zephyr</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built flutter_auditor — a zero-config CLI tool to audit Flutter apps for permissions, dead assets, security risks, and package hygiene]]></title>
+        <id>https://dev.to/dt14/i-built-flutterauditor-a-zero-config-cli-tool-to-audit-flutter-apps-for-permissions-dead-149n</id>
+        <link href="https://dev.to/dt14/i-built-flutterauditor-a-zero-config-cli-tool-to-audit-flutter-apps-for-permissions-dead-149n"/>
+        <updated>2026-08-20T09:51:28.000Z</updated>
+        <summary type="html"><![CDATA[Shipping a Flutter app without auditing native permissions, release keystores, or asset bloat? 
+To help Flutter developers catch hidden production risks before App Store/Play Store review, I built flutter_auditor — an open-source, zero-config CLI health and security inspector for Flutter & Dart.
+In just one terminal command (dart run flutter_auditor), it scans your project for:
+🔒 17+ Automated Audits:
+Hardcoded API secrets & exposed .jks keystores
+Missing iOS Info.plist privacy description strings
+Unused heavy assets & broken 2.0x/3.0x image variant paths
+Dangerous manifest flags (android:debuggable="true", allowed cleartext traffic)
+Unused & transitive package dependencies
+Give it a try locally on your project and let me know what audits you'd like to see next! 👇
+pub.dev: https://pub.dev/packages/flutter_auditor
+https://github.com/thakaredipali/flutter_auditor]]></summary>
+        <author>
+            <name>Dipali Thakare</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Unlocking hidden revenue streams with market models]]></title>
+        <id>https://www.technologyreview.com/?p=1142070</id>
+        <link href="https://www.technologyreview.com/2026/08/20/1142070/unlocking-hidden-revenue-streams-with-market-models/"/>
+        <updated>2026-08-20T09:47:22.000Z</updated>
+        <summary type="html"><![CDATA[Each day, an airline transports tens of thousands of passengers on hundreds of flights. Often these are not straightforward point-to-point routes, with passengers requiring multiple connections. The airline can consider potentially hundreds of variables to price each of these journeys: demand, season, time of day, current events, global markets, and competitor airline activity to name…]]></summary>
+        <author>
+            <name>MIT Technology Review Insights</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hands-on: dedicated Lumpcode daemon]]></title>
+        <id>https://dev.to/dyod/hands-on-dedicated-lumpcode-daemon-5c38</id>
+        <link href="https://dev.to/dyod/hands-on-dedicated-lumpcode-daemon-5c38"/>
+        <updated>2026-08-20T09:41:23.000Z</updated>
+        <summary type="html"><![CDATA[Lumpcode is a git-first loop manager: a small CLI that runs long agent campaigns over your own repo, in reviewable slices. Git is the gate (one PR at a time) and the source of truth (what is left is read from remote history, not a distant database). You describe the campaign once, merge what is good, and the next tick continues with the rest.
+A lump is one campaign under .lumpcode/lumps/<name>/. Each context is one isolated unit of work: one branch, one PR. You can run a tick by hand, or leave a daemon on a machine that stays on.
+This article is that dedicated-daemon path. You author on your laptop. A second clone, that you do not develop in, runs the scheduler. When a lump lands on the primary branch, the worker picks it up.
+The argument for why loops should plug into git is Codemods grew…]]></summary>
+        <author>
+            <name>Daniel Saadia</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Elon Musk's X is exploring stablecoins to pay influencers and content providers]]></title>
+        <id>d45965a2-9d6d-42e7-acc8-4a6d97f2f93f</id>
+        <link href="https://www.coindesk.com/business/2026/08/20/elon-musk-s-x-is-exploring-stablecoins-to-pay-influencers-and-content-providers"/>
+        <updated>2026-08-20T09:40:25.000Z</updated>
+        <summary type="html"><![CDATA[Conversations with X are ongoing, according to a person who also works with other social media platforms testing stablecoins to pay influencers.]]></summary>
+        <author>
+            <name>Ian Allison</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Forked History: Byzantine Witness and the 3-of-4 Quorum — Tested]]></title>
+        <id>https://dev.to/zxpmail/the-forked-history-byzantine-witness-and-the-3-of-4-quorum-tested-53hc</id>
+        <link href="https://dev.to/zxpmail/the-forked-history-byzantine-witness-and-the-3-of-4-quorum-tested-53hc"/>
+        <updated>2026-08-20T09:38:41.000Z</updated>
+        <summary type="html"><![CDATA[The Forked History: Byzantine Witness and the 3-of-4 Quorum — Tested
+
+
+Agent Determinism Illusions (Part 19)
+2026-08-20
+Where this fits: Part 18 closed the runtime face of C3's boundary at capability isolation — the oracle reads from a surface the producer cannot write. Part 18's §6 named the residual this part answers: Byzantine authority. Sealing one honest oracle's history says nothing about whose view is the truth when a compromised authority can present forked views to different observers. This part maps the witness layer — the answer is not a stronger single authority, but a witness set with three separable properties, an explicit fault bound, and a governed membership surface.
+Part 18 ended with the oracle isolated from the producer's writable surface. Isolation answers "can the pro…]]></summary>
+        <author>
+            <name>zxpmail</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Infrastructure Security Audits: What Businesses Should Check]]></title>
+        <id>https://dev.to/ronak_sharma_913570f6e215/business-continuity-planning-for-cloud-infrastructure-5662</id>
+        <link href="https://dev.to/ronak_sharma_913570f6e215/business-continuity-planning-for-cloud-infrastructure-5662"/>
+        <updated>2026-08-20T09:38:02.000Z</updated>
+        <summary type="html"><![CDATA[Most companies think of a security audit as something that happens to them  a compliance requirement, an insurance mandate, something a client's procurement team demanded before signing a contract. That framing produces exactly the kind of audit you'd expect from an obligation nobody actually wanted: a checklist gets completed, a report gets filed, and nothing operationally changes, because the audit was oriented toward satisfying a requirement rather than toward actually finding and fixing real gaps. 
+Here's the reframe I'd actually argue for: a good audit isn't a compliance exercise you survive. It's the single best opportunity most organizations get to find out what's actually wrong before an attacker finds it for them, at a moment of your own choosing rather than theirs. Treated that w…]]></summary>
+        <author>
+            <name>Ronak Sharma</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[BitGo secures South Korea virtual asset license, says it's the first global crypto company to do so]]></title>
         <id>49b8acf1-6f2d-43b2-94de-a2b61832ff62</id>
@@ -24277,6 +24505,16 @@ In 2026, a provocative thread on Hacker News asked: What would happen if we trai
 This article explores that scenario in detail. We'll look at what a fifth-grade-capped LLM could still do surprisingly well, where it would fail catastrophically, and what the exercise teaches us about data curation, model alignment, and the hidden assumptions baked…]]></summary>
         <author>
             <name>Kai X Intelligence</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Free v4 front end for your v6 site]]></title>
+        <id>https://v4-frontend.netiter.com/</id>
+        <link href="https://v4-frontend.netiter.com/"/>
+        <updated>2026-08-16T08:13:22.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -75809,148 +76047,6 @@ That is the short version of why this guide exists. The longer version is that I
 Ahrefs runs a hosted MCP server at https://api.ahrefs.com/mcp/mcp. It speaks Streamable HTTP, which is the current transport in the Model Context Protocol spec and the one every…]]></summary>
         <author>
             <name>Matthias | StudioMeyer</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[No One Can Afford to Make Myst Games Anymore]]></title>
-        <id>https://www.wired.com/story/no-one-can-afford-to-make-myst-games-anymore/</id>
-        <link href="https://www.wired.com/story/no-one-can-afford-to-make-myst-games-anymore/"/>
-        <updated>2026-08-05T22:09:46.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Literary Sins]]></title>
-        <id>https://www.thedial.world/articles/news/seven-literary-sins</id>
-        <link href="https://www.thedial.world/articles/news/seven-literary-sins"/>
-        <updated>2026-08-05T22:00:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Github Stacked PR]]></title>
-        <id>https://dev.to/dixitgurv/github-stacked-pr-l26</id>
-        <link href="https://dev.to/dixitgurv/github-stacked-pr-l26"/>
-        <updated>2026-08-05T21:53:57.000Z</updated>
-        <summary type="html"><![CDATA[🎯 What a “Stacked PR” Is (and Why You’ll Want One)
-
-
-A stacked pull request (sometimes called a stacked PR, stacked diff, or dependent PR) is a series of PRs that build on top of each other, each one containing a small, logically‑isolated change.
-main ──► A ──► B ──► C
-          │      │      │
-          │      │      └─ PR‑C (depends on B)
-          │      └─ PR‑B (depends on A)
-          └─ PR‑A (directly on main)
-
-A is based on main.
-
-
-B is based on A (its head).
-
-
-C is based on B, etc.
-When you eventually merge the stack in order (A → B → C), each change lands cleanly, and reviewers can focus on one cohesive piece at a time.
-
-
-
-Problem
-Stacked PR Solution
-
-
-
-
-
-Huge, monolithic PRs that are hard to review & cause long CI times
-Break the work into bite‑size PRs (e.g., “feature flag”, “d…]]></summary>
-        <author>
-            <name>Gaurav</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Taking feedback - so essential for AWS every other tech company or startups]]></title>
-        <id>https://dev.to/lockhead/taking-feedback-so-essential-for-aws-every-other-tech-company-or-startups-53ho</id>
-        <link href="https://dev.to/lockhead/taking-feedback-so-essential-for-aws-every-other-tech-company-or-startups-53ho"/>
-        <updated>2026-08-05T21:49:58.000Z</updated>
-        <summary type="html"><![CDATA[August 3, 2026Lockhead
-#culture#aws#devops#aws#building#oss#build-in-public
-There’s a reason for this post: Last week I gave feedback to a good friend. It was something around “this thing doesn’t work for me, can you fix this?”
-Within hours, Ran had taken my feedback and incorporated it into his website.
-This little story motivated me to write this blog as in our industry we start to forget the importance of human interactions and the power of feedback.
-Feedback is a gift. Every content creator and startup developer will agree: Any piece of feedback you can get helps to shape your future as a creator or builder.
-It’s a gift that too many of us have stopped giving in 2026 - either because we’re busy building our own SaaS or because we’re too distracted by AI in our day to day job.
-The gift …]]></summary>
-        <author>
-            <name>Johannes Koch</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Let’s take apart your phone]]></title>
-        <id>https://everythingmachine.io/phone/</id>
-        <link href="https://everythingmachine.io/phone/"/>
-        <updated>2026-08-05T21:49:25.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Physicist Rigged His Pet Hamster's Wheel to Strava. It Runs Far Every Night]]></title>
-        <id>https://www.runnersworld.com/news/a73355106/hamster-wheel-strava-running/</id>
-        <link href="https://www.runnersworld.com/news/a73355106/hamster-wheel-strava-running/"/>
-        <updated>2026-08-05T21:44:42.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Crypto firm RedotPay says it will defend itself ‘vigorously’ against Binance lawsuit]]></title>
-        <id>71871c29-f7ae-4634-8b49-ede26744ed63</id>
-        <link href="https://www.coindesk.com/business/2026/08/05/binance-sues-redotpay-for-usd470-million-claiming-it-diverted-users"/>
-        <updated>2026-08-05T21:40:33.000Z</updated>
-        <summary type="html"><![CDATA[Binance alleged RedotPay poached customers from the crypto exchange in a lawsuit filed in Hong Kong.]]></summary>
-        <author>
-            <name>Olivier Acuna</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[[Boost]]]></title>
-        <id>https://dev.to/anthonymax/-28h6</id>
-        <link href="https://dev.to/anthonymax/-28h6"/>
-        <updated>2026-08-05T21:38:18.000Z</updated>
-        <summary type="html"><![CDATA[Enterprise MCP Gateway with Built-In Security: OAuth 2.0, RBAC, and Tool Access Control
-
-
-  
-
-              
-              
-Anthony Max
-                    
-                  
-
-                
-Aug 5
-        
-#ai
-            #webdev
-            #programming
-            #opensource
-        
-21 reactions
-            
- comments
-            
-        
-        
-          
-            8 min read]]></summary>
-        <author>
-            <name>Anthony Max</name>
         </author>
     </entry>
 </feed>
