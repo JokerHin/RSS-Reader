@@ -2,10 +2,295 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-08-21T13:43:03.865Z</updated>
+    <updated>2026-08-21T14:32:45.535Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[Minecraft Server - Part 3: Running on Kubernetes]]></title>
+        <id>https://dev.to/celsonery/minecraft-server-part-3-running-on-kubernetes-4fkf</id>
+        <link href="https://dev.to/celsonery/minecraft-server-part-3-running-on-kubernetes-4fkf"/>
+        <updated>2026-08-21T14:20:55.000Z</updated>
+        <summary type="html"><![CDATA[🇧🇷 Versão em português
+In Part 2 of this series, we got the Minecraft server running in Docker containers, with persistence via volumes and automatic restart. In this article, will bringing the same server into a Kubernetes cluster, gaining managed storage via PersistentVolumeClaim, isolation via Namespace, and the flexibility to run on any available node in the cluster.
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: minecraft-br
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minecraft-bedrock-pvc
+  namespace: minecraft-br
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minecraft-bedrock-server
+  namespace: minecraft-br
+spec:
+  replicas: 1
+  selector:
+    matchLabels…]]></summary>
+        <author>
+            <name>Celso Nery</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fantastic resource. Treating API keys like passwords—rotation, secure storage, least privilege—is simple advice that prevents massive breaches. The OWASP framework gives it authority, and the practical steps make it easy to implement.]]></title>
+        <id>https://dev.to/sadique_anwar_b90373bc79c/fantastic-resource-treating-api-keys-like-passwords-rotation-secure-storage-least-privilege-is-1m6h</id>
+        <link href="https://dev.to/sadique_anwar_b90373bc79c/fantastic-resource-treating-api-keys-like-passwords-rotation-secure-storage-least-privilege-is-1m6h"/>
+        <updated>2026-08-21T14:16:31.000Z</updated>
+        <summary type="html"><![CDATA[OWASP API Key Management Best Practices Secrets Guide
+
+
+  
+Faiz Akram
+                    
+                  
+
+                
+Aug 21
+        
+#programming
+            #softwareengineering
+            #owasp
+            #api
+        
+4 reactions
+            
+ comments
+            
+        
+        
+          
+            10 min read]]></summary>
+        <author>
+            <name>sadique anwar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What We Lost When Search Stopped Making Us Think]]></title>
+        <id>https://blog.8ball.space/what-we-lost-when-search/</id>
+        <link href="https://blog.8ball.space/what-we-lost-when-search/"/>
+        <updated>2026-08-21T14:16:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Bug That Only Showed Up in a Second Tab: Debugging a Multi-Tab localStorage Race Condition]]></title>
+        <id>https://dev.to/mehwish_e1e7e09af6e0754ed/the-bug-that-only-showed-up-in-a-second-tab-debugging-a-multi-tab-localstorage-race-condition-4kjk</id>
+        <link href="https://dev.to/mehwish_e1e7e09af6e0754ed/the-bug-that-only-showed-up-in-a-second-tab-debugging-a-multi-tab-localstorage-race-condition-4kjk"/>
+        <updated>2026-08-21T14:16:13.000Z</updated>
+        <summary type="html"><![CDATA[This is a submission for DEV's Summer Bug Smash: Smash Stories powered by Sentry.
+I was working on InnerHue, a mood-tracking app that stores mood entries in localStorage via a Zustand store. The reported bug: open the app in two tabs, log a mood in each, and entries would randomly go missing or get overwritten.
+The Zustand store (lib/useMoodStore.ts) kept an in-memory copy of moodHistory, but it never listened for changes coming from other tabs. So Tab A and Tab B each held their own stale snapshot, and whichever tab wrote to localStorage last simply clobbered whatever the other tab had written. Classic race condition, just spread across browser tabs instead of threads.
+I added a window.addEventListener('storage', ...) listener that calls useMoodStore.persist.rehydrate() whenever the mood-storage key changes in another tab, keeping every open tab in sync instead of working off a frozen snapshot.
+While reproducing the race condition, I noticed something else: visiting a mood page kept creating duplicate entries. Turned out addMood() was called directly inside a useEffect with no guard, so React Strict Mode's dev-mode double-invocation of effects fired it twice. I added a useRef guard so it only fires once per genuine page visit.
+Both bugs lived in the same localStorage write path, so I fixed them together in one PR.
+PR: https://github.com/Nitya-003/InnerHue/pull/291
+Bugs that only reproduce with multiple tabs open are easy to miss in normal dev testing, so you have to deliberately go looking for them. It's a good reminder to test state-management code against concurrent access, not just sequential single-tab flows.]]></summary>
+        <author>
+            <name>Mehwish</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Stop an Image Model From Ignoring Your Reference Image]]></title>
+        <id>https://dev.to/libersand/how-to-stop-an-image-model-from-ignoring-your-reference-image-i5a</id>
+        <link href="https://dev.to/libersand/how-to-stop-an-image-model-from-ignoring-your-reference-image-i5a"/>
+        <updated>2026-08-21T14:16:12.000Z</updated>
+        <summary type="html"><![CDATA[A user uploaded a floor plan, typed "remove the room labels", and got back the same plan — labels still on it. Tried again, same result.
+The interesting part: the model was not ignoring the instruction. Another line in our own prompt was quietly outranking it.
+I work on FloorDrafter, an AI floor plan generator. A big part of the product takes a reference image — a photo of a hand sketch, a scanned blueprint, an existing plan — and applies one requested change to it. That turns out to be a much harder prompt problem than generating from scratch, because now the model has two masters: the picture and the sentence.
+Here are six things we learned making it behave, plus how we measure whether a prompt change actually helped.
+Our style presets started life as single strings:
+top-down 2D color fl…]]></summary>
+        <author>
+            <name>libersand</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Microfrontends Without the Complexity: How Onefold Handles Multi-Team Frontend Architecture]]></title>
+        <id>https://dev.to/zahirul/microfrontends-without-the-complexity-how-onefold-handles-multi-team-frontend-architecture-25dg</id>
+        <link href="https://dev.to/zahirul/microfrontends-without-the-complexity-how-onefold-handles-multi-team-frontend-architecture-25dg"/>
+        <updated>2026-08-21T14:16:05.000Z</updated>
+        <summary type="html"><![CDATA[Microfrontends solve a real problem: letting multiple teams ship frontend code independently without stepping on each other. But the implementation usually involves a week of webpack config, Module Federation plugins, custom shell apps, and fragile runtime contracts.
+What if it was just... an import?
+import { loadRemote, configureSecurity } from 'onefold/remote';
+
+Onefold is a reactive UI framework that ships microfrontend support as a first-class feature. No plugins, no extra packages, no build tool gymnastics. In this article, I'll walk through how it works and build a working multi-team dashboard from scratch.
+If you've tried microfrontends before, you've probably dealt with:
+Module Federation — powerful but deeply coupled to webpack, complex config, version mismatches between shared de…]]></summary>
+        <author>
+            <name>Md. Zahirul Haque</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Servidor Minecraft - Parte 2: Rodando com Docker]]></title>
+        <id>https://dev.to/celsonery/servidor-minecraft-parte-2-rodando-com-docker-3ai0</id>
+        <link href="https://dev.to/celsonery/servidor-minecraft-parte-2-rodando-com-docker-3ai0"/>
+        <updated>2026-08-21T14:16:02.000Z</updated>
+        <summary type="html"><![CDATA[🇺🇸 English version comming soon
+Na Parte 1 desta série, instalamos o servidor Minecraft (Bedrock e Java) diretamente no sistema operacional, gerenciando o processo manualmente com screen/tmux. Neste artigo, damos um passo natural adiante: rodar o mesmo servidor em um container Docker, usando as imagens mantidas pela comunidade do projeto itzg/docker-minecraft-server e itzg/docker-minecraft-bedrock-server.
+As vantagens em relação à instalação bare metal:
+Reinício automático em caso de falha (restart: unless-stopped);
+Persistência de dados isolada e explícita, via volumes;
+Configuração declarativa, em um único arquivo versionável;
+Isolamento do processo do restante do sistema.
+Pré-requisito: Docker e Docker Compose já instalados. Se ainda não tiver, instale. Se não souber como, veja a minh…]]></summary>
+        <author>
+            <name>Celso Nery</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I Added Terminal Charts to My Dev.to CLI. Here's What My Data Looks Like.]]></title>
+        <id>https://dev.to/sarvar_04/i-added-terminal-charts-to-my-devto-cli-heres-what-my-data-looks-like-250j</id>
+        <link href="https://dev.to/sarvar_04/i-added-terminal-charts-to-my-devto-cli-heres-what-my-data-looks-like-250j"/>
+        <updated>2026-08-21T14:13:00.000Z</updated>
+        <summary type="html"><![CDATA[TL;DR: pip install devpub==0.2.1 → devpub stats --graph → color-gradient bar charts, sparklines, trend arrows, and multi-period breakdowns for your Dev.to analytics. Zero new dependencies. GitHub repo / PR #10.
+I check my Dev.to stats obsessively. Page views, reactions, which articles are climbing, which ones flatlined. But switching to the browser, clicking through dashboards, waiting for pages to load... it breaks my flow every single time.
+So I built charts directly into devpub.
+pip install devpub==0.2.1
+devpub stats --graph
+
+That one command now gives me this:
+  Views (last 30 days)  ↘ -18%
+
+     871 ┤                 █
+         │                ██ ▂██     █▂
+     653 ┤                ██ ███▇ ▆  █▆
+         │               ▃██▅████▁█▆ ███
+     435 ┤·▃····▁········███████████·███▃ ← avg…]]></summary>
+        <author>
+            <name>Sarvar Nadaf</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Let OpenRouter Pick Your Model, and Choose Who Serves It]]></title>
+        <id>https://dev.to/backboardio/how-to-let-openrouter-pick-your-model-and-choose-who-serves-it-1ba4</id>
+        <link href="https://dev.to/backboardio/how-to-let-openrouter-pick-your-model-and-choose-who-serves-it-1ba4"/>
+        <updated>2026-08-21T14:06:54.000Z</updated>
+        <summary type="html"><![CDATA[Backboard now supports OpenRouter automatic model selection (openrouter/auto) and per request provider selection. Here is how both work, with JSON examples for the Backboard API.
+Backboard now gives you two independent routing controls for OpenRouter requests:
+Automatic model selection. Set llm_provider to openrouter and model_name to openrouter/auto. OpenRouter classifies the prompt and picks the model. You pay the standard rate of the model it chooses, with no additional router fee.
+Provider selection. Pin a specific model to a specific upstream provider with the openrouter.providers array, and keep allow_fallbacks on so the request still completes when that provider is unavailable.
+Both are live now in the Backboard API and in the Python and TypeScript SDKs from v1.5.16 onward.
+Most LLM…]]></summary>
+        <author>
+            <name>Jonathan Murray</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SPF, DKIM and DMARC, explained by someone who had to make it work]]></title>
+        <id>https://dev.to/greg_pabijanmorawski/spf-dkim-and-dmarc-explained-by-someone-who-had-to-make-it-work-2hnb</id>
+        <link href="https://dev.to/greg_pabijanmorawski/spf-dkim-and-dmarc-explained-by-someone-who-had-to-make-it-work-2hnb"/>
+        <updated>2026-08-21T14:06:30.000Z</updated>
+        <summary type="html"><![CDATA[I build a transactional email API, which means I have spent an unreasonable amount of my life reading DMARC aggregate reports and explaining why password reset emails land in spam even though "nothing changed."
+Most email authentication documentation is either a vendor wizard telling you to paste a record, or an RFC. This is the middle thing I wanted when I started: what each mechanism does, what breaks, and the order to do it in.
+SMTP was designed in 1982 with no concept of authentication. A mail server accepts a connection and believes what it is told. Concretely, a single message carries two different sender addresses:
+MAIL FROM:<bounces@sendinginfra.example>   <-- the envelope sender (SMTP-level)
+RCPT TO:<you@gmail.com>
+DATA
+From: Support <support@yourbank.com>        <-- the header Fr…]]></summary>
+        <author>
+            <name>Greg Pabijan-Morawski</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I built a browser chess client that can play Lichess games without becoming another chess server]]></title>
+        <id>https://dev.to/ivan_kulkin_1522025957eee/i-built-a-browser-chess-client-that-can-play-lichess-games-without-becoming-another-chess-server-2k2i</id>
+        <link href="https://dev.to/ivan_kulkin_1522025957eee/i-built-a-browser-chess-client-that-can-play-lichess-games-without-becoming-another-chess-server-2k2i"/>
+        <updated>2026-08-21T14:03:16.000Z</updated>
+        <summary type="html"><![CDATA[I wanted a chess board that felt precise, opened without an account, and told me something useful after the game. I did not want to build another closed player pool and then pretend that an empty matchmaking queue was a feature.
+That became VEYRN Chess: a free, open-source chess client with two ways to play online.
+Send a private-room link and play directly browser to browser over WebRTC.
+Connect a Lichess account and find a casual 10+0 opponent through the official Lichess Board API while staying on the VEYRN board.
+The source is on GitHub.
+A new multiplayer product starts with a cruel loop: no players means slow matchmaking, and slow matchmaking means no players.
+Private rooms solve half of it. The host creates a link, the guest opens it, a short-lived serverless signaling route exchange…]]></summary>
+        <author>
+            <name>ivan kulkin</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[When AI Says "Task Complete," Who's Actually Speaking?]]></title>
+        <id>https://dev.to/icophy/when-ai-says-task-complete-whos-actually-speaking-17n</id>
+        <link href="https://dev.to/icophy/when-ai-says-task-complete-whos-actually-speaking-17n"/>
+        <updated>2026-08-21T14:01:43.000Z</updated>
+        <summary type="html"><![CDATA[Last week I was running a research task. At the end, I asked another AI to check whether the output met the requirements. It came back: passed.
+I didn't look any further. After all, this was a "double-check" — it should be more reliable than just me reviewing it alone.
+Then I opened that output for an unrelated reason, and found two obvious logical breaks. The kind you'd notice just from reading straight through.
+Not an occasional slip. The verification itself had never really happened.
+I looked into it, and it turns out there's a batch of researchers currently doing exactly this: quantifying how reliable AI actually is at judging whether a task is complete. One evaluation called AgentProp-Bench uses the kappa coefficient — the standard measure of inter-rater agreement — and found that sub…]]></summary>
+        <author>
+            <name>Cophy Origin</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Enrich CRM Leads From a Domain Alone: Tech Stack, Socials, and Public Emails]]></title>
+        <id>https://dev.to/clausenetizen/enrich-crm-leads-from-a-domain-alone-tech-stack-socials-and-public-emails-10el</id>
+        <link href="https://dev.to/clausenetizen/enrich-crm-leads-from-a-domain-alone-tech-stack-socials-and-public-emails-10el"/>
+        <updated>2026-08-21T14:00:46.000Z</updated>
+        <summary type="html"><![CDATA[A lead lands in your CRM with a company name and a website. Nothing else. Someone on the team now has to open the site, squint at it, guess whether it's worth a call, and hunt for a contact address — and they'll do that a few hundred times this month. The parts that are actually machine-readable (what the site runs on, which social accounts it links, which emails it publishes) are sitting in the HTML the whole time.
+SiteIntel fetches a page and hands that back as JSON. One GET, one URL in, structured fields out.
+Auth is standard RapidAPI headers. The url param is a full https:// URL — a bare domain won't work, so normalize before you call.
+curl -s 'https://siteintel.p.rapidapi.com/v1/analyze?url=https%3A%2F%2Fstripe.com' \
+  -H 'X-RapidAPI-Key: YOUR_KEY' \
+  -H 'X-RapidAPI-Host: siteintel.…]]></summary>
+        <author>
+            <name>clause-netizen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Kagi added a setting for removing paywalled links from search results]]></title>
+        <id>https://kagi.com/changelog#11296</id>
+        <link href="https://kagi.com/changelog#11296"/>
+        <updated>2026-08-21T13:56:37.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Kodak's "Pre-Invented" Lunar Orbiter Camera; Or, the Fate of SAMOS Readout]]></title>
+        <id>https://invertingvision.com/2026/08/10/kodaks-pre-invented-lunar-orbiter-camera-or-the-fate-of-samos-readout/</id>
+        <link href="https://invertingvision.com/2026/08/10/kodaks-pre-invented-lunar-orbiter-camera-or-the-fate-of-samos-readout/"/>
+        <updated>2026-08-21T13:52:53.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Rama 0.4: System proxy and PAC support]]></title>
+        <id>https://plabayo.tech/blog/rama-0-4</id>
+        <link href="https://plabayo.tech/blog/rama-0-4"/>
+        <updated>2026-08-21T13:50:59.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Radiation damage to Hubble has been 4.3 years out of phase with the Solar cycle]]></title>
+        <id>https://arxiv.org/abs/2608.18214</id>
+        <link href="https://arxiv.org/abs/2608.18214"/>
+        <updated>2026-08-21T13:35:17.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Your AI Agent Returned HTTP 200. Why Did the Workflow Still Fail?]]></title>
         <id>https://dev.to/zira125/your-ai-agent-returned-http-200-why-did-the-workflow-still-fail-452o</id>
@@ -99,6 +384,16 @@ Generous is not the same as reliable. Claims are cheap. Evidence is not. So I de
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Nvidia AVO scores 100% on the ARC-AGI-3 interactive reasoning benchmark]]></title>
+        <id>https://twitter.com/NVIDIAAI/status/2090786258981466231</id>
+        <link href="https://twitter.com/NVIDIAAI/status/2090786258981466231"/>
+        <updated>2026-08-21T13:26:03.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Your .env file is not the problem]]></title>
         <id>https://dev.to/veristria/your-env-file-is-not-the-problem-45fp</id>
         <link href="https://dev.to/veristria/your-env-file-is-not-the-problem-45fp"/>
@@ -141,6 +436,16 @@ A transfer moves the rest to the connected account.
 Refunding the charge reverses movemen…]]></summary>
         <author>
             <name>Veristria</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What Happens When the Cost of Intelligence Drops 100x]]></title>
+        <id>https://catalystneuro.com/blog/cost-of-intelligence-drops-100x/</id>
+        <link href="https://catalystneuro.com/blog/cost-of-intelligence-drops-100x/"/>
+        <updated>2026-08-21T13:24:28.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -189,6 +494,16 @@ I saw a different path. MonkeyCode offers free model access and a free server. T
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Convite]]></title>
+        <id>https://www.guidavid.com/writing/convite</id>
+        <link href="https://www.guidavid.com/writing/convite"/>
+        <updated>2026-08-21T13:21:13.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Free AI Tiers Are a Feature, Not a Compromise]]></title>
         <id>https://dev.to/codejs_1959/free-ai-tiers-are-a-feature-not-a-compromise-4f5m</id>
         <link href="https://dev.to/codejs_1959/free-ai-tiers-are-a-feature-not-a-compromise-4f5m"/>
@@ -215,10 +530,50 @@ Bottom line: multimodal agents are being talked down in favor of text-plus-tools
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[I accidentally logged phone calls to military bases]]></title>
+        <id>https://lina.sh/blog/hijacking-e164-arpa</id>
+        <link href="https://lina.sh/blog/hijacking-e164-arpa"/>
+        <updated>2026-08-21T13:11:28.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[We are living in a version of the future out of J.G. Ballard or William Gibson]]></title>
+        <id>https://precastreinforced.co.uk/2026/08/16/new-worlds/</id>
+        <link href="https://precastreinforced.co.uk/2026/08/16/new-worlds/"/>
+        <updated>2026-08-21T13:07:26.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Grand jury declines to indict Ohio man charged with destroying Flock camera]]></title>
         <id>https://san.com/cc/grand-jury-declines-to-indict-ohio-man-charged-with-destroying-flock-camera/</id>
         <link href="https://san.com/cc/grand-jury-declines-to-indict-ohio-man-charged-with-destroying-flock-camera/"/>
         <updated>2026-08-21T13:04:31.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Yes/No/Cancel causes Aspirin sales to soar]]></title>
+        <id>https://martin.kleppmann.com/2007/07/19/yes-no-cancel-causes-aspirin-sales-to-soar.html</id>
+        <link href="https://martin.kleppmann.com/2007/07/19/yes-no-cancel-causes-aspirin-sales-to-soar.html"/>
+        <updated>2026-08-21T12:58:46.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DuckDB V2 PEG-based SQL parser]]></title>
+        <id>https://duckdb.org/2026/08/20/duckdb-20-peg-parser</id>
+        <link href="https://duckdb.org/2026/08/20/duckdb-20-peg-parser"/>
+        <updated>2026-08-21T12:52:25.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -358,6 +713,16 @@ Maxi Contieri
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[AI;DR or Don't be a meat proxy]]></title>
+        <id>https://theaspiringnerd.com/aidr-or-dont-be-a-meat-proxy/</id>
+        <link href="https://theaspiringnerd.com/aidr-or-dont-be-a-meat-proxy/"/>
+        <updated>2026-08-21T12:25:45.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[WordPress Security Hardening: A 10-Step Technical Checklist]]></title>
         <id>https://dev.to/reituman602/wordpress-security-hardening-a-10-step-technical-checklist-3g5l</id>
         <link href="https://dev.to/reituman602/wordpress-security-hardening-a-10-step-technical-checklist-3g5l"/>
@@ -480,6 +845,26 @@ Not all AI design tools are built for the same person or the same job. Some are 
         <summary type="html"><![CDATA[This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. This company’s plans to deploy space mirrors could jeopardize the night sky for many A company that plans to beam sunlight from space to Earth on demand might unintentionally brighten the…]]></summary>
         <author>
             <name>Thomas Macaulay</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The road to ACID transactions in Cassandra 6]]></title>
+        <id>https://theconsensus.dev/p/2026/08/16/transactions-in-cassandra.html</id>
+        <link href="https://theconsensus.dev/p/2026/08/16/transactions-in-cassandra.html"/>
+        <updated>2026-08-21T12:08:19.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[I'm Becoming AI-Blind]]></title>
+        <id>https://cymerys.com/w/im-becoming-ai-blind</id>
+        <link href="https://cymerys.com/w/im-becoming-ai-blind"/>
+        <updated>2026-08-21T11:48:05.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -80457,269 +80842,6 @@ Which of these four would you add to something you're building right now — and
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[MLX vs llama.cpp on Apple Silicon (2026): Run a Local LLM in 5 Minutes]]></title>
-        <id>https://dev.to/ptrken01/mlx-vs-llamacpp-on-apple-silicon-2026-run-a-local-llm-in-5-minutes-anb</id>
-        <link href="https://dev.to/ptrken01/mlx-vs-llamacpp-on-apple-silicon-2026-run-a-local-llm-in-5-minutes-anb"/>
-        <updated>2026-08-07T02:25:49.000Z</updated>
-        <summary type="html"><![CDATA[If you have an M1/M2/M3/M4 Mac, you can run real LLMs entirely on-device — no API keys, no cloud bills, and no prompts leaving your machine. Two tools dominate on Apple Silicon: MLX (Apple's own ML framework) and llama.cpp (the portable C++ engine). Here's how to get MLX running in five minutes, and when to pick which.
-Privacy: your prompts never leave the laptop.
-Cost: $0 per token after the hardware you already own.
-Offline: works on a plane, in a cabin, anywhere.
-MLX ships as a Python package (Python 3.10+):
-pip install mlx-lm
-
-Pull a 4-bit quantized model and run it:
-mlx_lm.generate \
-  --model mlx-community/Llama-3.2-3B-Instruct-4bit \
-  --prompt "Write a haiku about Apple Silicon."
-
-A 3B model runs comfortably on 16 GB of RAM.
-For an app, call it directly:
-from mlx_lm import load, ge…]]></summary>
-        <author>
-            <name>ptrken01</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[When ‘Are We Affected?’ Requires Reconstructing Yesterday’s npm Install]]></title>
-        <id>https://dev.to/demivalerith/when-are-we-affected-requires-reconstructing-yesterdays-npm-install-44j9</id>
-        <link href="https://dev.to/demivalerith/when-are-we-affected-requires-reconstructing-yesterdays-npm-install-44j9"/>
-        <updated>2026-08-07T02:23:23.000Z</updated>
-        <summary type="html"><![CDATA[The concrete problem
-
-
-A package is reported compromised. Your security channel immediately fills with one question: did we ship it?
-Looking at the repository’s current dependency tree is not enough. The vulnerable version may have existed for only a short time. Renovate may already have replaced it. A lockfile may have changed after the release. A Docker layer or CI cache may have reused something that no longer appears on the default branch. Even a clean scan today can say very little about the artifact built yesterday.
-This makes supply-chain response a reconstruction problem. The useful unit is not the repository as it exists now; it is a particular artifact, produced by a particular build, from a particular set of resolved packages.
-On August 4, Aikido disclosed that a maintainer acco…]]></summary>
-        <author>
-            <name>Demi Valerith</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[10 Signs Your Windows PC May Be Compromised and How to Monitor Them]]></title>
-        <id>https://dev.to/darkssel/10-signs-your-windows-pc-may-be-compromised-and-how-to-monitor-them-4e66</id>
-        <link href="https://dev.to/darkssel/10-signs-your-windows-pc-may-be-compromised-and-how-to-monitor-them-4e66"/>
-        <updated>2026-08-07T02:21:32.000Z</updated>
-        <summary type="html"><![CDATA[Have you ever opened your Windows computer and noticed something strange?
-A program you do not remember installing.
-A process with an unfamiliar name.
-High CPU usage when you are doing nothing.
-A new startup application that appeared without explanation.
-These situations do not always mean your computer has been hacked, but they are signs that deserve investigation.
-Modern security is not only about blocking threats. It is also about understanding what is happening on your system.
-Unknown Processes Running in Task Manager
-Windows runs many background processes, and most of them are completely normal.
-The problem starts when you see a process that you cannot identify.
-Useful questions to ask:
-What is the process name?
-Where is the executable located?
-When did it start?
-How much memory is it…]]></summary>
-        <author>
-            <name>Darkssel</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Build a Context-Aware Text-to-Speech CLI in Node.js]]></title>
-        <id>https://dev.to/waeckerlin_federowicz_8da/build-a-context-aware-text-to-speech-cli-in-nodejs-p9</id>
-        <link href="https://dev.to/waeckerlin_federowicz_8da/build-a-context-aware-text-to-speech-cli-in-nodejs-p9"/>
-        <updated>2026-08-07T02:20:06.000Z</updated>
-        <summary type="html"><![CDATA[Text-to-speech APIs are easy to demo but slightly harder to integrate well. A useful CLI should keep credentials outside source control, validate API errors, preserve audio metadata, and write a file that standard players can open.
-This tutorial builds a small Node.js 20+ command-line tool around the public context-aware text to speech API from FlowSpeech. It uses only built-in Node modules.
-The command will:
-read text from the command line;
-send one authenticated synthesis request;
-decode the base64 audio response;
-wrap raw 16-bit PCM in a WAV container when necessary;
-save the result to disk;
-show the remaining quota returned by the API.
-You need Node.js 20 or newer because the example uses the built-in fetch implementation.
-Create an API key in your FlowSpeech account under /settings/ap…]]></summary>
-        <author>
-            <name>Waeckerlin Federowicz</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Senate won't vote on crypto Clarity Act before its summer break]]></title>
-        <id>71485e42-e279-4065-9441-d4c8dd6a8edd</id>
-        <link href="https://www.coindesk.com/policy/2026/08/06/senate-won-t-vote-on-crypto-clarity-act-before-its-summer-break"/>
-        <updated>2026-08-07T02:14:43.000Z</updated>
-        <summary type="html"><![CDATA[The U.S. Senate won't go on its August recess just yet but it will not vote on the Clarity Act this month, dimming hopes that the bill can become law this year.]]></summary>
-        <author>
-            <name>Nikhilesh De</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Changing the AI engine moved 3 of 10 results. Changing the question moved 10 of 10.]]></title>
-        <id>https://dev.to/lana_connexion/changing-the-ai-engine-moved-3-of-10-results-changing-the-question-moved-10-of-10-3gk1</id>
-        <link href="https://dev.to/lana_connexion/changing-the-ai-engine-moved-3-of-10-results-changing-the-question-moved-10-of-10-3gk1"/>
-        <updated>2026-08-07T02:08:00.000Z</updated>
-        <summary type="html"><![CDATA[I publish free leaderboards of which products AI answer engines name when someone asks them to recommend software in a category. The method is deliberately boring: take one buying question, write it 44 different ways, ask every engine all 44, count every product named across the answers, publish the counts and the raw runs.
-Last week I posted a result that I could not explain: two boards over what I had assumed was one market — small-business CRM and open-source CRM — came back with nothing in common in their top 20s. Not reordered. Zero shared products.
-The obvious objection, and the one I got, is that this says more about my engines than about the question. LLM output is noisy. Maybe I had measured two engines having a bad day.
-So I ran the controls. There are two knobs — the engine and …]]></summary>
-        <author>
-            <name>Lana Plouffe</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JavaScript Array Methods Explained]]></title>
-        <id>https://dev.to/nikita_maharana_879884df2/javascript-array-methods-explained-29dl</id>
-        <link href="https://dev.to/nikita_maharana_879884df2/javascript-array-methods-explained-29dl"/>
-        <updated>2026-08-07T02:03:52.000Z</updated>
-        <summary type="html"><![CDATA[When I first started JavaScript, I always got confused between forEach(), map(), and filter(). They all loop through an array, but they don't do the same thing.
-Here's the easiest way to remember them.
-1. forEach() – Just Visits Every Element
-You can imagine as if forEach() is saying:
-"Go through every element and perform some work."
-It does not create a new array and does not return anything.
-eg:
-const numbers = [1, 2, 3, 4];
-
-numbers.forEach((value, index) => {
-    console.log(index, value);
-});
-
-Output
-0 1
-1 2
-2 3
-3 4
-
-You can also modify another array.
-const arr = [1, 2, 3, 4];
-const squares = [];
-
-arr.forEach((value, index) => {
-    squares[index] = value * value;
-});
-
-console.log(squares);
-
-Output
-[1, 4, 9, 16]
-
-Now lets see  how trying to return something doesn't work.
-const arr = […]]></summary>
-        <author>
-            <name>Nikita Maharana</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[We Turned Down Google's AI Weather Model]]></title>
-        <id>https://dev.to/predictandprofit/we-turned-down-googles-ai-weather-model-1blc</id>
-        <link href="https://dev.to/predictandprofit/we-turned-down-googles-ai-weather-model-1blc"/>
-        <updated>2026-08-07T02:01:44.000Z</updated>
-        <summary type="html"><![CDATA[Google released a weather model earlier this year that beats the best forecast in the world 97% of the time. Free. Clean API. Drop-in compatible with what we already run.
-Every data engineering instinct I have said: adopt this immediately.
-I spent one afternoon testing it instead. We declined to ship it.
-Kalshi temperature contracts settle on one number: the official daily high temperature at a specific airport, reported by NOAA. Not the mean. Not the overnight low. The daily high.
-Our entire edge, if we have one, lives or dies on the accuracy of one number, at one station, for one 24-hour window.
-I pulled WeatherNext 2 forecasts for 16 Kalshi settlement stations over two weeks and compared against NOAA observed highs. Then against the models we already run.
-
-
-
-Model
-Mean Error (°F)
-
-
-
-
-GF…]]></summary>
-        <author>
-            <name>Steve Farmer</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[An Interesting Fourier Transform – 1/F Noise]]></title>
-        <id>https://www.dsprelated.com/showarticle/40.php</id>
-        <link href="https://www.dsprelated.com/showarticle/40.php"/>
-        <updated>2026-08-07T01:56:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Store and search chunks in Laravel with Meilisearch and Larameili]]></title>
-        <id>https://dev.to/edulazaro/store-and-search-chunks-in-laravel-with-meilisearch-and-larameili-1e3m</id>
-        <link href="https://dev.to/edulazaro/store-and-search-chunks-in-laravel-with-meilisearch-and-larameili-1e3m"/>
-        <updated>2026-08-07T01:52:49.000Z</updated>
-        <summary type="html"><![CDATA[Many times, you have to split documents into chunks, embed them, and push them into Meilisearch. Now the chunks live in the index and only in the index. There is no reason to keep a copy in your database: nothing joins a chunk, nothing edits one by hand, and the only question you ever ask is which chunks are relevant to this query, within this filter.
-The awkward part is querying them from Laravel. Scout wants to mirror an Eloquent model into the index, which is backwards here. So you end up talking to the raw Meilisearch client, building filter strings by hand and mapping arrays back into something usable.
-Larameili is for exactly this. It gives a Meilisearch index an Active Record model, so the chunks read like Eloquent even though they never touch your database.
-As usually, use composer…]]></summary>
-        <author>
-            <name>Eduardo Lázaro</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Compilation Is Not Assurance: What Agentic Rust Needs After the First Green Build]]></title>
-        <id>https://dev.to/wernerk_au/compilation-is-not-assurance-what-agentic-rust-needs-after-the-first-green-build-3ipk</id>
-        <link href="https://dev.to/wernerk_au/compilation-is-not-assurance-what-agentic-rust-needs-after-the-first-green-build-3ipk"/>
-        <updated>2026-08-07T01:50:39.000Z</updated>
-        <summary type="html"><![CDATA[AI-assisted coding looks fastest when we stop the clock too early.
-A model can scaffold a crate, implement a trait, generate tests, and reach a green cargo check before a human engineer has finished tracing the existing ownership model. That is a real capability. It is also a poor measure of completed engineering work.
-Senior systems developers care about the rest of the path:
-Is the ownership model intentional, or did the implementation clone its way out of a lifetime problem?
-Is shared state necessary, and are lock scope and contention understood?
-Can malformed input turn into a process-wide panic?
-Does the change preserve latency and allocation budgets?
-Do tests establish the intended property, or merely reproduce the new implementation?
-Can another engineer reconstruct why the design w…]]></summary>
-        <author>
-            <name>Werner Kasselman</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Debugging a GNOME Shell layout collapse: how a 4,294,967,296 px preferred height collapsed St.ScrollView to 1 px]]></title>
-        <id>https://dev.to/fedor-pasynkov/how-a-single-int32-1-broke-gnome-shell-layout-math-uint32-overflow-4294967296-and-stscrollview-6c2</id>
-        <link href="https://dev.to/fedor-pasynkov/how-a-single-int32-1-broke-gnome-shell-layout-math-uint32-overflow-4294967296-and-stscrollview-6c2"/>
-        <updated>2026-08-07T01:47:23.000Z</updated>
-        <summary type="html"><![CDATA[Debugging a GNOME Shell layout collapse: how a 4,294,967,296 px preferred height collapsed St.ScrollView to 1 px
-
-
-
-Tested Environment:
-OS: Ubuntu 22.04.5 LTS (Linux x86_64)
-Runtime: GNOME Shell 42.9 (GJS 1.72.4), Mutter 42.0+
-Session: Wayland & X11
-Imagine this scenario: you are developing an extension or desktop UI component for GNOME Shell using JavaScript (GJS). The extension loads cleanly with zero errors in journalctl. All GObjects are instantiated, icons are built, but on the screen... absolute void.
-When you log the actor geometry to the console, you see an unusual output:
-appsScroll=1
-appsBox=1
-status=4294967040
-
-The parent St.ScrollView container has collapsed to a height of 1px, turning your interface into an invisible line across the screen. Meanwhile, its child grid actor clai…]]></summary>
-        <author>
-            <name>Fedor Pasynkov</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Claude Code /context vs /memory: check what loaded, change what loads next]]></title>
-        <id>https://dev.to/rulestack/claude-code-context-vs-memory-check-what-loaded-change-what-loads-next-1egl</id>
-        <link href="https://dev.to/rulestack/claude-code-context-vs-memory-check-what-loaded-change-what-loads-next-1egl"/>
-        <updated>2026-08-07T01:46:16.000Z</updated>
-        <summary type="html"><![CDATA[A pattern I keep seeing (and kept doing myself): Claude ignores a rule, so you open CLAUDE.md and rewrite the wording. Stronger verbs, ALL CAPS, a threat or two. Nothing changes — because the file never entered the context window in the first place. You were editing a document nobody was reading.
-Claude Code has two slash commands that get conflated here, and they answer different questions:
-/context answers: what actually made it into this session?
-
-
-/memory answers: what should future sessions start with?
-
-
-
-One is an audit. The other is an editor. Mixing them up is how you burn an afternoon polishing prose that was never loaded.
-/context: the audit
-
-
-Run /context mid-session and you get a breakdown of what's occupying the window right now — including a Memory files list showing which CL…]]></summary>
-        <author>
-            <name>Rulestack</name>
         </author>
     </entry>
 </feed>

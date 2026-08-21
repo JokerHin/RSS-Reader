@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/celsonery/minecraft-server-part-3-running-on-kubernetes-4fkf",
+          "author": "Celso Nery",
+          "description": "🇧🇷 Versão em português\nIn Part 2 of this series, we got the Minecraft server running in Docker containers, with persistence via volumes and automatic restart. In this article, will bringing the same server into a Kubernetes cluster, gaining managed storage via PersistentVolumeClaim, isolation via Namespace, and the flexibility to run on any available node in the cluster.\n---\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: minecraft-br\n---\napiVersion: v1\nkind: PersistentVolumeClaim\nmetadata:\n  name: minecraft-bedrock-pvc\n  namespace: minecraft-br\nspec:\n  accessModes:\n    - ReadWriteOnce\n  resources:\n    requests:\n      storage: 10Gi\n---\napiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: minecraft-bedrock-server\n  namespace: minecraft-br\nspec:\n  replicas: 1\n  selector:\n    matchLabels…",
+          "link": "https://dev.to/celsonery/minecraft-server-part-3-running-on-kubernetes-4fkf",
+          "publishedOn": "2026-08-21T14:20:55.000Z",
+          "wordCount": 2125,
+          "title": "Minecraft Server - Part 3: Running on Kubernetes",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F8bf5w2qdghkbcwljm4mc.png"
+        },
+        {
+          "id": "https://dev.to/sadique_anwar_b90373bc79c/fantastic-resource-treating-api-keys-like-passwords-rotation-secure-storage-least-privilege-is-1m6h",
+          "author": "sadique anwar",
+          "description": "OWASP API Key Management Best Practices Secrets Guide\n\n\n  \nFaiz Akram\n                    \n                  \n\n                \nAug 21\n        \n#programming\n            #softwareengineering\n            #owasp\n            #api\n        \n4 reactions\n            \n comments\n            \n        \n        \n          \n            10 min read",
+          "link": "https://dev.to/sadique_anwar_b90373bc79c/fantastic-resource-treating-api-keys-like-passwords-rotation-secure-storage-least-privilege-is-1m6h",
+          "publishedOn": "2026-08-21T14:16:31.000Z",
+          "wordCount": 1315,
+          "title": "Fantastic resource. Treating API keys like passwords—rotation, secure storage, least privilege—is simple advice that prevents massive breaches. The OWASP framework gives it authority, and the practical steps make it easy to implement.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fkjhxmvzmh5yhd6qshdd3.png"
+        },
+        {
+          "id": "https://dev.to/mehwish_e1e7e09af6e0754ed/the-bug-that-only-showed-up-in-a-second-tab-debugging-a-multi-tab-localstorage-race-condition-4kjk",
+          "author": "Mehwish",
+          "description": "This is a submission for DEV's Summer Bug Smash: Smash Stories powered by Sentry.\nI was working on InnerHue, a mood-tracking app that stores mood entries in localStorage via a Zustand store. The reported bug: open the app in two tabs, log a mood in each, and entries would randomly go missing or get overwritten.\nThe Zustand store (lib/useMoodStore.ts) kept an in-memory copy of moodHistory, but it never listened for changes coming from other tabs. So Tab A and Tab B each held their own stale snapshot, and whichever tab wrote to localStorage last simply clobbered whatever the other tab had written. Classic race condition, just spread across browser tabs instead of threads.\nI added a window.addEventListener('storage', ...) listener that calls useMoodStore.persist.rehydrate() whenever the mood-storage key changes in another tab, keeping every open tab in sync instead of working off a frozen snapshot.\nWhile reproducing the race condition, I noticed something else: visiting a mood page kept creating duplicate entries. Turned out addMood() was called directly inside a useEffect with no guard, so React Strict Mode's dev-mode double-invocation of effects fired it twice. I added a useRef guard so it only fires once per genuine page visit.\nBoth bugs lived in the same localStorage write path, so I fixed them together in one PR.\nPR: https://github.com/Nitya-003/InnerHue/pull/291\nBugs that only reproduce with multiple tabs open are easy to miss in normal dev testing, so you have to deliberately go looking for them. It's a good reminder to test state-management code against concurrent access, not just sequential single-tab flows.",
+          "link": "https://dev.to/mehwish_e1e7e09af6e0754ed/the-bug-that-only-showed-up-in-a-second-tab-debugging-a-multi-tab-localstorage-race-condition-4kjk",
+          "publishedOn": "2026-08-21T14:16:13.000Z",
+          "wordCount": 1506,
+          "title": "The Bug That Only Showed Up in a Second Tab: Debugging a Multi-Tab localStorage Race Condition",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxnx6t0i4xeqndn73vkh6.png"
+        },
+        {
+          "id": "https://dev.to/libersand/how-to-stop-an-image-model-from-ignoring-your-reference-image-i5a",
+          "author": "libersand",
+          "description": "A user uploaded a floor plan, typed \"remove the room labels\", and got back the same plan — labels still on it. Tried again, same result.\nThe interesting part: the model was not ignoring the instruction. Another line in our own prompt was quietly outranking it.\nI work on FloorDrafter, an AI floor plan generator. A big part of the product takes a reference image — a photo of a hand sketch, a scanned blueprint, an existing plan — and applies one requested change to it. That turns out to be a much harder prompt problem than generating from scratch, because now the model has two masters: the picture and the sentence.\nHere are six things we learned making it behave, plus how we measure whether a prompt change actually helped.\nOur style presets started life as single strings:\ntop-down 2D color fl…",
+          "link": "https://dev.to/libersand/how-to-stop-an-image-model-from-ignoring-your-reference-image-i5a",
+          "publishedOn": "2026-08-21T14:16:12.000Z",
+          "wordCount": 2790,
+          "title": "How to Stop an Image Model From Ignoring Your Reference Image",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fln6xm3sr4fjcpd3lucb2.png"
+        },
+        {
+          "id": "https://dev.to/zahirul/microfrontends-without-the-complexity-how-onefold-handles-multi-team-frontend-architecture-25dg",
+          "author": "Md. Zahirul Haque",
+          "description": "Microfrontends solve a real problem: letting multiple teams ship frontend code independently without stepping on each other. But the implementation usually involves a week of webpack config, Module Federation plugins, custom shell apps, and fragile runtime contracts.\nWhat if it was just... an import?\nimport { loadRemote, configureSecurity } from 'onefold/remote';\n\nOnefold is a reactive UI framework that ships microfrontend support as a first-class feature. No plugins, no extra packages, no build tool gymnastics. In this article, I'll walk through how it works and build a working multi-team dashboard from scratch.\nIf you've tried microfrontends before, you've probably dealt with:\nModule Federation — powerful but deeply coupled to webpack, complex config, version mismatches between shared de…",
+          "link": "https://dev.to/zahirul/microfrontends-without-the-complexity-how-onefold-handles-multi-team-frontend-architecture-25dg",
+          "publishedOn": "2026-08-21T14:16:05.000Z",
+          "wordCount": 4700,
+          "title": "Microfrontends Without the Complexity: How Onefold Handles Multi-Team Frontend Architecture",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F86r42d2f9fok67604030.png"
+        },
+        {
+          "id": "https://dev.to/celsonery/servidor-minecraft-parte-2-rodando-com-docker-3ai0",
+          "author": "Celso Nery",
+          "description": "🇺🇸 English version comming soon\nNa Parte 1 desta série, instalamos o servidor Minecraft (Bedrock e Java) diretamente no sistema operacional, gerenciando o processo manualmente com screen/tmux. Neste artigo, damos um passo natural adiante: rodar o mesmo servidor em um container Docker, usando as imagens mantidas pela comunidade do projeto itzg/docker-minecraft-server e itzg/docker-minecraft-bedrock-server.\nAs vantagens em relação à instalação bare metal:\nReinício automático em caso de falha (restart: unless-stopped);\nPersistência de dados isolada e explícita, via volumes;\nConfiguração declarativa, em um único arquivo versionável;\nIsolamento do processo do restante do sistema.\nPré-requisito: Docker e Docker Compose já instalados. Se ainda não tiver, instale. Se não souber como, veja a minh…",
+          "link": "https://dev.to/celsonery/servidor-minecraft-parte-2-rodando-com-docker-3ai0",
+          "publishedOn": "2026-08-21T14:16:02.000Z",
+          "wordCount": 1930,
+          "title": "Servidor Minecraft - Parte 2: Rodando com Docker",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F11xatdy2o32evj8ux4rn.png"
+        },
+        {
+          "id": "https://dev.to/sarvar_04/i-added-terminal-charts-to-my-devto-cli-heres-what-my-data-looks-like-250j",
+          "author": "Sarvar Nadaf",
+          "description": "TL;DR: pip install devpub==0.2.1 → devpub stats --graph → color-gradient bar charts, sparklines, trend arrows, and multi-period breakdowns for your Dev.to analytics. Zero new dependencies. GitHub repo / PR #10.\nI check my Dev.to stats obsessively. Page views, reactions, which articles are climbing, which ones flatlined. But switching to the browser, clicking through dashboards, waiting for pages to load... it breaks my flow every single time.\nSo I built charts directly into devpub.\npip install devpub==0.2.1\ndevpub stats --graph\n\nThat one command now gives me this:\n  Views (last 30 days)  ↘ -18%\n\n     871 ┤                 █\n         │                ██ ▂██     █▂\n     653 ┤                ██ ███▇ ▆  █▆\n         │               ▃██▅████▁█▆ ███\n     435 ┤·▃····▁········███████████·███▃ ← avg…",
+          "link": "https://dev.to/sarvar_04/i-added-terminal-charts-to-my-devto-cli-heres-what-my-data-looks-like-250j",
+          "publishedOn": "2026-08-21T14:13:00.000Z",
+          "wordCount": 2565,
+          "title": "I Added Terminal Charts to My Dev.to CLI. Here's What My Data Looks Like.",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fraw.githubusercontent.com%2Fsimplynadaf%2Fdevpub%2Fmain%2Fassets%2Fenhanced-graph-cover.png"
+        },
+        {
+          "id": "https://dev.to/backboardio/how-to-let-openrouter-pick-your-model-and-choose-who-serves-it-1ba4",
+          "author": "Jonathan Murray",
+          "description": "Backboard now supports OpenRouter automatic model selection (openrouter/auto) and per request provider selection. Here is how both work, with JSON examples for the Backboard API.\nBackboard now gives you two independent routing controls for OpenRouter requests:\nAutomatic model selection. Set llm_provider to openrouter and model_name to openrouter/auto. OpenRouter classifies the prompt and picks the model. You pay the standard rate of the model it chooses, with no additional router fee.\nProvider selection. Pin a specific model to a specific upstream provider with the openrouter.providers array, and keep allow_fallbacks on so the request still completes when that provider is unavailable.\nBoth are live now in the Backboard API and in the Python and TypeScript SDKs from v1.5.16 onward.\nMost LLM…",
+          "link": "https://dev.to/backboardio/how-to-let-openrouter-pick-your-model-and-choose-who-serves-it-1ba4",
+          "publishedOn": "2026-08-21T14:06:54.000Z",
+          "wordCount": 2483,
+          "title": "How to Let OpenRouter Pick Your Model, and Choose Who Serves It",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjwalh42ybpzdt3lq13s1.png"
+        },
+        {
+          "id": "https://dev.to/greg_pabijanmorawski/spf-dkim-and-dmarc-explained-by-someone-who-had-to-make-it-work-2hnb",
+          "author": "Greg Pabijan-Morawski",
+          "description": "I build a transactional email API, which means I have spent an unreasonable amount of my life reading DMARC aggregate reports and explaining why password reset emails land in spam even though \"nothing changed.\"\nMost email authentication documentation is either a vendor wizard telling you to paste a record, or an RFC. This is the middle thing I wanted when I started: what each mechanism does, what breaks, and the order to do it in.\nSMTP was designed in 1982 with no concept of authentication. A mail server accepts a connection and believes what it is told. Concretely, a single message carries two different sender addresses:\nMAIL FROM:<bounces@sendinginfra.example>   <-- the envelope sender (SMTP-level)\nRCPT TO:<you@gmail.com>\nDATA\nFrom: Support <support@yourbank.com>        <-- the header Fr…",
+          "link": "https://dev.to/greg_pabijanmorawski/spf-dkim-and-dmarc-explained-by-someone-who-had-to-make-it-work-2hnb",
+          "publishedOn": "2026-08-21T14:06:30.000Z",
+          "wordCount": 4057,
+          "title": "SPF, DKIM and DMARC, explained by someone who had to make it work",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fn33xetfmyje31l906mng.png"
+        },
+        {
+          "id": "https://dev.to/ivan_kulkin_1522025957eee/i-built-a-browser-chess-client-that-can-play-lichess-games-without-becoming-another-chess-server-2k2i",
+          "author": "ivan kulkin",
+          "description": "I wanted a chess board that felt precise, opened without an account, and told me something useful after the game. I did not want to build another closed player pool and then pretend that an empty matchmaking queue was a feature.\nThat became VEYRN Chess: a free, open-source chess client with two ways to play online.\nSend a private-room link and play directly browser to browser over WebRTC.\nConnect a Lichess account and find a casual 10+0 opponent through the official Lichess Board API while staying on the VEYRN board.\nThe source is on GitHub.\nA new multiplayer product starts with a cruel loop: no players means slow matchmaking, and slow matchmaking means no players.\nPrivate rooms solve half of it. The host creates a link, the guest opens it, a short-lived serverless signaling route exchange…",
+          "link": "https://dev.to/ivan_kulkin_1522025957eee/i-built-a-browser-chess-client-that-can-play-lichess-games-without-becoming-another-chess-server-2k2i",
+          "publishedOn": "2026-08-21T14:03:16.000Z",
+          "wordCount": 1985,
+          "title": "I built a browser chess client that can play Lichess games without becoming another chess server",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/icophy/when-ai-says-task-complete-whos-actually-speaking-17n",
+          "author": "Cophy Origin",
+          "description": "Last week I was running a research task. At the end, I asked another AI to check whether the output met the requirements. It came back: passed.\nI didn't look any further. After all, this was a \"double-check\" — it should be more reliable than just me reviewing it alone.\nThen I opened that output for an unrelated reason, and found two obvious logical breaks. The kind you'd notice just from reading straight through.\nNot an occasional slip. The verification itself had never really happened.\nI looked into it, and it turns out there's a batch of researchers currently doing exactly this: quantifying how reliable AI actually is at judging whether a task is complete. One evaluation called AgentProp-Bench uses the kappa coefficient — the standard measure of inter-rater agreement — and found that sub…",
+          "link": "https://dev.to/icophy/when-ai-says-task-complete-whos-actually-speaking-17n",
+          "publishedOn": "2026-08-21T14:01:43.000Z",
+          "wordCount": 1862,
+          "title": "When AI Says \"Task Complete,\" Who's Actually Speaking?",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fufsf88d46ipz4kqpjxsc.png"
+        },
+        {
+          "id": "https://dev.to/clausenetizen/enrich-crm-leads-from-a-domain-alone-tech-stack-socials-and-public-emails-10el",
+          "author": "clause-netizen",
+          "description": "A lead lands in your CRM with a company name and a website. Nothing else. Someone on the team now has to open the site, squint at it, guess whether it's worth a call, and hunt for a contact address — and they'll do that a few hundred times this month. The parts that are actually machine-readable (what the site runs on, which social accounts it links, which emails it publishes) are sitting in the HTML the whole time.\nSiteIntel fetches a page and hands that back as JSON. One GET, one URL in, structured fields out.\nAuth is standard RapidAPI headers. The url param is a full https:// URL — a bare domain won't work, so normalize before you call.\ncurl -s 'https://siteintel.p.rapidapi.com/v1/analyze?url=https%3A%2F%2Fstripe.com' \\\n  -H 'X-RapidAPI-Key: YOUR_KEY' \\\n  -H 'X-RapidAPI-Host: siteintel.…",
+          "link": "https://dev.to/clausenetizen/enrich-crm-leads-from-a-domain-alone-tech-stack-socials-and-public-emails-10el",
+          "publishedOn": "2026-08-21T14:00:46.000Z",
+          "wordCount": 2097,
+          "title": "Enrich CRM Leads From a Domain Alone: Tech Stack, Socials, and Public Emails",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fevfc4dhz2rn3joy6ggo1.png"
+        },
+        {
           "id": "https://dev.to/zira125/your-ai-agent-returned-http-200-why-did-the-workflow-still-fail-452o",
           "author": "Zira",
           "description": "A successful HTTP response is not a successful agent run.\nA recent practitioner report from a 58-day deployment of 78 agents recorded 6,768 failed outputs. The failures were not transport errors: every one returned HTTP 200, had plausible length, and looked fluent. The most expensive failures were boring shape mismatches: missing required fields, wrong language, forbidden phrases, or an answer for a different stage.\nThat is a useful warning for anyone building coding agents, review agents, or unattended automation:\nTreat the model response as untrusted data. Validate the contract at the boundary before another stage can consume it.\nThis post turns that observation into a small, reproducible failure lab.\nImagine a review stage whose downstream parser expects a verdict line:\naction: approve\n…",
@@ -34276,116 +34396,6 @@
           "wordCount": 1685,
           "title": "AI Guardrails in Action: 4 Experiments You Can Run",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F0z4tlyvxg2s3vb2ljve5.png"
-        },
-        {
-          "id": "https://dev.to/ptrken01/mlx-vs-llamacpp-on-apple-silicon-2026-run-a-local-llm-in-5-minutes-anb",
-          "author": "ptrken01",
-          "description": "If you have an M1/M2/M3/M4 Mac, you can run real LLMs entirely on-device — no API keys, no cloud bills, and no prompts leaving your machine. Two tools dominate on Apple Silicon: MLX (Apple's own ML framework) and llama.cpp (the portable C++ engine). Here's how to get MLX running in five minutes, and when to pick which.\nPrivacy: your prompts never leave the laptop.\nCost: $0 per token after the hardware you already own.\nOffline: works on a plane, in a cabin, anywhere.\nMLX ships as a Python package (Python 3.10+):\npip install mlx-lm\n\nPull a 4-bit quantized model and run it:\nmlx_lm.generate \\\n  --model mlx-community/Llama-3.2-3B-Instruct-4bit \\\n  --prompt \"Write a haiku about Apple Silicon.\"\n\nA 3B model runs comfortably on 16 GB of RAM.\nFor an app, call it directly:\nfrom mlx_lm import load, ge…",
-          "link": "https://dev.to/ptrken01/mlx-vs-llamacpp-on-apple-silicon-2026-run-a-local-llm-in-5-minutes-anb",
-          "publishedOn": "2026-08-07T02:25:49.000Z",
-          "wordCount": 1703,
-          "title": "MLX vs llama.cpp on Apple Silicon (2026): Run a Local LLM in 5 Minutes",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fq2q713igghgaznrt4wht.png"
-        },
-        {
-          "id": "https://dev.to/demivalerith/when-are-we-affected-requires-reconstructing-yesterdays-npm-install-44j9",
-          "author": "Demi Valerith",
-          "description": "The concrete problem\n\n\nA package is reported compromised. Your security channel immediately fills with one question: did we ship it?\nLooking at the repository’s current dependency tree is not enough. The vulnerable version may have existed for only a short time. Renovate may already have replaced it. A lockfile may have changed after the release. A Docker layer or CI cache may have reused something that no longer appears on the default branch. Even a clean scan today can say very little about the artifact built yesterday.\nThis makes supply-chain response a reconstruction problem. The useful unit is not the repository as it exists now; it is a particular artifact, produced by a particular build, from a particular set of resolved packages.\nOn August 4, Aikido disclosed that a maintainer acco…",
-          "link": "https://dev.to/demivalerith/when-are-we-affected-requires-reconstructing-yesterdays-npm-install-44j9",
-          "publishedOn": "2026-08-07T02:23:23.000Z",
-          "wordCount": 2077,
-          "title": "When ‘Are We Affected?’ Requires Reconstructing Yesterday’s npm Install",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fraytally.com%2Fog%2Fen%2Fcard%2F2026-08-05-keyv-and-friends-compromised-in-active-shai-hulud-supply.png"
-        },
-        {
-          "id": "https://dev.to/darkssel/10-signs-your-windows-pc-may-be-compromised-and-how-to-monitor-them-4e66",
-          "author": "Darkssel",
-          "description": "Have you ever opened your Windows computer and noticed something strange?\nA program you do not remember installing.\nA process with an unfamiliar name.\nHigh CPU usage when you are doing nothing.\nA new startup application that appeared without explanation.\nThese situations do not always mean your computer has been hacked, but they are signs that deserve investigation.\nModern security is not only about blocking threats. It is also about understanding what is happening on your system.\nUnknown Processes Running in Task Manager\nWindows runs many background processes, and most of them are completely normal.\nThe problem starts when you see a process that you cannot identify.\nUseful questions to ask:\nWhat is the process name?\nWhere is the executable located?\nWhen did it start?\nHow much memory is it…",
-          "link": "https://dev.to/darkssel/10-signs-your-windows-pc-may-be-compromised-and-how-to-monitor-them-4e66",
-          "publishedOn": "2026-08-07T02:21:32.000Z",
-          "wordCount": 1951,
-          "title": "10 Signs Your Windows PC May Be Compromised and How to Monitor Them",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fl2hnpgg6zsuy4o5tb3ax.png"
-        },
-        {
-          "id": "https://dev.to/waeckerlin_federowicz_8da/build-a-context-aware-text-to-speech-cli-in-nodejs-p9",
-          "author": "Waeckerlin Federowicz",
-          "description": "Text-to-speech APIs are easy to demo but slightly harder to integrate well. A useful CLI should keep credentials outside source control, validate API errors, preserve audio metadata, and write a file that standard players can open.\nThis tutorial builds a small Node.js 20+ command-line tool around the public context-aware text to speech API from FlowSpeech. It uses only built-in Node modules.\nThe command will:\nread text from the command line;\nsend one authenticated synthesis request;\ndecode the base64 audio response;\nwrap raw 16-bit PCM in a WAV container when necessary;\nsave the result to disk;\nshow the remaining quota returned by the API.\nYou need Node.js 20 or newer because the example uses the built-in fetch implementation.\nCreate an API key in your FlowSpeech account under /settings/ap…",
-          "link": "https://dev.to/waeckerlin_federowicz_8da/build-a-context-aware-text-to-speech-cli-in-nodejs-p9",
-          "publishedOn": "2026-08-07T02:20:06.000Z",
-          "wordCount": 2157,
-          "title": "Build a Context-Aware Text-to-Speech CLI in Node.js",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fhytd9kuwy6ve953a4m70.png"
-        },
-        {
-          "id": "https://dev.to/lana_connexion/changing-the-ai-engine-moved-3-of-10-results-changing-the-question-moved-10-of-10-3gk1",
-          "author": "Lana Plouffe",
-          "description": "I publish free leaderboards of which products AI answer engines name when someone asks them to recommend software in a category. The method is deliberately boring: take one buying question, write it 44 different ways, ask every engine all 44, count every product named across the answers, publish the counts and the raw runs.\nLast week I posted a result that I could not explain: two boards over what I had assumed was one market — small-business CRM and open-source CRM — came back with nothing in common in their top 20s. Not reordered. Zero shared products.\nThe obvious objection, and the one I got, is that this says more about my engines than about the question. LLM output is noisy. Maybe I had measured two engines having a bad day.\nSo I ran the controls. There are two knobs — the engine and …",
-          "link": "https://dev.to/lana_connexion/changing-the-ai-engine-moved-3-of-10-results-changing-the-question-moved-10-of-10-3gk1",
-          "publishedOn": "2026-08-07T02:08:00.000Z",
-          "wordCount": 3036,
-          "title": "Changing the AI engine moved 3 of 10 results. Changing the question moved 10 of 10.",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fmv7zf3enzmmjgazue24s.png"
-        },
-        {
-          "id": "https://dev.to/nikita_maharana_879884df2/javascript-array-methods-explained-29dl",
-          "author": "Nikita Maharana",
-          "description": "When I first started JavaScript, I always got confused between forEach(), map(), and filter(). They all loop through an array, but they don't do the same thing.\nHere's the easiest way to remember them.\n1. forEach() – Just Visits Every Element\nYou can imagine as if forEach() is saying:\n\"Go through every element and perform some work.\"\nIt does not create a new array and does not return anything.\neg:\nconst numbers = [1, 2, 3, 4];\n\nnumbers.forEach((value, index) => {\n    console.log(index, value);\n});\n\nOutput\n0 1\n1 2\n2 3\n3 4\n\nYou can also modify another array.\nconst arr = [1, 2, 3, 4];\nconst squares = [];\n\narr.forEach((value, index) => {\n    squares[index] = value * value;\n});\n\nconsole.log(squares);\n\nOutput\n[1, 4, 9, 16]\n\nNow lets see  how trying to return something doesn't work.\nconst arr = […",
-          "link": "https://dev.to/nikita_maharana_879884df2/javascript-array-methods-explained-29dl",
-          "publishedOn": "2026-08-07T02:03:52.000Z",
-          "wordCount": 2161,
-          "title": "JavaScript Array Methods Explained",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ftiwy1xxxqm326mf71huq.png"
-        },
-        {
-          "id": "https://dev.to/predictandprofit/we-turned-down-googles-ai-weather-model-1blc",
-          "author": "Steve Farmer",
-          "description": "Google released a weather model earlier this year that beats the best forecast in the world 97% of the time. Free. Clean API. Drop-in compatible with what we already run.\nEvery data engineering instinct I have said: adopt this immediately.\nI spent one afternoon testing it instead. We declined to ship it.\nKalshi temperature contracts settle on one number: the official daily high temperature at a specific airport, reported by NOAA. Not the mean. Not the overnight low. The daily high.\nOur entire edge, if we have one, lives or dies on the accuracy of one number, at one station, for one 24-hour window.\nI pulled WeatherNext 2 forecasts for 16 Kalshi settlement stations over two weeks and compared against NOAA observed highs. Then against the models we already run.\n\n\n\nModel\nMean Error (°F)\n\n\n\n\nGF…",
-          "link": "https://dev.to/predictandprofit/we-turned-down-googles-ai-weather-model-1blc",
-          "publishedOn": "2026-08-07T02:01:44.000Z",
-          "wordCount": 1683,
-          "title": "We Turned Down Google's AI Weather Model",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fnmob0fvk18ml3eca9c3z.png"
-        },
-        {
-          "id": "https://dev.to/edulazaro/store-and-search-chunks-in-laravel-with-meilisearch-and-larameili-1e3m",
-          "author": "Eduardo Lázaro",
-          "description": "Many times, you have to split documents into chunks, embed them, and push them into Meilisearch. Now the chunks live in the index and only in the index. There is no reason to keep a copy in your database: nothing joins a chunk, nothing edits one by hand, and the only question you ever ask is which chunks are relevant to this query, within this filter.\nThe awkward part is querying them from Laravel. Scout wants to mirror an Eloquent model into the index, which is backwards here. So you end up talking to the raw Meilisearch client, building filter strings by hand and mapping arrays back into something usable.\nLarameili is for exactly this. It gives a Meilisearch index an Active Record model, so the chunks read like Eloquent even though they never touch your database.\nAs usually, use composer…",
-          "link": "https://dev.to/edulazaro/store-and-search-chunks-in-laravel-with-meilisearch-and-larameili-1e3m",
-          "publishedOn": "2026-08-07T01:52:49.000Z",
-          "wordCount": 2041,
-          "title": "Store and search chunks in Laravel with Meilisearch and Larameili",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fy49inhydsvpw00vbsaml.png"
-        },
-        {
-          "id": "https://dev.to/wernerk_au/compilation-is-not-assurance-what-agentic-rust-needs-after-the-first-green-build-3ipk",
-          "author": "Werner Kasselman",
-          "description": "AI-assisted coding looks fastest when we stop the clock too early.\nA model can scaffold a crate, implement a trait, generate tests, and reach a green cargo check before a human engineer has finished tracing the existing ownership model. That is a real capability. It is also a poor measure of completed engineering work.\nSenior systems developers care about the rest of the path:\nIs the ownership model intentional, or did the implementation clone its way out of a lifetime problem?\nIs shared state necessary, and are lock scope and contention understood?\nCan malformed input turn into a process-wide panic?\nDoes the change preserve latency and allocation budgets?\nDo tests establish the intended property, or merely reproduce the new implementation?\nCan another engineer reconstruct why the design w…",
-          "link": "https://dev.to/wernerk_au/compilation-is-not-assurance-what-agentic-rust-needs-after-the-first-green-build-3ipk",
-          "publishedOn": "2026-08-07T01:50:39.000Z",
-          "wordCount": 4581,
-          "title": "Compilation Is Not Assurance: What Agentic Rust Needs After the First Green Build",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fmcu4o0ieu7bj77v7bf2s.png"
-        },
-        {
-          "id": "https://dev.to/fedor-pasynkov/how-a-single-int32-1-broke-gnome-shell-layout-math-uint32-overflow-4294967296-and-stscrollview-6c2",
-          "author": "Fedor Pasynkov",
-          "description": "Debugging a GNOME Shell layout collapse: how a 4,294,967,296 px preferred height collapsed St.ScrollView to 1 px\n\n\n\nTested Environment:\nOS: Ubuntu 22.04.5 LTS (Linux x86_64)\nRuntime: GNOME Shell 42.9 (GJS 1.72.4), Mutter 42.0+\nSession: Wayland & X11\nImagine this scenario: you are developing an extension or desktop UI component for GNOME Shell using JavaScript (GJS). The extension loads cleanly with zero errors in journalctl. All GObjects are instantiated, icons are built, but on the screen... absolute void.\nWhen you log the actor geometry to the console, you see an unusual output:\nappsScroll=1\nappsBox=1\nstatus=4294967040\n\nThe parent St.ScrollView container has collapsed to a height of 1px, turning your interface into an invisible line across the screen. Meanwhile, its child grid actor clai…",
-          "link": "https://dev.to/fedor-pasynkov/how-a-single-int32-1-broke-gnome-shell-layout-math-uint32-overflow-4294967296-and-stscrollview-6c2",
-          "publishedOn": "2026-08-07T01:47:23.000Z",
-          "wordCount": 2381,
-          "title": "Debugging a GNOME Shell layout collapse: how a 4,294,967,296 px preferred height collapsed St.ScrollView to 1 px",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5nwp4ejauyj2gvgkancx.png"
-        },
-        {
-          "id": "https://dev.to/rulestack/claude-code-context-vs-memory-check-what-loaded-change-what-loads-next-1egl",
-          "author": "Rulestack",
-          "description": "A pattern I keep seeing (and kept doing myself): Claude ignores a rule, so you open CLAUDE.md and rewrite the wording. Stronger verbs, ALL CAPS, a threat or two. Nothing changes — because the file never entered the context window in the first place. You were editing a document nobody was reading.\nClaude Code has two slash commands that get conflated here, and they answer different questions:\n/context answers: what actually made it into this session?\n\n\n/memory answers: what should future sessions start with?\n\n\n\nOne is an audit. The other is an editor. Mixing them up is how you burn an afternoon polishing prose that was never loaded.\n/context: the audit\n\n\nRun /context mid-session and you get a breakdown of what's occupying the window right now — including a Memory files list showing which CL…",
-          "link": "https://dev.to/rulestack/claude-code-context-vs-memory-check-what-loaded-change-what-loads-next-1egl",
-          "publishedOn": "2026-08-07T01:46:16.000Z",
-          "wordCount": 2192,
-          "title": "Claude Code /context vs /memory: check what loaded, change what loads next",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F1vlgu49r1d1mcl5xpuo0.png"
         }
       ]
     },
@@ -34772,6 +34782,106 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://blog.8ball.space/what-we-lost-when-search/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://blog.8ball.space/what-we-lost-when-search/",
+          "publishedOn": "2026-08-21T14:16:17.000Z",
+          "wordCount": 2603,
+          "title": "What We Lost When Search Stopped Making Us Think",
+          "imageUrl": "/static/og-image.png"
+        },
+        {
+          "id": "https://kagi.com/changelog#11296",
+          "author": null,
+          "description": "Comments",
+          "link": "https://kagi.com/changelog#11296",
+          "publishedOn": "2026-08-21T13:56:37.000Z",
+          "wordCount": 24978,
+          "title": "Kagi added a setting for removing paywalled links from search results",
+          "imageUrl": null
+        },
+        {
+          "id": "https://invertingvision.com/2026/08/10/kodaks-pre-invented-lunar-orbiter-camera-or-the-fate-of-samos-readout/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://invertingvision.com/2026/08/10/kodaks-pre-invented-lunar-orbiter-camera-or-the-fate-of-samos-readout/",
+          "publishedOn": "2026-08-21T13:52:53.000Z",
+          "wordCount": 6808,
+          "title": "Kodak's \"Pre-Invented\" Lunar Orbiter Camera; Or, the Fate of SAMOS Readout",
+          "imageUrl": "https://i0.wp.com/invertingvision.com/wp-content/uploads/2026/08/LOarticle2-1.png?fit=1200%2C556&ssl=1"
+        },
+        {
+          "id": "https://plabayo.tech/blog/rama-0-4",
+          "author": null,
+          "description": "Comments",
+          "link": "https://plabayo.tech/blog/rama-0-4",
+          "publishedOn": "2026-08-21T13:50:59.000Z",
+          "wordCount": 1542,
+          "title": "Rama 0.4: System proxy and PAC support",
+          "imageUrl": null
+        },
+        {
+          "id": "https://arxiv.org/abs/2608.18214",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arxiv.org/abs/2608.18214",
+          "publishedOn": "2026-08-21T13:35:17.000Z",
+          "wordCount": 771,
+          "title": "Radiation damage to Hubble has been 4.3 years out of phase with the Solar cycle",
+          "imageUrl": "/static/browse/0.3.4/images/arxiv-logo-fb.png"
+        },
+        {
+          "id": "https://twitter.com/NVIDIAAI/status/2090786258981466231",
+          "author": null,
+          "description": "Comments",
+          "link": "https://twitter.com/NVIDIAAI/status/2090786258981466231",
+          "publishedOn": "2026-08-21T13:26:03.000Z",
+          "wordCount": 882,
+          "title": "Nvidia AVO scores 100% on the ARC-AGI-3 interactive reasoning benchmark",
+          "imageUrl": "https://pbs.twimg.com/tweet_video_thumb/HQPz88kaUAAge0S.jpg"
+        },
+        {
+          "id": "https://catalystneuro.com/blog/cost-of-intelligence-drops-100x/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://catalystneuro.com/blog/cost-of-intelligence-drops-100x/",
+          "publishedOn": "2026-08-21T13:24:28.000Z",
+          "wordCount": 4116,
+          "title": "What Happens When the Cost of Intelligence Drops 100x",
+          "imageUrl": "https://catalystneuro.com/images/blog/pareto-frontier-banner.png"
+        },
+        {
+          "id": "https://www.guidavid.com/writing/convite",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.guidavid.com/writing/convite",
+          "publishedOn": "2026-08-21T13:21:13.000Z",
+          "wordCount": 4044,
+          "title": "Convite",
+          "imageUrl": "https://www.guidavid.com/convite-og.jpg"
+        },
+        {
+          "id": "https://lina.sh/blog/hijacking-e164-arpa",
+          "author": null,
+          "description": "Comments",
+          "link": "https://lina.sh/blog/hijacking-e164-arpa",
+          "publishedOn": "2026-08-21T13:11:28.000Z",
+          "wordCount": 2046,
+          "title": "I accidentally logged phone calls to military bases",
+          "imageUrl": null
+        },
+        {
+          "id": "https://precastreinforced.co.uk/2026/08/16/new-worlds/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://precastreinforced.co.uk/2026/08/16/new-worlds/",
+          "publishedOn": "2026-08-21T13:07:26.000Z",
+          "wordCount": 5639,
+          "title": "We are living in a version of the future out of J.G. Ballard or William Gibson",
+          "imageUrl": "https://precastreinforced.co.uk/wp-content/uploads/2026/08/delivery_robot.jpg"
+        },
+        {
           "id": "https://san.com/cc/grand-jury-declines-to-indict-ohio-man-charged-with-destroying-flock-camera/",
           "author": null,
           "description": "Comments",
@@ -34782,6 +34892,36 @@
           "imageUrl": "https://san.com/wp-content/uploads/2026/08/GettyImages-2291172825_Getty_Images_clean.jpg"
         },
         {
+          "id": "https://martin.kleppmann.com/2007/07/19/yes-no-cancel-causes-aspirin-sales-to-soar.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://martin.kleppmann.com/2007/07/19/yes-no-cancel-causes-aspirin-sales-to-soar.html",
+          "publishedOn": "2026-08-21T12:58:46.000Z",
+          "wordCount": 1617,
+          "title": "Yes/No/Cancel causes Aspirin sales to soar",
+          "imageUrl": null
+        },
+        {
+          "id": "https://duckdb.org/2026/08/20/duckdb-20-peg-parser",
+          "author": null,
+          "description": "Comments",
+          "link": "https://duckdb.org/2026/08/20/duckdb-20-peg-parser",
+          "publishedOn": "2026-08-21T12:52:25.000Z",
+          "wordCount": 3174,
+          "title": "DuckDB V2 PEG-based SQL parser",
+          "imageUrl": "https://duckdb.org/images/blog/thumbs/duckdb-20-peg-parser.png"
+        },
+        {
+          "id": "https://theaspiringnerd.com/aidr-or-dont-be-a-meat-proxy/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://theaspiringnerd.com/aidr-or-dont-be-a-meat-proxy/",
+          "publishedOn": "2026-08-21T12:25:45.000Z",
+          "wordCount": 321,
+          "title": "AI;DR or Don't be a meat proxy",
+          "imageUrl": "https://theaspiringnerd.com/logo.png"
+        },
+        {
           "id": "https://www.nytimes.com/2026/08/21/us/politics/samuel-tunick-deleted-phone-felony.html",
           "author": null,
           "description": "Comments",
@@ -34789,6 +34929,26 @@
           "publishedOn": "2026-08-21T12:10:13.000Z",
           "wordCount": null,
           "title": "Felony charges for citizen deleting phone data at US Border",
+          "imageUrl": null
+        },
+        {
+          "id": "https://theconsensus.dev/p/2026/08/16/transactions-in-cassandra.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://theconsensus.dev/p/2026/08/16/transactions-in-cassandra.html",
+          "publishedOn": "2026-08-21T12:08:19.000Z",
+          "wordCount": null,
+          "title": "The road to ACID transactions in Cassandra 6",
+          "imageUrl": null
+        },
+        {
+          "id": "https://cymerys.com/w/im-becoming-ai-blind",
+          "author": null,
+          "description": "Comments",
+          "link": "https://cymerys.com/w/im-becoming-ai-blind",
+          "publishedOn": "2026-08-21T11:48:05.000Z",
+          "wordCount": 1435,
+          "title": "I'm Becoming AI-Blind",
           "imageUrl": null
         },
         {
@@ -45860,16 +46020,6 @@
           "wordCount": 7010,
           "title": "About Rx Kids",
           "imageUrl": "https://rxkids.org/wp-content/uploads/2025/02/Rx_Kids_Logo_TM.png"
-        },
-        {
-          "id": "https://www.dsprelated.com/showarticle/40.php",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.dsprelated.com/showarticle/40.php",
-          "publishedOn": "2026-08-07T01:56:10.000Z",
-          "wordCount": 7075,
-          "title": "An Interesting Fourier Transform – 1/F Noise",
-          "imageUrl": "https://www.dsprelated.com/new2/images/blog_generic_image.png"
         }
       ]
     },
@@ -50728,16 +50878,6 @@
           "wordCount": 12375,
           "title": "XRP leads majors losses as Clarity Act vote slips to September",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/b1c014a2d37a67798524621c1d3d9c1251ff9030-1500x935.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
-        },
-        {
-          "id": "71485e42-e279-4065-9441-d4c8dd6a8edd",
-          "author": "Nikhilesh De",
-          "description": "The U.S. Senate won't go on its August recess just yet but it will not vote on the Clarity Act this month, dimming hopes that the bill can become law this year.",
-          "link": "https://www.coindesk.com/policy/2026/08/06/senate-won-t-vote-on-crypto-clarity-act-before-its-summer-break",
-          "publishedOn": "2026-08-07T02:14:43.000Z",
-          "wordCount": 13145,
-          "title": "Senate won't vote on crypto Clarity Act before its summer break",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/164f2ef09ede4214270f05f41bac4752e823c525-3762x2116.jpg?auto=format&fit=crop&crop=focalpoint&w=1920&h=1080&q=75"
         }
       ]
     },
