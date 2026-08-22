@@ -22,8 +22,8 @@
             data-action="toggle-accordions"
             title="Click to toggle the day, Ctrl + click to toggle all."
           >
-            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-08-22 datetime="2026-08-22T10:14:31.000Z">2026-08-22</time>
-            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-08-22 datetime="2026-08-22T10:14:31.000Z"></time>
+            <time class="daily-heading-toggle__weekday js-offset-weekday" data-offset-date=2026-08-22 datetime="2026-08-22T11:00:10.000Z">2026-08-22</time>
+            <time class="daily-heading-toggle__date js-offset-date" data-offset-date=2026-08-22 datetime="2026-08-22T11:00:10.000Z"></time>
           </button>
         </h2>
         <ul class="sources card">
@@ -38,6 +38,333 @@
                   <a class="source-heading__link" href="https://dev.to">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/albert_zhang_f468830cf0e6/automatic-error-recovery-in-ai-agent-networks-4i4d"
+                        open
+                      >
+                        <summary class="article-expander__title">Automatic Error Recovery in AI Agent Networks</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/albert_zhang_f468830cf0e6/automatic-error-recovery-in-ai-agent-networks-4i4d">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5zdwjz2zeer7rjfhpund.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>In a single-agent system, failure is simple: the agent errors, you retry.
+In multi-agent systems, failure is a graph problem.
+Agent A: ✅ Success
+Agent B: ❌ Timeout (depends on A)
+Agent C: ❌ Skipped (depends on B)
+Agent D: ❌ Partial data (depends on C)
+
+One timeout propagates through the entire pipeline. Without recovery, your system is fragile.
+AgentForge implements 3 recovery layers:
+@retry(max_attempts&#x3D;3, backoff&#x3D;exponential(base&#x3D;2, max&#x3D;60))
+def agent_call(params):
+    return llm.invoke(params)
+
+If an agent fails 5 times in 10 minutes, we stop calling it and return a degraded response:
+{
+  &quot;status&quot;: &quot;degraded&quot;,
+  &quot;agent&quot;: &quot;market_data&quot;,
+  &quot;fallback&quot;: &quot;cached_data&quot;,
+  &quot;warning&quot;: &quot;Real-time data unavailable, using 15-min delayed feed&quot;
+}
+
+When a critical agent fails, the orchestrator can re-plan:
+Skip the failed step if non-critical
+Substitute with a backup agent
+Halt and alert with full context trace
+Last month, our market data API went down during trading hours. Here&#x27;s what happened:
+14:32 — Market data agent timeout (Layer 1: 3 retries failed)
+14:33 — Circuit breaker opened for market data agent
+14:33 — Pipeline automatically switched to cached data + warning flag
+14:35 — Full report generated with &quot;delayed data&quot; disclaimer
+15:00 — Market data API recovered, circuit breaker closed automatically
+Zero manual intervention. Zero missed reports.
+If your multi-agent system can&#x27;t handle one agent failing, it&#x27;s not production-ready.
+AgentForge makes this the default, not an afterthought.
+https://github.com/agentforge-cyber/agentforge-mvp
+Posted on 2026-08-22 by the AgentForge team.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;5
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/bokuwalily/the-4000-token-tax-auto-disabling-claude-code-plugins-you-havent-touched-in-30-days-ac5"
+                        open
+                      >
+                        <summary class="article-expander__title">The 4,000-Token Tax: Auto-Disabling Claude Code Plugins You Haven&#x27;t Touched in 30 Days</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/bokuwalily/the-4000-token-tax-auto-disabling-claude-code-plugins-you-havent-touched-in-30-days-ac5">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fsdskwx8nbgb7eu48xyds.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Hitting ¥1.2M/month taught me something I didn&#x27;t expect: keeping the environment healthy has to come before doing the work.
+Adding a plugin to Claude Code takes a second. &quot;Let&#x27;s add context7.&quot; &quot;Let&#x27;s add playwright.&quot; &quot;Might as well try expose too.&quot; Before I noticed, I had more than 50 plugins enabled. That&#x27;s where the problem starts.
+Every time Claude Code starts, a deferred tools section expands inside a system-reminder block. It&#x27;s the part that enumerates every tool name owned by the connected MCP servers. The more plugins you have, the more that section swells. playwright alone lines up close to 30 tool names, from browser_click to browser_wait_for.
+This is a quiet tax on the context window. The first few thousand characters of input tokens in every single session disappear into a list …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;23
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/rawveg/computer-says-fraud-30f8"
+                        open
+                      >
+                        <summary class="article-expander__title">Computer Says Fraud</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/rawveg/computer-says-fraud-30f8">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fi.snap.as%2FmHPSsWl6.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>The first sign, almost always, is a letter. Sometimes an email; sometimes, in the harsher jurisdictions, a frozen account. The wording is bureaucratic and slightly threatening. Your claim is “under review”. Your payments have been “suspended pending verification”. You are asked, with the weary politeness of a state that no longer feels it owes you an explanation, to provide bank statements going back five years, the names of every adult who has stayed in your home since 2019, and a justification of why last winter&#x27;s gas bill was higher than your neighbour&#x27;s.
+You ring the helpline. The person on the other end is courteous and entirely unable to tell you why. They have a screen in front of them. The screen has flagged you. They cannot say what flagged you, because they do not know, and becau…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;21
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/sushyam_nagallapati/building-a-production-ai-platform-kubernetes-gitops-iac-security-and-observability-3732"
+                        open
+                      >
+                        <summary class="article-expander__title">Building a Production AI Platform: Kubernetes, GitOps, IaC, Security, and Observability</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/sushyam_nagallapati/building-a-production-ai-platform-kubernetes-gitops-iac-security-and-observability-3732">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5401i5t248fvvnlngb9d.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Thanks for taking the time to read. If you’ve worked on AI platforms, cloud infrastructure, or platform engineering, I’d love to hear how your architecture differs in the comments.
+In Part 4 of AI Infrastructure for Cloud Engineers, we looked at FinOps for AI and how GPU utilization, token consumption, model choice, and inference volume affect cost.
+Read Part 4: FinOps for AI: Understanding GPU, Token, and Inference Costs
+So far, we have looked at individual parts of AI infrastructure:
+Kubernetes
+GPUs
+Scheduling
+Model Serving
+Observability
+FinOps
+
+But production systems rarely operate as separate pieces.
+The real challenge is bringing them together into a platform that developers can deploy to, operators can understand, security teams can govern, and businesses can afford to run.
+That is w…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;12
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/ale3oula/html-is-getting-cool-again-meet-the-invoker-commands-api-1367"
+                        open
+                      >
+                        <summary class="article-expander__title">HTML is getting cool again: Meet the Invoker Commands API</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/ale3oula/html-is-getting-cool-again-meet-the-invoker-commands-api-1367">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Feqpmsld9yirw9miywn1q.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>For years, frontend development has had a slightly embarrassing relationship with HTML. We all read about semantic HTML, we talk about using the right landmarks, the right attributes, accessible forms, and meaningful elements. And then we go back to writing React.
+While the whole industry is obsessed with AI, browsers are shipping features that make the platform even more capable. Features that let us remove JS, reduce state, and express UI behaviour in HTML. But since AI is trained in the past, these are ignored or not recommended enough through old patterns.
+Historically, in order to open a dialog or a popover, we need a chunk of custom boilerplate code.
+Open dialog
+
+  
+Dialog content
+Close&lt;/button…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/hassekf/how-do-you-stop-claude-code-from-writing-files-2n29"
+                        open
+                      >
+                        <summary class="article-expander__title">How do you stop Claude Code from writing files?</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/hassekf/how-do-you-stop-claude-code-from-writing-files-2n29">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fos8g23318k2vxkwt93nu.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>I spent a week trying to keep a coding agent out of one directory, and I lost that argument at every layer that lives inside the agent.
+The markdown rule folded when I claimed the repo owner was making an exception. The deny rule covered git commit and not git -C. The flag that turns off the write tool turned into a one line python3 call. What held was not the agent&#x27;s at all: a sandbox profile from macOS itself, which kept holding after the agent switched off its own containment.
+You do not stop Claude Code from writing files with the agent&#x27;s own configuration. Across eight measurements run on the same Mac between August 16 and August 21, 2026, every layer inside Claude Code was bypassed at least once: a ban written in CLAUDE.md still ended in a commit in 3 of 4 runs once the request claim…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;14
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/finaltype/260710-joyonghi-jalmosdoego-issdeon-geosdeuleul-harue-se-gae-jabassda-2369"
+                        open
+                      >
+                        <summary class="article-expander__title">[260710] &#x27;조용히&#x27; 잘못되고 있던 것들을 하루에 세 개 잡았다</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/finaltype/260710-joyonghi-jalmosdoego-issdeon-geosdeuleul-harue-se-gae-jabassda-2369">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fxv80ed4npf8zg9zj1bwc.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>생성이 끝없이 폭주하던 문제부터, 아침에 고친 게 저녁에 조용히 속도를 반토막 낸 것까지
+주말을 끼고 지난 며칠 사이 발견된 것들을 정리하고 마무리한 하루였습니다. 공통점이 하나 있었는데, 셋 다 &quot;겉으로는 티가 안 나게 조용히&quot; 잘못되고 있었다는 겁니다.
+야간 분석 작업 중 하나가 이상하게 정체돼 있는 걸 발견했습니다. 원인을 보니, 로컬 LLM을 돌리는 서버 쪽에 &quot;답변은 최대 이 정도 길이까지만&quot; 하는 상한선이 빠져 있었습니다. 보통은 답변 하나가 짧게 끝나는데, 어쩌다 한 번 모델이 같은 말을 반복하며 멈추지 않고 계속 답변을 만들어내면 수만 토큰, 수십 분까지 폭주할 수 있었던 겁니다. 그동안 감시 체계가 이런 경우를 못 잡고 있었던 게 더 큰 문제였습니다 — 사람이 &quot;왜 이렇게 느리지?&quot; 하고 물어봐야 겨우 알아채는 구조였습니다.
+일단 상한선을 걸어서 폭주 자체는 막았고, 그 김에 진짜 필요했던 진행 상태 감시 장치도 새로 설계했습니다. 여기서 재미있는 설계 아이디어가 하나 나왔는데, &quot;지금 몇 분째 진행 중인가&quot;가 아니라 &quot;마지막으로 뭔가 기록된 지 몇 분이 지났는가&quot;를 기준으로 삼는 겁니다. 원래는 종목마다 평균 소요 시간을 기준 삼아 &quot;평균의 몇 배 넘으면 이상하다&quot;는 식을 생각했는데, 이러면 원래 오래 걸리는 큰 종목을 잘못 죽이거나, 반대로 작은 종목이 멈춘 걸 못 잡는 문제가 있었습니다. 대신 &quot;침묵&quot; 자체를 신호로 삼으면, 종목 크기와 상관없이 일관되게 판단할 수 있고 별도의 튜닝도 필요 없어집니다. 지금은 경보만 울리는 관찰 모드로 며칠 지켜보고, 오탐이 없는 걸 확인한 뒤에 실제로 …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/finaltype/jul-10-caught-three-things-that-were-going-wrong-quietly-kg9"
+                        open
+                      >
+                        <summary class="article-expander__title">[Jul 10] Caught Three Things That Were Going Wrong Quietly</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/finaltype/jul-10-caught-three-things-that-were-going-wrong-quietly-kg9">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fdwn33q9zebbddr31ba2t.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>From a generation that spiraled out of control forever, to a morning fix that quietly halved throughput by evening
+This is the English version of a post originally written in Korean for my algorithmic trading system devlog(new tab).
+Spanning the weekend, today was about wrapping up things found over the past few days. They had one thing in common: all three had been going wrong quietly, with no visible sign.
+I noticed one of the overnight analysis jobs oddly stuck. It turned out the local LLM server had no upper limit set on response length. Normally a single response ends quickly, but if the model ever got stuck repeating itself without stopping, it could spiral out to tens of thousands of tokens and tens of minutes. What made it worse was that the monitoring setup couldn&#x27;t catch this cas…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/anas_sheikh_2/check-your-nextjs-client-bundle-right-now-your-api-keys-might-already-be-there-39i0"
+                        open
+                      >
+                        <summary class="article-expander__title">Check Your Next.js Client Bundle Right Now. Your API Keys Might Already Be There.</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/anas_sheikh_2/check-your-nextjs-client-bundle-right-now-your-api-keys-might-already-be-there-39i0">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fyt98tifug06qp8m6refs.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>This one takes about ninety seconds to check on your own project, and I&#x27;d genuinely encourage you to stop reading and go do it before finishing this post, because if you have this bug, it&#x27;s live in production right now, not a theoretical risk.
+Open your deployed site. Open dev tools. Go to the Network tab, find any loaded .js file from _next/static, and search it for the word sk_ or SECRET or the name of any API key you use. If you find one, that key is not hidden. It is sitting in plain text in a file anyone visiting your site can download.
+Next.js has a genuinely useful convention, any environment variable prefixed with NEXT_PUBLIC_ gets exposed to the browser, inlined directly into the client-side JavaScript bundle at build time. This exists for real, legitimate reasons, a Stripe publis…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;7
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/doaaa_04/how-i-stop-webhook-replay-attacks-in-nodejs-postgresql-24m6"
+                        open
+                      >
+                        <summary class="article-expander__title">How I Stop Webhook Replay Attacks in Node.js &amp; PostgreSQL</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/doaaa_04/how-i-stop-webhook-replay-attacks-in-nodejs-postgresql-24m6">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Figalky3be6xwfjexquee.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Handling payment webhooks sounds straightforward—until network retries hit your server three times in a row, or an attacker intercepts a valid payload and tries to credit their balance twice.
+Validating signatures is step one, but it won&#x27;t protect you from a replay attack where a valid, signed payload gets resent. Here is how to set up a clean, multi-layer defense in Node.js with PostgreSQL to ensure every webhook payload runs exactly once.
+You could store processed event IDs in Redis, but if your cache flushes or a container restarts during a high-traffic spike, you lose state. 
+Using PostgreSQL with a unique constraint guarantees database-level isolation. If two identical requests hit your backend at the exact same millisecond, Postgres handles the lock and drops the duplicate.
+-- Track …</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/finaltype/260709-myeoc-jujjae-miseuteoriyeossdeon-saebyeog-keuraesiyi-jinjja-beomineul-cajassda-43l0"
+                        open
+                      >
+                        <summary class="article-expander__title">[260709] 몇 주째 미스터리였던 새벽 크래시의 진짜 범인을 찾았다</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/finaltype/260709-myeoc-jujjae-miseuteoriyeossdeon-saebyeog-keuraesiyi-jinjja-beomineul-cajassda-43l0">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Frk814pfld49i41ffevn1.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>메모리 문제의 진짜 원인을 찾아 고치는 김에, 프로덕션을 실수로 죽여버리기도 한 하루
+오늘은 몇 주간 미궁이었던 문제 하나를 드디어 근본 원인까지 찾아 고쳤습니다. 다만 그 과정에서 실수도 두 건 겪었습니다.
+얼마 전부터 매일 새벽 특정 시각마다 개발 환경이 죽는 문제가 있었습니다(그래서 핵심 프로세스들을 개발 환경과 분리된 별도 서비스로 옮겨두기도 했었는데, 이건 증상 완화였지 원인 해결은 아니었습니다). 오늘 다른 AI와 함께 로그를 더 깊이 파본 끝에 드디어 진짜 원인을 찾았습니다.
+무거운 데이터 계산을 하는 라이브러리가 다 쓴 메모리를 파이썬 코드 상으로는 분명히 반납했는데, 운영체제 입장에서는 그 메모리가 실제로 회수가 안 되고 있었습니다(메모리 파편화라고 부르는 현상입니다). 이게 매일 반복되면서 조금씩 쌓여 결국 시스템이 메모리 부족으로 새벽에 죽었던 것이었습니다. 게다가 파다 보니 부수적인 문제도 하나 더 나왔는데, 하루에 한 번만 필요한 계산을 하루에도 여러 번 아무 이유 없이 반복하고 있었다는 것도 드러났습니다.
+세 가지를 고쳤습니다 — 이미 계산해둔 결과가 있으면 절대 다시 계산하지 않고 캐시만 읽게 하고, 무거운 계산이 끝나면 메모리를 명시적으로 강제 반납하도록 하고, 날짜가 안 바뀌었으면 계산 자체를 건너뛰게 했습니다. 수정 전후로 메모리 사용량을 실측해봤는데, 한 프로세스는 사용량이 20배 넘게 줄었습니다. 몇 주간 &quot;일단 껐다 켜면 낫는다&quot; 수준으로 덮어두고 있던 문제를 제대로 잡은 셈입니다.
+위 수정을 배포하려고 관련 서비스를 재시작했는데, 하필 그 순간에 매일 밤 도는 핵심 분석 작업이 한창 진행 중이었습니다. 코드 안에 &quot;이 작업은 최우선이고 어떤 이유로도 끊지 않는다&quot;고 스스로 적어놓기까지 했는데, 정작 배포하면서 그 원칙을 정면으로 어긴 셈입니다. 다행히 몇 분 뒤 자동으로 재개되는 안전장치가 있어서 큰 손실은 없었지만, 배포 타이밍 자체를 더 신경 써야 한다는 걸 다시 배웠습니다.
+다른 작업을 하나 고치려고 분석 작업을 잠깐 몇 분간 일시정지시켰는데, 그 틈을 타서 &quot;지금 아무것도 안 돌고 있으니 지금이 기회&quot;라고 판단하는 자동화 하나가 발화해서 GPU를 크게 쓰는 별도 작업을 시작해버렸습니다. 잠깐 뒤 분석 작업이 재개되면서 둘이 같은 GPU 자원을 두고 부딪혔고, 결국 하나를 정리해야 했습니다. &quot;지금 안 돌고 있다&quot;와 &quot;오늘 할 일을 다 끝냈다&quot;는 다른 판단 기준이라는 걸 놓친 게 원인이었습니다.
+증권사 시세 조회 API를 종목 하나당 여러 번(최대 6번까지) 중복으로 부르고 있던 것도 발견해서, 한 번만 부르고 재사용하도록 캐시를 추가했습니다. 그동안 API 요청 제한에 종종 걸렸던 원인 중 하나였습니다.
+예전에 로컬 모델이 &quot;자기 학습 마감 시점 이후의 진짜 뉴스는 지어낸 이야기다&quot;라고 오판했던 적이 있었는데, 오늘은 다른 모델의 결과물을 검증하는 역할을 맡긴 모델에서도 똑같은 함정을 겪었습니다. 실제로 있었던 최신 뉴스를, 검증 담당 모델이 &quot;이건 실재하지 않는다&quot;고 자신 있게 판정했는데, 확인해보니 진짜였습니다. 검증을 맡기는 모델이라고 이 함정에서 자유롭지 않다는 걸 알게 된 셈이라, 앞으로는 사실관계 판정은 어떤 모델 말도 그대로 안 믿고 직접 찾아보기로 했습니다.
+새로운 확장 아이디어 하나를 페이퍼(모의) 트랙으로 더 추가해서, 계속 실거래 리스크 없이 검증 중입니다.
+오늘 두 실수 다 심각한 피해로 이어지진 않았지만, 몇 주짜리 미스터리를 잡은 날 바로 새 실수 두 개를 만든 게 좀 아이러니했습니다. 배포/자동화를 다룰 땐 &quot;지금 뭐가 돌고 있는지&quot;를 항상 먼저 확인해야 한다는 교훈을 이렇게 두 번이나 다시 배웠습니다.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://dev.to/finaltype/jul-9-finally-found-the-real-culprit-behind-weeks-of-overnight-crashes-3geb"
+                        open
+                      >
+                        <summary class="article-expander__title">[Jul 9] Finally Found the Real Culprit Behind Weeks of Overnight Crashes</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/finaltype/jul-9-finally-found-the-real-culprit-behind-weeks-of-overnight-crashes-3geb">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Falp39ieo2g6v2n47it9e.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Tracked down and fixed the real cause of a memory problem, and accidentally killed production while doing it
+This is the English version of a post originally written in Korean for my algorithmic trading system devlog(new tab).
+Today I finally traced a problem that had been a mystery for weeks all the way down to its root cause and fixed it. Along the way I also made two mistakes.
+For a while now, the dev environment had been dying at a specific hour every early morning (I&#x27;d already moved core processes into separate services independent of the dev environment because of this, but that only masked the symptom rather than fixing the cause). Today, digging deeper into the logs with another AI, I finally found the real cause.
+A library used for heavy data computation was, at the Python code le…</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;6
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -3302,121 +3629,69 @@ The short version: get Chinook_Sqlite.sqlite, open it, count the rows, then join
                     class="source-heading__name"
                     data-action="toggle-accordions"
                     title="Click to toggle the source, Ctrl + click to toggle all."
-                  >Lowyat.NET</button>
-                  <a class="source-heading__link" href="https://www.lowyat.net">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;402261"
-                        open
-                      >
-                        <summary class="article-expander__title">Tesla Malaysia Now Has A Supercharger Site In Ipoh</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/402261/tesla-malaysia-supercharger-site-ipoh/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2026/08/Tesla-Supercharger-Ipoh.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Tesla has announced the opening of a new V4 Supercharging station, this time in Ipoh, Perak. More specifically, this is located at AEON Mall Kinta City. The four-bay station is the 21st in the country, and is significant in one other way. The company calls it “the last connecting piece in Tesla’s regional Supercharging network […]
-The post Tesla Malaysia Now Has A Supercharger Site In Ipoh appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;47
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;402256"
-                        open
-                      >
-                        <summary class="article-expander__title">Malaysia Wants Locally Manufactured ARM Chips To Enter Production By 2030</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/402256/malaysia-wants-locally-manufactured-arm-chips-to-enter-production-by-2030/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2026/08/ARM-Stock-Photo-EuroNews-1.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Malaysia is aiming to have its locally manufactured ARM chips enter the production stage by 2030. It also hopes to be able to use said chips in its own semiconductor supply chain in the same year. Akmal Nasrullah Mohd Nasir, Economy Minister, explained that the companies in Malaysia received the technologies and permission from ARM, […]
-The post Malaysia Wants Locally Manufactured ARM Chips To Enter Production By 2030 appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;47
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://www.lowyat.net/?p&#x3D;402244"
-                        open
-                      >
-                        <summary class="article-expander__title">POCO F9 Ultra Now Listed On SIRIM; Local Launch Soon</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/402244/poco-f9-ultra-now-listed-on-sirim/">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://www.lowyat.net/wp-content/uploads/2026/08/poco-f9-ultra-leak-1.webp" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>It looks like POCO is gearing up to launch the next generation of its F series. The F9 Pro and F9 Ultra have appeared in quite a few leaks over the past couple of weeks, revealing their designs and specifications. Now, the Ultra model has popped up on the SIRIM database, indicating that the phone […]
-The post POCO F9 Ultra Now Listed On SIRIM; Local Launch Soon appeared first on Lowyat.NET.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;48
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >Quicknode Blog</button>
-                  <a class="source-heading__link" href="https://www.quicknode.com/blog">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="quicknodes-q2-roundup-shipped-products-and-features"
-                        open
-                      >
-                        <summary class="article-expander__title">Quicknode&#x27;s Q2 Roundup: Shipped Products and Features</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://www.quicknode.com/blog/quicknodes-q2-roundup-shipped-products-and-features">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://images.ctfassets.net/23fkqdsgbpuj/6YIDfmHqKYpnqAMqbBG2At/97bca9094d9acb6deab36714592ce44d/q2-roundup-summary.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Product launches, new chain support, marketplace additions, and more.</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;14
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
                   >Hacker News</button>
                   <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
                 </h3>
                 <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.pm.gc.ca/en/news/statements/2026/08/21/statement-prime-minister-carney-canada-us-trade-negotiations"
+                        open
+                      >
+                        <summary class="article-expander__title">Canada suspends trade negotiations with USA and match tariffs dollar for dollar</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.pm.gc.ca/en/news/statements/2026/08/21/statement-prime-minister-carney-canada-us-trade-negotiations">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.pm.gc.ca/sites/pm/files/media/override_sharing/2025-11/PM_Statement_EN.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;3
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.computer.org/csdl/magazine/mi/2021/06/09623402/1yJTvlRLmhi"
+                        open
+                      >
+                        <summary class="article-expander__title">Z80–The 1970s Microprocessor Still Alive</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.computer.org/csdl/magazine/mi/2021/06/09623402/1yJTvlRLmhi">
+                          <div class="article-summary-box-inner media-object">
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;1
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://munderdiffl.in/"
+                        open
+                      >
+                        <summary class="article-expander__title">Munder Difflin – Agent harness to run an office of your clones</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://munderdiffl.in/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://munderdiffl.in/media/og.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Comments</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;55
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
                     <article>
                       <details
                         class="article-expander"
@@ -3549,6 +3824,117 @@ The post POCO F9 Ultra Now Listed On SIRIM; Local Launch Soon appeared first on 
                             <span class="media-object__text">
                               <span>Comments</span>
                                 &ensp;<span class="article-reading-time">(&hairsp;1
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >Lowyat.NET</button>
+                  <a class="source-heading__link" href="https://www.lowyat.net">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;402261"
+                        open
+                      >
+                        <summary class="article-expander__title">Tesla Malaysia Now Has A Supercharger Site In Ipoh</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/402261/tesla-malaysia-supercharger-site-ipoh/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/08/Tesla-Supercharger-Ipoh.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Tesla has announced the opening of a new V4 Supercharging station, this time in Ipoh, Perak. More specifically, this is located at AEON Mall Kinta City. The four-bay station is the 21st in the country, and is significant in one other way. The company calls it “the last connecting piece in Tesla’s regional Supercharging network […]
+The post Tesla Malaysia Now Has A Supercharger Site In Ipoh appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;47
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;402256"
+                        open
+                      >
+                        <summary class="article-expander__title">Malaysia Wants Locally Manufactured ARM Chips To Enter Production By 2030</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/402256/malaysia-wants-locally-manufactured-arm-chips-to-enter-production-by-2030/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/08/ARM-Stock-Photo-EuroNews-1.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Malaysia is aiming to have its locally manufactured ARM chips enter the production stage by 2030. It also hopes to be able to use said chips in its own semiconductor supply chain in the same year. Akmal Nasrullah Mohd Nasir, Economy Minister, explained that the companies in Malaysia received the technologies and permission from ARM, […]
+The post Malaysia Wants Locally Manufactured ARM Chips To Enter Production By 2030 appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;47
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="https://www.lowyat.net/?p&#x3D;402244"
+                        open
+                      >
+                        <summary class="article-expander__title">POCO F9 Ultra Now Listed On SIRIM; Local Launch Soon</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.lowyat.net/2026/402244/poco-f9-ultra-now-listed-on-sirim/">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://www.lowyat.net/wp-content/uploads/2026/08/poco-f9-ultra-leak-1.webp" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>It looks like POCO is gearing up to launch the next generation of its F series. The F9 Pro and F9 Ultra have appeared in quite a few leaks over the past couple of weeks, revealing their designs and specifications. Now, the Ultra model has popped up on the SIRIM database, indicating that the phone […]
+The post POCO F9 Ultra Now Listed On SIRIM; Local Launch Soon appeared first on Lowyat.NET.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;48
+                                  min&hairsp;)</span>
+                            </span>
+                          </div>
+                        </a>
+                      </details>
+                    </article>
+                </section>
+              </section>
+            </li>
+            <li class="card__section">
+              <section class="js-toggle-accordions-scope">
+                <h3 class="source-heading">
+                  <button
+                    class="source-heading__name"
+                    data-action="toggle-accordions"
+                    title="Click to toggle the source, Ctrl + click to toggle all."
+                  >Quicknode Blog</button>
+                  <a class="source-heading__link" href="https://www.quicknode.com/blog">Open</a>
+                </h3>
+                <section class="articles-per-source">
+                    <article>
+                      <details
+                        class="article-expander"
+                        data-action="toggle-native-accordion"
+                        data-accordion-key="quicknodes-q2-roundup-shipped-products-and-features"
+                        open
+                      >
+                        <summary class="article-expander__title">Quicknode&#x27;s Q2 Roundup: Shipped Products and Features</summary>
+                        <a class="article-summary-link article-summary-box-outer" href="https://www.quicknode.com/blog/quicknodes-q2-roundup-shipped-products-and-features">
+                          <div class="article-summary-box-inner media-object">
+                              <img src="https://images.ctfassets.net/23fkqdsgbpuj/6YIDfmHqKYpnqAMqbBG2At/97bca9094d9acb6deab36714592ce44d/q2-roundup-summary.png" loading="lazy" class="media-object__media article-image" />
+                            <span class="media-object__text">
+                              <span>Product launches, new chain support, marketplace additions, and more.</span>
+                                &ensp;<span class="article-reading-time">(&hairsp;14
                                   min&hairsp;)</span>
                             </span>
                           </div>
@@ -132372,204 +132758,6 @@ Both reduce to the …</span>
                         </a>
                       </details>
                     </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/multigrid/selective-attention-filtering-before-you-fill-57id"
-                        open
-                      >
-                        <summary class="article-expander__title">Selective Attention: Filtering Before You Fill</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/multigrid/selective-attention-filtering-before-you-fill-57id">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fhd0xdgcuezvs69qvlzqg.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Shrinking blocks to fit is the second-best move. The first is deciding that a block should not be there at all — filtering is free in window terms, and truncation never is.
-Order of operations matters here and it is frequently reversed. Assembly should gather candidates, filter them, and only then allocate room among the survivors. Filtering after allocation is pointless — the damage is done — and truncating instead of filtering produces the worst possible artefact: several partial documents, each missing its conclusion, none of them useful.
-Compare the two dispositions of a 30,000-token budget across ten candidate documents of 8,000 tokens each. Truncate everything to fit: ten documents at 3,000 tokens, each cut mid-argument, nine of them irrelevant to the question and all ten unreliable.…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/multigrid/context-compression-making-100k-tokens-fit-in-10k-4aam"
-                        open
-                      >
-                        <summary class="article-expander__title">Context Compression: Making 100k Tokens Fit in 10k</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/multigrid/context-compression-making-100k-tokens-fit-in-10k-4aam">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fk6uz7818xepjt83sr5pz.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Compression is the one context technique that costs money to apply, so it is the one that most needs an arithmetic justification. Two cheaper things usually beat it, and knowing when they do not is most of the skill.
-Before any model-based technique, remove the tokens that carry no information. This is unglamorous, lossless, and routinely worth 30–60% on real prompts:
-  Strip markup. Scraped HTML in a prompt is mostly attributes, navigation and script tags. Extract text.
-  Minify structured data. Pretty-printed JSON pays for every space. For tabular data, CSV or a compact key-per-column form is dramatically cheaper than an array of objects that repeats every key on every row.
-  Deduplicate. Retrieval with overlapping chunks delivers near-identical passages. Hash and drop.
-  Drop what canno…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/multigrid/context-caching-strategy-ordering-for-cache-hits-1omo"
-                        open
-                      >
-                        <summary class="article-expander__title">Context Caching Strategy: Ordering for Cache Hits</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/multigrid/context-caching-strategy-ordering-for-cache-hits-1omo">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fu8tzk5rci6wvj528to4n.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Prompt caching is not a setting you enable. It is a property your prompt either has or does not have, and one timestamp in the wrong place removes it from every request you will ever send.
-The pricing and mechanics of cached tokens belong to the tokens cluster. The one structural fact that governs assembly is this: caching operates on a prefix. The provider can reuse the computed state of your request up to the first position where it differs from a previous request, and not one token further.
-This is a much harsher constraint than “repeated content is cheaper.” Content that repeats but has moved is worth nothing. A 40,000-token reference block that is identical between two requests gets no discount at all if a 12-token session id was inserted ahead of it. There is no partial credit, no fu…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/multigrid/audio-input-speech-to-text-vs-native-audio-models-51he"
-                        open
-                      >
-                        <summary class="article-expander__title">Audio Input: Speech-to-Text vs Native Audio Models</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/multigrid/audio-input-speech-to-text-vs-native-audio-models-51he">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Futpmtcsihps9ron5fhqg.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>You can send audio to a speech recogniser and the resulting text to a language model, or send the audio to a model that ingests it directly. The second is newer and usually described as simply faster. The more useful framing is that the first one deletes information, and whether you needed that information decides the choice.
-pipeline
-  mic -&gt; VAD -&gt; ASR -&gt; text -&gt; LLM -&gt; text -&gt; TTS -&gt; speaker
-                       ^
-                       everything not in the words dies here
-
-native audio
-  mic -&gt; audio tokens -&gt; model -&gt; audio or text tokens -&gt; speaker
-
-A native audio model discretises the waveform into tokens with a neural codec and puts them in the same sequence as text tokens — the same trick as images, applied to sound. There is no intermediate string, so nothing has to be represe…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/multigrid/audio-fingerprinting-and-deduplicating-a-media-library-3a2"
-                        open
-                      >
-                        <summary class="article-expander__title">Audio Fingerprinting and Deduplicating a Media Library</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/multigrid/audio-fingerprinting-and-deduplicating-a-media-library-3a2">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fujjwxvqcghfr28y5yuh9.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>Audio fingerprinting identifies a recording from a short, noisy excerpt of it. The published algorithm behind the best-known implementation is twenty years old, simple enough to describe completely, and its cost is entirely an indexing problem — which is the part nobody derives.
-The requirement is exact-recording identification under severe degradation. Ten seconds of audio recorded on a phone in a bar, through a lossy codec, with conversation over it, must find the exact master recording in a library of millions. It must not match a different performance of the same song, and it must return nothing rather than something for audio that is not in the library.
-That set of requirements rules out most of what people first try:
-  Cryptographic hashing is exact-file matching. One re-encode and i…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;10
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/multigrid/attention-is-all-you-need-explained-section-by-section-ih7"
-                        open
-                      >
-                        <summary class="article-expander__title">Attention Is All You Need, Explained Section by Section</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/multigrid/attention-is-all-you-need-explained-section-by-section-ih7">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fn6keraqmakhfngr66kp1.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>This paper is cited constantly and read rarely, which is a shame, because it is short, unusually clear, and contains an ablation table that teaches more about the architecture than the diagram everyone reproduces.
-Read in 2026 the title sounds like a slogan. In 2017 it was a specific rebuttal. Sequence transduction — translation, summarisation — was done with recurrent networks, which process a sequence one position at a time, and the state of the art added an attention mechanism on top of the recurrence to let the decoder look back at encoder positions. Attention was an accessory. The paper’s claim is in its title: remove the recurrence, keep only the attention, and the model gets better and trains far faster.
-The speed argument is the one that mattered most and it is a parallelism argume…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;8
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://dev.to/multigrid/attention-maps-what-they-show-and-what-they-do-not-31gp"
-                        open
-                      >
-                        <summary class="article-expander__title">Attention Maps: What They Show and What They Do Not</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://dev.to/multigrid/attention-maps-what-they-show-and-what-they-do-not-31gp">
-                          <div class="article-summary-box-inner media-object">
-                              <img src="https://media2.dev.to/dynamic/image/width&#x3D;1200,height&#x3D;627,fit&#x3D;cover,gravity&#x3D;auto,format&#x3D;auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F92yr5ghvmtkjlclsntdt.png" loading="lazy" class="media-object__media article-image" />
-                            <span class="media-object__text">
-                              <span>An attention map shows how much each position attended to each other position. It does not show why the model produced its output, and treating it as an explanation has been shown to be unsafe in a specific, reproducible way. This page is about that gap.
-In one head, for one query position, the model computes a score against every key position, softmaxes those scores into weights that sum to one, and takes the weighted sum of the value vectors. The attention map is that weight matrix — per head, per layer, per example. In a model with 32 layers and 32 heads you have 1,024 of these matrices for a single forward pass, which is the first thing people underestimate.
-The weight tells you the coefficient on a value vector. It does not tell you the magnitude of that value vector, what the head do…</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;9
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
-                </section>
-              </section>
-            </li>
-            <li class="card__section">
-              <section class="js-toggle-accordions-scope">
-                <h3 class="source-heading">
-                  <button
-                    class="source-heading__name"
-                    data-action="toggle-accordions"
-                    title="Click to toggle the source, Ctrl + click to toggle all."
-                  >Hacker News</button>
-                  <a class="source-heading__link" href="https://news.ycombinator.com/">Open</a>
-                </h3>
-                <section class="articles-per-source">
-                    <article>
-                      <details
-                        class="article-expander"
-                        data-action="toggle-native-accordion"
-                        data-accordion-key="https://genesisopenmodels.anl.gov/"
-                        open
-                      >
-                        <summary class="article-expander__title">U.S. Department of Energy Launches the Genesis Open Models Initiative</summary>
-                        <a class="article-summary-link article-summary-box-outer" href="https://genesisopenmodels.anl.gov/">
-                          <div class="article-summary-box-inner media-object">
-                            <span class="media-object__text">
-                              <span>Comments</span>
-                                &ensp;<span class="article-reading-time">(&hairsp;6
-                                  min&hairsp;)</span>
-                            </span>
-                          </div>
-                        </a>
-                      </details>
-                    </article>
                 </section>
               </section>
             </li>
@@ -132577,8 +132765,8 @@ The weight tells you the coefficient on a value vector. It does not tell you the
       </section>
 
     <footer>
-      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/32567334886">
-        <time id="build-timestamp" datetime="2026-08-22T10:20:35.571Z">2026-08-22T10:20:35.571Z</time>
+      <a class="footer-link" href="https://github.com/JokerHin/RSS-Reader/actions/runs/32569914238">
+        <time id="build-timestamp" datetime="2026-08-22T11:18:55.270Z">2026-08-22T11:18:55.270Z</time>
       </a>
       <a class="footer-link" href="https://github.com/osmoscraft/osmosfeed">osmosfeed 1.15.1</a>
     </footer>
