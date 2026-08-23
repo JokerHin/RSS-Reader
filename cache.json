@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-5-end-to-end-proof-44b5",
+          "author": "DarkEdges",
+          "description": "Building and proving the complete request path\n\n\nThe previous articles covered the identity model, PingFederate token exchange, SPIRE workload identity, and PingAuthorize policy. This final part connects them into one testable application path.\nThe browser workbench signs the user in through PingFederate with OAuth 2.0 Authorization Code and PKCE. The application never collects the user's PingFederate password.\nAfter sign-in:\nthe demo agent receives the user access token\nthe agent obtains a JWT-SVID from SPIRE\nPingFederate, acting as the TTS, exchanges the subject and actor evidence for a short-lived Txn-Token\nthe agent sends that token in the Txn-Token header while calling the MCP gateway over SPIFFE mTLS\nthe gateway validates the transaction token and immediate caller\nOPA or PingAuthoriz…",
+          "link": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-5-end-to-end-proof-44b5",
+          "publishedOn": "2026-08-23T23:03:55.000Z",
+          "wordCount": 1956,
+          "title": "Trusted AI Agent Transactions, Part 5: End-to-End Proof",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Frs3a32k82lefwckyep96.png"
+        },
+        {
+          "id": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-4-pingauthorize-policy-decisions-3ik8",
+          "author": "DarkEdges",
+          "description": "Making policy decisions with PingAuthorize\n\n\nPart 3 established the transaction context and immediate caller identity. Authorization still needs to answer a separate question: may this verified combination invoke this target and tool for this purpose?\nPingAuthorize is integrated as a remote policy decision point at the MCP gateway. It does not verify the transaction JWT or the mTLS connection. Those checks happen before policy evaluation.\nThe gateway constructs a typed policy request from values it has already verified:\nuser identity\nlogical agent identity\nagent instance identity\noriginal workload SPIFFE ID\nimmediate caller SPIFFE ID\ntransaction ID and purpose\nscopes\nMCP target\ntool name\nBrowser fields and MCP request fields are not trusted as identity evidence. The target and tool come fr…",
+          "link": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-4-pingauthorize-policy-decisions-3ik8",
+          "publishedOn": "2026-08-23T23:03:22.000Z",
+          "wordCount": 1849,
+          "title": "Trusted AI Agent Transactions, Part 4: PingAuthorize Policy Decisions",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fj0zsn2cmo9r7gea6jbfl.png"
+        },
+        {
+          "id": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-3-spire-workload-identity-1gfb",
+          "author": "DarkEdges",
+          "description": "Binding a logical agent to a real workload with SPIRE\n\n\nPart 2 used a SPIRE JWT-SVID as the actor token in PingFederate token exchange. That proves more than a caller-supplied agent name, but it helps to understand exactly what it proves.\nA logical agent describes an approved application role. A SPIFFE ID identifies an attested running workload. They are related, but they are not interchangeable.\nAgentID:  urn:agent:customer-support\nSPIFFEID: spiffe://example.org/agent/customer-support\n\nThe first is a policy identity. The second is a cryptographically attested runtime identity.\nThe implementation uses both SPIRE credential formats:\nJWT-SVID authenticates the agent to PingFederate during RFC 8693 token exchange\nX.509-SVID authenticates workload-to-workload connections with mTLS\nThe JWT-SVID…",
+          "link": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-3-spire-workload-identity-1gfb",
+          "publishedOn": "2026-08-23T23:02:55.000Z",
+          "wordCount": 1834,
+          "title": "Trusted AI Agent Transactions, Part 3: SPIRE Workload Identity",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjg6d8u538lg1c1pqyyi4.png"
+        },
+        {
+          "id": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-2-pingfederate-token-exchange-35pn",
+          "author": "DarkEdges",
+          "description": "Using PingFederate as a Transaction Token Service\n\n\nPart 1 separated the user, logical agent, runtime workload, agent execution, and transaction identities. This part shows where they are joined safely.\nIn the Tokenetes architecture, a Transaction Token Service, or TTS, uses the RFC 8693 token exchange protocol to mint a Txn-Token. This implementation assigns that logical role to PingFederate.\nThe agent sends:\nsubject_token      = the user's access token\nsubject_token_type = access token\nactor_token        = the agent workload's JWT-SVID\nactor_token_type   = JWT\nrequested_token_type = urn:ietf:params:oauth:token-type:txn_token\naudience           = the transaction trust domain\nscope              = the narrow purpose of this transaction\n\nThe subject token answers who authorized the external …",
+          "link": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-2-pingfederate-token-exchange-35pn",
+          "publishedOn": "2026-08-23T23:01:49.000Z",
+          "wordCount": 2409,
+          "title": "Trusted AI Agent Transactions, Part 2: PingFederate Token Exchange",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fb2ti2sf9wb7o87hvof9n.png"
+        },
+        {
+          "id": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-1-the-identity-problem-17aa",
+          "author": "DarkEdges",
+          "description": "The identity problem behind AI agents\n\n\nAn application that calls an API for a user normally answers one identity question: who is the user?\nAn AI agent introduces several more:\nWhich user authorized the work?\nWhich logical agent is acting?\nWhich running workload actually made the call?\nWhich agent execution is involved?\nWhich transaction and purpose does the call belong to?\nWhich service made the current network hop?\nPutting every answer into a single sub claim creates a dangerous illusion. A logical agent name is not cryptographic proof of the running process. A workload identity is not the user. A transaction identifier is not a caller identity.\nThis implementation keeps five values separate:\nUserID: the authenticated human or upstream principal\nAgentID: the approved logical agent defin…",
+          "link": "https://dev.to/darkedges/trusted-ai-agent-transactions-part-1-the-identity-problem-17aa",
+          "publishedOn": "2026-08-23T23:00:58.000Z",
+          "wordCount": 1898,
+          "title": "Trusted AI Agent Transactions, Part 1: The Identity Problem",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fsyktmglt0ej50elymmmw.png"
+        },
+        {
+          "id": "https://dev.to/spmahapatra/installing-minikube-on-debian-1aj4",
+          "author": "spmahapatra",
+          "description": "Installing Minikube on Debian\n\n\nMinikube is a practical way to run a small Kubernetes cluster on a Debian workstation or development instance. This guide installs Minikube with the Docker driver, starts a named profile, runs a temporary deployment, and removes the test resources afterward.\nThis is a local development setup, not a production Kubernetes distribution. The commands target Debian 12 (Bookworm), Debian 13 (Trixie), or a compatible newer Debian release on an x86-64 host.\nThe goal is a repeatable local baseline rather than a particular Minikube release number. Minikube and Kubernetes change over time, so the release documentation remains the authority for supported versions and driver behavior. The commands deliberately verify each boundary: the Debian host, Docker, the Minikube p…",
+          "link": "https://dev.to/spmahapatra/installing-minikube-on-debian-1aj4",
+          "publishedOn": "2026-08-23T22:59:01.000Z",
+          "wordCount": 2752,
+          "title": "Installing Minikube on Debian",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fj6qzxrf8k3j8y33maezk.png"
+        },
+        {
+          "id": "https://dev.to/spmahapatra/install-docker-engine-on-debian-4dga",
+          "author": "spmahapatra",
+          "description": "Install Docker Engine on Debian\n\n\nDocker Engine provides the daemon, CLI, and runtime needed to build and run containers on Debian. This guide installs Docker Engine from Docker's official APT repository, verifies the service with a test container, and configures the current user to run Docker without sudo.\nThe repository method is preferable for a long-lived Debian instance because APT can receive Docker updates through the normal package workflow. Docker currently documents Debian 13 (Trixie), Debian 12 (Bookworm), and Debian 11 (Bullseye), with packages for amd64, armhf, arm64, and ppc64el. Package names and supported releases can change, so the official Docker Debian installation page remains the authority when this article is updated.\nInstall Docker Engine from Docker's signed APT rep…",
+          "link": "https://dev.to/spmahapatra/install-docker-engine-on-debian-4dga",
+          "publishedOn": "2026-08-23T22:59:00.000Z",
+          "wordCount": 3096,
+          "title": "Install Docker Engine on Debian",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5jbxhlddhind77djyllr.png"
+        },
+        {
+          "id": "https://dev.to/eliseomdq/wmic-is-gone-and-your-node-process-tree-is-silently-wrong-on-windows-11-3e8c",
+          "author": "Eliseo Fernandez Suarez",
+          "description": "The last post I wrote here ended on a line I had to go and check: killing a shell does not kill what the shell started. This is what I found underneath it, and one of the things is a dependency a lot of people have without knowing.\nNumbers below come from Windows 11 Home, build 26200, in August 2026. Run the commands yourself, they take a minute. I work on NestMux, which is where I hit this, but nothing here is specific to it.\nA terminal pane running a coding agent reported 77 MB of memory. That is roughly the PowerShell host and nothing else. The agent inside it, and the dev server the agent had started, were not being counted.\nSo the process tree was empty. Every pane looked like an idle shell.\nGet-Command wmic\n\nGet-Command : The term 'wmic' is not recognized as the name of a cmdlet...\n\n…",
+          "link": "https://dev.to/eliseomdq/wmic-is-gone-and-your-node-process-tree-is-silently-wrong-on-windows-11-3e8c",
+          "publishedOn": "2026-08-23T22:59:00.000Z",
+          "wordCount": 2588,
+          "title": "wmic is gone and your Node process tree is silently wrong on Windows 11",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fic90pzsxbep9z38tkakt.png"
+        },
+        {
+          "id": "https://dev.to/dimelim/i-shipped-an-alpha-notes-app-where-the-home-screen-is-the-capture-field-5aoi",
+          "author": "Diego",
+          "description": "Miniout is a university notes/tasks app. UI is Spanish-only for now.\nThe idea: you should not pick a folder in the middle of a lecture. Write first; file later (or never). Type \"parcial de calculo el viernes\" and you get subject + day chips.\nStack: Expo SDK 57, React Native 0.86, React 19, heroui-native, notes encrypted at rest (AES-256-GCM).\nAPK: https://github.com/dimelim/miniout/releases/tag/v1.0.2-alpha.4\nhttps://github.com/dimelim/miniout\nLooking for feedback from Expo folks and Spanish-speaking students. Alpha, sideload, needs network for accounts/sync/images.",
+          "link": "https://dev.to/dimelim/i-shipped-an-alpha-notes-app-where-the-home-screen-is-the-capture-field-5aoi",
+          "publishedOn": "2026-08-23T22:54:35.000Z",
+          "wordCount": 1334,
+          "title": "I shipped an alpha notes app where the home screen is the capture field",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F8v4wt97bdq1dma79rd12.png"
+        },
+        {
+          "id": "https://dev.to/eliseomdq/isolation-file-ownership-and-cleanup-the-boring-half-of-running-coding-agents-in-parallel-on-1n0f",
+          "author": "Eliseo Fernandez Suarez",
+          "description": "Someone left a comment on my last post that was a better outline than the post was:\nParallel agents are only practical when the workspace boundaries are boring and explicit. On Windows especially, I would care less about the launch trick and more about isolation, logs, file ownership, and cleanup after failed runs.\nThat is Alex Shev, and he is right. Four agents in a pane grid is the screenshot. The four things he listed are what decide whether you are still using the setup in a month.\nI work on NestMux, so I have a stake in this. Most of what is below is plain Windows and plain git, and the commands run the same whether or not you use it. Where I describe a decision we made, I say so, and I say where it still falls short.\nTwo agents running under the same Windows account share ~/.claude, …",
+          "link": "https://dev.to/eliseomdq/isolation-file-ownership-and-cleanup-the-boring-half-of-running-coding-agents-in-parallel-on-1n0f",
+          "publishedOn": "2026-08-23T22:50:34.000Z",
+          "wordCount": 5295,
+          "title": "Isolation, file ownership and cleanup: the boring half of running coding agents in parallel on Windows",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fsr0blo4god1ykyneg417.png"
+        },
+        {
+          "id": "https://dev.to/radevicb/i-got-tired-of-scraping-app-reviews-twice-so-i-unified-both-stores-4ccp",
+          "author": "Boris Radevic",
+          "description": "Every app review pipeline I've seen starts the same way: one scraper for Google\nscore and im:rating pretend to be the same field. You write that glue code\nThe raw sources, if you want to DIY it: Apple still serves a public RSS feed at\nitunes.apple.com/{country}/rss/customerreviews/... — no auth needed, but it\ngoogle-play-scraper\nThere's also the subscription route. Appfigures starts at $9.99/month and Appbot\nSo I built App Review Monitor\n{\n    \"store\": \"apple\",\n    \"appId\": \"310633997\",\n    \"country\": \"us\",\n    \"date\": \"2026-08-20T14:03:11.000Z\",\n    \"rating\": 2,\n    \"title\": \"Latest update broke uploads\",\n    \"text\": \"Since the last version ...\",\n    \"appVersion\": \"26.16.81\",\n    \"author\": \"reviewer_a1b2c3d4e5f6\"\n}\n\nSame ten fields whether it came from Play or the App Store. Pipe it into an LLM\nThat author field is a hash, not a name. On purpose. Review text is what you\nThe other opinionated choice: failures are loud. Apps that couldn't be fetched\nDisclosure: I build and maintain this with AI assistance on my own account, and\nit collects only publicly available review data.",
+          "link": "https://dev.to/radevicb/i-got-tired-of-scraping-app-reviews-twice-so-i-unified-both-stores-4ccp",
+          "publishedOn": "2026-08-23T22:49:53.000Z",
+          "wordCount": 1578,
+          "title": "I got tired of scraping app reviews twice, so I unified both stores",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Flaehwql2mcofzr0x0yh8.png"
+        },
+        {
+          "id": "https://dev.to/radevicb/google-trends-still-has-no-api-in-2026-heres-what-i-use-instead-1840",
+          "author": "Boris Radevic",
+          "description": "Google announced a Trends API alpha in July 2025. It's now August 2026 and access\nIf you just need trends data in a pipeline or a spreadsheet, here's the honest\nThe official alpha is worth applying for anyway — official beats scraped every\nThe commercial SERP APIs (DataForSEO, SerpAPI) all have Trends endpoints. They\nI wasn't doing enterprise volume. So I built\nGoogle Trends Explorer on\n{\n    \"keyword\": \"notion templates\",\n    \"geo\": \"worldwide\",\n    \"timeRange\": \"today 12-m\",\n    \"latestValue\": 33,\n    \"averageValue\": 68.6,\n    \"peakDate\": \"May 3 - 9, 2026\",\n    \"interestOverTime\": [{ \"date\": \"Aug 2025\", \"value\": 48 }],\n    \"relatedQueries\": {\n        \"top\": [{ \"query\": \"templates for notion\", \"value\": 100 }],\n        \"rising\": [{ \"query\": \"notion marketplace\", \"change\": \"+250%\" }]\n    }\n}\n\nThe latestValue / averageValue / peakDate fields are there because half the\nSome things you should know before trusting any Trends data, from any source:\nAnd Google rate-limits these endpoints hard. My actor rotates proxy sessions and\nFull disclosure: I build and maintain this with AI assistance, on my own account,\nand it only touches public aggregate data. If the official API ever goes GA with\nsane quotas, I'll be the first to switch.",
+          "link": "https://dev.to/radevicb/google-trends-still-has-no-api-in-2026-heres-what-i-use-instead-1840",
+          "publishedOn": "2026-08-23T22:49:47.000Z",
+          "wordCount": 1631,
+          "title": "Google Trends still has no API in 2026. Here's what I use instead",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fdy3py7f7w59zk6en4nqp.png"
+        },
+        {
           "id": "https://dev.to/ijulin/we-taught-a-230m-language-model-to-keep-learning-on-android-36hl",
           "author": "I-Ju Lin",
           "description": "Small language models can now run directly on phones. But most of them stop learning the moment they ship.\n\nFor personal AI, that feels like a strange stopping point. Some of the most useful signals arrive only after the model acts:\nDid the user dismiss the notification?\nDid they open it later?\nDid they rewrite the suggestion?\nDid they ask for it again?\nThese interactions contain useful information about the user, but they are delayed, private, and ambiguous. They are not clean labels, and they are not reliable scalar rewards.\nTo explore this problem, we built Online-SDFT, an open-source prototype that continually fine-tunes a small language model from delayed interactions while keeping the learning loop on the device.\nThe prototype uses:\nLiquidAI/LFM2.5-230M\nA rank-4 LoRA adapter\nONNX Run…",
@@ -34986,166 +35106,6 @@
           "wordCount": 1535,
           "title": "Never Get Blocked by Claude Code Rate Limits Again: Seamlessly Route It to ChatGPT",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fq4deeeggyhheuuw0uce1.png"
-        },
-        {
-          "id": "https://dev.to/aniket28dot/mitigating-http-request-smuggling-be6",
-          "author": "Aniket Bhatia",
-          "description": "The Problem\n\n\nWhen malformed or abnormal HTTP requests are interpreted by one or more entities in the data flow between the user and the web server, such as a proxy or firewall, they can be interpreted inconsistently, allowing the attacker to \"smuggle\" a request to one device without the other device being aware of it.\nHTTP Request Smuggling\n\n\nHTTP Request Smuggling exploits discrepancies in how front-end (proxy/load balancer/WAF) and back-end servers parse HTTP requests, specifically around where one request ends and the next begins.\nHow It Works\n\n\nHTTP/1.1 uses two headers to indicate body length:\nContent-Length (CL): specifies body size in bytes\nTransfer-Encoding (TE): uses chunked encoding\nWhen a request contains both headers (or malformed variants), different servers may prioritize di…",
-          "link": "https://dev.to/aniket28dot/mitigating-http-request-smuggling-be6",
-          "publishedOn": "2026-08-09T11:17:04.000Z",
-          "wordCount": 2487,
-          "title": "Mitigating HTTP Request Smuggling",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fulawggoal4bybf5ciev5.png"
-        },
-        {
-          "id": "https://dev.to/haseeb_sheikh_0f627e74ba7/how-i-built-a-0month-ecommerce-mvp-without-shopify-7hh",
-          "author": "Haseeb Sheikh",
-          "description": "A founder came to me with a simple requirement:\n100+ products\nCustomers need to browse products\nCustomers need to place orders through WhatsApp\nNo online payments\nNo monthly Shopify subscription\nThe interesting part?\nHe didn't need a traditional ecommerce platform.\nHe needed a simple way to display products and receive orders.\nThe original idea could easily turn into a large ecommerce application:\nUser accounts\nAuthentication\nShopping cart\nCheckout\nPayment gateway\nOrder management\nEmail notifications\nProduct management\nInventory\nHosting infrastructure\nBut most of these weren't actually required.\nThe business only needed:\nProducts → Cart → WhatsApp order\nSo we started there.\nThe customer-facing side has three main steps:\nBrowse products\nAdd products to the cart\nSend the order directly to Wh…",
-          "link": "https://dev.to/haseeb_sheikh_0f627e74ba7/how-i-built-a-0month-ecommerce-mvp-without-shopify-7hh",
-          "publishedOn": "2026-08-09T11:15:10.000Z",
-          "wordCount": 1819,
-          "title": "How I Built a $0/Month Ecommerce MVP Without Shopify",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F2hligdl6axy1tcwn840k.png"
-        },
-        {
-          "id": "https://dev.to/quickrecon/why-exact-transaction-matching-breaks-on-1-relationships-5eho",
-          "author": "QuickRecon",
-          "description": "Exact amount matching is a useful starting point for transaction reconciliation.\nBut it makes an important assumption:\nOne transaction on one side corresponds to one transaction on the other.\nThat assumption breaks quickly in real-world reconciliation.\nConsider:\nBank transaction:\nLedger:\nThe ledger transactions sum to the bank transaction:\n5,000 + 5,200 + 4,000 = 14,200\nYet an exact row-to-row matcher will classify all three individual comparisons as failures.\nThe problem\nA basic matching function might conceptually do this:\nfor each bank_transaction:\nFor $14,200, none of the three ledger records qualifies.\nThe algorithm isn't mathematically wrong.\nIt's solving the wrong relationship.\nThe actual relationship is:\n1 bank transaction\nThis is a 1 matching problem.\nWhy this gets difficult\nThe t…",
-          "link": "https://dev.to/quickrecon/why-exact-transaction-matching-breaks-on-1-relationships-5eho",
-          "publishedOn": "2026-08-09T11:13:27.000Z",
-          "wordCount": 1694,
-          "title": "Why Exact Transaction Matching Breaks on 1 Relationships",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjlgz6yv10m5rxtepcdk5.png"
-        },
-        {
-          "id": "https://dev.to/darshan_dev/what-happens-when-you-type-a-url-in-the-browser-4epo",
-          "author": "Darshan R",
-          "description": "You type:\nhttps://example.com\n\ninto your browser and press Enter.\nA few seconds later, the webpage appears.\nIt feels like the browser simply opened the website.\nBut behind that simple action, several things happened involving the browser, DNS, IP addresses, HTTP, servers, and browser rendering.\nSo what actually happens between pressing Enter and seeing the webpage?\nLet's follow the journey.\nAt a high level, the journey looks like this:\nYou type a URL\n      ↓\n    Browser\n      ↓\n     DNS\n      ↓\n  IP Address\n      ↓\n  Connection\n      ↓\n HTTP Request\n      ↓\n    Server\n      ↓\nHTTP Response\n      ↓\n HTML / CSS / JS\n      ↓\nBrowser Rendering\n      ↓\n  Web Page\n\nNow let's understand what happens at each step.\nA URL (Uniform Resource Locator) is a string that identifies the location of a resou…",
-          "link": "https://dev.to/darshan_dev/what-happens-when-you-type-a-url-in-the-browser-4epo",
-          "publishedOn": "2026-08-09T11:12:38.000Z",
-          "wordCount": 3088,
-          "title": "What Happens When You Type a URL in the Browser?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fpstn9vfpokvilexrk4k4.png"
-        },
-        {
-          "id": "https://dev.to/onizuka/i-built-an-ip-geo-phone-server-5-things-i-actually-used-2cn1",
-          "author": "Onizuka",
-          "description": "I Built an IP Geo Phone Server — 5 Things I Actually Used\nThe cheapest server I own isn't a Pi or a refurbished ThinkPad. It's a 2021 Samsung Galaxy A32 with a cracked screen, propped against a windowsill, sucking power from a 5W charger. That phone answers about 4,000 IP geolocation requests every day. My only cost is the trickle of electricity through the cable.\nMy last side-project VPS cost $38 a month, sat at 3% CPU, ran a cron job I'd swear I'd fix, and spammed me with disk-usage alerts I ignored. That $38 didn't buy compute—it bought guilt. The phone bought me a story.\nThe whole thing is thirty-eight lines. No geo database, no monthly bill. The phone asks an API, caches the answer for an hour, and serves JSON. Redis keeps my daily API calls under a thousand. The setup uses less RAM t…",
-          "link": "https://dev.to/onizuka/i-built-an-ip-geo-phone-server-5-things-i-actually-used-2cn1",
-          "publishedOn": "2026-08-09T11:06:34.000Z",
-          "wordCount": 3099,
-          "title": "I Built an IP Geo Phone Server — 5 Things I Actually Used",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fbh1qdxq3nvqzmwhjzya9.png"
-        },
-        {
-          "id": "https://dev.to/maru0122/auto-export-gemini-chats-to-markdown-google-drive-via-gas-part-2-67l",
-          "author": "e-shikumi-labo",
-          "description": "This article was originally published on e-shikumi-labo.\nHello, I'm Shin from e-Shikumi-Labo.\nThis is Part 2 of \"Systematized Thinking,\" where we use AI to build our own tools and independently maintain them.\nLast time, I talked about creating a Chrome extension that automatically saves Gemini chat logs to a spreadsheet.\nData successfully started accumulating in the spreadsheet, and I was satisfied for the time being. However, as I used it heavily in my actual work, a new desire emerged.\nThis time, I'll share the process of expanding the system from saving to a spreadsheet to 'auto-generating Markdown (.md) files'.\nSaving to a spreadsheet itself was convenient, but as the logs increased, I ran into a single problem.\nWhen long responses or programming code are crammed into a single cell, th…",
-          "link": "https://dev.to/maru0122/auto-export-gemini-chats-to-markdown-google-drive-via-gas-part-2-67l",
-          "publishedOn": "2026-08-09T11:05:10.000Z",
-          "wordCount": 2385,
-          "title": "Auto-Export Gemini Chats to Markdown & Google Drive via GAS (Part 2)",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F3mqjrw1hb3934r4234r8.png"
-        },
-        {
-          "id": "https://dev.to/tahiralmas/i-built-an-mcp-server-so-i-could-stop-memorising-two-pbx-command-sets-401o",
-          "author": "Tahir Almas",
-          "description": "I run both Asterisk and FreeSWITCH. Have done for years. And the thing that still slows me down isn't anything hard, it's the constant switching between two vocabularies that do the same job.\nWant to know if an extension is registered?\nOn Asterisk that's pjsip show endpoints, unless the box is old enough that it's still sip show peers.\nOn FreeSWITCH it's sofia status profile internal reg.\nNeither is difficult. But when you're three levels into debugging why calls to one country are failing, at 2am, on a switch you last touched eight months ago, the wrong syntax is one more thing between you and the answer.\nSo I built pbx-mcp. It's an MCP server that puts one tool surface in front of both.\nYou ask your assistant:\nWhich extensions are offline right now?\nIt picks the right tool for whichever …",
-          "link": "https://dev.to/tahiralmas/i-built-an-mcp-server-so-i-could-stop-memorising-two-pbx-command-sets-401o",
-          "publishedOn": "2026-08-09T11:03:39.000Z",
-          "wordCount": 2349,
-          "title": "I built an MCP server so I could stop memorising two PBX command sets",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F9f6ylwxnrzish1jt8pp9.png"
-        },
-        {
-          "id": "https://dev.to/albert_zhang_f468830cf0e6/building-structured-inter-agent-communication-a-practical-guide-3n25",
-          "author": "Albert zhang",
-          "description": "Every multi-agent tutorial shows \"Agent A talks to Agent B.\" None show how to keep that conversation reliable at scale.\n# What most frameworks do:\nresult = agent_a.run(\"Analyze this and tell agent_b what to do\")\nagent_b.run(result)  # What if result is 2000 tokens? What if it omits context?\n\nThis breaks when:\nOutput exceeds token limits\nCritical parameters get \"summarized\" away\nAgent B parses instructions differently than intended\nEvery agent in AgentForge declares its input schema:\n{\n  \"agent\": \"risk_analyzer\",\n  \"input\": {\n    \"portfolio\": [\"AAPL\", \"TSLA\"],\n    \"timeframe\": \"1d\",\n    \"risk_threshold\": 0.05\n  },\n  \"expected_output\": {\n    \"max_drawdown\": \"float\",\n    \"sharpe_ratio\": \"float\",\n    \"flags\": [\"string\"]\n  }\n}\n\nThe orchestrator validates before execution. If agent A's output doesn't match agent B's input schema, the pipeline halts with a clear error — instead of agent B making a wrong inference.\nfrom agentforge.core import Orchestrator, AgentContract\n\ncontract = AgentContract(\n    input_schema={\"query\": str, \"max_results\": int},\n    output_schema={\"results\": list, \"confidence\": float}\n)\n\norch = Orchestrator()\norch.register(\"search_agent\", search_fn, contract)\n\nIf search_fn returns \"confidence\": \"high\" instead of 0.92, the orchestrator flags it immediately.\nIn production, you don't want agents to \"kind of work.\" You want deterministic, debuggable, testable behavior. Typed contracts give you that.\nBuilt with AgentForge. Open source. Production-tested.\nhttps://github.com/agentforge-cyber/agentforge-mvp\nDo you enforce schemas in your agent pipelines? Or do you trust the LLM to \"figure it out\"?\nPosted on 2026-08-09 by the AgentForge team.",
-          "link": "https://dev.to/albert_zhang_f468830cf0e6/building-structured-inter-agent-communication-a-practical-guide-3n25",
-          "publishedOn": "2026-08-09T11:00:51.000Z",
-          "wordCount": 1546,
-          "title": "Building Structured Inter-Agent Communication: A Practical Guide",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fvbduy5be1gr0uxowqcrv.png"
-        },
-        {
-          "id": "https://dev.to/niklauss_quintero_1360ce7/ia-para-autismo-no-verbal-crea-tu-tablero-caa-con-chatgpt-o8a",
-          "author": "Niklauss Quintero",
-          "description": "Llevo años utilizando herramientas de comunicación aumentativa con mi hijo, que tiene autismo no verbal. Hemos probado de todo: desde apps comerciales carísimas hasta tableros de papel plastificados que se rompen a la semana. Pero hace unos meses descubrí algo que cambió nuestra rutina: usar ChatGPT y Claude para generar pictogramas personalizados y frases predictivas adaptadas a su día a día. Y no, no soy programadora ni nada parecido; solo una madre desesperada que encontró en la IA una aliada inesperada.\nUna tarde, después de otro episodio de frustración porque no lograba comunicarme con mi hijo, se me ocurrió abrir ChatGPT y escribir: \"Genera un pictograma de 'quiero agua' con estilo sencillo y colores suaves\". Para mi sorpresa, no solo me dio una descripción detallada, sino que pude p…",
-          "link": "https://dev.to/niklauss_quintero_1360ce7/ia-para-autismo-no-verbal-crea-tu-tablero-caa-con-chatgpt-o8a",
-          "publishedOn": "2026-08-09T11:00:32.000Z",
-          "wordCount": 2855,
-          "title": "IA para Autismo No Verbal: Crea tu Tablero CAA con ChatGPT",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F9c0e75npxejq1fgdpkxe.png"
-        },
-        {
-          "id": "https://dev.to/rawveg/she-heard-her-daughter-crying-3287",
-          "author": "Tim Green",
-          "description": "On a humid July afternoon in Dover, Florida, an 82-year-old grandmother named Sharon Brightwell answered the telephone and heard her daughter crying. The voice was unmistakable. It sobbed, it choked on the words, it begged. There had been a car accident. A pregnant woman had been hurt. A lawyer would call shortly with instructions. Brightwell, who had raised this daughter, who had rocked her to sleep, who knew the exact timbre of her weeping because she had heard it a thousand times across half a century, did what any mother would do. She emptied an envelope of cash. She handed fifteen thousand dollars to a courier who appeared at her door. By the time she realised her daughter had never been in an accident at all, the money and the courier were gone.\nThe voice she heard was not her daught…",
-          "link": "https://dev.to/rawveg/she-heard-her-daughter-crying-3287",
-          "publishedOn": "2026-08-09T11:00:00.000Z",
-          "wordCount": 6404,
-          "title": "She Heard Her Daughter Crying",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fi.snap.as%2F0tGzGtoN.png"
-        },
-        {
-          "id": "https://dev.to/mtproto_cloud/what-i-learned-building-a-public-mtproto-proxy-directory-36c9",
-          "author": "Ivan Kozhin",
-          "description": "Why this problem is harder than a list of IP addresses\n\n\nAn MTProto proxy directory looks simple from the outside: a host, a port, a secret, and a button that opens Telegram. In practice, the useful part is everything around that data. Public proxies disappear, become overloaded, change latency, or stop accepting connections. A directory that only stores rows quickly becomes stale.\nWhile working on mtproto.cloud, I ended up treating the page as a small reliability product rather than a static catalog. These are the engineering and UX principles that matter most.\nA proxy should never be presented as permanently available. The interface needs to communicate when it was last checked and whether the latest check succeeded. Fresh health information is more useful than a very large list.\nA pract…",
-          "link": "https://dev.to/mtproto_cloud/what-i-learned-building-a-public-mtproto-proxy-directory-36c9",
-          "publishedOn": "2026-08-09T10:59:13.000Z",
-          "wordCount": 2045,
-          "title": "What I Learned Building a Public MTProto Proxy Directory",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fq4wcqgl7fyz7jzj5kwlu.png"
-        },
-        {
-          "id": "https://dev.to/thechrisin/why-plugin-systems-fail-quietly-weak-boundaries-explained-4lhl",
-          "author": "Chris Roy",
-          "description": "Most plugin systems continue to work, but just well enough.\nThis is what makes them dangerous.\nA typical plugin system begins with a reasonable goal: allow extension without modification. The core remains stable. Optional functionality lives at the edges. Responsibility is distributed. In the early stages, this works. Plugins are few. The contracts are narrow. The system admits local reasoning.\nOver time, the equilibrium afforded by early simplicity degrades.\nThe failure rarely comes from malice or incompetence. It comes from accommodation. A plugin needs access to a little more state. Another needs to intercept a request earlier in the lifecycle. A third needs to influence rendering, configuration, and persistence, because its feature spans all three.\nEach request is defensible. Each addi…",
-          "link": "https://dev.to/thechrisin/why-plugin-systems-fail-quietly-weak-boundaries-explained-4lhl",
-          "publishedOn": "2026-08-09T10:56:29.000Z",
-          "wordCount": 2046,
-          "title": "Why Plugin Systems Fail Quietly: Weak Boundaries Explained",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fthechris.in%2Farticle-failure-of-plugins.jpg"
-        },
-        {
-          "id": "https://dev.to/davidahmann/intelligence-is-cheap-outcomes-are-not-5ekc",
-          "author": "David Ahmann",
-          "description": "The marginal cost of producing an answer is collapsing.\nThe cost of being wrong in production is not.\nAI can generate more code, analysis, recommendations, and decisions than any institution can reasonably absorb. That abundance is real. \nSo is the confusion it creates.\nMore output is not more value.\nThe AI industry counts tokens, model calls, benchmark scores, generated code, active users, and agents deployed. These numbers describe the production of intelligence. They do not tell us whether anything useful happened.\nEnterprises do not ultimately buy intelligence. They buy a change in an outcome.\nAn invoice exception is resolved and confirmed in the ledger. A shipment is rerouted before the customer is affected. A release reaches production, passes its checks, and remains healthy. Someone…",
-          "link": "https://dev.to/davidahmann/intelligence-is-cheap-outcomes-are-not-5ekc",
-          "publishedOn": "2026-08-09T10:25:56.000Z",
-          "wordCount": 1911,
-          "title": "Intelligence Is Cheap. Outcomes Are Not.",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F9ruxagel2zcqmatlm1f2.png"
-        },
-        {
-          "id": "https://dev.to/blueticks/i-measured-whether-my-27-published-pages-linked-to-each-other-not-one-did-46hn",
-          "author": "Blueticks",
-          "description": "I spent two weeks publishing technical writing about my own product on three platforms I do not\nI measured it across all twenty seven live pages I had at the time. The answer was zero.\nMy first script reported that all twenty seven pages were cross linked, several of them carrying\nThe cause is worth its own paragraph, because it is a mistake anyone can make in a browser console.\nI selected the article body like this:\ndocument.querySelector('#article-body, .content, article, main')\n\nThat reads like a fallback chain: try the first, fall back to the second, and so on. It is not one.\nin document order that matches any of the\n<main> wraps the whole page and appears before #article-body in the DOM, main\nSo I was not counting my links. I was counting the platform's \"more from this author\" widget.…",
-          "link": "https://dev.to/blueticks/i-measured-whether-my-27-published-pages-linked-to-each-other-not-one-did-46hn",
-          "publishedOn": "2026-08-09T10:21:47.000Z",
-          "wordCount": 2648,
-          "title": "I measured whether my 27 published pages linked to each other. Not one did",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fsecny8qj9tfsttpglvny.png"
-        },
-        {
-          "id": "https://dev.to/ahab_indieseek/claude-managed-agents-session-budget-checklist-ge9",
-          "author": "Ahab",
-          "description": "Claude Managed Agents session budgets: prove the hard stop before unattended runs\n\n\n\n  \n  \n  Quick answer\n\n\nOn August 7, 2026, Anthropic added hard per-session budgets to Claude Managed Agents. A budget is a US-dollar ceiling, written as whole cents, that the platform enforces against the session's public-list-price cost. When the cap is reached, the session pauses with the session-level stop reason budget_reached; it does not terminate. Raising or removing the budget resumes the paused work automatically.\nThis is an API-level Claude Managed Agents feature. It is not a Claude Code subscription meter, and it is different from the Messages API's advisory, token-denominated task budgets.\nDo not treat the number as an exact final invoice or a mid-request kill switch. Enforcement happens betwee…",
-          "link": "https://dev.to/ahab_indieseek/claude-managed-agents-session-budget-checklist-ge9",
-          "publishedOn": "2026-08-09T10:21:28.000Z",
-          "wordCount": 2664,
-          "title": "Claude Managed Agents Session Budget Checklist",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F52nz8w8amy46iguopsp5.png"
-        },
-        {
-          "id": "https://dev.to/d32ssv/optional-chaining-and-short-circuiting-in-js-24ec",
-          "author": "Arun Prakash Pandey",
-          "description": "What is optional chaining?\n\n\nIn Js you can access properties of an object using '.'\n['property_name']. For example:\nlet a = { b: 50 };\nconsole.log(a['b']) // logs 50\nconsole.log(a.b) // logs 50\n\nBut there can be instances where the property does not exists or the value is null. \nnull and undefined are the only two values that do not have properties.\nnull or undefined will throw a Type Error. Like the below code:\nlet a = { b: null };\na.b.c.d\n// => Uncaught TypeError: Cannot read properties of null (reading 'c')\n\nTo gracefully handle such type errors, we use optional chaining.\n? in the below code.\nlet a = { b: null };\na.b?.c.d\n// => undefined\n\na is an object, so a.b is a valid property access expression. But the value of a.b is null, so a.b.c would throw a TypeError. By using ?. instead of . we avoid the TypeError, and a.b?.c evaluates to undefined.\nThe term short-circuiting generally refers to an electric short circuit, which means that the electric current took a short-cut to reach at a particular point rather than taking the intended path.\nlet a = { b: null };\na.b?.c.d // undefined\n\n(a.b?.c).d // Type Error\n\nNote that the first code block is (without the parenthesis)\nundefined and does not throw an error. This is because property access with ?. is “short-circuiting” \ni.e. immediately reaching to the final result instead of following the intended property access.\nIf the subexpression to the left of ?. evaluates to null or undefined, then the entire expression immediately evaluates to undefined without any further property access attempts. Hence, the code block short circuited.\nNext, we will look into conditional method invocation.\nThank you for reading my blog, any suggestions / comments / likes / dislikes are appreciated.",
-          "link": "https://dev.to/d32ssv/optional-chaining-and-short-circuiting-in-js-24ec",
-          "publishedOn": "2026-08-09T10:18:52.000Z",
-          "wordCount": 1839,
-          "title": "Optional chaining and short circuiting in Js",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fm6fcewoy4dpls69wkhjn.png"
         }
       ]
     },
@@ -35602,6 +35562,16 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://schlarp.com/posts/everything-i-own-owned/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://schlarp.com/posts/everything-i-own-owned/",
+          "publishedOn": "2026-08-23T22:41:04.000Z",
+          "wordCount": 2220,
+          "title": "Everything I own, owned",
+          "imageUrl": "https://schlarp.com/posts/everything-i-own-owned/webcam.jpg"
+        },
+        {
           "id": "https://psmag.com/environment/the-planet-now-has-more-trees-than-it-did-35-years-ago/",
           "author": null,
           "description": "Comments",
@@ -35622,6 +35592,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://github.com/AlpinDale/gpt2.cmake",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/AlpinDale/gpt2.cmake",
+          "publishedOn": "2026-08-23T21:41:17.000Z",
+          "wordCount": 944,
+          "title": "Implementation of GPT-2 in pure CMake",
+          "imageUrl": "https://opengraph.githubassets.com/96d4497e236be339639ee218e538aa7ec3c3c2c420295dadd38b449f50408410/AlpinDale/gpt2.cmake"
+        },
+        {
           "id": "https://kpres12.github.io/Cicada.OS/",
           "author": null,
           "description": "Comments",
@@ -35630,6 +35610,16 @@
           "wordCount": 483,
           "title": "Cicada.os – Graphene.os for Your Laptop",
           "imageUrl": null
+        },
+        {
+          "id": "https://hugodaniel.com/posts/declarative-webgpu-with-s-expressions/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://hugodaniel.com/posts/declarative-webgpu-with-s-expressions/",
+          "publishedOn": "2026-08-23T20:47:53.000Z",
+          "wordCount": 2099,
+          "title": "Declarative WebGPU with S-Expressions",
+          "imageUrl": "https://hugodaniel.com/images/pngine.png"
         },
         {
           "id": "https://arxiv.org/abs/2608.20186",
@@ -35650,6 +35640,16 @@
           "wordCount": null,
           "title": "LinkedIn Has Accidentally Become a Dating Site",
           "imageUrl": null
+        },
+        {
+          "id": "https://surya.website/rling-qwen-to-paint-with-code",
+          "author": null,
+          "description": "Comments",
+          "link": "https://surya.website/rling-qwen-to-paint-with-code",
+          "publishedOn": "2026-08-23T19:39:29.000Z",
+          "wordCount": 4455,
+          "title": "Training AI to Paint with Code",
+          "imageUrl": "https://framerusercontent.com/images/suc55pS3sKdOqwa4nzbsaq82c.png"
         },
         {
           "id": "https://www.npr.org/2026/08/10/nx-s1-5925350/the-nerd-reich-tracks-the-unmasking-of-silicon-valleys-true-politics",
@@ -48872,16 +48872,6 @@
           "wordCount": 14339,
           "title": "MPOB Develops Palm Oil-Based Cooling Fluid For Data Centres",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/08/mpob-sawit-ecotherm-data-centre-cooling-2.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=400955",
-          "author": "Ian Chee",
-          "description": "Early last month, alternative search engine DuckDuckGo announced that its browser will integrate ad blocking for YouTube ads, powered by uBlock Origin. This month, Microsoft announced the opposite for its Edge browser, though it’s a move that’s pretty in line with the primary Chromium browser, Google Chrome itself. This means that it will be completely […]\nThe post Microsoft Edge To End Support For Manifest V2; Cutting Off Older Ad Blockers appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/400955/microsoft-edge-end-support-manifest-v2/",
-          "publishedOn": "2026-08-09T10:56:45.000Z",
-          "wordCount": 14071,
-          "title": "Microsoft Edge To End Support For Manifest V2; Cutting Off Older Ad Blockers",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/08/Microsoft-Edge-large.webp"
         }
       ]
     },
