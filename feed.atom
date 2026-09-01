@@ -2,10 +2,449 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-09-01T01:38:53.649Z</updated>
+    <updated>2026-09-01T07:16:37.322Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[How i did the Multi VM monitoring]]></title>
+        <id>https://dev.to/techwithhari/how-i-did-the-multi-vm-monitoring-2ef1</id>
+        <link href="https://dev.to/techwithhari/how-i-did-the-multi-vm-monitoring-2ef1"/>
+        <updated>2026-09-01T07:09:08.000Z</updated>
+        <summary type="html"><![CDATA[I Had 5 Servers Sending Metrics  But Couldn't Tell Which One Was Which
+
+
+
+  
+  
+  What happened
+
+
+I had one server. It sent metrics (CPU, errors, etc.) to my monitoring dashboard. Fine.
+Then I added more servers  same service, running on 4-5 machines now.
+All the metrics from all the machines showed up in the same dashboard, but with no way to tell which machine sent which metric. If CPU spiked, I couldn't tell if it was server 1 or server 4. If errors went up, same problem.
+This is useless when something breaks. "Something is wrong" isn't helpful  I need "server 3 is wrong."
+Each server was supposed to tag its own metrics with its own name  like a label saying "this metric came from server-3."
+I had set up a config value meant to do exactly that. But when I checked, that name was never actually reaching the code that sends metrics. The setting existed in a file, but it wasn't making it into the running program the way I assumed it would.
+So every server, silently, was sending metrics with no name attached  or the same default name. No error. No warning. It just quietly didn't work.
+Instead of hoping a config file setting would "just work" and reach the right place automatically, I made it explicit:
+When a server starts up, its name gets set directly, as a hard requirement.
+That name gets passed by hand, step by step, into the exact piece of code that sends metrics.
+Nothing is assumed to "just be available"  it's handed over directly, on purpose, every time.
+I checked it worked by looking at the actual metrics in the dashboard afterward and confirming each server's name showed up correctly.
+If your app depends on a setting "just working" through some automatic config-loading magic  double check it's actually arriving where you think it is. Don't assume. Go look.
+And before you scale from 1 server to many: make sure you can tell them apart in your monitoring before you actually need to, during a real problem, at 2am, with no way to know which machine to even look at.]]></summary>
+        <author>
+            <name>Haripriya Veluchamy</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Anthropic + Nvidia: The $35B AI Cloud Shift]]></title>
+        <id>https://dev.to/gp-ia-blog/anthropic-nvidia-the-35b-ai-cloud-shift-575i</id>
+        <link href="https://dev.to/gp-ia-blog/anthropic-nvidia-the-35b-ai-cloud-shift-575i"/>
+        <updated>2026-09-01T07:07:44.000Z</updated>
+        <summary type="html"><![CDATA[The Quiet Earthquake: $35 Billion and a New AI Reality
+
+
+The monthly cloud bill for a top-tier AI lab can look like the GDP of a small island nation. It's the relentless, cash-burning engine of the AI race, a cost dominated by three colossal names: Amazon, Google, and Microsoft. For any serious contender, choosing between their cloud platforms has been less a choice and more a necessity.
+Then, a deal landed—not with a bang, but with the quiet finality of a signed contract that sent a tremor through the industry's foundations. Anthropic, the prominent AI firm behind the Claude family of models, has reportedly committed to a cloud deal valued at an astonishing $35 billion over the next five years. The stunning part isn't just the number. It's who they signed with.
+The contract isn't with AWS…]]></summary>
+        <author>
+            <name>Gian Paolo</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ZCode 3.0 vs Claude Code: AI Agent Coding Battle]]></title>
+        <id>https://dev.to/tidiane_stano_c6b88f8b685/zcode-30-vs-claude-code-ai-agent-coding-battle-10g8</id>
+        <link href="https://dev.to/tidiane_stano_c6b88f8b685/zcode-30-vs-claude-code-ai-agent-coding-battle-10g8"/>
+        <updated>2026-09-01T07:06:52.000Z</updated>
+        <summary type="html"><![CDATA[Released in mid‑2026, ZCode 3.0 represents a major milestone for domestic AI‑assisted software development. Built as an Agentic Development Environment (ADE), it tightly couples Zhipu AI’s GLM‑5.3 large‑model weights with a complete local execution harness, shifting the industry focus from pure code generation toward end‑to‑end autonomous engineering workflows. Rather than acting as a simple IDE plugin that merely completes code snippets, ZCode delivers a full runtime stack that manages file modification, terminal invocation, Git operations, multi‑agent scheduling and human‑in‑the‑loop review. This article dissects its core architecture, measurable benchmark data, functional modules, commercial pricing model, real‑world usage limits, and comparative positioning against competing products s…]]></summary>
+        <author>
+            <name>Tidiane Stano</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How WebAssembly became our privacy architecture (not just a performance trick)]]></title>
+        <id>https://dev.to/iqbalhssn78/how-webassembly-became-our-privacy-architecture-not-just-a-performance-trick-5c00</id>
+        <link href="https://dev.to/iqbalhssn78/how-webassembly-became-our-privacy-architecture-not-just-a-performance-trick-5c00"/>
+        <updated>2026-09-01T07:05:58.000Z</updated>
+        <summary type="html"><![CDATA[Most WebAssembly articles talk about performance. Yours runs 5x faster than pure JavaScript. Great.
+This one is about something different: how Wasm's sandboxed execution model makes certain privacy failures structurally impossible â€” and how we built 90+ browser tools around that property.
+When someone uses iLovePDF, Smallpdf, or Adobe Acrobat Online to process a PDF, their file travels to a remote server, gets processed, and sits there until "deleted" (usually 1â€“24 hours). For a casual PDF merge, fine. For a tax return, medical record, or legal contract â€” that's a real data exposure event.
+Most "privacy-focused" alternatives solve this with a policy: "We delete your files after processing." That's still an upload. The file still left the device.
+We wanted something different: make th…]]></summary>
+        <author>
+            <name>iqbalhssn78</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[That Small Obsession]]></title>
+        <id>https://dev.to/manager_log/that-small-obsession-39m2</id>
+        <link href="https://dev.to/manager_log/that-small-obsession-39m2"/>
+        <updated>2026-09-01T07:05:23.000Z</updated>
+        <summary type="html"><![CDATA[Honestly, I've had a lot on my mind lately. The ways of working I spent years learning, practicing, and relying on feel like they're crumbling all at once. Some days I can barely find the joy in the work.
+Design and frontend can now be built in a few prompts, so these days I find myself starting from a finished, working screen the AI has already drawn — interface and all — and building from there.
+In code reviews, when I ask why a certain feature exists, what it's for, who it serves, the answer is often "I don't know."
+There's a trap in drawing the screen first. Once the screen appears, it starts to look like the answer itself. And naturally, the back-and-forth disappears.
+The approach is "build fast, fix later" — but for that to work, you have to stop and look back at least once.
+Everyone builds easily and quickly now. Building fast has become the baseline.
+The edge for the people who build products, going forward, might come down to the eye for removing 9 of the 10 features AI suggests and finding the 1 that truly matters.
+Back in the early days of app development, there's a well-known story about a thread-long argument over whether the hamburger button — the full menu, the "more" button — belonged in the top-left or the top-right. You could call it a kind of romance.
+But before you do, don't forget: it was a wonderful episode born of a stubborn need to nail the smallest detail — which position would be easier for the user to tap.
+I hope we'll ask ourselves whether that stubbornness is quietly slipping away from us.
+Building fast is something AI now does far better than we do. Deciding what not to build, on the other hand, should still be ours. Looking hard at what AI built so quickly and asking why it should exist, whether this is the right place for it —
+in this moment when making things has become so common, maybe that single question is what gives us our reason to be.]]></summary>
+        <author>
+            <name>BJ Kim</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a 5.1ch Surround Upmixer GUI with Python & FFmpeg]]></title>
+        <id>https://dev.to/amekusa03/building-a-51ch-surround-upmixer-gui-with-python-ffmpeg-1e0g</id>
+        <link href="https://dev.to/amekusa03/building-a-51ch-surround-upmixer-gui-with-python-ffmpeg-1e0g"/>
+        <updated>2026-09-01T07:03:29.000Z</updated>
+        <summary type="html"><![CDATA[Building a 5.1ch Surround Upmixer GUI with Python & FFmpeg
+
+
+Ever wanted to watch a movie or listen to live music with true surround sound, but only had a stereo MP3 file? I built a desktop GUI application that upmixes 2-channel stereo audio into 6-channel AC-3 (Dolby Digital 5.1) — fully customizable with slider controls and one-click presets.
+🔗 GitHub: https://github.com/amekusa03/mp3-to-ac3-converter
+Fully adjustable surround parameters via sliders:
+
+
+Center Mix Level (0× – 2×) — controls vocal/dialogue presence
+Rear/Surround Level (0× – 2×) — controls ambient depth
+Surround Delay (0–100 ms) — enhances spatial feel
+LFE Subwoofer Cutoff (50–200 Hz) & Gain — deep bass extraction
+3 one-click presets: 🎥 Cinema, 🎵 Music/Live, 🗣️ Voice/Dialogue
+Batch conversion — drop a whole folder of fi…]]></summary>
+        <author>
+            <name>amekusa03</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Windows digital signage app without dedicated signage hardware]]></title>
+        <id>https://dev.to/waltrone1/building-a-windows-digital-signage-app-without-dedicated-signage-hardware-43o2</id>
+        <link href="https://dev.to/waltrone1/building-a-windows-digital-signage-app-without-dedicated-signage-hardware-43o2"/>
+        <updated>2026-09-01T07:01:56.000Z</updated>
+        <summary type="html"><![CDATA[Over the past several months, I’ve been working on a Windows project called WALTRONE Signage Suite.
+The idea started with a fairly simple question:
+Can digital signage work without expensive dedicated players or complicated infrastructure?
+Instead of requiring special signage hardware, WALTRONE runs on a normal Windows PC or laptop connected to a TV or monitor.
+It can be used to display images, videos, promotions, information and other rotating content.
+I deliberately decided to focus on Windows.
+Many smaller businesses already have a Windows PC or laptop available. I liked the idea of using hardware that is already there instead of requiring another dedicated device just to put content on a screen.
+Of course, that decision also came with its own challenges.
+One of the biggest things I’ve …]]></summary>
+        <author>
+            <name>Alexander</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CollectWise (YC F24) Is Hiring]]></title>
+        <id>https://www.ycombinator.com/companies/collectwise/jobs/7U500pP-founding-customer-success-engineer</id>
+        <link href="https://www.ycombinator.com/companies/collectwise/jobs/7U500pP-founding-customer-success-engineer"/>
+        <updated>2026-09-01T07:01:49.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Secure a Staging Environment With Google Cloud IAP]]></title>
+        <id>https://dev.to/sohammondal/how-to-secure-a-staging-environment-with-google-cloud-iap-3hp7</id>
+        <link href="https://dev.to/sohammondal/how-to-secure-a-staging-environment-with-google-cloud-iap-3hp7"/>
+        <updated>2026-09-01T07:01:44.000Z</updated>
+        <summary type="html"><![CDATA[Every staging environment starts out reachable by anyone with the URL, and every team eventually notices that's a problem — a crawler indexes it, a support ticket links to it in public, an ex-employee's bookmark still works. The fix people reach for first is usually one of two extremes: a VPN nobody wants to run, or a login screen nobody wants to maintain. On Google Cloud there's a narrower option that costs almost nothing to turn on: Identity-Aware Proxy (IAP), a toggle on the load balancer that requires a verified Google identity before any request reaches the backend at all.
+Point a browser at a protected URL, IAP bounces it through a Google login once, and a session cookie carries it for the rest of the day. For a browser-facing staging environment or internal tool, that's most of what…]]></summary>
+        <author>
+            <name>Soham Mondal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ecommerce Conversion Rate Drop — A 60-Minute Diagnostic Playbook]]></title>
+        <id>https://dev.to/pingvera/ecommerce-conversion-rate-drop-a-60-minute-diagnostic-playbook-4777</id>
+        <link href="https://dev.to/pingvera/ecommerce-conversion-rate-drop-a-60-minute-diagnostic-playbook-4777"/>
+        <updated>2026-09-01T07:00:20.000Z</updated>
+        <summary type="html"><![CDATA[Ecommerce Conversion Rate Drop: A 60-Minute Diagnostic Playbook
+
+
+When ecommerce orders fall, first confirm the decline and identify the earliest funnel transition that changed. Work in order: data quality, demand, product discovery, cart, checkout, payment, order creation, OMS ingestion, and fulfilment.
+The first hour is for narrowing the cause, limiting loss, and assigning owners. It is not the time to launch a redesign, replace the platform, or blame a vendor without evidence.
+0–10 minutes: validate the signal using two independent sources.
+10–20 minutes: locate the first abnormal funnel step.
+20–35 minutes: segment by device, region, channel, and payment method.
+35–45 minutes: inspect recent changes and external dependencies.
+45–60 minutes: enable a safe workaround, limit harmful traff…]]></summary>
+        <author>
+            <name>Pingvera.com</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Step up to the Sheets: AI Eval Export and Illustrating Data]]></title>
+        <id>https://dev.to/googleai/step-up-to-the-sheets-ai-eval-export-and-illustrating-data-bak</id>
+        <link href="https://dev.to/googleai/step-up-to-the-sheets-ai-eval-export-and-illustrating-data-bak"/>
+        <updated>2026-09-01T07:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Welcome to part three of our series about designing, analyzing and visualizing AI Evals! As with the previous entries you are more than welcome to simply read over my exploration or for those of you looking for extra credit, feel free to play along at home.
+Note: This blog series contains AI-generated diagrams alongside actual screenshots and hand-drawn edits of both. AI also assisted in minor copy editing.
+If you intend to (re)implement the walkthrough, all you need to do right now is complete Part 1 (Designing AI Evals: Clarity Now and Visualization Next) and then install pandas; Part 2 (AI Evals at a Glance: Heatmaps for Stakeholders) is illustrative and will give you a deeper understanding going forward both of AI evals and why the following may be useful but it’s more elective than an…]]></summary>
+        <author>
+            <name>Katie McLaughlin</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OpenCode + DeepSeek V4: The Budget Combo That Doesn't Feel Like a Budget Combo 🐋]]></title>
+        <id>https://dev.to/playfulprogramming/opencode-deepseek-v4-the-budget-combo-that-doesnt-feel-like-a-budget-combo-4kca</id>
+        <link href="https://dev.to/playfulprogramming/opencode-deepseek-v4-the-budget-combo-that-doesnt-feel-like-a-budget-combo-4kca"/>
+        <updated>2026-09-01T07:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Overview
+
+
+Hey everyone 👋
+I've spent the last few weeks running most of my daily coding work through OpenCode wired to DeepSeek V4, both Pro and Flash. Not as an experiment, as my actual default setup. And the thing that keeps surprising me is how rarely I miss Claude or GPT for everyday tasks, while paying a fraction of the price.
+I also used DeepSeek exclusively to generate an entire Astro template from scratch, Studio Pulse, which turned out to be a genuinely good test of what these models can actually do unattended.
+Let me walk you through what I found. Let's dive in! 🤙
+DeepSeek V4 is an open weight, MIT licensed model family that went GA in two waves this year, V4-Flash on July 31 and V4-Pro on August 13. Both are mixture of experts models with a 1M token context window.
+V4-Pro runs…]]></summary>
+        <author>
+            <name>Domenico Tenace</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Composition Over Configuration Is a Rule I Keep Re-Deriving]]></title>
+        <id>https://dev.to/sohammondal/composition-over-configuration-is-a-rule-i-keep-re-deriving-19o6</id>
+        <link href="https://dev.to/sohammondal/composition-over-configuration-is-a-rule-i-keep-re-deriving-19o6"/>
+        <updated>2026-09-01T06:59:13.000Z</updated>
+        <summary type="html"><![CDATA[Every settings page in a growing app ends up with a modal that opens for profile info, or billing, or notification preferences, whatever product asked for last sprint. The lazy way to build that is one modal component with a section prop:
+export type SettingsSection = 'profile' | 'billing' | 'notifications';
+
+export type SettingsPanelChrome = {
+  title?: string;
+  size?: 'compact' | 'wide';
+  dismissible?: boolean;
+};
+
+export interface SettingsModalProps {
+  section: SettingsSection | null;
+  onClose: () => void;
+  chrome: Record<SettingsSection, SettingsPanelChrome>;
+  footer: React.ReactNode;
+  children: (active: SettingsSection) => React.ReactNode;
+}
+
+That's roughly the shape a settings modal takes the first time someone builds it, before a refactor forces the issue. It looks reasonable…]]></summary>
+        <author>
+            <name>Soham Mondal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[OpenAI’s ‘Trust Us’ TIME cover raises an old warning for AI bulls]]></title>
+        <id>61f20afd-dbca-4443-ac7f-0af4b409b177</id>
+        <link href="https://www.coindesk.com/markets/2026/09/01/time-is-putting-openai-s-founders-on-its-cover-paul-montgomery-s-contrary-indicator-says-hello"/>
+        <updated>2026-09-01T06:52:10.000Z</updated>
+        <summary type="html"><![CDATA[The magazine-cover indicator has a messy record, but TIME’s OpenAI cover checks the classic boxes: a mainstream publication, a widely understood theme and a multiyear run-up in investor enthusiasm.]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[HONOR X9e Pro Shows Up At National Day Parade Ahead Of Local Launch]]></title>
+        <id>https://www.lowyat.net/?p=402786</id>
+        <link href="https://www.lowyat.net/2026/402786/honor-x9e-pro-national-day-parade/"/>
+        <updated>2026-09-01T06:13:03.000Z</updated>
+        <summary type="html"><![CDATA[HONOR is set to launch a new smartphone on our shores pretty soon. During the National Day Parade, the company showed off the X9e Pro alongside its HONOR Robotics D1 humanoid robot. The smartphone will serve as the latest addition to the brand’s durability-focused mid-range X9 series. For now, details on the device remain under […]
+The post HONOR X9e Pro Shows Up At National Day Parade Ahead Of Local Launch appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Nurul Kamil</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[U Mobile Launches ULTRA Home 5G Pro With Up To 2Gbps Speeds, 2TB Monthly Quota]]></title>
+        <id>https://www.lowyat.net/?p=402779</id>
+        <link href="https://www.lowyat.net/2026/402779/u-mobile-launches-ultra-home-5g-pro/"/>
+        <updated>2026-09-01T06:00:39.000Z</updated>
+        <summary type="html"><![CDATA[U Mobile has officially launched its new 5G home broadband service, the ULTRA Home 5G Pro, in Malaysia. The service offers speeds of up to 2Gbps, alongside 8×8 MIMO 5G-Advanced (5G-A) broadband, AI-Powered Game Turbo, and an ULTRA Performance WiFi 7 5G-A router. According to the press release, the new service is designed for increasingly […]
+The post U Mobile Launches ULTRA Home 5G Pro With Up To 2Gbps Speeds, 2TB Monthly Quota appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Kiran Ganesan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[MyKad Printing Services Face Disruptions; Expected To Last Until 7 September]]></title>
+        <id>https://www.lowyat.net/?p=402773</id>
+        <link href="https://www.lowyat.net/2026/402773/mykad-printing-disruptions-until-7-sept/"/>
+        <updated>2026-09-01T05:52:30.000Z</updated>
+        <summary type="html"><![CDATA[The National Registration Department (JPN) has announced that there will be disruptions to the printing of the MyKad as it transitions from the existing structure to the new one. Via its official social media channels, it announced that these disruptions are expected to last through to 7 September. For those looking to get it, the […]
+The post MyKad Printing Services Face Disruptions; Expected To Last Until 7 September appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI Can Make You Suck Faster Too]]></title>
+        <id>https://www.hermit-tech.com/blog/ai-can-make-you-suck-faster-too</id>
+        <link href="https://www.hermit-tech.com/blog/ai-can-make-you-suck-faster-too"/>
+        <updated>2026-09-01T05:32:56.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Vermell – Minimal, dependency-free C++ web framework using epoll]]></title>
+        <id>https://github.com/vermellcc/vermell</id>
+        <link href="https://github.com/vermellcc/vermell"/>
+        <updated>2026-09-01T04:56:11.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin steady above $78,000, HYPE leads as majors slip on hawkish Fed bets]]></title>
+        <id>90af9591-05c0-40e7-b842-afd4828e9b96</id>
+        <link href="https://www.coindesk.com/markets/2026/09/01/bitcoin-steady-above-usd78-000-hype-leads-as-majors-slip-on-hawkish-fed-bets"/>
+        <updated>2026-09-01T04:30:28.000Z</updated>
+        <summary type="html"><![CDATA[Ether, solana, tron and dogecoin all shed ground over 24 hours while HYPE added about 4%, leaving bitcoin flat on the week after August's 24% run.]]></summary>
+        <author>
+            <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why People Blindly Trust AI, Even When It’s Unreliable]]></title>
+        <id>https://www.lowyat.net/?p=402343</id>
+        <link href="https://www.lowyat.net/2026/402343/why-people-blindly-trust-ai/"/>
+        <updated>2026-09-01T04:21:04.000Z</updated>
+        <summary type="html"><![CDATA[We’re well into the era of AI, with a variety of chatbots and digital assistants seeking to become permanent fixtures on our devices. Whether you like it or not, companies like Google are working hard to make sure AI becomes an integral part of the day-to-day experience. At the same time, the Malaysian government is […]
+The post Why People Blindly Trust AI, Even When It’s Unreliable appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Nurul Kamil</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Trump Jr's firm leads $1 billion Polymarket raise at $21 billion value: Report]]></title>
+        <id>abdbc9b5-8dd8-4436-b7a6-f3e60104926a</id>
+        <link href="https://www.coindesk.com/business/2026/09/01/trump-jr-s-firm-leads-usd1-billion-polymarket-raise-at-usd21-billion-value-report"/>
+        <updated>2026-09-01T04:19:54.000Z</updated>
+        <summary type="html"><![CDATA[1789 Capital is putting in about $300 million, adding to a roughly $200 million stake, as the prediction market's valuation rises from $15 billion.]]></summary>
+        <author>
+            <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[CME’s share of XRP futures jumps as token rallies 40% in a week]]></title>
+        <id>7aa790a5-8bdd-4bf0-b88f-b070fca5eb71</id>
+        <link href="https://www.coindesk.com/markets/2026/09/01/xrp-futures-are-shifting-toward-cme-as-institutional-participation-grows"/>
+        <updated>2026-09-01T03:49:39.000Z</updated>
+        <summary type="html"><![CDATA[Outstanding XRP futures positions outside CME fell by more than 500 million tokens in two weeks, while exposure on the regulated U.S. exchange climbed about 36% as XRP rallied toward $1.40.]]></summary>
+        <author>
+            <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Govt Offers Youth Access To Four GenAI Tools Via Rakyat Digital]]></title>
+        <id>https://www.lowyat.net/?p=402766</id>
+        <link href="https://www.lowyat.net/2026/402766/youth-access-genai-tools-rakyat-digital/"/>
+        <updated>2026-09-01T03:49:18.000Z</updated>
+        <summary type="html"><![CDATA[In addition to bringing the BUDI95 petrol subsidy quota back to 300l, Prime Minister Anwar Ibrahim also announced a number of other measures which take effect starting today. Probably the second most important of them all, behind the petrol subsidy, is the offering of up to three months of free access to four premium GenAI […]
+The post Govt Offers Youth Access To Four GenAI Tools Via Rakyat Digital appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[ASUS Confirms RTX Spark ProArt P14 Will Get Different Unified Memory Configurations]]></title>
+        <id>https://www.lowyat.net/?p=402760</id>
+        <link href="https://www.lowyat.net/2026/402760/asus-confirms-rtx-spark-proart-p14-will-get-different-unified-memory-configurations/"/>
+        <updated>2026-09-01T03:43:38.000Z</updated>
+        <summary type="html"><![CDATA[ASUS has seemingly confirmed that its NVIDIA RTX Spark-powered ProArt P14 laptop won’t just be getting one configuration. Rather, it is planning to launch five SKUs, all with different configurations of Unified Memory. The configurations can be found, at the moment, on the official ProArt P14 RTX Spark specs page. In the memory section, Asus indicates that […]
+The post ASUS Confirms RTX Spark ProArt P14 Will Get Different Unified Memory Configurations appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>John Law</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Base OPPO Find X10 Specs Leak: May Come With Massive Battery, Pro-Level Camera]]></title>
+        <id>https://www.lowyat.net/?p=402761</id>
+        <link href="https://www.lowyat.net/2026/402761/base-oppo-find-x10-specs-leak/"/>
+        <updated>2026-09-01T03:26:25.000Z</updated>
+        <summary type="html"><![CDATA[OPPO is expected to launch the Find X10 series sometime soon. While the company has yet to officially announce anything about the upcoming lineup, several details have already surfaced through leaks. Though we might not see the Ultra variant make its way to international markets, a well-known leaker claims that the base model could be […]
+The post Base OPPO Find X10 Specs Leak: May Come With Massive Battery, Pro-Level Camera appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Kiran Ganesan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Restroom Archive]]></title>
+        <id>https://restroomarchive.com/</id>
+        <link href="https://restroomarchive.com/"/>
+        <updated>2026-09-01T03:23:48.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[GPU World]]></title>
+        <id>https://www.gpuworld.org/</id>
+        <link href="https://www.gpuworld.org/"/>
+        <updated>2026-09-01T03:16:36.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fastpotify]]></title>
+        <id>https://fastpotify.rocks/</id>
+        <link href="https://fastpotify.rocks/"/>
+        <updated>2026-09-01T02:52:14.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Tim Cook Marks His Final Day As Apple CEO]]></title>
+        <id>https://www.lowyat.net/?p=402755</id>
+        <link href="https://www.lowyat.net/2026/402755/tim-cook-final-day-apple-ceo/"/>
+        <updated>2026-09-01T02:30:37.000Z</updated>
+        <summary type="html"><![CDATA[While it is already 1 September in Malaysia, Tim Cook is still spending his final day as Apple CEO in the US. After 15 years leading the company, Cook took to X to share an emotional message with the Apple community ahead of his transition to a new role. “Sending lots of love to the […]
+The post Tim Cook Marks His Final Day As Apple CEO appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[RotaryCell: Making an unmodified rotary phone work over LTE with an ESP32-S3]]></title>
+        <id>https://github.com/fregacmols/RotaryCell</id>
+        <link href="https://github.com/fregacmols/RotaryCell"/>
+        <updated>2026-09-01T02:29:23.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[BUDI95 Quota Returns To 300 Litres Starting Today]]></title>
+        <id>https://www.lowyat.net/?p=402751</id>
+        <link href="https://www.lowyat.net/2026/402751/budi95-quota-returns-to-300-litres-starting-today/"/>
+        <updated>2026-09-01T01:52:51.000Z</updated>
+        <summary type="html"><![CDATA[The government has restored the monthly BUDI95 subsidised RON95 quota to 300 litres, effective today, 1 September 2026. This reverses the reduction to 200 litres introduced earlier this year. In case you missed it, the announcement was made by Prime Minister Dato’ Seri Anwar Ibrahim during the 2026 National Day Prime Ministerial Ceremony at the […]
+The post BUDI95 Quota Returns To 300 Litres Starting Today appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[DoltLite: A SQLite fork with Git-style version control, built with 2k agent PRs]]></title>
+        <id>https://www.dolthub.com/blog/2026-08-31-doltlite-beta/</id>
+        <link href="https://www.dolthub.com/blog/2026-08-31-doltlite-beta/"/>
+        <updated>2026-09-01T01:25:40.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Two AWS IAM privesc tools, one path finder]]></title>
         <id>https://dev.to/yayopalacios/two-aws-iam-privesc-tools-26pb</id>
@@ -51,6 +490,16 @@ Output
 …]]></summary>
         <author>
             <name>Vanessa Massey</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2004 RuneScape fit a multiplayer RPG into 56k dial-up]]></title>
+        <id>https://jkm.dev/posts/how-2004-runescape-fit-a-multiplayer-rpg-into-56k-dialup/</id>
+        <link href="https://jkm.dev/posts/how-2004-runescape-fit-a-multiplayer-rpg-into-56k-dialup/"/>
+        <updated>2026-09-01T01:01:08.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -429,6 +878,16 @@ Core Tech: Google ADK (Python), Gemi…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Bloom Filters Explained: The Probabilistic Data Structure Powering Instagram, Google, and High-Scale Systems]]></title>
+        <id>6a95f9a98577dd0ab849ab46</id>
+        <link href="https://www.freecodecamp.org/news/bloom-filters-explained/"/>
+        <updated>2026-08-31T22:01:13.000Z</updated>
+        <summary type="html"><![CDATA[Instagram has over 500 million registered usernames. When a new user tries to register, the platform needs to answer one question almost instantly: has this username already been taken? The naïve answ]]></summary>
+        <author>
+            <name>Oluwaseyi Fatunmole</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[The Delegation Boundary: Why AI SEO Workflows Need Clear Permission Limits]]></title>
         <id>https://dev.to/alifar/the-delegation-boundary-why-ai-seo-workflows-need-clear-permission-limits-4g3i</id>
         <link href="https://dev.to/alifar/the-delegation-boundary-why-ai-seo-workflows-need-clear-permission-limits-4g3i"/>
@@ -437,6 +896,16 @@ Core Tech: Google ADK (Python), Gemi…]]></summary>
 In Search Engine Land's explanation of the delegation boundary, Jason Barnard describes AI participation in a chain that extends from discovery through a final recommendation or transaction. The central point is that a brand does not simply need to be found. A…]]></summary>
         <author>
             <name>Ali Farhat</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How Firestore Structures Data and How to Perform CRUD Operations With It]]></title>
+        <id>6a95f8e758184cca726442fe</id>
+        <link href="https://www.freecodecamp.org/news/how-firestore-structures-data-and-how-to-perform-crud-operations-with-it/"/>
+        <updated>2026-08-31T21:57:59.000Z</updated>
+        <summary type="html"><![CDATA[Most apps eventually need to store and manipulate data. And if you're building with Firebase, that data lives in Firestore, Google's flexible, scalable NoSQL document database. But before you can conf]]></summary>
+        <author>
+            <name>Caleb Mintoumba</name>
         </author>
     </entry>
     <entry>
@@ -518,6 +987,16 @@ TVS (the annual tax on company-owned tourism vehicles), recently folded into a b
 Avantage en nature véhicule — the benefit-in-kind calculation for company cars, which has two different regimes depending on whether the vehicle entered service before or after February 2025, plus a "forfait" …]]></summary>
         <author>
             <name>Lexio</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What Every Dev Should Know About Tracking Product Data]]></title>
+        <id>6a95f5263ba1cbee5d13a5bd</id>
+        <link href="https://www.freecodecamp.org/news/what-devs-should-know-about-tracking-product-data/"/>
+        <updated>2026-08-31T21:41:58.000Z</updated>
+        <summary type="html"><![CDATA[Product data is the record of what actually happens inside your app or website. It shows what your users do, how your system behaves, and how your business performs. In this article, you'll learn what]]></summary>
+        <author>
+            <name>Obum</name>
         </author>
     </entry>
     <entry>
@@ -1464,6 +1943,16 @@ Git Command Helper — build undo/squash/cherry-pick commands visually
         <summary type="html"><![CDATA[An attacker allegedly pushed Tectonic’s thinly traded TONIC token up 100-fold, used it as collateral to borrow real assets and left most funds stranded when Cronos validators paused the network.]]></summary>
         <author>
             <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Roget's Thesaurus]]></title>
+        <id>https://artflsrv04.uchicago.edu/roget-thesaurus/</id>
+        <link href="https://artflsrv04.uchicago.edu/roget-thesaurus/"/>
+        <updated>2026-08-31T04:29:26.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -5283,6 +5772,16 @@ The pattern deserves a name: unit tests assert single-call correctness. Agent…
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Borges Labyrinth in Venice reopens to the public]]></title>
+        <id>https://www.wallpaper.com/design-interiors/labirinto-borges-venice-reopening</id>
+        <link href="https://www.wallpaper.com/design-interiors/labirinto-borges-venice-reopening"/>
+        <updated>2026-08-28T20:41:35.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Apple Unveils ARKit 3.2 with Real‑Time Motion Capture for iPhone 16]]></title>
         <id>https://dev.to/techpulse01239/apple-unveils-arkit-32-with-real-time-motion-capture-for-iphone-16-1n6n</id>
         <link href="https://dev.to/techpulse01239/apple-unveils-arkit-32-with-real-time-motion-capture-for-iphone-16-1n6n"/>
@@ -5777,6 +6276,16 @@ This is the engineering proble…]]></summary>
         <id>https://four.htmx.org/announcements/2026-08-28-htmx-4.0.0-is-released</id>
         <link href="https://four.htmx.org/announcements/2026-08-28-htmx-4.0.0-is-released"/>
         <updated>2026-08-28T13:28:56.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Interactive pattern discovery in binaries (FF-16-TUI)]]></title>
+        <id>https://github.com/HexLasso/FF-16-TUI</id>
+        <link href="https://github.com/HexLasso/FF-16-TUI"/>
+        <updated>2026-08-28T13:05:49.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -7856,6 +8365,16 @@ The post Eligible SOCAR Users Can Now Get Up To RM200 In Mobility Credits On GoC
 The post 2026 Honda City Available For Booking In Malaysia appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Flat vs. segmented memory – it's recursive]]></title>
+        <id>https://www.humprog.org/~stephen/blog/2026/08/25/#flat-vs-segmented</id>
+        <link href="https://www.humprog.org/~stephen/blog/2026/08/25/#flat-vs-segmented"/>
+        <updated>2026-08-27T06:02:30.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -63385,1279 +63904,6 @@ By the end, you will have a working AI-powered Sprin…]]></summary>
         <summary type="html"><![CDATA[This story originally appeared in The Algorithm, our weekly newsletter on AI. To get stories like this in your inbox first, sign up here. Flock, the police-tech giant known for its network of some 120,000 automatic license plate readers around the US, announced some changes to its platform last Thursday. The updates are meant to prevent…]]></summary>
         <author>
             <name>James O'Donnell</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Adding Edges Is Not a Paradigm Shift]]></title>
-        <id>https://dev.to/jeelvankhede/adding-edges-is-not-a-paradigm-shift-5135</id>
-        <link href="https://dev.to/jeelvankhede/adding-edges-is-not-a-paradigm-shift-5135"/>
-        <updated>2026-08-17T19:12:18.000Z</updated>
-        <summary type="html"><![CDATA[I read the post, agreed with it, and opened my repo to plan the migration.
-Then I could not find the loop I was supposed to be replacing.
-The repo is agentsmyth, a seven-step agent chain I have been building for months. What I found was a fixed sequence with a checkpoint between every step and exactly one edge leaving every node. There was no loop to tear out and no obvious place to put a graph. I spent an evening trying to work out what I had misunderstood, and eventually went back to read the original post properly.
-It was a joke.
-Here is the sequence, because that sequence is the story.
-At 00:34 UTC on July 18, 2026, Peter Steinberger, the creator of OpenClaw, posted twelve words: "Are we still talking loops or did we shift to graphs yet?" No definition. No design principles. One line.
-…]]></summary>
-        <author>
-            <name>Jeel Vankhede</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Need some help...]]></title>
-        <id>https://dev.to/floppysnoot/need-some-help-3bfp</id>
-        <link href="https://dev.to/floppysnoot/need-some-help-3bfp"/>
-        <updated>2026-08-17T19:06:56.000Z</updated>
-        <summary type="html"><![CDATA[I don't know where to go to make money. I've tried discord, reddit, real jobs, and to be honest I think nobody finds value in real work anymore. I'm 15 years old and I've programmed entire websites for startups, but the second I started embracing programming as the job I want to keep, I started losing money. I went from a decent $300 to $500 a month doing small family friend gigs to now making nothing and getting scammed multiple times every month for projects and unpaid work. Does anybody have any genuine advice for making anything? I don't care if it's $5 a week I just want something to prove that it's worth me investing into this as a career, otherwise I'll let AI take my job and hop off to mcdonalds or something.]]></summary>
-        <author>
-            <name>Snoot :3</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AirTag reveals Amazon is trashing rare books to train AI]]></title>
-        <id>https://arstechnica.com/tech-policy/2026/08/hidden-airtag-reveals-amazon-is-trashing-rare-books-to-train-ai/</id>
-        <link href="https://arstechnica.com/tech-policy/2026/08/hidden-airtag-reveals-amazon-is-trashing-rare-books-to-train-ai/"/>
-        <updated>2026-08-17T19:06:11.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Aspect Ratio Mismatches in Production: A Frontend Team's Crop QA Checklist]]></title>
-        <id>https://dev.to/lizely/aspect-ratio-mismatches-in-production-a-frontend-teams-crop-qa-checklist-2njb</id>
-        <link href="https://dev.to/lizely/aspect-ratio-mismatches-in-production-a-frontend-teams-crop-qa-checklist-2njb"/>
-        <updated>2026-08-17T19:03:13.000Z</updated>
-        <summary type="html"><![CDATA[When a product team ships video across landing pages, dashboards, and onboarding flows, the difference between a 16:9 hero clip and a 9:16 mobile preview is rarely a creative decision. It is an engineering decision hiding behind a player, a CDN transform, and a CSS rule. If you have ever shipped a video that looked fine in the editor and then watched it arrive at users with hardcoded letterbox bars, black side margins on iPad, or a stretched face on a Chromebook, you already know the real problem: cropping is a deployment concern, not a content concern.
-This article is a checklist for frontend, growth, and QA folks who need to keep video output predictable across breakpoints, browsers, and third-party embeds. The goal is a repeatable workflow you can run before any release that touches a m…]]></summary>
-        <author>
-            <name>Tea-sip</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Practice Real-World Testing Scenarios for QA: Challenge 4 - Accessibility testing]]></title>
-        <id>https://dev.to/abigail_armijo/practice-real-world-testing-scenarios-for-qa-challenge-3-visual-testing-with-api-mocking-26o9</id>
-        <link href="https://dev.to/abigail_armijo/practice-real-world-testing-scenarios-for-qa-challenge-3-visual-testing-with-api-mocking-26o9"/>
-        <updated>2026-08-17T19:01:47.000Z</updated>
-        <summary type="html"><![CDATA[Hi! The 4th challenge is ready: accessibility testing. For me, it's important to design websites for all people with and without disabilities.
-The WHO estimates that 1.3 billion people – about 16% of the global population have some significant disability, and this number is increasing. 
-The latest WebAIM data reveal that nearly 96% of the world's top public websites launch with critical accessibility failures. Today, ignoring these bugs is a legal violation. Governments worldwide, reinforced measures such as the European Accessibility Act (EAA), now strictly mandate that public-facing digital products comply with the Web Content Accessibility Guidelines (WCAG). 
-If your website is open to the public and is under US, it may fall under the Americans with Disabilities Act (ADA) — and noncompl…]]></summary>
-        <author>
-            <name>abigail armijo</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Lessons from a 2,734-tick earning loop on OpenClaw]]></title>
-        <id>https://dev.to/hamo_e38ec2422de5ab43c6c6/lessons-from-a-2734-tick-earning-loop-on-openclaw-4g92</id>
-        <link href="https://dev.to/hamo_e38ec2422de5ab43c6c6/lessons-from-a-2734-tick-earning-loop-on-openclaw-4g92"/>
-        <updated>2026-08-17T19:00:29.000Z</updated>
-        <summary type="html"><![CDATA[I let an AI agent run on my Mac mini for two months. It woke up every five minutes, picked one action, did it, wrote the result to a state file, and went back to sleep. After 2,734 ticks, I am publishing the loop itself as a skill.
-This is the architecture, the bugs, and the math.
-I wanted to answer a specific question: can an AI agent running on a personal Mac actually make money? Not as a thought experiment — for real, in a wallet I own, on chains I can read.
-The setup: OpenClaw (a local-first agent runtime) + a cron job firing every 5 minutes + a state file the agent reads before deciding what to do. No infinite loops, no multi-step chains, no "let me figure it out" spirals. One action per tick. State on disk. Move on.
-Three lanes the loop could choose from:
-Scribe — write and publish a…]]></summary>
-        <author>
-            <name>Hamo</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Saylor says share buyback isn’t priority as Strategy builds $4.8 billion cash reserve]]></title>
-        <id>0722b204-294e-444c-b87b-847f8d66a384</id>
-        <link href="https://www.coindesk.com/markets/2026/08/17/saylor-says-share-buyback-isn-t-a-priority-as-it-builds-its-usd4-8-billion-cash-reserve-though-a-possibility"/>
-        <updated>2026-08-17T18:53:47.000Z</updated>
-        <summary type="html"><![CDATA[Strategy is prioritizing STRC, cash reserves, and its credit business over stock buybacks, Executive Chairman Michael Saylor said Monday.]]></summary>
-        <author>
-            <name>Helene Braun</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Preventing Duplicate Password-Reset Notifications (Under SMS Timeout and Retry Pressure)]]></title>
-        <id>https://dev.to/liamfoster1844/preventing-duplicate-password-reset-notifications-under-sms-timeout-and-retry-pressure-50d6</id>
-        <link href="https://dev.to/liamfoster1844/preventing-duplicate-password-reset-notifications-under-sms-timeout-and-retry-pressure-50d6"/>
-        <updated>2026-08-17T18:42:27.000Z</updated>
-        <summary type="html"><![CDATA[Treat an SMS timeout as an unknown outcome, not a failed send: accept each password-reset event once, persist its expiry and idempotency key before dispatch, and retry only through a worker that can reconcile the original attempt. For a short-lived e-commerce reset token, compliance evidence is the deciding constraint. The system must be able to show what it accepted, what it attempted, when it stopped, and why, without storing the token or message body in an audit log.
-This changes the shape of the endpoint. A Node.js Express handler may receive the event, but it shouldn't hold the HTTP request open while an SMS provider decides the final delivery state. Return an accepted response after durable admission, then expose status from local state. The Go example below shows the same transport-…]]></summary>
-        <author>
-            <name>LiamFoster1844</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Rails Routing & APIs: What Actually Happens Between the URL and Your Controller]]></title>
-        <id>https://dev.to/lucasldemello/rails-routing-apis-what-actually-happens-between-the-url-and-your-controller-4elj</id>
-        <link href="https://dev.to/lucasldemello/rails-routing-apis-what-actually-happens-between-the-url-and-your-controller-4elj"/>
-        <updated>2026-08-17T18:41:58.000Z</updated>
-        <summary type="html"><![CDATA[When I started studying APIs more seriously, I realized there was a problem with the way I was learning.
-I knew how to create a Rails API.
-I knew how to write:
-resources :products
-
-I knew what GET, POST, PATCH and DELETE were supposed to do.
-But I wasn't always able to explain why things worked the way they did.
-So I decided to go one step back and review the fundamentals: routing, HTTP, REST and how Rails puts all of these things together.
-This is what I learned.
-At its simplest, routing is the thing that connects a URL to some code in your application.
-In Rails, this happens in routes.rb.
-For example:
-get '/about', to: 'pages#about'
-
-If someone requests:
-GET /about
-
-Rails knows that it should call:
-PagesController#about
-
-Pretty straightforward.
-But Rails gets much more interesting when w…]]></summary>
-        <author>
-            <name>Lucas Luan de Melo</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Worker Kept Hitting the Old Database After the Config Was Changed]]></title>
-        <id>https://dev.to/codepy_1473/the-worker-kept-hitting-the-old-database-after-the-config-was-changed-23dh</id>
-        <link href="https://dev.to/codepy_1473/the-worker-kept-hitting-the-old-database-after-the-config-was-changed-23dh"/>
-        <updated>2026-08-17T18:38:33.000Z</updated>
-        <summary type="html"><![CDATA[The failure I keep on a throwaway server has no traceback. The API reports the new database, the background job writes to the old database, and every status check still says green. It is the kind of bug that can survive a code review because the diff is correct but the process is stale.
-This is a controlled reproduction, not a production incident report, so the database URLs are fake and the services are intentionally tiny. I am walking through it because the debugging sequence matters more than the specific stack.
-Disclosure: This article was prepared as part of MonkeyCode's product outreach. MonkeyCode's free model access and free server option let me run this two-process reproduction in a throwaway environment instead of guessing from a laptop.
-The first clue was that the API and a one-…]]></summary>
-        <author>
-            <name>Taylor Wang</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Revenue Is the Wrong Success Metric for a Distribution Business]]></title>
-        <id>https://dev.to/corpdigest/revenue-is-the-wrong-success-metric-for-a-distribution-business-1415</id>
-        <link href="https://dev.to/corpdigest/revenue-is-the-wrong-success-metric-for-a-distribution-business-1415"/>
-        <updated>2026-08-17T18:37:05.000Z</updated>
-        <summary type="html"><![CDATA[If you rank companies by revenue, McKesson shows up near the very top — north of $300B a year, bigger than most household-name tech giants. If you rank them by net margin, it nearly disappears: the margin is well under 1%. Both numbers are correct, and storing only one of them in your company-data schema will mislead every downstream comparison you build.
-The issue is that revenue means completely different things depending on the business model behind it. For a software company, revenue is close to value captured. For a pure distributor like McKesson — which moves pharmaceuticals from manufacturers to pharmacies — revenue is mostly pass-through: the cost of the drugs flows straight through the income statement. The company's actual economics live in the thin spread it keeps, not the enormous number at the top of the P&L.
-So a revenue column, used as a proxy for "size" or "success" across a mixed dataset, systematically overweights distributors, wholesalers, and retailers against asset-light businesses that capture far more per dollar of revenue. A "largest companies" ranking sorted on revenue alone will tell you McKesson is more significant than companies with a tenth of its revenue and ten times its profit.
-The schema fix is to stop treating revenue as a scalar success metric and store the fields that let you compute the one that matters for the question you're asking: gross_profit, net_income, and ideally revenue_model (pass-through vs. value-capture) as an explicit category. Then "rank by size" becomes an intentional choice — revenue, gross profit dollars, or margin — rather than an accident of which column was handy.
-I dug into this while writing up how McKesson actually makes money — the thin-margin-at-massive-scale model is the clearest example I've found of why a single revenue figure lies.
-How do you handle this in your own schemas — a revenue_model enum, a computed margin column, or something else?]]></summary>
-        <author>
-            <name>corpdigest</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Lonely Men Who Work in Patagonia, at the End of the World]]></title>
-        <id>https://www.newyorker.com/culture/photo-booth/the-lonely-men-at-the-end-of-the-world</id>
-        <link href="https://www.newyorker.com/culture/photo-booth/the-lonely-men-at-the-end-of-the-world"/>
-        <updated>2026-08-17T18:34:09.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cómo integrar un LLM (Claude o GPT) en tu aplicación Python]]></title>
-        <id>https://dev.to/isazajuancarlos/como-integrar-un-llm-claude-o-gpt-en-tu-aplicacion-python-42gm</id>
-        <link href="https://dev.to/isazajuancarlos/como-integrar-un-llm-claude-o-gpt-en-tu-aplicacion-python-42gm"/>
-        <updated>2026-08-17T18:30:04.000Z</updated>
-        <summary type="html"><![CDATA[Integrar un modelo de lenguaje (LLM) en una aplicación Python es hoy más sencillo de lo que parece, y abre la puerta a chatbots, asistentes internos, extracción de datos y automatización con lenguaje natural. En esta guía verás el patrón completo, con código real.
-Los tres más usados son Anthropic (Claude), OpenAI (GPT) y Google (Gemini). Todos exponen una API HTTP con un SDK de Python oficial, y la lógica de tu app apenas cambia entre ellos. En los ejemplos usaré Claude, pero el patrón es idéntico en los demás.
-Instala el SDK y guarda tu clave en una variable de entorno, nunca en el código:
-pip install anthropic
-export ANTHROPIC_API_KEY="tu-clave"
-
-El patrón es siempre el mismo: envías una lista de mensajes y recibes una respuesta.
-from anthropic import Anthropic
-
-client = Anthropic()  # …]]></summary>
-        <author>
-            <name>Juan Carlos Isaza</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How Python Takes Out Its Own Garbage]]></title>
-        <id>https://dev.to/samconibear/how-python-takes-out-its-own-garbage-326a</id>
-        <link href="https://dev.to/samconibear/how-python-takes-out-its-own-garbage-326a"/>
-        <updated>2026-08-17T18:28:45.000Z</updated>
-        <summary type="html"><![CDATA[Python manages memory automatically, freeing developers from manual allocation and deallocation. It does this through two complementary mechanisms: reference counting and a generational garbage collector for cyclic references.
-This article covers how garbage collection works in CPython. In other implementations such as PyPy, it works under a different mechanism
-Every object in Python carries a reference count, a tally of how many references point to it.
-This count increments when:
-A new reference is assigned (y = x)
-It's stored in a container (list, dict, etc.)
-The object is passed into a function
-It decrements when:
-A reference goes out of scope
-A reference is reassigned
-del is manually called on a reference
-
-
-
-
-import sys
-x = []
-y = x
-z = { "y": y }
-print(sys.getrefcount(x))  # 4 (x + y …]]></summary>
-        <author>
-            <name>samconibear</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Understanding chmod Without Memorizing Numbers]]></title>
-        <id>https://dev.to/asepsayyad007/understanding-chmod-without-memorizing-numbers-553h</id>
-        <link href="https://dev.to/asepsayyad007/understanding-chmod-without-memorizing-numbers-553h"/>
-        <updated>2026-08-17T18:28:18.000Z</updated>
-        <summary type="html"><![CDATA[How Linux file permissions actually work under the hood, why symbolic mode is your best friend, and how to stop blindly typing chmod 777.
-Every Linux engineer has been there.
-You write a brand-new bash script, try to run it from your terminal, and hit an immediate roadblock:
-$ ./backup.sh
-bash: ./backup.sh: Permission denied
-
-You open your search engine or ask a chat assistant for help. Within seconds, you find an answer that tells you to run:
-chmod 777 backup.sh
-
-You run the command, hit enter, and the script runs. Problem solved, right?
-Not quite. In fact, you just opened the digital front door of that file to every single user and background service on the entire operating system.
-When I started managing Linux servers years ago, permissions felt like a strange puzzle of three-digit math…]]></summary>
-        <author>
-            <name>Asep Sayyad</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Roboflow Playground: Try and Compare 30 Computer Vision Models]]></title>
-        <id>https://blog.roboflow.com/roboflow-playground/</id>
-        <link href="https://blog.roboflow.com/roboflow-playground/"/>
-        <updated>2026-08-17T18:28:07.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How I Over-Engineered My Book]]></title>
-        <id>https://ben.balter.com/2026/08/17/how-i-over-engineered-my-book/</id>
-        <link href="https://ben.balter.com/2026/08/17/how-i-over-engineered-my-book/"/>
-        <updated>2026-08-17T18:15:27.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Amazon, which started off selling books, is destroying rare texts to train AI]]></title>
-        <id>https://techcrunch.com/2026/08/17/amazon-once-an-online-bookseller-is-destroying-rare-books-to-train-ai-models/</id>
-        <link href="https://techcrunch.com/2026/08/17/amazon-once-an-online-bookseller-is-destroying-rare-books-to-train-ai-models/"/>
-        <updated>2026-08-17T18:10:16.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Llama.cpp v0.1.0]]></title>
-        <id>https://github.com/ggml-org/llama.cpp/releases/tag/v0.1.0</id>
-        <link href="https://github.com/ggml-org/llama.cpp/releases/tag/v0.1.0"/>
-        <updated>2026-08-17T17:56:06.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[We Are Forking dotenvy into dotenv-ng]]></title>
-        <id>https://secretspec.dev/blog/we-are-forking-dotenvy-into-dotenv-ng/</id>
-        <link href="https://secretspec.dev/blog/we-are-forking-dotenvy-into-dotenv-ng/"/>
-        <updated>2026-08-17T17:55:24.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GPU Offload in Rust: Portable, Safe, and Fast]]></title>
-        <id>https://arxiv.org/abs/2608.13759</id>
-        <link href="https://arxiv.org/abs/2608.13759"/>
-        <updated>2026-08-17T17:54:59.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Memory prices climb 500% in 12 months]]></title>
-        <id>https://www.tomshardware.com/pc-components/ram/memory-prices-climb-500-percent-in-12-months-up-to-10x-the-lowest-ever-tracked-prices-128gb-of-ddr5-now-usd3-399</id>
-        <link href="https://www.tomshardware.com/pc-components/ram/memory-prices-climb-500-percent-in-12-months-up-to-10x-the-lowest-ever-tracked-prices-128gb-of-ddr5-now-usd3-399"/>
-        <updated>2026-08-17T17:52:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Qwen3.8 27B scores 52 on Artificial Analysis]]></title>
-        <id>https://artificialanalysis.ai/models/qwen3-8-27b</id>
-        <link href="https://artificialanalysis.ai/models/qwen3-8-27b"/>
-        <updated>2026-08-17T17:25:17.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[An update on leaving Gmail for Fastmail]]></title>
-        <id>https://moddedbear.com/an-update-on-leaving-gmail-for-fastmail/</id>
-        <link href="https://moddedbear.com/an-update-on-leaving-gmail-for-fastmail/"/>
-        <updated>2026-08-17T17:15:20.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cursor launches Origin, GitHub alternative]]></title>
-        <id>https://cursor.com/changelog/origin-code-hosting</id>
-        <link href="https://cursor.com/changelog/origin-code-hosting"/>
-        <updated>2026-08-17T17:02:44.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Buy Your Friends Batteries]]></title>
-        <id>https://domenkozar.com/2026/08/17/buy-your-friends-batteries/</id>
-        <link href="https://domenkozar.com/2026/08/17/buy-your-friends-batteries/"/>
-        <updated>2026-08-17T16:45:11.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[BitMart founder dismisses calls for audit as users report blocked funds, unpaid employees]]></title>
-        <id>7d29803a-8453-4ac5-b7cd-529f53dce34d</id>
-        <link href="https://www.coindesk.com/business/2026/08/17/bitmart-founder-dismisses-calls-for-audit-as-users-report-blocked-funds-unpaid-employees"/>
-        <updated>2026-08-17T16:40:08.000Z</updated>
-        <summary type="html"><![CDATA[Sheldon Lee said a Chinese-language X account making the claims was hacked. Users want wallets, assets and liabilities disclosed.]]></summary>
-        <author>
-            <name>Olivier Acuna</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Sun Clock]]></title>
-        <id>https://sunclock.net/</id>
-        <link href="https://sunclock.net/"/>
-        <updated>2026-08-17T16:37:54.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What I Learned Shipping My First Chrome Extension to the Web Store]]></title>
-        <id>https://dev.to/10aburnett/what-i-learned-shipping-my-first-chrome-extension-to-the-web-store-42lb</id>
-        <link href="https://dev.to/10aburnett/what-i-learned-shipping-my-first-chrome-extension-to-the-web-store-42lb"/>
-        <updated>2026-08-17T16:23:02.000Z</updated>
-        <summary type="html"><![CDATA[I spent the last few months building and shipping a Chrome extension called Promo Drop, a free tool that finds verified promo codes and cashback for products on Whop. It is live on the Chrome Web Store now. This is a write-up of what I learned getting it there, minus the one part I cannot share (more on that below).
-Quick background on me: I studied at Lancaster University, spent a while day trading, and ended up buying courses and communities on Whop. I kept noticing two things. Working discount codes existed but were painful to find, and when there was no code, there was often no way to claw anything back. So I built the tool I wished existed.
-Here is what actually taught me something.
-Manifest V3 is a genuinely different mental model
-If your knowledge of extensions is a few years old, t…]]></summary>
-        <author>
-            <name>Alexander Burnett</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Size of the World Wide Web]]></title>
-        <id>https://www.worldwidewebsize.com/</id>
-        <link href="https://www.worldwidewebsize.com/"/>
-        <updated>2026-08-17T16:22:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[QUASAR: How Saliency-Weighted Reconstruction Closes the Loss Floor Gap in LLM Quantization-Aware Training]]></title>
-        <id>https://dev.to/prabhakar_chaudhary_7afe4/quasar-how-saliency-weighted-reconstruction-closes-the-loss-floor-gap-in-llm-quantization-aware-5akb</id>
-        <link href="https://dev.to/prabhakar_chaudhary_7afe4/quasar-how-saliency-weighted-reconstruction-closes-the-loss-floor-gap-in-llm-quantization-aware-5akb"/>
-        <updated>2026-08-17T16:20:19.000Z</updated>
-        <summary type="html"><![CDATA[QUASAR: How Saliency-Weighted Reconstruction Closes the Loss Floor Gap in LLM Quantization-Aware Training
-
-
-Quantization is one of the most practical tools in the LLM deployment toolkit. Shrinking a model from 16-bit to 4-bit or even 2-bit precision can cut memory requirements by 4–8×, making it possible to run large models on consumer hardware, edge devices, or cost-constrained cloud instances. But quantization is not free — and the further you push it, the more accuracy you sacrifice.
-A new paper from August 2026, QUASAR: Lowering the Loss Floor of Quantization-Aware Training with Loss-Aware Reconstruction, identifies a specific, fixable cause of that accuracy loss in Quantization-Aware Training (QAT) and proposes a lightweight solution that reduces held-out KL divergence by up to 29% at…]]></summary>
-        <author>
-            <name>Prabhakar Chaudhary</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Overview of the RTOS Kernel Project]]></title>
-        <id>https://dev.to/cangulmez/overview-of-the-rtos-kernel-project-lca</id>
-        <link href="https://dev.to/cangulmez/overview-of-the-rtos-kernel-project-lca"/>
-        <updated>2026-08-17T16:14:35.000Z</updated>
-        <summary type="html"><![CDATA[In previous tutorial, I've gave you the theoretical background about ARM Cortex-M3/4 processors. In here, I will explain the RTOS kernel project structure. 
-You can access and inspect the kernel implementation from here.
-The project gives the end-to-end development environment for STM32F446RE with the builtin kernel. I've built a statically allocated and fully preemptive kernel. For now, it's just kernel, not having the queue, mutex, thread notification or similar mechanism. I plan to add these also in the future.
-The project directory:
-bin includes the output artifacts.
-docs includes the some development notes.
-drivers includes the CMSIS and HAL drivers and required files.
-lib includes the driver libraries.
-renode includes the Renode description files to simulate.
-src includes an example …]]></summary>
-        <author>
-            <name>Can Gulmez</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Judge sets framework for Nine PBS to retrieve archival data]]></title>
-        <id>https://current.org/2026/08/judge-sets-framework-for-nine-pbs-to-retrieve-archival-data/</id>
-        <link href="https://current.org/2026/08/judge-sets-framework-for-nine-pbs-to-retrieve-archival-data/"/>
-        <updated>2026-08-17T16:11:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Ecology of Engineering Teams]]></title>
-        <id>https://dev.to/druid628/the-ecology-of-engineering-teams-3jgg</id>
-        <link href="https://dev.to/druid628/the-ecology-of-engineering-teams-3jgg"/>
-        <updated>2026-08-17T16:07:00.000Z</updated>
-        <summary type="html"><![CDATA[Over the past several weeks, I've introduced five engineering archetypes that I've encountered throughout my career:
-The Gardener
-The Mason
-The Blacksmith
-The Bear Killer
-The Chef
-If you've read the series from the beginning, you may have noticed something. I never intended these articles to become a personality framework. They're certainly not a hiring rubric, and they aren't meant to suggest that every engineer fits neatly into one category.
-Their purpose is much simpler.
-I wanted to give engineers and engineering leaders a common vernacular for describing something many of us have observed but sometimes struggle to articulate.
-Different engineers naturally excel in different areas. They approach problems differently, notice different things, and bring different strengths to an engineeri…]]></summary>
-        <author>
-            <name>Micah Breedlove (druid628)</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Copilot Autofix Introduced a Critical CI/CD Bug at Snowflake. Here's How to Harden GitHub Actions]]></title>
-        <id>https://dev.to/jamilxt/copilot-autofix-introduced-a-critical-cicd-bug-at-snowflake-heres-how-to-harden-github-actions-1pf</id>
-        <link href="https://dev.to/jamilxt/copilot-autofix-introduced-a-critical-cicd-bug-at-snowflake-heres-how-to-harden-github-actions-1pf"/>
-        <updated>2026-08-17T16:05:39.000Z</updated>
-        <summary type="html"><![CDATA[On June 23, an autonomous AI security tool walked into Snowflake's internal Jira. It did not brute-force a login or find a leaked password. The door was left open five days earlier by a commit "co-authored by Copilot Autofix powered by AI," and the only key anyone needed was the ability to open a GitHub issue with a carefully written title.
-Wiz Research published the full write-up on August 17 (Red Agent Exploits Snowflake Vuln Created by Copilot Autofix). It is the cleanest example I have seen of the new failure mode nobody onboarded for: AI coding assistants quietly deleting the security patterns that kept a pipeline safe, and autonomous agents exploiting the result in the same week.
-I deploy Spring Boot applications through GitHub Actions every week, and I run my own agent infrastructur…]]></summary>
-        <author>
-            <name>jamilxt</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Understanding Async Programming]]></title>
-        <id>https://dev.to/aws/understanding-async-programming-4mei</id>
-        <link href="https://dev.to/aws/understanding-async-programming-4mei"/>
-        <updated>2026-08-17T16:01:25.000Z</updated>
-        <summary type="html"><![CDATA[Async programming, short for asynchronous programming, is one of those concepts that might sound intimidating at first but becomes surprisingly intuitive once you understand the problem it is trying to solve.
-And that problem is mostly waiting.
-Modern applications spend a lot of time waiting for things to happen. They wait for APIs to respond, databases to return queries, files to be read or written, and data to travel across a network. Async programming gives us a way to avoid blocking while that happens, allowing other useful work to make progress instead.
-In this post, I’ll cover the basic concepts behind async programming rather than focusing on a particular language. The exact implementation differs between languages and runtimes, but the underlying ideas are largely the same. So if y…]]></summary>
-        <author>
-            <name>Matheus Guimaraes</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cutting Cloud Costs with a Few Habits]]></title>
-        <id>https://dev.to/cloudfrontier/cutting-cloud-costs-with-a-few-habits-2b1b</id>
-        <link href="https://dev.to/cloudfrontier/cutting-cloud-costs-with-a-few-habits-2b1b"/>
-        <updated>2026-08-17T16:01:06.000Z</updated>
-        <summary type="html"><![CDATA[The Silent Budget Killer
-
-
-Cloud bills creep up. You start with a small instance, a managed database, and a bucket. A year later, you're paying for resources you forgot existed. The worst part? Most of that waste is avoidable with a few simple habits.
-I've been there. After a particularly painful invoice, I made a checklist of practices that now keep my cloud spending in check. Here's what works.
-Tags are not just for organization; they are your cost allocation superpower. Without tags, you can't answer the question: "What is this cost for?"
-Start tagging every resource with at least project, owner, and environment (dev, staging, prod). Most cloud providers let you enforce tags with policies. For example, in AWS, you can use a service control policy to deny creation of untagged resources.
-…]]></summary>
-        <author>
-            <name>Cloud Frontier</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Theory of Fluids Enters the 21st Century]]></title>
-        <id>https://www.quantamagazine.org/theory-of-fluids-enters-the-21st-century-20260817/</id>
-        <link href="https://www.quantamagazine.org/theory-of-fluids-enters-the-21st-century-20260817/"/>
-        <updated>2026-08-17T15:56:40.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Authentication done right: JWT, sessions, and OAuth explained — Like a Marvel superhero assembling the team]]></title>
-        <id>https://dev.to/timevolt/authentication-done-right-jwt-sessions-and-oauth-explained-like-a-marvel-superhero-assembling-2ihf</id>
-        <link href="https://dev.to/timevolt/authentication-done-right-jwt-sessions-and-oauth-explained-like-a-marvel-superhero-assembling-2ihf"/>
-        <updated>2026-08-17T15:50:41.000Z</updated>
-        <summary type="html"><![CDATA[The Quest Begins (The "Why")
-
-
-I still remember the first time I tried to add login to a side‑project. I’d read a tutorial that said “just store a token in localStorage and you’re good,” slapped together a few fetch calls, and called it a day. A week later I got an email from a user: “Hey, I can’t log out, and someone else seems to be using my account.” My heart sank. I realized I’d bolted a flashy lock onto a screen door — it looked secure, but anyone with a screwdriver could walk right in.
-That moment kicked off a deep dive. I wanted to understand the trade‑offs between sessions, JSON Web Tokens (JWT), and OAuth so I could pick the right tool for each job, not just the shiniest one. What followed felt like assembling a superhero squad: each member has a unique power, and knowing when to …]]></summary>
-        <author>
-            <name>Timevolt</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Universal Health Coverage Could Save $1T and 114,000 Lives a Year, Yale Study]]></title>
-        <id>https://ysph.yale.edu/news-article/universal-health-coverage-could-save-one-trillion-dollars-and-114000-lives-every-year/</id>
-        <link href="https://ysph.yale.edu/news-article/universal-health-coverage-could-save-one-trillion-dollars-and-114000-lives-every-year/"/>
-        <updated>2026-08-17T15:49:57.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Using an old Android phone as a music player]]></title>
-        <id>https://monocyte.blog/using-an-old-android-phone-as-a-music-player/</id>
-        <link href="https://monocyte.blog/using-an-old-android-phone-as-a-music-player/"/>
-        <updated>2026-08-17T15:40:15.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Status Quo of AI in Software Development (2026)]]></title>
-        <id>https://dev.to/ogc16/the-status-quo-of-ai-in-software-development-2026-17k8</id>
-        <link href="https://dev.to/ogc16/the-status-quo-of-ai-in-software-development-2026-17k8"/>
-        <updated>2026-08-17T15:40:14.000Z</updated>
-        <summary type="html"><![CDATA[Artificial Intelligence in 2026: From Companion to Infrastructure
-
-
-Artificial Intelligence has moved from being a futuristic concept to an everyday companion in software development. In 2026, the landscape is defined by rapid innovation, fierce competition, and unresolved challenges around governance, sustainability, and labor. Developers today are navigating both unprecedented opportunities and complex risks.
-Over 90% of notable AI models now originate from industry rather than academia, signaling commercialization as the primary driver of innovation. Research labs continue to contribute breakthroughs, but the pace of deployment is overwhelmingly shaped by corporate priorities, venture capital, and cloud infrastructure.
-The United States leads in model releases and data center infrastruc…]]></summary>
-        <author>
-            <name>ogc16</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Programming for Cybersecurity: What You Actually Need to Know]]></title>
-        <id>https://dev.to/xyberghost007/programming-for-cybersecurity-what-you-actually-need-to-know-1d99</id>
-        <link href="https://dev.to/xyberghost007/programming-for-cybersecurity-what-you-actually-need-to-know-1d99"/>
-        <updated>2026-08-17T15:36:54.000Z</updated>
-        <summary type="html"><![CDATA[This article is for people who want to move beyond clicking buttons. Whether you're a beginner deciding where to start or a security analyst who wants to automate boring tasks, programming will change how you work. I'll cover why programming matters, what languages to learn, the concepts you'll actually use, projects to build, and how to think like both an attacker and a defender.
-Why programming isn't optional anymore
-Cybersecurity used to be more forgiving. You could run a vulnerability scanner, read the report, and call it a day. But threats have gotten more complex, and so have the defenses. Today, you need to:
-· Write scripts to analyze thousands of log lines in seconds.
-If you can't read or write code, you're limited to what someone else built. That's not a career; that's a hobby. Pr…]]></summary>
-        <author>
-            <name>GHOST</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Launch HN: Speko (YC S26) – OpenRouter for Voice AI]]></title>
-        <id>https://speko.ai/</id>
-        <link href="https://speko.ai/"/>
-        <updated>2026-08-17T15:36:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Launch HN: Speko (YC S26) – OpenRouter for Voice AI]]></title>
-        <id>https://news.ycombinator.com/item?id=49332751</id>
-        <link href="https://news.ycombinator.com/item?id=49332751"/>
-        <updated>2026-08-17T15:36:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Compound bets $52 million, new leadership team in switch to institutional focus]]></title>
-        <id>891e1387-0354-46f1-854a-1547bb655906</id>
-        <link href="https://www.coindesk.com/business/2026/08/17/compound-bets-usd52-million-new-leadership-team-in-switch-to-institutional-focus"/>
-        <updated>2026-08-17T15:32:30.000Z</updated>
-        <summary type="html"><![CDATA[The protocol pioneered decentralized finance lending, but assets locked have tumbled from a peak five years ago. Now it's looking to attract institutions after retail traders lost interest.]]></summary>
-        <author>
-            <name>Olivier Acuna</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Kitchen Doesn't Care About Your Excuses]]></title>
-        <id>https://dev.to/kenwalger/the-kitchen-doesnt-care-about-your-excuses-i10</id>
-        <link href="https://dev.to/kenwalger/the-kitchen-doesnt-care-about-your-excuses-i10"/>
-        <updated>2026-08-17T15:24:00.000Z</updated>
-        <summary type="html"><![CDATA[There is a moment in every high-stakes environment when something goes completely, objectively wrong, and the only viable response is to keep working.
-In my case, it was a pantry clerk who walked into the dry storage room carrying a stack of boxes, clipped a fire sprinkler head, and discharged what I can only describe as an impressive quantity of initially greasy water across an active commercial kitchen. We were told to continue service. It took four hours for the sprinkler system technicians to arrive and resolve the situation. We dried our shoes afterward.
-I have thought about that shift many times since leaving commercial kitchens for the technology industry. Not because it was the strangest thing I witnessed. It wasn't. Not by a significant margin. However, because the response to it …]]></summary>
-        <author>
-            <name>Ken W Alger</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why I Built Unlockt: A Local-First Instagram Saved Archiver, Canvas Collage Studio & 9:16 Video Vault]]></title>
-        <id>https://dev.to/mah7moud_madi/why-i-built-unlockt-a-local-first-instagram-saved-archiver-canvas-collage-studio-916-video-fkk</id>
-        <link href="https://dev.to/mah7moud_madi/why-i-built-unlockt-a-local-first-instagram-saved-archiver-canvas-collage-studio-916-video-fkk"/>
-        <updated>2026-08-17T15:22:37.000Z</updated>
-        <summary type="html"><![CDATA[Like many developers, designers, and digital marketers, my Instagram "Saved" collection had turned into a digital graveyard with over 5,000 bookmarked posts, reels, and carousels. 
-❌ No full-text search across captions or hashtags
-❌ No way to extract individual slides from carousel photo dumps
-❌ No offline preservation (if a creator archives a post, it disappears forever)
-❌ Existing web downloaders ask for account passwords, inject trackers, or bombard you with ads.
-So I spent the last few months developing Unlockt — a 100% free, MIT open-source, local-first Chromium extension and Node.js Express dashboard.
----
-## 🏗️ Architecture & Engineering Highlights
-Here is how Unlockt is designed under the hood:
-┌─────────────────────────────────┐ │ Chromium Extension (MV3) │ ──► Reads Instagram Gra…]]></summary>
-        <author>
-            <name>Mahmoud Madi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ask HN: GitHub employees what's going on? Why?]]></title>
-        <id>https://news.ycombinator.com/item?id=49332495</id>
-        <link href="https://news.ycombinator.com/item?id=49332495"/>
-        <updated>2026-08-17T15:19:31.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Algorithmic Patterns: The Ultimate Guide to Sliding Window]]></title>
-        <id>https://dev.to/architect_bytes/algorithmic-patterns-the-ultimate-guide-to-sliding-window-33g9</id>
-        <link href="https://dev.to/architect_bytes/algorithmic-patterns-the-ultimate-guide-to-sliding-window-33g9"/>
-        <updated>2026-08-17T15:15:18.000Z</updated>
-        <summary type="html"><![CDATA[The Sliding Window pattern is one of the most vital algorithmic techniques for optimizing array and string problems. Instead of repeatedly processing overlapping subarrays - which leads to brute-force quadratic O(N^2) or O(N*K) complexities, the sliding window technique reuses previous computations to achieve linear time complexity $O(N)$.
-In this guide, we will break down the mechanics, core variations, identification rules, real-world applications, and a curated list of 18 LeetCode problems with key solution strategies.
-A sliding window performs operations over a contiguous sub-segment (subarray or substring) of data structure. As the window "slides" across the array from left to right, elements entering and leaving the window are updated incrementally.
-Brute-Force Nested Loops: O(N^2) o…]]></summary>
-        <author>
-            <name>The Architect</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Network Devices Explained — The Foundation Every Cloud & DevOps Engineer Needs]]></title>
-        <id>https://dev.to/tejas_shinkar/network-devices-explained-the-foundation-every-cloud-devops-engineer-needs-218a</id>
-        <link href="https://dev.to/tejas_shinkar/network-devices-explained-the-foundation-every-cloud-devops-engineer-needs-218a"/>
-        <updated>2026-08-17T15:01:08.000Z</updated>
-        <summary type="html"><![CDATA[🌐 Network Devices Explained
-
-
-
-  
-  
-  The Foundation Every Cloud & DevOps Engineer Needs
-
-
-
-
-
-
-Series: Networking Fundamentals for Cloud & DevOps — Part 1 of 6
-Before VPCs, subnets, route tables, and security groups make sense, you need to understand what's happening beneath them. This series builds that foundation — starting with the devices that make networks work.
-I hit a wall during my AWS VPC sessions. Route tables, subnets, gateways, NACLs — the concepts existed in isolation. I could follow steps in the console, but I couldn't reason about why traffic was or wasn't flowing.
-The fix wasn't more AWS documentation. It was going back to networking fundamentals. Once I understood what a router actually does — how it makes forwarding decisions, what a routing table really is — the AWS ro…]]></summary>
-        <author>
-            <name>Tejas Shinkar</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why I left Warehouse out of our Fabric deployment scope]]></title>
-        <id>https://dev.to/vedaforge_eng/why-i-left-warehouse-out-of-our-fabric-deployment-scope-2jca</id>
-        <link href="https://dev.to/vedaforge_eng/why-i-left-warehouse-out-of-our-fabric-deployment-scope-2jca"/>
-        <updated>2026-08-17T15:01:05.000Z</updated>
-        <summary type="html"><![CDATA[title: Why I left Warehouse out of our Fabric deployment scope
-Our Fabric deployment pipeline handles sixteen item types. Warehouse is not one
-DEFAULT_ITEM_TYPES = [
-    "DataPipeline",
-    "Lakehouse",
-    "Notebook",
-    "SemanticModel",
-    # "Warehouse" is intentionally excluded. Warehouse schema deployment must
-    # be handled separately to avoid schema reset risk during publish.
-    "Environment",
-    "Eventhouse",
-    ...
-]
-
-Publishing a warehouse through this path can reset its schema.
-Not "might behave unexpectedly". The failure mode is that a deployment intended
-Two options once you know that.
-Include it and hope nobody deploys a warehouse without reading the docs. The
-Or exclude it, document why, and handle warehouse deployment as its own problem
-I took the second. An automation that covers most cases and silently corrupts
-An exclusion is only useful if someone notices it. Three things help:
-The comment sits inside the list, not in a doc nobody opens. Anyone reading
-It is in the README under known limitations, next to the other things the
-There is a test. It asserts Warehouse is absent from the default scope:
-def test_warehouse_stays_excluded(self):
-    """Warehouse publish can reset schema, so it is handled separately."""
-    self.assertNotIn("Warehouse", deploy.DEFAULT_ITEM_TYPES)
-
-That test looks silly. It is asserting that a string is missing from a list.
-It exists because the natural instinct, when someone hits "my warehouse did not
-The honest gap: excluding it does not solve warehouse deployment, it defers it.
-That is a real limitation rather than a design choice, and worth saying so.
-Full context: [https://www.linkedin.com/pulse/building-enterprise-microsoft-fabric-cicd-practical-guide-mintu-ghosh-f3dbf/] 
-https://github.com/vedaforge-team/fabric-cicd-reference/tree/v1.0.0]]]></summary>
-        <author>
-            <name>Mintu Ghosh</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Day I Realized I Wasn't Building Apps]]></title>
-        <id>https://dev.to/ashb4/the-day-i-realized-i-wasnt-building-apps-14fm</id>
-        <link href="https://dev.to/ashb4/the-day-i-realized-i-wasnt-building-apps-14fm"/>
-        <updated>2026-08-17T15:00:04.000Z</updated>
-        <summary type="html"><![CDATA[The Day I Realized I Wasn't Building Apps
-
-
-For years, I thought I was building apps.
-That's what I called them anyway.
-A scheduler.
-A job bot.
-A healthcare platform.
-An AI project.
-A content tool.
-A browser automation system.
-Looking at my GitHub, they seem completely unrelated.
-Honestly, that's something I've worried about before.
-I have over a hundred repositories.
-If someone spends thirty seconds scrolling through them, I can imagine them thinking:
-"Wow. This person is all over the place."
-The funny thing is that I eventually realized the opposite was true.
-My GitHub is here: https://github.com/ashb4
-One of my projects started life as a simple scheduler.
-That was the goal.
-I hated posting content manually.
-Open platform.
-Paste content.
-Upload image.
-Repeat.
-Again.
-And again.
-And again.…]]></summary>
-        <author>
-            <name>Ashley B</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Why Your Generated Tone Clicks, and How an Envelope Fixes It]]></title>
-        <id>https://dev.to/mwiginton/why-your-generated-tone-clicks-and-how-an-envelope-fixes-it-1p89</id>
-        <link href="https://dev.to/mwiginton/why-your-generated-tone-clicks-and-how-an-envelope-fixes-it-1p89"/>
-        <updated>2026-08-17T14:57:57.000Z</updated>
-        <summary type="html"><![CDATA[If you have generated a pure tone in code and played it back, you may have noticed a small click at the start, the end, or both. The tone itself is clean, but the edges are not. That click is not a bug in your sine wave. It is a real and well understood artifact, and the fix is a technique you will reuse in every sound you ever synthesize: an envelope.
-This piece builds directly on generating a basic tone from scratch. We take a tone that clicks, look at the actual sample values to see why, and apply an envelope to smooth it. Everything is plain C++ with no libraries, and every number here is captured from a real run of the code.
-A tone is a list of samples tracing a sine wave. A speaker turns those samples into sound by physically moving: the sample value sets the position of the speaker …]]></summary>
-        <author>
-            <name>Michelle Wiginton</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Faire tourner Qwen 3.8–27B en local avec Unsloth et DeepSeek Harness sur une RTX 3090 (24 Go) sous Windows 11.]]></title>
-        <id>https://dev.to/jacquesgariepy/faire-tourner-qwen-38-27b-en-local-avec-unsloth-et-deepseek-harness-sur-une-rtx-3090-24-go-sous-5144</id>
-        <link href="https://dev.to/jacquesgariepy/faire-tourner-qwen-38-27b-en-local-avec-unsloth-et-deepseek-harness-sur-une-rtx-3090-24-go-sous-5144"/>
-        <updated>2026-08-17T14:56:30.000Z</updated>
-        <summary type="html"><![CDATA[Par Jacques Gariépy • Guide technique, retour d'expérience, dépannage Windows pas-à-pas et utilisation Web & CLI.
-Introduction & Architecture Globale
-Pourquoi ce Setup ? (RTX 3090 24 Go + UD-Q4_K_XL)
-Comment Obtenir & Générer vos Clés d'Accès
-Dépannage & Installation d'Unsloth Studio : Le Bug SSLKEYLOGFILE
-Installation & Compilation de DeepSeek Harness
-Démarrage du Serveur Local Haute Performance (llama.cpp CUDA 13)
-Configuration Automatique & Fichier .env
-Utilisation : Interface Web & Mode CLI (Style Claude Code)
-Résolution des Pièges & Erreurs Courantes sous Windows
-Benchmarks Réels sur RTX 3090
-Résumé des Commandes & Scripts Clés
-Faire tourner un agent autonome d'ingénierie logicielle directement sur sa machine locale (100% privé, sans frais d'API et à latence minimale) est devenu une r…]]></summary>
-        <author>
-            <name>Jacques Gariépy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CloudFront Functions - dynamic switching between origins]]></title>
-        <id>https://dev.to/aws-builders/cloudfront-functions-dynamic-switching-between-origins-33f9</id>
-        <link href="https://dev.to/aws-builders/cloudfront-functions-dynamic-switching-between-origins-33f9"/>
-        <updated>2026-08-17T14:53:19.000Z</updated>
-        <summary type="html"><![CDATA[You can switch between different applications sharing the same URL in CloudFront.
-I have a web app served using CloudFront from S3. I need a mechanism to seamlessly replace this app with another one, served from a different S3 bucket, but with the same URL. The bottom line is to switch apps under the hood without redeploying the stack so users won't really notice a switch. 
-Code is available in this repository
-There are a few ways to skin the cat. I decided to use a CloudFront Function to dynamically decide which origin to use. The parameter is to be stored in the associated CloudFront KeyValueStore.
-When working with requests and responses in CloudFront, there are two main candidates: CloudFront Functions and Lambda@Edge. The latter allows running Node.js or Python Lambda runtime close to…]]></summary>
-        <author>
-            <name>szymon-szym</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Your Coding Agent Can Read the Code—but Can It See the App Fail?]]></title>
-        <id>https://dev.to/akosidencio/your-coding-agent-can-read-the-code-but-can-it-see-the-app-fail-49dc</id>
-        <link href="https://dev.to/akosidencio/your-coding-agent-can-read-the-code-but-can-it-see-the-app-fail-49dc"/>
-        <updated>2026-08-17T14:52:44.000Z</updated>
-        <summary type="html"><![CDATA[TailFlow gives coding agents compact, queryable evidence from the applications
-Coding agents are increasingly capable of navigating repositories, editing
-But there is still a gap in the typical agent workflow:
-The agent can read the code, but it often cannot see what happens after the
-
-
-A build may pass while the development server fails during startup. A frontend
-If the agent cannot observe that output, the workflow usually becomes:
-agent edits code
-→ checks pass
-→ application fails at runtime
-→ developer notices the terminal error
-→ developer copies the error back to the agent
-→ agent tries again
-
-That manual handoff is the problem
-TailFlow is designed to solve.
-TailFlow is an open-source, local runtime-verification layer for coding agents.
-It collects output from:
-Development processes
-…]]></summary>
-        <author>
-            <name>Dencio</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How I Automated Claude’s 5-Hour Usage Window with Cloudflare Workers & Puppeteer]]></title>
-        <id>https://dev.to/shlokkokk/how-i-automated-claudes-5-hour-usage-window-with-cloudflare-workers-puppeteer-550m</id>
-        <link href="https://dev.to/shlokkokk/how-i-automated-claudes-5-hour-usage-window-with-cloudflare-workers-puppeteer-550m"/>
-        <updated>2026-08-17T14:52:28.000Z</updated>
-        <summary type="html"><![CDATA[I Automated Claude’s 5-Hour Usage Window with Cloudflare Workers
-
-
-I got tired of manually sending a message to Claude just to start its 5-hour rolling usage window.
-So I automated it.
-Not with a VPS.
-Not with a browser running 24/7.
-With a Cloudflare Worker, Browserless, and Puppeteer.
-The result is Claude Pinger — a small serverless service that periodically opens Claude, authenticates an account, navigates to a dedicated conversation, and sends a minimal ping.
-GitHub: https://github.com/shlokkokk/claude-pinger
-Claude uses a rolling 5-hour usage window.
-The part that bothered me was that the window doesn't start counting down until the account actually sends a message.
-If you're not actively using Claude, nothing happens.
-So if I wanted the window to be active before I started working, I…]]></summary>
-        <author>
-            <name>Shlok Shah</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Secure Your VPS: Firewall, SSH & Fail2ban]]></title>
-        <id>https://dev.to/ahmad_bayat/how-to-secure-your-vps-firewall-ssh-fail2ban-180l</id>
-        <link href="https://dev.to/ahmad_bayat/how-to-secure-your-vps-firewall-ssh-fail2ban-180l"/>
-        <updated>2026-08-17T14:48:25.000Z</updated>
-        <summary type="html"><![CDATA[Within minutes of going online, every public server starts receiving automated attacks: password guesses, port scans, and exploit attempts against whatever it finds listening. This is not personal and it is not rare. In its Q1 2025 report on malware aimed at Linux SSH servers, AhnLab found that two malware families drove most of the activity, with P2PInfect (56.3%) and Tsunami (25.4%) together accounting for about 80% of the samples it collected from compromised servers — the payloads that get dropped once a weak login is guessed. The good news is that the defences that stop this are cheap, standard, and take under an hour to set up.
-This guide builds three layers on a fresh VPS: a default-deny firewall, hardened SSH, and Fail2ban. First, though, a point that trips up almost everyone on th…]]></summary>
-        <author>
-            <name>Ahmad Bayat</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Built Cat Guardian for My Seven Cats 🐾]]></title>
-        <id>https://dev.to/lfrichter/i-built-cat-guardian-for-my-seven-cats-287</id>
-        <link href="https://dev.to/lfrichter/i-built-cat-guardian-for-my-seven-cats-287"/>
-        <updated>2026-08-17T14:45:48.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for Weekend Challenge: Dog Days Edition
-I live with seven cats: Kiara, Golia, Meias, Vaquinha, Tigrinha, Peluda, and Gamora. They all have different personalities, different appearances, and different routines.
-And, like many pet owners, there is one thing that has always worried me: What if one of them gets lost?
-That question became the starting point for Cat Guardian.
-Cat Guardian is a privacy-first digital safety passport for cats.
-The idea is simple: give each cat a digital identity containing the information that could actually help if they ever go missing.
-The platform provides:
-🐈 Digital identity for each cat
-🩺 Health records and vaccination tracking
-🧠 AI-assisted visual identification
-🏷️ Dynamic QR collar tags
-🚨 Lost Mode
-📱 Public rescue passport
-🔐 Priv…]]></summary>
-        <author>
-            <name>Luis Fernando Richter</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[U.S. Treasury Department proposes GENIUS Act stablecoin rule]]></title>
-        <id>23a210ff-0123-45b8-899b-0506bc851c5a</id>
-        <link href="https://www.coindesk.com/policy/2026/08/17/u-s-treasury-department-proposes-genius-act-stablecoin-rule"/>
-        <updated>2026-08-17T14:44:29.000Z</updated>
-        <summary type="html"><![CDATA[The Treasury proposal would establish some of the core definitions and jurisdictions in the law Congress completed last year.]]></summary>
-        <author>
-            <name>Jesse Hamilton</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Swift 6 Strict Concurrency: 4 Migration Mistakes and How to Fix Them]]></title>
-        <id>https://dev.to/mrugeshtank/swift-6-strict-concurrency-4-migration-mistakes-and-how-to-fix-them-50ij</id>
-        <link href="https://dev.to/mrugeshtank/swift-6-strict-concurrency-4-migration-mistakes-and-how-to-fix-them-50ij"/>
-        <updated>2026-08-17T14:43:51.000Z</updated>
-        <summary type="html"><![CDATA[I enabled Swift 6 mode on a project I'd been shipping for two years. Sixty-plus errors. My first reaction was to roll it back.
-I'm glad I didn't. At least a dozen of those were real bugs — data races and actor isolation violations that had been silently waiting to bite me in production.
-Here are the four patterns behind most of those errors, and exactly how I fixed them.
-This is the most common one. You have a class — say, a ProfileViewModel — and you capture it inside a Task closure without thinking about what that means for thread safety.
-// ❌ Swift 6 error: capture of 'viewModel' with non-sendable type
-class ProfileViewModel {
-    var username: String = ""
-}
-
-Task {
-    await fetchProfile(for: viewModel)
-}
-
-ProfileViewModel is a reference type with mutable state. Two contexts can now re…]]></summary>
-        <author>
-            <name>Mrugesh Tank</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Qwen3.8-27B at 256K on a 24GB RTX PRO 4000 SFF (432 GB/s): 50 tok/s with MTP]]></title>
-        <id>https://piszczek.pl/blog/qwen38-27b-256k-50-tps-24gb-gpu</id>
-        <link href="https://piszczek.pl/blog/qwen38-27b-256k-50-tps-24gb-gpu"/>
-        <updated>2026-08-17T14:29:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Eve Software Factory]]></title>
-        <id>https://github.com/vercel-labs/eve-software-factory-template/tree/main</id>
-        <link href="https://github.com/vercel-labs/eve-software-factory-template/tree/main"/>
-        <updated>2026-08-17T14:28:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The only known trebuchet casualty in history]]></title>
-        <id>https://arstechnica.com/science/2026/08/meet-the-only-known-trebuchet-casualty-in-history/</id>
-        <link href="https://arstechnica.com/science/2026/08/meet-the-only-known-trebuchet-casualty-in-history/"/>
-        <updated>2026-08-17T14:26:19.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Saggar, a Mac terminal that keeps sessions and your attention organized]]></title>
-        <id>https://saggar.marginalutility.dev/</id>
-        <link href="https://saggar.marginalutility.dev/"/>
-        <updated>2026-08-17T14:25:54.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to put 170 atoms in an atom]]></title>
-        <id>https://signoregalilei.com/2026/08/02/how-to-put-170-atoms-in-an-atom/</id>
-        <link href="https://signoregalilei.com/2026/08/02/how-to-put-170-atoms-in-an-atom/"/>
-        <updated>2026-08-17T14:21:25.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI-Generated GitHub Copilot "Autofix" Allowed Compromise of Snowflake's Jira]]></title>
-        <id>https://www.wiz.io/blog/red-agent-snowflake-copilot-cicd-bug</id>
-        <link href="https://www.wiz.io/blog/red-agent-snowflake-copilot-cicd-bug"/>
-        <updated>2026-08-17T14:18:38.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Does whispering to agents in docs help?]]></title>
-        <id>https://passo.uno/if-you-are-an-agent-read-this/</id>
-        <link href="https://passo.uno/if-you-are-an-agent-read-this/"/>
-        <updated>2026-08-17T14:16:41.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[QUERY_HISTORY has no PARENT_QUERY_ID. Here's how I traced which statement inside a Snowflake procedure regressed anyway.]]></title>
-        <id>https://dev.to/tracepointdata/queryhistory-has-no-parentqueryid-heres-how-i-traced-which-statement-inside-a-snowflake-el7</id>
-        <link href="https://dev.to/tracepointdata/queryhistory-has-no-parentqueryid-heres-how-i-traced-which-statement-inside-a-snowflake-el7"/>
-        <updated>2026-08-17T14:15:00.000Z</updated>
-        <summary type="html"><![CDATA[If you write ETL procedures in Snowflake but don't have ACCOUNT_USAGE
-QUERY_HISTORY gives you zero help connecting a CALL
-PARENT_QUERY_ID. No
-ROOT_QUERY_ID. TRANSACTION_ID doesn't match between parent and
-QUERY_TAG is empty unless the caller happens to set it.
-So when a 7-statement procedure regresses, "which of the 7 got slower,
-ACCOUNT_USAGE.QUERY_HISTORY has about 85 columns. I went through all
-CALL to its child
-TRANSACTION_ID - differs per child statement, doesn't match the
-parent CALL row (which is usually 0/null).
-QUERY_TAG - empty unless the calling session sets it explicitly.
-Not usable generically, since a tool like this doesn't control the
-customer's session.
-CHILD_QUERIES_WAIT_TIME - this one's interesting. It exists on
-the parent CALL row, and its mere existence proves Snowflak…]]></summary>
-        <author>
-            <name>Tracepoint Data</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A threshold that filters CVEs is only half a design until zero has two meanings]]></title>
-        <id>https://dev.to/takahiro_hashito_a1f3f0dc/a-threshold-that-filters-cves-is-only-half-a-design-until-zero-has-two-meanings-f24</id>
-        <link href="https://dev.to/takahiro_hashito_a1f3f0dc/a-threshold-that-filters-cves-is-only-half-a-design-until-zero-has-two-meanings-f24"/>
-        <updated>2026-08-17T14:14:45.000Z</updated>
-        <summary type="html"><![CDATA[Introduction
-
-
-I run a site that publishes vulnerability write-ups. Every day a script pulls freshly published vulnerabilities from two upstream sources and does a first-pass triage before I write anything.
-Quick glossary, since these acronyms carry the whole article:
-CVE (Common Vulnerabilities and Exposures) is the globally unique identifier assigned to a single vulnerability, in the form CVE-2026-50148.
-CVSS (Common Vulnerability Scoring System) expresses severity as a number from 0.0 to 10.0. 7.0 and above is High; 9.0 and above is Critical.
-NVD (National Vulnerability Database) is the vulnerability database run by NIST. It holds the details and CVSS score for each CVE.
-KEV (Known Exploited Vulnerabilities) is a catalog published by CISA. Only vulnerabilities with confirmed in-the-wild…]]></summary>
-        <author>
-            <name>takahiro hashito</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Learn Flags Quiz]]></title>
-        <id>https://flagquizzes.com/</id>
-        <link href="https://flagquizzes.com/"/>
-        <updated>2026-08-17T14:11:17.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to Manage Context Files in Your Codebase and Get Better Output From AI Coding Agents]]></title>
-        <id>6a831663dcf9ac784c9eae7d</id>
-        <link href="https://www.freecodecamp.org/news/how-to-manage-context-files-in-your-codebase-and-get-better-agent-output/"/>
-        <updated>2026-08-17T14:10:43.000Z</updated>
-        <summary type="html"><![CDATA[You ask a coding agent for a new endpoint, and ninety seconds later you have a working endpoint. Then you read the diff, and you find that it pulled in a validation library that's not in your package.]]></summary>
-        <author>
-            <name>Kayode Adeniyi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Coldcard hack proves reputation is not a security model]]></title>
-        <id>582206b5-8fe3-466d-b711-a18b2efd954e</id>
-        <link href="https://www.coindesk.com/opinion/2026/08/17/the-coldcard-hack-proves-reputation-is-not-a-security-model"/>
-        <updated>2026-08-17T14:09:46.000Z</updated>
-        <summary type="html"><![CDATA[A community built on verification spent five years outsourcing its judgment to one man, writes Foundation CEO Zach Herbert.]]></summary>
-        <author>
-            <name>Zach Herbert</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Apple's App Tracking Transparency treated its own apps better than rivals]]></title>
-        <id>https://www.bundeskartellamt.de/SharedDocs/Meldung/EN/Pressemitteilungen/2026/08_17_2026_Apple_ATTF.html</id>
-        <link href="https://www.bundeskartellamt.de/SharedDocs/Meldung/EN/Pressemitteilungen/2026/08_17_2026_Apple_ATTF.html"/>
-        <updated>2026-08-17T14:07:59.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to disable or avoid intrusive AI]]></title>
-        <id>https://www.librarian.net/notoai/</id>
-        <link href="https://www.librarian.net/notoai/"/>
-        <updated>2026-08-17T14:07:56.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Creating a Docker Image for Beginners: A Complete Guide]]></title>
-        <id>https://dev.to/riteshkokam/creating-a-docker-image-for-beginners-a-complete-guide-2h20</id>
-        <link href="https://dev.to/riteshkokam/creating-a-docker-image-for-beginners-a-complete-guide-2h20"/>
-        <updated>2026-08-17T14:06:40.000Z</updated>
-        <summary type="html"><![CDATA[After learning the Docker basics, it is time to create our images. Creating our own custom Docker image allows us to have more control over application configurations, dependencies, security, and more. And it is easy and fun. Get ready for it!
-Why Create Custom Docker Images?
-Doing the Process Steps Manually
-Creating Our Docker Image
-Making Our Docker Image Public
-Final Thoughts
-Resources
-Custom Docker images give us control over application configurations and dependencies, improving security and performance. We can create a custom Docker image tailored to our own needs, with the dependencies we want, and the code we want.
-For example, we want everybody in our dev team to use Ubuntu 24.04 with Apache and the code in one GitHub repo. We could create a custom Docker image, upload it, and tel…]]></summary>
-        <author>
-            <name>Ritesh Kokam</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Tom Lee's Bitmine now owns 4.8% of Ethereum supply after latest ETH purchase]]></title>
-        <id>b00b0907-caf8-4752-840f-906ce65c016a</id>
-        <link href="https://www.coindesk.com/markets/2026/08/17/tom-lee-s-bitmine-now-owns-4-8-of-ethereum-supply-after-latest-eth-purchase"/>
-        <updated>2026-08-17T14:04:21.000Z</updated>
-        <summary type="html"><![CDATA[The crypto treasury company bought another 9,926 ETH last week, extending a buying streak that began in June 2025.]]></summary>
-        <author>
-            <name>Helene Braun</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Flat Chair by Sara Paculdo]]></title>
-        <id>https://www.toxel.com/tech/2026/08/07/flat-chair-by-sara-paculdo/</id>
-        <link href="https://www.toxel.com/tech/2026/08/07/flat-chair-by-sara-paculdo/"/>
-        <updated>2026-08-17T14:01:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Rate Limiting a Crawler Across Node Cluster Workers]]></title>
-        <id>https://dev.to/megapixel99/rate-limiting-a-crawler-across-node-cluster-workers-3fg6</id>
-        <link href="https://dev.to/megapixel99/rate-limiting-a-crawler-across-node-cluster-workers-3fg6"/>
-        <updated>2026-08-17T14:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Code: Megapixel99/webCrawler
-This project is a small search engine I wrote to understand how one works: a crawler, an inverted index in MongoDB, and a BM25 ranker, all written by hand instead of reaching for Elasticsearch.
-The first version was not something you should point at the open web. It honored noindex and nofollow meta tags, but it ignored robots.txt entirely and had no rate limiting, which means it would hammer whichever host it happened to find.
-So I fixed it. The parsing turned out to be the easy half. The interesting half was that politeness isn't really a parsing problem at all; it's a concurrency problem, and I got it wrong twice in ways that looked completely fine.
-The crawler runs a pool of workers using Node's cluster module. The master process pulls URLs from a MongoDB f…]]></summary>
-        <author>
-            <name>Seth Wheeler</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ask HN: Alternatives to GitHub]]></title>
-        <id>https://news.ycombinator.com/item?id=49331033</id>
-        <link href="https://news.ycombinator.com/item?id=49331033"/>
-        <updated>2026-08-17T13:59:17.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How a bug in Coldcard’s code went unnoticed for years, leading to $100 million in hacked funds]]></title>
-        <id>de4fc333-b886-4f0a-b505-a4f7cbbc9570</id>
-        <link href="https://www.coindesk.com/tech/2026/08/17/how-a-bug-in-coldcard-s-code-went-unnoticed-for-years-leading-to-usd100-million-in-hacked-funds"/>
-        <updated>2026-08-17T13:57:11.000Z</updated>
-        <summary type="html"><![CDATA[Crypto’s favorite maxim, “don’t trust, verify” wasn’t followed in the case of Coldcard’s code.]]></summary>
-        <author>
-            <name>Francisco Rodrigues</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to ship a database every day]]></title>
-        <id>https://turbopuffer.com/blog/control-plane</id>
-        <link href="https://turbopuffer.com/blog/control-plane"/>
-        <updated>2026-08-17T13:56:38.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The `doRegister is not defined` Bug: How a Live-Count Feature Broke Registration]]></title>
-        <id>https://dev.to/minia2a/the-doregister-is-not-defined-bug-how-a-live-count-feature-broke-registration-3239</id>
-        <link href="https://dev.to/minia2a/the-doregister-is-not-defined-bug-how-a-live-count-feature-broke-registration-3239"/>
-        <updated>2026-08-17T13:51:29.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for DEV's Summer Bug Smash: Smash Stories powered by Sentry.
-A user hit "Get 500 Free Credits" on our registration page and nothing happened. No spinner, no error, no network request. The console had exactly one line:
-Uncaught ReferenceError: doRegister is not defined
-
-The button itself was as boring as it gets:
-<button onclick="doRegister()">Get 500 Free Credits</button>
-
-And the handler it was calling was a plain top-level function in an inline <script> at the bottom of the page:
-async function doRegister() {
-  const name = document.getElementById("reg-name").value.trim();
-  // ... POST to /api/v1/register-simple, render the result ...
-}
-
-An inline onclick resolves the function name against the global scope. A top-level async function doRegister() {} in a classic <sc…]]></summary>
-        <author>
-            <name>minia2a</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I Wish I Knew AI API Cost Hacks Sooner — Full Breakdown]]></title>
-        <id>https://dev.to/truelane/i-wish-i-knew-ai-api-cost-hacks-sooner-full-breakdown-65k</id>
-        <link href="https://dev.to/truelane/i-wish-i-knew-ai-api-cost-hacks-sooner-full-breakdown-65k"/>
-        <updated>2026-08-17T13:49:46.000Z</updated>
-        <summary type="html"><![CDATA[Look, i Wish I Knew AI API Cost Hacks Sooner — Full Breakdown
-So picture this: I had just graduated from my coding bootcamp, and I was SUPER excited to build my first real product. I wired up an AI chatbot, plugged in GPT-4o, and thought I was basically a genius. Then I checked my API bill two weeks later and nearly spit out my coffee. I had no idea I was burning through cash like that.
-That moment sent me down a rabbit hole. I spent weeks digging into how real developers keep their AI bills under control. And what I found honestly blew my mind. The savings aren't tiny — they're the kind of numbers that make you go "wait, I've been doing this ALL wrong?"
-Let me walk you through everything I learned.
-Before bootcamp, I thought AI APIs were like a flat fee. You pay a little, you get smart st…]]></summary>
-        <author>
-            <name>Alex Chen</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Preview of DuckDB v2.0]]></title>
-        <id>https://duckdb.org/2026/08/17/duckdb-20-highlights</id>
-        <link href="https://duckdb.org/2026/08/17/duckdb-20-highlights"/>
-        <updated>2026-08-17T13:46:27.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[We Tracked a Shipment of Rare Books. It Ended at an Amazon AI Training Facility]]></title>
-        <id>https://www.404media.co/we-tracked-a-shipment-of-rare-books-it-ended-at-an-amazon-ai-training-facility/</id>
-        <link href="https://www.404media.co/we-tracked-a-shipment-of-rare-books-it-ended-at-an-amazon-ai-training-facility/"/>
-        <updated>2026-08-17T13:44:23.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[SCORM vs Custom API: Integrating Games with Learning Management Systems]]></title>
-        <id>https://dev.to/oceanviewgames/scorm-vs-custom-api-integrating-games-with-learning-management-systems-2j0o</id>
-        <link href="https://dev.to/oceanviewgames/scorm-vs-custom-api-integrating-games-with-learning-management-systems-2j0o"/>
-        <updated>2026-08-17T13:43:48.000Z</updated>
-        <summary type="html"><![CDATA[When an educational institution commissions a game, one of the first questions on the requirements document is: "Will it integrate with our LMS?" The answer is almost always "yes." The follow-up question - how - is where the real engineering decisions begin.
-Our educational work ranges from The Language Conservancy (Vocab Builder) to projects delivered during previous agency tenures for institutions including Cambridge University Press, the BBC, and European university consortia through the EU Horizon 2020 programme (Navigo). Institutional projects repeatedly raise the same integration questions: where the game runs, how identity is passed in, what progress must be reported, and which system owns the learning record.
-This post compares the two primary approaches to LMS integration - SCORM …]]></summary>
-        <author>
-            <name>Ocean View Games</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Incident with Github.com]]></title>
-        <id>https://www.githubstatus.com/incidents/zkxwbgr0cnmx</id>
-        <link href="https://www.githubstatus.com/incidents/zkxwbgr0cnmx"/>
-        <updated>2026-08-17T13:40:55.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The context you passed is not the context that cancels]]></title>
-        <id>https://dev.to/msakai/the-context-you-passed-is-not-the-context-that-cancels-2ia5</id>
-        <link href="https://dev.to/msakai/the-context-you-passed-is-not-the-context-that-cancels-2ia5"/>
-        <updated>2026-08-17T13:39:34.000Z</updated>
-        <summary type="html"><![CDATA[Two failure modes, opposite in effect, same root cause. Both compile, and both are quiet in development.
-func (h *Handler) Create(w http.ResponseWriter, r *http.Request) {
-    order := parse(r)
-    save(order)
-
-    go func() {
-        h.sendConfirmationEmail(r.Context(), order)   // cancelled the moment Create returns
-    }()
-
-    w.WriteHeader(http.StatusCreated)
-}
-
-r.Context() is cancelled when the handler returns and the response is written. Your goroutine gets a context that is already dead, or dies milliseconds later. Emails silently don't send — and under local testing, where the goroutine usually wins the race, everything looks fine.
-Since Go 1.21 the fix is one call:
-ctx := context.WithoutCancel(r.Context())
-go h.sendConfirmationEmail(ctx, order)
-
-WithoutCancel keeps the values — t…]]></summary>
-        <author>
-            <name>MSakai</name>
         </author>
     </entry>
 </feed>
