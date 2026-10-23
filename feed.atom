@@ -2,10 +2,467 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-10-23T06:58:36.763Z</updated>
+    <updated>2026-10-23T12:31:22.569Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[What I learned spawning enemies off-screen in Godot 4]]></title>
+        <id>https://dev.to/saltmire/what-i-learned-spawning-enemies-off-screen-in-godot-4-34ml</id>
+        <link href="https://dev.to/saltmire/what-i-learned-spawning-enemies-off-screen-in-godot-4-34ml"/>
+        <updated>2026-10-23T12:27:53.000Z</updated>
+        <summary type="html"><![CDATA[Every horde game needs enemies to appear somewhere, and the player should never see the
+The first version everybody writes picks a random angle around the player and pushes the
+@export var spawn_radius := 700.0
+
+func _spawn_point() -> Vector2:
+    var angle := randf() * TAU
+    return player.global_position + Vector2.RIGHT.rotated(angle) * spawn_radius
+
+It's fine as long as nothing changes. Then I zoomed the camera out for a boss and enemies
+The fix is to ask the camera what it can actually see:
+func _visible_rect() -> Rect2:
+    var cam := get_viewport().get_camera_2d()
+    var size := get_viewport().get_visible_rect().size / cam.zoom
+    var center := cam.get_screen_center_position()
+    return Rect2(center - size / 2.0, size)
+
+Two details matter here. Dividing by zoom is what makes it c…]]></summary>
+        <author>
+            <name>saltmire</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Summarize Large Documents with an LLM API: A Batch vs Streaming Guide]]></title>
+        <id>https://dev.to/mortimernilsson7694/summarize-large-documents-with-an-llm-api-a-batch-vs-streaming-guide-a93</id>
+        <link href="https://dev.to/mortimernilsson7694/summarize-large-documents-with-an-llm-api-a-batch-vs-streaming-guide-a93"/>
+        <updated>2026-10-23T12:27:02.000Z</updated>
+        <summary type="html"><![CDATA[To summarize large documents with an LLM API for education code reviews, separate the review contract from the transport. A scheduled review of many pull requests wants bounded work and replayable output. A developer waiting on one changed module wants the first useful finding quickly.
+Short answer: use a provider-neutral review contract, then choose batch when completion and replay matter, or streaming when a human is waiting. Keep chunking, validation, retries, and provider selection outside that contract. The transport is an implementation detail. The finding schema is the product.
+The choice is architectural.
+Keep it boring.
+
+
+
+Situation
+Better default
+Reason
+
+
+
+
+Scheduled review of many large documents
+Batch
+Queue, retry, and audit without holding a client connection
+
+
+Interactive rev…]]></summary>
+        <author>
+            <name>MortimerNilsson7694</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Read-Only Queries Write Terabytes, Microservices Head Home]]></title>
+        <id>https://dev.to/urbanisierung/read-only-queries-write-terabytes-microservices-head-home-jm1</id>
+        <link href="https://dev.to/urbanisierung/read-only-queries-write-terabytes-microservices-head-home-jm1"/>
+        <updated>2026-10-23T12:27:00.000Z</updated>
+        <summary type="html"><![CDATA[Signup here for the newsletter to get the weekly digest right into your inbox.
+Find the 9 highlighted links of weeklyfoo #159:
+
+Speculative decoding, the art of guessing well
+by astralord
+Deep walkthrough of drafting several tokens cheaply and verifying them in one target-model pass, with acceptance and speedup formulas, EAGLE-3, multi-token prediction and diffusion drafters
+📰 Good to know, ai, llm, performance
+
+The dirty pages surprise, when a read-only query writes terabytes
+by swingbit
+A MonetDB count-distinct query saturates an NVMe drive because Linux flushes dirty pages from memory-mapped scratch files, and moving them to tmpfs cuts runtime from 73 minutes to 97 seconds
+📰 Good to know, databases, linux, performance
+
+Can we make React faster using the React Compiler?
+by Jimmy Miller…]]></summary>
+        <author>
+            <name>Adam</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why "No Uploads" Is the Most Important Feature of a PDF Tool]]></title>
+        <id>https://dev.to/magictoolshub/why-no-uploads-is-the-most-important-feature-of-a-pdf-tool-4jhn</id>
+        <link href="https://dev.to/magictoolshub/why-no-uploads-is-the-most-important-feature-of-a-pdf-tool-4jhn"/>
+        <updated>2026-10-23T12:25:01.000Z</updated>
+        <summary type="html"><![CDATA[Every time you use a free online PDF tool like Smallpdf or iLovePDF, your file is uploaded to a server. For a recipe or a scanned receipt, that's fine. But for a client's contract, a tax return, or a medical record, that 30-second upload window is a massive compliance risk.
+I learned this the hard way. I watched a colleague upload a client's tax return to a free compressor. It was deleted after processing, but for those 30 seconds, that file sat on a stranger's server.
+That's why I built Magic Tools Hub. It is a toolkit of 112 PDF utilities that run 100% in your browser using JavaScript and WebAssembly. The file never leaves your device. You can even disconnect your internet after the page loads, and the tools still work.
+The Architecture of Privacy
+We built the entire toolkit around this principle. Whether you are merging contracts, redacting SSNs, or compressing a document for email, the file stays on your device.
+For developers building tools for legal, medical, or financial professionals, this "client-side first" approach isn't just a feature—it's a requirement.
+If you want to test it, you can try the Redact PDF tool for free. No sign-up, no uploads.]]></summary>
+        <author>
+            <name>Hossam Ahmed</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LazySort: The Offline AI File Tidier That Organizes Your Mess For You]]></title>
+        <id>https://dev.to/badshahaditya57sketch/lazysort-the-offline-ai-file-tidier-that-organizes-your-mess-for-you-2okj</id>
+        <link href="https://dev.to/badshahaditya57sketch/lazysort-the-offline-ai-file-tidier-that-organizes-your-mess-for-you-2okj"/>
+        <updated>2026-10-23T12:23:36.000Z</updated>
+        <summary type="html"><![CDATA[This is a submission for the Hacktoberfest Open-Source AI Challenge Week 3: Slow and Steady
+What I Built
+Demo
+
+Code
+ / 
+        LazySort
+      
+    
+How I Built It
+Why Does Open Innovation Matter?
+The Lazy Payoff
+This script saves me about 10-15 minutes of manual sorting every single week. Instead of dreading a cluttered desktop at the end of the week, everything is automatically filed away into "Coursework", "Projects", or "Invoices" folders without me lifting a finger.]]></summary>
+        <author>
+            <name>Aditya Raj</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to Use NotebookLM Video Overviews: Formats, Prompts & Compute Limits (2026)]]></title>
+        <id>https://dev.to/muthamizh_chelvan/how-to-use-notebooklm-video-overviews-formats-prompts-compute-limits-2026-3kl1</id>
+        <link href="https://dev.to/muthamizh_chelvan/how-to-use-notebooklm-video-overviews-formats-prompts-compute-limits-2026-3kl1"/>
+        <updated>2026-10-23T12:23:02.000Z</updated>
+        <summary type="html"><![CDATA[Author's Note: This benchmark was originally tested and published with full interactive comparison tables, latency logs, and prompt breakdowns on AISparkHub.
+When Google introduced Audio Overviews inside Google NotebookLM, it became an overnight viral phenomenon. Transforming dry PDFs and research notes into a realistic, two-host conversational podcast felt like magic. 
+However, audio has fundamental limitations. If you are a student memorizing organic chemistry pathways, an engineer reviewing circuit schematics, or a creator building visual content, spoken dialogue alone is not enough. You need diagrams, timelines, kinetic typography, and structured visual pacing.
+Google has quietly addressed this with its most ambitious multimedia upgrade yet: NotebookLM Video Overviews (integrated direc…]]></summary>
+        <author>
+            <name>Muthamizh Chelvan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building a Synthetic Data Pipeline]]></title>
+        <id>https://dev.to/capestart/building-a-synthetic-data-pipeline-4ipe</id>
+        <link href="https://dev.to/capestart/building-a-synthetic-data-pipeline-4ipe"/>
+        <updated>2026-10-23T12:22:21.000Z</updated>
+        <summary type="html"><![CDATA[Why Teams Start Building a Synthetic Data Pipeline
+
+
+Most teams arrive at building a synthetic data pipeline the same way: a dataset is collected, a model is trained, the metrics look acceptable, and then the model fails in production on inputs nobody thought to collect. The usual response is to collect more data, and that works until it does not. Collection takes weeks, annotation takes longer, and the scenarios that break a model appear least often in the real world. Three pressures make the case:
+Privacy and restricted data. Much real data cannot leave the environment it came from, and principles such as GDPR data minimization limit how widely it can be copied. Public datasets rarely match production conditions. Generated examples let a team work without circulating sensitive originals.…]]></summary>
+        <author>
+            <name>CapeStart</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Matemáticas con Dados: how I built a game to help my little girl learn to count with dice and real bottle caps]]></title>
+        <id>https://dev.to/enlabe/matematicas-con-dados-how-i-built-a-game-to-help-my-little-girl-learn-to-count-with-dice-and-real-2n3b</id>
+        <link href="https://dev.to/enlabe/matematicas-con-dados-how-i-built-a-game-to-help-my-little-girl-learn-to-count-with-dice-and-real-2n3b"/>
+        <updated>2026-10-23T12:21:49.000Z</updated>
+        <summary type="html"><![CDATA[A web game made with HTML, CSS and JavaScript, no framework, designed for little kids. In this tutorial we build it from scratch: the idea, the research behind every decision, and the code, step by step.
+Who it's for: programmers who are just starting out and programming enthusiasts with basic HTML and JavaScript knowledge. If you know what a function and an array are, you can follow along.
+What you'll build: a minimal but complete version of the game, with Count and Add, a Spanish voice, help when the child gets it wrong, and a closing screen.
+Full code: https://github.com/the-bunker-code/matematicas-con-dados
+Let's play: https://the-bunker-code.github.io/matematicas-con-dados/
+A note on language. The game is in Spanish: it was made for a Spanish-speaking child, and the voice speaks Spani…]]></summary>
+        <author>
+            <name>Enrique Lazo Bello</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[It works on my machine" and other lies we tell our DevOps team]]></title>
+        <id>https://dev.to/juliqn_stonov_1a449be254e/it-works-on-my-machine-and-other-lies-we-tell-our-devops-team-33b1</id>
+        <link href="https://dev.to/juliqn_stonov_1a449be254e/it-works-on-my-machine-and-other-lies-we-tell-our-devops-team-33b1"/>
+        <updated>2026-10-23T12:21:28.000Z</updated>
+        <summary type="html"><![CDATA[There is no sentence in the tech industry that triggers a DevOps engineer faster than: "Well, it works fine on my local machine."
+We have all done it. The build fails in production, the pipeline is screaming in bright red, the client is panicking, and the developer is sitting there calmly spinning containers locally without a single error.
+The gap between a local environment and staging is where engineering sanity goes to die. It’s usually a hidden environment variable, a slight version mismatch in a package, or pure dark magic.
+As we head into the weekend, what is the most ridiculous "local machine" bug that completely broke your production environment this week? Let's share some deployment trauma in the comments.
+P.S. If your code only works locally, check out my profile bio for the official badge of honor.]]></summary>
+        <author>
+            <name>Juliqn Stonov</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SlothSort: A Local AI Assistant for the Downloads Folder]]></title>
+        <id>https://dev.to/niraj_nagrale_2a772425811/slothsort-a-local-ai-assistant-for-the-downloads-folder-24g9</id>
+        <link href="https://dev.to/niraj_nagrale_2a772425811/slothsort-a-local-ai-assistant-for-the-downloads-folder-24g9"/>
+        <updated>2026-10-23T12:21:20.000Z</updated>
+        <summary type="html"><![CDATA[This is a submission for the Hacktoberfest Open-Source AI Challenge Week 3: Slow and Steady
+SlothSort helps tidy a folder without the tedious drag-and-drop routine. It looks at filenames, asks a local AI model to suggest categories and clearer names, and presents the proposed moves for review. Files are only moved after the user confirms the plan.
+The project currently runs locally. Install the dependencies and follow the Ollama setup in the README. There is no public demo yet.
+View the source code on GitHub.
+The interface uses Streamlit, and the app asks a local Ollama server to run the open-weight qwen2.5:3b model. The model sees filenames only and returns a category plus a suggested name. The Python app validates that response, sanitizes names, checks for conflicts, and requires explicit approval before moving anything.
+Filenames can contain personal or work-related details. Local inference keeps them on the user's machine rather than sending them to a cloud API. After the one-time model download, there is no per-file inference fee. The prompt, category list, and model choice are all open to inspection and change.
+I do not have a shareable DevRelay session link for this project.
+SlothSort turns a pile of filenames into a proposed folder structure in one step, while keeping the final decision with the user. Add a real time-saved estimate here after trying it on a folder and timing the manual alternative.]]></summary>
+        <author>
+            <name>Niraj Nagrale</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[The Eight-Day Gap: Patch, Disclosure and Exposure in the BeyondTrust Zero-Day]]></title>
+        <id>https://dev.to/andreagomez/the-eight-day-gap-patch-disclosure-and-exposure-in-the-beyondtrust-zero-day-4ljc</id>
+        <link href="https://dev.to/andreagomez/the-eight-day-gap-patch-disclosure-and-exposure-in-the-beyondtrust-zero-day-4ljc"/>
+        <updated>2026-10-23T12:20:34.000Z</updated>
+        <summary type="html"><![CDATA[The Eight-Day Gap: Patch, Disclosure and Exposure in the BeyondTrust Zero-Day
+
+
+Two dates in the BeyondTrust record decide who has a problem. The vendor fixed CVE-2026-102764 for SaaS customers on 8 October 2026. It disclosed the flaw on 15 October 2026, a week later, after Mandiant and Google had already watched Armory Castle exploit it against appliances since late August.
+BeyondTrust describes CVE-2026-102764 as an authentication bypass, rated 9.3, affecting Remote Support 26.2.3 and earlier. The vendor has not published the root cause, and the advisory says details are being withheld while customers finish patching.
+Patch adoption and exposure are different measurements with different owners. An appliance can be running 26.2.3, be reachable from the internet, and sit unpatched for week…]]></summary>
+        <author>
+            <name>andreagomez</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Daily Dose of DevOps — Namespace design: for production workloads]]></title>
+        <id>https://dev.to/marco13moo/daily-dose-of-devops-namespace-design-for-production-workloads-3kdi</id>
+        <link href="https://dev.to/marco13moo/daily-dose-of-devops-namespace-design-for-production-workloads-3kdi"/>
+        <updated>2026-10-23T12:20:02.000Z</updated>
+        <summary type="html"><![CDATA[Namespace design: for production workloads
+
+
+Scale converts an informal convention into an outage mechanism. For namespace design for production workloads, the decisive question is not whether a team can demonstrate the technology once. It is whether the organisation can operate it repeatedly, audit its decisions, and recover when assumptions fail.
+Treat namespace design as part of a multi-tenant Kubernetes platform with declarative reconciliation and bounded workload privileges. Define the consumer, owner, support boundary, change policy, and recovery objective before selecting implementation details. When operating namespace design for production workloads, undocumented authority and ambiguous ownership create more risk than a missing feature.
+A credible design measures saturation, sched…]]></summary>
+        <author>
+            <name>Marco</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Swedish government offices to ban ChatGPT and Claude]]></title>
+        <id>https://www.sverigesradio.se/artikel/chat-gpt-och-claude-forbjuder-regeringskansliet</id>
+        <link href="https://www.sverigesradio.se/artikel/chat-gpt-och-claude-forbjuder-regeringskansliet"/>
+        <updated>2026-10-23T11:39:54.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin ETFs swing back to net outflows as $636 million in withdrawals erase previous day’s inflows]]></title>
+        <id>0445eba2-dc67-5e2f-ba69-0418e6203162</id>
+        <link href="https://www.theblock.co/news/markets/2026-10-23-bitcoin-etfs-swing-back-to-net-outflows-erase-previous-day-inflows-426483"/>
+        <updated>2026-10-23T11:39:45.000Z</updated>
+        <summary type="html"><![CDATA[BlackRock's IBIT led Thursday's net outflows with $254.1 million, while four other funds also witnessed withdrawals.]]></summary>
+        <author>
+            <name>James Hunt</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin's price is as jumpy as Nvidia's and eight times more turbulent than the euro]]></title>
+        <id>cb7e51f5-f3b6-4e32-b4e2-65c995f49d05</id>
+        <link href="https://www.coindesk.com/daybook-us/2026/10/23/bitcoin-s-volatility-is-well-above-euro-dollar-gyrations-though-it-has-calmed-to-rival-nvidia-s"/>
+        <updated>2026-10-23T11:22:33.000Z</updated>
+        <summary type="html"><![CDATA[Your day-ahead look for Oct. 23, 2026]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Live updates: Bitcoin holds above $81,000 as markets calm, oil continues to gain]]></title>
+        <id>6a4505e4-e014-40ff-8a3c-15d804425b98</id>
+        <link href="https://www.coindesk.com/markets/2026/10/23/live-updates-bitcoin-holds-above-usd81-000-as-the-ai-rout-fades-and-oil-climbs"/>
+        <updated>2026-10-23T11:13:01.000Z</updated>
+        <summary type="html"><![CDATA[South Korea's Kospi was flat overnight, suggesting some steadying in the AI trade. Nasdaq 100 futures are steady as well, but oil continues its climb.]]></summary>
+        <author>
+            <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Is this the new cyber normal?]]></title>
+        <id>https://drew.silcock.dev/blog/is-this-the-new-cyber-normal/</id>
+        <link href="https://drew.silcock.dev/blog/is-this-the-new-cyber-normal/"/>
+        <updated>2026-10-23T11:04:53.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin steadies near $81,700 as altcoins rebound, pepe climbs 13%]]></title>
+        <id>db238bcb-23a4-4d4d-9351-fdcc3fc2b108</id>
+        <link href="https://www.coindesk.com/markets/2026/10/23/bitcoin-steadies-near-usd81-700-as-altcoins-rebound-pepe-climbs-13"/>
+        <updated>2026-10-23T10:54:41.000Z</updated>
+        <summary type="html"><![CDATA[Bitcoin rose 0.5% to around $81,700 since midnight UTC while the CoinDesk 80 gained 1.4% and memecoins climbed 2.9%.]]></summary>
+        <author>
+            <name>Oliver Knight</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bitcoin appears to have decoupled from midterm cycle bottom history]]></title>
+        <id>1cccfb11-5774-4fd6-9adb-514e132ccf1e</id>
+        <link href="https://www.coindesk.com/markets/2026/10/23/bitcoin-approaches-midterms-as-july-low-challenges-historical-cycle-pattern"/>
+        <updated>2026-10-23T10:53:09.000Z</updated>
+        <summary type="html"><![CDATA[Previous bitcoin bear-market lows followed U.S. midterms, but this year’s recovery raises the possibility that the bottom arrived months earlier.]]></summary>
+        <author>
+            <name>James Van Straten</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Spotify Confirms Family Plan Crackdown; Calls It A “Routine Improvement”]]></title>
+        <id>https://www.lowyat.net/?p=408273</id>
+        <link href="https://www.lowyat.net/2026/408273/spotify-confirms-family-plan-crackdown/"/>
+        <updated>2026-10-23T10:48:37.000Z</updated>
+        <summary type="html"><![CDATA[Since the start of the week, you likely have seen reports of Spotify starting to crack down on users sharing a Family Plan without being in the same household. It looks like the company has confirmed that it is indeed doing so, but rejects the framing of its actions, and is calling it a “routine […]
+The post Spotify Confirms Family Plan Crackdown; Calls It A “Routine Improvement” appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Dutch government had hacked into Jared Kushner's phone]]></title>
+        <id>https://twitter.com/jaredkushner/status/2113376217415958767</id>
+        <link href="https://twitter.com/jaredkushner/status/2113376217415958767"/>
+        <updated>2026-10-23T10:41:32.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Job Loss and Cortisone Mania]]></title>
+        <id>https://tilschuenemann.de/job-loss-cortisone-mania</id>
+        <link href="https://tilschuenemann.de/job-loss-cortisone-mania"/>
+        <updated>2026-10-23T10:31:24.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[HSBC rolls out its first stablecoin to over 3 million everyday app users]]></title>
+        <id>0b403cee-7435-4b53-9961-04233208ea8f</id>
+        <link href="https://www.coindesk.com/business/2026/10/23/hsbc-rolls-out-its-first-stablecoin-to-over-3-million-everyday-app-users"/>
+        <updated>2026-10-23T10:22:56.000Z</updated>
+        <summary type="html"><![CDATA[HSBC and Standard Chartered-led Anchorpoint received Hong Kong’s first stablecoin issuer licenses in April. Anchorpoint began rolling out HKDAP in August.]]></summary>
+        <author>
+            <name>Francisco Rodrigues</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[New York seeks over $1.3 billion from NovaTech founders after couple fled the US]]></title>
+        <id>ee6d14e4-9556-56f2-8f5a-e00bbe80181c</id>
+        <link href="https://www.theblock.co/news/regulation/2026-10-23-new-york-seeks-over-1-3-billion-from-novatech-founders-after-couple-fled-the-us-424453"/>
+        <updated>2026-10-23T10:12:02.000Z</updated>
+        <summary type="html"><![CDATA[New York wants $1.3 billion from NovaTech's founders, whose platform took in $1.16 billion and traded a fraction of it.]]></summary>
+        <author>
+            <name>Brian Danga</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Govt Wants Waze To Explain How It Handles Malaysians’ Data]]></title>
+        <id>https://www.lowyat.net/?p=408281</id>
+        <link href="https://www.lowyat.net/2026/408281/govt-wants-waze-explain-data-handling/"/>
+        <updated>2026-10-23T10:06:20.000Z</updated>
+        <summary type="html"><![CDATA[The government is seeking an explanation from Waze over how it collects and handles Malaysians’ personal data, citing concerns over data security and the potential exposure of sensitive information. The move follows the government’s decision to prohibit civil servants from using the navigation app for official duties, with Prime Minister Datuk Seri Anwar Ibrahim now […]
+The post Govt Wants Waze To Explain How It Handles Malaysians’ Data appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sony Discontinues Its Last 4K Blu-ray Player In Japan]]></title>
+        <id>https://www.lowyat.net/?p=408274</id>
+        <link href="https://www.lowyat.net/2026/408274/sony-discontinues-blu-ray-player-japan/"/>
+        <updated>2026-10-23T09:57:33.000Z</updated>
+        <summary type="html"><![CDATA[After more than a decade of selling dedicated 4K Blu-ray players, Sony Japan appears to be exiting the standalone UHD Blu-ray player market in its home country. This is because the company has discontinued its last UHD Blu-ray player, the UBP-X700/K, with shipment officially ending in its home market starting today. According to FlatpanelsHD, the […]
+The post Sony Discontinues Its Last 4K Blu-ray Player In Japan appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Kiran Ganesan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[South Korea to amend forex law to regulate stablecoins as payment instruments: report]]></title>
+        <id>046df0d1-b752-598f-8310-9187a79b15c0</id>
+        <link href="https://www.theblock.co/news/regulation/2026-10-23-south-korea-stablecoins-payment-instruments-424028"/>
+        <updated>2026-10-23T09:52:44.000Z</updated>
+        <summary type="html"><![CDATA[South Korea is currently developing the Digital Asset Basic Act, which seeks to establish a comprehensive framework for crypto.]]></summary>
+        <author>
+            <name>Danny Park</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[In the biotech world, you can’t see everything]]></title>
+        <id>https://www.technologyreview.com/?p=1147610</id>
+        <link href="https://www.technologyreview.com/2026/10/23/1147610/biotech-you-can-see-everything-theranos-holmes/"/>
+        <updated>2026-10-23T09:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Earlier this week, I attended a screening of You Can See Everything, the buzzy new documentary about the disgraced former biotech CEO Elizabeth Holmes.  I went in not really knowing what to expect. I’d avoided spoilers (and won’t be giving anything away here, either!). I was wondering what new information this film could reveal, given…]]></summary>
+        <author>
+            <name>Jessica Hamzelou</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Sweden’s central bank revives e-krona debate as stablecoins and digital euro loom]]></title>
+        <id>2b912c38-1dcf-49f8-b05c-bdbbc58e94d5</id>
+        <link href="https://www.coindesk.com/business/2026/10/23/sweden-s-central-bank-revives-e-krona-debate-as-stablecoins-and-digital-euro-loom"/>
+        <updated>2026-10-23T08:57:34.000Z</updated>
+        <summary type="html"><![CDATA[The Riksbank sees an e-krona as critical to securing national payments and monetary control.]]></summary>
+        <author>
+            <name>Francisco Rodrigues</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Modder Brings Snapintosh macOS 27 Port Over To Snapdragon X2 Laptops]]></title>
+        <id>https://www.lowyat.net/?p=408268</id>
+        <link href="https://www.lowyat.net/2026/408268/modder-brings-snapintosh-macos-27-port-over-to-snapdragon-x2-laptops/"/>
+        <updated>2026-10-23T08:52:44.000Z</updated>
+        <summary type="html"><![CDATA[Developer and Miguel C has released the source code for Snapintosh OS. Basically, the program is an experimental project that brings the macOS 27 Golden Gate to Qualcomm  Snapdragon hardware and more specifically, the Snapdragon X2 Series laptops. As per the Readme on its GitHub page: “Snapintosh boots Apple’s macOS 27 (build 26A428) on an […]
+The post Modder Brings Snapintosh macOS 27 Port Over To Snapdragon X2 Laptops appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>John Law</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[U Mobile Partners With MRT Corp For 4G, 5G Coverage At RTS Link Gateway]]></title>
+        <id>https://www.lowyat.net/?p=408259</id>
+        <link href="https://www.lowyat.net/2026/408259/u-mobile-mrt-corp-coverage-rts-link/"/>
+        <updated>2026-10-23T08:29:01.000Z</updated>
+        <summary type="html"><![CDATA[U Mobile has announced that it is collaborating with Malaysia Rapid Transit Corporation (MRT Corp) to explore the provision of 4G and 5G in-building coverage (IBC) at the Immigration, Customs and Quarantine Complex (ICQC) in Bukit Chagar, Johor Bahru. This partnership, which was formalised through the signing of a Memorandum of Understanding (MoU), is aimed […]
+The post U Mobile Partners With MRT Corp For 4G, 5G Coverage At RTS Link Gateway appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Nurul Kamil</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Remove pgrust: the entry is cheating]]></title>
+        <id>https://github.com/ClickHouse/ClickBench/pull/2165</id>
+        <link href="https://github.com/ClickHouse/ClickBench/pull/2165"/>
+        <updated>2026-10-23T08:05:33.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[US Banks Detect Access By AI Agents Without User Authorisation]]></title>
+        <id>https://www.lowyat.net/?p=408255</id>
+        <link href="https://www.lowyat.net/2026/408255/banks-ai-agents-without-authorisation/"/>
+        <updated>2026-10-23T08:04:08.000Z</updated>
+        <summary type="html"><![CDATA[Ever since the incident with Hugging Face involving OpenAI and its rogue agents, it seems like the number of incidents involving other rogue AI agents is popping up like mushrooms. Just earlier this month, there have been reports of rogue agents messing with the Wikimedia Foundation, as well as submitting fake homicide tips to the […]
+The post US Banks Detect Access By AI Agents Without User Authorisation appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[India's largest exchange denies hack after sleuths pointed to $16 million in suspicious outflows]]></title>
+        <id>3e09de10-7193-4b81-a541-985d84641076</id>
+        <link href="https://www.coindesk.com/markets/2026/10/23/india-s-largest-exchange-denies-hack-after-blockchain-sleuths-pointed-to-usd16-million-in-suspicious-outflows"/>
+        <updated>2026-10-23T08:02:35.000Z</updated>
+        <summary type="html"><![CDATA[CoinDCX denies its active wallets were hacked after sleuths flagged $16 million in outflows from addresses linked to the India-based exchange.]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Researcher Claims To Have Successfully Jailbroken Nintendo Switch 2]]></title>
+        <id>https://www.lowyat.net/?p=408249</id>
+        <link href="https://www.lowyat.net/2026/408249/researcher-claims-to-have-successfully-jailbroken-nintendo-switch-2/"/>
+        <updated>2026-10-23T07:41:33.000Z</updated>
+        <summary type="html"><![CDATA[A security researcher by the name of Sammy Hajhamid, or pepsipu on X, recently claimed that they have successfully jailbroken the Nintendo Switch 2 console. To celebrate their success, the first thing they did was to mod the avatars of Cinnamoroll, Peter Griffin, and Hatsune Miku into Mario Kart World. According to the developer, they […]
+The post Researcher Claims To Have Successfully Jailbroken Nintendo Switch 2 appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>John Law</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[The Small Website Detail Developers Often Forget: Favicons]]></title>
         <id>https://dev.to/christopher-dutra/the-small-website-detail-developers-often-forget-favicons-30b7</id>
@@ -616,6 +1073,16 @@ People start wondering whether the manager forgot, avoided the issue, or simply 
 That’s how trust often changes at work. Not through one grand gesture, but through ev…]]></summary>
         <author>
             <name>Jerry Ervin</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: Making a smart TV dumb and then smart]]></title>
+        <id>https://github.com/anubhavmalhotra/r2d2-tv</id>
+        <link href="https://github.com/anubhavmalhotra/r2d2-tv"/>
+        <updated>2026-10-23T00:10:45.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -3530,6 +3997,16 @@ The post Rapid KL To Conduct Pilot Project For Fixed-Route Feeder Vans Starting 
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[I reverse engineered a board game]]></title>
+        <id>https://wuemeli.com/blog/reversing-hitster-game/</id>
+        <link href="https://wuemeli.com/blog/reversing-hitster-game/"/>
+        <updated>2026-10-21T13:40:31.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Using thousands of AI agents to uncover new leads in biological data]]></title>
         <id>https://openai.com/index/scaling-ai-research-for-complex-biological-data/</id>
         <link href="https://openai.com/index/scaling-ai-research-for-complex-biological-data/"/>
@@ -5855,6 +6332,16 @@ The assignment is complete, but an important question rema…]]></summary>
         <summary type="html"><![CDATA[Imagine your company just discovered electricity. At first only a few machines run on it, and nobody worries about efficiency — consumption is low and the value is obvious. But once electricity becomes infrastructure, every process depends on it, and the question changes from “can we use it?” to “how efficiently are we using it?”…]]></summary>
         <author>
             <name>David Sydow</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hand-bent after 3D printing, Oberdoerfer and Krebs' Bend chair]]></title>
+        <id>https://www.designboom.com/design/hand-bent-3d-printing-oberdoerfer-krebs-digital-fabrication-bend-chair-ukurant-3daysofdesign/</id>
+        <link href="https://www.designboom.com/design/hand-bent-3d-printing-oberdoerfer-krebs-digital-fabrication-bend-chair-ukurant-3daysofdesign/"/>
+        <updated>2026-10-20T15:20:04.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -29823,384 +30310,6 @@ A background job system usually has three important parts: a producer that creat
 The post Apple “Welcome Home” Event Officially Set For 13 October 2026 appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Nurul Kamil</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Timestamping a Giant Record of the Web]]></title>
-        <id>https://projecttimestamper.org/blog/common-crawl/</id>
-        <link href="https://projecttimestamper.org/blog/common-crawl/"/>
-        <updated>2026-10-09T00:29:01.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Roundtables: A Conversation With the Creator of AI-Designed Viruses]]></title>
-        <id>https://www.technologyreview.com/?p=1146224</id>
-        <link href="https://www.technologyreview.com/2026/10/08/1146224/roundtables-a-conversation-with-the-creator-of-ai-designed-viruses/"/>
-        <updated>2026-10-09T00:08:24.000Z</updated>
-        <summary type="html"><![CDATA[Friday, October 16, 2026 Can AI design new life forms? In 2025, Stanford University PhD student Samuel King came up with a preliminary answer when he used a generative AI model to propose genetic blueprints for microscopic viruses. It isn’t yet an example of AI-generated life, but that could be next. Join senior AI reporter…]]></summary>
-        <author>
-            <name>MIT Technology Review</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Edi Life OS – self-hosted life dashboard with an MCP server for AI]]></title>
-        <id>https://github.com/edrisranjbar/lifeos</id>
-        <link href="https://github.com/edrisranjbar/lifeos"/>
-        <updated>2026-10-09T00:02:19.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: SVG Spark – 10 client-side SVG design and dev tools]]></title>
-        <id>https://svg-spark.vercel.app/</id>
-        <link href="https://svg-spark.vercel.app/"/>
-        <updated>2026-10-08T23:32:49.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OpenAI, the Partition Principle, and Mathematics]]></title>
-        <id>https://karagila.org/2026/openai-pp/</id>
-        <link href="https://karagila.org/2026/openai-pp/"/>
-        <updated>2026-10-08T23:29:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bevy 0.20]]></title>
-        <id>https://bevy.org/news/bevy-0-20/</id>
-        <link href="https://bevy.org/news/bevy-0-20/"/>
-        <updated>2026-10-08T22:57:50.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[EP03: Content sovereignty — control it yourself, the ultimate moat]]></title>
-        <id>https://dev.to/greg_tham_9527/ep03-content-sovereignty-control-it-yourself-the-ultimate-moat-nba</id>
-        <link href="https://dev.to/greg_tham_9527/ep03-content-sovereignty-control-it-yourself-the-ultimate-moat-nba"/>
-        <updated>2026-10-08T22:52:40.000Z</updated>
-        <summary type="html"><![CDATA[Episode 3 of 20 in the **PPCDN Low-Latency Live Streaming Course* — building a self-hosted, low-latency live-streaming CDN from protocols to global delivery. Originally published on the PPCDN docs site; see the full course index for all episodes.*
-  
-  
-
-
-
-Recap
-EP02 "The self-hosted CDN answer: PPCDN architecture overview" ended by naming the principle of content sovereignty and deferring the trade-offs to this episode
-
-
-
-
-Next
-EP04 "Transport showdown: RTMP / SRT / WHIP"
-
-
-
-By the end, the viewer should be able to:
-Break "content sovereignty" from a slogan into three concrete, judgeable risks:
-takedown risk, throttling risk, and data-sovereignty risk.
-State how far self-hosting can respond — not "self-hosting = no censorship" but
-"decision-making moves from a third party to yourself": tw…]]></summary>
-        <author>
-            <name>greg Tham</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Nine things I learned automating posts to five social platforms]]></title>
-        <id>https://dev.to/mneiae_apex_453ea7090d146/nine-things-i-learned-automating-posts-to-five-social-platforms-3oln</id>
-        <link href="https://dev.to/mneiae_apex_453ea7090d146/nine-things-i-learned-automating-posts-to-five-social-platforms-3oln"/>
-        <updated>2026-10-08T22:51:58.000Z</updated>
-        <summary type="html"><![CDATA[I spent a day wiring up automated publishing to several social platforms. Most of the work was not "call an API" - it was finding the small, undocumented behaviours that quietly break a post. Here are the nine that cost me the most time, with what actually worked.
-A common failure mode: you open a composer, type, and the resulting post contains the previous draft plus your new text. If the network hiccups before you publish, the editor silently keeps state.
-What worked: detect the leftover text first, discard the draft, then start clean. Never assume an empty composer is empty.
-Sending a single insertText payload containing newline characters produced collapsed lines and duplicated fragments in one editor.
-What worked: insert one line at a time and send a real Enter key event between lines…]]></summary>
-        <author>
-            <name>Ni · Your AI Media Manager</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Overcoming Onboarding Challenges: Strategies for Navigating Complex Codebases with Limited Handover]]></title>
-        <id>https://dev.to/serbyte/overcoming-onboarding-challenges-strategies-for-navigating-complex-codebases-with-limited-handover-5cim</id>
-        <link href="https://dev.to/serbyte/overcoming-onboarding-challenges-strategies-for-navigating-complex-codebases-with-limited-handover-5cim"/>
-        <updated>2026-10-08T22:51:33.000Z</updated>
-        <summary type="html"><![CDATA[Understanding the Challenge
-
-
-Joining an existing project with a complex codebase and limited handover is like stepping into a maze blindfolded. The initial disorientation isn’t just common—it’s expected. Here’s why: the Onboarding Process is often rushed, leaving you with fragmented knowledge from handover meetings and a code repository that feels like a foreign language. Simultaneously, the Environment Constraints stack up: outdated documentation, a web of technologies (Docker, Airflow, APIs), and team dynamics that may offer little mentorship. The result? A Knowledge Acquisition bottleneck that slows your ability to map the Architecture Understanding and clarify your Role Clarification.
-The overwhelm isn’t random—it’s systemic. When the Onboarding Process skips critical steps like envir…]]></summary>
-        <author>
-            <name>Sergey Boyarchuk</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Grass Gate: my feeds only unlock after an open-weight model sees me outside]]></title>
-        <id>https://dev.to/rahuldevrio/grass-gate-my-feeds-only-unlock-after-an-open-weight-model-sees-me-outside-2i8</id>
-        <link href="https://dev.to/rahuldevrio/grass-gate-my-feeds-only-unlock-after-an-open-weight-model-sees-me-outside-2i8"/>
-        <updated>2026-10-08T22:50:12.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for the Hacktoberfest Open-Source AI Challenge Week 1: Touch Grass
-Grass Gate is a doomscroll lock that only opens outdoors.
-A browser extension blocks the sites I lose hours to. When I hit one, I don't get a guilt-trip timer. I get a quest. I open Grass Gate on my phone, and it picks a real place near me from OpenStreetMap:
-💧 Mallard Lake is 330 m south. Walk there and photograph the water.
-I pocket the phone and walk. When I arrive, it buzzes and chimes. I take the photo, and an open-weight vision model running on the phone checks two things: am I actually outdoors, and is that actually water? If both pass, I get a one-time 6-digit code. I type it into the blocked page, and my feeds open for 30 minutes. Then they lock again.
-The screen is only the lock. Everything t…]]></summary>
-        <author>
-            <name>Rahul Roy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[From a 345-video YouTube playlist to a news digest grouped by topic]]></title>
-        <id>https://dev.to/enrico_gep_b145b3149b358a/from-a-345-video-youtube-playlist-to-a-news-digest-grouped-by-topic-84o</id>
-        <link href="https://dev.to/enrico_gep_b145b3149b358a/from-a-345-video-youtube-playlist-to-a-news-digest-grouped-by-topic-84o"/>
-        <updated>2026-10-08T22:48:12.000Z</updated>
-        <summary type="html"><![CDATA[I follow a lot of YouTube channels about AI, tech and current affairs, and I make daily news podcasts in Italian. Watching everything is impossible, so I built a small pipeline that does the first pass for me: it takes a whole playlist, summarizes every video and groups the summaries by topic into one HTML page I can read in ten minutes.
-This is what the output looks like (a sample: 8 of the 43 topics from yesterday's run, only the AI and tech ones):
-
-Each topic has a short synthesis written by the LLM and the list of videos that talk about it, linked to YouTube.
-1. Transcripts with Supadata. The playlist IDs and the native captions come from the Supadata API through its Python SDK (client.youtube.playlist.videos() and client.transcript(..., mode="native", lang=...)). At this stage no vide…]]></summary>
-        <author>
-            <name>enrico gep</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Error Handling for AI Agent Web Tools: Retryable Errors, Timeouts and Partial Pages]]></title>
-        <id>https://dev.to/agentsearchhq/error-handling-for-ai-agent-web-tools-retryable-errors-timeouts-and-partial-pages-3b00</id>
-        <link href="https://dev.to/agentsearchhq/error-handling-for-ai-agent-web-tools-retryable-errors-timeouts-and-partial-pages-3b00"/>
-        <updated>2026-10-08T22:47:56.000Z</updated>
-        <summary type="html"><![CDATA[Error Handling for AI Agent Web Tools: Retryable Errors, Timeouts and Partial Pages
-
-
-An agent loop that treats every failure the same way does two expensive things. It retries pages that will never load, and it pastes raw error text into the model as if the model were the retry layer. Web tools fail in two different shapes, and only one of them should ever reach the model.
-This guide is the handling layer in front of the AgentSearch web tools on the Pocket Agentic Portal: Web Search, Web Extract and Web Render. Each call is $0.005 in USDC, over x402 on Base or MPP on Tempo, with no signup and no API key. The payment client itself is covered in Pay-per-call APIs for AI agents. What follows is what you do with the response.
-The call did not go through. The portal answers with a non-2xx stat…]]></summary>
-        <author>
-            <name>AgentSearch</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Are $2 Bills Actually Worth Anything? I Built a Free Tool to Find Out]]></title>
-        <id>https://dev.to/banknote_expert_356850a30/are-2-bills-actually-worth-anything-i-built-a-free-tool-to-find-out-pl8</id>
-        <link href="https://dev.to/banknote_expert_356850a30/are-2-bills-actually-worth-anything-i-built-a-free-tool-to-find-out-pl8"/>
-        <updated>2026-10-08T22:47:53.000Z</updated>
-        <summary type="html"><![CDATA[Everyone has the same story. A $2 bill shows up in change, at a garage sale, in grandpa's drawer, and the first question is always: is this worth more than two dollars?
-Short answer: usually no. Long answer: sometimes very much yes, and it comes down to details most people never check.
-This surprises people. The $2 bill is still printed today. The Bureau of Engraving and Printing runs new series whenever the Federal Reserve orders them. Your local bank can order a strap of them if you ask. So a random circulated $2 bill from recent series is worth exactly $2, no matter how cool it feels to hold one.
-A few things move a $2 bill above face value:
-Series year. Older series like 1928 and 1953 with red seals trade at real premiums. Even the famous 1976 series, the first of the modern era, can carry a small premium in crisp uncirculated condition.
-Seal color. Red seal, brown seal, green seal. The seal tells you the note's legal type and era, and collectors pay for the older ones.
-Star notes. If the serial ends in a star instead of a letter, it is a replacement note printed when a sheet was damaged. Fewer exist, so they carry a premium on their own.
-Condition. This is the big one people underestimate. A crisp uncirculated note can be worth many times the same note after years in a wallet.
-Fancy serial numbers. Ladders, radars, repeaters, low serials. A $2 bill with a solid serial or a true ladder is a different animal entirely.
-I got tired of answering "what is my $2 bill worth" from memory, so I built a free $2 bill value guide that breaks it down by series, seal color and condition. There is also a serial number lookup on the same site if you want to check whether your bill's serial matches a collectible pattern.
-No account, no sign-up, everything runs in your browser. If you have ever wondered about the $2 bill sitting in your drawer, now you can get an actual answer in about ten seconds.]]></summary>
-        <author>
-            <name>Banknote Expert</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[EP02: The self-hosted CDN answer — PPCDN architecture overview]]></title>
-        <id>https://dev.to/greg_tham_9527/ep02-the-self-hosted-cdn-answer-ppcdn-architecture-overview-73b</id>
-        <link href="https://dev.to/greg_tham_9527/ep02-the-self-hosted-cdn-answer-ppcdn-architecture-overview-73b"/>
-        <updated>2026-10-08T22:45:56.000Z</updated>
-        <summary type="html"><![CDATA[Episode 2 of 20 in the **PPCDN Low-Latency Live Streaming Course* — building a self-hosted, low-latency live-streaming CDN from protocols to global delivery. Originally published on the PPCDN docs site; see the full course index for all episodes.*
-  
-  
-
-
-
-Recap
-EP01 "The interactive-video dilemma": the latency paradox, the retiring RTMP/HTTP-FLV, the single-point and sovereignty paradox
-
-
-
-
-Next
-EP03 "Content sovereignty: control it yourself, the ultimate moat"
-
-
-
-By the end, the viewer should be able to:
-Draw PPCDN's topology on a whiteboard: publisher, Origin, Edge, viewers, and where
-the control plane handling scheduling/signaling sits.
-Explain the engineering response PPCDN gives to each of EP01's three dilemmas — the
-low-latency path, the real-time protocol choice, and a controllable…]]></summary>
-        <author>
-            <name>greg Tham</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Matara Garden: an offline weekly garden checklist, with Gemma on my laptop]]></title>
-        <id>https://dev.to/hasalawa/matara-garden-an-offline-weekly-garden-checklist-with-gemma-on-my-laptop-4596</id>
-        <link href="https://dev.to/hasalawa/matara-garden-an-offline-weekly-garden-checklist-with-gemma-on-my-laptop-4596"/>
-        <updated>2026-10-08T22:45:49.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for the Hacktoberfest Open-Source AI Challenge Week 1: Touch Grass
-Matara Garden is a weekly checklist for home gardeners in Matara, Sri Lanka. You open it once, see what is ready to harvest, what suits sowing this month and what the rain means for your beds, then put the phone down and go do those things. Ticking them off is the only screen time left.
-It has three lists:
-Harvest: crops in your garden log that will be ready within a week.
-Sow and plant: crops that suit this month's rain. Ticking one adds it to your garden with today's date, so the app can tell you when it is ready.
-Care: jobs matched to the month's rainfall, like clearing drains, staking climbers or mulching in a dry week. These reset every week.
-The header has a small rain gauge, because in Matara the…]]></summary>
-        <author>
-            <name>Hasa</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[EP01: The interactive-video dilemma]]></title>
-        <id>https://dev.to/greg_tham_9527/ep01-the-interactive-video-dilemma-4i1m</id>
-        <link href="https://dev.to/greg_tham_9527/ep01-the-interactive-video-dilemma-4i1m"/>
-        <updated>2026-10-08T22:45:35.000Z</updated>
-        <summary type="html"><![CDATA[Episode 1 of 20 in the **PPCDN Low-Latency Live Streaming Course* — building a self-hosted, low-latency live-streaming CDN from protocols to global delivery. Originally published on the PPCDN docs site; see the full course index for all episodes.*
-  
-  
-
-
-
-  
-  
-  0. Goals of this episode
-
-
-By the end, the viewer should be able to answer two questions:
-Is my interactive live-streaming / interactive-game project also stuck in the
-latency, legacy-protocol and single-point/sovereignty traps?
-If my pipeline still uses RTMP or HTTP-FLV, what happens on a weak network, and
-why is that not an exaggeration?
-This episode only lays out problems and verifiable facts — no cure; the cure is
-If you've built interactive live streaming — real-person video, online auctions,
-That's usually not just "the net…]]></summary>
-        <author>
-            <name>greg Tham</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A solarpunk garden for your GitHub profile, generated daily from your contributions]]></title>
-        <id>https://dev.to/shagshag/a-solarpunk-garden-for-your-github-profile-generated-daily-from-your-contributions-4k3f</id>
-        <link href="https://dev.to/shagshag/a-solarpunk-garden-for-your-github-profile-generated-daily-from-your-contributions-4k3f"/>
-        <updated>2026-10-08T22:44:10.000Z</updated>
-        <summary type="html"><![CDATA[solarpunk: soft colors, nature and gentle technology, the opposite of cyberpunk's dark neon
-I turned my GitHub contribution graph into an isometric garden. One tile per day, a plant that grows with the number of contributions, seasons that follow the calendar, and a small gardener walking around today's tile. It is a plain SVG with CSS and SMIL animations, regenerated every day by a GitHub Action. Python standard library only, no dependencies, MIT license: Shagshag/garden-graph.
- / 
-        garden-graph
-      
-    
-
-  
-    
-    
-    
-    
-  
-
-
-
-  
-    
-    
-    
-  
-
-
-
-garden-graph
-English · Français
-English
-Your GitHub contribution graph, turned into an isometric solarpunk garden. One tile per day, one block per year (5 by default, GARDEN_YEARS to change it), and the season follows the dat…]]></summary>
-        <author>
-            <name>Georges Cubas</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Market Analysis: The Regulatory-Technical Paradox and the Structural Vulnerability of Privacy-Centric Assets]]></title>
-        <id>https://dev.to/ksp_fc16f85860b36c9a9/market-analysis-the-regulatory-technical-paradox-and-the-structural-vulnerability-of-3hh7</id>
-        <link href="https://dev.to/ksp_fc16f85860b36c9a9/market-analysis-the-regulatory-technical-paradox-and-the-structural-vulnerability-of-3hh7"/>
-        <updated>2026-10-08T22:43:36.000Z</updated>
-        <summary type="html"><![CDATA[Executive Summary
-The recent 16% precipitous decline in Zcash (ZEC) represents a significant decoupling from Bitcoin (BTC) and serves as a critical indicator of a structural shift in the crypto-asset market. While Bitcoin continues to establish its "digital gold" narrative through institutional adoption and relative price stability, privacy-centric assets are facing a fundamental reassessment of their risk profiles. This analysis posits that the volatility observed in Zcash is not merely a market-wide correction but a manifestation of the "Technology-Regulation Paradox," where the very cryptographic advancements that provide utility also create systemic regulatory liabilities.
-The Decoupling Phenomenon and Regulatory Friction
-The divergence in performance between Zcash and Bitcoin highligh…]]></summary>
-        <author>
-            <name>株式会社KSP</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Top Democrat among Senate investigators probes ties between Cantor Fitzgerald, Tether]]></title>
-        <id>9bc490c2-b328-41f4-a775-1891a17e076c</id>
-        <link href="https://www.coindesk.com/policy/2026/10/08/top-democrat-among-senate-investigators-probes-ties-between-cantor-fitzgerald-tether"/>
-        <updated>2026-10-08T21:22:58.000Z</updated>
-        <summary type="html"><![CDATA[As Democrats steadily rise in their potential to take back a Senate majority, Senator Richard Blumenthal is digging into Tether's U.S. financial partnership.]]></summary>
-        <author>
-            <name>Jesse Hamilton</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Free open source Adobe Lightroom alternative, completely local with AI]]></title>
-        <id>https://github.com/thesnarkitecht/rembrandt</id>
-        <link href="https://github.com/thesnarkitecht/rembrandt"/>
-        <updated>2026-10-08T21:00:55.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AI-ready biological data: $1.8B global commitment]]></title>
-        <id>https://biohub.org/news/virtual-biology-initiative-expansion/</id>
-        <link href="https://biohub.org/news/virtual-biology-initiative-expansion/"/>
-        <updated>2026-10-08T20:46:25.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[ADHD as a circadian rhythm disorder: evidence and implications for chronotherapy (2025)]]></title>
-        <id>https://www.frontiersin.org/journals/psychiatry/articles/10.3389/fpsyt.2025.1697900/full</id>
-        <link href="https://www.frontiersin.org/journals/psychiatry/articles/10.3389/fpsyt.2025.1697900/full"/>
-        <updated>2026-10-08T20:42:16.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Wall Street's tokenization boom could have bigger winners than bitcoin and ether, Citrini says]]></title>
-        <id>f557ec10-1599-4840-b178-fcda5786f6fd</id>
-        <link href="https://www.coindesk.com/markets/2026/10/08/wall-street-s-tokenization-boom-could-have-bigger-winners-than-bitcoin-and-ether-citrini-says"/>
-        <updated>2026-10-08T19:46:15.000Z</updated>
-        <summary type="html"><![CDATA[The research firm sees tokenized stocks, bonds and loans creating new markets for trading and lending, with fee-generating platforms and companies poised to benefit.]]></summary>
-        <author>
-            <name>Krisztian Sandor</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cube Type – Isometric Typography Generator]]></title>
-        <id>https://typeincube.com/</id>
-        <link href="https://typeincube.com/"/>
-        <updated>2026-10-08T19:41:19.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The value of not getting to the point (2015)]]></title>
-        <id>https://ken.arneson.name/2015/11/the-value-of-not-getting-to-the-point/</id>
-        <link href="https://ken.arneson.name/2015/11/the-value-of-not-getting-to-the-point/"/>
-        <updated>2026-10-08T19:04:56.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
