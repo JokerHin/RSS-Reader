@@ -18,6 +18,126 @@
       "siteUrl": "https://dev.to",
       "articles": [
         {
+          "id": "https://dev.to/hcxshh/1510-impressions-6-clicks-what-a-28-day-search-console-teardown-actually-showed-6nj",
+          "author": "hc_xshh",
+          "description": "1,510 impressions, 6 clicks: what a 28-day Search Console teardown actually showed\n\n\nA small English site, roughly 70 posts, written for foreigners dealing with practical things in China. It is about three weeks old. Two weeks ago I pulled the query-level data for the first time and got 157 impressions and 4 clicks over 28 days.\nToday the same window reads 1,510 impressions and 6 clicks. Impressions up almost tenfold in twelve days.\nThe easy read is \"growth\". What I actually found after sorting all 71 pages with any impression is a single, concrete leak: 1,131 of those impressions land on pages already ranking in positions 1 to 10, and that whole group converted into 5 clicks. A 0.44% click-through rate on pages that are already on page one.\nThe site is no longer in the \"not indexed\" phase…",
+          "link": "https://dev.to/hcxshh/1510-impressions-6-clicks-what-a-28-day-search-console-teardown-actually-showed-6nj",
+          "publishedOn": "2026-10-28T03:52:49.000Z",
+          "wordCount": 2640,
+          "title": "1,510 impressions, 6 clicks: what a 28-day Search Console teardown actually showed",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Ffjbb4shy9s1joks1ko7g.png"
+        },
+        {
+          "id": "https://dev.to/zhangautomation/pgbrake-an-undo-button-for-postgres-when-an-ai-agent-is-driving-33g2",
+          "author": "Zhang Lixiang",
+          "description": "I've started letting Claude Code and Codex work against my dev databases, and the part that worried me was the database itself. Claude Code checkpoints rewind files. A bad DELETE stays done. Permission prompts help, but they live in the client, and an agent can always reach for psql instead.\npgbrake is a small MCP server the agent uses in place of direct database access. Every statement goes through the real Postgres parser (pglast). Normal writes run and return a change id. Before an UPDATE or DELETE it saves the affected rows locally, so pgbrake undo <id> puts them back, and it refuses if those rows changed since.\nDDL, UPDATE/DELETE without WHERE, and anything touching more than 100 rows wait for a human: the client's own prompt, or pgbrake approve <id> in a terminal. That command refuses to run without a TTY, so the agent can't approve its own SQL. Every statement and decision lands in a local audit log. Nothing leaves your machine.\nMIT, Python:\npip install pgbrake\nclaude mcp add pgbrake --env PGBRAKE_DSN=\"postgresql://me@localhost/app\" -- uvx pgbrake serve\n\nLimits: undo only covers changes made through pgbrake. TRUNCATE and DDL can be held but not undone. It doesn't replace backups. I've only tested on Postgres 17 so far.\nI'd like to hear where it breaks. I'm also thinking about a paid add-on that catches migration commands like prisma migrate reset --force (snapshot first, then ask). Would that be worth a one-time $29 to you?\nGitHub: https://github.com/lexang/pgbrake",
+          "link": "https://dev.to/zhangautomation/pgbrake-an-undo-button-for-postgres-when-an-ai-agent-is-driving-33g2",
+          "publishedOn": "2026-10-28T03:52:37.000Z",
+          "wordCount": 1654,
+          "title": "pgbrake: an undo button for Postgres when an AI agent is driving",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F5xo344zikd6ybpbd33m4.png"
+        },
+        {
+          "id": "https://dev.to/aumcreate/before-you-switch-php-versions-on-a-wordpress-site-checks-a-staging-clone-and-a-rollback-that-2na8",
+          "author": "AumCreate",
+          "description": "The host panel gives you a dropdown of PHP versions. Changing it takes one click. Finding out whether the site still works takes a morning, and if it doesn't, you're doing it in front of customers.\nMost of the prep work is finding out what is actually running, and making sure that undoing the switch restores data as well as files. Here is the sequence I'd run, in order.\ncd /path/to/wordpress\nwp core version\nwp eval 'echo PHP_VERSION, \" \", PHP_SAPI, PHP_EOL;'\nwp plugin list --fields=name,status,version --format=table\nwp theme list --fields=name,status,version --format=table\nwp plugin list --status=must-use --fields=name --format=csv\nls -1 wp-content/*.php 2>/dev/null\n\nSave the list so you can diff against it after the switch:\n{ wp plugin list --fields=name,status,version --format=csv\n  wp t…",
+          "link": "https://dev.to/aumcreate/before-you-switch-php-versions-on-a-wordpress-site-checks-a-staging-clone-and-a-rollback-that-2na8",
+          "publishedOn": "2026-10-28T03:51:10.000Z",
+          "wordCount": 2650,
+          "title": "Before you switch PHP versions on a WordPress site: checks, a staging clone, and a rollback that survives a failed upgrade",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fosjzqrpp5n4vd5tzsphu.png"
+        },
+        {
+          "id": "https://dev.to/wwwamankumar288/haunted-shell-a-ghost-that-lives-in-my-terminal-gemma-fully-offlinepublished-false-1b",
+          "author": "Aman Kumar",
+          "description": "This is a submission for the Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine\n<!-- What does it do, and how did you interpret the theme? What inspired it? -->Haunted Shell is a ghost that lives in your terminal. After some of the commands you run, it whispers one eerie sentence about what you just did. A failed git push and a rm -rf get very different commentary.\nI read \"Ghost in the Machine\" literally. Every developer has felt that the machine is haunted: the bug that vanishes when you add a print statement, the script nobody remembers writing. I gave that ghost a voice.\nIt's a 20-line Python script plus a 3-line zsh hook. A small local model does all the haunting, with no cloud calls and no accounts.\n<!-- Share a deployed link or a video demo. -->[Add a screen recordin…",
+          "link": "https://dev.to/wwwamankumar288/haunted-shell-a-ghost-that-lives-in-my-terminal-gemma-fully-offlinepublished-false-1b",
+          "publishedOn": "2026-10-28T03:49:27.000Z",
+          "wordCount": 2080,
+          "title": "\"Haunted Shell: A Ghost That Lives in My Terminal (Gemma, Fully Offline)\" published: false",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F052q3gymy9slhljccutq.png"
+        },
+        {
+          "id": "https://dev.to/rida_moideen/building-an-enterprise-ai-visibility-monitoring-pipeline-prompt-sets-logging-schema-and-dashboards-209n",
+          "author": "Rida Moideen",
+          "description": "Repeatable: the same prompts, engines and schedule every cycle.\nMulti-market: prompts per country and language.\nAuditable: raw answers stored, not just scores.\nActionable: every issue maps to a GEO layer (content, identity or corroboration).\nStep 1: Version-controlled prompt sets\nStore prompts in Git so changes are reviewed and dated:\n# prompts/sg.yml\nmarket: SG\nlanguage: en\nprompts:\n\n\nid: sg-cat-01\ntext: \"Who are the leading {category} providers in Singapore?\"\ntype: category\nid: sg-brand-01\ntext: \"What is {brand} known for in Southeast Asia?\"\ntype: brand\nid: sg-comp-01\ntext: \"{brand} vs {competitor} for enterprises in Singapore\"\ntype: comparison\nKeep the prompt set stable. If you change it, version it, or your trend lines become meaningless.\nStep 2: A logging schema\nCREATE TABLE ai_visibi…",
+          "link": "https://dev.to/rida_moideen/building-an-enterprise-ai-visibility-monitoring-pipeline-prompt-sets-logging-schema-and-dashboards-209n",
+          "publishedOn": "2026-10-28T03:48:15.000Z",
+          "wordCount": 2349,
+          "title": "Building an Enterprise AI Visibility Monitoring Pipeline: Prompt Sets, Logging Schema and Dashboards",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fo2gvjrxjavrqsn56tuci.png"
+        },
+        {
+          "id": "https://dev.to/urbandonovan1576/llm-api-cost-how-token-count-impacts-nodejs-knowledge-retrieval-19cp",
+          "author": "UrbanDonovan1576",
+          "description": "The hard part of a private knowledge-base assistant is not making the prompt shorter. It is keeping a stable JSON contract while sending only the evidence that contract needs. Token count affects an LLM bill because providers charge for the input and output tokens processed by a call. My ship-first rule is to make retrieval own the context budget, then make the model adapter replaceable.\nShort answer: normalize documents, retrieve with embeddings, rerank a small candidate set, and preserve whole evidence chunks until a measured token limit. Keep the answer shape independent of the provider. A shorter request that loses a source ID or a version qualifier is a cheaper failure, not a cost reduction.\nA normal support question can carry a system instruction, the question, conversation history, …",
+          "link": "https://dev.to/urbandonovan1576/llm-api-cost-how-token-count-impacts-nodejs-knowledge-retrieval-19cp",
+          "publishedOn": "2026-10-28T03:48:11.000Z",
+          "wordCount": 3002,
+          "title": "LLM API Cost: How Token Count Impacts Node.js Knowledge Retrieval",
+          "imageUrl": "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3otvb2z646ytpt1hl2rv.jpg"
+        },
+        {
+          "id": "https://dev.to/kevin_yadidi_3ce5dc22b213/ai-for-absolute-beginners-5-things-i-wish-i-knew-before-my-first-week-3ib9",
+          "author": "Kevin Yadidi",
+          "description": "I put off trying AI for months because every explanation sounded like it was written for engineers. When I finally started, here is what actually helped.\nYou only need one app to start. Pick one chatbot (ChatGPT, Gemini, Claude — any of them) and ignore the rest until you are comfortable.\n\n\nA prompt is just a request with details. \"Write an email\" gets you something generic. \"Write a polite 3-sentence email to my landlord about a leaky faucet\" gets you something usable. The details are the skill.\n\n\nAI makes things up sometimes. It will state wrong dates and prices with total confidence. Double-check anything factual before you act on it.\n\n\nSmall jobs beat big projects. My first useful wins were a meal plan from what was in my fridge and a summary of a long article. Start boring, then get ambitious.\n\n\nYou cannot break it. There is no wrong button that ruins anything. The worst outcome is a bad answer you ignore.\n\n\n\nWhat is the one thing that made AI finally click for you — or what is still stopping you?\nDisclosure: I wrote a beginner book about exactly this, \"AI for Ding-Dongs: The Ridiculously Simple Guide to Using Artificial Intelligence\" — plain English, real examples, no jargon. Paperback on Amazon: https://a.co/0eXrWCYL",
+          "link": "https://dev.to/kevin_yadidi_3ce5dc22b213/ai-for-absolute-beginners-5-things-i-wish-i-knew-before-my-first-week-3ib9",
+          "publishedOn": "2026-10-28T03:46:48.000Z",
+          "wordCount": 1636,
+          "title": "AI for Absolute Beginners: 5 Things I Wish I Knew Before My First Week",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F0gqvysppm27w8xdk1p4b.png"
+        },
+        {
+          "id": "https://dev.to/dingdangcs/one-voice-across-five-stores-running-a-shared-script-library-without-flattening-store-personality-1lgg",
+          "author": "Dingdang CS",
+          "description": "A merchant running several storefronts usually starts by copying the reply library: each store gets the folder, each store edits it, and a year later there are five libraries answering the same warranty question five different ways. Two failure modes follow. Forks drift — one store promises 30-day returns while its neighbor promises 15, and the difference surfaces in a dispute. Or the pendulum swings the other way: a single library is imposed everywhere, and every store sounds like the same interchangeable clerk, losing the local tone that made customers want to talk to it. The way through is structural, not stylistic: one master, explicit difference layers, defined edit rights, and announcements that actually reach the people answering.\nThe master layer holds anything where divergence is …",
+          "link": "https://dev.to/dingdangcs/one-voice-across-five-stores-running-a-shared-script-library-without-flattening-store-personality-1lgg",
+          "publishedOn": "2026-10-28T03:44:40.000Z",
+          "wordCount": 2119,
+          "title": "One Voice Across Five Stores: Running a Shared Script Library Without Flattening Store Personality",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fvdzq0hu5072bpxvz4l5l.png"
+        },
+        {
+          "id": "https://dev.to/ioneyrezende/fifty-one-thousand-media-request-queues-and-not-one-application-signature-33i3",
+          "author": "Ioneyrezende",
+          "description": "Fifty-One Thousand Media Request Queues, and Not One Application Signature\n\n\nMedia request systems occupy an odd position: they are consumer software, they hold API keys to a dozen other services, and they are installed by people who are good at this but not necessarily thinking about exposure. The index has an unusually clean view of them.\nQueries against the ZoomEye index on 28 October 2026:\ntitle=\"Overseerr\" returns 8,928, of which title=\"Overseerr\" && port=443 returns 1,672 and title=\"Overseerr\" && port=5055 returns 1.\ntitle=\"Ombi\" returns 42,810, of which title=\"Ombi\" && port=443 returns 3,390 and title=\"Ombi\" && port=3579 returns 0.\napp=\"Overseerr\" returns 0 and app=\"Ombi\" returns 0.\nTwo observations follow immediately. First, neither product has an application fingerprint, so every …",
+          "link": "https://dev.to/ioneyrezende/fifty-one-thousand-media-request-queues-and-not-one-application-signature-33i3",
+          "publishedOn": "2026-10-28T03:43:05.000Z",
+          "wordCount": 2162,
+          "title": "Fifty-One Thousand Media Request Queues, and Not One Application Signature",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fdr2l6s7awu461fhbe6lw.png"
+        },
+        {
+          "id": "https://dev.to/dannydoes_2abdf9c/oracle-manipulation-risk-report-crypto-com-1l83",
+          "author": "DannyDoes",
+          "description": "Oracle Manipulation Risk Report: Crypto-com\n\n\nTarget Protocol: Crypto-com (TVL: $2368.9M)\nOracle Manipulation Risk Report – Crypto‑com\n\nPrepared by: [Your Firm] – Senior DeFi Security Research & Auditing Team\n\nDate: 28 Oct 2026  \nCrypto‑com (formerly Crypto.com Chain) is a multi‑chain DeFi ecosystem anchored on Ethereum and several L2 roll‑ups (Optimism, Arbitrum, zkSync). As of the latest snapshot (28 Oct 2026) the protocol manages ≈ $2.37 B in total value locked (TVL) across its lending, staking, and synthetic‑asset modules.  \nA core design pillar of Crypto‑com is the reliance on price oracles to:\nTrigger liquidations in the lending market.\n\nMint/burn synthetic assets (e.g., CRO‑USD, CRO‑BTC).\n\nDetermine reward rates for staking and yield‑farm incentives.\n\n\n\nBecause the protocol’s risk‑a…",
+          "link": "https://dev.to/dannydoes_2abdf9c/oracle-manipulation-risk-report-crypto-com-1l83",
+          "publishedOn": "2026-10-28T03:40:59.000Z",
+          "wordCount": 3094,
+          "title": "Oracle Manipulation Risk Report: Crypto-com",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F7wr3w9jst0l6l6mkwg2g.png"
+        },
+        {
+          "id": "https://dev.to/spicanet/bring-your-own-proxies-why-proxylister-doesnt-sell-you-any-4a9e",
+          "author": "Spicanet",
+          "description": "If you work with proxies, you probably have them from more than one provider, in more than one format, tracked in a spreadsheet that's been lying to you since last Tuesday. Every provider has a dashboard, and every dashboard says their proxies are great. ProxyLister is a vendor-neutral ProxyOps platform: you bring proxies from whoever you buy them from, and it helps you manage, check, benchmark and pool them. It never resells proxies. It's in beta, and some of the features you'd expect are still being released, which I'll be specific about.\nThe person selling you proxies is the worst possible judge of how good those proxies are. Not because they're dishonest, but because their dashboard measures what they want measured, against targets they chose.\nWhat you actually care about is whether a …",
+          "link": "https://dev.to/spicanet/bring-your-own-proxies-why-proxylister-doesnt-sell-you-any-4a9e",
+          "publishedOn": "2026-10-28T03:40:39.000Z",
+          "wordCount": 2136,
+          "title": "Bring your own proxies: why ProxyLister doesn't sell you any",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto/https%3A%2F%2Fspicanet.dev%2Fmedia%2Fuploads%2F2026%2F10%2Fspicanet-blog-proxylister-bring-your-own-proxies-cover.webp"
+        },
+        {
+          "id": "https://dev.to/yvessterling6854/choosing-a-transactional-email-api-for-welcome-messages-and-one-integration-rule-343p",
+          "author": "YvesSterling6854",
+          "description": "The integration constraint changes the answer. If an e-commerce service already has a mail provider, keep it and add the smallest possible welcome-email path. If the application is assembling several backend capabilities behind one account, a plain REST surface with reusable templates is easier to carry from a notebook prototype into production.\nShort answer: compare Amazon SES, SendGrid, and Postmark against the amount of integration work you will own. A consolidated API can be a strong fit when one key and one bill across backend services matter more than having a large email-specific product. For the welcome flow itself, create the reusable structure first, then send the transactional message. In the API described here, those operations are /v1/email/template/create and /v1/email/send.\n…",
+          "link": "https://dev.to/yvessterling6854/choosing-a-transactional-email-api-for-welcome-messages-and-one-integration-rule-343p",
+          "publishedOn": "2026-10-28T03:37:53.000Z",
+          "wordCount": 2807,
+          "title": "Choosing a Transactional Email API for Welcome Messages (and One Integration Rule)",
+          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fnf568qyta40exteab60n.png"
+        },
+        {
           "id": "https://dev.to/dannydoes_2abdf9c/protocol-upgrade-compatibility-review-crypto-com-b2f",
           "author": "DannyDoes",
           "description": "Protocol Upgrade Compatibility Review: Crypto-com\n\n\nTarget Protocol: Crypto-com (TVL: $2364.7M)\nTVL: ≈ $2.36 B (Ethereum + L2)\n\nDate of Review: 27 Oct 2026\n\nPrepared by: [Your Firm – Senior DeFi Security Research & Auditing Team]  \nCrypto‑com is a multi‑chain, high‑throughput DeFi platform that aggregates lending, staking, and cross‑chain bridge services. The protocol relies heavily on upgradeable smart‑contract architectures (UUPS proxies on Ethereum, Diamond proxies on L2s) and a governance‑driven upgrade process.  \nOur Upgrade Compatibility Review focused on the ability of the existing code‑base to safely accept future upgrades without introducing storage‑collision bugs, re‑entrancy windows, or governance‑exploitation vectors.  \nKey findings:  \n\n\n\nArea\nOverall Health\nCritical Issues\nMed…",
@@ -9616,126 +9736,6 @@
           "wordCount": 2939,
           "title": "Zénit: a desktop workspace for code, AI assistance and real execution",
           "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fraw.githubusercontent.com%2FArizt00%2FZenit%2Fmain%2Fdocs%2Fmedia%2Fworkspace-dark.png"
-        },
-        {
-          "id": "https://dev.to/jwhenry3/angular-preact-the-ultimate-team-1cof",
-          "author": "Justin Henry",
-          "description": "Why Angular and Preact?\n\n\nBuilding scalable and maintainable frontend applications becomes a difficult task when the framework is too opinionated or too loose. The goal is to provide familiar patterns on both sides while sacrificing nothing. Once thought to be nigh impossible is now brought into fruition by bridging similarities between two very different frameworks.\nAngular thrives on structural architecture design and enforcing boundaries that make sense for large scale applications. We know through many years that MVC is a solid pattern not to be dismissed easily. We also know that through many years of exploring flexible developer experiences that React's ability to adapt is unrivaled. Where these two can come together is through Preact's Signals library and combining the efforts that …",
-          "link": "https://dev.to/jwhenry3/angular-preact-the-ultimate-team-1cof",
-          "publishedOn": "2026-10-13T15:32:05.000Z",
-          "wordCount": 2261,
-          "title": "Angular 🤝 Preact: The Ultimate Team",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fzd9vzwizy5hffjqmf0im.png"
-        },
-        {
-          "id": "https://dev.to/katerina_bulkina/building-a-shipment-table-for-thousands-of-live-records-what-i-learned-on-logicore-51np",
-          "author": "Katerina Bulkina",
-          "description": "A shipment table seems easy, a few columns, some filters, a status badge. Then real data shows up...\nTHOUSANDS of shipments, statuses that change all day, and operators who need to find the one late truck fast.\nA table that feels fine with 50 test rows can crawl with 5,000.\nI ran into this on LogiCore, a logistics and warehouse management platform UITOP designed and built from scratch, for a UK logistics company. The client ran a multi-million dollar business across three or four separate tools. Data didn’t match between them, updates came late, and managers made big calls without the full picture. They wanted one system for the warehouse floor and the office.\nOur design, project management, development and QA teams worked on it together. Here’s how we built the shipment table, and why we …",
-          "link": "https://dev.to/katerina_bulkina/building-a-shipment-table-for-thousands-of-live-records-what-i-learned-on-logicore-51np",
-          "publishedOn": "2026-10-13T15:30:58.000Z",
-          "wordCount": 2525,
-          "title": "Building a shipment table for thousands of live records. What I learned on LogiCore?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fcp0nc1jopd2lwiggshq0.png"
-        },
-        {
-          "id": "https://dev.to/shazara/building-a-local-ai-powered-receipt-sorter-with-tiger-cloud-and-mcp-for-freelancers-59kk",
-          "author": "Shazara",
-          "description": "During this Global Hack Week and Hacktoberfest challenge, I wanted to build something practical that solves a real-world problem for small business owners and freelancers. Receipts, invoices, and expense tracking are often tedious tasks, and relying on heavy cloud-based AI APIs can risk sensitive client data while incurring recurring costs.\nTo solve this, I built Local AI Receipt Sorter—a local-first tool powered by open-source AI logic, secure database partitioning, and Model Context Protocol (MCP) integration with Tiger Cloud.\n1. Project Folder Structure\n\n\nTo keep the application modular, clean, and easy to maintain, the project follows a standard production-ready folder layout:\nlocal-ai-receipt/\n│\n├── .env.example            # Environment variables template (Database URLs, API keys)\n├──…",
-          "link": "https://dev.to/shazara/building-a-local-ai-powered-receipt-sorter-with-tiger-cloud-and-mcp-for-freelancers-59kk",
-          "publishedOn": "2026-10-13T15:30:21.000Z",
-          "wordCount": 1932,
-          "title": "Building a Local AI-Powered Receipt Sorter with Tiger Cloud and MCP for Freelancers",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fk6m3dikpbif3h7h4230u.png"
-        },
-        {
-          "id": "https://dev.to/aaravmaloo/vrai-a-native-macos-git-client-4dc0",
-          "author": "Aarav Maloo",
-          "description": "Using GitHub desktop feels more intuitive rather than git CLI. \n\nWhat if there could be a git client that is simple yet powerful?\nWritten in native Swift?\nIntroducing vrai, a pure native macOS application, simple yet powerful git client.\nGitHub: https://github.com/aaravmaloo/vrai",
-          "link": "https://dev.to/aaravmaloo/vrai-a-native-macos-git-client-4dc0",
-          "publishedOn": "2026-10-13T15:30:17.000Z",
-          "wordCount": 1425,
-          "title": "Vrai | A native macOS git client",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fjnht8d9op822i2hjteb4.png"
-        },
-        {
-          "id": "https://dev.to/lukaswalter/chunking-for-qdrant-in-net-before-it-becomes-a-quality-problem-4ac6",
-          "author": "Lukas Walter",
-          "description": "A query can find the right runbook and still miss the condition that makes its instructions safe to follow. Choose chunk boundaries so retrieval can preserve those conditions. Check the returned evidence before you start tuning the generated answer.\nThe short notes in Indexing Your First Documents fit into one point each. That was enough to verify indexing and build the query path in Querying Qdrant from .NET. A longer runbook needs more deliberate boundaries.\nWe will extend that console project with a longer support runbook. Each chunk will contain complete paragraphs from one section and have a deterministic point ID. The query still uses the existing embedding setup.\nA complete, standalone version of this example is available in the sample repository.\nConsider this illustrative runbook …",
-          "link": "https://dev.to/lukaswalter/chunking-for-qdrant-in-net-before-it-becomes-a-quality-problem-4ac6",
-          "publishedOn": "2026-10-13T15:30:00.000Z",
-          "wordCount": 4263,
-          "title": "Chunking for Qdrant in .NET Before It Becomes a Quality Problem",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fam7axjza0o00s2r1qkqj.png"
-        },
-        {
-          "id": "https://dev.to/adam762/after-funding-should-you-build-an-in-house-ai-team-or-hire-a-product-engineering-pod-17p9",
-          "author": "Adam",
-          "description": "Raising funding is a major milestone for any startup, but it also changes the expectations placed on its engineering team. A promising AI prototype must now evolve into a reliable product that serves customers, protects data, scales with demand, and delivers measurable business value.\nThis is where founders face an important decision: should they build an in-house AI team or partner with a dedicated product engineering pod?\nBoth approaches have advantages. The right choice depends on the company's roadmap, available talent, delivery timelines, and the level of technical ownership it wants to maintain.\nBefore funding, startups often focus on validating ideas and proving that a product can work. After funding, the priority shifts toward execution. Investors expect progress, customers expect …",
-          "link": "https://dev.to/adam762/after-funding-should-you-build-an-in-house-ai-team-or-hire-a-product-engineering-pod-17p9",
-          "publishedOn": "2026-10-13T15:30:00.000Z",
-          "wordCount": 4067,
-          "title": "After Funding: Should You Build an In-House AI Team or Hire a Product Engineering Pod?",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fb0r3gs7dfcyveq9hltxs.png"
-        },
-        {
-          "id": "https://dev.to/dannydoes_2abdf9c/cross-chain-bridge-risk-assessment-crypto-com-5hc9",
-          "author": "DannyDoes",
-          "description": "Cross-Chain Bridge Risk Assessment: Crypto-com\n\n\nTarget Protocol: Crypto-com (TVL: $2465.1M)\nCrypto‑com – Cross‑Chain Bridge Risk Assessment\n\nPrepared by: Senior DeFi Security Researcher\n\nDate: 13 Oct 2026  \nCrypto‑com operates a high‑value cross‑chain bridge that enables the transfer of assets between Ethereum (L1) and several L2 roll‑ups (Optimism, Arbitrum, zkSync, etc.). The bridge currently secures ≈ $2.47 B in total value locked (TVL) across these networks, making it a prime target for sophisticated adversaries.  \nOur assessment focuses on the technical integrity of the bridge contracts, the underlying consensus/relay mechanisms, liquidity management, and governance controls. The analysis combines on‑chain static and dynamic code review, formal verification of critical primitives, si…",
-          "link": "https://dev.to/dannydoes_2abdf9c/cross-chain-bridge-risk-assessment-crypto-com-5hc9",
-          "publishedOn": "2026-10-13T15:29:43.000Z",
-          "wordCount": 3005,
-          "title": "Cross-Chain Bridge Risk Assessment: Crypto-com",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fgtln48sef5w8cr77xu7k.png"
-        },
-        {
-          "id": "https://dev.to/angelh/7-microservicios-off-chain-con-fastapi-tu-backend-inviolable-cof",
-          "author": "Ángel Hernandez M.",
-          "description": "Descubre cómo construir un backend robusto y descentralizado que resiste cualquier ataque, potenciando tus dApps con esta guía práctica.\nAprende a construir un backend robusto y seguro para tus aplicaciones descentralizadas o tradicionales, usando FastAPI y micro-servicios 'off-chain'.\nImagina esta escena: un emprendedor en San José, Costa Rica, lanza su plataforma de votación online. Al poco tiempo, un ataque DDoS lo deja fuera de combate, perdiendo la confianza de sus usuarios y, lo que es peor, credibilidad. Historias como esta son demasiado comunes. Muchos piensan que la seguridad es solo para los \"grandes\", pero un backend invulnerable es la base para cualquier proyecto exitoso, especialmente cuando hablamos de manejar datos críticos o transacciones. ¿Y si te dijera que existe una for…",
-          "link": "https://dev.to/angelh/7-microservicios-off-chain-con-fastapi-tu-backend-inviolable-cof",
-          "publishedOn": "2026-10-13T15:29:33.000Z",
-          "wordCount": 2939,
-          "title": "7 Microservicios Off-Chain con FastAPI: Tu Backend INVIOLABLE",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fl5ejuybyp1fchb15b8a5.png"
-        },
-        {
-          "id": "https://dev.to/sridevi_asara/quicksell-ai-ekd",
-          "author": "Sridevi Asara",
-          "description": "QuickSell AI: Generate Product Descriptions with Open-Source AI ✨\n\n\nThis is a submission for the Hacktoberfest Open-Source AI Challenge Week 2: Side Hustle.\nQuickSell AI is a simple AI-powered web application that helps small business owners and online sellers generate attractive product descriptions in seconds.\nWriting descriptions for every product can take time, especially for small sellers, resellers, and people running their own side hustles. QuickSell AI makes this process easier by turning basic product information into ready-to-use marketing text.\nAI Product Descriptions: Generate descriptions from a product name and its features.\nMultiple Writing Styles: Choose Professional, Friendly, or Catchy.\nCopy Description: Copy the generated text for use in online product listings.\nLocal AI…",
-          "link": "https://dev.to/sridevi_asara/quicksell-ai-ekd",
-          "publishedOn": "2026-10-13T15:28:42.000Z",
-          "wordCount": 2016,
-          "title": "QUICKSELL AI",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fsrs7j4sa14twucnh8b3c.png"
-        },
-        {
-          "id": "https://dev.to/beesbot/agents-that-ask-first-and-remember-what-you-told-them-3nfn",
-          "author": "Bees",
-          "description": "The part of AI agents that worried us most wasn't whether they could do the work. It was whether we'd trust them to do it without watching every step. So three of the things we built into Bees are about that: agents that stop and ask, agents that keep what you told them, and a way to get more than one view before a decision.\nBees is a free, open source desktop app that runs a team of AI agents on your own computer. It went public today. Here's how those three pieces work, each with a short video.\n  \n  \n\n\nFinished work doesn't just go out. It waits under Needs your attention until you approve it, or send it back with a reason. You can also mark a stage as needing approval, and then its agent can't send, post, delete or pay through a tool until you say yes. When an agent isn't sure what you …",
-          "link": "https://dev.to/beesbot/agents-that-ask-first-and-remember-what-you-told-them-3nfn",
-          "publishedOn": "2026-10-13T15:28:27.000Z",
-          "wordCount": 1855,
-          "title": "Agents that ask first and remember what you told them",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Frhlc6bhmlbjc9esto7nv.png"
-        },
-        {
-          "id": "https://dev.to/beesbot/bees-is-public-a-free-desktop-app-that-runs-a-team-of-ai-agents-on-your-computer-2887",
-          "author": "Bees",
-          "description": "Bees went public today. It's a free, open source desktop app for macOS, Windows and Linux that runs a team of AI agents on your own computer, instead of one assistant in a single chat window.\n  \n  \n\n\n\n  \n  \n  What it does\n\n\nYou describe an outcome in plain language, in the What would you like to achieve? box on Home. Bees turns it into stages on a shared board. Agents work through those stages, and a separate reviewer agent checks each result before the work moves on.\nA small example from the README: ask it to browse Hacker News and give you a table of the current stories, grouped into news, Show HN and Ask HN. Bees plans the stages, the agents do the browsing and sorting, the reviewer checks the table, and the finished result lands in that run.\nBees doesn't sell you a model. Under Setting…",
-          "link": "https://dev.to/beesbot/bees-is-public-a-free-desktop-app-that-runs-a-team-of-ai-agents-on-your-computer-2887",
-          "publishedOn": "2026-10-13T15:28:26.000Z",
-          "wordCount": 1902,
-          "title": "Bees is public: a free desktop app that runs a team of AI agents on your computer",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2Fl82v3pij4d6hryb7jda5.png"
-        },
-        {
-          "id": "https://dev.to/archigrant90/exploring-aviorswap-through-a-developers-lens-39h2",
-          "author": "Archi Grant",
-          "description": "When I explore a crypto platform, I pay attention to the interface before the marketing.\nWhat does the product ask me to do first? What information does it provide before I make a decision? Where does a simple screen hide a more complicated process?\nThat’s the perspective I bring to AviorSwap.\nIts homepage emphasizes asset variety, straightforward pricing, and fast swaps. But what interests me most is how those ideas translate into a workflow a user can understand.\nA clear starting point matters\nAviorSwap puts deposit and swap actions near the beginning of the experience. It also presents market sections organized around popular assets and daily price movements.\nI like thinking about these as two different user needs.\nSometimes I open a financial interface to explore. Other times, I alread…",
-          "link": "https://dev.to/archigrant90/exploring-aviorswap-through-a-developers-lens-39h2",
-          "publishedOn": "2026-10-13T15:27:05.000Z",
-          "wordCount": 1935,
-          "title": "Exploring AviorSwap Through a Developer’s Lens",
-          "imageUrl": "https://media2.dev.to/dynamic/image/width=1200,height=627,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.us-east-2.amazonaws.com%2Fuploads%2Farticles%2F1fczbvylgl0jgj6res8h.png"
         }
       ]
     },
@@ -9992,6 +9992,26 @@
       "siteUrl": "https://news.ycombinator.com/",
       "articles": [
         {
+          "id": "https://lexifina.com/blog/git-for-the-us-code",
+          "author": null,
+          "description": "Comments",
+          "link": "https://lexifina.com/blog/git-for-the-us-code",
+          "publishedOn": "2026-10-28T01:47:50.000Z",
+          "wordCount": 3717,
+          "title": "Git for US Legislation",
+          "imageUrl": "https://lexifina.com/social-preview-v3.png?v=20261018"
+        },
+        {
+          "id": "https://github.com/maharmstone/moxnox",
+          "author": null,
+          "description": "Comments",
+          "link": "https://github.com/maharmstone/moxnox",
+          "publishedOn": "2026-10-27T23:53:41.000Z",
+          "wordCount": 5683,
+          "title": "Moxnox 1.0: NT-Like, POSIX-Compatible OS Running Atop Btrfs",
+          "imageUrl": "https://opengraph.githubassets.com/edb87d96e2fbd6fe2e160cf2ad5d5d17f8e42fa87adb86bbe90ceaeb82975da3/maharmstone/moxnox"
+        },
+        {
           "id": "https://www.bettascore.ai/research/reliability-reviewers-vs-owners",
           "author": null,
           "description": "Comments",
@@ -10000,6 +10020,16 @@
           "wordCount": 2865,
           "title": "Reviewers rarely talk about reliability. Owners bring it up twice as often",
           "imageUrl": "https://www.bettascore.ai/research/reliability-reviewers-vs-owners/image/16x9"
+        },
+        {
+          "id": "https://www.anthropic.com/news/expanding-partnership-gsa",
+          "author": null,
+          "description": "Comments",
+          "link": "https://www.anthropic.com/news/expanding-partnership-gsa",
+          "publishedOn": "2026-10-27T22:23:37.000Z",
+          "wordCount": 2519,
+          "title": "Expanding our partnership with GSA to bring Claude to all levels of government",
+          "imageUrl": "https://www-cdn.anthropic.com/images/4zrzovbb/website/4e3bfa972a8ec391977288fa36de3da1ecd78232-1920x1080.webp"
         },
         {
           "id": "https://oxidt.com/blog/one-year-of-dioxus-fullstack-in-production-the-good-the-painful",
@@ -10040,6 +10070,16 @@
           "wordCount": 3779,
           "title": "Hex Raises $100M",
           "imageUrl": "https://cdn.sanity.io/images/e92memrj/production/e4ceb1ed89c009f5c5fe1a73f13b13086eb14608-1800x930.png?w=1200&auto=format"
+        },
+        {
+          "id": "https://arstechnica.com/security/2026/10/code-execution-flaw-in-uefi-firmware-threatens-most-servers-on-planet-earth/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arstechnica.com/security/2026/10/code-execution-flaw-in-uefi-firmware-threatens-most-servers-on-planet-earth/",
+          "publishedOn": "2026-10-27T20:35:09.000Z",
+          "wordCount": null,
+          "title": "Code-execution flaw in UEFI firmware threatens most servers on planet Earth",
+          "imageUrl": null
         },
         {
           "id": "https://gracefulliberty.com/articles/four-months-of-zig/",
@@ -10090,6 +10130,16 @@
           "wordCount": 11809,
           "title": "Three TLS Bugs in GoAhead",
           "imageUrl": "https://framerusercontent.com/images/PZZxAfRozIks13F8wNYf8GKDve0.png"
+        },
+        {
+          "id": "https://news.vt.edu/articles/2026/10/cmi-monarchs.html",
+          "author": null,
+          "description": "Comments",
+          "link": "https://news.vt.edu/articles/2026/10/cmi-monarchs.html",
+          "publishedOn": "2026-10-27T17:48:15.000Z",
+          "wordCount": 2319,
+          "title": "Radio-tagged Monarch butterflies",
+          "imageUrl": "https://news.vt.edu/content/dam/news_vt_edu/articles/2026/10/cnre/CMI-butterfly-tagging-2.jpg.transform/l-medium/image.jpg"
         },
         {
           "id": "https://blog.cwf-fcf.org/index.php/en/tiny-tracking-tags-for-big-monarch-journeys/",
@@ -10612,6 +10662,16 @@
           "imageUrl": "https://www.brown.edu/sites/default/files/styles/wide_lrg/public/2026-10/Dataworkers.jpg?h=f6430484&itok=1eq5-wXm"
         },
         {
+          "id": "https://spelk.press/gb/products/81-jokes-for-the-zx81",
+          "author": null,
+          "description": "Comments",
+          "link": "https://spelk.press/gb/products/81-jokes-for-the-zx81",
+          "publishedOn": "2026-10-26T12:45:16.000Z",
+          "wordCount": 2819,
+          "title": "81 Jokes for the ZX81",
+          "imageUrl": "https://api.spelk.press/static/1792456337828-81-jokes-for-the-zx81-cover.webp"
+        },
+        {
           "id": "https://pharo.org/news/2026-10-26-Pharo14Release.html",
           "author": null,
           "description": "Comments",
@@ -10942,6 +11002,16 @@
           "imageUrl": "https://iosiflazaridis.github.io/battles-of-the-romans/thumb/battles-of-the-romans-1-map.jpg"
         },
         {
+          "id": "https://arstechnica.com/science/2026/10/meet-the-2026-winner-of-nikons-small-world-photomicrography-contest/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://arstechnica.com/science/2026/10/meet-the-2026-winner-of-nikons-small-world-photomicrography-contest/",
+          "publishedOn": "2026-10-25T18:49:48.000Z",
+          "wordCount": null,
+          "title": "Ink droplets in motion snag top prize in Nikon Small World contest",
+          "imageUrl": null
+        },
+        {
           "id": "https://www.nextplatform.com/connect/2026/10/23/apc-says-let-there-be-light-with-raft-of-standards-to-speed-up-photonics-manufacturing/5304950",
           "author": null,
           "description": "Comments",
@@ -11180,6 +11250,16 @@
           "wordCount": 1899,
           "title": "Tool book of a Nuremberg knight from 1505",
           "imageUrl": "https://loeffelholz-codex.org/img/facsimile/social/f001r.jpg"
+        },
+        {
+          "id": "https://ratfactor.com/assembly-nights",
+          "author": null,
+          "description": "Comments",
+          "link": "https://ratfactor.com/assembly-nights",
+          "publishedOn": "2026-10-25T12:35:37.000Z",
+          "wordCount": 1970,
+          "title": "Assembly Nights",
+          "imageUrl": null
         },
         {
           "id": "https://github.com/ihhub/fheroes2",
@@ -11652,6 +11732,16 @@
           "imageUrl": null
         },
         {
+          "id": "https://brennan.day/a-love-letter-to-the-super-dimension-fortress/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://brennan.day/a-love-letter-to-the-super-dimension-fortress/",
+          "publishedOn": "2026-10-24T08:30:32.000Z",
+          "wordCount": 6908,
+          "title": "A Love Letter to the Super Dimension Fortress",
+          "imageUrl": "https://brennan.day/assets/images/blog/sdf.jpg"
+        },
+        {
           "id": "https://broccoli2shell.com/",
           "author": null,
           "description": "Comments",
@@ -11710,6 +11800,16 @@
           "wordCount": 16143,
           "title": "How close can pure functional programming get to C?",
           "imageUrl": null
+        },
+        {
+          "id": "https://tabletopwhale.com/",
+          "author": null,
+          "description": "Comments",
+          "link": "https://tabletopwhale.com/",
+          "publishedOn": "2026-10-24T02:51:39.000Z",
+          "wordCount": 1480,
+          "title": "Tabletop Whale is an original science illustration blog",
+          "imageUrl": "http://tabletopwhale.com/img/posts/08-27-14.png"
         },
         {
           "id": "https://ayoships.com/breakdowns/block-blast",
@@ -18590,256 +18690,6 @@
           "wordCount": 4636,
           "title": "Gemini 4 Argon",
           "imageUrl": "https://lh3.googleusercontent.com/ufe__EokQeN6itypUE9XmN6-HX9kqi1cNllSWZ688h8dXXOh8lDS_Ltc8c-hdbJSp86GcKcpbHmsXharkzaEaFzhOFLsbx7zFcoi20GqnwTREcto=w1200-h630-n-nu-rw"
-        },
-        {
-          "id": "https://www.anthropic.com/engineering/redesigning-source-control",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.anthropic.com/engineering/redesigning-source-control",
-          "publishedOn": "2026-10-13T15:49:56.000Z",
-          "wordCount": 8142,
-          "title": "Redesigning source control at Anthropic",
-          "imageUrl": "https://www-cdn.anthropic.com/images/4zrzovbb/website/d344b849251502fade67ad16f09bb86fa6f42363-500x263.png"
-        },
-        {
-          "id": "https://news.ycombinator.com/item?id=50073471",
-          "author": null,
-          "description": "Comments",
-          "link": "https://news.ycombinator.com/item?id=50073471",
-          "publishedOn": "2026-10-13T15:41:00.000Z",
-          "wordCount": 1621,
-          "title": "Launch HN: Consus (YC F24) – LLM gateway for companies handling sensitive data",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.sammystraus.com/#i-posted-to-hn-and-then-my-website-was-flooded-with-ai-bot-traffic",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.sammystraus.com/#i-posted-to-hn-and-then-my-website-was-flooded-with-ai-bot-traffic",
-          "publishedOn": "2026-10-13T15:25:50.000Z",
-          "wordCount": 18391,
-          "title": "I posted to HN, and then my website was flooded with AI bot traffic",
-          "imageUrl": null
-        },
-        {
-          "id": "https://ourworldindata.org/data-insights/electricity-generation-per-person-in-the-united-kingdom-has-fallen-by-a-third-from-its-early-2000s-peak",
-          "author": null,
-          "description": "Comments",
-          "link": "https://ourworldindata.org/data-insights/electricity-generation-per-person-in-the-united-kingdom-has-fallen-by-a-third-from-its-early-2000s-peak",
-          "publishedOn": "2026-10-13T15:12:57.000Z",
-          "wordCount": 3707,
-          "title": "The United Kingdom generates less electricity per person than in the 1970s",
-          "imageUrl": "https://ourworldindata.org/cdn-cgi/imagedelivery/qLq-8BTgXU8yG0N6HnOy8g/14a83be2-f915-4488-06af-fb7eea080400/public"
-        },
-        {
-          "id": "https://blog.thunderbird.net/2026/10/thunderbird-for-ios-a-first-look-at-the-native-iphone-email-app-in-development/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://blog.thunderbird.net/2026/10/thunderbird-for-ios-a-first-look-at-the-native-iphone-email-app-in-development/",
-          "publishedOn": "2026-10-13T15:07:37.000Z",
-          "wordCount": 2492,
-          "title": "Thunderbird for iOS",
-          "imageUrl": "https://blog.thunderbird.net/files/2026/10/Cover2-scaled.jpg"
-        },
-        {
-          "id": "https://orlp.net/blog/two-stack-sliding-window-aggregation/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://orlp.net/blog/two-stack-sliding-window-aggregation/",
-          "publishedOn": "2026-10-13T14:40:03.000Z",
-          "wordCount": 1438,
-          "title": "Two-Stack Sliding-Window Aggregation",
-          "imageUrl": null
-        },
-        {
-          "id": "https://9to5mac.com/2026/10/12/apples-new-switch-to-safari-campaign-details-why-you-should-ditch-chrome/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://9to5mac.com/2026/10/12/apples-new-switch-to-safari-campaign-details-why-you-should-ditch-chrome/",
-          "publishedOn": "2026-10-13T14:26:08.000Z",
-          "wordCount": 3048,
-          "title": "Apple's new 'Switch to Safari' campaign details why you should ditch Chrome",
-          "imageUrl": "https://9to5mac.com/wp-content/uploads/sites/6/2026/10/switch-to-safari.jpg?quality=82&strip=all&resize=1200,628"
-        },
-        {
-          "id": "https://forbetterscience.com/2026/09/22/a-book-that-will-never-be-read/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://forbetterscience.com/2026/09/22/a-book-that-will-never-be-read/",
-          "publishedOn": "2026-10-13T14:21:40.000Z",
-          "wordCount": 9514,
-          "title": "A Book That Will Never Be Read",
-          "imageUrl": "https://forbetterscience.com/wp-content/uploads/2026/09/for-better-science-6aaba1e80c411.png"
-        },
-        {
-          "id": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code",
-          "author": null,
-          "description": "Comments",
-          "link": "https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code",
-          "publishedOn": "2026-10-13T14:14:23.000Z",
-          "wordCount": null,
-          "title": "How to engineer an AI harness for game development",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.polygon.com/order-of-the-sinking-star-impressions/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.polygon.com/order-of-the-sinking-star-impressions/",
-          "publishedOn": "2026-10-13T14:14:20.000Z",
-          "wordCount": 11898,
-          "title": "'500-hour' Order of the Sinking Star is as complex and exhausting as it sounds",
-          "imageUrl": "https://static0.polygonimages.com/wordpress/wp-content/uploads/2026/10/game-page-featured_order-of-the-sinking-star.jpg?w=1600&h=900&fit=crop"
-        },
-        {
-          "id": "https://sebsite.pw/w/20261012-notstdc.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://sebsite.pw/w/20261012-notstdc.html",
-          "publishedOn": "2026-10-13T13:36:21.000Z",
-          "wordCount": 828,
-          "title": "your C is not standard C",
-          "imageUrl": null
-        },
-        {
-          "id": "https://marcpaul.io/logs/same-job-two-engines-innodb-and-iceberg-internals/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://marcpaul.io/logs/same-job-two-engines-innodb-and-iceberg-internals/",
-          "publishedOn": "2026-10-13T13:31:43.000Z",
-          "wordCount": 3426,
-          "title": "Same Job, Two Engines: InnoDB and Iceberg Internals",
-          "imageUrl": "https://marcpaul.io/images/og-default-v2.png"
-        },
-        {
-          "id": "https://www.ludicon.com/castano/blog/2026/10/4-years-of-ludicon/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.ludicon.com/castano/blog/2026/10/4-years-of-ludicon/",
-          "publishedOn": "2026-10-13T13:22:11.000Z",
-          "wordCount": null,
-          "title": "4 Years of Ludicon",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.apple.com/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.apple.com/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/",
-          "publishedOn": "2026-10-13T13:21:35.000Z",
-          "wordCount": 7370,
-          "title": "New Apple TV 4K",
-          "imageUrl": "https://www.apple.com/newsroom/images/2026/10/apple-unveils-the-new-apple-tv-4k/tile/Apple-TV-4K-261013-lp.jpg.og.jpg?202610131304"
-        },
-        {
-          "id": "https://www.hudsonrivertrading.com/hrtbeat/long-on-research-short-on-bandwidth/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.hudsonrivertrading.com/hrtbeat/long-on-research-short-on-bandwidth/",
-          "publishedOn": "2026-10-13T13:05:46.000Z",
-          "wordCount": null,
-          "title": "Tracing Mystery Network Traffic with eBPF Across HRT's Global Compute Cluster",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.apple.com/apple-homeview/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.apple.com/apple-homeview/",
-          "publishedOn": "2026-10-13T13:02:12.000Z",
-          "wordCount": 8449,
-          "title": "Apple HomeView",
-          "imageUrl": "https://www.apple.com/v/apple-homeview/a/images/meta/apple-homeview__lk7n65hb6bm2_og.png?202610121723"
-        },
-        {
-          "id": "https://github.com/jeff87654/busy-beaver/blob/main/BB10/1RB0RA_1LC1LF_1RD0LB_1RA1LE_1LI0LC_0RG1LD_1RH1LG_1LC0RG_0LJ0LI_1RZ0LC.md",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/jeff87654/busy-beaver/blob/main/BB10/1RB0RA_1LC1LF_1RD0LB_1RA1LE_1LI0LC_0RG1LD_1RH1LG_1LC0RG_0LJ0LI_1RZ0LC.md",
-          "publishedOn": "2026-10-13T12:40:04.000Z",
-          "wordCount": 17513,
-          "title": "BB(10) > Graham's Number",
-          "imageUrl": "https://opengraph.githubassets.com/1478ad79baf71c459b0602395aacbefeeaafd24aee645c2471054f20d428d032/jeff87654/busy-beaver"
-        },
-        {
-          "id": "https://kennedn.com/blog/posts/glitching/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://kennedn.com/blog/posts/glitching/",
-          "publishedOn": "2026-10-13T12:33:18.000Z",
-          "wordCount": 1372,
-          "title": "It took me nine years to hack my Xbox 360",
-          "imageUrl": null
-        },
-        {
-          "id": "https://blog.dfb.sh/blog/eap770-root-for-two-zeros/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://blog.dfb.sh/blog/eap770-root-for-two-zeros/",
-          "publishedOn": "2026-10-13T12:30:08.000Z",
-          "wordCount": 3672,
-          "title": "Wanted to download an ISO, ended up writing a kernel exploit",
-          "imageUrl": "https://blog.dfb.sh/og.jpg"
-        },
-        {
-          "id": "https://machinelearning.apple.com/research/distributed-gpu-cloud",
-          "author": null,
-          "description": "Comments",
-          "link": "https://machinelearning.apple.com/research/distributed-gpu-cloud",
-          "publishedOn": "2026-10-13T12:26:36.000Z",
-          "wordCount": 733,
-          "title": "A Dynamic and Distributed Virtual GPU Cloud Built on Idle Apple Silicon Devices",
-          "imageUrl": "https://mlr.cdn-apple.com/media/Home_1200x630_48225d82e9.png"
-        },
-        {
-          "id": "https://www.nytimes.com/2026/10/13/science/inhabitable-planets-solar-system.html",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.nytimes.com/2026/10/13/science/inhabitable-planets-solar-system.html",
-          "publishedOn": "2026-10-13T12:23:34.000Z",
-          "wordCount": null,
-          "title": "Worlds more habitable than Earth?",
-          "imageUrl": null
-        },
-        {
-          "id": "https://jsomers.net/blog/dictionary",
-          "author": null,
-          "description": "Comments",
-          "link": "https://jsomers.net/blog/dictionary",
-          "publishedOn": "2026-10-13T12:13:20.000Z",
-          "wordCount": 4111,
-          "title": "Webster’s Dictionary: The pleasure of finding things out (2014)",
-          "imageUrl": null
-        },
-        {
-          "id": "https://www.firefox.com/en-US/enterprise/",
-          "author": null,
-          "description": "Comments",
-          "link": "https://www.firefox.com/en-US/enterprise/",
-          "publishedOn": "2026-10-13T12:00:42.000Z",
-          "wordCount": 897,
-          "title": "Mozilla Introduces Firefox Enterprise",
-          "imageUrl": "https://www.firefox.com/media/img/firefox/flare/og.4d50d9b1674b.png"
-        },
-        {
-          "id": "https://photonlines.substack.com/p/a-visual-intro-to-complex-numbers",
-          "author": null,
-          "description": "Comments",
-          "link": "https://photonlines.substack.com/p/a-visual-intro-to-complex-numbers",
-          "publishedOn": "2026-10-13T12:00:04.000Z",
-          "wordCount": null,
-          "title": "A Visual Intro to Complex Numbers",
-          "imageUrl": null
-        },
-        {
-          "id": "https://github.com/LargeModGames/spotatui",
-          "author": null,
-          "description": "Comments",
-          "link": "https://github.com/LargeModGames/spotatui",
-          "publishedOn": "2026-10-13T11:32:00.000Z",
-          "wordCount": 17057,
-          "title": "Show HN: Spotatui, a Spotify TUI/GUI without web API rate limits",
-          "imageUrl": "https://repository-images.githubusercontent.com/1093624725/0281a538-5774-49d4-83da-ac6d45ea062a"
         }
       ]
     },
@@ -18848,6 +18698,66 @@
       "feedUrl": "https://www.lowyat.net/feed/",
       "siteUrl": "https://www.lowyat.net",
       "articles": [
+        {
+          "id": "https://www.lowyat.net/?p=408603",
+          "author": "Nurul Kamil",
+          "description": "Payments Network Malaysia (PayNet) is expanding its cross-border payment ecosystem by launching outbound DuitNow QR payment connectivity through Ant International’s Alipay+. This means that Malaysians travelling overseas can use their existing mobile banking apps to make QR payments at participating merchants. That is, provided they are in one of the following countries: China, Hong Kong […]\nThe post Malaysians Can Now Make DuitNow QR Payments In Five Overseas Destinations appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/408603/duitnow-qr-payments-overseas/",
+          "publishedOn": "2026-10-28T03:45:48.000Z",
+          "wordCount": 13272,
+          "title": "Malaysians Can Now Make DuitNow QR Payments In Five Overseas Destinations",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/10/paynet-overseas-duitnow-qr-payments-1.webp"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=408598",
+          "author": "Kiran Ganesan",
+          "description": "Earlier today, Discord announced a major change to how public communities appear online. The company said that, starting from 16 November, the platform’s Discoverable Servers will be receiving Server Web Pages and will be visible on search engines. These servers are public communities with at least 1,000 members and do not require any invitation in […]\nThe post Discord To Make Public Server Messages Discoverable On Search Engines Soon appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/408598/discord-public-server-messages-discoverable/",
+          "publishedOn": "2026-10-28T03:21:19.000Z",
+          "wordCount": 13505,
+          "title": "Discord To Make Public Server Messages Discoverable On Search Engines Soon",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/10/Discord-To-Make-Public-Server-Messages-Searchable-1-1.webp"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=408597",
+          "author": "Ian Chee",
+          "description": "The government has announced that it is targeting January 2027 for the wider rollout of the National Integrated Immigration System (MyNIISe), the new immigration clearance system. FMT cites Home Minister Saifuddin Nasution Ismail as saying that this will replace the existing MyIMMs system, which has been in place for over two decades. This comes as […]\nThe post Govt Targets January 2027 For Wider MyNIISe Rollout appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/408597/govt-january-2027-wider-myniise-rollout/",
+          "publishedOn": "2026-10-28T03:15:29.000Z",
+          "wordCount": 13214,
+          "title": "Govt Targets January 2027 For Wider MyNIISe Rollout",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/03/myniise-immigration-1.webp"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=408594",
+          "author": "Heirul Kamel",
+          "description": "The government is preparing to take legal action against MyEG Sdn Bhd and Zetrix AI Bhd over RM314 million in government revenue that the two companies allegedly failed to remit within the stipulated period. Transport Minister Anthony Loke said the government is considering civil suits against both companies, stressing that government collections must not be […]\nThe post Govt To Sue MyEG, Zetrix AI Over RM314 Million In Unpaid Revenue appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/408594/govt-to-sue-myeg-zetrix-ai/",
+          "publishedOn": "2026-10-28T02:15:55.000Z",
+          "wordCount": 13364,
+          "title": "Govt To Sue MyEG, Zetrix AI Over RM314 Million In Unpaid Revenue",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2021/08/myeg-promo-image.webp"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=408585",
+          "author": "Nurul Kamil",
+          "description": "Apple has been busy launching new products this week, with devices like the new iMac and 14-inch MacBook Pro getting the spotlight recently. However, the announcements don’t stop at hardware. The Apple Creator Studio is set to receive what the bitten fruit brand is calling its most exciting update thus far. Rolling out next month, […]\nThe post Major Apple Creator Studio Update Adds More Creative Tools, AI-Powered Features appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/408585/apple-creator-studio-update/",
+          "publishedOn": "2026-10-28T02:00:35.000Z",
+          "wordCount": 13360,
+          "title": "Major Apple Creator Studio Update Adds More Creative Tools, AI-Powered Features",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/01/apple-creator-studio-4.webp"
+        },
+        {
+          "id": "https://www.lowyat.net/?p=408574",
+          "author": "Heirul Kamel",
+          "description": "Apart from the X500 Series, vivo Malaysia has also quietly launched its latest foldable smartphone, the X Fold6, for the local market. The device is now listed on the company’s official website, as well as via its stores on Shopee and Lazada. To recap, the vivo X Fold6 launched in China earlier this month, introducing […]\nThe post vivo X Fold6 Quietly Launches In Malaysia appeared first on Lowyat.NET.",
+          "link": "https://www.lowyat.net/2026/408574/vivo-x-fold6-malaysia-launch/",
+          "publishedOn": "2026-10-28T01:38:52.000Z",
+          "wordCount": 13256,
+          "title": "vivo X Fold6 Quietly Launches In Malaysia",
+          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/10/vivo-x-fold6-launch-malaysia-2.webp"
+        },
         {
           "id": "https://www.lowyat.net/?p=408565",
           "author": "Ian Chee",
@@ -20527,16 +20437,6 @@
           "wordCount": 13201,
           "title": "Getty Images To File For Bankruptcy; To Go Private",
           "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/10/Getty-Images-home.webp"
-        },
-        {
-          "id": "https://www.lowyat.net/?p=407177",
-          "author": "Kiran Ganesan",
-          "description": "After years of waiting, Meta has finally announced that it will be bringing AI glasses to the Malaysian market. If you’ve kept up with the news surrounding the social media giant, then you’d know that that brand partnered up with EssilorLuxottica to bring the technology to life. Through this partnership, the technology is fitted into […]\nThe post Meta Announces Ray-Ban, Oakley Smart Glasses For Malaysian Market appeared first on Lowyat.NET.",
-          "link": "https://www.lowyat.net/2026/407177/meta-announces-ray-ban-oakley-malaysia/",
-          "publishedOn": "2026-10-13T12:41:34.000Z",
-          "wordCount": 13867,
-          "title": "Meta Announces Ray-Ban, Oakley Smart Glasses For Malaysian Market",
-          "imageUrl": "https://www.lowyat.net/wp-content/uploads/2026/10/Meta-Announces-Ray-Ban-Oakley-Smart-Glasses-1.webp"
         }
       ]
     },
@@ -21156,16 +21056,6 @@
           "wordCount": 11167,
           "title": "The US military’s race to make fake blood",
           "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/10/260917-KaloCyte-044-thumb.jpg?resize=1200,600"
-        },
-        {
-          "id": "https://www.technologyreview.com/?p=1146382",
-          "author": "Thomas Macaulay",
-          "description": "This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. Open models have real benefits. Do they outweigh the risks? Anthropic recently released a report arguing that a powerful new model released by the Chinese company Z.ai, poses a major cyberattack…",
-          "link": "https://www.technologyreview.com/2026/10/13/1146382/the-download-open-models-trade-offs-geothermal-power/",
-          "publishedOn": "2026-10-13T12:00:00.000Z",
-          "wordCount": 6064,
-          "title": "The Download: open model trade-offs and geothermal power’s promise",
-          "imageUrl": "https://wp.technologyreview.com/wp-content/uploads/2026/09/260915_openaimodels.jpg?resize=1200,600"
         }
       ]
     },
@@ -21174,6 +21064,16 @@
       "feedUrl": "https://www.coindesk.com/arc/outboundfeeds/rss",
       "siteUrl": "https://www.coindesk.com/",
       "articles": [
+        {
+          "id": "ec127f73-6189-4cdb-8a95-3e34daf6edc2",
+          "author": "Omkar Godbole",
+          "description": "The crypto exchange says an incident at analytics firm Amplitude exposed some customer contact information, but insists its own systems were not breached.",
+          "link": "https://www.coindesk.com/tech/2026/10/28/coinbase-says-customer-funds-are-safe-after-third-party-vendor-exposes-customer-contact-info",
+          "publishedOn": "2026-10-28T03:11:14.000Z",
+          "wordCount": 19081,
+          "title": "Coinbase says user funds are safe after third-party vendor exposes customer contact info",
+          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/6e8ed1cd0f17a1509349ad7cb7c31b8324847527-1920x1280.jpg?auto=format&fit=crop&crop=focalpoint&w=1200&h=675&q=75"
+        },
         {
           "id": "10a48238-6a44-4b6b-ae90-4d9963af9c8c",
           "author": "Krisztian Sandor",
@@ -23103,46 +23003,6 @@
           "wordCount": 32470,
           "title": "BNY, Citadel Securities test tokenized U.S. Treasuries to speed up Wall Street financing",
           "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/1df79087776a232721826d2559a0e7004de05895-2724x1532.jpg?auto=format&fit=crop&crop=focalpoint&w=1200&h=675&q=75"
-        },
-        {
-          "id": "c1f7b49a-eb39-4760-ad08-d31428d7dda8",
-          "author": "Olivier Acuna",
-          "description": "MNX is offering a different way to trade the future valuations of private AI companies, including OpenAI, Anthropic and DeepSeek.",
-          "link": "https://www.coindesk.com/business/2026/10/13/new-crypto-exchange-takes-on-okx-bitget-with-unique-way-to-trade-ai-giants",
-          "publishedOn": "2026-10-13T15:52:09.000Z",
-          "wordCount": 33114,
-          "title": "Crypto exchange MNX takes on OKX, Bitget offering pre-IPO futures for AI giants",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/93d03b154b61caa450721817352d202a4ce97e6d-2400x1350.jpg?auto=format&fit=crop&crop=focalpoint&w=1200&h=675&q=75"
-        },
-        {
-          "id": "4c89c108-c667-427d-8d8c-73448b6911bb",
-          "author": "Jamie Crawley",
-          "description": "A crypto trader in the U.K. claimed masked intruders stole nearly $800,000 in cryptocurrency at knifepoint, furthering concerns of \"wrench attacks\" spreading in the country.",
-          "link": "https://www.coindesk.com/policy/2026/10/13/why-self-custody-and-hardware-wallets-cannot-prevent-physical-crypto-extortion",
-          "publishedOn": "2026-10-13T15:24:52.000Z",
-          "wordCount": 32838,
-          "title": "UK crypto trader says almost $800,000 lost in knife attack as wrench attacks proliferate",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/f4160757b0de2f26800d2a3920534d6e56a35df9-1000x664.jpg?auto=format&fit=crop&crop=focalpoint&w=1200&h=675&q=75"
-        },
-        {
-          "id": "320db034-e6ec-466e-ac94-6f3d8e008052",
-          "author": "Olivier Acuna",
-          "description": "The country’s regulators are stepping up their earlier restrictions on mobile apps to websites, targeting unregistered exchanges before investors report losses.",
-          "link": "https://www.coindesk.com/policy/2026/10/13/south-korea-blocks-27-crypto-exchanges-including-bitmart-and-kucoin",
-          "publishedOn": "2026-10-13T11:58:04.000Z",
-          "wordCount": 32941,
-          "title": "South Korea blocks 27 crypto exchanges, including Bitmart and Kucoin",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/93a236b61738e03e123d6ff316c93cce21fed4b8-2151x1210.jpg?auto=format&fit=crop&crop=focalpoint&w=1200&h=675&q=75"
-        },
-        {
-          "id": "ee4ea9c7-3d5f-401c-9091-71f8d7749dd3",
-          "author": "Krisztian Sandor",
-          "description": "The $911 billion Pittsburgh-based asset manager is teaming up with Prometheum to bring blockchain-based share classes of its funds to traditional brokerage accounts.",
-          "link": "https://www.coindesk.com/business/2026/10/13/federated-hermes-joins-wall-street-s-tokenization-push-with-plans-for-first-onchain-fund-shares",
-          "publishedOn": "2026-10-13T11:56:04.000Z",
-          "wordCount": 33166,
-          "title": "Federated Hermes joins Wall Street's tokenization push with plans for first onchain fund shares",
-          "imageUrl": "https://cdn.sanity.io/images/s3y3vcno/production/52c61d395f918e46984cfa9913df36980e210020-6054x4034.jpg?auto=format&fit=crop&crop=focalpoint&w=1200&h=675&q=75"
         }
       ]
     },
@@ -23151,6 +23011,16 @@
       "feedUrl": "https://www.theblock.co/rss",
       "siteUrl": "https://www.theblock.co",
       "articles": [
+        {
+          "id": "1123f995-0df7-5d86-adea-ddac9c057375",
+          "author": "Danny Park",
+          "description": "The issue centers on a deal with Scilex, under which Scilex agreed to buy shares of Datavault AI for $150 million, payable in bitcoin.",
+          "link": "https://www.theblock.co/news/business/2026-10-27-datavault-ai-stock-plummets-bitcoin-deal-431962",
+          "publishedOn": "2026-10-28T03:00:33.000Z",
+          "wordCount": null,
+          "title": "Datavault AI stock plummets 50% after firm says it cannot withdraw bitcoin tied to $150 million deal",
+          "imageUrl": null
+        },
         {
           "id": "d3f53c6e-f62d-5b86-8d10-af07c373aedf",
           "author": "Kyle Baird",
@@ -24439,76 +24309,6 @@
           "publishedOn": "2026-10-14T02:49:34.000Z",
           "wordCount": null,
           "title": "Coinbase lays out flexible designs as key priority for Bitcoin’s post-quantum migration",
-          "imageUrl": null
-        },
-        {
-          "id": "3fe5b87f-65c8-56bd-a3e3-7746313ebf9a",
-          "author": "Yogita Khatri",
-          "description": "Developers can now build XRPL wallets into apps via Privy, with support for XRP, RLUSD, AI agent payments and x402.",
-          "link": "https://www.theblock.co/news/business/2026-10-13-stripe-privy-ripple-xrp-ledger-wallets-418463",
-          "publishedOn": "2026-10-13T16:00:00.000Z",
-          "wordCount": null,
-          "title": "Ripple, Stripe-owned Privy partner to bring embedded wallets to XRP Ledger",
-          "imageUrl": null
-        },
-        {
-          "id": "c10207a5-18fa-52f2-b0cc-b52cd806a1b6",
-          "author": "Jason Shubnell",
-          "description": "Interactive Brokers now lets eligible clients stake ETH through its Client Portal, with zerohash providing the service.",
-          "link": "https://www.theblock.co/news/ecosystems/2026-10-13-interactive-brokers-ethereum-staking-zerohash-418457",
-          "publishedOn": "2026-10-13T15:24:14.000Z",
-          "wordCount": null,
-          "title": "Interactive Brokers expands crypto services with Ethereum staking via Zerohash",
-          "imageUrl": null
-        },
-        {
-          "id": "0b9451be-3b86-5499-848f-636a2ecf3128",
-          "author": "Jason Shubnell",
-          "description": "DRW and Marex completed the first OTC swap referencing a fully tokenized index on Derivnex via the Canton Network, with Kaiko data.",
-          "link": "https://www.theblock.co/news/markets/2026-10-13-drw-marex-first-otc-swap-tokenized-sp-iboxx-index-canton-network-418440",
-          "publishedOn": "2026-10-13T15:00:29.000Z",
-          "wordCount": null,
-          "title": "DRW and Marex complete OTC swap referencing tokenized S&P iBoxx Index",
-          "imageUrl": null
-        },
-        {
-          "id": "1420b1c3-e68f-598a-b030-4a1bc992e8aa",
-          "author": "Brian Danga",
-          "description": "Ledger confirmed a hardware implant in CryptoBilis-sold devices steals recovery phrases, as MediaMarkt suspends sales.",
-          "link": "https://www.theblock.co/news/business/2026-10-13-ledger-confirms-hardware-implant-cryptobilis-reseller-units-mediamarkt-suspends-sales-europe-418442",
-          "publishedOn": "2026-10-13T14:45:08.000Z",
-          "wordCount": null,
-          "title": "Ledger confirms hardware implant in CryptoBilis reseller units as MediaMarkt suspends sales in Europe",
-          "imageUrl": null
-        },
-        {
-          "id": "200fd462-f5cb-5d34-b734-daa2e57d4774",
-          "author": "James Hunt",
-          "description": "Strive added 3,311 BTC between Oct. 5 and Oct. 9, bringing holdings to 32,773 BTC and narrowing the gap with MARA.",
-          "link": "https://www.theblock.co/news/business/2026-10-13-strive-buys-3311-bitcoin-280-million-largest-acquisition-since-january-418430",
-          "publishedOn": "2026-10-13T13:42:25.000Z",
-          "wordCount": null,
-          "title": "Strive buys 3,311 bitcoin for $280 million in largest acquisition since January",
-          "imageUrl": null
-        },
-        {
-          "id": "462a7cc3-37dd-5058-9eb3-c0545f891b73",
-          "author": "Brian Danga",
-          "description": "Binance said it will shut down its mining pool, cloud mining, and Pool Savings services on Nov. 10.",
-          "link": "https://www.theblock.co/news/business/2026-10-13-binance-to-shut-down-mining-pool-cloud-mining-and-related-services-418410",
-          "publishedOn": "2026-10-13T11:40:56.000Z",
-          "wordCount": null,
-          "title": "Binance to shut down mining pool, cloud mining and related services",
-          "imageUrl": null
-        },
-        {
-          "id": "60af012a-4418-5a8e-8379-78bb780824b1",
-          "author": "James Hunt",
-          "description": "A UK judge ruled Chinese law applies to victims' claims over 61,000 seized bitcoin, leaving ownership undecided.",
-          "link": "https://www.theblock.co/news/regulation/2026-10-13-uk-high-court-rules-chinese-law-governs-claims-over-5-billion-in-seized-bitcoin-418409",
-          "publishedOn": "2026-10-13T11:38:19.000Z",
-          "wordCount": null,
-          "title": "UK High Court rules Chinese law governs claims over $5 billion in seized bitcoin",
           "imageUrl": null
         }
       ]

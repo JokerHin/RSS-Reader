@@ -2,10 +2,342 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-10-27T23:29:25.727Z</updated>
+    <updated>2026-10-28T04:03:08.719Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[1,510 impressions, 6 clicks: what a 28-day Search Console teardown actually showed]]></title>
+        <id>https://dev.to/hcxshh/1510-impressions-6-clicks-what-a-28-day-search-console-teardown-actually-showed-6nj</id>
+        <link href="https://dev.to/hcxshh/1510-impressions-6-clicks-what-a-28-day-search-console-teardown-actually-showed-6nj"/>
+        <updated>2026-10-28T03:52:49.000Z</updated>
+        <summary type="html"><![CDATA[1,510 impressions, 6 clicks: what a 28-day Search Console teardown actually showed
+
+
+A small English site, roughly 70 posts, written for foreigners dealing with practical things in China. It is about three weeks old. Two weeks ago I pulled the query-level data for the first time and got 157 impressions and 4 clicks over 28 days.
+Today the same window reads 1,510 impressions and 6 clicks. Impressions up almost tenfold in twelve days.
+The easy read is "growth". What I actually found after sorting all 71 pages with any impression is a single, concrete leak: 1,131 of those impressions land on pages already ranking in positions 1 to 10, and that whole group converted into 5 clicks. A 0.44% click-through rate on pages that are already on page one.
+The site is no longer in the "not indexed" phase…]]></summary>
+        <author>
+            <name>hc_xshh</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[pgbrake: an undo button for Postgres when an AI agent is driving]]></title>
+        <id>https://dev.to/zhangautomation/pgbrake-an-undo-button-for-postgres-when-an-ai-agent-is-driving-33g2</id>
+        <link href="https://dev.to/zhangautomation/pgbrake-an-undo-button-for-postgres-when-an-ai-agent-is-driving-33g2"/>
+        <updated>2026-10-28T03:52:37.000Z</updated>
+        <summary type="html"><![CDATA[I've started letting Claude Code and Codex work against my dev databases, and the part that worried me was the database itself. Claude Code checkpoints rewind files. A bad DELETE stays done. Permission prompts help, but they live in the client, and an agent can always reach for psql instead.
+pgbrake is a small MCP server the agent uses in place of direct database access. Every statement goes through the real Postgres parser (pglast). Normal writes run and return a change id. Before an UPDATE or DELETE it saves the affected rows locally, so pgbrake undo <id> puts them back, and it refuses if those rows changed since.
+DDL, UPDATE/DELETE without WHERE, and anything touching more than 100 rows wait for a human: the client's own prompt, or pgbrake approve <id> in a terminal. That command refuses to run without a TTY, so the agent can't approve its own SQL. Every statement and decision lands in a local audit log. Nothing leaves your machine.
+MIT, Python:
+pip install pgbrake
+claude mcp add pgbrake --env PGBRAKE_DSN="postgresql://me@localhost/app" -- uvx pgbrake serve
+
+Limits: undo only covers changes made through pgbrake. TRUNCATE and DDL can be held but not undone. It doesn't replace backups. I've only tested on Postgres 17 so far.
+I'd like to hear where it breaks. I'm also thinking about a paid add-on that catches migration commands like prisma migrate reset --force (snapshot first, then ask). Would that be worth a one-time $29 to you?
+GitHub: https://github.com/lexang/pgbrake]]></summary>
+        <author>
+            <name>Zhang Lixiang</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Before you switch PHP versions on a WordPress site: checks, a staging clone, and a rollback that survives a failed upgrade]]></title>
+        <id>https://dev.to/aumcreate/before-you-switch-php-versions-on-a-wordpress-site-checks-a-staging-clone-and-a-rollback-that-2na8</id>
+        <link href="https://dev.to/aumcreate/before-you-switch-php-versions-on-a-wordpress-site-checks-a-staging-clone-and-a-rollback-that-2na8"/>
+        <updated>2026-10-28T03:51:10.000Z</updated>
+        <summary type="html"><![CDATA[The host panel gives you a dropdown of PHP versions. Changing it takes one click. Finding out whether the site still works takes a morning, and if it doesn't, you're doing it in front of customers.
+Most of the prep work is finding out what is actually running, and making sure that undoing the switch restores data as well as files. Here is the sequence I'd run, in order.
+cd /path/to/wordpress
+wp core version
+wp eval 'echo PHP_VERSION, " ", PHP_SAPI, PHP_EOL;'
+wp plugin list --fields=name,status,version --format=table
+wp theme list --fields=name,status,version --format=table
+wp plugin list --status=must-use --fields=name --format=csv
+ls -1 wp-content/*.php 2>/dev/null
+
+Save the list so you can diff against it after the switch:
+{ wp plugin list --fields=name,status,version --format=csv
+  wp t…]]></summary>
+        <author>
+            <name>AumCreate</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA["Haunted Shell: A Ghost That Lives in My Terminal (Gemma, Fully Offline)" published: false]]></title>
+        <id>https://dev.to/wwwamankumar288/haunted-shell-a-ghost-that-lives-in-my-terminal-gemma-fully-offlinepublished-false-1b</id>
+        <link href="https://dev.to/wwwamankumar288/haunted-shell-a-ghost-that-lives-in-my-terminal-gemma-fully-offlinepublished-false-1b"/>
+        <updated>2026-10-28T03:49:27.000Z</updated>
+        <summary type="html"><![CDATA[This is a submission for the Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine
+<!-- What does it do, and how did you interpret the theme? What inspired it? -->Haunted Shell is a ghost that lives in your terminal. After some of the commands you run, it whispers one eerie sentence about what you just did. A failed git push and a rm -rf get very different commentary.
+I read "Ghost in the Machine" literally. Every developer has felt that the machine is haunted: the bug that vanishes when you add a print statement, the script nobody remembers writing. I gave that ghost a voice.
+It's a 20-line Python script plus a 3-line zsh hook. A small local model does all the haunting, with no cloud calls and no accounts.
+<!-- Share a deployed link or a video demo. -->[Add a screen recordin…]]></summary>
+        <author>
+            <name>Aman Kumar</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Building an Enterprise AI Visibility Monitoring Pipeline: Prompt Sets, Logging Schema and Dashboards]]></title>
+        <id>https://dev.to/rida_moideen/building-an-enterprise-ai-visibility-monitoring-pipeline-prompt-sets-logging-schema-and-dashboards-209n</id>
+        <link href="https://dev.to/rida_moideen/building-an-enterprise-ai-visibility-monitoring-pipeline-prompt-sets-logging-schema-and-dashboards-209n"/>
+        <updated>2026-10-28T03:48:15.000Z</updated>
+        <summary type="html"><![CDATA[Repeatable: the same prompts, engines and schedule every cycle.
+Multi-market: prompts per country and language.
+Auditable: raw answers stored, not just scores.
+Actionable: every issue maps to a GEO layer (content, identity or corroboration).
+Step 1: Version-controlled prompt sets
+Store prompts in Git so changes are reviewed and dated:
+# prompts/sg.yml
+market: SG
+language: en
+prompts:
+
+
+id: sg-cat-01
+text: "Who are the leading {category} providers in Singapore?"
+type: category
+id: sg-brand-01
+text: "What is {brand} known for in Southeast Asia?"
+type: brand
+id: sg-comp-01
+text: "{brand} vs {competitor} for enterprises in Singapore"
+type: comparison
+Keep the prompt set stable. If you change it, version it, or your trend lines become meaningless.
+Step 2: A logging schema
+CREATE TABLE ai_visibi…]]></summary>
+        <author>
+            <name>Rida Moideen</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[LLM API Cost: How Token Count Impacts Node.js Knowledge Retrieval]]></title>
+        <id>https://dev.to/urbandonovan1576/llm-api-cost-how-token-count-impacts-nodejs-knowledge-retrieval-19cp</id>
+        <link href="https://dev.to/urbandonovan1576/llm-api-cost-how-token-count-impacts-nodejs-knowledge-retrieval-19cp"/>
+        <updated>2026-10-28T03:48:11.000Z</updated>
+        <summary type="html"><![CDATA[The hard part of a private knowledge-base assistant is not making the prompt shorter. It is keeping a stable JSON contract while sending only the evidence that contract needs. Token count affects an LLM bill because providers charge for the input and output tokens processed by a call. My ship-first rule is to make retrieval own the context budget, then make the model adapter replaceable.
+Short answer: normalize documents, retrieve with embeddings, rerank a small candidate set, and preserve whole evidence chunks until a measured token limit. Keep the answer shape independent of the provider. A shorter request that loses a source ID or a version qualifier is a cheaper failure, not a cost reduction.
+A normal support question can carry a system instruction, the question, conversation history, …]]></summary>
+        <author>
+            <name>UrbanDonovan1576</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[AI for Absolute Beginners: 5 Things I Wish I Knew Before My First Week]]></title>
+        <id>https://dev.to/kevin_yadidi_3ce5dc22b213/ai-for-absolute-beginners-5-things-i-wish-i-knew-before-my-first-week-3ib9</id>
+        <link href="https://dev.to/kevin_yadidi_3ce5dc22b213/ai-for-absolute-beginners-5-things-i-wish-i-knew-before-my-first-week-3ib9"/>
+        <updated>2026-10-28T03:46:48.000Z</updated>
+        <summary type="html"><![CDATA[I put off trying AI for months because every explanation sounded like it was written for engineers. When I finally started, here is what actually helped.
+You only need one app to start. Pick one chatbot (ChatGPT, Gemini, Claude — any of them) and ignore the rest until you are comfortable.
+
+
+A prompt is just a request with details. "Write an email" gets you something generic. "Write a polite 3-sentence email to my landlord about a leaky faucet" gets you something usable. The details are the skill.
+
+
+AI makes things up sometimes. It will state wrong dates and prices with total confidence. Double-check anything factual before you act on it.
+
+
+Small jobs beat big projects. My first useful wins were a meal plan from what was in my fridge and a summary of a long article. Start boring, then get ambitious.
+
+
+You cannot break it. There is no wrong button that ruins anything. The worst outcome is a bad answer you ignore.
+
+
+
+What is the one thing that made AI finally click for you — or what is still stopping you?
+Disclosure: I wrote a beginner book about exactly this, "AI for Ding-Dongs: The Ridiculously Simple Guide to Using Artificial Intelligence" — plain English, real examples, no jargon. Paperback on Amazon: https://a.co/0eXrWCYL]]></summary>
+        <author>
+            <name>Kevin Yadidi</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Malaysians Can Now Make DuitNow QR Payments In Five Overseas Destinations]]></title>
+        <id>https://www.lowyat.net/?p=408603</id>
+        <link href="https://www.lowyat.net/2026/408603/duitnow-qr-payments-overseas/"/>
+        <updated>2026-10-28T03:45:48.000Z</updated>
+        <summary type="html"><![CDATA[Payments Network Malaysia (PayNet) is expanding its cross-border payment ecosystem by launching outbound DuitNow QR payment connectivity through Ant International’s Alipay+. This means that Malaysians travelling overseas can use their existing mobile banking apps to make QR payments at participating merchants. That is, provided they are in one of the following countries: China, Hong Kong […]
+The post Malaysians Can Now Make DuitNow QR Payments In Five Overseas Destinations appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Nurul Kamil</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[One Voice Across Five Stores: Running a Shared Script Library Without Flattening Store Personality]]></title>
+        <id>https://dev.to/dingdangcs/one-voice-across-five-stores-running-a-shared-script-library-without-flattening-store-personality-1lgg</id>
+        <link href="https://dev.to/dingdangcs/one-voice-across-five-stores-running-a-shared-script-library-without-flattening-store-personality-1lgg"/>
+        <updated>2026-10-28T03:44:40.000Z</updated>
+        <summary type="html"><![CDATA[A merchant running several storefronts usually starts by copying the reply library: each store gets the folder, each store edits it, and a year later there are five libraries answering the same warranty question five different ways. Two failure modes follow. Forks drift — one store promises 30-day returns while its neighbor promises 15, and the difference surfaces in a dispute. Or the pendulum swings the other way: a single library is imposed everywhere, and every store sounds like the same interchangeable clerk, losing the local tone that made customers want to talk to it. The way through is structural, not stylistic: one master, explicit difference layers, defined edit rights, and announcements that actually reach the people answering.
+The master layer holds anything where divergence is …]]></summary>
+        <author>
+            <name>Dingdang CS</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Fifty-One Thousand Media Request Queues, and Not One Application Signature]]></title>
+        <id>https://dev.to/ioneyrezende/fifty-one-thousand-media-request-queues-and-not-one-application-signature-33i3</id>
+        <link href="https://dev.to/ioneyrezende/fifty-one-thousand-media-request-queues-and-not-one-application-signature-33i3"/>
+        <updated>2026-10-28T03:43:05.000Z</updated>
+        <summary type="html"><![CDATA[Fifty-One Thousand Media Request Queues, and Not One Application Signature
+
+
+Media request systems occupy an odd position: they are consumer software, they hold API keys to a dozen other services, and they are installed by people who are good at this but not necessarily thinking about exposure. The index has an unusually clean view of them.
+Queries against the ZoomEye index on 28 October 2026:
+title="Overseerr" returns 8,928, of which title="Overseerr" && port=443 returns 1,672 and title="Overseerr" && port=5055 returns 1.
+title="Ombi" returns 42,810, of which title="Ombi" && port=443 returns 3,390 and title="Ombi" && port=3579 returns 0.
+app="Overseerr" returns 0 and app="Ombi" returns 0.
+Two observations follow immediately. First, neither product has an application fingerprint, so every …]]></summary>
+        <author>
+            <name>Ioneyrezende</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Oracle Manipulation Risk Report: Crypto-com]]></title>
+        <id>https://dev.to/dannydoes_2abdf9c/oracle-manipulation-risk-report-crypto-com-1l83</id>
+        <link href="https://dev.to/dannydoes_2abdf9c/oracle-manipulation-risk-report-crypto-com-1l83"/>
+        <updated>2026-10-28T03:40:59.000Z</updated>
+        <summary type="html"><![CDATA[Oracle Manipulation Risk Report: Crypto-com
+
+
+Target Protocol: Crypto-com (TVL: $2368.9M)
+Oracle Manipulation Risk Report – Crypto‑com
+
+Prepared by: [Your Firm] – Senior DeFi Security Research & Auditing Team
+
+Date: 28 Oct 2026  
+Crypto‑com (formerly Crypto.com Chain) is a multi‑chain DeFi ecosystem anchored on Ethereum and several L2 roll‑ups (Optimism, Arbitrum, zkSync). As of the latest snapshot (28 Oct 2026) the protocol manages ≈ $2.37 B in total value locked (TVL) across its lending, staking, and synthetic‑asset modules.  
+A core design pillar of Crypto‑com is the reliance on price oracles to:
+Trigger liquidations in the lending market.
+
+Mint/burn synthetic assets (e.g., CRO‑USD, CRO‑BTC).
+
+Determine reward rates for staking and yield‑farm incentives.
+
+
+
+Because the protocol’s risk‑a…]]></summary>
+        <author>
+            <name>DannyDoes</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Bring your own proxies: why ProxyLister doesn't sell you any]]></title>
+        <id>https://dev.to/spicanet/bring-your-own-proxies-why-proxylister-doesnt-sell-you-any-4a9e</id>
+        <link href="https://dev.to/spicanet/bring-your-own-proxies-why-proxylister-doesnt-sell-you-any-4a9e"/>
+        <updated>2026-10-28T03:40:39.000Z</updated>
+        <summary type="html"><![CDATA[If you work with proxies, you probably have them from more than one provider, in more than one format, tracked in a spreadsheet that's been lying to you since last Tuesday. Every provider has a dashboard, and every dashboard says their proxies are great. ProxyLister is a vendor-neutral ProxyOps platform: you bring proxies from whoever you buy them from, and it helps you manage, check, benchmark and pool them. It never resells proxies. It's in beta, and some of the features you'd expect are still being released, which I'll be specific about.
+The person selling you proxies is the worst possible judge of how good those proxies are. Not because they're dishonest, but because their dashboard measures what they want measured, against targets they chose.
+What you actually care about is whether a …]]></summary>
+        <author>
+            <name>Spicanet</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Choosing a Transactional Email API for Welcome Messages (and One Integration Rule)]]></title>
+        <id>https://dev.to/yvessterling6854/choosing-a-transactional-email-api-for-welcome-messages-and-one-integration-rule-343p</id>
+        <link href="https://dev.to/yvessterling6854/choosing-a-transactional-email-api-for-welcome-messages-and-one-integration-rule-343p"/>
+        <updated>2026-10-28T03:37:53.000Z</updated>
+        <summary type="html"><![CDATA[The integration constraint changes the answer. If an e-commerce service already has a mail provider, keep it and add the smallest possible welcome-email path. If the application is assembling several backend capabilities behind one account, a plain REST surface with reusable templates is easier to carry from a notebook prototype into production.
+Short answer: compare Amazon SES, SendGrid, and Postmark against the amount of integration work you will own. A consolidated API can be a strong fit when one key and one bill across backend services matter more than having a large email-specific product. For the welcome flow itself, create the reusable structure first, then send the transactional message. In the API described here, those operations are /v1/email/template/create and /v1/email/send.
+…]]></summary>
+        <author>
+            <name>YvesSterling6854</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Discord To Make Public Server Messages Discoverable On Search Engines Soon]]></title>
+        <id>https://www.lowyat.net/?p=408598</id>
+        <link href="https://www.lowyat.net/2026/408598/discord-public-server-messages-discoverable/"/>
+        <updated>2026-10-28T03:21:19.000Z</updated>
+        <summary type="html"><![CDATA[Earlier today, Discord announced a major change to how public communities appear online. The company said that, starting from 16 November, the platform’s Discoverable Servers will be receiving Server Web Pages and will be visible on search engines. These servers are public communities with at least 1,000 members and do not require any invitation in […]
+The post Discord To Make Public Server Messages Discoverable On Search Engines Soon appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Kiran Ganesan</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Govt Targets January 2027 For Wider MyNIISe Rollout]]></title>
+        <id>https://www.lowyat.net/?p=408597</id>
+        <link href="https://www.lowyat.net/2026/408597/govt-january-2027-wider-myniise-rollout/"/>
+        <updated>2026-10-28T03:15:29.000Z</updated>
+        <summary type="html"><![CDATA[The government has announced that it is targeting January 2027 for the wider rollout of the National Integrated Immigration System (MyNIISe), the new immigration clearance system. FMT cites Home Minister Saifuddin Nasution Ismail as saying that this will replace the existing MyIMMs system, which has been in place for over two decades. This comes as […]
+The post Govt Targets January 2027 For Wider MyNIISe Rollout appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Ian Chee</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Coinbase says user funds are safe after third-party vendor exposes customer contact info]]></title>
+        <id>ec127f73-6189-4cdb-8a95-3e34daf6edc2</id>
+        <link href="https://www.coindesk.com/tech/2026/10/28/coinbase-says-customer-funds-are-safe-after-third-party-vendor-exposes-customer-contact-info"/>
+        <updated>2026-10-28T03:11:14.000Z</updated>
+        <summary type="html"><![CDATA[The crypto exchange says an incident at analytics firm Amplitude exposed some customer contact information, but insists its own systems were not breached.]]></summary>
+        <author>
+            <name>Omkar Godbole</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Datavault AI stock plummets 50% after firm says it cannot withdraw bitcoin tied to $150 million deal]]></title>
+        <id>1123f995-0df7-5d86-adea-ddac9c057375</id>
+        <link href="https://www.theblock.co/news/business/2026-10-27-datavault-ai-stock-plummets-bitcoin-deal-431962"/>
+        <updated>2026-10-28T03:00:33.000Z</updated>
+        <summary type="html"><![CDATA[The issue centers on a deal with Scilex, under which Scilex agreed to buy shares of Datavault AI for $150 million, payable in bitcoin.]]></summary>
+        <author>
+            <name>Danny Park</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Govt To Sue MyEG, Zetrix AI Over RM314 Million In Unpaid Revenue]]></title>
+        <id>https://www.lowyat.net/?p=408594</id>
+        <link href="https://www.lowyat.net/2026/408594/govt-to-sue-myeg-zetrix-ai/"/>
+        <updated>2026-10-28T02:15:55.000Z</updated>
+        <summary type="html"><![CDATA[The government is preparing to take legal action against MyEG Sdn Bhd and Zetrix AI Bhd over RM314 million in government revenue that the two companies allegedly failed to remit within the stipulated period. Transport Minister Anthony Loke said the government is considering civil suits against both companies, stressing that government collections must not be […]
+The post Govt To Sue MyEG, Zetrix AI Over RM314 Million In Unpaid Revenue appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Major Apple Creator Studio Update Adds More Creative Tools, AI-Powered Features]]></title>
+        <id>https://www.lowyat.net/?p=408585</id>
+        <link href="https://www.lowyat.net/2026/408585/apple-creator-studio-update/"/>
+        <updated>2026-10-28T02:00:35.000Z</updated>
+        <summary type="html"><![CDATA[Apple has been busy launching new products this week, with devices like the new iMac and 14-inch MacBook Pro getting the spotlight recently. However, the announcements don’t stop at hardware. The Apple Creator Studio is set to receive what the bitten fruit brand is calling its most exciting update thus far. Rolling out next month, […]
+The post Major Apple Creator Studio Update Adds More Creative Tools, AI-Powered Features appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Nurul Kamil</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Git for US Legislation]]></title>
+        <id>https://lexifina.com/blog/git-for-the-us-code</id>
+        <link href="https://lexifina.com/blog/git-for-the-us-code"/>
+        <updated>2026-10-28T01:47:50.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[vivo X Fold6 Quietly Launches In Malaysia]]></title>
+        <id>https://www.lowyat.net/?p=408574</id>
+        <link href="https://www.lowyat.net/2026/408574/vivo-x-fold6-malaysia-launch/"/>
+        <updated>2026-10-28T01:38:52.000Z</updated>
+        <summary type="html"><![CDATA[Apart from the X500 Series, vivo Malaysia has also quietly launched its latest foldable smartphone, the X Fold6, for the local market. The device is now listed on the company’s official website, as well as via its stores on Shopee and Lazada. To recap, the vivo X Fold6 launched in China earlier this month, introducing […]
+The post vivo X Fold6 Quietly Launches In Malaysia appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Moxnox 1.0: NT-Like, POSIX-Compatible OS Running Atop Btrfs]]></title>
+        <id>https://github.com/maharmstone/moxnox</id>
+        <link href="https://github.com/maharmstone/moxnox"/>
+        <updated>2026-10-27T23:53:41.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Protocol Upgrade Compatibility Review: Crypto-com]]></title>
         <id>https://dev.to/dannydoes_2abdf9c/protocol-upgrade-compatibility-review-crypto-com-b2f</id>
@@ -231,6 +563,16 @@ Over 31 issues, from 28 September to 28 October 2026, the index listed 321 items
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Expanding our partnership with GSA to bring Claude to all levels of government]]></title>
+        <id>https://www.anthropic.com/news/expanding-partnership-gsa</id>
+        <link href="https://www.anthropic.com/news/expanding-partnership-gsa"/>
+        <updated>2026-10-27T22:23:37.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[One year of Dioxus fullstack in production: the good, the painful]]></title>
         <id>https://oxidt.com/blog/one-year-of-dioxus-fullstack-in-production-the-good-the-painful</id>
         <link href="https://oxidt.com/blog/one-year-of-dioxus-fullstack-in-production-the-good-the-painful"/>
@@ -285,6 +627,16 @@ Over 31 issues, from 28 September to 28 October 2026, the index listed 321 items
         <id>https://hex.tech/blog/hex-new-era/</id>
         <link href="https://hex.tech/blog/hex-new-era/"/>
         <updated>2026-10-27T20:36:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Code-execution flaw in UEFI firmware threatens most servers on planet Earth]]></title>
+        <id>https://arstechnica.com/security/2026/10/code-execution-flaw-in-uefi-firmware-threatens-most-servers-on-planet-earth/</id>
+        <link href="https://arstechnica.com/security/2026/10/code-execution-flaw-in-uefi-firmware-threatens-most-servers-on-planet-earth/"/>
+        <updated>2026-10-27T20:35:09.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -574,6 +926,16 @@ Sei…]]></summary>
         <summary type="html"><![CDATA[The latest notice added four objections, bringing the total to 26 as the joint venture prepares to test the SEC’s new framework for blockchain-based stock trading.]]></summary>
         <author>
             <name>Krisztian Sandor</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Radio-tagged Monarch butterflies]]></title>
+        <id>https://news.vt.edu/articles/2026/10/cmi-monarchs.html</id>
+        <link href="https://news.vt.edu/articles/2026/10/cmi-monarchs.html"/>
+        <updated>2026-10-27T17:48:15.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -2875,6 +3237,16 @@ The post Apple Officially Unveils New iPad mini With OLED Display, A20 Pro Chip 
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[81 Jokes for the ZX81]]></title>
+        <id>https://spelk.press/gb/products/81-jokes-for-the-zx81</id>
+        <link href="https://spelk.press/gb/products/81-jokes-for-the-zx81"/>
+        <updated>2026-10-26T12:45:16.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[iPhone Duo Hands On: Late, Yet Early]]></title>
         <id>https://www.lowyat.net/?p=408423</id>
         <link href="https://www.lowyat.net/2026/408423/iphone-duo-hands-on/"/>
@@ -4376,6 +4748,16 @@ I wanted to turn that experience into an exercise for engineers starti…]]></su
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Ink droplets in motion snag top prize in Nikon Small World contest]]></title>
+        <id>https://arstechnica.com/science/2026/10/meet-the-2026-winner-of-nikons-small-world-photomicrography-contest/</id>
+        <link href="https://arstechnica.com/science/2026/10/meet-the-2026-winner-of-nikons-small-world-photomicrography-contest/"/>
+        <updated>2026-10-25T18:49:48.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[CoinDCX confirms $16 million loss from retired wallets days after CEO called breach reports a ‘false alarm’]]></title>
         <id>97a41e02-d926-5031-a161-c872d94f0d41</id>
         <link href="https://www.theblock.co/news/business/2026-10-25-coindcx-confirms-16-million-loss-from-retired-wallets-days-after-ceo-called-breach-reports-a-false-alarm-431617"/>
@@ -5093,6 +5475,16 @@ The post Modders Get Steam Games To Run On PS5 appeared first on Lowyat.NET.]]><
         <id>https://loeffelholz-codex.org/en/</id>
         <link href="https://loeffelholz-codex.org/en/"/>
         <updated>2026-10-25T12:37:54.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Assembly Nights]]></title>
+        <id>https://ratfactor.com/assembly-nights</id>
+        <link href="https://ratfactor.com/assembly-nights"/>
+        <updated>2026-10-25T12:35:37.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -7211,6 +7603,16 @@ Anthropic เรียกปัญหานี้ว่าโค้ดไม่�
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[A Love Letter to the Super Dimension Fortress]]></title>
+        <id>https://brennan.day/a-love-letter-to-the-super-dimension-fortress/</id>
+        <link href="https://brennan.day/a-love-letter-to-the-super-dimension-fortress/"/>
+        <updated>2026-10-24T08:30:32.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Building ClearNote: A Minimalist, Offline-First Voice-to-Text PWA]]></title>
         <id>https://dev.to/__e52ab0bd982ec2/building-clearnote-a-minimalist-offline-first-voice-to-text-pwa-5gb</id>
         <link href="https://dev.to/__e52ab0bd982ec2/building-clearnote-a-minimalist-offline-first-voice-to-text-pwa-5gb"/>
@@ -7659,6 +8061,16 @@ Night Guard is a small open-model guard designed to reduce that review effort. I
 That question is newly concrete. Quad9 says it will stop offering its free cyberprotection service to users in France on November 24, 2026, after a French court ruling it says creates legal risks for the service. The important detail is not simply that one resolver is leaving one country. It is that public DNS providers can face pressure to make blocking decisions, while users often treat resolver addresses as inter…]]></summary>
         <author>
             <name>jamilxt</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Tabletop Whale is an original science illustration blog]]></title>
+        <id>https://tabletopwhale.com/</id>
+        <link href="https://tabletopwhale.com/"/>
+        <updated>2026-10-24T02:51:39.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -31342,583 +31754,6 @@ The important part is the shared buffer. Un…]]></summary>
 The post Getty Images To File For Bankruptcy; To Go Private appeared first on Lowyat.NET.]]></summary>
         <author>
             <name>Ian Chee</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ripple, Stripe-owned Privy partner to bring embedded wallets to XRP Ledger]]></title>
-        <id>3fe5b87f-65c8-56bd-a3e3-7746313ebf9a</id>
-        <link href="https://www.theblock.co/news/business/2026-10-13-stripe-privy-ripple-xrp-ledger-wallets-418463"/>
-        <updated>2026-10-13T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Developers can now build XRPL wallets into apps via Privy, with support for XRP, RLUSD, AI agent payments and x402.]]></summary>
-        <author>
-            <name>Yogita Khatri</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Crypto exchange MNX takes on OKX, Bitget offering pre-IPO futures for AI giants]]></title>
-        <id>c1f7b49a-eb39-4760-ad08-d31428d7dda8</id>
-        <link href="https://www.coindesk.com/business/2026/10/13/new-crypto-exchange-takes-on-okx-bitget-with-unique-way-to-trade-ai-giants"/>
-        <updated>2026-10-13T15:52:09.000Z</updated>
-        <summary type="html"><![CDATA[MNX is offering a different way to trade the future valuations of private AI companies, including OpenAI, Anthropic and DeepSeek.]]></summary>
-        <author>
-            <name>Olivier Acuna</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Redesigning source control at Anthropic]]></title>
-        <id>https://www.anthropic.com/engineering/redesigning-source-control</id>
-        <link href="https://www.anthropic.com/engineering/redesigning-source-control"/>
-        <updated>2026-10-13T15:49:56.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Launch HN: Consus (YC F24) – LLM gateway for companies handling sensitive data]]></title>
-        <id>https://news.ycombinator.com/item?id=50073471</id>
-        <link href="https://news.ycombinator.com/item?id=50073471"/>
-        <updated>2026-10-13T15:41:00.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Angular 🤝 Preact: The Ultimate Team]]></title>
-        <id>https://dev.to/jwhenry3/angular-preact-the-ultimate-team-1cof</id>
-        <link href="https://dev.to/jwhenry3/angular-preact-the-ultimate-team-1cof"/>
-        <updated>2026-10-13T15:32:05.000Z</updated>
-        <summary type="html"><![CDATA[Why Angular and Preact?
-
-
-Building scalable and maintainable frontend applications becomes a difficult task when the framework is too opinionated or too loose. The goal is to provide familiar patterns on both sides while sacrificing nothing. Once thought to be nigh impossible is now brought into fruition by bridging similarities between two very different frameworks.
-Angular thrives on structural architecture design and enforcing boundaries that make sense for large scale applications. We know through many years that MVC is a solid pattern not to be dismissed easily. We also know that through many years of exploring flexible developer experiences that React's ability to adapt is unrivaled. Where these two can come together is through Preact's Signals library and combining the efforts that …]]></summary>
-        <author>
-            <name>Justin Henry</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building a shipment table for thousands of live records. What I learned on LogiCore?]]></title>
-        <id>https://dev.to/katerina_bulkina/building-a-shipment-table-for-thousands-of-live-records-what-i-learned-on-logicore-51np</id>
-        <link href="https://dev.to/katerina_bulkina/building-a-shipment-table-for-thousands-of-live-records-what-i-learned-on-logicore-51np"/>
-        <updated>2026-10-13T15:30:58.000Z</updated>
-        <summary type="html"><![CDATA[A shipment table seems easy, a few columns, some filters, a status badge. Then real data shows up...
-THOUSANDS of shipments, statuses that change all day, and operators who need to find the one late truck fast.
-A table that feels fine with 50 test rows can crawl with 5,000.
-I ran into this on LogiCore, a logistics and warehouse management platform UITOP designed and built from scratch, for a UK logistics company. The client ran a multi-million dollar business across three or four separate tools. Data didn’t match between them, updates came late, and managers made big calls without the full picture. They wanted one system for the warehouse floor and the office.
-Our design, project management, development and QA teams worked on it together. Here’s how we built the shipment table, and why we …]]></summary>
-        <author>
-            <name>Katerina Bulkina</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Building a Local AI-Powered Receipt Sorter with Tiger Cloud and MCP for Freelancers]]></title>
-        <id>https://dev.to/shazara/building-a-local-ai-powered-receipt-sorter-with-tiger-cloud-and-mcp-for-freelancers-59kk</id>
-        <link href="https://dev.to/shazara/building-a-local-ai-powered-receipt-sorter-with-tiger-cloud-and-mcp-for-freelancers-59kk"/>
-        <updated>2026-10-13T15:30:21.000Z</updated>
-        <summary type="html"><![CDATA[During this Global Hack Week and Hacktoberfest challenge, I wanted to build something practical that solves a real-world problem for small business owners and freelancers. Receipts, invoices, and expense tracking are often tedious tasks, and relying on heavy cloud-based AI APIs can risk sensitive client data while incurring recurring costs.
-To solve this, I built Local AI Receipt Sorter—a local-first tool powered by open-source AI logic, secure database partitioning, and Model Context Protocol (MCP) integration with Tiger Cloud.
-1. Project Folder Structure
-
-
-To keep the application modular, clean, and easy to maintain, the project follows a standard production-ready folder layout:
-local-ai-receipt/
-│
-├── .env.example            # Environment variables template (Database URLs, API keys)
-├──…]]></summary>
-        <author>
-            <name>Shazara</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Vrai | A native macOS git client]]></title>
-        <id>https://dev.to/aaravmaloo/vrai-a-native-macos-git-client-4dc0</id>
-        <link href="https://dev.to/aaravmaloo/vrai-a-native-macos-git-client-4dc0"/>
-        <updated>2026-10-13T15:30:17.000Z</updated>
-        <summary type="html"><![CDATA[Using GitHub desktop feels more intuitive rather than git CLI. 
-
-What if there could be a git client that is simple yet powerful?
-Written in native Swift?
-Introducing vrai, a pure native macOS application, simple yet powerful git client.
-GitHub: https://github.com/aaravmaloo/vrai]]></summary>
-        <author>
-            <name>Aarav Maloo</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Chunking for Qdrant in .NET Before It Becomes a Quality Problem]]></title>
-        <id>https://dev.to/lukaswalter/chunking-for-qdrant-in-net-before-it-becomes-a-quality-problem-4ac6</id>
-        <link href="https://dev.to/lukaswalter/chunking-for-qdrant-in-net-before-it-becomes-a-quality-problem-4ac6"/>
-        <updated>2026-10-13T15:30:00.000Z</updated>
-        <summary type="html"><![CDATA[A query can find the right runbook and still miss the condition that makes its instructions safe to follow. Choose chunk boundaries so retrieval can preserve those conditions. Check the returned evidence before you start tuning the generated answer.
-The short notes in Indexing Your First Documents fit into one point each. That was enough to verify indexing and build the query path in Querying Qdrant from .NET. A longer runbook needs more deliberate boundaries.
-We will extend that console project with a longer support runbook. Each chunk will contain complete paragraphs from one section and have a deterministic point ID. The query still uses the existing embedding setup.
-A complete, standalone version of this example is available in the sample repository.
-Consider this illustrative runbook …]]></summary>
-        <author>
-            <name>Lukas Walter</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[After Funding: Should You Build an In-House AI Team or Hire a Product Engineering Pod?]]></title>
-        <id>https://dev.to/adam762/after-funding-should-you-build-an-in-house-ai-team-or-hire-a-product-engineering-pod-17p9</id>
-        <link href="https://dev.to/adam762/after-funding-should-you-build-an-in-house-ai-team-or-hire-a-product-engineering-pod-17p9"/>
-        <updated>2026-10-13T15:30:00.000Z</updated>
-        <summary type="html"><![CDATA[Raising funding is a major milestone for any startup, but it also changes the expectations placed on its engineering team. A promising AI prototype must now evolve into a reliable product that serves customers, protects data, scales with demand, and delivers measurable business value.
-This is where founders face an important decision: should they build an in-house AI team or partner with a dedicated product engineering pod?
-Both approaches have advantages. The right choice depends on the company's roadmap, available talent, delivery timelines, and the level of technical ownership it wants to maintain.
-Before funding, startups often focus on validating ideas and proving that a product can work. After funding, the priority shifts toward execution. Investors expect progress, customers expect …]]></summary>
-        <author>
-            <name>Adam</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Cross-Chain Bridge Risk Assessment: Crypto-com]]></title>
-        <id>https://dev.to/dannydoes_2abdf9c/cross-chain-bridge-risk-assessment-crypto-com-5hc9</id>
-        <link href="https://dev.to/dannydoes_2abdf9c/cross-chain-bridge-risk-assessment-crypto-com-5hc9"/>
-        <updated>2026-10-13T15:29:43.000Z</updated>
-        <summary type="html"><![CDATA[Cross-Chain Bridge Risk Assessment: Crypto-com
-
-
-Target Protocol: Crypto-com (TVL: $2465.1M)
-Crypto‑com – Cross‑Chain Bridge Risk Assessment
-
-Prepared by: Senior DeFi Security Researcher
-
-Date: 13 Oct 2026  
-Crypto‑com operates a high‑value cross‑chain bridge that enables the transfer of assets between Ethereum (L1) and several L2 roll‑ups (Optimism, Arbitrum, zkSync, etc.). The bridge currently secures ≈ $2.47 B in total value locked (TVL) across these networks, making it a prime target for sophisticated adversaries.  
-Our assessment focuses on the technical integrity of the bridge contracts, the underlying consensus/relay mechanisms, liquidity management, and governance controls. The analysis combines on‑chain static and dynamic code review, formal verification of critical primitives, si…]]></summary>
-        <author>
-            <name>DannyDoes</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[7 Microservicios Off-Chain con FastAPI: Tu Backend INVIOLABLE]]></title>
-        <id>https://dev.to/angelh/7-microservicios-off-chain-con-fastapi-tu-backend-inviolable-cof</id>
-        <link href="https://dev.to/angelh/7-microservicios-off-chain-con-fastapi-tu-backend-inviolable-cof"/>
-        <updated>2026-10-13T15:29:33.000Z</updated>
-        <summary type="html"><![CDATA[Descubre cómo construir un backend robusto y descentralizado que resiste cualquier ataque, potenciando tus dApps con esta guía práctica.
-Aprende a construir un backend robusto y seguro para tus aplicaciones descentralizadas o tradicionales, usando FastAPI y micro-servicios 'off-chain'.
-Imagina esta escena: un emprendedor en San José, Costa Rica, lanza su plataforma de votación online. Al poco tiempo, un ataque DDoS lo deja fuera de combate, perdiendo la confianza de sus usuarios y, lo que es peor, credibilidad. Historias como esta son demasiado comunes. Muchos piensan que la seguridad es solo para los "grandes", pero un backend invulnerable es la base para cualquier proyecto exitoso, especialmente cuando hablamos de manejar datos críticos o transacciones. ¿Y si te dijera que existe una for…]]></summary>
-        <author>
-            <name>Ángel Hernandez M.</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[QUICKSELL AI]]></title>
-        <id>https://dev.to/sridevi_asara/quicksell-ai-ekd</id>
-        <link href="https://dev.to/sridevi_asara/quicksell-ai-ekd"/>
-        <updated>2026-10-13T15:28:42.000Z</updated>
-        <summary type="html"><![CDATA[QuickSell AI: Generate Product Descriptions with Open-Source AI ✨
-
-
-This is a submission for the Hacktoberfest Open-Source AI Challenge Week 2: Side Hustle.
-QuickSell AI is a simple AI-powered web application that helps small business owners and online sellers generate attractive product descriptions in seconds.
-Writing descriptions for every product can take time, especially for small sellers, resellers, and people running their own side hustles. QuickSell AI makes this process easier by turning basic product information into ready-to-use marketing text.
-AI Product Descriptions: Generate descriptions from a product name and its features.
-Multiple Writing Styles: Choose Professional, Friendly, or Catchy.
-Copy Description: Copy the generated text for use in online product listings.
-Local AI…]]></summary>
-        <author>
-            <name>Sridevi Asara</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Agents that ask first and remember what you told them]]></title>
-        <id>https://dev.to/beesbot/agents-that-ask-first-and-remember-what-you-told-them-3nfn</id>
-        <link href="https://dev.to/beesbot/agents-that-ask-first-and-remember-what-you-told-them-3nfn"/>
-        <updated>2026-10-13T15:28:27.000Z</updated>
-        <summary type="html"><![CDATA[The part of AI agents that worried us most wasn't whether they could do the work. It was whether we'd trust them to do it without watching every step. So three of the things we built into Bees are about that: agents that stop and ask, agents that keep what you told them, and a way to get more than one view before a decision.
-Bees is a free, open source desktop app that runs a team of AI agents on your own computer. It went public today. Here's how those three pieces work, each with a short video.
-  
-  
-
-
-Finished work doesn't just go out. It waits under Needs your attention until you approve it, or send it back with a reason. You can also mark a stage as needing approval, and then its agent can't send, post, delete or pay through a tool until you say yes. When an agent isn't sure what you …]]></summary>
-        <author>
-            <name>Bees</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bees is public: a free desktop app that runs a team of AI agents on your computer]]></title>
-        <id>https://dev.to/beesbot/bees-is-public-a-free-desktop-app-that-runs-a-team-of-ai-agents-on-your-computer-2887</id>
-        <link href="https://dev.to/beesbot/bees-is-public-a-free-desktop-app-that-runs-a-team-of-ai-agents-on-your-computer-2887"/>
-        <updated>2026-10-13T15:28:26.000Z</updated>
-        <summary type="html"><![CDATA[Bees went public today. It's a free, open source desktop app for macOS, Windows and Linux that runs a team of AI agents on your own computer, instead of one assistant in a single chat window.
-  
-  
-
-
-
-  
-  
-  What it does
-
-
-You describe an outcome in plain language, in the What would you like to achieve? box on Home. Bees turns it into stages on a shared board. Agents work through those stages, and a separate reviewer agent checks each result before the work moves on.
-A small example from the README: ask it to browse Hacker News and give you a table of the current stories, grouped into news, Show HN and Ask HN. Bees plans the stages, the agents do the browsing and sorting, the reviewer checks the table, and the finished result lands in that run.
-Bees doesn't sell you a model. Under Setting…]]></summary>
-        <author>
-            <name>Bees</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Exploring AviorSwap Through a Developer’s Lens]]></title>
-        <id>https://dev.to/archigrant90/exploring-aviorswap-through-a-developers-lens-39h2</id>
-        <link href="https://dev.to/archigrant90/exploring-aviorswap-through-a-developers-lens-39h2"/>
-        <updated>2026-10-13T15:27:05.000Z</updated>
-        <summary type="html"><![CDATA[When I explore a crypto platform, I pay attention to the interface before the marketing.
-What does the product ask me to do first? What information does it provide before I make a decision? Where does a simple screen hide a more complicated process?
-That’s the perspective I bring to AviorSwap.
-Its homepage emphasizes asset variety, straightforward pricing, and fast swaps. But what interests me most is how those ideas translate into a workflow a user can understand.
-A clear starting point matters
-AviorSwap puts deposit and swap actions near the beginning of the experience. It also presents market sections organized around popular assets and daily price movements.
-I like thinking about these as two different user needs.
-Sometimes I open a financial interface to explore. Other times, I alread…]]></summary>
-        <author>
-            <name>Archi Grant</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[I posted to HN, and then my website was flooded with AI bot traffic]]></title>
-        <id>https://www.sammystraus.com/#i-posted-to-hn-and-then-my-website-was-flooded-with-ai-bot-traffic</id>
-        <link href="https://www.sammystraus.com/#i-posted-to-hn-and-then-my-website-was-flooded-with-ai-bot-traffic"/>
-        <updated>2026-10-13T15:25:50.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[UK crypto trader says almost $800,000 lost in knife attack as wrench attacks proliferate]]></title>
-        <id>4c89c108-c667-427d-8d8c-73448b6911bb</id>
-        <link href="https://www.coindesk.com/policy/2026/10/13/why-self-custody-and-hardware-wallets-cannot-prevent-physical-crypto-extortion"/>
-        <updated>2026-10-13T15:24:52.000Z</updated>
-        <summary type="html"><![CDATA[A crypto trader in the U.K. claimed masked intruders stole nearly $800,000 in cryptocurrency at knifepoint, furthering concerns of "wrench attacks" spreading in the country.]]></summary>
-        <author>
-            <name>Jamie Crawley</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Interactive Brokers expands crypto services with Ethereum staking via Zerohash]]></title>
-        <id>c10207a5-18fa-52f2-b0cc-b52cd806a1b6</id>
-        <link href="https://www.theblock.co/news/ecosystems/2026-10-13-interactive-brokers-ethereum-staking-zerohash-418457"/>
-        <updated>2026-10-13T15:24:14.000Z</updated>
-        <summary type="html"><![CDATA[Interactive Brokers now lets eligible clients stake ETH through its Client Portal, with zerohash providing the service.]]></summary>
-        <author>
-            <name>Jason Shubnell</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The United Kingdom generates less electricity per person than in the 1970s]]></title>
-        <id>https://ourworldindata.org/data-insights/electricity-generation-per-person-in-the-united-kingdom-has-fallen-by-a-third-from-its-early-2000s-peak</id>
-        <link href="https://ourworldindata.org/data-insights/electricity-generation-per-person-in-the-united-kingdom-has-fallen-by-a-third-from-its-early-2000s-peak"/>
-        <updated>2026-10-13T15:12:57.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Thunderbird for iOS]]></title>
-        <id>https://blog.thunderbird.net/2026/10/thunderbird-for-ios-a-first-look-at-the-native-iphone-email-app-in-development/</id>
-        <link href="https://blog.thunderbird.net/2026/10/thunderbird-for-ios-a-first-look-at-the-native-iphone-email-app-in-development/"/>
-        <updated>2026-10-13T15:07:37.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[DRW and Marex complete OTC swap referencing tokenized S&P iBoxx Index]]></title>
-        <id>0b9451be-3b86-5499-848f-636a2ecf3128</id>
-        <link href="https://www.theblock.co/news/markets/2026-10-13-drw-marex-first-otc-swap-tokenized-sp-iboxx-index-canton-network-418440"/>
-        <updated>2026-10-13T15:00:29.000Z</updated>
-        <summary type="html"><![CDATA[DRW and Marex completed the first OTC swap referencing a fully tokenized index on Derivnex via the Canton Network, with Kaiko data.]]></summary>
-        <author>
-            <name>Jason Shubnell</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ledger confirms hardware implant in CryptoBilis reseller units as MediaMarkt suspends sales in Europe]]></title>
-        <id>1420b1c3-e68f-598a-b030-4a1bc992e8aa</id>
-        <link href="https://www.theblock.co/news/business/2026-10-13-ledger-confirms-hardware-implant-cryptobilis-reseller-units-mediamarkt-suspends-sales-europe-418442"/>
-        <updated>2026-10-13T14:45:08.000Z</updated>
-        <summary type="html"><![CDATA[Ledger confirmed a hardware implant in CryptoBilis-sold devices steals recovery phrases, as MediaMarkt suspends sales.]]></summary>
-        <author>
-            <name>Brian Danga</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Two-Stack Sliding-Window Aggregation]]></title>
-        <id>https://orlp.net/blog/two-stack-sliding-window-aggregation/</id>
-        <link href="https://orlp.net/blog/two-stack-sliding-window-aggregation/"/>
-        <updated>2026-10-13T14:40:03.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Apple's new 'Switch to Safari' campaign details why you should ditch Chrome]]></title>
-        <id>https://9to5mac.com/2026/10/12/apples-new-switch-to-safari-campaign-details-why-you-should-ditch-chrome/</id>
-        <link href="https://9to5mac.com/2026/10/12/apples-new-switch-to-safari-campaign-details-why-you-should-ditch-chrome/"/>
-        <updated>2026-10-13T14:26:08.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Book That Will Never Be Read]]></title>
-        <id>https://forbetterscience.com/2026/09/22/a-book-that-will-never-be-read/</id>
-        <link href="https://forbetterscience.com/2026/09/22/a-book-that-will-never-be-read/"/>
-        <updated>2026-10-13T14:21:40.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[How to engineer an AI harness for game development]]></title>
-        <id>https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code</id>
-        <link href="https://kylekukshtel.com/ai-harness-engineering-game-development-claude-code"/>
-        <updated>2026-10-13T14:14:23.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA['500-hour' Order of the Sinking Star is as complex and exhausting as it sounds]]></title>
-        <id>https://www.polygon.com/order-of-the-sinking-star-impressions/</id>
-        <link href="https://www.polygon.com/order-of-the-sinking-star-impressions/"/>
-        <updated>2026-10-13T14:14:20.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Strive buys 3,311 bitcoin for $280 million in largest acquisition since January]]></title>
-        <id>200fd462-f5cb-5d34-b734-daa2e57d4774</id>
-        <link href="https://www.theblock.co/news/business/2026-10-13-strive-buys-3311-bitcoin-280-million-largest-acquisition-since-january-418430"/>
-        <updated>2026-10-13T13:42:25.000Z</updated>
-        <summary type="html"><![CDATA[Strive added 3,311 BTC between Oct. 5 and Oct. 9, bringing holdings to 32,773 BTC and narrowing the gap with MARA.]]></summary>
-        <author>
-            <name>James Hunt</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[your C is not standard C]]></title>
-        <id>https://sebsite.pw/w/20261012-notstdc.html</id>
-        <link href="https://sebsite.pw/w/20261012-notstdc.html"/>
-        <updated>2026-10-13T13:36:21.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Same Job, Two Engines: InnoDB and Iceberg Internals]]></title>
-        <id>https://marcpaul.io/logs/same-job-two-engines-innodb-and-iceberg-internals/</id>
-        <link href="https://marcpaul.io/logs/same-job-two-engines-innodb-and-iceberg-internals/"/>
-        <updated>2026-10-13T13:31:43.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[4 Years of Ludicon]]></title>
-        <id>https://www.ludicon.com/castano/blog/2026/10/4-years-of-ludicon/</id>
-        <link href="https://www.ludicon.com/castano/blog/2026/10/4-years-of-ludicon/"/>
-        <updated>2026-10-13T13:22:11.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[New Apple TV 4K]]></title>
-        <id>https://www.apple.com/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/</id>
-        <link href="https://www.apple.com/newsroom/2026/10/apple-unveils-the-new-apple-tv-4k/"/>
-        <updated>2026-10-13T13:21:35.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Tracing Mystery Network Traffic with eBPF Across HRT's Global Compute Cluster]]></title>
-        <id>https://www.hudsonrivertrading.com/hrtbeat/long-on-research-short-on-bandwidth/</id>
-        <link href="https://www.hudsonrivertrading.com/hrtbeat/long-on-research-short-on-bandwidth/"/>
-        <updated>2026-10-13T13:05:46.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Apple HomeView]]></title>
-        <id>https://www.apple.com/apple-homeview/</id>
-        <link href="https://www.apple.com/apple-homeview/"/>
-        <updated>2026-10-13T13:02:12.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Meta Announces Ray-Ban, Oakley Smart Glasses For Malaysian Market]]></title>
-        <id>https://www.lowyat.net/?p=407177</id>
-        <link href="https://www.lowyat.net/2026/407177/meta-announces-ray-ban-oakley-malaysia/"/>
-        <updated>2026-10-13T12:41:34.000Z</updated>
-        <summary type="html"><![CDATA[After years of waiting, Meta has finally announced that it will be bringing AI glasses to the Malaysian market. If you’ve kept up with the news surrounding the social media giant, then you’d know that that brand partnered up with EssilorLuxottica to bring the technology to life. Through this partnership, the technology is fitted into […]
-The post Meta Announces Ray-Ban, Oakley Smart Glasses For Malaysian Market appeared first on Lowyat.NET.]]></summary>
-        <author>
-            <name>Kiran Ganesan</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[BB(10) > Graham's Number]]></title>
-        <id>https://github.com/jeff87654/busy-beaver/blob/main/BB10/1RB0RA_1LC1LF_1RD0LB_1RA1LE_1LI0LC_0RG1LD_1RH1LG_1LC0RG_0LJ0LI_1RZ0LC.md</id>
-        <link href="https://github.com/jeff87654/busy-beaver/blob/main/BB10/1RB0RA_1LC1LF_1RD0LB_1RA1LE_1LI0LC_0RG1LD_1RH1LG_1LC0RG_0LJ0LI_1RZ0LC.md"/>
-        <updated>2026-10-13T12:40:04.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[It took me nine years to hack my Xbox 360]]></title>
-        <id>https://kennedn.com/blog/posts/glitching/</id>
-        <link href="https://kennedn.com/blog/posts/glitching/"/>
-        <updated>2026-10-13T12:33:18.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Wanted to download an ISO, ended up writing a kernel exploit]]></title>
-        <id>https://blog.dfb.sh/blog/eap770-root-for-two-zeros/</id>
-        <link href="https://blog.dfb.sh/blog/eap770-root-for-two-zeros/"/>
-        <updated>2026-10-13T12:30:08.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Dynamic and Distributed Virtual GPU Cloud Built on Idle Apple Silicon Devices]]></title>
-        <id>https://machinelearning.apple.com/research/distributed-gpu-cloud</id>
-        <link href="https://machinelearning.apple.com/research/distributed-gpu-cloud"/>
-        <updated>2026-10-13T12:26:36.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Worlds more habitable than Earth?]]></title>
-        <id>https://www.nytimes.com/2026/10/13/science/inhabitable-planets-solar-system.html</id>
-        <link href="https://www.nytimes.com/2026/10/13/science/inhabitable-planets-solar-system.html"/>
-        <updated>2026-10-13T12:23:34.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Webster’s Dictionary: The pleasure of finding things out (2014)]]></title>
-        <id>https://jsomers.net/blog/dictionary</id>
-        <link href="https://jsomers.net/blog/dictionary"/>
-        <updated>2026-10-13T12:13:20.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Mozilla Introduces Firefox Enterprise]]></title>
-        <id>https://www.firefox.com/en-US/enterprise/</id>
-        <link href="https://www.firefox.com/en-US/enterprise/"/>
-        <updated>2026-10-13T12:00:42.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Visual Intro to Complex Numbers]]></title>
-        <id>https://photonlines.substack.com/p/a-visual-intro-to-complex-numbers</id>
-        <link href="https://photonlines.substack.com/p/a-visual-intro-to-complex-numbers"/>
-        <updated>2026-10-13T12:00:04.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The Download: open model trade-offs and geothermal power’s promise]]></title>
-        <id>https://www.technologyreview.com/?p=1146382</id>
-        <link href="https://www.technologyreview.com/2026/10/13/1146382/the-download-open-models-trade-offs-geothermal-power/"/>
-        <updated>2026-10-13T12:00:00.000Z</updated>
-        <summary type="html"><![CDATA[This is today’s edition of The Download, our weekday newsletter that provides a daily dose of what’s going on in the world of technology. Open models have real benefits. Do they outweigh the risks? Anthropic recently released a report arguing that a powerful new model released by the Chinese company Z.ai, poses a major cyberattack…]]></summary>
-        <author>
-            <name>Thomas Macaulay</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[South Korea blocks 27 crypto exchanges, including Bitmart and Kucoin]]></title>
-        <id>320db034-e6ec-466e-ac94-6f3d8e008052</id>
-        <link href="https://www.coindesk.com/policy/2026/10/13/south-korea-blocks-27-crypto-exchanges-including-bitmart-and-kucoin"/>
-        <updated>2026-10-13T11:58:04.000Z</updated>
-        <summary type="html"><![CDATA[The country’s regulators are stepping up their earlier restrictions on mobile apps to websites, targeting unregistered exchanges before investors report losses.]]></summary>
-        <author>
-            <name>Olivier Acuna</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Federated Hermes joins Wall Street's tokenization push with plans for first onchain fund shares]]></title>
-        <id>ee4ea9c7-3d5f-401c-9091-71f8d7749dd3</id>
-        <link href="https://www.coindesk.com/business/2026/10/13/federated-hermes-joins-wall-street-s-tokenization-push-with-plans-for-first-onchain-fund-shares"/>
-        <updated>2026-10-13T11:56:04.000Z</updated>
-        <summary type="html"><![CDATA[The $911 billion Pittsburgh-based asset manager is teaming up with Prometheum to bring blockchain-based share classes of its funds to traditional brokerage accounts.]]></summary>
-        <author>
-            <name>Krisztian Sandor</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Binance to shut down mining pool, cloud mining and related services]]></title>
-        <id>462a7cc3-37dd-5058-9eb3-c0545f891b73</id>
-        <link href="https://www.theblock.co/news/business/2026-10-13-binance-to-shut-down-mining-pool-cloud-mining-and-related-services-418410"/>
-        <updated>2026-10-13T11:40:56.000Z</updated>
-        <summary type="html"><![CDATA[Binance said it will shut down its mining pool, cloud mining, and Pool Savings services on Nov. 10.]]></summary>
-        <author>
-            <name>Brian Danga</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[UK High Court rules Chinese law governs claims over $5 billion in seized bitcoin]]></title>
-        <id>60af012a-4418-5a8e-8379-78bb780824b1</id>
-        <link href="https://www.theblock.co/news/regulation/2026-10-13-uk-high-court-rules-chinese-law-governs-claims-over-5-billion-in-seized-bitcoin-418409"/>
-        <updated>2026-10-13T11:38:19.000Z</updated>
-        <summary type="html"><![CDATA[A UK judge ruled Chinese law applies to victims' claims over 61,000 seized bitcoin, leaving ownership undecided.]]></summary>
-        <author>
-            <name>James Hunt</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Spotatui, a Spotify TUI/GUI without web API rate limits]]></title>
-        <id>https://github.com/LargeModGames/spotatui</id>
-        <link href="https://github.com/LargeModGames/spotatui"/>
-        <updated>2026-10-13T11:32:00.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
