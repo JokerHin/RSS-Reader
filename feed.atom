@@ -2,10 +2,352 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://JokerHin.github.io/RSS-Reader/index.html</id>
     <title>Kar Hin RSS Feed</title>
-    <updated>2026-11-14T04:58:31.922Z</updated>
+    <updated>2026-11-14T12:00:04.752Z</updated>
     <generator>osmosfeed 1.15.1</generator>
     <link rel="alternate" href="https://JokerHin.github.io/RSS-Reader/index.html"/>
     <link rel="self" href="https://JokerHin.github.io/RSS-Reader/feed.atom"/>
+    <entry>
+        <title type="html"><![CDATA[iPhone voice memos are M4A, here's how to get MP3s out of them]]></title>
+        <id>https://dev.to/convertola/iphone-voice-memos-are-m4a-heres-how-to-get-mp3s-out-of-them-1ffj</id>
+        <link href="https://dev.to/convertola/iphone-voice-memos-are-m4a-heres-how-to-get-mp3s-out-of-them-1ffj"/>
+        <updated>2026-11-14T11:58:10.000Z</updated>
+        <summary type="html"><![CDATA[Voice memos, WhatsApp audio you saved, screen recordings of a call: on an iPhone almost all of it ends up as M4A or MOV. That's fine inside Apple's apps, but the moment you need to upload a recording to a form, a car stereo, an older MP3 player or a podcast host that wants MP3, it gets awkward. A few practical notes from dealing with this a lot:
+1. Get the file out of the Voice Memos app first. Open the memo, tap the three dots, then "Save to Files". Now it's a normal .m4a file you can pick from any browser upload button.
+2. Don't go above the source quality. Voice Memos records AAC at roughly 64-128 kbps depending on your "Audio Quality" setting. Exporting that as a 320 kbps MP3 only makes the file bigger. 128 kbps is plenty for speech; 96 kbps mono is fine for meeting notes.
+3. For videos, you only want the audio track. Screen recordings and camera videos are MOV files. Converting them straight to MP3 drops the video and usually shrinks the file by 90% or more.
+4. Trim silence before converting. Cutting the dead air at the start in the Voice Memos editor saves a second re-encode later.
+5. Rename before sharing. "2026-11-14 client call.mp3" beats "New Recording 47.mp3" when it lands in someone else's inbox.
+For the conversion itself you don't need an app: we wrote up how to turn iPhone voice memos into MP3 straight from Safari, and the M4A to MP3 converter it uses runs in the browser with no sign-up. (Disclosure: it's our project.)
+What do you usually need MP3 for these days: uploads, car audio, or something else?]]></summary>
+        <author>
+            <name>Convertola</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Chrome composites 10 layers on our static FAQ page, and an invisible word is responsible for three of them]]></title>
+        <id>https://dev.to/daniel_pertu/chrome-composites-10-layers-on-our-static-faq-page-and-an-invisible-word-is-responsible-for-three-3gkl</id>
+        <link href="https://dev.to/daniel_pertu/chrome-composites-10-layers-on-our-static-faq-page-and-an-invisible-word-is-responsible-for-three-3gkl"/>
+        <updated>2026-11-14T11:56:51.000Z</updated>
+        <summary type="html"><![CDATA[A page of ours is prerendered HTML, a stylesheet and some text. I assumed Chrome drew it in one layer. It does not: our FAQ page runs on 10 compositing layers, and the reasons are all readable from outside with the DevTools protocol.
+await page.cdp("LayerTree.enable", {});
+// scroll once, because the tree is only reported when it changes
+const ev = await page.events();
+const layers = ev.filter(e => e.method === "LayerTree.layerTreeDidChange").pop().params.layers;
+for (const l of layers) {
+  const r = await page.cdp("LayerTree.compositingReasons", { layerId: l.layerId });
+  console.log(l.width, l.height, l.paintCount, r.compositingReasonIds);
+}
+
+That gives, on a 1500 x 770 window at device pixel ratio 2, so every size below is in device pixels:
+
+
+
+size
+paints
+reason
+element
+
+
+
+
+0 x 0
+0
+(non…]]></summary>
+        <author>
+            <name>Daniel Pertu</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[First paint takes 368ms at my desk and 9.2 seconds on a slow link, and 3.7 of those seconds are our own font preloads]]></title>
+        <id>https://dev.to/daniel_pertu/first-paint-takes-368ms-at-my-desk-and-92-seconds-on-a-slow-link-and-37-of-those-seconds-are-our-44om</id>
+        <link href="https://dev.to/daniel_pertu/first-paint-takes-368ms-at-my-desk-and-92-seconds-on-a-slow-link-and-37-of-those-seconds-are-our-44om"/>
+        <updated>2026-11-14T11:55:58.000Z</updated>
+        <summary type="html"><![CDATA[I measured real paint metrics on all 76 of our pages a few days ago and the numbers were lovely: LCP median 160ms, LCP equal to FCP on every page because the largest element is always text, 10 woff2 files finishing about 70 milliseconds before first paint, and a site-wide layout shift of 0.000439 attributable to one element.
+Every one of those numbers was measured on a fibre connection with the browser sitting on the same desk as me. So this time I throttled it.
+CDP's Network.emulateNetworkConditions, cache disabled, six representative pages per profile, medians:
+profile    latency  down      LCP     FCP    TTFB   load
+none             0  unlimited   368     368     29     515
+fast 4G         70  9 Mbps      792     792     29   1,089
+slow 4G        150  1.6 Mbps  2,552   2,552     30   4,…]]></summary>
+        <author>
+            <name>Daniel Pertu</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Successfully Configuring an AWS EC2 CPU Alert at 60%: A Hands-On Case Study]]></title>
+        <id>https://dev.to/aws-builders/successfully-configuring-an-aws-ec2-cpu-alert-at-60-a-hands-on-case-study-464p</id>
+        <link href="https://dev.to/aws-builders/successfully-configuring-an-aws-ec2-cpu-alert-at-60-a-hands-on-case-study-464p"/>
+        <updated>2026-11-14T11:54:58.000Z</updated>
+        <summary type="html"><![CDATA[A hands-on case study with EC2, CloudWatch, and SNS
+
+
+It started with a simple goal: create an EC2 instance, push its CPU
+Sounds straightforward, right?
+Launch an instance. Install a stress utility. Create a CloudWatch alarm.
+I completed the activity successfully. The CPU workload, CloudWatch
+In this conversational case study, I’ll walk through the setup, the
+The goal was to build a small monitoring workflow:
+ Launch an Ubuntu EC2 instance.
+ Generate CPU load on the instance.
+ Monitor CPUUtilization using Amazon CloudWatch.
+ Configure an alarm for CPU utilization greater than 60%.
+ Send an email notification through Amazon SNS when the alarm enters
+the ALARM state.
+The architecture is intentionally simple:
+
+For this activity, I used the following setup:
+Component              Configuration…]]></summary>
+        <author>
+            <name>Omkar Sharma</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Five checks for agent memory before using it in production]]></title>
+        <id>https://dev.to/sutra_acceptance/five-checks-for-agent-memory-before-using-it-in-production-572d</id>
+        <link href="https://dev.to/sutra_acceptance/five-checks-for-agent-memory-before-using-it-in-production-572d"/>
+        <updated>2026-11-14T11:54:35.000Z</updated>
+        <summary type="html"><![CDATA[This article was prepared with AI assistance and reviewed by its author.
+A memory feature needs an acceptance test, not just a successful retrieval demo.
+Start with one small task whose answer you can check. Record its inputs, expected answer and permissions before enabling memory. Then try five cases:
+Recall: save a useful project fact, start a new session and check whether the agent retrieves the right source.
+Correction: replace that fact with a newer decision. Check that the agent uses the correction and exposes the old note as superseded.
+Missing context: ask about an unstored detail. The agent should expose the gap instead of treating a guess as remembered evidence.
+Isolation: repeat the question in a separate test workspace. Check that another workspace's private notes do not appear.
+Deletion: remove the test note and check retrieval again, including any application cache involved in the workflow.
+Run the same task without memory as a baseline. Keep a small results table with the case, expected result, retrieved evidence, actual answer and pass or failure. Repeat after changing extraction, retrieval or retention behavior.
+This is a proposed evaluation procedure, not a benchmark result. It tests whether memory helps the particular workflow while preserving correction, permissions and deletion controls.
+Original article: Read the original resource.]]></summary>
+        <author>
+            <name>Sutra acceptance</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Hydrogen spectrum lines from Bohr's model: Balmer wavelengths in JavaScript]]></title>
+        <id>https://dev.to/surendrasinghkamboj/hydrogen-spectrum-lines-from-bohrs-model-balmer-wavelengths-in-javascript-52h2</id>
+        <link href="https://dev.to/surendrasinghkamboj/hydrogen-spectrum-lines-from-bohrs-model-balmer-wavelengths-in-javascript-52h2"/>
+        <updated>2026-11-14T11:54:11.000Z</updated>
+        <summary type="html"><![CDATA[Bohr's model of hydrogen gives every spectral line of the atom from one formula, and you can reproduce the visible Balmer lines in a few lines of JavaScript. Below I compute the wavelengths of the lines you see in a hydrogen lamp and check the photon energy. (I build PractiSci, which has a free Bohr hydrogen lab.)
+1/λ = R (1/n_f² − 1/n_i²), where R = 1.0968 × 10⁷ m⁻¹. Electrons falling to n = 2 give the visible Balmer series. Energy levels are Eₙ = −13.6/n² eV.
+const R = 1.0968e7;
+const nm = (nf, ni) => 1e9 / (R * (1 / nf ** 2 - 1 / ni ** 2));
+
+for (const ni of [3, 4, 5, 6]) console.log(ni, '->2', nm(2, ni).toFixed(1), 'nm');
+
+
+
+
+Transition
+Wavelength
+Colour
+
+
+
+
+3 → 2 (Hα)
+656.5 nm
+red
+
+
+4 → 2 (Hβ)
+486.3 nm
+blue-green
+
+
+5 → 2 (Hγ)
+434.2 nm
+violet
+
+
+6 → 2 (Hδ)
+410.3 nm
+violet
+
+
+
+These match the measured Balmer lines. The same function gives 121.6 nm for the Lyman 2 → 1 line (ultraviolet) and 1876 nm for the Paschen 4 → 3 line (infrared), so only the Balmer series is visible.
+The 3 → 2 jump releases E₃ − E₂ = −1.51 − (−3.40) = 1.89 eV. The wavelength is λ = 1240 / E nm = 1240 / 1.89 ≈ 656 nm, the same red line.
+Its lines end on n = 2 and have energies of about 1.9 to 3.0 eV, which fall in the visible range. The Lyman lines are more energetic (ultraviolet) and the Paschen lines less (infrared).
+13.6 eV, the energy to take the electron from n = 1 to infinity.
+In the free Bohr hydrogen lab you excite the atom and watch the lines appear. More Class 12 physics labs are in the labs list.]]></summary>
+        <author>
+            <name>Surendra Singh Kamboj</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Domótica DIY con ESP32 vs enchufes e interruptores inteligentes comerciales: qué sale más a cuenta]]></title>
+        <id>https://dev.to/stevencarvajal/domotica-diy-con-esp32-vs-enchufes-e-interruptores-inteligentes-comerciales-que-sale-mas-a-cuenta-31om</id>
+        <link href="https://dev.to/stevencarvajal/domotica-diy-con-esp32-vs-enchufes-e-interruptores-inteligentes-comerciales-que-sale-mas-a-cuenta-31om"/>
+        <updated>2026-11-14T11:54:04.000Z</updated>
+        <summary type="html"><![CDATA[Publicado originalmente en iot.gripe.
+Un enchufe inteligente se compra en cualquier tienda, se configura en cinco minutos y funciona con la app del fabricante. Un dispositivo hecho con un ESP32 cuesta menos en piezas, pero lleva horas de trabajo. ¿Cuál sale más a cuenta?
+Este blog enseña a construir tus propios dispositivos, pero esta comparación es honesta: hay casos en los que comprar es claramente mejor.
+Un dispositivo DIY con ESP32 se compone de:
+una placa ESP32-C3;
+un módulo de relé;
+una fuente de alimentación compacta (si va en la pared);
+una caja apta y cableado;
+tu tiempo y, una sola vez, las herramientas (multímetro, soldador).
+Un dispositivo comercial es un producto terminado: enchufe inteligente, módulo para detrás del interruptor o bombilla inteligente, con su app.
+
+
+
+
+DIY con …]]></summary>
+        <author>
+            <name>Steven Carvajal</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Orbital speed, escape speed and the square root of 2: a satellite calculator in JavaScript]]></title>
+        <id>https://dev.to/surendrasinghkamboj/orbital-speed-escape-speed-and-the-square-root-of-2-a-satellite-calculator-in-javascript-43p8</id>
+        <link href="https://dev.to/surendrasinghkamboj/orbital-speed-escape-speed-and-the-square-root-of-2-a-satellite-calculator-in-javascript-43p8"/>
+        <updated>2026-11-14T11:53:18.000Z</updated>
+        <summary type="html"><![CDATA[The speed a satellite needs to stay in orbit and the speed needed to escape Earth are linked by one number, √2. You can check it in a few lines of JavaScript, and the same code gives the period of the ISS and of a geostationary satellite. (I build PractiSci, which has a free satellite-orbits lab.)
+Orbital speed at height h: v = √(GM/(R + h)). Escape speed: v_esc = √(2GM/(R + h)). Orbital period: T = 2π√((R + h)³/GM).
+const G = 6.674e-11, Me = 5.972e24, Re = 6.371e6;
+const orbitV = (h) => Math.sqrt(G * Me / (Re + h));
+const period = (h) => 2 * Math.PI * Math.sqrt((Re + h) ** 3 / (G * Me));
+const escape = (h) => Math.sqrt(2 * G * Me / (Re + h));
+
+
+
+
+Orbit
+Orbital speed
+Period
+Escape speed
+
+
+
+
+Near the surface
+7.91 km/s
+1.41 h
+11.19 km/s
+
+
+ISS (400 km)
+7.67 km/s
+1.54 h
+10.85 km/s
+
+
+Geostationary (35,786 km)
+3.07 km/s
+23.93 h
+4.35 km/s
+
+
+
+The ratio escape/orbital is 1.4142 at every height, which is √2. That is why a satellite already has about 70% of the speed it would need to leave Earth altogether.
+Its period must equal one sidereal day, 23.93 h. Solving T = 2π√(r³/GM) for r gives r ≈ 42,164 km from the centre of the Earth, which is 35,786 km above the surface. Then the satellite stays over the same point on the equator.
+No. It cancels, so a tiny satellite and a space station at the same height have the same speed.
+They are in free fall around the Earth, not beyond gravity. Gravity at 400 km is still about 89% of its surface value.
+The free satellite orbits lab lets you change the height and see the speed and period, and the work, energy and power guide covers the energy side.]]></summary>
+        <author>
+            <name>Surendra Singh Kamboj</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Where Should an AI Agent Go on an EC Site with 1–2 Orders a Week? The Numbers Said: Nowhere, Yet]]></title>
+        <id>https://dev.to/pythona/where-should-an-ai-agent-go-on-an-ec-site-with-1-2-orders-a-week-the-numbers-said-nowhere-yet-500a</id>
+        <link href="https://dev.to/pythona/where-should-an-ai-agent-go-on-an-ec-site-with-1-2-orders-a-week-the-numbers-said-nowhere-yet-500a"/>
+        <updated>2026-11-14T11:52:49.000Z</updated>
+        <summary type="html"><![CDATA[What happened
+
+
+I got a request along these lines: "Our dev server is sitting idle — let's put an AI agent on it and automate some work." The target was a small e-commerce site, and the first candidate everyone thought of was automating order fulfillment (shipping updates).
+Before building anything, I decided to look at the numbers. I aggregated the last 180 days of orders:
+SELECT COUNT(*) AS orders,
+       SUM(payment_method = 'credit') / COUNT(*) AS credit_ratio
+FROM dtb_order
+WHERE order_date >= CURRENT_DATE - INTERVAL 180 DAY
+  AND order_status NOT IN ('cancelled');
+
+The result: 39 orders in 180 days — one or two a week. About 70% were card payments, and the payment itself is handled automatically by the payment processor. The only manual work is the shipping update, which adds up to r…]]></summary>
+        <author>
+            <name>sunah kim</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[How to speed up GitHub Actions: cut a 25-minute pipeline, lever by lever]]></title>
+        <id>https://dev.to/skipbox/how-to-speed-up-github-actions-cut-a-25-minute-pipeline-lever-by-lever-1fip</id>
+        <link href="https://dev.to/skipbox/how-to-speed-up-github-actions-cut-a-25-minute-pipeline-lever-by-lever-1fip"/>
+        <updated>2026-11-14T11:52:40.000Z</updated>
+        <summary type="html"><![CDATA[A 25-minute GitHub Actions pipeline is usually four delays stacked: jobs waiting on each other, work that didn't need to run, setup that a blank VM repeats on every job, and CPU-bound steps squeezed onto 2 cores (a private repository's ubuntu-latest has 2 CPUs and 8 GB). Take them in this order. First, measure the critical path, with queue time apart. Then skip what didn't need to run, run independent jobs at once, stop rebuilding state, give the heavy steps more cores, and shard what is still long. The first three are workflow fixes that cost nothing. The rest are the machine: a runner that keeps its caches between jobs and has more cores.
+Skipbox is that runner. Your jobs run on your account's own machine, which keeps Docker layers, package caches, tools and build output between jobs, wi…]]></summary>
+        <author>
+            <name>Tom</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Quadruped Electrical Architecture — Ch.14: Case Studies [EN]]]></title>
+        <id>https://dev.to/richard_minsoogo/quadruped-electrical-architecture-ch14-case-studies-en-3fa7</id>
+        <link href="https://dev.to/richard_minsoogo/quadruped-electrical-architecture-ch14-case-studies-en-3fa7"/>
+        <updated>2026-11-14T11:52:10.000Z</updated>
+        <summary type="html"><![CDATA[STATERA Library · Series 07 · Volume 20 · Chapter 14 · EN
+https://github.com/Statera-Library/07_Vol_20_Quadruped_Electrical_Architecture/blob/main/Chapter_14_Case_Studies/Chapter_14_Case_Studies_EN.md
+Volume 20. Quadruped Electrical Architecture
+
+Boston Dynamics Spot represents one of the most mature examples of a commercially deployed quadruped robot in which electrical architecture, locomotion control, perception, computing, communication, and payload integration must operate as a tightly coordinated system. Within a quadruped architecture study, Spot is particularly valuable because it demonstrates how high mobility can be transformed from a laboratory capability into a field-deployable robotic platform.
+Unlike conventional wheeled AMRs, a quadruped continuously coordinates multiple pow…]]></summary>
+        <author>
+            <name>Richard Minsoo Go</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[What I'd Tell a 23-Year-Old Starting Today]]></title>
+        <id>https://dev.to/samiullah_official/what-id-tell-a-23-year-old-starting-today-45ob</id>
+        <link href="https://dev.to/samiullah_official/what-id-tell-a-23-year-old-starting-today-45ob"/>
+        <updated>2026-11-14T11:52:05.000Z</updated>
+        <summary type="html"><![CDATA[I am 23. I live in Abbottabad, Pakistan. I started from zero, with no capital, and today I run Buzz Capitol, an independent digital news site I founded and lead as CEO and Editor-in-Chief; Digi Skill Pro Academy, where I chair free online earning classes; findservicenest.com, a service-based site; and more than 15 YouTube channels. I have also written six books. People sometimes ask me what I would tell a 23-year-old starting today. Here is my honest answer.
+First: start with a skill, not with a plan to get rich. A skill is something you can do for someone else, today, and be paid for it. That is the whole foundation. When I started, I did not have money to invest, and I did not have connections to lean on. What I had was the ability to learn something useful and offer it to someone who ne…]]></summary>
+        <author>
+            <name>Sami Ullah</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[NVIDIA Reportedly Eyes ARM CEO As Potential Successor To Jensen Huang]]></title>
+        <id>https://www.lowyat.net/?p=409756</id>
+        <link href="https://www.lowyat.net/2026/409756/nvidia-reportedly-eyes-arm-ceo-as-potential-successor-to-jensen-huang/"/>
+        <updated>2026-11-14T09:17:32.000Z</updated>
+        <summary type="html"><![CDATA[NVIDIA has reportedly approached Rene Haas, the current CEO of ARM, as a potential and permanent successor to its former CEO and President, Jensen Huang. At the same time, there has been internal strife with some company staff, who are asking it to consider bringing Huang back in and rescind his resignation. “If you believe […]
+The post NVIDIA Reportedly Eyes ARM CEO As Potential Successor To Jensen Huang appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>John Law</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Microsoft Says Microsoft 365 Outage Is Fully Resolved]]></title>
+        <id>https://www.lowyat.net/?p=409757</id>
+        <link href="https://www.lowyat.net/2026/409757/microsoft-365-outage-resolved/"/>
+        <updated>2026-11-14T07:32:22.000Z</updated>
+        <summary type="html"><![CDATA[Microsoft says it has fully resolved the widespread Microsoft 365 outage that disrupted several of its services. The company confirmed that it had restored access for all remaining affected customers and regions, bringing the incident to an end after an extended recovery period. In case you missed it (though we doubt most didn’t), the disruption […]
+The post Microsoft Says Microsoft 365 Outage Is Fully Resolved appeared first on Lowyat.NET.]]></summary>
+        <author>
+            <name>Heirul Kamel</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Ask HN: What are the most useful, concrete AI skills to independently learn?]]></title>
+        <id>https://news.ycombinator.com/item?id=50494696</id>
+        <link href="https://news.ycombinator.com/item?id=50494696"/>
+        <updated>2026-11-14T06:56:42.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Meta tests prediction-market app, DOJ moves to seize $1.2 billion from Binance hack, and more]]></title>
+        <id>3c77b0d2-4f03-581c-9915-48ba3396142e</id>
+        <link href="https://www.theblock.co/newsletters/the-daily/2026-11-14-meta-prediction-market-app-doj-binance-hack-more-crypto-news-440304"/>
+        <updated>2026-11-14T05:40:00.000Z</updated>
+        <summary type="html"><![CDATA[In today's newsletter, Meta tests prediction-market app using points instead of cash; DOJ moves to seize $1.2 billion from Binance hack, disrupts North Korean deepfake scheme; and more.]]></summary>
+        <author>
+            <name>Yogita Khatri</name>
+        </author>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Watching Product Prices Without a Subscription: cron, One Small Script, and a CSV]]></title>
         <id>https://dev.to/quilldf/watching-product-prices-without-a-subscription-cron-one-small-script-and-a-csv-24b6</id>
@@ -185,6 +527,16 @@ CI…]]></summary>
         <summary type="html"><![CDATA[The roughly $5 million transfer also spent the tiny payment used to deliver a court notice to the address in May.]]></summary>
         <author>
             <name>Shaurya Malwa</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Monkey Island: all 13 versions side by side]]></title>
+        <id>https://monkeyisland.pages.dev/</id>
+        <link href="https://monkeyisland.pages.dev/"/>
+        <updated>2026-11-14T04:23:30.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -2962,6 +3314,16 @@ The post Jensen Huang Resigns As CEO And President Of NVIDIA appeared first on L
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[The curious case of the north-east arrow]]></title>
+        <id>https://arsh.zip/posts/north-east-arrow/</id>
+        <link href="https://arsh.zip/posts/north-east-arrow/"/>
+        <updated>2026-11-12T12:14:20.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Give Your Coding Agent Modern Web Platform Expertise With Chrome's New Guidance]]></title>
         <id>https://dev.to/jamilxt/give-your-coding-agent-modern-web-platform-expertise-with-chromes-new-guidance-2a95</id>
         <link href="https://dev.to/jamilxt/give-your-coding-agent-modern-web-platform-expertise-with-chromes-new-guidance-2a95"/>
@@ -4275,6 +4637,16 @@ Yeste…]]></summary>
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Service Crew Discovers Rare Yellow Burbot in Oswego Harbor]]></title>
+        <id>https://www.fws.gov/story/2026-11/service-crew-discovers-rare-yellow-burbot-oswego-harbor</id>
+        <link href="https://www.fws.gov/story/2026-11/service-crew-discovers-rare-yellow-burbot-oswego-harbor"/>
+        <updated>2026-11-11T15:47:43.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[PUT checked the project space, DELETE didn't: cross-tenant deletes in the CommCare HQ API (GHSA-hq38-78vf-f4cj)]]></title>
         <id>https://dev.to/santosh_kumarpuppala_96e/put-checked-the-project-space-delete-didnt-cross-tenant-deletes-in-the-commcare-hq-api-3556</id>
         <link href="https://dev.to/santosh_kumarpuppala_96e/put-checked-the-project-space-delete-didnt-cross-tenant-deletes-in-the-commcare-hq-api-3556"/>
@@ -5381,6 +5753,16 @@ Two lines at once on SVT Play, SVT Barn, UR Play, NRK TV and DR TV: …]]></summ
         </author>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Extending LLDB to Debug Applications That Span CPUs and GPUs]]></title>
+        <id>https://engineering.fb.com/2026/11/09/developer-tools/extending-lldb-to-debug-applications-that-span-cpus-and-gpus/</id>
+        <link href="https://engineering.fb.com/2026/11/09/developer-tools/extending-lldb-to-debug-applications-that-span-cpus-and-gpus/"/>
+        <updated>2026-11-11T00:48:14.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[Incremental Indexing for Financial Research Dashboards — 4 Stages That Preserve Freshness]]></title>
         <id>https://dev.to/thalynrift3485/incremental-indexing-for-financial-research-dashboards-4-stages-that-preserve-freshness-1eed</id>
         <link href="https://dev.to/thalynrift3485/incremental-indexing-for-financial-research-dashboards-4-stages-that-preserve-freshness-1eed"/>
@@ -5701,6 +6083,16 @@ Modelos próprios exigem implementação personalizada: desde regras simples de 
         <id>https://claude.ai/artifact/BGY1SztrAYcJQHSsnHHGmp</id>
         <link href="https://claude.ai/artifact/BGY1SztrAYcJQHSsnHHGmp"/>
         <updated>2026-11-10T19:14:38.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Show HN: I have trained 15 blood glucose forecasting models on my own data]]></title>
+        <id>https://github.com/0xdeadf1sh/T1DMAI</id>
+        <link href="https://github.com/0xdeadf1sh/T1DMAI"/>
+        <updated>2026-11-10T19:07:53.000Z</updated>
         <summary type="html"><![CDATA[Comments]]></summary>
         <author>
             <name>Hacker News</name>
@@ -6140,6 +6532,16 @@ The catch: the computer has to stay awake and online.…]]></summary>
         <summary type="html"><![CDATA[Bitdeer reported record third-quarter revenue of $320.7 million as bitcoin production surged 248% to 3,855 BTC.]]></summary>
         <author>
             <name>Brian Danga</name>
+        </author>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Why get an expensive Pi when I have an old phone?]]></title>
+        <id>https://so.long.thanks.fish/why-pi-when-i-have-an-old-phone/</id>
+        <link href="https://so.long.thanks.fish/why-pi-when-i-have-an-old-phone/"/>
+        <updated>2026-11-10T14:16:05.000Z</updated>
+        <summary type="html"><![CDATA[Comments]]></summary>
+        <author>
+            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
@@ -24158,452 +24560,6 @@ Set-up
 Articl…]]></summary>
         <author>
             <name>mdodeja</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: To Honor Sir Patrick Stewart, Enjoy the TNG Episode Guessing Game]]></title>
-        <id>https://tng.episodle.com/</id>
-        <link href="https://tng.episodle.com/"/>
-        <updated>2026-10-30T23:51:24.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Fair Use Benefits Everyone]]></title>
-        <id>https://openai.com/index/fair-use-benefits-everyone/</id>
-        <link href="https://openai.com/index/fair-use-benefits-everyone/"/>
-        <updated>2026-10-30T23:33:55.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Anthropic to receive high 'junk' rating from credit agencies following IPO]]></title>
-        <id>https://techcrunch.com/2026/10/30/anthropic-expected-to-receive-high-junk-rating-from-credit-agencies-following-ipo-report-says/</id>
-        <link href="https://techcrunch.com/2026/10/30/anthropic-expected-to-receive-high-junk-rating-from-credit-agencies-following-ipo-report-says/"/>
-        <updated>2026-10-30T23:08:12.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Zinc creep in cable spelter sockets brought down the Arecibo telescope in 2020]]></title>
-        <id>https://maketecheasier.com/arecibo-zinc-creep-collapse/</id>
-        <link href="https://maketecheasier.com/arecibo-zinc-creep-collapse/"/>
-        <updated>2026-10-30T22:41:03.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Linode Security Incident]]></title>
-        <id>https://status.linode.com/incidents/nt58zhx3pmgm</id>
-        <link href="https://status.linode.com/incidents/nt58zhx3pmgm"/>
-        <updated>2026-10-30T21:57:40.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[sanstun: A sans-IO, parallel-friendly WireGuard implementation in Rust]]></title>
-        <id>https://www.firezone.dev/blog/introducing-sanstun</id>
-        <link href="https://www.firezone.dev/blog/introducing-sanstun"/>
-        <updated>2026-10-30T21:30:00.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Inside the largest crypto hack on record: How attackers breached Binance for $6.3 billion]]></title>
-        <id>f1c8fe9a-a170-5c5a-baa8-829a8dc44c3e</id>
-        <link href="https://www.theblock.co/news/business/2026-10-30-binance-hack-largest-crypto-hack-north-korea-432225"/>
-        <updated>2026-10-30T21:20:23.000Z</updated>
-        <summary type="html"><![CDATA[Investigators tie the $6B Binance hack to North Korea. Here's how hot-wallet signing infrastructure was compromised and where funds went.]]></summary>
-        <author>
-            <name>Jason Shubnell</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[AO3 Down for Maintenance]]></title>
-        <id>https://www.otwstatus.org/</id>
-        <link href="https://www.otwstatus.org/"/>
-        <updated>2026-10-30T21:17:23.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[President Trump says they’re looking into Binance hack as calls grow for crypto rules]]></title>
-        <id>117d121d-53bf-5571-97d8-45445b033520</id>
-        <link href="https://www.theblock.co/news/regulation/2026-10-30-trump-looking-into-binance-hack-calls-grow-for-crypto-rules-432236"/>
-        <updated>2026-10-30T21:06:03.000Z</updated>
-        <summary type="html"><![CDATA[Following the $6.3 billion hack of the world's largest crypto exchange, Binance, calls are growing for legislation.]]></summary>
-        <author>
-            <name>Sarah Wynn</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Understanding Email Encryption]]></title>
-        <id>https://www.fastmail.com/blog/email-encryption/</id>
-        <link href="https://www.fastmail.com/blog/email-encryption/"/>
-        <updated>2026-10-30T20:55:56.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Through Captain Jean-Luc Picard, Patrick Stewart taught us the measure of a man]]></title>
-        <id>https://www.bostonglobe.com/2026/10/29/metro/patrick-stewart-picard-star-trek-the-next-generation/</id>
-        <link href="https://www.bostonglobe.com/2026/10/29/metro/patrick-stewart-picard-star-trek-the-next-generation/"/>
-        <updated>2026-10-30T20:23:30.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Comparison Tables Rot: Keeping "X vs Y" Pages Honest With a Typed Fact Sheet]]></title>
-        <id>https://dev.to/starsearn/comparison-tables-rot-keeping-x-vs-y-pages-honest-with-a-typed-fact-sheet-17g5</id>
-        <link href="https://dev.to/starsearn/comparison-tables-rot-keeping-x-vs-y-pages-honest-with-a-typed-fact-sheet-17g5"/>
-        <updated>2026-10-30T20:18:59.000Z</updated>
-        <summary type="html"><![CDATA["X vs Y" comparison pages are mostly hand-written tables, and hand-written tables rot. Exchanges re-enter countries, change fees, get hacked and leave markets, and nobody goes back to page 37 to fix the sentence that is no longer true.
-In October I checked the crypto comparison pages on my own site against each exchange's own pages. These sentences were wrong:
-"Bybit has never experienced a major hack." About $1.5B of ETH was stolen from a Bybit cold wallet in February 2025. Client funds were covered.
-"UK users cannot access Bybit." Bybit relaunched in the UK in December 2025 with spot trading and P2P.
-"Kraken is licensed across all 50 states." Kraken doesn't serve New York or Maine.
-"MEXC charges 0.1%." MEXC's spot fees are 0% maker and 0.05% taker.
-"MEXC is registered in Seychelles." MEX…]]></summary>
-        <author>
-            <name>starsearn</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[O que um auditor pede, controle por controle, numa auditoria ISO 42001]]></title>
-        <id>https://dev.to/anderson_chipak/o-que-um-auditor-pede-controle-por-controle-numa-auditoria-iso-42001-1fcf</id>
-        <link href="https://dev.to/anderson_chipak/o-que-um-auditor-pede-controle-por-controle-numa-auditoria-iso-42001-1fcf"/>
-        <updated>2026-10-30T20:18:58.000Z</updated>
-        <summary type="html"><![CDATA[O que um auditor pede, controle por controle, numa auditoria ISO 42001
-
-
-
-  
-  
-  O que um auditor pede, controle por controle, numa auditoria ISO 42001
-
-
-Numa auditoria ISO 42001, o auditor não avalia se o seu modelo de IA é bom. Ele avalia se existe um sistema de gestão documentado por trás de cada sistema de IA em produção: política assinada, inventário, avaliação de impacto, controle sobre o dado de treinamento e evidência de que a cláusula 9.2 e o Anexo A foram cumpridos na prática, não só escritos num documento.
-Simplifico a cláusula 9.2 em duas perguntas, porque é literalmente para isso que ela existe. Primeira: o sistema de gestão de IA cumpre o que a própria empresa prometeu e o que a norma exige? Segunda: esse sistema está implementado de verdade e mantido, não só criado uma vez …]]></summary>
-        <author>
-            <name>Anderson Chipak</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Same Exchange, 3.5x the Fee: Modeling Regional Crypto Fee Schedules in TypeScript]]></title>
-        <id>https://dev.to/starsearn/same-exchange-35x-the-fee-modeling-regional-crypto-fee-schedules-in-typescript-910</id>
-        <link href="https://dev.to/starsearn/same-exchange-35x-the-fee-modeling-regional-crypto-fee-schedules-in-typescript-910"/>
-        <updated>2026-10-30T20:18:47.000Z</updated>
-        <summary type="html"><![CDATA[Last week I wrote about a crypto calculator that shows what five exchanges give you after fees. Its example table said a market order costs 0.10% on Bybit and 0.10% on OKX.
-For anyone in Germany, France, Spain, the Netherlands or any other EEA country, that was wrong — by a factor of 2.5 to 3.5.
-Big exchanges are no longer one company. Under MiCA, the EU's crypto rulebook (its last transition periods ran out on 1 July 2026), a European resident opens an account with a separate, locally licensed entity, and that entity publishes its own fee schedule:
-
-
-
-
-Global platform
-EEA platform
-$1,000 market buy, global → EEA
-
-
-
-
-Bybit
-0.10% / 0.10%
-Bybit EU (Austria): 0.25% / 0.25%, as reported
-$1.00 → $2.50
-
-
-OKX
-0.08% / 0.10%
-OKX EEA: 0.20% / 0.35% on a spot-only account
-$1.00 → $3.50
-
-
-Kraken Pro
-0…]]></summary>
-        <author>
-            <name>starsearn</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[New LLCs in New York, Colorado, Oregon and Connecticut every morning, with curl and jq]]></title>
-        <id>https://dev.to/yourevenings/new-llcs-in-new-york-colorado-oregon-and-connecticut-every-morning-with-curl-and-jq-1094</id>
-        <link href="https://dev.to/yourevenings/new-llcs-in-new-york-colorado-oregon-and-connecticut-every-morning-with-curl-and-jq-1094"/>
-        <updated>2026-10-30T20:18:27.000Z</updated>
-        <summary type="html"><![CDATA[A business that registered this week has no reviews, often no website, and hasn't picked its accountant, insurer, bank or agency yet. That makes new filings one of the few lead sources where timing does the qualifying for you. The same records also answer the KYB question "is this entity real, and is it still on the register?".
-Several states publish their business register as official open data. This post pulls the last week's filings from four of them into one shape with curl and jq, filters by industry, and then sets up a daily watch on entities you already work with.
-Disclosure: the hosted API used here is ours, and it's paid per record. The free open-data queries are shown too, so you can see exactly where the data comes from.
-Each state runs a Socrata portal, and you can query them d…]]></summary>
-        <author>
-            <name>Your Evenings Data</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CRM Semantic Search for Ask-Your-Docs: Node.js Embeddings via APIs or a Gateway]]></title>
-        <id>https://dev.to/alariccross6851/crm-semantic-search-for-ask-your-docs-nodejs-embeddings-via-apis-or-a-gateway-4hd4</id>
-        <link href="https://dev.to/alariccross6851/crm-semantic-search-for-ask-your-docs-nodejs-embeddings-via-apis-or-a-gateway-4hd4"/>
-        <updated>2026-10-30T20:17:31.000Z</updated>
-        <summary type="html"><![CDATA[Use a gateway for a Node.js ask-your-docs semantic search feature when the CRM action path must survive a provider change; use direct APIs when you need the smallest retrieval surface and can own every embeddings adapter. The decision is about blast radius, not a nicer demo.
-A sales call is an awkward RAG input: the transcript is noisy, the useful evidence may be three minutes apart, and the output can create a task, alter an opportunity, or put words in a rep's mouth. I want the system to fail closed. A plausible summary is not a successful run if its CRM action has no supporting passage.
-Fail closed.
-Ask that before choosing a model. If embeddings fail, the indexing job should remain retryable and the old index should remain readable. If reranking fails, the system can answer from the in…]]></summary>
-        <author>
-            <name>AlaricCross6851</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Chip startup PowerLattice raises $86M per SEC filing to ease AI power crunch]]></title>
-        <id>https://dev.to/delimitter/chip-startup-powerlattice-raises-86m-per-sec-filing-to-ease-ai-power-crunch-125p</id>
-        <link href="https://dev.to/delimitter/chip-startup-powerlattice-raises-86m-per-sec-filing-to-ease-ai-power-crunch-125p"/>
-        <updated>2026-10-30T20:17:09.000Z</updated>
-        <summary type="html"><![CDATA[📅 October 30, 2026 • Source: geekwire.com
-PowerLattice, a chip startup based in Vancouver, Washington, has raised 86 million dollars, according to a GeekWire report based on an SEC filing dated Friday, October 30. The filing shows the company is seeking up to 111 million dollars with 18 participating investors, while investor names and the round type remain undisclosed. The amount is nearly three times the 31 million dollars the company raised when it came out of stealth in November 2025. The news follows a technical milestone: earlier in the week, on October 26, the company demonstrated what it describes as the first monolithic integrated voltage regulator chiplet. Founded in 2023 by alumni of Qualcomm, NUVIA and Intel, the company has raised about 117 million dollars in total.
-How the chiplet works
-
-IMPACT
-GeekWire reported the filing on October 30, and the demonstration is described in a press release on powerlatticeinc.com.
-Sources: geekwire.com and powerlatticeinc.com
-
-Continue the conversation: https://t.me/AIAutomationArchitecture · Bluesky]]></summary>
-        <author>
-            <name>News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[What 90s Game Dev Teaches Us About AI and the Future of Software Engineering]]></title>
-        <id>https://dev.to/arcdrag/what-90s-game-dev-teaches-us-about-ai-and-the-future-of-software-engineering-18i8</id>
-        <link href="https://dev.to/arcdrag/what-90s-game-dev-teaches-us-about-ai-and-the-future-of-software-engineering-18i8"/>
-        <updated>2026-10-30T20:16:27.000Z</updated>
-        <summary type="html"><![CDATA[While the speed of disruption from AI feels unprecedented, we can look to history to see what happens when a technical industry undergoes a massive, orders-of-magnitude jump in developer productivity.
-If you want to see this playbook in action, look at the video game industry.
-In the early 1990s, when a studio built a new game, there were no ubiquitous off-the-shelf commercial game engines. Virtually every major title was built around a bespoke, ground-up rendering codebase. If your project fell behind schedule, you couldn't just hire a contractor who "knew the engine"—the engine only existed on your studio’s hard drives.
-Collaboration tooling was equally non-existent. Git didn't exist. Integrating your co-worker's code meant saving a file to a 3.5-inch floppy disk, walking across the room…]]></summary>
-        <author>
-            <name>BJ Kennedy</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Edit C# without braces, without changing your project]]></title>
-        <id>https://dev.to/hcumper/edit-c-without-braces-without-changing-your-project-544b</id>
-        <link href="https://dev.to/hcumper/edit-c-without-braces-without-changing-your-project-544b"/>
-        <updated>2026-10-30T20:16:16.000Z</updated>
-        <summary type="html"><![CDATA[Many younger programmers grew up on the elegance of Python and get irritated by C# filling their screen with needless squiggles that carry no information that wasn't already right there in the indentation. I'm an old programmer and it irritates me! Relief is at hand.
-ICS — Indented C#, an editor extension that lets you work with an indented view of your C# code.
-Your project keeps ordinary .cs files. The compiler, Git and your teammates continue to see C# with braces and semicolons. You can choose the indented view for your own editing.
-Here’s a first walkthrough using VS Code.
-Start by installing ICS — Indented C# from the Marketplace. The converter is bundled; on first use, Microsoft’s .NET Install Tool can acquire the runtime it needs.
-Open a C# file, press F1, and run:
-ICS: Open C# as …]]></summary>
-        <author>
-            <name>Hugh Cumper</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[SMX Next 2026 Session Frames SEO, AI Agents and Assistive AI as One Discovery Strategy]]></title>
-        <id>https://dev.to/alifar/smx-next-2026-session-frames-seo-ai-agents-and-assistive-ai-as-one-discovery-strategy-2061</id>
-        <link href="https://dev.to/alifar/smx-next-2026-session-frames-seo-ai-agents-and-assistive-ai-as-one-discovery-strategy-2061"/>
-        <updated>2026-10-30T20:15:30.000Z</updated>
-        <summary type="html"><![CDATA[SMX Next 2026 has scheduled a session that brings a significant search visibility question into focus: how should brands prepare when people move between conventional search engines, AI answer tools and increasingly capable assistants?
-The online session, “SEO, agents, and assistive AI: One strategy for the new search ecosystem,” is scheduled for Wednesday, November 18, 2026. It will feature Jason Barnard, CEO of Kalicube SAS, with Danny Goodwin, Editorial Director of Search Engine Land and SMX, as moderator. As the SMX Next agenda puts it, customers are not choosing solely between Google, ChatGPT and AI agents. They are moving between them.
-That is an important distinction. The session announcement does not introduce a new search product or establish a universal technical standard. It doe…]]></summary>
-        <author>
-            <name>Ali Farhat</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Diffusion Models: How Reversing Noise Learns a Data Distribution]]></title>
-        <id>https://dev.to/umeshtharukaofficial/diffusion-models-how-reversing-noise-learns-a-data-distribution-1jke</id>
-        <link href="https://dev.to/umeshtharukaofficial/diffusion-models-how-reversing-noise-learns-a-data-distribution-1jke"/>
-        <updated>2026-10-30T20:15:17.000Z</updated>
-        <summary type="html"><![CDATA[Diffusion Models: How Reversing Noise Learns a Data Distribution
-
-
-A diffusion model learns to generate data by first learning how to destroy it. Take a real image, add a little Gaussian noise, repeat that step many times, and you end up with pure noise. Nothing about that forward process needs learning. The interesting part is the reverse: starting from noise, remove a little noise at a time, and after enough steps a coherent sample appears. If each small denoising step is easy to learn, the full reverse chain can be surprisingly powerful.
-That reversal is the whole trick. A single jump from noise to a realistic image is a hard, highly multimodal mapping. A hundred small jumps from slightly noisy to slightly less noisy are each close to a simple Gaussian problem. Diffusion models trade on…]]></summary>
-        <author>
-            <name>Umesh Tharuka Malaviarachchi</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[# 👻 The Code Remembers. Now You Can Ask Who Wrote It. 💻✨]]></title>
-        <id>https://dev.to/yashika_kumarivishwakarm/-the-code-remembers-now-you-can-ask-who-wrote-it-39kj</id>
-        <link href="https://dev.to/yashika_kumarivishwakarm/-the-code-remembers-now-you-can-ask-who-wrote-it-39kj"/>
-        <updated>2026-10-30T20:14:32.000Z</updated>
-        <summary type="html"><![CDATA[What if you could have a conversation with the developer who wrote a piece of code five years ago — even if they've long since left the project?
-Every codebase has ghosts. 👻
-Not the scary kind.
-I'm talking about developers who once spent nights fixing bugs, designing systems, writing clever workarounds, and leaving behind thousands of lines of code.
-Eventually, they move on. 🚶‍♂️
-Their commits remain. Their reasoning gets buried. And someone new inherits a codebase full of decisions nobody remembers making.
-Then I started thinking...
-💡 What if we could ask those developers about their work?
-That question became LastWords.
-Welcome to my submission for Hacktoberfest Open-Source AI Challenge — Week 4: Ghost in the Machine! 🎃
-https://dev.to/challenges/hacktoberfest-week4-2026-10-26)*
-LastW…]]></summary>
-        <author>
-            <name>Yashika Kumari Vishwakarma</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Ofrenda: When Kernel Space Meets Ancestral Memory — A Local Gemma 2 Séance Altar]]></title>
-        <id>https://dev.to/ayush_raj_f3b6036e73d2ca7/ofrenda-when-kernel-space-meets-ancestral-memory-a-local-gemma-2-seance-altar-1kc3</id>
-        <link href="https://dev.to/ayush_raj_f3b6036e73d2ca7/ofrenda-when-kernel-space-meets-ancestral-memory-a-local-gemma-2-seance-altar-1kc3"/>
-        <updated>2026-10-30T20:14:28.000Z</updated>
-        <summary type="html"><![CDATA[This is a submission for the Hacktoberfest Open-Source AI Challenge Week 4: Ghost in the Machine
-Every terminal has an ancestral lineage; every memory register executes algorithms first conceived on paper, chalkboards, and brass gears over a century ago.
-For the final Hacktoberfest challenge — "Ghost in the Machine" — I merged the sacred Mexican tradition of Día de los Muertos (Day of the Dead) with local open-weight artificial intelligence to create Ofrenda: Ghost in the Machine.
-Between Halloween (October 31) and Día de los Muertos (November 1–2), tradition tells us that the boundary between our world and the spirit realm grows thin. I asked myself: What if our machines had an ancestral memory? What if you could light digital velas (candles), scatter fragrant cempasúchil marigold petals,…]]></summary>
-        <author>
-            <name>Ayush Raj</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Jules Verne's Lost Novel]]></title>
-        <id>https://blue-continuum.com/verne-paris</id>
-        <link href="https://blue-continuum.com/verne-paris"/>
-        <updated>2026-10-30T19:55:10.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Experts divided over Binance hack asset freezes, warn recovery is another matter]]></title>
-        <id>569fccf5-5677-4c4a-bd09-2369aa0174fb</id>
-        <link href="https://www.coindesk.com/business/2026/10/30/experts-divided-over-binance-hack-asset-freezes-warn-recovery-is-another-matter"/>
-        <updated>2026-10-30T19:55:00.000Z</updated>
-        <summary type="html"><![CDATA[Tether, Circle and others moved within hours to block billions in stolen crypto, but legal experts question whether smaller victims would get the same protection.]]></summary>
-        <author>
-            <name>Olivier Acuna</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Pilot-wave hydrodynamics (Quantum phenomena in macroscopic hydrodynamic systems)]]></title>
-        <id>http://thales.mit.edu/bush/index.php/4801-2/</id>
-        <link href="http://thales.mit.edu/bush/index.php/4801-2/"/>
-        <updated>2026-10-30T19:52:56.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[The oldest ice disappears and the Stone Age emerges from it]]></title>
-        <id>https://www.sciencenorway.no/archaeology-climate-culture/the-oldest-ice-is-disappearing-the-stone-age-is-emerging-from-the-melting-ice/2713921</id>
-        <link href="https://www.sciencenorway.no/archaeology-climate-culture/the-oldest-ice-is-disappearing-the-stone-age-is-emerging-from-the-melting-ice/2713921"/>
-        <updated>2026-10-30T19:51:33.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Infinite Mac: BeOS]]></title>
-        <id>https://blog.persistent.info/2026/10/infinite-mac-beos.html</id>
-        <link href="https://blog.persistent.info/2026/10/infinite-mac-beos.html"/>
-        <updated>2026-10-30T19:30:09.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[A Pickpocket's Guide to New York]]></title>
-        <id>https://www.newyorker.com/magazine/2026/11/02/a-pickpockets-guide-to-new-york</id>
-        <link href="https://www.newyorker.com/magazine/2026/11/02/a-pickpockets-guide-to-new-york"/>
-        <updated>2026-10-30T19:26:39.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Copper – A minimal low-level programming language with OOP and generics]]></title>
-        <id>https://tibleiz.net/copper/</id>
-        <link href="https://tibleiz.net/copper/"/>
-        <updated>2026-10-30T19:09:33.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Bunny CDN Security Incident]]></title>
-        <id>https://status.bunny.net/incidents/p6gf1by9kr7m</id>
-        <link href="https://status.bunny.net/incidents/p6gf1by9kr7m"/>
-        <updated>2026-10-30T19:05:22.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[French digital tax may kill VideoLan non-profit]]></title>
-        <id>https://twitter.com/videolan/status/2116229135919919278</id>
-        <link href="https://twitter.com/videolan/status/2116229135919919278"/>
-        <updated>2026-10-30T19:01:14.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[GitHub Incident with Actions, Pages, and Webhooks]]></title>
-        <id>https://www.githubstatus.com/incidents/pwxsjgnvrk6b</id>
-        <link href="https://www.githubstatus.com/incidents/pwxsjgnvrk6b"/>
-        <updated>2026-10-30T17:57:35.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Anthropic may not secure investment-grade rating after IPO, Blackstone says]]></title>
-        <id>https://www.ft.com/content/59383c7f-8d82-493f-bf01-d2e862a1018f</id>
-        <link href="https://www.ft.com/content/59383c7f-8d82-493f-bf01-d2e862a1018f"/>
-        <updated>2026-10-30T17:27:25.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[My favourite PowerMac is a Nintendo Wii]]></title>
-        <id>https://virtuallyfun.com/2026/10/29/my-favourite-powermac-is-a-nintendo-wii/</id>
-        <link href="https://virtuallyfun.com/2026/10/29/my-favourite-powermac-is-a-nintendo-wii/"/>
-        <updated>2026-10-30T17:25:15.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
-        </author>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Show HN: Spinf-serve – inference server for bulk scoring and decisions]]></title>
-        <id>https://github.com/spinfinc/spinf-serve</id>
-        <link href="https://github.com/spinfinc/spinf-serve"/>
-        <updated>2026-10-30T17:03:12.000Z</updated>
-        <summary type="html"><![CDATA[Comments]]></summary>
-        <author>
-            <name>Hacker News</name>
         </author>
     </entry>
     <entry>
